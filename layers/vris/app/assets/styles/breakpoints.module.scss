@@ -1,0 +1,11 @@
+@use 'variables' as v;
+
+/* stylelint-disable selector-pseudo-class-no-unknown, property-no-unknown */
+:export {
+  max: v.$pc-content-max-width;
+  medium: v.$pc-content-medium-width;
+  min: v.$xs-query-width;
+  pc: v.$pc-content-min-width;
+  sp: v.$media-query-width;
+}
+/* stylelint-enable selector-pseudo-class-no-unknown, property-no-unknown */

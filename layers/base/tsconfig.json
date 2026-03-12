@@ -1,0 +1,19 @@
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": [
+    "./.nuxt/tsconfig.server.json",
+    "./.nuxt/tsconfig.json",
+    "./tsconfig.shared.json"
+  ],
+  "include": [
+    "./app/**/*.ts",
+    "./app/**/*.d.ts",
+    "./app/**/*.vue",
+    "./server/**/*.ts",
+    "./config/**/*.ts",
+    "./@types/**/*.d.ts",
+    "./*.ts",
+    "./*.mts",
+    "./*.d.ts"
+  ]
+}

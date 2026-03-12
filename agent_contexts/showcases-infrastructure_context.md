@@ -35,7 +35,169 @@ The content is organized as follows:
 
 # Directory Structure
 ```
-
+layers/
+  showcases/
+    app/
+      plugins/
+        gtm.client.ts
+        runtimeConfig.ts
+      app.vue
 ```
 
 # Files
+
+## File: layers/showcases/app/plugins/gtm.client.ts
+```typescript
+import { createGtm } from '@gtm-support/vue-gtm'
+import { defineNuxtPlugin } from 'nuxt/app'
+
+export default defineNuxtPlugin(() => {
+  const config = useRuntimeConfig()
+  createGtm({ id: config.public?.gtmId, enabled: true })
+})
+```
+
+## File: layers/showcases/app/plugins/runtimeConfig.ts
+```typescript
+import { defineNuxtPlugin } from 'nuxt/app'
+import type { RuntimeConfig } from 'nuxt/schema'
+
+/**
+ * 型を退化されたruntimeConfig。
+ * [[requireRuntimeConfig]]のために、退化されました。
+ */
+let runtimeConfig: RuntimeConfig | undefined
+
+export default defineNuxtPlugin(({ $config }) => {
+  if ($config === undefined) {
+    throw new TypeError('#showcases/app/plugins/runtimeConfig failed.')
+  }
+  runtimeConfig = $config
+})
+
+type Config = Record<string, string | undefined>
+type ProcessEnv = Config & {
+  public?: Config
+}
+/**
+ * useRuntimeConfig()が使えないときに使う、同等な関数。
+ */
+export const requireRuntimeConfig: () => ProcessEnv | RuntimeConfig = () => {
+  if (runtimeConfig !== undefined) {
+    return runtimeConfig
+  }
+
+  // playwrightテスト用
+  if (process?.env !== undefined) {
+    return process.env
+  }
+
+  throw new TypeError('#showcases/app/plugins/runtimeConfig: Not satisfied.')
+}
+```
+
+## File: layers/showcases/app/app.vue
+```vue
+<i18n lang="yaml">
+  ja:
+    site:
+      title: Vket Boilerplate Nuxt
+      title_template: "{title} - HIKKY Web Frontend"
+      description: Vketのサイト開発で活用しているボイラープレート
+  en:
+    site:
+      title: Vket Boilerplate Nuxt
+      title_template: "{title} - HIKKY Web Frontend"
+      description: A boilerplate used for Vket site development
+</i18n>
+
+<template>
+  <Head>
+    <Link
+      rel="alternate"
+      hreflang="ja"
+      :href="currentJaFullPath"
+    />
+    <Link
+      rel="alternate"
+      hreflang="en"
+      :href="currentEnFullPath"
+    />
+    <Link
+      rel="alternate"
+      hreflang="x-default"
+      :href="currentJaFullPath"
+    />
+    <template v-if="currentLang === 'ja'">
+      <Link
+        rel="canonical"
+        :href="currentJaFullPath"
+      />
+    </template>
+    <template v-if="currentLang === 'en'">
+      <Link
+        rel="canonical"
+        :href="currentEnFullPath"
+      />
+    </template>
+  </Head>
+  <div class="app">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </div>
+</template>
+
+<script lang="ts" setup>
+const route = useRoute()
+const i18n = useI18n()
+const currentFullPath = ref(`${useRuntimeConfig().public.url}${route.fullPath}`)
+const currentLang = ref(i18n.locale.value)
+
+const currentJaFullPath = computed(() => {
+  if (currentLang.value === 'ja') {
+    return currentFullPath.value
+  } else {
+    return currentFullPath.value
+      .replace(/\/en(\/|$)/, '/')
+      .replace(/\/{2,}/, '/')
+  }
+})
+
+const currentEnFullPath = computed(() => {
+  if (currentLang.value === 'en') {
+    return currentFullPath.value
+  } else {
+    const path = route.fullPath.endsWith('/')
+      ? route.fullPath
+      : `${route.fullPath}/`
+    return `${useRuntimeConfig().public.url}/en${path}`
+  }
+})
+
+useHeadSafe({
+  htmlAttrs: {
+    lang: currentLang.value,
+  },
+  titleTemplate: (titleChunk) => {
+    return titleChunk
+      ? i18n.t('site.title_template', { title: titleChunk })
+      : i18n.t('site.title')
+  },
+  meta: [
+    {
+      name: 'description',
+      content: i18n.t('site.description'),
+    },
+    {
+      property: 'og:description',
+      content: i18n.t('site.description'),
+    },
+    {
+      property: 'og:site_name',
+      content: i18n.t('site.title'),
+    },
+  ],
+})
+</script>
+```
