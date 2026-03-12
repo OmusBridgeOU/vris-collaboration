@@ -1,0 +1,1 @@
+import{_ as t,y as a,z as o,A as d,G as n}from"./nutTBkEz.js";const r={},c={class:"layout -default"};function l(s,e){return a(),o("div",c,[e[0]||(e[0]=d("h1",{class:"heading"}," Base App Nuxt3 ",-1)),n(s.$slots,"default",{},void 0,!0)])}const f=t(r,[["render",l],["__scopeId","data-v-48554b25"]]);export{f as default};
