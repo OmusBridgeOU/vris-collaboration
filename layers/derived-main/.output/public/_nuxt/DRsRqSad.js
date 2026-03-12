@@ -1,0 +1,2 @@
+import{d as _,o as n,c as p,_ as r,a as i}from"./kuINJRse.js";const m={class:"ht-top"},c=_({__name:"HtTop",setup(e){return(t,s)=>(n(),p("div",m))}});function o(e){const t=e;t.__i18n=t.__i18n||[],t.__i18n.push({locale:"",resource:{ja:{hoge:{t:0,b:{t:2,i:[{t:3}],s:"ほげ"}}},en:{hoge:{t:0,b:{t:2,i:[{t:3}],s:"hoge"}}}}})}typeof o=="function"&&o(c);const u=Object.assign(r(c,[["__scopeId","data-v-7967d3ea"]]),{__name:"HtTop"}),d=_({__name:"index",setup(e){return(t,s)=>{const a=u;return n(),i(a)}}});export{d as default};
+//# sourceMappingURL=DRsRqSad.js.map

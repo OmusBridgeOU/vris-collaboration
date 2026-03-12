@@ -1,0 +1,2 @@
+import{d as _,o as n,c as p,_ as r,a as i}from"./D_H-f7Bf.js";const m={class:"ht-top"},c=_({__name:"HtTop",setup(o){return(t,s)=>(n(),p("div",m))}});function e(o){const t=o;t.__i18n=t.__i18n||[],t.__i18n.push({locale:"",resource:{ja:{hoge:{t:0,b:{t:2,i:[{t:3}],s:"ほげ"}}},en:{hoge:{t:0,b:{t:2,i:[{t:3}],s:"hoge"}}}}})}typeof e=="function"&&e(c);const u=Object.assign(r(c,[["__scopeId","data-v-199a5294"]]),{__name:"HtTop"}),l=_({__name:"index",setup(o){return(t,s)=>{const a=u;return n(),i(a)}}});export{l as default};
+//# sourceMappingURL=B3HAJpjs.js.map
