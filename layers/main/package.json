@@ -34,6 +34,7 @@
     "allclean-install": "bun run ../../scripts/clean_install.js all"
   },
   "dependencies": {
+    "@nuxt/content": "^3.12.0",
     "vket-boilerplate-nuxt-base": "workspace:*"
   }
 }
