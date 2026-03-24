@@ -41,6 +41,7 @@ export default defineNuxtConfig({
   extends: path.resolve(__dirname, '../base'),
   modules: [
     '@nuxtjs/google-fonts',
+    '@nuxt/content',
   ],
   ssr: isSsr,
 
@@ -97,6 +98,35 @@ export default defineNuxtConfig({
   },
 
   css: cssUrls,
+
+  content: {
+    watch: {
+      enabled: true,
+    },
+    build: {
+      markdown: {
+        toc: {
+          depth: 4,
+        },
+        highlight: {
+          theme: {
+            default: 'github-light',
+            dark: 'github-dark',
+            sepia: 'monokai',
+          },
+        },
+        remarkPlugins: {
+          'remark-gfm': {
+            singleTilde: false,
+          },
+        },
+      },
+    },
+    experimental: {
+      nativeSqlite: true,
+    },
+  },
+
   runtimeConfig,
   dir: {
     public: path.resolve(__dirname, './public'),

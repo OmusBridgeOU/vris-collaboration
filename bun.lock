@@ -124,6 +124,7 @@
       "name": "vket-boilerplate-nuxt-main",
       "version": "1.0.1",
       "dependencies": {
+        "@nuxt/content": "^3.12.0",
         "vket-boilerplate-nuxt-base": "workspace:*",
       },
     },
