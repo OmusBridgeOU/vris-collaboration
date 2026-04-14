@@ -2580,6 +2580,55 @@ export default withNuxt(
 )
 ````
 
+## File: layers/main/tsconfig.json
+````json
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": [
+    "./.nuxt/tsconfig.server.json",
+    "./.nuxt/tsconfig.json",
+    "../base/tsconfig.shared.json"
+  ],
+  "exclude": ["../base/**/*"]
+}
+````
+
+## File: layers/main/vitest.config.mts
+````typescript
+import { defineVitestConfig } from '@nuxt/test-utils/config'
+import path from 'path'
+
+export default defineVitestConfig({
+  test: {
+    globals: true,
+    environment: 'nuxt',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      reportsDirectory: '../coverage',
+      reportOnFailure: true,
+      allowExternal: true,
+      include: ['**/*.{vue,ts}'],
+      exclude: [
+        'plugins/**',
+        'middleware/**',
+        'layouts/**',
+        'test/**',
+      ],
+    },
+    setupFiles: ['app/test/setup.ts'],
+    alias: {
+      '#base': path.resolve(__dirname, '../base'),
+    },
+  },
+  resolve: {
+    alias: {
+      '#base': path.resolve(__dirname, '../base'),
+    },
+  },
+})
+````
+
 ## File: layers/main/nuxt.config.ts
 ````typescript
 import { defineNuxtConfig } from 'nuxt/config'
@@ -2801,53 +2850,4 @@ export default defineNuxtConfig({
     "vket-boilerplate-nuxt-base": "workspace:*"
   }
 }
-````
-
-## File: layers/main/tsconfig.json
-````json
-{
-  // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": [
-    "./.nuxt/tsconfig.server.json",
-    "./.nuxt/tsconfig.json",
-    "../base/tsconfig.shared.json"
-  ],
-  "exclude": ["../base/**/*"]
-}
-````
-
-## File: layers/main/vitest.config.mts
-````typescript
-import { defineVitestConfig } from '@nuxt/test-utils/config'
-import path from 'path'
-
-export default defineVitestConfig({
-  test: {
-    globals: true,
-    environment: 'nuxt',
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html'],
-      reportsDirectory: '../coverage',
-      reportOnFailure: true,
-      allowExternal: true,
-      include: ['**/*.{vue,ts}'],
-      exclude: [
-        'plugins/**',
-        'middleware/**',
-        'layouts/**',
-        'test/**',
-      ],
-    },
-    setupFiles: ['app/test/setup.ts'],
-    alias: {
-      '#base': path.resolve(__dirname, '../base'),
-    },
-  },
-  resolve: {
-    alias: {
-      '#base': path.resolve(__dirname, '../base'),
-    },
-  },
-})
 ````
