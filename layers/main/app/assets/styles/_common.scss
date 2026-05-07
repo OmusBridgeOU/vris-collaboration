@@ -1,0 +1,110 @@
+@use 'variables' as v;
+
+.glassy-box {
+  position: relative;
+  padding: 22px 36px;
+  border-radius: 20px;
+
+  // グラスモーフィズム的な表現のための疑似要素
+  &::after {
+    pointer-events: none;
+    content: '';
+
+    position: absolute;
+    inset: 0;
+
+    padding: 1px; // ボーダーの太さ
+    border-radius: inherit;
+
+    background: rgb(88 88 88);
+
+    mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+
+  &--cyan {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
+
+    .icon-box {
+        background: rgba(v.$vket-cyan, 0.4);
+    }
+
+    >.title{
+        color: v.$vket-cyan;
+    }
+
+    .title-box .label{
+        color: v.$vket-cyan;
+    }
+  }
+
+  &--magenta {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
+
+    .icon-box {
+        background: rgba(v.$vket-magenta, 0.4);
+    }
+
+    >.title {
+        color: v.$vket-magenta;
+    }
+
+    .title-box .label{
+        color: v.$vket-magenta;
+    }
+  }
+
+  &--amber {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
+
+    .icon-box {
+        background: rgba(v.$vket-amber, 0.4);
+    }
+
+    >.title{
+        color: v.$vket-amber;
+    }
+
+    .title-box .label{
+        color: v.$vket-amber;
+    }
+  }
+
+  &--vermilion {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
+
+    .icon-box {
+        background: rgba(v.$vket-vermilion, 0.4);
+    }
+
+    >.title{
+        color: v.$vket-vermilion;
+    }
+
+    .title-box .label{
+        color: v.$vket-vermilion;
+    }
+  }
+
+  >.title{
+       margin-bottom: 8px;
+        font-size: 16px;
+       line-height: 1.2em;
+    }
+
+  .icon-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 54px;
+    height: 54px;
+    border-radius: 20px;
+
+    svg{
+        height: 50%;
+    }
+  }
+}

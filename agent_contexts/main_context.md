@@ -49,6 +49,7 @@ layers/
           .gitkeep
         styles/
           _base.scss
+          _common.scss
           _functions.scss
           _markdown.scss
           _mixins.scss
@@ -59,9 +60,10 @@ layers/
       components/
         ha/
           .gitkeep
+          HaCard.vue
           HaFireworks.vue
           HaFirstView.vue
-          HaGlassCard.vue
+          HaLinkCard.vue
           HaSectionTitle.vue
         hm/
           .gitkeep
@@ -69,6 +71,8 @@ layers/
           HoTheFooter.vue
           HoTheHeader.vue
         ht/
+          HtAboutSection.vue
+          HtNewsSection.vue
           HtQuickAccessSection.vue
           HtTop.vue
       composables/
@@ -117,11 +121,14 @@ layers/
       i18n.config.ts
     public/
       icons/
+        boxicons_community.svg
         ep_right.svg
         f7_tickets.svg
         line-md_calendar.svg
+        material-symbols_star-shine-outline-rounded.svg
         material-symbols_timer-outline.svg
         mingcute_map-pin-line.svg
+        tabler_world.svg
       _robots.txt
       favicon.ico
     server/
@@ -137,6 +144,165 @@ layers/
 ```
 
 # Files
+
+## File: layers/main/app/assets/styles/_common.scss
+````scss
+@use 'variables' as v;
+
+.glassy-box {
+  position: relative;
+  padding: 22px 36px;
+  border-radius: 20px;
+
+  // グラスモーフィズム的な表現のための疑似要素
+  &::after {
+    pointer-events: none;
+    content: '';
+
+    position: absolute;
+    inset: 0;
+
+    padding: 1px; // ボーダーの太さ
+    border-radius: inherit;
+
+    background: rgb(88 88 88);
+
+    mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+
+  &--cyan {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
+
+    .icon-box {
+        background: rgba(v.$vket-cyan, 0.4);
+    }
+
+    >.title{
+        color: v.$vket-cyan;
+    }
+
+    .title-box .label{
+        color: v.$vket-cyan;
+    }
+  }
+
+  &--magenta {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
+
+    .icon-box {
+        background: rgba(v.$vket-magenta, 0.4);
+    }
+
+    >.title {
+        color: v.$vket-magenta;
+    }
+
+    .title-box .label{
+        color: v.$vket-magenta;
+    }
+  }
+
+  &--amber {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
+
+    .icon-box {
+        background: rgba(v.$vket-amber, 0.4);
+    }
+
+    >.title{
+        color: v.$vket-amber;
+    }
+
+    .title-box .label{
+        color: v.$vket-amber;
+    }
+  }
+
+  &--vermilion {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
+
+    .icon-box {
+        background: rgba(v.$vket-vermilion, 0.4);
+    }
+
+    >.title{
+        color: v.$vket-vermilion;
+    }
+
+    .title-box .label{
+        color: v.$vket-vermilion;
+    }
+  }
+
+  >.title{
+       margin-bottom: 8px;
+        font-size: 16px;
+       line-height: 1.2em;
+    }
+
+  .icon-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 54px;
+    height: 54px;
+    border-radius: 20px;
+
+    svg{
+        height: 50%;
+    }
+  }
+}
+````
+
+## File: layers/main/app/components/ha/HaCard.vue
+````vue
+<!-- components/GlassCard.vue -->
+<script setup lang="ts">
+defineProps<{
+  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+  iconUrl?: string
+}>()
+</script>
+
+<template>
+  <div :class="['glassy-box card', `glassy-box--${color ?? 'cyan'}`]">
+    <div class="icon-box icon-box--round">
+      <img :src="iconUrl">
+    </div>
+    <h3 class="title">
+      <slot name="title" />
+    </h3>
+    <div class="card__body">
+      <slot name="body" />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.card {
+  padding: 20px;
+
+  .icon-box {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+    border-radius:1000px;
+  }
+
+  &__body {
+    font-size: 13px;
+    line-height: 1.2em;
+  }
+}
+</style>
+````
 
 ## File: layers/main/app/components/ha/HaFireworks.vue
 ````vue
@@ -268,70 +434,27 @@ onUnmounted(() => {
 </style>
 ````
 
-## File: layers/main/app/components/ha/HaFirstView.vue
-````vue
-<template>
-  <div class="fv">
-    <h2 class="fv__title">
-      リアルとバーチャルの境界を、
-      <br>
-      <span class="fv__title--bold">開拓せよ。</span>
-    </h2>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.fv{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 100svw;
-    height: 1100px; // FIXME: 仮置き
-
-    &__title {
-        font-size: 64px;
-        font-weight: 700;
-        line-height: 1.6em;
-        color: v.$vket-vermilion;
-        text-align: center;
-
-        &--bold {
-            font-size: 128px;
-            font-weight: inherit;
-            color: white;
-            text-shadow: 0 5px 20px v.$vket-amber;
-        }
-    }
-}
-</style>
-````
-
-## File: layers/main/app/components/ha/HaGlassCard.vue
+## File: layers/main/app/components/ha/HaLinkCard.vue
 ````vue
 <!-- components/GlassCard.vue -->
 <script setup lang="ts">
 defineProps<{
-  variant?: 'default' | 'link'
   color: 'cyan' | 'magenta' | 'amber' | 'vermilion' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
   title: string
   label: string
   iconUrl?: string
-  iconRadius?: number | 'full'
 }>()
 </script>
 
 <template>
   <div
-    :class="['glass-card', `glass-card--${color ?? 'cyan'}`]"
+    :class="['glassy-box link-card', `glassy-box--${color ?? 'cyan'}`]"
   >
-    <div class="glass-card__head">
-      <div class="glass-card__head-left">
+    <div class="link-card__head">
+      <div class="link-card__head-left">
         <div
           v-if="iconUrl"
-          :class="['icon-box', `icon-box--${color ?? 'cyan'}`]"
+          class="icon-box"
         >
           <img
             :src="iconUrl"
@@ -339,7 +462,7 @@ defineProps<{
           >
         </div>
         <div class="title-box">
-          <p :class="['label', `label--${color ?? 'cyan'}`]">
+          <p class="label">
             {{ label }}
           </p>
           <h3 class="title">
@@ -347,14 +470,11 @@ defineProps<{
           </h3>
         </div>
       </div>
-      <span
-        v-if="variant=='link'"
-        class="glass-card__head-right"
-      >
+      <div class="link-card__head-right">
         <img src="/icons/ep_right.svg">
-      </span>
+      </div>
     </div>
-    <div class="glass-card__body">
+    <div class="link-card__body">
       <slot name="body" />
     </div>
   </div>
@@ -363,55 +483,9 @@ defineProps<{
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
 
-.glass-card {
-  position: relative;
+.link-card {
   padding: 22px 36px;
-  border-radius: 20px;
 
-  // グラスモーフィズム的な表現のための疑似要素
-  &::after {
-    pointer-events: none;
-    content: '';
-
-    position: absolute;
-    inset: 0;
-
-    padding: 1px; // ボーダーの太さ
-    border-radius: inherit;
-
-    background: rgb(88 88 88);
-
-    mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-  }
-
-  &--cyan {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
-  }
-
-  &--magenta {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
-  }
-
-  &--amber {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
-  }
-
-  &--vermilion {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
-  }
-
-  &--info {
-    border-color: rgb(45 212 191 / 20%);
-  }
-
-  &--warning {
-    border-color: rgb(251 191 36 / 20%);
-  }
-
-  // glass-card-head
   &__head{
     display: flex;
     align-items: center;
@@ -427,64 +501,18 @@ defineProps<{
 
 //   }
 
-  .icon-box{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 54px;
-    height: 54px;
-    border-radius: 20px;
-
-    svg{
-        height: 50%;
-    }
-
-    &--cyan {
-        background: rgba(v.$vket-cyan, 0.4);
-    }
-
-    &--magenta {
-        background: rgba(v.$vket-magenta, 0.4);
-    }
-
-    &--amber {
-        background: rgba(v.$vket-amber, 0.4);
-    }
-
-    &--vermilion {
-        background: rgba(v.$vket-vermilion, 0.4);
-    }
-  }
-
   .title-box{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-    height: 100%;
+    height: inherit;
     padding: 4px 0;
 
     .label{
       font-size: 10px;
       font-weight: 700;
       line-height: 1em;
-
-      &--cyan {
-        color: v.$vket-cyan;
-      }
-
-      &--magenta {
-        color: v.$vket-magenta;
-      }
-
-      &--amber {
-        color: v.$vket-amber;
-      }
-
-      &--vermilion {
-        color: v.$vket-vermilion;
-      }
     }
 
     .title {
@@ -497,147 +525,314 @@ defineProps<{
 </style>
 ````
 
-## File: layers/main/app/components/ha/HaSectionTitle.vue
+## File: layers/main/app/components/ht/HtAboutSection.vue
 ````vue
 <script setup lang="ts">
-defineProps<{
-  label: string
-  title: string
-}>()
+import HaCard from '../ha/HaCard.vue'
 </script>
 
 <template>
-  <div class="section-title">
-    <div class="section-title__line" />
-    <p class="section-title__label">
-      {{ label }}
-    </p>
-    <h2 class="section-title__text">
-      {{ title }}
-    </h2>
+  <HaSectionTitle
+    title="参加者向け重要情報"
+    label="QUICK ACCESS"
+  />
+  <div
+    class="description"
+    style="width: 750px;"
+  >
+    世界最大級のメタバースイベント「バーチャルマーケット(Vket)」から派生した、「バーチャルの姿のままリアルに飛び出す！」リアルイベント。<br>北海道の有志XRクリエイターが主催し、札幌で開催します。
+  </div>
+  <div class="info-flex mb-24">
+    <div class="info-flex__child">
+      <p class="info-flex__number info-flex__number--amber">
+        500名+
+      </p>
+      <p class="info-flex__label">
+        過去の来場者数
+      </p>
+    </div>
+    <div class="info-flex__child">
+      <p class="info-flex__number info-flex__number--cyan">
+        50+
+      </p>
+      <p class="info-flex__label">
+        出展サークル数
+      </p>
+    </div>
+    <div class="info-flex__child">
+      <p class="info-flex__number info-flex__number--magenta">
+        6回
+      </p>
+      <p class="info-flex__label">
+        開催回数
+      </p>
+    </div>
+  </div>
+
+  <div class="card-flex mb-24">
+    <HaCard
+      class="child"
+      icon-url="/icons/material-symbols_star-shine-outline-rounded.svg"
+      color="amber"
+    >
+      <template #title>
+        バーチャル姿のまま<br>リアルで体験
+      </template>
+      <template #body>
+        アバターとしての生き方を大切にする人々が<br>リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
+      </template>
+    </HaCard>
+    <HaCard
+      class="child"
+      icon-url="/icons/tabler_world.svg"
+      color="cyan"
+    >
+      <template #title>
+        VRの世界で活躍する<br>クリエイターの出展
+      </template>
+      <template #body>
+        VRとリアルを行き来しながら活躍する<br>クリエイターの作品展示や、新たなXR技術を<br>活用したインタラクティブな企画を展開！
+      </template>
+    </HaCard>
+    <HaCard
+      class="child"
+      icon-url="/icons/boxicons_community.svg"
+      color="magenta"
+    >
+      <template #title>
+        遊んで、買って、<br>楽しめる企業ブース
+      </template>
+      <template #body>
+        各企業ブースでは最新XRコンテンツを体験でき、<br>ここでしか手に入らない限定グッズも<br>販売されるかも？
+      </template>
+    </HaCard>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
 
-.section-title {
-  position: relative;
-  margin-bottom: 96px;
-  padding-top: 16px;
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
 
-  &__line {
-    position: relative;
+.description {
+  margin: 0 auto 96px;
 
-    overflow: hidden;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5em;
+  color: white;
+  text-align: center;
+}
 
-    width: 100%;
-    height: 2px;
-    margin-bottom: 2px;
+.info-flex {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
 
-    // 点
-    &::before {
-      content: '';
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
 
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: 2px;
-      height: 2px;
-
-      background: v.$vket-amber;
-    }
-
-    &::after {
-      content: '';
-
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 2px;
-      margin-left: 12px;
-
-      background: linear-gradient(to right, v.$vket-amber 0%, v.$vket-vermilion 100%);
-    }
+  &__child{
+    width: 320px;
   }
 
-  &__label {
+  &__number{
     margin-bottom: 4px;
-    font-size: 12px;
-    color: v.$vket-amber;
-    letter-spacing: 0.1em;
+
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1em;
+    text-align: center;
+    letter-spacing: normal;
+
+    &--cyan{
+      color: v.$vket-cyan;
+    }
+
+    &--amber{
+      color: v.$vket-amber;
+    }
+
+    &--magenta{
+      color: v.$vket-magenta;
+    }
   }
 
-  &__text {
-    font-size: 32px;
-    font-weight: 700;
-    color: #fff;
+  &__label{
+    font-size: 16px;
+    font-weight: 400;
+    color: v.$vket-emerald;
+    text-align: center;
+  }
+}
+
+.card-flex {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  .child {
+    width: 320px;
   }
 }
 </style>
 ````
 
-## File: layers/main/app/components/ht/HtQuickAccessSection.vue
+## File: layers/main/app/components/ht/HtNewsSection.vue
 ````vue
+<script setup lang="ts">
+import HaCard from '../ha/HaCard.vue'
+</script>
+
 <template>
   <HaSectionTitle
-    title="参加者向け重要情報"
-    label="QUICK ACCESS"
+    title="お知らせ"
+    label="NEWS"
   />
-  <div class="grid2x">
-    <HaGlassCard
-      class="grid2x__child"
-      variant="link"
-      color="cyan"
-      title="開催日"
-      label="DATE"
-      icon-url="/icons/line-md_calendar.svg"
-    >
-      <template #body>
-        <p>ボディの中身</p>
-      </template>
-    </HaGlassCard>
-    <HaGlassCard
-      class="grid2x__child"
-      variant="link"
-      color="magenta"
-      title="会場"
-      label="LOCATION"
-      icon-url="/icons/mingcute_map-pin-line.svg"
-    >
-      <template #body>
-        <p>ボディの中身</p>
-      </template>
-    </HaGlassCard>
-    <HaGlassCard
-      class="grid2x__child"
-      variant="link"
+
+  <div class="card-flex mb-24">
+    <HaCard
+      class="child"
+      icon-url="/icons/material-symbols_star-shine-outline-rounded.svg"
       color="amber"
-      title="チケット"
-      label="TICKETS"
-      icon-url="/icons/f7_tickets.svg"
     >
-      <template #body>
-        <p>ボディの中身</p>
+      <template #title>
+        バーチャル姿のまま<br>リアルで体験
       </template>
-    </HaGlassCard>
-    <HaGlassCard
-      class="grid2x__child"
-      variant="link"
-      color="vermilion"
-      title="スケジュール"
-      label="SCHEDULE"
-      icon-url="/icons/material-symbols_timer-outline.svg"
+      <template #body>
+        アバターとしての生き方を大切にする人々が<br>リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
+      </template>
+    </HaCard>
+    <HaCard
+      class="child"
+      icon-url="/icons/tabler_world.svg"
+      color="cyan"
     >
-      <template #body>
-        <p>ボディの中身</p>
+      <template #title>
+        VRの世界で活躍する<br>クリエイターの出展
       </template>
-    </HaGlassCard>
+      <template #body>
+        VRとリアルを行き来しながら活躍する<br>クリエイターの作品展示や、新たなXR技術を<br>活用したインタラクティブな企画を展開！
+      </template>
+    </HaCard>
+    <HaCard
+      class="child"
+      icon-url="/icons/boxicons_community.svg"
+      color="magenta"
+    >
+      <template #title>
+        遊んで、買って、<br>楽しめる企業ブース
+      </template>
+      <template #body>
+        各企業ブースでは最新XRコンテンツを体験でき、<br>ここでしか手に入らない限定グッズも<br>販売されるかも？
+      </template>
+    </HaCard>
   </div>
 </template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.description {
+  margin: 0 auto 96px;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5em;
+  color: white;
+  text-align: center;
+}
+
+.info-flex {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  &__child{
+    width: 320px;
+  }
+
+  &__number{
+    margin-bottom: 4px;
+
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1em;
+    text-align: center;
+    letter-spacing: normal;
+
+    &--cyan{
+      color: v.$vket-cyan;
+    }
+
+    &--amber{
+      color: v.$vket-amber;
+    }
+
+    &--magenta{
+      color: v.$vket-magenta;
+    }
+  }
+
+  &__label{
+    font-size: 16px;
+    font-weight: 400;
+    color: v.$vket-emerald;
+    text-align: center;
+  }
+}
+
+.card-flex {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  .child {
+    width: 320px;
+  }
+}
+</style>
+````
+
+## File: layers/main/public/icons/boxicons_community.svg
+````xml
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.0001 9.16675C11.4251 9.16675 12.5001 8.09175 12.5001 6.66675C12.5001 5.24175 11.4251 4.16675 10.0001 4.16675C8.57508 4.16675 7.50008 5.24175 7.50008 6.66675C7.50008 8.09175 8.57508 9.16675 10.0001 9.16675ZM10.0001 5.83341C10.5001 5.83341 10.8334 6.16675 10.8334 6.66675C10.8334 7.16675 10.5001 7.50008 10.0001 7.50008C9.50008 7.50008 9.16675 7.16675 9.16675 6.66675C9.16675 6.16675 9.50008 5.83341 10.0001 5.83341ZM10.8334 10.0001H9.16675C6.86675 10.0001 5.00008 11.8667 5.00008 14.1667V14.5834C5.00008 15.2751 5.55841 15.8334 6.25008 15.8334H13.7501C14.4417 15.8334 15.0001 15.2751 15.0001 14.5834V14.1667C15.0001 11.8667 13.1334 10.0001 10.8334 10.0001ZM6.66675 14.1667C6.66675 12.7917 7.79175 11.6667 9.16675 11.6667H10.8334C12.2084 11.6667 13.3334 12.7917 13.3334 14.1667H6.66675ZM5.41675 9.16675C5.80841 9.16675 6.16675 9.06675 6.47508 8.89175C6.12558 8.33528 5.9118 7.70444 5.851 7.05014C5.79021 6.39584 5.88409 5.73641 6.12508 5.12508C5.90841 5.05008 5.66675 5.00008 5.41675 5.00008C4.21675 5.00008 3.33341 5.88341 3.33341 7.08341C3.33341 8.28341 4.21675 9.16675 5.41675 9.16675ZM5.09175 10.0001H4.58341C2.97508 10.0001 1.66675 11.3084 1.66675 12.9167V13.7501C1.66675 13.9834 1.85008 14.1667 2.08341 14.1667H3.33341C3.33341 12.5334 4.00841 11.0584 5.09175 10.0001ZM14.5834 9.16675C15.7834 9.16675 16.6667 8.28341 16.6667 7.08341C16.6667 5.88341 15.7834 5.00008 14.5834 5.00008C14.3251 5.00008 14.0917 5.05008 13.8751 5.12508C14.1161 5.73641 14.21 6.39584 14.1492 7.05014C14.0884 7.70444 13.8746 8.33528 13.5251 8.89175C13.8334 9.06675 14.1834 9.16675 14.5834 9.16675ZM15.4167 10.0001H14.9084C15.4652 10.5417 15.9077 11.1896 16.2098 11.9053C16.5118 12.6209 16.6672 13.3899 16.6667 14.1667H17.9167C18.1501 14.1667 18.3334 13.9834 18.3334 13.7501V12.9167C18.3334 11.3084 17.0251 10.0001 15.4167 10.0001Z" fill="white"/>
+</svg>
+````
+
+## File: layers/main/public/icons/material-symbols_star-shine-outline-rounded.svg
+````xml
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16.4275 12.25C16.6564 12.25 16.8541 12.3333 17.0208 12.5L18.3333 13.8333C18.5 14 18.5833 14.1944 18.5833 14.4167C18.5833 14.6389 18.5 14.8333 18.3333 15C18.1666 15.1667 17.9722 15.25 17.75 15.25C17.5277 15.25 17.3333 15.1667 17.1666 15L15.8333 13.6875C15.6666 13.5208 15.5833 13.3231 15.5833 13.0942C15.5833 12.8653 15.6666 12.6672 15.8333 12.5C16 12.3328 16.198 12.2494 16.4275 12.25ZM16.9166 3.09417C16.9166 3.32306 16.8333 3.52084 16.6666 3.6875L15.3541 5C15.1875 5.16667 14.9897 5.25 14.7608 5.25C14.5319 5.25 14.3339 5.16667 14.1666 5C13.9994 4.83334 13.9161 4.63556 13.9166 4.40667C13.9172 4.17778 14.0005 3.97972 14.1666 3.8125L15.5 2.5C15.6666 2.33334 15.8611 2.25 16.0833 2.25C16.3055 2.25 16.5 2.33334 16.6666 2.5C16.8333 2.66667 16.9166 2.86445 16.9166 3.09334M3.92746 2.25C4.15635 2.25 4.35413 2.33334 4.5208 2.5L5.83329 3.83334C5.99996 4 6.0833 4.19445 6.0833 4.41667C6.0833 4.63889 5.99996 4.83334 5.83329 5C5.66663 5.16667 5.46885 5.25 5.23996 5.25C5.01107 5.25 4.81302 5.16667 4.6458 5L3.3333 3.6875C3.16663 3.52084 3.0833 3.32306 3.0833 3.09417C3.0833 2.86528 3.16663 2.66722 3.3333 2.5C3.49996 2.33278 3.69802 2.24945 3.92746 2.25ZM4.41663 13.0942C4.41663 13.3231 4.3333 13.5208 4.16663 13.6875L2.85413 15C2.68746 15.1667 2.48968 15.25 2.2608 15.25C2.03191 15.25 1.83385 15.1667 1.66663 15C1.49941 14.8333 1.41607 14.6356 1.41663 14.4067C1.41718 14.1778 1.50052 13.9797 1.66663 13.8125L2.99996 12.5C3.16663 12.3333 3.36107 12.25 3.5833 12.25C3.80552 12.25 3.99996 12.3333 4.16663 12.5C4.3333 12.6667 4.41663 12.8647 4.41663 13.0942ZM7.37496 14.0208L9.99996 12.4375L12.625 14.0417L11.9375 11.0417L14.25 9.04167L11.2083 8.77084L9.99996 5.9375L8.79163 8.75L5.74996 9.02084L8.06246 11.0417L7.37496 14.0208ZM9.99996 14.3958L6.54163 16.4792C6.38885 16.5764 6.22913 16.6181 6.06246 16.6042C5.8958 16.5903 5.74996 16.5347 5.62496 16.4375C5.49996 16.3403 5.40274 16.2189 5.3333 16.0733C5.26385 15.9278 5.24996 15.7644 5.29163 15.5833L6.20829 11.6458L3.1458 9C3.00691 8.875 2.92024 8.7325 2.8858 8.5725C2.85135 8.4125 2.86163 8.25639 2.91663 8.10417C2.97163 7.95195 3.05496 7.82695 3.16663 7.72917C3.2783 7.63139 3.43107 7.56889 3.62496 7.54167L7.66663 7.1875L9.22913 3.47917C9.29857 3.3125 9.40635 3.1875 9.55246 3.10417C9.69857 3.02084 9.84774 2.97917 9.99996 2.97917C10.1522 2.97917 10.3014 3.02084 10.4475 3.10417C10.5936 3.1875 10.7014 3.3125 10.7708 3.47917L12.3333 7.1875L16.375 7.54167C16.5694 7.56945 16.7222 7.63195 16.8333 7.72917C16.9444 7.82639 17.0277 7.95139 17.0833 8.10417C17.1389 8.25695 17.1494 8.41334 17.115 8.57334C17.0805 8.73334 16.9936 8.87556 16.8541 9L13.7916 11.6458L14.7083 15.5833C14.75 15.7639 14.7361 15.9272 14.6666 16.0733C14.5972 16.2194 14.5 16.3408 14.375 16.4375C14.25 16.5342 14.1041 16.5897 13.9375 16.6042C13.7708 16.6186 13.6111 16.5769 13.4583 16.4792L9.99996 14.3958Z" fill="white"/>
+</svg>
+````
+
+## File: layers/main/public/icons/tabler_world.svg
+````xml
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 7.5H17M3 12.5H17M2.5 10C2.5 10.9849 2.69399 11.9602 3.0709 12.8701C3.44781 13.7801 4.00026 14.6069 4.6967 15.3033C5.39314 15.9997 6.21993 16.5522 7.12987 16.9291C8.03982 17.306 9.01509 17.5 10 17.5C10.9849 17.5 11.9602 17.306 12.8701 16.9291C13.7801 16.5522 14.6069 15.9997 15.3033 15.3033C15.9997 14.6069 16.5522 13.7801 16.9291 12.8701C17.306 11.9602 17.5 10.9849 17.5 10C17.5 8.01088 16.7098 6.10322 15.3033 4.6967C13.8968 3.29018 11.9891 2.5 10 2.5C8.01088 2.5 6.10322 3.29018 4.6967 4.6967C3.29018 6.10322 2.5 8.01088 2.5 10Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9.58322 2.5C8.17934 4.74968 7.43506 7.34822 7.43506 10C7.43506 12.6518 8.17934 15.2503 9.58322 17.5M10.4166 2.5C11.8204 4.74968 12.5647 7.34822 12.5647 10C12.5647 12.6518 11.8204 15.2503 10.4166 17.5" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
 ````
 
 ## File: layers/main/@types/auto-imports.d.ts
@@ -1184,11 +1379,136 @@ img {
 ````scss
 @forward 'reset';
 @forward 'base';
+@forward 'common';
 ````
 
 ## File: layers/main/app/components/ha/.gitkeep
 ````
 
+````
+
+## File: layers/main/app/components/ha/HaFirstView.vue
+````vue
+<template>
+  <div class="fv">
+    <h2 class="fv__title">
+      リアルとバーチャルの境界を、
+      <br>
+      <span class="fv__title--bold">開拓せよ。</span>
+    </h2>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.fv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100svw;
+    height: 1100px; // FIXME: 仮置き
+
+    &__title {
+        font-size: 64px;
+        font-weight: 700;
+        line-height: 1.6em;
+        color: v.$vket-vermilion;
+        text-align: center;
+
+        &--bold {
+            font-size: 128px;
+            font-weight: inherit;
+            color: white;
+            text-shadow: 0 5px 20px v.$vket-amber;
+        }
+    }
+}
+</style>
+````
+
+## File: layers/main/app/components/ha/HaSectionTitle.vue
+````vue
+<script setup lang="ts">
+defineProps<{
+  label: string
+  title: string
+}>()
+</script>
+
+<template>
+  <div class="section-title">
+    <div class="section-title__line" />
+    <p class="section-title__label">
+      {{ label }}
+    </p>
+    <h2 class="section-title__text">
+      {{ title }}
+    </h2>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.section-title {
+  position: relative;
+  margin-bottom: 96px;
+  padding-top: 16px;
+
+  &__line {
+    position: relative;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 2px;
+    margin-bottom: 2px;
+
+    // 点
+    &::before {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 2px;
+      height: 2px;
+
+      background: v.$vket-amber;
+    }
+
+    &::after {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 2px;
+      margin-left: 12px;
+
+      background: linear-gradient(to right, v.$vket-amber 0%, v.$vket-vermilion 100%);
+    }
+  }
+
+  &__label {
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: v.$vket-amber;
+    letter-spacing: 0.1em;
+  }
+
+  &__text {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+  }
+}
+</style>
 ````
 
 ## File: layers/main/app/components/hm/.gitkeep
@@ -1258,137 +1578,75 @@ en:
 </style>
 ````
 
-## File: layers/main/app/components/ht/HtTop.vue
+## File: layers/main/app/components/ht/HtQuickAccessSection.vue
 ````vue
-<i18n lang="yaml">
-ja:
-  hoge: ほげ
-en:
-  hoge: hoge
-</i18n>
-
 <template>
-  <div class="ht-top">
-    <HaFirstView />
-    <section
-      id="quick-access"
-      class="section"
+  <HaSectionTitle
+    title="参加者向け重要情報"
+    label="QUICK ACCESS"
+  />
+  <div class="grid2x">
+    <HaLinkCard
+      class="grid2x__child"
+      color="cyan"
+      title="開催日"
+      label="DATE"
+      icon-url="/icons/line-md_calendar.svg"
     >
-      <HaSectionTitle
-        title="参加者向け重要情報"
-        label="QUICK ACCESS"
-      />
-      <div class="grid2x">
-        <HaGlassCard
-          class="grid2x__child"
-          variant="link"
-          color="cyan"
-          title="開催日"
-          label="DATE"
-          icon-url="/icons/line-md_calendar.svg"
-        >
-          <template #body>
-            <p>ボディの中身</p>
-          </template>
-        </HaGlassCard>
-        <HaGlassCard
-          class="grid2x__child"
-          variant="link"
-          color="magenta"
-          title="会場"
-          label="LOCATION"
-          icon-url="/icons/mingcute_map-pin-line.svg"
-        >
-          <template #body>
-            <p>ボディの中身</p>
-          </template>
-        </HaGlassCard>
-        <HaGlassCard
-          class="grid2x__child"
-          variant="link"
-          color="amber"
-          title="チケット"
-          label="TICKETS"
-          icon-url="/icons/f7_tickets.svg"
-        >
-          <template #body>
-            <p>ボディの中身</p>
-          </template>
-        </HaGlassCard>
-        <HaGlassCard
-          class="grid2x__child"
-          variant="link"
-          color="vermilion"
-          title="スケジュール"
-          label="SCHEDULE"
-          icon-url="/icons/material-symbols_timer-outline.svg"
-        >
-          <template #body>
-            <p>ボディの中身</p>
-          </template>
-        </HaGlassCard>
-      </div>
-    </section>
-
-    <section
-      id="about"
-      class="section"
+      <template #body>
+        <p />
+      </template>
+    </HaLinkCard>
+    <HaLinkCard
+      class="grid2x__child"
+      color="magenta"
+      title="会場"
+      label="LOCATION"
+      icon-url="/icons/mingcute_map-pin-line.svg"
     >
-      <HaSectionTitle
-        title="VketReal in 札幌とは"
-        label="about"
-      />
-      <div
-        class="section__description"
-        style="width: 750px;"
-      >
-        世界最大級のメタバースイベント「バーチャルマーケット(Vket)」から派生した、「バーチャルの姿のままリアルに飛び出す！」リアルイベント。<br>北海道の有志XRクリエイターが主催し、札幌で開催します。
-      </div>
-    </section>
+      <template #body>
+        <p />
+      </template>
+    </HaLinkCard>
+    <HaLinkCard
+      class="grid2x__child"
+      color="amber"
+      title="チケット"
+      label="TICKETS"
+      icon-url="/icons/f7_tickets.svg"
+    >
+      <template #body>
+        <p />
+      </template>
+    </HaLinkCard>
+    <HaLinkCard
+      class="grid2x__child"
+      color="vermilion"
+      title="スケジュール"
+      label="SCHEDULE"
+      icon-url="/icons/material-symbols_timer-outline.svg"
+    >
+      <template #body>
+        <p />
+      </template>
+    </HaLinkCard>
   </div>
 </template>
 
 <script setup lang="ts">
-import HaFirstView from '../ha/HaFirstView.vue'
-import HaGlassCard from '../ha/HaGlassCard.vue'
-import HaSectionTitle from '../ha/HaSectionTitle.vue'
+import HaLinkCard from '../ha/HaLinkCard.vue'
 </script>
 
 <style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.ht-top {
-  width: 100%;
-  height: 100%;
-}
-
-.section {
-  padding: 0 136px 108px;
-
-  &__description {
-    margin: 0 auto 96px;
-
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.5em;
-    color: white;
-    text-align: center;
-  }
-}
-
-#quick-access{
-  // TODO: common.scssなどに移動すべき
-  .grid2x {
+.grid2x {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 32px 20px;
 
     &__child {
-      height: 100%;
-      min-height: 280px; // FIXME: 適当な値を入れている
+        height: 100%;
+        min-height: 280px; // FIXME: 適当な値を入れている
     }
-  }
 }
 </style>
 ````
@@ -2149,112 +2407,6 @@ export type UseI18nReturnType<Options extends UseI18nOptions = UseI18nOptions>
  */
 export const getI18nArray = (i18n: UseI18nReturnType, key: string): string[] =>
   Object.entries<VueMessageType>(i18n.tm(key)).map(([, term]) => i18n.rt(term))
-````
-
-## File: layers/main/app/app.vue
-````vue
-<i18n lang="yaml">
-  ja:
-    site:
-      title: Vket Boilerplate Nuxt
-      title_template: "{title} - HIKKY Web Frontend"
-      description: Vketのサイト開発で活用しているボイラープレート
-  en:
-    site:
-      title: Vket Boilerplate Nuxt
-      title_template: "{title} - HIKKY Web Frontend"
-      description: A boilerplate used for Vket site development
-</i18n>
-
-<template>
-  <Head>
-    <Link
-      rel="alternate"
-      hreflang="ja"
-      :href="currentJaFullPath"
-    />
-    <Link
-      rel="alternate"
-      hreflang="en"
-      :href="currentEnFullPath"
-    />
-    <Link
-      rel="alternate"
-      hreflang="x-default"
-      :href="currentJaFullPath"
-    />
-    <template v-if="currentLang === 'ja'">
-      <Link
-        rel="canonical"
-        :href="currentJaFullPath"
-      />
-    </template>
-    <template v-if="currentLang === 'en'">
-      <Link
-        rel="canonical"
-        :href="currentEnFullPath"
-      />
-    </template>
-  </Head>
-  <div class="app">
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </div>
-</template>
-
-<script lang="ts" setup>
-const route = useRoute()
-const i18n = useI18n()
-const currentFullPath = ref(`${useRuntimeConfig().public.url}${route.fullPath}`)
-const currentLang = ref(i18n.locale.value)
-
-const currentJaFullPath = computed(() => {
-  if (currentLang.value === 'ja') {
-    return currentFullPath.value
-  } else {
-    return currentFullPath.value
-      .replace(/\/en(\/|$)/, '/')
-      .replace(/\/{2,}/, '/')
-  }
-})
-
-const currentEnFullPath = computed(() => {
-  if (currentLang.value === 'en') {
-    return currentFullPath.value
-  } else {
-    const path = route.fullPath.endsWith('/')
-      ? route.fullPath
-      : `${route.fullPath}/`
-    return `${useRuntimeConfig().public.url}/en${path}`
-  }
-})
-
-useHeadSafe({
-  htmlAttrs: {
-    lang: currentLang.value,
-  },
-  titleTemplate: (titleChunk) => {
-    return titleChunk
-      ? i18n.t('site.title_template', { title: titleChunk })
-      : i18n.t('site.title')
-  },
-  meta: [
-    {
-      name: 'description',
-      content: i18n.t('site.description'),
-    },
-    {
-      property: 'og:description',
-      content: i18n.t('site.description'),
-    },
-    {
-      property: 'og:site_name',
-      content: i18n.t('site.title'),
-    },
-  ],
-})
-</script>
 ````
 
 ## File: layers/main/app/error.vue
@@ -3164,6 +3316,160 @@ $zindex-loading: 400;
     background-color: $green-5;
   }
 }
+````
+
+## File: layers/main/app/components/ht/HtTop.vue
+````vue
+<i18n lang="yaml">
+ja:
+  hoge: ほげ
+en:
+  hoge: hoge
+</i18n>
+
+<template>
+  <div class="ht-top">
+    <HaFirstView />
+    <section id="quick-access">
+      <HtQuickAccessSection />
+    </section>
+
+    <section id="about">
+      <HtAboutSection />
+    </section>
+
+    <section id="news">
+      <HtNewsSection />
+    </section>
+  </div>
+</template>
+
+<script setup lang="ts">
+import HaFirstView from '../ha/HaFirstView.vue'
+import HtAboutSection from './HtAboutSection.vue'
+import HtQuickAccessSection from './HtQuickAccessSection.vue'
+import HtNewsSection from './HtNewsSection.vue'
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ht-top {
+  width: 100%;
+  height: 100%;
+}
+
+section {
+  padding: 0 136px 108px;
+}
+</style>
+````
+
+## File: layers/main/app/app.vue
+````vue
+<i18n lang="yaml">
+  ja:
+    site:
+      title: Vket Boilerplate Nuxt
+      title_template: "{title} - HIKKY Web Frontend"
+      description: Vketのサイト開発で活用しているボイラープレート
+  en:
+    site:
+      title: Vket Boilerplate Nuxt
+      title_template: "{title} - HIKKY Web Frontend"
+      description: A boilerplate used for Vket site development
+</i18n>
+
+<template>
+  <Head>
+    <Link
+      rel="alternate"
+      hreflang="ja"
+      :href="currentJaFullPath"
+    />
+    <Link
+      rel="alternate"
+      hreflang="en"
+      :href="currentEnFullPath"
+    />
+    <Link
+      rel="alternate"
+      hreflang="x-default"
+      :href="currentJaFullPath"
+    />
+    <template v-if="currentLang === 'ja'">
+      <Link
+        rel="canonical"
+        :href="currentJaFullPath"
+      />
+    </template>
+    <template v-if="currentLang === 'en'">
+      <Link
+        rel="canonical"
+        :href="currentEnFullPath"
+      />
+    </template>
+  </Head>
+  <div class="app">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </div>
+</template>
+
+<script lang="ts" setup>
+const route = useRoute()
+const i18n = useI18n()
+const currentFullPath = ref(`${useRuntimeConfig().public.url}${route.fullPath}`)
+const currentLang = ref(i18n.locale.value)
+
+const currentJaFullPath = computed(() => {
+  if (currentLang.value === 'ja') {
+    return currentFullPath.value
+  } else {
+    return currentFullPath.value
+      .replace(/\/en(\/|$)/, '/')
+      .replace(/\/{2,}/, '/')
+  }
+})
+
+const currentEnFullPath = computed(() => {
+  if (currentLang.value === 'en') {
+    return currentFullPath.value
+  } else {
+    const path = route.fullPath.endsWith('/')
+      ? route.fullPath
+      : `${route.fullPath}/`
+    return `${useRuntimeConfig().public.url}/en${path}`
+  }
+})
+
+useHeadSafe({
+  htmlAttrs: {
+    lang: currentLang.value,
+  },
+  titleTemplate: (titleChunk) => {
+    return titleChunk
+      ? i18n.t('site.title_template', { title: titleChunk })
+      : i18n.t('site.title')
+  },
+  meta: [
+    {
+      name: 'description',
+      content: i18n.t('site.description'),
+    },
+    {
+      property: 'og:description',
+      content: i18n.t('site.description'),
+    },
+    {
+      property: 'og:site_name',
+      content: i18n.t('site.title'),
+    },
+  ],
+})
+</script>
 ````
 
 ## File: layers/main/nuxt.config.ts
