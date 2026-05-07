@@ -6,12 +6,12 @@
  *
  * 使い方:
  *   1. パッケージ更新「前」に一度実行してベースライン画像を作成する
- *      npx playwright test mdc-visual.spec.ts --update-snapshots
+ *      bunx playwright test mdc-visual.spec.ts --update-snapshots
  *
  *   2. パッケージを更新する（package.json を変更して npm install など）
  *
  *   3. 再度実行して差分がないことを確認する
- *      npx playwright test mdc-visual.spec.ts
+ *      bunx playwright test mdc-visual.spec.ts
  *
  *   4. 差分がある場合、playwright-report/ に差分画像が生成されるので確認する
  */
@@ -32,7 +32,7 @@ const MDC_PAGES = [
 //    通常は playwright.config.ts の baseURL が使われるため
 //    そちらを設定していれば変更不要です
 // -------------------------------------------------------
-const BASE_URL = process.env.BASE_URL ?? "http://localhost:3000";
+const BASE_URL = "http://localhost:3000";
 
 // スクリーンショット比較のオプション
 const SCREENSHOT_OPTIONS = {
