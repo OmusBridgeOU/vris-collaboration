@@ -19,6 +19,10 @@ en:
     <section id="news">
       <HtNewsSection />
     </section>
+
+    <section id="schedule">
+      <HtSchedule />
+    </section>
   </div>
 </template>
 
@@ -27,6 +31,7 @@ import HaFirstView from '../ha/HaFirstView.vue'
 import HtAboutSection from './HtAboutSection.vue'
 import HtQuickAccessSection from './HtQuickAccessSection.vue'
 import HtNewsSection from './HtNewsSection.vue'
+import HtSchedule from './HtSchedule.vue'
 </script>
 
 <style lang="scss" scoped>
