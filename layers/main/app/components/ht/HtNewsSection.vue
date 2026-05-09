@@ -1,19 +1,24 @@
 <script setup lang="ts">
 import HaCard from '../ha/HaCard.vue'
+import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
+import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
+import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 </script>
 
 <template>
   <HaSectionTitle
     title="お知らせ"
-    label="NEWS"
+    label="news"
   />
 
   <div class="card-flex mb-24">
     <HaCard
       class="child"
-      icon-url="/icons/material-symbols_star-shine-outline-rounded.svg"
       color="amber"
     >
+      <template #icon>
+        <HaStarShineIcon />
+      </template>
       <template #title>
         バーチャル姿のまま<br>リアルで体験
       </template>
@@ -23,9 +28,11 @@ import HaCard from '../ha/HaCard.vue'
     </HaCard>
     <HaCard
       class="child"
-      icon-url="/icons/tabler_world.svg"
       color="cyan"
     >
+      <template #icon>
+        <HaWorldIcon />
+      </template>
       <template #title>
         VRの世界で活躍する<br>クリエイターの出展
       </template>
@@ -35,9 +42,11 @@ import HaCard from '../ha/HaCard.vue'
     </HaCard>
     <HaCard
       class="child"
-      icon-url="/icons/boxicons_community.svg"
       color="magenta"
     >
+      <template #icon>
+        <HaCommunityIcon />
+      </template>
       <template #title>
         遊んで、買って、<br>楽しめる企業ブース
       </template>

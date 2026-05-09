@@ -32,7 +32,7 @@ defineProps<{
 
     width: 100%;
     height: 2px;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
 
     // 点
     &::before {
@@ -64,15 +64,15 @@ defineProps<{
   }
 
   &__label {
-    margin-bottom: 4px;
     font-size: 12px;
     color: v.$vket-amber;
     letter-spacing: 0.1em;
   }
 
   &__text {
-    font-size: 32px;
+    font-size: 48px;
     font-weight: 700;
+    line-height: 1em;
     color: #fff;
   }
 }

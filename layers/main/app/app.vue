@@ -41,11 +41,11 @@
       />
     </template>
   </Head>
-  <div class="app">
+  <Body class="app">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-  </div>
+  </Body>
 </template>
 
 <script lang="ts" setup>

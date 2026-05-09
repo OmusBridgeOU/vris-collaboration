@@ -1,7 +1,7 @@
 <template>
   <HaSectionTitle
     title="参加者向け重要情報"
-    label="QUICK ACCESS"
+    label="quick access"
   />
   <div class="grid2x">
     <HaLinkCard
@@ -9,8 +9,10 @@
       color="cyan"
       title="開催日"
       label="DATE"
-      icon-url="/icons/line-md_calendar.svg"
     >
+      <template #icon>
+        <HaCalendarIcon />
+      </template>
       <template #body>
         <p />
       </template>
@@ -20,8 +22,10 @@
       color="magenta"
       title="会場"
       label="LOCATION"
-      icon-url="/icons/mingcute_map-pin-line.svg"
     >
+      <template #icon>
+        <HaMapPinIcon />
+      </template>
       <template #body>
         <p />
       </template>
@@ -31,8 +35,10 @@
       color="amber"
       title="チケット"
       label="TICKETS"
-      icon-url="/icons/f7_tickets.svg"
     >
+      <template #icon>
+        <HaTicketIcon />
+      </template>
       <template #body>
         <p />
       </template>
@@ -44,6 +50,9 @@
       label="SCHEDULE"
       icon-url="/icons/material-symbols_timer-outline.svg"
     >
+      <template #icon>
+        <HaTimerIcon />
+      </template>
       <template #body>
         <p />
       </template>
@@ -53,6 +62,10 @@
 
 <script setup lang="ts">
 import HaLinkCard from '../ha/HaLinkCard.vue'
+import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
+import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
+import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
+import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
 </script>
 
 <style lang="scss" scoped>

@@ -1,25 +1,22 @@
+<script setup lang="ts">
+import HaSunIcon from '../ha/icons/HaSunIcon.vue'
+import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
+</script>
+
 <template>
   <HaSectionTitle
     title="開催スケジュール"
-    label="SCHEDULE"
+    label="schedule"
   />
 
   <div class="schedule mb-24">
     <div class="schedule__left">
       <div class="schedule__icon-box">
-        <img
-          class="schedule__icon"
-          src="/icons/flowbite_sun-outline.svg"
-          alt=""
-        >
+        <HaSunIcon />
       </div>
       <span class="schedule__line" />
       <div class="schedule__icon-box">
-        <img
-          class="schedule__icon"
-          src="/icons/tabler_sunset-2.svg"
-          alt=""
-        >
+        <HaSunsetIcon />
       </div>
     </div>
     <div class="schedule__right">

@@ -6,7 +6,7 @@ en:
 </i18n>
 
 <template>
-  <div class="ht-top">
+  <main class="ht-top">
     <HaFirstView />
     <section id="quick-access">
       <HtQuickAccessSection />
@@ -21,9 +21,13 @@ en:
     </section>
 
     <section id="schedule">
-      <HtSchedule />
+      <HtScheduleSection />
     </section>
-  </div>
+
+    <section id="exhibition">
+      <HtExhibitionSection />
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -31,7 +35,8 @@ import HaFirstView from '../ha/HaFirstView.vue'
 import HtAboutSection from './HtAboutSection.vue'
 import HtQuickAccessSection from './HtQuickAccessSection.vue'
 import HtNewsSection from './HtNewsSection.vue'
-import HtSchedule from './HtSchedule.vue'
+import HtScheduleSection from './HtScheduleSection.vue'
+import HtExhibitionSection from './HtExhibitionSection.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -41,6 +46,7 @@ import HtSchedule from './HtSchedule.vue'
 .ht-top {
   width: 100%;
   height: 100%;
+  background-color: rgb(15 27 46 / 100%)
 }
 
 section {

@@ -1,15 +1,14 @@
 <!-- components/GlassCard.vue -->
 <script setup lang="ts">
 defineProps<{
-  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
-  iconUrl?: string
+  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
 }>()
 </script>
 
 <template>
   <div :class="['glassy-box card', `glassy-box--${color ?? 'cyan'}`]">
     <div class="icon-box icon-box--round">
-      <img :src="iconUrl">
+      <slot name="icon" />
     </div>
     <h3 class="title">
       <slot name="title" />
