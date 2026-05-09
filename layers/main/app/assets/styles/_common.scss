@@ -13,7 +13,7 @@
     position: absolute;
     inset: 0;
 
-    padding: 1px; // ボーダーの太さ
+    padding: 1px;
     border-radius: inherit;
 
     background: rgb(88 88 88);
@@ -88,13 +88,13 @@
     }
   }
 
-  >.title{
-       margin-bottom: 8px;
-        font-size: 16px;
-       line-height: 1.2em;
-    }
+  >.title {
+    margin-bottom: 8px;
+    font-size: 16px;
+    line-height: 1.2em;
+  }
 
-  .icon-box{
+  .icon-box {
     display: flex;
     align-items: center;
     justify-content: center;

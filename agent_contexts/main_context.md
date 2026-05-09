@@ -59,8 +59,11 @@ layers/
           style.scss
       components/
         ha/
+          icons/
+            HaOpenBookIcon.vue
           .gitkeep
           HaCard.vue
+          HaDocumentLink.vue
           HaFireworks.vue
           HaFirstView.vue
           HaLinkCard.vue
@@ -72,9 +75,10 @@ layers/
           HoTheHeader.vue
         ht/
           HtAboutSection.vue
+          HtExhibitionSection.vue
           HtNewsSection.vue
           HtQuickAccessSection.vue
-          HtSchedule.vue
+          HtScheduleSection.vue
           HtTop.vue
       composables/
         useApi.ts
@@ -126,10 +130,13 @@ layers/
         ep_right.svg
         f7_tickets.svg
         flowbite_sun-outline.svg
+        iconoir_open-book.svg
         line-md_calendar.svg
+        material-symbols_balance.svg
         material-symbols_star-shine-outline-rounded.svg
         material-symbols_timer-outline.svg
         mingcute_map-pin-line.svg
+        mingcute_question-line.svg
         tabler_sunset-2.svg
         tabler_world.svg
       _robots.txt
@@ -147,6 +154,174 @@ layers/
 ```
 
 # Files
+
+## File: layers/main/app/components/ha/icons/HaOpenBookIcon.vue
+````vue
+<template>
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 35.0002V11.6668M20 11.6668C20 10.7828 20.3512 9.93493 20.9764 9.30981C21.6015 8.68469 22.4493 8.3335 23.3334 8.3335H35.6667C35.798 8.3335 35.9281 8.35936 36.0494 8.40962C36.1707 8.45987 36.281 8.53353 36.3738 8.62639C36.4667 8.71925 36.5403 8.82949 36.5906 8.95081C36.6408 9.07214 36.6667 9.20217 36.6667 9.3335V31.1902M20 11.6668C20 10.7828 19.6489 9.93493 19.0237 9.30981C18.3986 8.68469 17.5508 8.3335 16.6667 8.3335H4.33337C4.06816 8.3335 3.8138 8.43885 3.62627 8.62639C3.43873 8.81393 3.33337 9.06828 3.33337 9.3335V31.1902M23.3334 31.6668H36.6667M16.6667 31.6668H3.33337" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M23.3334 31.667C22.4494 31.667 21.6015 32.0182 20.9764 32.6433C20.3513 33.2684 20.0001 34.1163 20.0001 35.0003C20.0001 34.1163 19.6489 33.2684 19.0238 32.6433C18.3986 32.0182 17.5508 31.667 16.6667 31.667" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+</template>
+````
+
+## File: layers/main/app/components/ha/HaDocumentLink.vue
+````vue
+<script setup lang="ts">
+defineProps<{
+  color: 'green' | 'cyan' | 'magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+  title: string
+  label: 'important'  | 'required' | 'Q&A'
+  text: string
+}>()
+</script>
+<template>
+    <div class="document-link">
+      <div :class="['document-link__left', `document-link__left--${color}`]">
+        <slot name="icon" />
+      </div>
+      <div class="document-link__right">
+        <div class="document-link__row">
+            <p class="document-link__title">出展ガイドライン</p>
+            <div :class="['document-link__label', `document-link__label--${label=='important' ? 'amber' : label=='required' ? 'vermilion' : label=='Q&A' ? 'magenta' : ''}`]">
+                <p class="document-link__label-text">{{label=='important' ? '重要' : label=='required' ? '必読' : label=='Q&A' ? 'Q&A' : ''}}</p>
+            </div>
+        </div>
+        <p class="document-link__text">出展に必要なルール・準備事項をまとめた公式ガイド</p>
+        <NuxtLink class="document-link__link">全文をチェック→</NuxtLink>
+      </div>
+    </div>
+</template>
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.document-link {
+    display: flex;
+    border-radius: 20px;
+    background: rgba(217, 217, 217, 0.2);
+    overflow: hidden;
+    min-height: 150px;
+
+  &__left {
+    flex-shrink: 0;
+    width: 286px;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 20px 0 0 20px;
+
+    &--green {
+        background-color: rgba(#43ffbd, 0.4);
+    }
+
+    &--cyan {
+        background-color: rgba(v.$vket-cyan, 0.4);
+    }
+
+    &--magenta {
+        background-color: rgba(v.$vket-magenta, 0.4);
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 20px 0 0 20px;
+      border: 1.5px solid transparent;
+
+      background-image:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,0.8) 0%,
+          rgba(255,255,255,0.2) 30%
+        ),
+        linear-gradient(
+          to left,
+          rgba(255,255,255,0.2) 0%,
+          rgba(255,255,255,0) 30%
+        );
+      background-origin: border-box, border-box;
+      background-clip: border-box, border-box;
+
+      -webkit-mask:
+        linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask:
+        linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      mask-composite: exclude;
+    }
+
+    &__icon {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  &__right {
+    width: 100px;
+    flex-grow: 1;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding: 18px 22px;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+    &__title {
+        font-size: 20px;
+        font-weight: 700;
+        color: white;
+    }
+
+    &__text {
+        font-size: 14px;
+        color: white;
+    }
+
+    &__link {
+        font-size: 12px;
+        color: #43ffbd;
+        text-decoration: underline;
+    }
+
+    &__label {
+        width: fit-content;
+        padding: 3px 5px;
+        border-radius: 6px;
+
+        &--amber {
+            background-color: rgba(v.$vket-amber, 0.6);
+        }
+
+        &--vermilion {
+            background-color: rgba(v.$vket-vermilion, 0.6);
+        }
+
+        &--magenta {
+            background-color: rgba(v.$vket-magenta, 0.6);
+        }
+    }
+
+    &__label-text {
+        font-size: 14px;
+        color: white;
+        font-weight: 400;
+    }
+}
+</style>
+````
 
 ## File: layers/main/app/components/ha/HaFireworks.vue
 ````vue
@@ -278,7 +453,118 @@ onUnmounted(() => {
 </style>
 ````
 
-## File: layers/main/app/components/ht/HtSchedule.vue
+## File: layers/main/app/components/ht/HtExhibitionSection.vue
+````vue
+<script setup lang="ts">
+import HaCard from '../ha/HaCard.vue'
+import HaDocumentLink from '../ha/HaDocumentLink.vue';
+import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue';
+</script>
+
+<template>
+  <HaSectionTitle
+    title="お知らせ"
+    label="NEWS"
+  />
+  <p class="subtitle">出展カテゴリ</p>
+  <div class="card-flex mb-24">
+    
+    <HaCard
+      class="child"
+      icon-url="/icons/material-symbols_star-shine-outline-rounded.svg"
+      color="amber"
+    >
+      <template #title>
+        サークル出展
+      </template>
+      <template #body>
+        VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
+      </template>
+    </HaCard>
+    <HaCard
+      class="child"
+      icon-url="/icons/tabler_world.svg"
+      color="cyan"
+    >
+      <template #title>
+        一般展示
+      </template>
+      <template #body>
+        XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
+      </template>
+    </HaCard>
+    <HaCard
+      class="child"
+      icon-url="/icons/boxicons_community.svg"
+      color="magenta"
+    >
+      <template #title>
+        企業出展
+      </template>
+      <template #body>
+        企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
+      </template>
+    </HaCard>
+  </div>
+  <p class="subtitle">出展カテゴリ</p>
+  <div class="link-list">
+    <HaDocumentLink title="出展ガイドライン" label="important" color="green" text="出展に必要なルール・準備事項をまとめた公式ガイド">
+      <template #icon>
+        <HaOpenBookIcon />
+      </template>
+    </HaDocumentLink>
+    <HaDocumentLink title="出展規約" label="required" color="cyan" text="出展者が遵守すべき規約・利用条件">
+      <template #icon>
+        <HaOpenBookIcon />
+      </template>
+    </HaDocumentLink>
+    <HaDocumentLink title="出展ガイドライン" label="Q&A" color="magenta" text="出展に必要なルール・準備事項をまとめた公式ガイド">
+      <template #icon>
+        <HaOpenBookIcon />
+      </template>
+    </HaDocumentLink>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.subtitle {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5em;
+  color: white;
+  text-align: center;
+  margin: 0 auto 42px;
+}
+
+.card-flex {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  .child {
+    width: 320px;
+  }
+}
+
+.link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtScheduleSection.vue
 ````vue
 <template>
   <HaSectionTitle
@@ -455,17 +741,29 @@ onUnmounted(() => {
 </style>
 ````
 
-## File: layers/main/public/icons/flowbite_sun-outline.svg
+## File: layers/main/public/icons/iconoir_open-book.svg
 ````xml
-<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M24 10V6M24 42V38M14.1 14.1L11.272 11.272M36.728 36.728L33.9 33.9M10 24H6M42 24H38M14.1 33.9L11.272 36.728M36.728 11.272L33.9 14.1M32 24C32 26.1217 31.1571 28.1566 29.6569 29.6569C28.1566 31.1571 26.1217 32 24 32C21.8783 32 19.8434 31.1571 18.3431 29.6569C16.8429 28.1566 16 26.1217 16 24C16 21.8783 16.8429 19.8434 18.3431 18.3431C19.8434 16.8429 21.8783 16 24 16C26.1217 16 28.1566 16.8429 29.6569 18.3431C31.1571 19.8434 32 21.8783 32 24Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 左ページ -->
+  <path d="M20 35.0002V11.6668C20 10.7828 19.6489 9.93493 19.0237 9.30981C18.3986 8.68469 17.5508 8.3335 16.6667 8.3335H4.33337C4.06816 8.3335 3.8138 8.43885 3.62627 8.62639C3.43873 8.81393 3.33337 9.06828 3.33337 9.3335V31.1902M16.6667 31.6668H3.33337" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- 右ページ -->
+  <path d="M20 35.0002V11.6668C20 10.7828 20.3512 9.93493 20.9764 9.30981C21.6015 8.68469 22.4493 8.3335 23.3334 8.3335H35.6667C35.798 8.3335 35.9281 8.35936 36.0494 8.40962C36.1707 8.45987 36.281 8.53353 36.3738 8.62639C36.4667 8.71925 36.5403 8.82949 36.5906 8.95081C36.6408 9.07214 36.6667 9.20217 36.6667 9.3335V31.1902M23.3334 31.6668H36.6667" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- 下部の綴じ部分 -->
+  <path d="M23.3334 31.667C22.4494 31.667 21.6015 32.0182 20.9764 32.6433C20.3513 33.2684 20.0001 34.1163 20.0001 35.0003C20.0001 34.1163 19.6489 33.2684 19.0238 32.6433C18.3986 32.0182 17.5508 31.667 16.6667 31.667" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 ````
 
-## File: layers/main/public/icons/tabler_sunset-2.svg
+## File: layers/main/public/icons/material-symbols_balance.svg
 ````xml
-<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M6 26H8M40 26H42M11.2 13.2L12.6 14.6M36.8 13.2L35.4 14.6M16 26C16 23.8783 16.8429 21.8434 18.3431 20.3431C19.8434 18.8429 21.8783 18 24 18C26.1217 18 28.1566 18.8429 29.6569 20.3431C31.1571 21.8434 32 23.8783 32 26M6 34H42M14 40H24M32 40H34M24 10V8" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.33337 35.0002V31.6668H18.3334V13.0418C17.6112 12.7918 16.9862 12.4029 16.4584 11.8752C15.9306 11.3474 15.5417 10.7224 15.2917 10.0002H10L15 21.6668C15 23.0557 14.4306 24.2363 13.2917 25.2085C12.1528 26.1807 10.7778 26.6668 9.16671 26.6668C7.5556 26.6668 6.1806 26.1807 5.04171 25.2085C3.90282 24.2363 3.33337 23.0557 3.33337 21.6668L8.33337 10.0002H5.00004V6.66683H15.2917C15.625 5.69461 16.2223 4.89628 17.0834 4.27183C17.9445 3.64739 18.9167 3.33461 20 3.3335C21.0834 3.33239 22.0556 3.64517 22.9167 4.27183C23.7778 4.8985 24.375 5.69683 24.7084 6.66683H35V10.0002H31.6667L36.6667 21.6668C36.6667 23.0557 36.0973 24.2363 34.9584 25.2085C33.8195 26.1807 32.4445 26.6668 30.8334 26.6668C29.2223 26.6668 27.8473 26.1807 26.7084 25.2085C25.5695 24.2363 25 23.0557 25 21.6668L30 10.0002H24.7084C24.4584 10.7224 24.0695 11.3474 23.5417 11.8752C23.0139 12.4029 22.3889 12.7918 21.6667 13.0418V31.6668H36.6667V35.0002H3.33337ZM27.7084 21.6668H33.9584L30.8334 14.4168L27.7084 21.6668ZM6.04171 21.6668H12.2917L9.16671 14.4168L6.04171 21.6668ZM20 10.0002C20.4723 10.0002 20.8684 9.84017 21.1884 9.52017C21.5084 9.20017 21.6678 8.80461 21.6667 8.3335C21.6656 7.86239 21.5056 7.46683 21.1867 7.14683C20.8678 6.82683 20.4723 6.66683 20 6.66683C19.5278 6.66683 19.1323 6.82683 18.8134 7.14683C18.4945 7.46683 18.3345 7.86239 18.3334 8.3335C18.3323 8.80461 18.4923 9.20072 18.8134 9.52183C19.1345 9.84294 19.53 10.0024 20 10.0002Z" fill="white"/>
+</svg>
+````
+
+## File: layers/main/public/icons/mingcute_question-line.svg
+````xml
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20 3.33301C29.205 3.33301 36.6667 10.7947 36.6667 19.9997C36.6667 29.2047 29.205 36.6663 20 36.6663C10.795 36.6663 3.33337 29.2047 3.33337 19.9997C3.33337 10.7947 10.795 3.33301 20 3.33301ZM20 6.66634C16.4638 6.66634 13.0724 8.0711 10.572 10.5716C8.07147 13.0721 6.66671 16.4635 6.66671 19.9997C6.66671 23.5359 8.07147 26.9273 10.572 29.4278C13.0724 31.9282 16.4638 33.333 20 33.333C23.5363 33.333 26.9276 31.9282 29.4281 29.4278C31.9286 26.9273 33.3334 23.5359 33.3334 19.9997C33.3334 16.4635 31.9286 13.0721 29.4281 10.5716C26.9276 8.0711 23.5363 6.66634 20 6.66634ZM20 26.6663C20.4421 26.6663 20.866 26.8419 21.1786 27.1545C21.4911 27.4671 21.6667 27.891 21.6667 28.333C21.6667 28.775 21.4911 29.199 21.1786 29.5115C20.866 29.8241 20.4421 29.9997 20 29.9997C19.558 29.9997 19.1341 29.8241 18.8215 29.5115C18.509 29.199 18.3334 28.775 18.3334 28.333C18.3334 27.891 18.509 27.4671 18.8215 27.1545C19.1341 26.8419 19.558 26.6663 20 26.6663ZM20 10.833C21.4038 10.8331 22.7638 11.3219 23.8463 12.2157C24.9289 13.1094 25.6664 14.3522 25.9322 15.7306C26.198 17.109 25.9756 18.537 25.303 19.7692C24.6305 21.0014 23.5498 21.9609 22.2467 22.483C22.0537 22.554 21.8797 22.6686 21.7384 22.818C21.665 22.9013 21.6534 23.008 21.655 23.118L21.6667 23.333C21.6662 23.7578 21.5036 24.1664 21.212 24.4753C20.9203 24.7842 20.5218 24.9701 20.0977 24.995C19.6736 25.0199 19.2561 24.8819 18.9303 24.6092C18.6046 24.3366 18.3952 23.9498 18.345 23.528L18.3334 23.333V22.9163C18.3334 20.9947 19.8834 19.8413 21.0067 19.3897C21.4639 19.2071 21.8627 18.9035 22.1603 18.5113C22.458 18.1192 22.6432 17.6534 22.696 17.1639C22.7489 16.6745 22.6674 16.1799 22.4604 15.7332C22.2534 15.2866 21.9286 14.9048 21.5209 14.6288C21.1133 14.3528 20.6381 14.1931 20.1465 14.1668C19.655 14.1405 19.1655 14.2486 18.7307 14.4795C18.2959 14.7103 17.9322 15.0553 17.6787 15.4773C17.4252 15.8993 17.2914 16.3824 17.2917 16.8747C17.2917 17.3167 17.1161 17.7406 16.8036 18.0532C16.491 18.3657 16.0671 18.5413 15.625 18.5413C15.183 18.5413 14.7591 18.3657 14.4465 18.0532C14.134 17.7406 13.9584 17.3167 13.9584 16.8747C13.9584 15.2723 14.5949 13.7356 15.7279 12.6026C16.861 11.4695 18.3977 10.833 20 10.833Z" fill="white"/>
 </svg>
 ````
 
@@ -718,7 +1016,7 @@ a {
     position: absolute;
     inset: 0;
 
-    padding: 1px; // ボーダーの太さ
+    padding: 1px;
     border-radius: inherit;
 
     background: rgb(88 88 88);
@@ -793,13 +1091,13 @@ a {
     }
   }
 
-  >.title{
-       margin-bottom: 8px;
-        font-size: 16px;
-       line-height: 1.2em;
-    }
+  >.title {
+    margin-bottom: 8px;
+    font-size: 16px;
+    line-height: 1.2em;
+  }
 
-  .icon-box{
+  .icon-box {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1133,7 +1431,7 @@ img {
 <!-- components/GlassCard.vue -->
 <script setup lang="ts">
 defineProps<{
-  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
   iconUrl?: string
 }>()
 </script>
@@ -1219,7 +1517,7 @@ defineProps<{
 <!-- components/GlassCard.vue -->
 <script setup lang="ts">
 defineProps<{
-  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
   title: string
   label: string
   iconUrl?: string
@@ -1341,7 +1639,7 @@ defineProps<{
 
     width: 100%;
     height: 2px;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
 
     // 点
     &::before {
@@ -1373,14 +1671,14 @@ defineProps<{
   }
 
   &__label {
-    margin-bottom: 4px;
     font-size: 12px;
     color: v.$vket-amber;
     letter-spacing: 0.1em;
   }
 
   &__text {
-    font-size: 32px;
+    font-size: 48px;
+    line-height: 1em;
     font-weight: 700;
     color: #fff;
   }
@@ -1547,13 +1845,12 @@ import HaCard from '../ha/HaCard.vue'
 }
 
 .description {
-  margin: 0 auto 96px;
-
   font-size: 20px;
   font-weight: 700;
   line-height: 1.5em;
   color: white;
   text-align: center;
+  margin: 0 auto 96px;
 }
 
 .info-flex {
@@ -3085,6 +3382,13 @@ export default {
 </svg>
 ````
 
+## File: layers/main/public/icons/flowbite_sun-outline.svg
+````xml
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 10V6M24 42V38M14.1 14.1L11.272 11.272M36.728 36.728L33.9 33.9M10 24H6M42 24H38M14.1 33.9L11.272 36.728M36.728 11.272L33.9 14.1M32 24C32 26.1217 31.1571 28.1566 29.6569 29.6569C28.1566 31.1571 26.1217 32 24 32C21.8783 32 19.8434 31.1571 18.3431 29.6569C16.8429 28.1566 16 26.1217 16 24C16 21.8783 16.8429 19.8434 18.3431 18.3431C19.8434 16.8429 21.8783 16 24 16C26.1217 16 28.1566 16.8429 29.6569 18.3431C31.1571 19.8434 32 21.8783 32 24Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+````
+
 ## File: layers/main/public/icons/line-md_calendar.svg
 ````xml
 <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3114,6 +3418,13 @@ export default {
 ````xml
 <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.7255 4.57511C13.2749 4.57511 12.8287 4.66387 12.4124 4.83631C11.9961 5.00875 11.6178 5.26151 11.2992 5.58014C10.9805 5.89877 10.7278 6.27704 10.5553 6.69336C10.3829 7.10967 10.2941 7.55587 10.2941 8.00649C10.2941 8.4571 10.3829 8.9033 10.5553 9.31962C10.7278 9.73593 10.9805 10.1142 11.2992 10.4328C11.6178 10.7515 11.9961 11.0042 12.4124 11.1767C12.8287 11.3491 13.2749 11.4379 13.7255 11.4379C14.6356 11.4379 15.5084 11.0763 16.1519 10.4328C16.7954 9.78933 17.1569 8.91654 17.1569 8.00649C17.1569 7.09643 16.7954 6.22365 16.1519 5.58014C15.5084 4.93663 14.6356 4.57511 13.7255 4.57511ZM8.00656 8.00649C8.00678 6.92443 8.31398 5.86463 8.89247 4.95019C9.47096 4.03575 10.297 3.30419 11.2747 2.84047C12.2523 2.37676 13.3415 2.19992 14.4156 2.33049C15.4898 2.46107 16.5049 2.8937 17.343 3.57814C18.181 4.26258 18.8078 5.17074 19.1503 6.19715C19.4929 7.22355 19.5372 8.32608 19.2782 9.37668C19.0192 10.4273 18.4674 11.3828 17.687 12.1324C16.9066 12.8819 15.9295 13.3946 14.8693 13.6111V19.4444C14.8693 19.7477 14.7488 20.0387 14.5343 20.2532C14.3198 20.4677 14.0289 20.5882 13.7255 20.5882C13.4222 20.5882 13.1312 20.4677 12.9167 20.2532C12.7022 20.0387 12.5817 19.7477 12.5817 19.4444V13.6111C11.29 13.3474 10.129 12.6455 9.29526 11.6242C8.46154 10.6029 8.00629 9.32488 8.00656 8.00649ZM10.8535 18.415C10.8762 18.5635 10.8695 18.7151 10.8336 18.8611C10.7977 19.007 10.7334 19.1445 10.6444 19.2656C10.5554 19.3867 10.4434 19.489 10.3148 19.5668C10.1862 19.6446 10.0435 19.6963 9.89496 19.7189C8.43319 19.9408 7.27225 20.2782 6.50934 20.6511C5.11391 21.3339 6.74496 21.8246 7.59594 22.09C9.11375 22.5647 11.2812 22.8758 13.7255 22.8758C16.1698 22.8758 18.3373 22.5647 19.8551 22.09C20.7118 21.8223 22.3371 21.3351 20.9417 20.6511C20.1788 20.2782 19.0178 19.9419 17.5561 19.7189C17.4059 19.6983 17.2612 19.648 17.1306 19.571C17 19.494 16.886 19.3918 16.7953 19.2703C16.7045 19.1489 16.6388 19.0106 16.602 18.8635C16.5652 18.7164 16.558 18.5635 16.5808 18.4136C16.6036 18.2637 16.656 18.1198 16.7349 17.9903C16.8138 17.8609 16.9177 17.7484 17.0405 17.6595C17.1633 17.5705 17.3026 17.5068 17.4502 17.4722C17.5978 17.4376 17.7508 17.4326 17.9004 17.4576C19.4879 17.6978 20.8994 18.0833 21.9482 18.5968C22.9593 19.0921 24.0196 19.9259 24.0196 21.1601C24.0196 22.0877 23.4203 22.7614 22.837 23.1926C20.3778 25.0089 16.6262 25.1633 13.7255 25.1633C11.1154 25.1633 8.7077 24.8339 6.91424 24.2735C5.4845 23.8274 3.4314 22.9467 3.4314 21.1601C3.4314 19.9248 4.49169 19.0921 5.5028 18.598C6.55166 18.0833 7.96424 17.699 9.54953 17.4576C9.69809 17.4349 9.84968 17.4416 9.99564 17.4775C10.1416 17.5134 10.279 17.5776 10.4001 17.6667C10.5212 17.7557 10.6236 17.8677 10.7014 17.9963C10.7792 18.1249 10.8308 18.2664 10.8535 18.415Z" fill="white"/>
+</svg>
+````
+
+## File: layers/main/public/icons/tabler_sunset-2.svg
+````xml
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 26H8M40 26H42M11.2 13.2L12.6 14.6M36.8 13.2L35.4 14.6M16 26C16 23.8783 16.8429 21.8434 18.3431 20.3431C19.8434 18.8429 21.8783 18 24 18C26.1217 18 28.1566 18.8429 29.6569 20.3431C31.1571 21.8434 32 23.8783 32 26M6 34H42M14 40H24M32 40H34M24 10V8" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 ````
 
@@ -3266,6 +3577,8 @@ $vket-light-blue: #00bfff;
 $vket-deep-navy: #0a0f1a;
 $vket-light-purple: #dda0dd;
 $vket-ice-blue: #b0e0e6;
+$vket-light-cyan: #6dd3ff;
+$vket-light-magenta: #ff82b8;
 
 /* スタイルガイドにないcolor */
 $gray-1: #d1d1d1;
@@ -3557,11 +3870,11 @@ import HaLinkCard from '../ha/HaLinkCard.vue'
       />
     </template>
   </Head>
-  <div class="app">
+  <Body class="app">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-  </div>
+  </Body>
 </template>
 
 <script lang="ts" setup>
@@ -3860,7 +4173,7 @@ en:
 </i18n>
 
 <template>
-  <div class="ht-top">
+  <main class="ht-top">
     <HaFirstView />
     <section id="quick-access">
       <HtQuickAccessSection />
@@ -3875,9 +4188,13 @@ en:
     </section>
 
     <section id="schedule">
-      <HtSchedule />
+      <HtScheduleSection />
     </section>
-  </div>
+
+    <section id="exhibition">
+      <HtExhibitionSection />
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -3885,7 +4202,8 @@ import HaFirstView from '../ha/HaFirstView.vue'
 import HtAboutSection from './HtAboutSection.vue'
 import HtQuickAccessSection from './HtQuickAccessSection.vue'
 import HtNewsSection from './HtNewsSection.vue'
-import HtSchedule from './HtSchedule.vue'
+import HtScheduleSection from './HtScheduleSection.vue'
+import HtExhibitionSection from './HtExhibitionSection.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -3895,6 +4213,7 @@ import HtSchedule from './HtSchedule.vue'
 .ht-top {
   width: 100%;
   height: 100%;
+  background-color: rgba(15, 27, 46, 1)
 }
 
 section {
