@@ -27,7 +27,7 @@
   &--cyan {
     box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
 
-    .icon-box {
+    .glassy-box__icon {
         background: rgba(v.$vket-cyan, 0.4);
     }
 
@@ -40,10 +40,26 @@
     }
   }
 
+  &--light-cyan {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
+
+    .glassy-box__icon {
+        background: rgba(v.$vket-cyan, 0.4);
+    }
+
+    >.title{
+        color: v.$vket-light-cyan;
+    }
+
+    .title-box .label{
+        color: v.$vket-cyan;
+    }
+  }
+
   &--magenta {
     box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
 
-    .icon-box {
+    .glassy-box__icon {
         background: rgba(v.$vket-magenta, 0.4);
     }
 
@@ -56,10 +72,26 @@
     }
   }
 
+  &--light-magenta {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
+
+    .glassy-box__icon {
+        background: rgba(v.$vket-magenta, 0.4);
+    }
+
+    >.title {
+        color: v.$vket-light-magenta;
+    }
+
+    .title-box .label{
+        color: v.$vket-magenta;
+    }
+  }
+
   &--amber {
     box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
 
-    .icon-box {
+    .glassy-box__icon {
         background: rgba(v.$vket-amber, 0.4);
     }
 
@@ -75,7 +107,7 @@
   &--vermilion {
     box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
 
-    .icon-box {
+    .glassy-box__icon {
         background: rgba(v.$vket-vermilion, 0.4);
     }
 
@@ -94,7 +126,7 @@
     line-height: 1.2em;
   }
 
-  .icon-box {
+  &__icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -106,5 +138,173 @@
     svg{
         height: 50%;
     }
+  }
+}
+
+.glassy-box-2{
+  position: relative;
+  border-radius: 20px;
+  box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
+  
+  &::before {
+    pointer-events: none;
+    content:"";
+
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+
+    width: inherit;
+    height: inherit;
+    border: 1px solid transparent;
+    border-radius: inherit;
+
+    background-image:
+    linear-gradient(
+        135deg,
+        rgb(255 255 255 / 75%) 20px,
+        rgb(255 255 255 / 25%) 40px
+    ),
+    linear-gradient(
+        315deg,
+        rgb(255 255 255 / 75%) 20px,
+        rgb(255 255 255 / 25%) 40px
+    );
+    background-clip: border-box, border-box;
+    background-origin: border-box, border-box;
+
+    -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0) border-box;
+    mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0) border-box;
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+}
+
+.glassy-box-3{
+    position: relative;
+    border-radius: 20px;
+    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+    
+    &::before {
+      pointer-events: none;
+      content:"";
+
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+      border: 2px solid transparent;
+      border-radius: inherit;
+
+      background-image:
+      linear-gradient(
+          45deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+          225deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+          135deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 30%) 20px,
+      ),
+      linear-gradient(
+          315deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 30%) 20px,
+      );
+      background-clip: border-box, border-box, border-box, border-box;
+      background-origin: border-box, border-box, border-box, border-box;
+
+      -webkit-mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+}
+
+.glassy-button-3 {
+    position: relative;
+    border-radius: 1000px;
+    background-color: rgb(217 217 217 / 20%);
+    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+    
+    &::before {
+      pointer-events: none;
+      content:"";
+
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+
+      width: inherit;
+      height: inherit;
+      border: 1px solid transparent;
+      border-radius: inherit;
+
+      background-image:
+      linear-gradient(
+          45deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+          225deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+          135deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 30%) 20px,
+      ),
+      linear-gradient(
+          315deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 30%) 20px,
+      );
+      background-clip: border-box, border-box, border-box, border-box;
+      background-origin: border-box, border-box, border-box, border-box;
+
+      -webkit-mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+}
+
+.subtitle {
+  width: fit-content;
+  margin: 0 auto 42px;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5em;
+  color: white;
+  text-align: center;
+
+  &--left {
+    text-align: left;
   }
 }
