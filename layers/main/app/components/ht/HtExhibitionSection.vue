@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HaCard from '../ha/HaCard.vue'
+import HaCard from '../ha/HaAboutCard.vue'
 import HaDocumentLink from '../ha/HaDocumentLink.vue'
 import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
 import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
@@ -35,7 +35,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     <HaCard
       class="child"
       icon-url="/icons/tabler_world.svg"
-      color="cyan"
+      color="light-cyan"
     >
       <template #icon>
         <HaWorldIcon />
@@ -50,7 +50,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     <HaCard
       class="child"
       icon-url="/icons/boxicons_community.svg"
-      color="magenta"
+      color="light-magenta"
     >
       <template #icon>
         <HaCommunityIcon />
@@ -64,7 +64,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     </HaCard>
   </div>
   <p class="subtitle">
-    出展カテゴリ
+    出展者向けリソース
   </p>
   <div class="link-list">
     <HaDocumentLink
@@ -105,16 +105,6 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.subtitle {
-  margin: 0 auto 42px;
-
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5em;
-  color: white;
-  text-align: center;
 }
 
 .card-flex {

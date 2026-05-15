@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HaCard from '../ha/HaCard.vue'
+import HaCard from '../ha/HaAboutCard.vue'
 import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
 import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
 import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
@@ -74,7 +74,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     </HaCard>
     <HaCard
       class="child"
-      color="magenta"
+      color="light-magenta"
     >
       <template #icon>
         <HaCommunityIcon />

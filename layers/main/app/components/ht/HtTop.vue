@@ -27,6 +27,30 @@ en:
     <section id="exhibition">
       <HtExhibitionSection />
     </section>
+
+    <section id="access">
+      <HtAccessSection />
+    </section>
+
+    <section id="ticket">
+      <HtTicketSection />
+    </section>
+
+    <section id="qa">
+      <HtQandASection />
+    </section>
+
+    <section id="code-of-conduction">
+      <HtCodeOfConductSection />
+    </section>
+
+    <section id="sponsors-and-partners">
+      <HtSponsorsAndPartnersSection />
+    </section>
+
+    <section id="contact">
+      <HtContactSection />
+    </section>
   </main>
 </template>
 
@@ -37,6 +61,12 @@ import HtQuickAccessSection from './HtQuickAccessSection.vue'
 import HtNewsSection from './HtNewsSection.vue'
 import HtScheduleSection from './HtScheduleSection.vue'
 import HtExhibitionSection from './HtExhibitionSection.vue'
+import HtAccessSection from './HtAccessSection.vue'
+import HtTicketSection from './HtTicketSection.vue'
+import HtQandASection from './HtQandASection.vue'
+import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
+import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
+import HtContactSection from './HtContactSection.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -46,7 +76,7 @@ import HtExhibitionSection from './HtExhibitionSection.vue'
 .ht-top {
   width: 100%;
   height: 100%;
-  background-color: rgb(15 27 46 / 100%)
+  background-color: v.$base-background-color;
 }
 
 section {

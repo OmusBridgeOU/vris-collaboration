@@ -176,247 +176,30 @@ layers/
 
 # Files
 
-## File: layers/main/app/components/ha/icons/HaArrowDownIcon.vue
-````vue
-<template>
-  <svg
-    width="36"
-    height="36"
-    viewBox="0 0 36 36"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g clip-path="url(#clip0_278_53)">
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M19.4143 23.8735C18.9962 24.2911 18.4295 24.5257 17.8386 24.5257C17.2477 24.5257 16.6809 24.2911 16.2629 23.8735L7.852 15.4657C7.43389 15.0474 7.19908 14.4801 7.19922 13.8887C7.19936 13.2972 7.43444 12.7301 7.85274 12.312C8.27105 11.8939 8.83831 11.659 9.42975 11.6592C10.0212 11.6593 10.5883 11.8944 11.0064 12.3127L17.8386 19.1449L24.6707 12.3127C25.0911 11.9063 25.6543 11.6813 26.2389 11.6861C26.8236 11.6909 27.3829 11.9252 27.7966 12.3384C28.2102 12.7516 28.445 13.3108 28.4503 13.8954C28.4557 14.4801 28.2312 15.0434 27.8252 15.4642L19.4158 23.875L19.4143 23.8735Z"
-        fill="#43FFBD"
-      />
-    </g>
-    <defs>
-      <clipPath id="clip0_278_53">
-        <rect
-          width="35.677"
-          height="35.677"
-          fill="white"
-        />
-      </clipPath>
-    </defs>
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaBroadcastIcon.vue
-````vue
-<template>
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M6.863 13.644L5 13.25H4.5C4.36739 13.25 4.24021 13.1973 4.14645 13.1036C4.05268 13.0098 4 12.8826 4 12.75V9.75C4 9.61739 4.05268 9.49021 4.14645 9.39645C4.24021 9.30268 4.36739 9.25 4.5 9.25H5L18 6.5H20V16H18L14.146 15.185L14.172 15.193C13.8993 16.0913 13.2995 16.8547 12.4912 17.3322C11.6828 17.8098 10.7248 17.9667 9.80636 17.7721C8.88792 17.5775 8.07589 17.0455 7.53073 16.2811C6.98557 15.5168 6.74794 14.5758 6.863 13.644ZM8.34 13.957C8.30786 14.4952 8.47 15.0271 8.79692 15.4559C9.12384 15.8847 9.59382 16.1819 10.1214 16.2935C10.6489 16.405 11.199 16.3235 11.6715 16.0637C12.144 15.8039 12.5075 15.3832 12.696 14.878L8.34 13.957ZM5.5 10.677L18.157 8H18.5V14.5H18.157L5.5 11.823V10.677Z"
-      fill="white"
-    />
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaCameraIcon.vue
-````vue
-<template>
-  <svg
-    width="23"
-    height="23"
-    viewBox="0 0 23 23"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M18.3613 3.67206H15.4511L13.771 1.83594H8.26263L6.58257 3.67206H3.67231C3.18534 3.67206 2.71831 3.86551 2.37397 4.20985C2.02963 4.55419 1.83618 5.02122 1.83618 5.50819V16.525C1.83618 17.0119 2.02963 17.4789 2.37397 17.8233C2.71831 18.1676 3.18534 18.3611 3.67231 18.3611H18.3613C18.8483 18.3611 19.3153 18.1676 19.6597 17.8233C20.004 17.4789 20.1974 17.0119 20.1974 16.525V5.50819C20.1974 5.02122 20.004 4.55419 19.6597 4.20985C19.3153 3.86551 18.8483 3.67206 18.3613 3.67206ZM18.3613 16.525H3.67231V5.50819H7.39047L9.07052 3.67206H12.9631L14.6432 5.50819H18.3613V16.525ZM11.0168 6.42625C9.79939 6.42625 8.63182 6.90987 7.77097 7.77073C6.91012 8.63158 6.4265 9.79914 6.4265 11.0166C6.4265 12.234 6.91012 13.4016 7.77097 14.2624C8.63182 15.1233 9.79939 15.6069 11.0168 15.6069C12.2342 15.6069 13.4018 15.1233 14.2627 14.2624C15.1235 13.4016 15.6071 12.234 15.6071 11.0166C15.6071 9.79914 15.1235 8.63158 14.2627 7.77073C13.4018 6.90987 12.2342 6.42625 11.0168 6.42625ZM11.0168 13.7708C10.2864 13.7708 9.58582 13.4806 9.06931 12.9641C8.5528 12.4476 8.26263 11.747 8.26263 11.0166C8.26263 10.2861 8.5528 9.58557 9.06931 9.06906C9.58582 8.55255 10.2864 8.26238 11.0168 8.26238C11.7473 8.26238 12.4478 8.55255 12.9643 9.06906C13.4808 9.58557 13.771 10.2861 13.771 11.0166C13.771 11.747 13.4808 12.4476 12.9643 12.9641C12.4478 13.4806 11.7473 13.7708 11.0168 13.7708Z"
-      fill="white"
-    />
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaCompanyIcon.vue
-````vue
-<template>
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M18 15H16V17H18M18 11H16V13H18M20 19H12V17H14V15H12V13H14V11H12V9H20M10 7H8V5H10M10 11H8V9H10M10 15H8V13H10M10 19H8V17H10M6 7H4V5H6M6 11H4V9H6M6 15H4V13H6M6 19H4V17H6M12 7V3H2V21H22V7H12Z"
-      fill="white"
-    />
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaDangerIcon.vue
-````vue
-<template>
-  <svg
-    width="23"
-    height="23"
-    viewBox="0 0 23 23"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M13.5874 4.23461L19.7393 14.4811C20.6234 15.9528 20.1892 17.889 18.7689 18.8052C18.2926 19.1145 17.7367 19.279 17.1688 19.2789H4.86395C3.19216 19.2789 1.83618 17.8743 1.83618 16.1401C1.83618 15.5534 1.99501 14.9796 2.29338 14.4811L8.44624 4.23461C9.32941 2.76296 11.1968 2.31219 12.617 3.22841C13.0099 3.4818 13.3423 3.82607 13.5874 4.23461ZM11.5493 5.00487C11.4369 4.93258 11.311 4.88382 11.1793 4.86154C11.0475 4.83926 10.9126 4.84392 10.7827 4.87524C10.6528 4.90656 10.5305 4.96388 10.4234 5.04376C10.3163 5.12363 10.2264 5.2244 10.1593 5.33996L4.0074 15.5883C3.90747 15.7553 3.85479 15.9463 3.855 16.141C3.855 16.7194 4.30669 17.1876 4.86487 17.1876H17.1678C17.357 17.1876 17.5415 17.1325 17.7012 17.0297C17.9305 16.8774 18.0921 16.6425 18.1525 16.374C18.2128 16.1055 18.1673 15.8241 18.0253 15.5883L11.8734 5.33996C11.7932 5.20462 11.6826 5.08987 11.5502 5.00487H11.5493ZM11.0168 15.6067C10.7733 15.6067 10.5398 15.5099 10.3676 15.3378C10.1955 15.1656 10.0988 14.9321 10.0988 14.6886C10.0988 14.4451 10.1955 14.2116 10.3676 14.0394C10.5398 13.8673 10.7733 13.7705 11.0168 13.7705C11.2603 13.7705 11.4938 13.8673 11.666 14.0394C11.8382 14.2116 11.9349 14.4451 11.9349 14.6886C11.9349 14.9321 11.8382 15.1656 11.666 15.3378C11.4938 15.5099 11.2603 15.6067 11.0168 15.6067ZM11.0168 7.34409C11.2603 7.34409 11.4938 7.44082 11.666 7.61299C11.8382 7.78516 11.9349 8.01867 11.9349 8.26216V11.9344C11.9349 12.1779 11.8382 12.4114 11.666 12.5836C11.4938 12.7557 11.2603 12.8525 11.0168 12.8525C10.7733 12.8525 10.5398 12.7557 10.3676 12.5836C10.1955 12.4114 10.0988 12.1779 10.0988 11.9344V8.26216C10.0988 8.01867 10.1955 7.78516 10.3676 7.61299C10.5398 7.44082 10.7733 7.34409 11.0168 7.34409Z"
-      fill="white"
-    />
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaEmailIcon.vue
-````vue
-<template>
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M4 20C3.45 20 2.97933 19.8043 2.588 19.413C2.19667 19.0217 2.00067 18.5507 2 18V6C2 5.45 2.196 4.97933 2.588 4.588C2.98 4.19667 3.45067 4.00067 4 4H20C20.55 4 21.021 4.196 21.413 4.588C21.805 4.98 22.0007 5.45067 22 6V18C22 18.55 21.8043 19.021 21.413 19.413C21.0217 19.805 20.5507 20.0007 20 20H4ZM12 13L4 8V18H20V8L12 13ZM12 11L20 6H4L12 11ZM4 8V6V18V8Z"
-      fill="white"
-    />
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaHeartIcon.vue
-````vue
-<template>
-  <svg
-    width="23"
-    height="23"
-    viewBox="0 0 23 23"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M11.1086 17.0298L11.0168 17.1216L10.9158 17.0298C6.55503 13.0729 3.67231 10.4565 3.67231 7.80325C3.67231 5.96713 5.0494 4.59003 6.88553 4.59003C8.29935 4.59003 9.67644 5.5081 10.163 6.75666H11.8706C12.3572 5.5081 13.7343 4.59003 15.1481 4.59003C16.9842 4.59003 18.3613 5.96713 18.3613 7.80325C18.3613 10.4565 15.4786 13.0729 11.1086 17.0298ZM15.1481 2.75391C13.5507 2.75391 12.0175 3.49754 11.0168 4.66348C10.0161 3.49754 8.48296 2.75391 6.88553 2.75391C4.05789 2.75391 1.83618 4.96644 1.83618 7.80325C1.83618 11.2644 4.9576 14.1012 9.68562 18.3885L11.0168 19.6004L12.348 18.3885C17.076 14.1012 20.1974 11.2644 20.1974 7.80325C20.1974 4.96644 17.9757 2.75391 15.1481 2.75391Z"
-      fill="white"
-    />
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaInfoIcon.vue
-````vue
-<template>
-  <svg
-    width="23"
-    height="23"
-    viewBox="0 0 23 23"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M11.9449 8.26976H10.1072V6.43208H11.9449M11.9449 15.6205H10.1072V10.1074H11.9449M11.026 1.83789C9.8194 1.83789 8.62458 2.07556 7.50979 2.53731C6.395 2.99907 5.38208 3.67589 4.52886 4.52911C2.80571 6.25226 1.83765 8.58937 1.83765 11.0263C1.83765 13.4632 2.80571 15.8003 4.52886 17.5234C5.38208 18.3767 6.395 19.0535 7.50979 19.5152C8.62458 19.977 9.8194 20.2147 11.026 20.2147C13.4629 20.2147 15.8 19.2466 17.5232 17.5234C19.2464 15.8003 20.2144 13.4632 20.2144 11.0263C20.2144 9.81964 19.9768 8.62482 19.515 7.51003C19.0532 6.39525 18.3764 5.38233 17.5232 4.52911C16.67 3.67589 15.6571 2.99907 14.5423 2.53731C13.4275 2.07556 12.2327 1.83789 11.026 1.83789Z"
-      fill="white"
-    />
-  </svg>
-</template>
-````
-
 ## File: layers/main/app/components/ha/icons/HaJumpToPageIcon.vue
 ````vue
 <template>
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#clip0_293_154)">
-        <path d="M6.75 5.25L10.5 1.5M10.5 4V1.5H8M10.5 7V9.5C10.5 9.76522 10.3946 10.0196 10.2071 10.2071C10.0196 10.3946 9.76522 10.5 9.5 10.5H2.5C2.23478 10.5 1.98043 10.3946 1.79289 10.2071C1.60536 10.0196 1.5 9.76522 1.5 9.5V2.5C1.5 2.23478 1.60536 1.98043 1.79289 1.79289C1.98043 1.60536 2.23478 1.5 2.5 1.5H5" stroke="#258966" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
-        </g>
-        <defs>
-        <clipPath id="clip0_293_154">
-        <rect width="12" height="12" fill="white"/>
-        </clipPath>
-        </defs>
-    </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaShieldIcon.vue
-````vue
-<template>
   <svg
-    width="23"
-    height="23"
-    viewBox="0 0 23 23"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g clip-path="url(#clip0_284_61)">
+    <g clip-path="url(#clip0_293_154)">
       <path
-        d="M18.755 7.53912C18.8775 6.08226 19.3169 4.74483 20.0902 3.51844L17.1228 0.661133C16.1854 1.43803 15.1173 1.86857 13.9081 1.94437C12.7993 2.04087 11.7488 1.83816 10.7599 1.33492C9.74373 1.82142 8.69714 2.02545 7.60648 1.94437C6.49638 1.85571 5.43478 1.45144 4.5469 0.779232L1.57194 3.63566C2.30389 4.87923 2.71151 6.18053 2.79127 7.53912C2.82917 8.16443 2.64409 9.02638 2.22765 10.1391C2.03865 10.6645 1.87352 11.1983 1.73278 11.7387C1.62878 12.1833 1.564 12.5438 1.54197 12.8148C1.52699 14.0007 1.87247 15.0715 2.58107 16.0238C3.13499 16.7187 4.0485 17.4864 5.31675 18.3258C6.70398 19.0058 7.7779 19.4469 8.53012 19.6351L9.15411 19.9149C9.35021 20.0048 9.56041 20.0934 9.77942 20.1894C10.2531 20.4627 10.585 20.7583 10.7599 21.0637C10.975 20.7328 11.3147 20.445 11.766 20.1894C12.0365 20.0777 12.3048 19.9606 12.5706 19.8382L13.0417 19.6355C13.2025 19.5593 13.4128 19.4711 13.6683 19.3738C13.9846 19.2532 14.3025 19.137 14.622 19.0252C15.3548 18.7758 15.8884 18.5391 16.2273 18.3258C17.4577 17.4868 18.3571 16.7311 18.9295 16.0564C19.6632 15.101 20.0202 14.0249 20.0039 12.8157C19.9602 12.2737 19.7218 11.4073 19.2891 10.2268C18.8775 9.07617 18.6955 8.18338 18.755 7.53912Z"
-        fill="white"
+        d="M6.75 5.25L10.5 1.5M10.5 4V1.5H8M10.5 7V9.5C10.5 9.76522 10.3946 10.0196 10.2071 10.2071C10.0196 10.3946 9.76522 10.5 9.5 10.5H2.5C2.23478 10.5 1.98043 10.3946 1.79289 10.2071C1.60536 10.0196 1.5 9.76522 1.5 9.5V2.5C1.5 2.23478 1.60536 1.98043 1.79289 1.79289C1.98043 1.60536 2.23478 1.5 2.5 1.5H5"
+        stroke="#258966"
+        stroke-width="1.33333"
+        stroke-linecap="round"
+        stroke-linejoin="round"
       />
     </g>
     <defs>
-      <clipPath id="clip0_284_61">
+      <clipPath id="clip0_293_154">
         <rect
-          width="22.0335"
-          height="22.0335"
-          fill="white"
-        />
-      </clipPath>
-    </defs>
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaXIcon.vue
-````vue
-<template>
-  <svg
-    width="29"
-    height="29"
-    viewBox="0 0 29 29"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g clip-path="url(#clip0_287_95)">
-      <mask
-        id="mask0_287_95"
-        style="mask-type:luminance"
-        maskUnits="userSpaceOnUse"
-        x="0"
-        y="0"
-        width="29"
-        height="29"
-      >
-        <path
-          d="M0 0H28.9863V28.9863H0V0Z"
-          fill="white"
-        />
-      </mask>
-      <g mask="url(#mask0_287_95)">
-        <path
-          d="M22.8267 1.3584H27.272L17.5616 12.485L28.9863 27.6283H20.042L13.0314 18.4458L5.01877 27.6283H0.569374L10.9547 15.7232L0 1.36047H9.17209L15.4994 9.752L22.8267 1.3584ZM21.2635 24.9615H23.7274L7.8263 3.88642H5.1844L21.2635 24.9615Z"
-          fill="white"
-        />
-      </g>
-    </g>
-    <defs>
-      <clipPath id="clip0_287_95">
-        <rect
-          width="28.9863"
-          height="28.9863"
+          width="12"
+          height="12"
           fill="white"
         />
       </clipPath>
@@ -473,7 +256,7 @@ defineProps<{
 ````vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import HaArrowDownIcon from './icons/HaArrowDownIcon.vue';
+import HaArrowDownIcon from './icons/HaArrowDownIcon.vue'
 
 interface AccordionItem {
   id: number
@@ -481,7 +264,7 @@ interface AccordionItem {
   contents: Array<string>
 }
 
-const props = defineProps<{
+defineProps<{
   items: AccordionItem[]
 }>()
 
@@ -503,15 +286,22 @@ const toggle = (id: number) => {
     >
       <div class="accordion-item__header">
         <div class="accordion-item__left">
-          <p class="accordion-item__label">Q{{ item.id }}</p>
-          <p class="accordion-item__title">{{ item.title }}</p>
+          <p class="accordion-item__label">
+            Q{{ item.id }}
+          </p>
+          <p class="accordion-item__title">
+            {{ item.title }}
+          </p>
         </div>
         <HaArrowDownIcon class="accordion-item__icon" />
       </div>
 
       <div class="accordion-item__body">
         <div class="accordion-item__inner">
-          <slot name="content" :item="item" />
+          <slot
+            name="content"
+            :item="item"
+          />
         </div>
       </div>
     </button>
@@ -520,19 +310,22 @@ const toggle = (id: number) => {
 
 <style lang="scss" scoped>
 .accordion {
-    width: 100%;
-    height: fit-content;
     display: flex;
     flex-direction: column;
     gap: 12px;
+
+    width: 100%;
+    height: fit-content;
     padding: 70px 48px;
 }
 
 .accordion-item {
     width: 100%;
     padding: 40px;
-    background-color: rgba(42, 63, 99, 0);
+
+    background-color: rgb(42 63 99 / 0%);
     mix-blend-mode: plus-lighter;
+
     transition: background-color 1s ease;
 
     &__header {
@@ -543,19 +336,19 @@ const toggle = (id: number) => {
 
     &__left {
       display: flex;
-      align-items: center;
       gap: 16px;
+      align-items: center;
     }
 
     &__label {
-      font-weight: 700;
       font-size: 20px;
+      font-weight: 700;
       color: #258966;
     }
 
     &__title {
-      font-weight: 700;
       font-size: 20px;
+      font-weight: 700;
       color: white;
     }
 
@@ -566,29 +359,31 @@ const toggle = (id: number) => {
     &__body {
       display: grid;
       grid-template-rows: 0fr;
-      padding-top: 0px;
+      padding-top: 0;
       transition: padding 0.3s ease, grid-template-rows 0.3s ease;
     }
 
     &__inner {
         overflow: hidden;
-        font-weight: 700;
+
+        padding-left: 44px;
+
         font-size: 16px;
+        font-weight: 700;
         color: white;
         text-align: left;
-        padding-left: 44px;
     }
 
     &--is-open {
-        background-color: rgba(42, 63, 99, 0.6);
+        background-color: rgb(42 63 99 / 60%);
 
         .accordion-item__icon {
           transform: rotate(180deg);
         }
 
         .accordion-item__body {
-          padding-top: 80px;
           grid-template-rows: 1fr;
+          padding-top: 80px;
         }
     }
 }
@@ -596,18 +391,22 @@ const toggle = (id: number) => {
 .glassy-box-2{
     position: relative;
     border-radius: 20px;
-    box-shadow: inset rgba(70, 132, 255, 0.35) 0px 0px 16px 4px;
-    
+    box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
+
     &::before {
+      pointer-events: none;
       content:"";
+
       position: absolute;
-      height: 100%;
-      width: 100%;
-      left: 0;
-      top: 0;
       z-index: 0;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
       border: 1px solid transparent;
       border-radius: inherit;
+
       background-image:
       linear-gradient(
           135deg,
@@ -622,16 +421,14 @@ const toggle = (id: number) => {
       background-clip: border-box, border-box;
       background-origin: border-box, border-box;
 
-      mask:
+      -webkit-mask:
       linear-gradient(#fff 0 0) padding-box,
       linear-gradient(#fff 0 0) border-box;
-
-      -webkit-mask:
+      mask:
       linear-gradient(#fff 0 0) padding-box,
       linear-gradient(#fff 0 0) border-box;
       -webkit-mask-composite: destination-out;
       mask-composite: exclude;
-      pointer-events: none;
     }
 }
 </style>
@@ -640,23 +437,34 @@ const toggle = (id: number) => {
 ## File: layers/main/app/components/ha/HaConductCard.vue
 ````vue
 <template>
-    <div class="conduct-card glassy-box-2" :class="`conduct-card--${color}`">
-        <div class="conduct-card__icon">
-            <slot name="icon" />
-        </div>
-        <div class="conduct-card__text-box">
-            <p class="conduct-card__title">{{ title }}</p>
-            <p class="conduct-card__text">
-                <slot class="conduct-card__text" name="text"/>
-            </p>
-        </div>
+  <div
+    class="conduct-card glassy-box-2"
+    :class="`conduct-card--${color}`"
+  >
+    <div class="conduct-card__icon">
+      <slot name="icon" />
     </div>
+    <div class="conduct-card__text-box">
+      <p class="conduct-card__title">
+        {{ title }}
+      </p>
+      <p class="conduct-card__text">
+        <slot
+          class="conduct-card__text"
+          name="text"
+        />
+      </p>
+    </div>
+  </div>
 </template>
 
 <script setup>
 defineProps({
-    title: String,
-    color: 'cyan' | 'magenta' | 'amber' | 'vermilion',
+  title: String,
+  color: {
+    type: String,
+    validator: value => ['cyan', 'magenta', 'amber', 'vermilion'].includes(value),
+  },
 })
 </script>
 
@@ -664,32 +472,34 @@ defineProps({
 @use '@/assets/styles/variables' as v;
 
 .conduct-card {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    gap: 24px;
     padding: 24px 36px;
 
     &__icon {
+        display: flex;
         flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+
         width: 44px;
         height: 44px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         border-radius: 10px;
     }
 
     &__title {
-        font-weight: 700;
         font-size: 20px;
+        font-weight: 700;
     }
 
     &__text {
-        color: white;
         font-size: 13px;
         line-height: 1em;
+        color: white;
     }
 
     &--magenta {
@@ -738,24 +548,28 @@ defineProps({
 ## File: layers/main/app/components/ha/HaContactCard.vue
 ````vue
 <template>
-  <div class="contact-card glassy-box-2" :class="`contact-card--${color}`">
+  <div
+    class="contact-card glassy-box-2"
+    :class="`contact-card--${color}`"
+  >
     <div class="contact-card__icon">
       <slot name="icon" />
     </div>
-    <p class="contact-card__title">{{ title }}</p>
-    <p class="jump-to-form">
-      <p class="jump-to-form__text">
-        {{ text }}<br>
-      </p>
-      <div class="jump-to-form__flex">
-        <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
-        <HaJumpToPageIcon class="jump-to-form__icon"/>
-      </div>
+    <p class="contact-card__title">
+      {{ title }}
     </p>
+    <p class="jump-to-form" /><p class="jump-to-form__text">
+      {{ text }}<br>
+    </p>
+    <div class="jump-to-form__flex">
+      <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
+      <HaJumpToPageIcon class="jump-to-form__icon" />
+    </div>
   </div>
 </template>
+
 <script setup>
-import HaJumpToPageIcon from './icons/HaJumpToPageIcon.vue';
+import HaJumpToPageIcon from './icons/HaJumpToPageIcon.vue'
 
 defineProps({
   title: {
@@ -764,36 +578,42 @@ defineProps({
   },
   text: {
     type: String,
-    required: true
+    required: true,
   },
-  color: 'cyan' | 'magenta' | 'amber' | 'vermilion',
+  color: {
+    type: String,
+    validator: value => ['cyan', 'magenta', 'amber', 'vermilion'].includes(value),
+  },
 })
 </script>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+
 .contact-card {
-  height: 100%;
-  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 12px;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
 
   &__icon {
+    display: flex;
     flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+
     width: 44px;
     height: 44px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border-radius: 10px;
   }
 
   &__title {
-    font-weight: Bold;
     font-size: 16px;
+    font-weight: bold;
   }
 
   &__link {
@@ -834,13 +654,14 @@ defineProps({
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   &__flex {
-    width: fit-content;
     display: flex;
-    align-items: center;
-    border-bottom: 1px solid v.$vket-green;
     gap: 6px;
+    align-items: center;
+
+    width: fit-content;
+    border-bottom: 1px solid v.$vket-green;
   }
 
   &__text {
@@ -854,8 +675,8 @@ defineProps({
   }
 
   &__icon {
-    height: 14px;
     width: 14px;
+    height: 14px;
   }
 }
 </style>
@@ -994,8 +815,7 @@ onUnmounted(() => {
 ## File: layers/main/app/components/ha/HaInfoCard.vue
 ````vue
 <script setup lang="ts">
-import HaInfoIcon from './icons/HaInfoIcon.vue';
-
+import HaInfoIcon from './icons/HaInfoIcon.vue'
 </script>
 
 <template>
@@ -1004,25 +824,43 @@ import HaInfoIcon from './icons/HaInfoIcon.vue';
       <div class="info-card__icon">
         <ha-info-icon />
       </div>
-      <h4 class="info-card__title">イベント概要</h4>
+      <h4 class="info-card__title">
+        イベント概要
+      </h4>
     </div>
     <div class="info-card__body">
       <div class="info-card__items">
         <div class="info-card__item">
-          <p class="info-card__label">開催日時</p>
-          <p class="info-card__text">2026年 9月26日(土)</p>
+          <p class="info-card__label">
+            開催日時
+          </p>
+          <p class="info-card__text">
+            2026年 9月26日(土)
+          </p>
         </div>
         <div class="info-card__item">
-          <p class="info-card__label">会場</p>
-          <p class="info-card__text">札幌市中央区 アスティーホール<br>(北4条西5丁目1 4F)</p>
+          <p class="info-card__label">
+            会場
+          </p>
+          <p class="info-card__text">
+            札幌市中央区 アスティーホール<br>(北4条西5丁目1 4F)
+          </p>
         </div>
         <div class="info-card__item">
-          <p class="info-card__label">参加費</p>
-          <p class="info-card__text">チケット</p>
+          <p class="info-card__label">
+            参加費
+          </p>
+          <p class="info-card__text">
+            チケット
+          </p>
         </div>
         <div class="info-card__item">
-          <p class="info-card__label">主催</p>
-          <p class="info-card__text">VketReal in 札幌 実行委員会</p>
+          <p class="info-card__label">
+            主催
+          </p>
+          <p class="info-card__text">
+            VketReal in 札幌 実行委員会
+          </p>
         </div>
       </div>
     </div>
@@ -1031,29 +869,33 @@ import HaInfoIcon from './icons/HaInfoIcon.vue';
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+
 .info-card {
-  height: 100%;
-  min-height: 340px;
-  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 6px;
+
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
   padding: 24px;
 
   &__head {
     display: flex;
-    align-items: center;
     gap: 24px;
+    align-items: center;
   }
 
   &__icon {
-    width: 40px;
-    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(30, 53, 91, 1);
+
+    width: 40px;
+    height: 40px;
     border-radius: 5px;
+
+    background: rgb(30 53 91 / 100%);
 
     svg {
       width: 50%;
@@ -1062,20 +904,21 @@ import HaInfoIcon from './icons/HaInfoIcon.vue';
   }
 
   &__title {
-    font-weight: Bold;
     font-size: 20px;
+    font-weight: bold;
   }
 
   &__body {
     flex-grow: 1;
   }
-  
+
   &__item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(86, 86, 86, 1);
+
     padding: 16px 0;
+    border-bottom: 1px solid rgb(86 86 86 / 100%);
 
     &:last-of-type {
       border: none;
@@ -1083,8 +926,8 @@ import HaInfoIcon from './icons/HaInfoIcon.vue';
   }
 
   &__label {
-    font-weight: Bold;
     font-size: 16px;
+    font-weight: bold;
     color: v.$vket-amber;
   }
 
@@ -1100,22 +943,29 @@ import HaInfoIcon from './icons/HaInfoIcon.vue';
 ## File: layers/main/app/components/ha/HaSponsorCard.vue
 ````vue
 <template>
-    <div class="sponsor-card glassy-box-2">
-        <div class="sponsor-card__img">
-            <img :src="imgSrc" :alt="name">
-        </div>
-        <div class="sponsor-card__text-box">
-            <p class="sponsor-card__label">{{ label }}</p>
-            <p class="sponsor-card__name">{{ name }}</p>
-        </div>
+  <div class="sponsor-card glassy-box-2">
+    <div class="sponsor-card__img">
+      <img
+        :src="imgSrc"
+        :alt="name"
+      >
     </div>
+    <div class="sponsor-card__text-box">
+      <p class="sponsor-card__label">
+        {{ label }}
+      </p>
+      <p class="sponsor-card__name">
+        {{ name }}
+      </p>
+    </div>
+  </div>
 </template>
 
 <script setup>
 defineProps({
-    imgSrc: String,
-    label: String,
-    name: String,
+  imgSrc: String,
+  label: String,
+  name: String,
 })
 </script>
 
@@ -1124,33 +974,33 @@ defineProps({
 
 .sponsor-card {
     width: 100%;
-    height: 100%;  
-    padding: 24px 36px;
+    height: 100%;
     margin-bottom: 16px;
+    padding: 24px 36px;
 
     &__img {
-        width: 100%;
-        background-color: gray;
         aspect-ratio: 1/1;
+        width: 100%;
         margin-bottom: 12px;
+        background-color: gray;
 
         img {
             width: 100%;
         }
     }
-    
+
     &__label {
-        color: white;
-        font-size: 12px;
         margin-bottom: 12px;
+        font-size: 12px;
         line-height: 1em;
+        color: white;
     }
 
     &__name {
-        color: white;
-        font-weight: 700;
         font-size: 24px;
+        font-weight: 700;
         line-height: 1em;
+        color: white;
     }
 }
 </style>
@@ -1160,14 +1010,19 @@ defineProps({
 ````vue
 <template>
   <div class="ticket-card glassy-box-3">
-    <p class="ticket-card__title">{{ title }}</p>
+    <p class="ticket-card__title">
+      {{ title }}
+    </p>
     <p class="ticket-card_desc">
       {{ desc }}
     </p>
 
-    <button class="glassy-button-3 ticket-card__button">チケット購入</button>
+    <button class="glassy-button-3 ticket-card__button">
+      チケット購入
+    </button>
   </div>
 </template>
+
 <script setup>
 defineProps({
   title: {
@@ -1176,27 +1031,30 @@ defineProps({
   },
   desc: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 })
 </script>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+
 .ticket-card {
-  height: 100%;
-  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 44px;
-  background: rgba(49, 35, 96, 0.4);
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgb(49 35 96 / 40%);
   mix-blend-mode: plus-lighter;
 
   &__title {
-    font-weight: Bold;
     font-size: 24px;
+    font-weight: bold;
   }
 
   &__desc {
@@ -1204,15 +1062,17 @@ defineProps({
   }
 
   &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     width: 130px;
     height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
+
+    font-family: Inter, sans-serif;
     font-size: 14px;
-    font-family: 'Inter', sans-serif;
     font-weight: 400;
+    color: white;
   }
 }
 </style>
@@ -1221,19 +1081,18 @@ defineProps({
 ## File: layers/main/app/components/ht/HtAccessSection.vue
 ````vue
 <script setup lang="ts">
-import HaInfoCard from '../ha/HaInfoCard.vue';
-
+import HaInfoCard from '../ha/HaInfoCard.vue'
 </script>
 
 <template>
-    <HaSectionTitle
-        title="アクセス"
-        label="access"
-    />
-    <div class="flex-2 mb-30">
-        <div class="flex-2__left map-container"></div>
-        <HaInfoCard class="flex-2__right"/>
-    </div>
+  <HaSectionTitle
+    title="アクセス"
+    label="access"
+  />
+  <div class="flex-2 mb-30">
+    <div class="flex-2__left map-container" />
+    <HaInfoCard class="flex-2__right" />
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -1259,11 +1118,11 @@ import HaInfoCard from '../ha/HaInfoCard.vue';
 ## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
 ````vue
 <script setup lang="ts">
-import HaConductCard from '../ha/HaConductCard.vue';
-import HaCamera from '../ha/icons/HaCameraIcon.vue';
-import HaDangerIcon from '../ha/icons/HaDangerIcon.vue';
-import HaHeartIcon from '../ha/icons/HaHeartIcon.vue';
-import HaShieldIcon from '../ha/icons/HaShieldIcon.vue';
+import HaConductCard from '../ha/HaConductCard.vue'
+import HaCamera from '../ha/icons/HaCameraIcon.vue'
+import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
+import HaHeartIcon from '../ha/icons/HaHeartIcon.vue'
+import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
 </script>
 
 <template>
@@ -1276,7 +1135,10 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue';
     以下の行動規範を守ってください。
   </p>
   <div class="conduct-grid mb-15">
-    <HaConductCard title="互いを尊重しましょう" color="magenta" >
+    <HaConductCard
+      title="互いを尊重しましょう"
+      color="magenta"
+    >
       <template #icon>
         <HaHeartIcon />
       </template>
@@ -1284,7 +1146,11 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue';
         すべての参加者の多様性を尊重し、<br>ハラスメントや差別的な行為は禁止です。
       </template>
     </HaConductCard>
-    <HaConductCard title="撮影マナーを守りましょう" text="descriptiondescriptiondescription" color="cyan" >
+    <HaConductCard
+      title="撮影マナーを守りましょう"
+      text="descriptiondescriptiondescription"
+      color="cyan"
+    >
       <template #icon>
         <HaCamera />
       </template>
@@ -1292,7 +1158,11 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue';
         他の参加者を撮影する際は必ず許可を取り、<br>撮影禁止エリアでは撮影をお控えください。
       </template>
     </HaConductCard>
-    <HaConductCard title="安全に配慮しましょう" text="descriptiondescriptiondescription" color="amber" >
+    <HaConductCard
+      title="安全に配慮しましょう"
+      text="descriptiondescriptiondescription"
+      color="amber"
+    >
       <template #icon>
         <HaDangerIcon />
       </template>
@@ -1300,7 +1170,11 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue';
         会場内では走らない、通路をふさがないなど、<br>安全な行動を心掛けてください。
       </template>
     </HaConductCard>
-    <HaConductCard title="スタッフの指示に従いましょう" text="descriptiondescriptiondescription" color="vermilion" >
+    <HaConductCard
+      title="スタッフの指示に従いましょう"
+      text="descriptiondescriptiondescription"
+      color="vermilion"
+    >
       <template #icon>
         <HaShieldIcon />
       </template>
@@ -1309,7 +1183,9 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue';
       </template>
     </HaConductCard>
   </div>
-  <button class="glassy-button-3 conduct__button">詳細を確認</button>
+  <button class="glassy-button-3 conduct__button">
+    詳細を確認
+  </button>
 </template>
 
 <style lang="scss" scoped>
@@ -1331,16 +1207,18 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue';
 
 .conduct {
   &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     width: 185px;
     height: 57px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;;
-    font-weight: 400;
     margin: 0 auto;
+
+    font-family: Inter, sans-serif;
+    font-size: 14px;;
+    font-weight: 400;
+    color: white;
   }
 }
 </style>
@@ -1349,8 +1227,8 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue';
 ## File: layers/main/app/components/ht/HtContactSection.vue
 ````vue
 <script setup lang="ts">
-import HaContactCard from '../ha/HaContactCard.vue';
-import HaDangerIcon from '../ha/icons/HaDangerIcon.vue';
+import HaContactCard from '../ha/HaContactCard.vue'
+import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 </script>
 
 <template>
@@ -1364,17 +1242,30 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue';
     チケットは複数種類を用意予定です。
   </p>
   <div class="Contact-grid">
-    <HaContactCard title="個人向けお問い合わせ" text="一般の方からのお問い合わせはこちら" color="amber">
+    <HaContactCard
+      title="個人向けお問い合わせ"
+      text="一般の方からのお問い合わせはこちら"
+      color="amber"
+    >
       <template #icon>
         <HaDangerIcon />
       </template>
     </HaContactCard>
-    <HaContactCard title="法人向けお問い合わせ" text="企業・法人の方からのお問い合わせはこちら" color="cyan" >
+    <HaContactCard
+      title="法人向けお問い合わせ"
+      text="企業・法人の方からのお問い合わせはこちら"
+      color="cyan"
+    >
       <template #icon>
         <HaDangerIcon />
       </template>
     </HaContactCard>
-    <HaContactCard title="広報向けお問い合わせ" text="メディア・広報関連のお問い合わせはこちら" color="magenta" class="Contact-grid__item--full-width">
+    <HaContactCard
+      title="広報向けお問い合わせ"
+      text="メディア・広報関連のお問い合わせはこちら"
+      color="magenta"
+      class="Contact-grid__item--full-width"
+    >
       <template #icon>
         <HaDangerIcon />
       </template>
@@ -1393,8 +1284,7 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue';
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 190px 190px;
-  row-gap: 12px;
-  column-gap: 24px;
+  gap: 12px 24px;
 
   &__item {
     &--full-width {
@@ -1408,13 +1298,13 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue';
 ## File: layers/main/app/components/ht/HtQandASection.vue
 ````vue
 <script setup lang="ts">
-import HaAccordionItem from '../ha/HaAccordionItem.vue';
+import HaAccordionItem from '../ha/HaAccordionItem.vue'
 
 const items = [
-  { id: 1, title: 'Vket Real in 札幌とはどのようなイベントですか？', contents: ["Vket Real in 札幌は、世界最大級のメタバースイベント「バーチャルマーケットから派生した、北海道の有志XRクリエイターが主催するリアルイベントです。", "VRSNSユーザーがバーチャルの姿のままリアルの場で集い、交流し、新たな文化を創造する場を目指しています。"] },
-  { id: 2, title: 'Vket Real in 札幌とはどのようなイベントですか？', contents: ["内容内容内容内容"]},
-  { id: 3, title: 'Vket Real in 札幌とはどのようなイベントですか？', contents: ["内容内容内容内容"] },
-];
+  { id: 1, title: 'Vket Real in 札幌とはどのようなイベントですか？', contents: ['Vket Real in 札幌は、世界最大級のメタバースイベント「バーチャルマーケットから派生した、北海道の有志XRクリエイターが主催するリアルイベントです。', 'VRSNSユーザーがバーチャルの姿のままリアルの場で集い、交流し、新たな文化を創造する場を目指しています。'] },
+  { id: 2, title: 'Vket Real in 札幌とはどのようなイベントですか？', contents: ['内容内容内容内容'] },
+  { id: 3, title: 'Vket Real in 札幌とはどのようなイベントですか？', contents: ['内容内容内容内容'] },
+]
 </script>
 
 <template>
@@ -1424,7 +1314,12 @@ const items = [
   />
   <HaAccordionItem :items="items">
     <template #content="{ item }">
-      <p v-for="content in item.contents">{{ content }}</p>
+      <p
+        v-for="(content, index) in item.contents"
+        :key="`${item.id}-${index}`"
+      >
+        {{ content }}
+      </p>
     </template>
   </HaAccordionItem>
 </template>
@@ -1440,8 +1335,7 @@ const items = [
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 275px 275px;
-  row-gap: 12px;
-  column-gap: 24px;
+  gap: 12px 24px;
 
   &__item {
     &--full-width {
@@ -1455,21 +1349,30 @@ const items = [
 ## File: layers/main/app/components/ht/HtSponsorsAndPartnersSection.vue
 ````vue
 <script setup lang="ts">
-import HaSponsorCard from '../ha/HaSponsorCard.vue';
-
+import HaSponsorCard from '../ha/HaSponsorCard.vue'
 </script>
 
 <template>
-    <HaSectionTitle
-        title="ご協力"
-        label="SPONSORS & PARTNERS"
+  <HaSectionTitle
+    title="ご協力"
+    label="SPONSORS & PARTNERS"
+  />
+  <div class="sponsor-grid">
+    <HaSponsorCard
+      label="企業出展"
+      name="〇〇〇 様"
     />
-    <div class="sponsor-grid">
-        <HaSponsorCard label="企業出展" name="〇〇〇 様" />
-        <HaSponsorCard label="企業出展" name="〇〇〇 様" />
-        <HaSponsorCard label="企業出展" name="〇〇〇 様" />
-    </div>
+    <HaSponsorCard
+      label="企業出展"
+      name="〇〇〇 様"
+    />
+    <HaSponsorCard
+      label="企業出展"
+      name="〇〇〇 様"
+    />
+  </div>
 </template>
+
 <style lang="scss" scoped>
 .sponsor-grid {
   display: grid;
@@ -1482,7 +1385,7 @@ import HaSponsorCard from '../ha/HaSponsorCard.vue';
 ## File: layers/main/app/components/ht/HtTicketSection.vue
 ````vue
 <script setup lang="ts">
-import HaTicketCard from '../ha/HaTicketCard.vue';
+import HaTicketCard from '../ha/HaTicketCard.vue'
 </script>
 
 <template>
@@ -1496,9 +1399,19 @@ import HaTicketCard from '../ha/HaTicketCard.vue';
     チケットは複数種類を用意予定です。
   </p>
   <div class="ticket-grid">
-    <HaTicketCard title="チケット①" desc="descriptiondescriptiondescription" />
-    <HaTicketCard title="チケット②" desc="descriptiondescriptiondescription" />
-    <HaTicketCard title="チケット③" desc="descriptiondescriptiondescription" class="ticket-grid__item--full-width"/>
+    <HaTicketCard
+      title="チケット①"
+      desc="descriptiondescriptiondescription"
+    />
+    <HaTicketCard
+      title="チケット②"
+      desc="descriptiondescriptiondescription"
+    />
+    <HaTicketCard
+      title="チケット③"
+      desc="descriptiondescriptiondescription"
+      class="ticket-grid__item--full-width"
+    />
   </div>
 </template>
 
@@ -1513,8 +1426,7 @@ import HaTicketCard from '../ha/HaTicketCard.vue';
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 275px 275px;
-  row-gap: 12px;
-  column-gap: 24px;
+  gap: 12px 24px;
 
   &__item {
     &--full-width {
@@ -2065,6 +1977,37 @@ img {
 }
 ````
 
+## File: layers/main/app/components/ha/icons/HaArrowDownIcon.vue
+````vue
+<template>
+  <svg
+    width="36"
+    height="36"
+    viewBox="0 0 36 36"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_278_53)">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M19.4143 23.8735C18.9962 24.2911 18.4295 24.5257 17.8386 24.5257C17.2477 24.5257 16.6809 24.2911 16.2629 23.8735L7.852 15.4657C7.43389 15.0474 7.19908 14.4801 7.19922 13.8887C7.19936 13.2972 7.43444 12.7301 7.85274 12.312C8.27105 11.8939 8.83831 11.659 9.42975 11.6592C10.0212 11.6593 10.5883 11.8944 11.0064 12.3127L17.8386 19.1449L24.6707 12.3127C25.0911 11.9063 25.6543 11.6813 26.2389 11.6861C26.8236 11.6909 27.3829 11.9252 27.7966 12.3384C28.2102 12.7516 28.445 13.3108 28.4503 13.8954C28.4557 14.4801 28.2312 15.0434 27.8252 15.4642L19.4158 23.875L19.4143 23.8735Z"
+        fill="#43FFBD"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_278_53">
+        <rect
+          width="35.677"
+          height="35.677"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+</template>
+````
+
 ## File: layers/main/app/components/ha/icons/HaBalanceIcon.vue
 ````vue
 <template>
@@ -2077,6 +2020,26 @@ img {
   >
     <path
       d="M3.33337 35.0002V31.6668H18.3334V13.0418C17.6112 12.7918 16.9862 12.4029 16.4584 11.8752C15.9306 11.3474 15.5417 10.7224 15.2917 10.0002H10L15 21.6668C15 23.0557 14.4306 24.2363 13.2917 25.2085C12.1528 26.1807 10.7778 26.6668 9.16671 26.6668C7.5556 26.6668 6.1806 26.1807 5.04171 25.2085C3.90282 24.2363 3.33337 23.0557 3.33337 21.6668L8.33337 10.0002H5.00004V6.66683H15.2917C15.625 5.69461 16.2223 4.89628 17.0834 4.27183C17.9445 3.64739 18.9167 3.33461 20 3.3335C21.0834 3.33239 22.0556 3.64517 22.9167 4.27183C23.7778 4.8985 24.375 5.69683 24.7084 6.66683H35V10.0002H31.6667L36.6667 21.6668C36.6667 23.0557 36.0973 24.2363 34.9584 25.2085C33.8195 26.1807 32.4445 26.6668 30.8334 26.6668C29.2223 26.6668 27.8473 26.1807 26.7084 25.2085C25.5695 24.2363 25 23.0557 25 21.6668L30 10.0002H24.7084C24.4584 10.7224 24.0695 11.3474 23.5417 11.8752C23.0139 12.4029 22.3889 12.7918 21.6667 13.0418V31.6668H36.6667V35.0002H3.33337ZM27.7084 21.6668H33.9584L30.8334 14.4168L27.7084 21.6668ZM6.04171 21.6668H12.2917L9.16671 14.4168L6.04171 21.6668ZM20 10.0002C20.4723 10.0002 20.8684 9.84017 21.1884 9.52017C21.5084 9.20017 21.6678 8.80461 21.6667 8.3335C21.6656 7.86239 21.5056 7.46683 21.1867 7.14683C20.8678 6.82683 20.4723 6.66683 20 6.66683C19.5278 6.66683 19.1323 6.82683 18.8134 7.14683C18.4945 7.46683 18.3345 7.86239 18.3334 8.3335C18.3323 8.80461 18.4923 9.20072 18.8134 9.52183C19.1345 9.84294 19.53 10.0024 20 10.0002Z"
+      fill="white"
+    />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaBroadcastIcon.vue
+````vue
+<template>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M6.863 13.644L5 13.25H4.5C4.36739 13.25 4.24021 13.1973 4.14645 13.1036C4.05268 13.0098 4 12.8826 4 12.75V9.75C4 9.61739 4.05268 9.49021 4.14645 9.39645C4.24021 9.30268 4.36739 9.25 4.5 9.25H5L18 6.5H20V16H18L14.146 15.185L14.172 15.193C13.8993 16.0913 13.2995 16.8547 12.4912 17.3322C11.6828 17.8098 10.7248 17.9667 9.80636 17.7721C8.88792 17.5775 8.07589 17.0455 7.53073 16.2811C6.98557 15.5168 6.74794 14.5758 6.863 13.644ZM8.34 13.957C8.30786 14.4952 8.47 15.0271 8.79692 15.4559C9.12384 15.8847 9.59382 16.1819 10.1214 16.2935C10.6489 16.405 11.199 16.3235 11.6715 16.0637C12.144 15.8039 12.5075 15.3832 12.696 14.878L8.34 13.957ZM5.5 10.677L18.157 8H18.5V14.5H18.157L5.5 11.823V10.677Z"
       fill="white"
     />
   </svg>
@@ -2129,6 +2092,24 @@ img {
 </template>
 ````
 
+## File: layers/main/app/components/ha/icons/HaCameraIcon.vue
+````vue
+<template>
+  <svg
+    width="23"
+    height="23"
+    viewBox="0 0 23 23"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M18.3613 3.67206H15.4511L13.771 1.83594H8.26263L6.58257 3.67206H3.67231C3.18534 3.67206 2.71831 3.86551 2.37397 4.20985C2.02963 4.55419 1.83618 5.02122 1.83618 5.50819V16.525C1.83618 17.0119 2.02963 17.4789 2.37397 17.8233C2.71831 18.1676 3.18534 18.3611 3.67231 18.3611H18.3613C18.8483 18.3611 19.3153 18.1676 19.6597 17.8233C20.004 17.4789 20.1974 17.0119 20.1974 16.525V5.50819C20.1974 5.02122 20.004 4.55419 19.6597 4.20985C19.3153 3.86551 18.8483 3.67206 18.3613 3.67206ZM18.3613 16.525H3.67231V5.50819H7.39047L9.07052 3.67206H12.9631L14.6432 5.50819H18.3613V16.525ZM11.0168 6.42625C9.79939 6.42625 8.63182 6.90987 7.77097 7.77073C6.91012 8.63158 6.4265 9.79914 6.4265 11.0166C6.4265 12.234 6.91012 13.4016 7.77097 14.2624C8.63182 15.1233 9.79939 15.6069 11.0168 15.6069C12.2342 15.6069 13.4018 15.1233 14.2627 14.2624C15.1235 13.4016 15.6071 12.234 15.6071 11.0166C15.6071 9.79914 15.1235 8.63158 14.2627 7.77073C13.4018 6.90987 12.2342 6.42625 11.0168 6.42625ZM11.0168 13.7708C10.2864 13.7708 9.58582 13.4806 9.06931 12.9641C8.5528 12.4476 8.26263 11.747 8.26263 11.0166C8.26263 10.2861 8.5528 9.58557 9.06931 9.06906C9.58582 8.55255 10.2864 8.26238 11.0168 8.26238C11.7473 8.26238 12.4478 8.55255 12.9643 9.06906C13.4808 9.58557 13.771 10.2861 13.771 11.0166C13.771 11.747 13.4808 12.4476 12.9643 12.9641C12.4478 13.4806 11.7473 13.7708 11.0168 13.7708Z"
+      fill="white"
+    />
+  </svg>
+</template>
+````
+
 ## File: layers/main/app/components/ha/icons/HaCommunityIcon.vue
 ````vue
 <template>
@@ -2141,6 +2122,96 @@ img {
   >
     <path
       d="M10.0001 9.16675C11.4251 9.16675 12.5001 8.09175 12.5001 6.66675C12.5001 5.24175 11.4251 4.16675 10.0001 4.16675C8.57508 4.16675 7.50008 5.24175 7.50008 6.66675C7.50008 8.09175 8.57508 9.16675 10.0001 9.16675ZM10.0001 5.83341C10.5001 5.83341 10.8334 6.16675 10.8334 6.66675C10.8334 7.16675 10.5001 7.50008 10.0001 7.50008C9.50008 7.50008 9.16675 7.16675 9.16675 6.66675C9.16675 6.16675 9.50008 5.83341 10.0001 5.83341ZM10.8334 10.0001H9.16675C6.86675 10.0001 5.00008 11.8667 5.00008 14.1667V14.5834C5.00008 15.2751 5.55841 15.8334 6.25008 15.8334H13.7501C14.4417 15.8334 15.0001 15.2751 15.0001 14.5834V14.1667C15.0001 11.8667 13.1334 10.0001 10.8334 10.0001ZM6.66675 14.1667C6.66675 12.7917 7.79175 11.6667 9.16675 11.6667H10.8334C12.2084 11.6667 13.3334 12.7917 13.3334 14.1667H6.66675ZM5.41675 9.16675C5.80841 9.16675 6.16675 9.06675 6.47508 8.89175C6.12558 8.33528 5.9118 7.70444 5.851 7.05014C5.79021 6.39584 5.88409 5.73641 6.12508 5.12508C5.90841 5.05008 5.66675 5.00008 5.41675 5.00008C4.21675 5.00008 3.33341 5.88341 3.33341 7.08341C3.33341 8.28341 4.21675 9.16675 5.41675 9.16675ZM5.09175 10.0001H4.58341C2.97508 10.0001 1.66675 11.3084 1.66675 12.9167V13.7501C1.66675 13.9834 1.85008 14.1667 2.08341 14.1667H3.33341C3.33341 12.5334 4.00841 11.0584 5.09175 10.0001ZM14.5834 9.16675C15.7834 9.16675 16.6667 8.28341 16.6667 7.08341C16.6667 5.88341 15.7834 5.00008 14.5834 5.00008C14.3251 5.00008 14.0917 5.05008 13.8751 5.12508C14.1161 5.73641 14.21 6.39584 14.1492 7.05014C14.0884 7.70444 13.8746 8.33528 13.5251 8.89175C13.8334 9.06675 14.1834 9.16675 14.5834 9.16675ZM15.4167 10.0001H14.9084C15.4652 10.5417 15.9077 11.1896 16.2098 11.9053C16.5118 12.6209 16.6672 13.3899 16.6667 14.1667H17.9167C18.1501 14.1667 18.3334 13.9834 18.3334 13.7501V12.9167C18.3334 11.3084 17.0251 10.0001 15.4167 10.0001Z"
+      fill="white"
+    />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaCompanyIcon.vue
+````vue
+<template>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M18 15H16V17H18M18 11H16V13H18M20 19H12V17H14V15H12V13H14V11H12V9H20M10 7H8V5H10M10 11H8V9H10M10 15H8V13H10M10 19H8V17H10M6 7H4V5H6M6 11H4V9H6M6 15H4V13H6M6 19H4V17H6M12 7V3H2V21H22V7H12Z"
+      fill="white"
+    />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaDangerIcon.vue
+````vue
+<template>
+  <svg
+    width="23"
+    height="23"
+    viewBox="0 0 23 23"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M13.5874 4.23461L19.7393 14.4811C20.6234 15.9528 20.1892 17.889 18.7689 18.8052C18.2926 19.1145 17.7367 19.279 17.1688 19.2789H4.86395C3.19216 19.2789 1.83618 17.8743 1.83618 16.1401C1.83618 15.5534 1.99501 14.9796 2.29338 14.4811L8.44624 4.23461C9.32941 2.76296 11.1968 2.31219 12.617 3.22841C13.0099 3.4818 13.3423 3.82607 13.5874 4.23461ZM11.5493 5.00487C11.4369 4.93258 11.311 4.88382 11.1793 4.86154C11.0475 4.83926 10.9126 4.84392 10.7827 4.87524C10.6528 4.90656 10.5305 4.96388 10.4234 5.04376C10.3163 5.12363 10.2264 5.2244 10.1593 5.33996L4.0074 15.5883C3.90747 15.7553 3.85479 15.9463 3.855 16.141C3.855 16.7194 4.30669 17.1876 4.86487 17.1876H17.1678C17.357 17.1876 17.5415 17.1325 17.7012 17.0297C17.9305 16.8774 18.0921 16.6425 18.1525 16.374C18.2128 16.1055 18.1673 15.8241 18.0253 15.5883L11.8734 5.33996C11.7932 5.20462 11.6826 5.08987 11.5502 5.00487H11.5493ZM11.0168 15.6067C10.7733 15.6067 10.5398 15.5099 10.3676 15.3378C10.1955 15.1656 10.0988 14.9321 10.0988 14.6886C10.0988 14.4451 10.1955 14.2116 10.3676 14.0394C10.5398 13.8673 10.7733 13.7705 11.0168 13.7705C11.2603 13.7705 11.4938 13.8673 11.666 14.0394C11.8382 14.2116 11.9349 14.4451 11.9349 14.6886C11.9349 14.9321 11.8382 15.1656 11.666 15.3378C11.4938 15.5099 11.2603 15.6067 11.0168 15.6067ZM11.0168 7.34409C11.2603 7.34409 11.4938 7.44082 11.666 7.61299C11.8382 7.78516 11.9349 8.01867 11.9349 8.26216V11.9344C11.9349 12.1779 11.8382 12.4114 11.666 12.5836C11.4938 12.7557 11.2603 12.8525 11.0168 12.8525C10.7733 12.8525 10.5398 12.7557 10.3676 12.5836C10.1955 12.4114 10.0988 12.1779 10.0988 11.9344V8.26216C10.0988 8.01867 10.1955 7.78516 10.3676 7.61299C10.5398 7.44082 10.7733 7.34409 11.0168 7.34409Z"
+      fill="white"
+    />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaEmailIcon.vue
+````vue
+<template>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M4 20C3.45 20 2.97933 19.8043 2.588 19.413C2.19667 19.0217 2.00067 18.5507 2 18V6C2 5.45 2.196 4.97933 2.588 4.588C2.98 4.19667 3.45067 4.00067 4 4H20C20.55 4 21.021 4.196 21.413 4.588C21.805 4.98 22.0007 5.45067 22 6V18C22 18.55 21.8043 19.021 21.413 19.413C21.0217 19.805 20.5507 20.0007 20 20H4ZM12 13L4 8V18H20V8L12 13ZM12 11L20 6H4L12 11ZM4 8V6V18V8Z"
+      fill="white"
+    />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaHeartIcon.vue
+````vue
+<template>
+  <svg
+    width="23"
+    height="23"
+    viewBox="0 0 23 23"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M11.1086 17.0298L11.0168 17.1216L10.9158 17.0298C6.55503 13.0729 3.67231 10.4565 3.67231 7.80325C3.67231 5.96713 5.0494 4.59003 6.88553 4.59003C8.29935 4.59003 9.67644 5.5081 10.163 6.75666H11.8706C12.3572 5.5081 13.7343 4.59003 15.1481 4.59003C16.9842 4.59003 18.3613 5.96713 18.3613 7.80325C18.3613 10.4565 15.4786 13.0729 11.1086 17.0298ZM15.1481 2.75391C13.5507 2.75391 12.0175 3.49754 11.0168 4.66348C10.0161 3.49754 8.48296 2.75391 6.88553 2.75391C4.05789 2.75391 1.83618 4.96644 1.83618 7.80325C1.83618 11.2644 4.9576 14.1012 9.68562 18.3885L11.0168 19.6004L12.348 18.3885C17.076 14.1012 20.1974 11.2644 20.1974 7.80325C20.1974 4.96644 17.9757 2.75391 15.1481 2.75391Z"
+      fill="white"
+    />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaInfoIcon.vue
+````vue
+<template>
+  <svg
+    width="23"
+    height="23"
+    viewBox="0 0 23 23"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M11.9449 8.26976H10.1072V6.43208H11.9449M11.9449 15.6205H10.1072V10.1074H11.9449M11.026 1.83789C9.8194 1.83789 8.62458 2.07556 7.50979 2.53731C6.395 2.99907 5.38208 3.67589 4.52886 4.52911C2.80571 6.25226 1.83765 8.58937 1.83765 11.0263C1.83765 13.4632 2.80571 15.8003 4.52886 17.5234C5.38208 18.3767 6.395 19.0535 7.50979 19.5152C8.62458 19.977 9.8194 20.2147 11.026 20.2147C13.4629 20.2147 15.8 19.2466 17.5232 17.5234C19.2464 15.8003 20.2144 13.4632 20.2144 11.0263C20.2144 9.81964 19.9768 8.62482 19.515 7.51003C19.0532 6.39525 18.3764 5.38233 17.5232 4.52911C16.67 3.67589 15.6571 2.99907 14.5423 2.53731C13.4275 2.07556 12.2327 1.83789 11.026 1.83789Z"
       fill="white"
     />
   </svg>
@@ -2208,6 +2279,35 @@ img {
       d="M20 3.33301C29.205 3.33301 36.6667 10.7947 36.6667 19.9997C36.6667 29.2047 29.205 36.6663 20 36.6663C10.795 36.6663 3.33337 29.2047 3.33337 19.9997C3.33337 10.7947 10.795 3.33301 20 3.33301ZM20 6.66634C16.4638 6.66634 13.0724 8.0711 10.572 10.5716C8.07147 13.0721 6.66671 16.4635 6.66671 19.9997C6.66671 23.5359 8.07147 26.9273 10.572 29.4278C13.0724 31.9282 16.4638 33.333 20 33.333C23.5363 33.333 26.9276 31.9282 29.4281 29.4278C31.9286 26.9273 33.3334 23.5359 33.3334 19.9997C33.3334 16.4635 31.9286 13.0721 29.4281 10.5716C26.9276 8.0711 23.5363 6.66634 20 6.66634ZM20 26.6663C20.4421 26.6663 20.866 26.8419 21.1786 27.1545C21.4911 27.4671 21.6667 27.891 21.6667 28.333C21.6667 28.775 21.4911 29.199 21.1786 29.5115C20.866 29.8241 20.4421 29.9997 20 29.9997C19.558 29.9997 19.1341 29.8241 18.8215 29.5115C18.509 29.199 18.3334 28.775 18.3334 28.333C18.3334 27.891 18.509 27.4671 18.8215 27.1545C19.1341 26.8419 19.558 26.6663 20 26.6663ZM20 10.833C21.4038 10.8331 22.7638 11.3219 23.8463 12.2157C24.9289 13.1094 25.6664 14.3522 25.9322 15.7306C26.198 17.109 25.9756 18.537 25.303 19.7692C24.6305 21.0014 23.5498 21.9609 22.2467 22.483C22.0537 22.554 21.8797 22.6686 21.7384 22.818C21.665 22.9013 21.6534 23.008 21.655 23.118L21.6667 23.333C21.6662 23.7578 21.5036 24.1664 21.212 24.4753C20.9203 24.7842 20.5218 24.9701 20.0977 24.995C19.6736 25.0199 19.2561 24.8819 18.9303 24.6092C18.6046 24.3366 18.3952 23.9498 18.345 23.528L18.3334 23.333V22.9163C18.3334 20.9947 19.8834 19.8413 21.0067 19.3897C21.4639 19.2071 21.8627 18.9035 22.1603 18.5113C22.458 18.1192 22.6432 17.6534 22.696 17.1639C22.7489 16.6745 22.6674 16.1799 22.4604 15.7332C22.2534 15.2866 21.9286 14.9048 21.5209 14.6288C21.1133 14.3528 20.6381 14.1931 20.1465 14.1668C19.655 14.1405 19.1655 14.2486 18.7307 14.4795C18.2959 14.7103 17.9322 15.0553 17.6787 15.4773C17.4252 15.8993 17.2914 16.3824 17.2917 16.8747C17.2917 17.3167 17.1161 17.7406 16.8036 18.0532C16.491 18.3657 16.0671 18.5413 15.625 18.5413C15.183 18.5413 14.7591 18.3657 14.4465 18.0532C14.134 17.7406 13.9584 17.3167 13.9584 16.8747C13.9584 15.2723 14.5949 13.7356 15.7279 12.6026C16.861 11.4695 18.3977 10.833 20 10.833Z"
       fill="white"
     />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaShieldIcon.vue
+````vue
+<template>
+  <svg
+    width="23"
+    height="23"
+    viewBox="0 0 23 23"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_284_61)">
+      <path
+        d="M18.755 7.53912C18.8775 6.08226 19.3169 4.74483 20.0902 3.51844L17.1228 0.661133C16.1854 1.43803 15.1173 1.86857 13.9081 1.94437C12.7993 2.04087 11.7488 1.83816 10.7599 1.33492C9.74373 1.82142 8.69714 2.02545 7.60648 1.94437C6.49638 1.85571 5.43478 1.45144 4.5469 0.779232L1.57194 3.63566C2.30389 4.87923 2.71151 6.18053 2.79127 7.53912C2.82917 8.16443 2.64409 9.02638 2.22765 10.1391C2.03865 10.6645 1.87352 11.1983 1.73278 11.7387C1.62878 12.1833 1.564 12.5438 1.54197 12.8148C1.52699 14.0007 1.87247 15.0715 2.58107 16.0238C3.13499 16.7187 4.0485 17.4864 5.31675 18.3258C6.70398 19.0058 7.7779 19.4469 8.53012 19.6351L9.15411 19.9149C9.35021 20.0048 9.56041 20.0934 9.77942 20.1894C10.2531 20.4627 10.585 20.7583 10.7599 21.0637C10.975 20.7328 11.3147 20.445 11.766 20.1894C12.0365 20.0777 12.3048 19.9606 12.5706 19.8382L13.0417 19.6355C13.2025 19.5593 13.4128 19.4711 13.6683 19.3738C13.9846 19.2532 14.3025 19.137 14.622 19.0252C15.3548 18.7758 15.8884 18.5391 16.2273 18.3258C17.4577 17.4868 18.3571 16.7311 18.9295 16.0564C19.6632 15.101 20.0202 14.0249 20.0039 12.8157C19.9602 12.2737 19.7218 11.4073 19.2891 10.2268C18.8775 9.07617 18.6955 8.18338 18.755 7.53912Z"
+        fill="white"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_284_61">
+        <rect
+          width="22.0335"
+          height="22.0335"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
   </svg>
 </template>
 ````
@@ -2345,6 +2445,51 @@ img {
       stroke-linecap="round"
       stroke-linejoin="round"
     />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaXIcon.vue
+````vue
+<template>
+  <svg
+    width="29"
+    height="29"
+    viewBox="0 0 29 29"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_287_95)">
+      <mask
+        id="mask0_287_95"
+        style="mask-type:luminance"
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
+        width="29"
+        height="29"
+      >
+        <path
+          d="M0 0H28.9863V28.9863H0V0Z"
+          fill="white"
+        />
+      </mask>
+      <g mask="url(#mask0_287_95)">
+        <path
+          d="M22.8267 1.3584H27.272L17.5616 12.485L28.9863 27.6283H20.042L13.0314 18.4458L5.01877 27.6283H0.569374L10.9547 15.7232L0 1.36047H9.17209L15.4994 9.752L22.8267 1.3584ZM21.2635 24.9615H23.7274L7.8263 3.88642H5.1844L21.2635 24.9615Z"
+          fill="white"
+        />
+      </g>
+    </g>
+    <defs>
+      <clipPath id="clip0_287_95">
+        <rect
+          width="28.9863"
+          height="28.9863"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
   </svg>
 </template>
 ````
@@ -2570,7 +2715,7 @@ defineProps<{
 ## File: layers/main/app/components/ho/HoTheFooter.vue
 ````vue
 <script setup lang="ts">
-import HaXIcon from '../ha/icons/HaXIcon.vue';
+import HaXIcon from '../ha/icons/HaXIcon.vue'
 </script>
 
 <!-- <i18n lang="yaml">
@@ -2584,7 +2729,11 @@ en:
   <footer class="footer">
     <div class="footer__upper">
       <div class="footer__left">
-        <img src="" alt="" class="footer__logo">
+        <img
+          src=""
+          alt=""
+          class="footer__logo"
+        >
         <nav class="footer__nav">
           <NuxtLink class="footer__link">利用規約</NuxtLink>
           <NuxtLink class="footer__link">プライバシー</NuxtLink>
@@ -2597,18 +2746,20 @@ en:
         <HaXIcon />
       </div>
     </div>
-    <div class="footer__divider"></div>
+    <div class="footer__divider" />
     <div class="footer__lower">
-      <p class="footer__copy">🄫 2026 VketReal in 札幌 実行委員会. All rights reserved.</p>
+      <p class="footer__copy">
+        🄫 2026 VketReal in 札幌 実行委員会. All rights reserved.
+      </p>
     </div>
   </footer>
 </template>
 
 <style scoped lang="scss">
 .footer {
-  border-radius: 40px 40px 0 0;
-  background-color: rgba(25, 25, 25, 1);
   padding: 88px 105px 0;
+  border-radius: 40px 40px 0 0;
+  background-color: rgb(25 25 25 / 100%);
 
   &__upper {
     display: flex;
@@ -2619,8 +2770,8 @@ en:
   &__logo {
     width: 120px;
     height: 90px;
-    background-color: gray;
     margin-bottom: 40px;
+    background-color: gray;
   }
 
   &__nav{
@@ -2630,28 +2781,28 @@ en:
   }
 
   &__link {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
+    font-family: Inter, sans-serif;
     font-size: 14px;
+    font-weight: 400;
     color: white;
     text-decoration: underline;
   }
 
   &__divider {
-    height: 1px;
     width: 100%;
+    height: 1px;
     background-color:#8f8f8f;
   }
 
   &__lower {
-    height: 78px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    height: 78px;
   }
 
   &__copy {
-    font-family: 'Inter', sans-serif;
+    font-family: Inter, sans-serif;
     font-size: 12px;
     color: white;
   }
@@ -4241,320 +4392,6 @@ export default defineVitestConfig({
 })
 ````
 
-## File: layers/main/app/assets/styles/_common.scss
-````scss
-@use 'variables' as v;
-
-.glassy-box {
-  position: relative;
-  padding: 22px 36px;
-  border-radius: 20px;
-
-  // グラスモーフィズム的な表現のための疑似要素
-  &::after {
-    pointer-events: none;
-    content: '';
-
-    position: absolute;
-    inset: 0;
-
-    padding: 1px;
-    border-radius: inherit;
-
-    background: rgb(88 88 88);
-
-    mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-  }
-
-  &--cyan {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
-
-    .glassy-box__icon {
-        background: rgba(v.$vket-cyan, 0.4);
-    }
-
-    >.title{
-        color: v.$vket-cyan;
-    }
-
-    .title-box .label{
-        color: v.$vket-cyan;
-    }
-  }
-
-  &--light-cyan {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
-
-    .glassy-box__icon {
-        background: rgba(v.$vket-cyan, 0.4);
-    }
-
-    >.title{
-        color: v.$vket-light-cyan;
-    }
-
-    .title-box .label{
-        color: v.$vket-cyan;
-    }
-  }
-
-  &--magenta {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
-
-    .glassy-box__icon {
-        background: rgba(v.$vket-magenta, 0.4);
-    }
-
-    >.title {
-        color: v.$vket-magenta;
-    }
-
-    .title-box .label{
-        color: v.$vket-magenta;
-    }
-  }
-
-  &--light-magenta {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
-
-    .glassy-box__icon {
-        background: rgba(v.$vket-magenta, 0.4);
-    }
-
-    >.title {
-        color: v.$vket-light-magenta;
-    }
-
-    .title-box .label{
-        color: v.$vket-magenta;
-    }
-  }
-
-  &--amber {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
-
-    .glassy-box__icon {
-        background: rgba(v.$vket-amber, 0.4);
-    }
-
-    >.title{
-        color: v.$vket-amber;
-    }
-
-    .title-box .label{
-        color: v.$vket-amber;
-    }
-  }
-
-  &--vermilion {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
-
-    .glassy-box__icon {
-        background: rgba(v.$vket-vermilion, 0.4);
-    }
-
-    >.title{
-        color: v.$vket-vermilion;
-    }
-
-    .title-box .label{
-        color: v.$vket-vermilion;
-    }
-  }
-
-  >.title {
-    margin-bottom: 8px;
-    font-size: 16px;
-    line-height: 1.2em;
-  }
-
-  &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 54px;
-    height: 54px;
-    border-radius: 20px;
-
-    svg{
-        height: 50%;
-    }
-  }
-}
-
-.glassy-box-2{
-  position: relative;
-  border-radius: 20px;
-  box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
-  
-  &::before {
-    pointer-events: none;
-    content:"";
-
-    position: absolute;
-    z-index: 0;
-    top: 0;
-    left: 0;
-
-    width: inherit;
-    height: inherit;
-    border: 1px solid transparent;
-    border-radius: inherit;
-
-    background-image:
-    linear-gradient(
-        135deg,
-        rgb(255 255 255 / 75%) 20px,
-        rgb(255 255 255 / 25%) 40px
-    ),
-    linear-gradient(
-        315deg,
-        rgb(255 255 255 / 75%) 20px,
-        rgb(255 255 255 / 25%) 40px
-    );
-    background-clip: border-box, border-box;
-    background-origin: border-box, border-box;
-
-    -webkit-mask:
-    linear-gradient(#fff 0 0) padding-box,
-    linear-gradient(#fff 0 0) border-box;
-    mask:
-    linear-gradient(#fff 0 0) padding-box,
-    linear-gradient(#fff 0 0) border-box;
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-  }
-}
-
-.glassy-box-3{
-    position: relative;
-    border-radius: 20px;
-    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
-    
-    &::before {
-      pointer-events: none;
-      content:"";
-
-      position: absolute;
-      z-index: 0;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 100%;
-      border: 2px solid transparent;
-      border-radius: inherit;
-
-      background-image:
-      linear-gradient(
-          45deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-          225deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-          135deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px,
-      ),
-      linear-gradient(
-          315deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px,
-      );
-      background-clip: border-box, border-box, border-box, border-box;
-      background-origin: border-box, border-box, border-box, border-box;
-
-      -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
-}
-
-.glassy-button-3 {
-    position: relative;
-    border-radius: 1000px;
-    background-color: rgb(217 217 217 / 20%);
-    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
-    
-    &::before {
-      pointer-events: none;
-      content:"";
-
-      position: absolute;
-      z-index: 0;
-      top: 0;
-      left: 0;
-
-      width: inherit;
-      height: inherit;
-      border: 1px solid transparent;
-      border-radius: inherit;
-
-      background-image:
-      linear-gradient(
-          45deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-          225deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-          135deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px,
-      ),
-      linear-gradient(
-          315deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px,
-      );
-      background-clip: border-box, border-box, border-box, border-box;
-      background-origin: border-box, border-box, border-box, border-box;
-
-      -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
-}
-
-.subtitle {
-  width: fit-content;
-  margin: 0 auto 42px;
-
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5em;
-  color: white;
-  text-align: center;
-
-  &--left {
-    text-align: left;
-  }
-}
-````
-
 ## File: layers/main/app/assets/styles/style.scss
 ````scss
 @forward 'reset';
@@ -5450,6 +5287,512 @@ export default defineNuxtConfig({
 }
 ````
 
+## File: layers/main/app/assets/styles/_common.scss
+````scss
+@use 'variables' as v;
+
+.glassy-box {
+  position: relative;
+  padding: 22px 36px;
+  border-radius: 20px;
+
+  // グラスモーフィズム的な表現のための疑似要素
+  &::after {
+    pointer-events: none;
+    content: '';
+
+    position: absolute;
+    inset: 0;
+
+    padding: 1px;
+    border-radius: inherit;
+
+    background: rgb(88 88 88);
+
+    mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+
+  &--cyan {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
+
+    .glassy-box__icon {
+        background: rgba(v.$vket-cyan, 0.4);
+    }
+
+    >.title{
+        color: v.$vket-cyan;
+    }
+
+    .title-box .label{
+        color: v.$vket-cyan;
+    }
+  }
+
+  &--light-cyan {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
+
+    .glassy-box__icon {
+        background: rgba(v.$vket-cyan, 0.4);
+    }
+
+    >.title{
+        color: v.$vket-light-cyan;
+    }
+
+    .title-box .label{
+        color: v.$vket-cyan;
+    }
+  }
+
+  &--magenta {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
+
+    .glassy-box__icon {
+        background: rgba(v.$vket-magenta, 0.4);
+    }
+
+    >.title {
+        color: v.$vket-magenta;
+    }
+
+    .title-box .label{
+        color: v.$vket-magenta;
+    }
+  }
+
+  &--light-magenta {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
+
+    .glassy-box__icon {
+        background: rgba(v.$vket-magenta, 0.4);
+    }
+
+    >.title {
+        color: v.$vket-light-magenta;
+    }
+
+    .title-box .label{
+        color: v.$vket-magenta;
+    }
+  }
+
+  &--amber {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
+
+    .glassy-box__icon {
+        background: rgba(v.$vket-amber, 0.4);
+    }
+
+    >.title{
+        color: v.$vket-amber;
+    }
+
+    .title-box .label{
+        color: v.$vket-amber;
+    }
+  }
+
+  &--vermilion {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
+
+    .glassy-box__icon {
+        background: rgba(v.$vket-vermilion, 0.4);
+    }
+
+    >.title{
+        color: v.$vket-vermilion;
+    }
+
+    .title-box .label{
+        color: v.$vket-vermilion;
+    }
+  }
+
+  >.title {
+    margin-bottom: 8px;
+    font-size: 16px;
+    line-height: 1.2em;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 54px;
+    height: 54px;
+    border-radius: 20px;
+
+    svg{
+        height: 50%;
+    }
+  }
+}
+
+.glassy-box-2{
+  position: relative;
+  border-radius: 20px;
+  box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
+  
+  &::before {
+    pointer-events: none;
+    content:"";
+
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+
+    width: inherit;
+    height: inherit;
+    border: 1px solid transparent;
+    border-radius: inherit;
+
+    background-image:
+    linear-gradient(
+        135deg,
+        rgb(255 255 255 / 75%) 20px,
+        rgb(255 255 255 / 25%) 40px
+    ),
+    linear-gradient(
+        315deg,
+        rgb(255 255 255 / 75%) 20px,
+        rgb(255 255 255 / 25%) 40px
+    );
+    background-clip: border-box, border-box;
+    background-origin: border-box, border-box;
+
+    -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0) border-box;
+    mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0) border-box;
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+}
+
+.glassy-box-3{
+    position: relative;
+    border-radius: 20px;
+    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+    
+    &::before {
+      pointer-events: none;
+      content:"";
+
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+      border: 2px solid transparent;
+      border-radius: inherit;
+
+      background-image:
+      linear-gradient(
+          45deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+          225deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+          135deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 30%) 20px,
+      ),
+      linear-gradient(
+          315deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 30%) 20px,
+      );
+      background-clip: border-box, border-box, border-box, border-box;
+      background-origin: border-box, border-box, border-box, border-box;
+
+      -webkit-mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+}
+
+.glassy-button-3 {
+    position: relative;
+    border-radius: 1000px;
+    background-color: rgb(217 217 217 / 20%);
+    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+    
+    &::before {
+      pointer-events: none;
+      content:"";
+
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+
+      width: inherit;
+      height: inherit;
+      border: 1px solid transparent;
+      border-radius: inherit;
+
+      background-image:
+      linear-gradient(
+          45deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+          225deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+          135deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 30%) 20px,
+      ),
+      linear-gradient(
+          315deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 30%) 20px,
+      );
+      background-clip: border-box, border-box, border-box, border-box;
+      background-origin: border-box, border-box, border-box, border-box;
+
+      -webkit-mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+}
+
+.subtitle {
+  width: fit-content;
+  margin: 0 auto 42px;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5em;
+  color: white;
+  text-align: center;
+
+  &--left {
+    text-align: left;
+  }
+}
+````
+
+## File: layers/main/app/components/ht/HtQuickAccessSection.vue
+````vue
+<template>
+  <HaSectionTitle
+    title="参加者向け重要情報"
+    label="quick access"
+  />
+  <div class="grid2x">
+    <HaLinkCard
+      class="grid2x__child"
+      color="cyan"
+      title="開催日"
+      label="DATE"
+    >
+      <template #icon>
+        <HaCalendarIcon />
+      </template>
+      <template #body>
+        <p />
+      </template>
+    </HaLinkCard>
+    <HaLinkCard
+      class="grid2x__child"
+      color="magenta"
+      title="会場"
+      label="LOCATION"
+    >
+      <template #icon>
+        <HaMapPinIcon />
+      </template>
+      <template #body>
+        <p />
+      </template>
+    </HaLinkCard>
+    <HaLinkCard
+      class="grid2x__child"
+      color="amber"
+      title="チケット"
+      label="TICKETS"
+    >
+      <template #icon>
+        <HaTicketIcon />
+      </template>
+      <template #body>
+        <p />
+      </template>
+    </HaLinkCard>
+    <HaLinkCard
+      class="grid2x__child"
+      color="vermilion"
+      title="スケジュール"
+      label="SCHEDULE"
+      icon-url="/icons/material-symbols_timer-outline.svg"
+    >
+      <template #icon>
+        <HaTimerIcon />
+      </template>
+      <template #body>
+        <p />
+      </template>
+    </HaLinkCard>
+  </div>
+</template>
+
+<script setup lang="ts">
+import HaLinkCard from '../ha/HaLinkCard.vue'
+import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
+import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
+import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
+import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
+</script>
+
+<style lang="scss" scoped>
+.grid2x {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 20px;
+
+    &__child {
+        height: 100%;
+        min-height: 280px; // FIXME: 適当な値を入れている
+    }
+}
+</style>
+````
+
+## File: layers/main/app/app.vue
+````vue
+<i18n lang="yaml">
+  ja:
+    site:
+      title: Vket Boilerplate Nuxt
+      title_template: "{title} - HIKKY Web Frontend"
+      description: Vketのサイト開発で活用しているボイラープレート
+  en:
+    site:
+      title: Vket Boilerplate Nuxt
+      title_template: "{title} - HIKKY Web Frontend"
+      description: A boilerplate used for Vket site development
+</i18n>
+
+<template>
+  <Head>
+    <Link
+      rel="alternate"
+      hreflang="ja"
+      :href="currentJaFullPath"
+    />
+    <Link
+      rel="alternate"
+      hreflang="en"
+      :href="currentEnFullPath"
+    />
+    <Link
+      rel="alternate"
+      hreflang="x-default"
+      :href="currentJaFullPath"
+    />
+    <template v-if="currentLang === 'ja'">
+      <Link
+        rel="canonical"
+        :href="currentJaFullPath"
+      />
+    </template>
+    <template v-if="currentLang === 'en'">
+      <Link
+        rel="canonical"
+        :href="currentEnFullPath"
+      />
+    </template>
+  </Head>
+  <Body class="app">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </Body>
+</template>
+
+<script lang="ts" setup>
+const route = useRoute()
+const i18n = useI18n()
+const currentFullPath = ref(`${useRuntimeConfig().public.url}${route.fullPath}`)
+const currentLang = ref(i18n.locale.value)
+
+const currentJaFullPath = computed(() => {
+  if (currentLang.value === 'ja') {
+    return currentFullPath.value
+  } else {
+    return currentFullPath.value
+      .replace(/\/en(\/|$)/, '/')
+      .replace(/\/{2,}/, '/')
+  }
+})
+
+const currentEnFullPath = computed(() => {
+  if (currentLang.value === 'en') {
+    return currentFullPath.value
+  } else {
+    const path = route.fullPath.endsWith('/')
+      ? route.fullPath
+      : `${route.fullPath}/`
+    return `${useRuntimeConfig().public.url}/en${path}`
+  }
+})
+
+useHeadSafe({
+  htmlAttrs: {
+    lang: currentLang.value,
+  },
+  titleTemplate: (titleChunk) => {
+    return titleChunk
+      ? i18n.t('site.title_template', { title: titleChunk })
+      : i18n.t('site.title')
+  },
+  meta: [
+    {
+      name: 'description',
+      content: i18n.t('site.description'),
+    },
+    {
+      property: 'og:description',
+      content: i18n.t('site.description'),
+    },
+    {
+      property: 'og:site_name',
+      content: i18n.t('site.title'),
+    },
+  ],
+})
+</script>
+````
+
 ## File: layers/main/app/assets/styles/_variables.scss
 ````scss
 /* color palette */
@@ -5662,198 +6005,6 @@ $zindex-loading: 400;
     background-color: $green-5;
   }
 }
-````
-
-## File: layers/main/app/components/ht/HtQuickAccessSection.vue
-````vue
-<template>
-  <HaSectionTitle
-    title="参加者向け重要情報"
-    label="quick access"
-  />
-  <div class="grid2x">
-    <HaLinkCard
-      class="grid2x__child"
-      color="cyan"
-      title="開催日"
-      label="DATE"
-    >
-      <template #icon>
-        <HaCalendarIcon />
-      </template>
-      <template #body>
-        <p />
-      </template>
-    </HaLinkCard>
-    <HaLinkCard
-      class="grid2x__child"
-      color="magenta"
-      title="会場"
-      label="LOCATION"
-    >
-      <template #icon>
-        <HaMapPinIcon />
-      </template>
-      <template #body>
-        <p />
-      </template>
-    </HaLinkCard>
-    <HaLinkCard
-      class="grid2x__child"
-      color="amber"
-      title="チケット"
-      label="TICKETS"
-    >
-      <template #icon>
-        <HaTicketIcon />
-      </template>
-      <template #body>
-        <p />
-      </template>
-    </HaLinkCard>
-    <HaLinkCard
-      class="grid2x__child"
-      color="vermilion"
-      title="スケジュール"
-      label="SCHEDULE"
-      icon-url="/icons/material-symbols_timer-outline.svg"
-    >
-      <template #icon>
-        <HaTimerIcon />
-      </template>
-      <template #body>
-        <p />
-      </template>
-    </HaLinkCard>
-  </div>
-</template>
-
-<script setup lang="ts">
-import HaLinkCard from '../ha/HaLinkCard.vue'
-import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
-import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
-import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
-import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
-</script>
-
-<style lang="scss" scoped>
-.grid2x {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px 20px;
-
-    &__child {
-        height: 100%;
-        min-height: 280px; // FIXME: 適当な値を入れている
-    }
-}
-</style>
-````
-
-## File: layers/main/app/app.vue
-````vue
-<i18n lang="yaml">
-  ja:
-    site:
-      title: Vket Boilerplate Nuxt
-      title_template: "{title} - HIKKY Web Frontend"
-      description: Vketのサイト開発で活用しているボイラープレート
-  en:
-    site:
-      title: Vket Boilerplate Nuxt
-      title_template: "{title} - HIKKY Web Frontend"
-      description: A boilerplate used for Vket site development
-</i18n>
-
-<template>
-  <Head>
-    <Link
-      rel="alternate"
-      hreflang="ja"
-      :href="currentJaFullPath"
-    />
-    <Link
-      rel="alternate"
-      hreflang="en"
-      :href="currentEnFullPath"
-    />
-    <Link
-      rel="alternate"
-      hreflang="x-default"
-      :href="currentJaFullPath"
-    />
-    <template v-if="currentLang === 'ja'">
-      <Link
-        rel="canonical"
-        :href="currentJaFullPath"
-      />
-    </template>
-    <template v-if="currentLang === 'en'">
-      <Link
-        rel="canonical"
-        :href="currentEnFullPath"
-      />
-    </template>
-  </Head>
-  <Body class="app">
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </Body>
-</template>
-
-<script lang="ts" setup>
-const route = useRoute()
-const i18n = useI18n()
-const currentFullPath = ref(`${useRuntimeConfig().public.url}${route.fullPath}`)
-const currentLang = ref(i18n.locale.value)
-
-const currentJaFullPath = computed(() => {
-  if (currentLang.value === 'ja') {
-    return currentFullPath.value
-  } else {
-    return currentFullPath.value
-      .replace(/\/en(\/|$)/, '/')
-      .replace(/\/{2,}/, '/')
-  }
-})
-
-const currentEnFullPath = computed(() => {
-  if (currentLang.value === 'en') {
-    return currentFullPath.value
-  } else {
-    const path = route.fullPath.endsWith('/')
-      ? route.fullPath
-      : `${route.fullPath}/`
-    return `${useRuntimeConfig().public.url}/en${path}`
-  }
-})
-
-useHeadSafe({
-  htmlAttrs: {
-    lang: currentLang.value,
-  },
-  titleTemplate: (titleChunk) => {
-    return titleChunk
-      ? i18n.t('site.title_template', { title: titleChunk })
-      : i18n.t('site.title')
-  },
-  meta: [
-    {
-      name: 'description',
-      content: i18n.t('site.description'),
-    },
-    {
-      property: 'og:description',
-      content: i18n.t('site.description'),
-    },
-    {
-      property: 'og:site_name',
-      content: i18n.t('site.title'),
-    },
-  ],
-})
-</script>
 ````
 
 ## File: layers/main/app/components/ht/HtTop.vue

@@ -6,8 +6,8 @@ defineProps<{
 </script>
 
 <template>
-  <div :class="['glassy-box card', `glassy-box--${color ?? 'cyan'}`]">
-    <div class="icon-box icon-box--round">
+  <div :class="['glassy-box about-card', `glassy-box--${color ?? 'cyan'}`]">
+    <div class="about-card__icon glassy-box__icon">
       <slot name="icon" />
     </div>
     <h3 class="title">
@@ -22,10 +22,10 @@ defineProps<{
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
 
-.card {
+.about-card {
   padding: 20px;
 
-  .icon-box {
+  &__icon {
     width: 40px;
     height: 40px;
     margin-bottom: 8px;
