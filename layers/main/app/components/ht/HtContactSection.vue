@@ -5,8 +5,8 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 
 <template>
   <HaSectionTitle
-    title="出展情報"
-    label="exhibition"
+    title="お問い合わせ"
+    label="CONTACT"
   />
   <p class="subtitle subtitle--left mb-24">
     持続可能なイベント開催のため、<br>
@@ -55,7 +55,6 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 .Contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 190px 190px;
   gap: 12px 24px;
 
   &__item {

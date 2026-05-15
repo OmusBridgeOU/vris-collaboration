@@ -90,6 +90,7 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
@@ -101,8 +102,14 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
   &__left {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     align-items: center;
+
     width: 80px;
+
+    @include m.tb {
+      width: 104px;
+    }
   }
 
   &__icon-box {

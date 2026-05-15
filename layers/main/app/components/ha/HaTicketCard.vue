@@ -13,21 +13,16 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  desc: {
-    type: String,
-    required: true,
-  },
-})
+<script setup lang="ts">
+defineProps<{
+  title: string
+  desc: string
+}>()
 </script>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .ticket-card {
   display: flex;
@@ -42,9 +37,14 @@ defineProps({
   background: rgb(49 35 96 / 40%);
   mix-blend-mode: plus-lighter;
 
+  @include m.tb {
+    gap: 16px;
+  }
+
   &__title {
     font-size: 24px;
     font-weight: bold;
+    line-height: 1em;
   }
 
   &__desc {

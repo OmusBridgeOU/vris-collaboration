@@ -19,8 +19,8 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
 
 <template>
   <HaSectionTitle
-    title="お知らせ"
-    label="news"
+    title="企画・コンテンツ"
+    label="contents"
   >
     <template #controls>
       <button
@@ -44,8 +44,11 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
 
   <HmSwiper
     ref="worksSwiperRef"
-    :_slides-per-view="1.4"
+    :_slides-per-view="2"
     class="mb-24"
+    :_breakpoints="{
+      1024: { slidesPerView: 2.8 },
+    }"
     @slide-change="onSlideChange"
   />
 </template>

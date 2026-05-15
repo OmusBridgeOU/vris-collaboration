@@ -33,6 +33,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .document-link {
     overflow: hidden;
@@ -42,6 +43,10 @@ defineProps<{
     border-radius: 20px;
 
     background: rgb(217 217 217 / 20%);
+
+    @include m.tb {
+      min-height: 105px;
+    }
 
   &__left {
     position: relative;
@@ -54,6 +59,10 @@ defineProps<{
     width: 286px;
     height: inherit;
     border-radius: 20px 0 0 20px;
+
+    @include m.tb {
+      width: 124px;
+    }
 
     &::before {
       content: "";

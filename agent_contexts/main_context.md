@@ -66,6 +66,8 @@ layers/
             HaCalendarIcon.vue
             HaCameraIcon.vue
             HaChevronDownIcon.vue
+            HaChevronLeft.vue
+            HaChevronRight.vue
             HaCommunityIcon.vue
             HaCompanyIcon.vue
             HaDangerIcon.vue
@@ -95,9 +97,10 @@ layers/
           HaQuickAccessCard.vue
           HaSectionTitle.vue
           HaSponsorCard.vue
+          HaSwiperCard.vue
           HaTicketCard.vue
         hm/
-          .gitkeep
+          HmSwiper.vue
         ho/
           HoTheFooter.vue
           HoTheHeader.vue
@@ -106,10 +109,12 @@ layers/
           HtAccessSection.vue
           HtCodeOfConductSection.vue
           HtContactSection.vue
+          HtContentsSection.vue
           HtExhibitionSection.vue
           HtNewsSection.vue
           HtQandASection.vue
           HtQuickAccessSection.vue
+          HtRelatedEventsSection.vue
           HtScheduleSection.vue
           HtSponsorsAndPartnersSection.vue
           HtTicketSection.vue
@@ -177,47 +182,60 @@ layers/
 
 # Files
 
-## File: layers/main/app/components/ha/icons/HaArrowRight.vue
+## File: layers/main/app/components/ha/icons/HaChevronLeft.vue
 ````vue
 <template>
   <svg
-    width="28"
-    height="28"
-    viewBox="0 0 28 28"
+    width="34"
+    height="34"
+    viewBox="0 0 34 34"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path
-      d="M20.2344 12.8676H4.28924C4.06173 12.8676 3.84353 12.958 3.68265 13.1189C3.52178 13.2798 3.4314 13.498 3.4314 13.7255C3.4314 13.953 3.52178 14.1712 3.68265 14.3321C3.84353 14.4929 4.06173 14.5833 4.28924 14.5833H20.2344L13.9748 20.8375C13.8134 20.9989 13.7228 21.2178 13.7228 21.4461C13.7228 21.6743 13.8134 21.8932 13.9748 22.0546C14.1362 22.216 14.3551 22.3067 14.5834 22.3067C14.8116 22.3067 15.0305 22.216 15.1919 22.0546L22.9125 14.334C22.9927 14.2543 23.0564 14.1595 23.0999 14.055C23.1433 13.9506 23.1657 13.8386 23.1657 13.7255C23.1657 13.6124 23.1433 13.5004 23.0999 13.3959C23.0564 13.2915 22.9927 13.1967 22.9125 13.1169L15.1919 5.39635C15.112 5.31644 15.0171 5.25304 14.9127 5.2098C14.8083 5.16655 14.6964 5.14429 14.5834 5.14429C14.4703 5.14429 14.3584 5.16655 14.254 5.2098C14.1496 5.25304 14.0547 5.31644 13.9748 5.39635C13.8949 5.47626 13.8315 5.57113 13.7883 5.67555C13.745 5.77996 13.7228 5.89187 13.7228 6.00488C13.7228 6.1179 13.745 6.22981 13.7883 6.33422C13.8315 6.43863 13.8949 6.5335 13.9748 6.61341L20.2344 12.8676Z"
-      fill="#43FFBD"
-    />
+    <g clip-path="url(#clip0_360_1868)">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M11.0515 18.1781C10.6605 17.7866 10.4409 17.2559 10.4409 16.7027C10.4409 16.1494 10.6605 15.6187 11.0515 15.2273L18.9241 7.35194C19.3157 6.96045 19.8469 6.74059 20.4006 6.74072C20.6748 6.74079 20.9464 6.79486 21.1997 6.89985C21.453 7.00484 21.6831 7.1587 21.877 7.35264C22.0708 7.54657 22.2245 7.77679 22.3294 8.03014C22.4343 8.2835 22.4882 8.55503 22.4882 8.82923C22.4881 9.10343 22.434 9.37494 22.329 9.62824C22.224 9.88155 22.0702 10.1117 21.8763 10.3055L15.4805 16.7027L21.8776 23.0998C22.0771 23.2923 22.2363 23.5226 22.3459 23.7773C22.4554 24.032 22.5131 24.3059 22.5157 24.5831C22.5182 24.8603 22.4655 25.1353 22.3606 25.3919C22.2558 25.6486 22.1009 25.8817 21.9049 26.0779C21.709 26.274 21.4759 26.4291 21.2194 26.5342C20.9629 26.6393 20.688 26.6923 20.4108 26.69C20.1335 26.6877 19.8595 26.6303 19.6048 26.521C19.35 26.4117 19.1195 26.2527 18.9268 26.0534L11.0487 18.1781H11.0515Z"
+        fill="#FFFFFF"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_360_1868">
+        <rect
+          width="33.4054"
+          height="33.4054"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
   </svg>
 </template>
 ````
 
-## File: layers/main/app/components/ha/icons/HaChevronDownIcon.vue
+## File: layers/main/app/components/ha/icons/HaChevronRight.vue
 ````vue
 <template>
   <svg
-    width="36"
-    height="36"
-    viewBox="0 0 36 36"
+    width="34"
+    height="34"
+    viewBox="0 0 34 34"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g clip-path="url(#clip0_278_53)">
+    <g clip-path="url(#clip0_360_1864)">
       <path
         fill-rule="evenodd"
         clip-rule="evenodd"
-        d="M19.4143 23.8735C18.9962 24.2911 18.4295 24.5257 17.8386 24.5257C17.2477 24.5257 16.6809 24.2911 16.2629 23.8735L7.852 15.4657C7.43389 15.0474 7.19908 14.4801 7.19922 13.8887C7.19936 13.2972 7.43444 12.7301 7.85274 12.312C8.27105 11.8939 8.83831 11.659 9.42975 11.6592C10.0212 11.6593 10.5883 11.8944 11.0064 12.3127L17.8386 19.1449L24.6707 12.3127C25.0911 11.9063 25.6543 11.6813 26.2389 11.6861C26.8236 11.6909 27.3829 11.9252 27.7966 12.3384C28.2102 12.7516 28.445 13.3108 28.4503 13.8954C28.4557 14.4801 28.2312 15.0434 27.8252 15.4642L19.4158 23.875L19.4143 23.8735Z"
-        fill="#43FFBD"
+        d="M22.3539 15.2273C22.7449 15.6188 22.9645 16.1495 22.9645 16.7027C22.9645 17.256 22.7449 17.7867 22.3539 18.1781L14.4814 26.0535C14.0897 26.445 13.5585 26.6648 13.0048 26.6647C12.451 26.6646 11.9199 26.4444 11.5285 26.0528C11.137 25.6611 10.9171 25.13 10.9172 24.5762C10.9174 24.0224 11.1375 23.4914 11.5291 23.0999L17.9263 16.7027L11.5291 10.3056C11.1486 9.91201 10.9379 9.38472 10.9424 8.83729C10.9469 8.28986 11.1663 7.7661 11.5532 7.37881C11.9401 6.99152 12.4637 6.7717 13.0111 6.76669C13.5585 6.76168 14.086 6.97187 14.48 7.35201L22.3553 15.2259L22.3539 15.2273Z"
+        fill="white"
       />
     </g>
     <defs>
-      <clipPath id="clip0_278_53">
+      <clipPath id="clip0_360_1864">
         <rect
-          width="35.677"
-          height="35.677"
+          width="33.4054"
+          height="33.4054"
           fill="white"
         />
       </clipPath>
@@ -356,83 +374,300 @@ onUnmounted(() => {
 </style>
 ````
 
-## File: layers/main/app/components/ha/HaQuickAccessCard.vue
+## File: layers/main/app/components/ha/HaSwiperCard.vue
 ````vue
-<!-- components/GlassCard.vue -->
+<template>
+  <NuxtLink
+    :to="item.href"
+    class="swiper-card glassy-box-2"
+  >
+    <img
+      :src="item.imgSrc"
+      :alt="item.title"
+      class="swiper-card__img"
+      loading="lazy"
+    >
+  </NuxtLink>
+</template>
+
 <script setup lang="ts">
-import HaArrowRight from './icons/HaArrowRight.vue'
+defineProps<{ item: { id: number, title: string, href: string, imgSrc: string } }>()
+</script>
+
+<style lang="scss" scoped>
+/* ── カード全体 ── */
+.swiper-card {
+    cursor: pointer;
+
+    display: block;
+
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+
+    &__img {
+        display: block;
+
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        transition: transform 0.2s ease;
+    }
+}
+</style>
+````
+
+## File: layers/main/app/components/hm/HmSwiper.vue
+````vue
+<script setup lang="ts">
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import HaSwiperCard from '../ha/HaSwiperCard.vue'
+import type { Swiper as SwiperType } from 'swiper'
+
+// ブレークポイントごとのSlidesPerViewの型
+type BreakpointSlidesPerView = {
+  [width: number]: {
+    slidesPerView: number | 'auto'
+  }
+}
 
 defineProps<{
-  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
-  title: string
-  label: string
+  _slidesPerView?: number | 'auto' // デフォルトのslidesPerView
+  _breakpoints?: BreakpointSlidesPerView // ブレークポイントごとの設定
 }>()
+
+const modules = [Autoplay, Navigation, Pagination]
+
+const items = [
+  { id: 1, title: '', href: '', imgSrc: '' },
+  { id: 2, title: '', href: '', imgSrc: '' },
+  { id: 3, title: '', href: '', imgSrc: '' },
+]
+
+const emit = defineEmits<{
+  slideChange: [isBeginning: boolean, isEnd: boolean]
+}>()
+
+const swiperInstance = ref<SwiperType | null>(null)
+
+const updateState = (swiper: SwiperType) => {
+  emit('slideChange', swiper.isBeginning, swiper.isEnd)
+}
+
+const onSwiper = (swiper: SwiperType) => {
+  swiperInstance.value = swiper
+  updateState(swiper)
+}
+
+const onSlideChange = (swiper: SwiperType) => {
+  updateState(swiper)
+}
+
+defineExpose({ swiperInstance })
 </script>
 
 <template>
-  <div
-    :class="['glassy-box quick-access-card', `glassy-box--${color ?? 'cyan'}`]"
-  >
-    <div class="quick-access-card__head">
-      <div class="quick-access-card__head-left">
-        <div class="glassy-box__icon">
-          <slot name="icon" />
-        </div>
-        <div class="title-box">
-          <p class="label">
-            {{ label }}
-          </p>
-          <h3 class="title">
-            {{ title }}
-          </h3>
-        </div>
-      </div>
-      <div class="quick-access-card__head-right">
-        <HaArrowRight />
-      </div>
-    </div>
-    <div class="quick-access-card__body">
-      <slot name="body" />
-    </div>
+  <div class="works-swiper mb-25">
+    <Swiper
+      :slides-per-view="_slidesPerView ?? 'auto'"
+      :breakpoints="_breakpoints"
+      :speed="1000"
+      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
+      :modules="modules"
+      :centered-slides="false"
+      :space-between="28"
+      :navigation="{
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      }"
+      :pagination="{
+        el: '.custom-swiper-pagination',
+        clickable: true,
+      }"
+      @swiper="onSwiper"
+      @slide-change="onSlideChange"
+    >
+      <SwiperSlide
+        v-for="item in items"
+        :key="item.id"
+      >
+        <HaSwiperCard :item="item" />
+      </SwiperSlide>
+    </Swiper>
+    <div class="custom-swiper-pagination" />
   </div>
+</template>
+
+<style lang="scss" scoped>
+:deep(.swiper) {
+  overflow: visible;
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtContentsSection.vue
+````vue
+<script setup lang="ts">
+import HmSwiper from '../hm/HmSwiper.vue'
+import HaChevronLeft from '../ha/icons/HaChevronLeft.vue'
+import HaChevronRight from '../ha/icons/HaChevronRight.vue'
+
+import type { Swiper as SwiperType } from 'swiper'
+
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
+
+// 親側でリアクティブな状態として持つ
+const isBeginning = ref(true)
+const isEnd = ref(false)
+
+const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
+  isBeginning.value = newIsBeginning
+  isEnd.value = newIsEnd
+}
+</script>
+
+<template>
+  <HaSectionTitle
+    title="企画・コンテンツ"
+    label="contents"
+  >
+    <template #controls>
+      <button
+        :disabled="isBeginning"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isBeginning }"
+        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+      >
+        <HaChevronLeft />
+      </button>
+      <button
+        :disabled="isEnd"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isEnd }"
+        @click="worksSwiperRef?.swiperInstance?.slideNext()"
+      >
+        <HaChevronRight />
+      </button>
+    </template>
+  </HaSectionTitle>
+
+  <HmSwiper
+    ref="worksSwiperRef"
+    :_slides-per-view="2"
+    class="mb-24"
+    :_breakpoints="{
+      1024: { slidesPerView: 2.8 },
+    }"
+    @slide-change="onSlideChange"
+  />
 </template>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
 
-.quick-access-card {
-  padding: 22px 36px;
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
 
-  &__head{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.custom-swiper-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 100px;
+
+  background-color: #1e355b;
+
+  &.is-disabled {
+    opacity: 0.6;
+    background-color: transparent;
   }
+}
+</style>
+````
 
-  &__head-left {
-    display: flex;
-    gap: 12px;
-  }
+## File: layers/main/app/components/ht/HtRelatedEventsSection.vue
+````vue
+<script setup lang="ts">
+import HmSwiper from '../hm/HmSwiper.vue'
+import HaChevronLeft from '../ha/icons/HaChevronLeft.vue'
+import HaChevronRight from '../ha/icons/HaChevronRight.vue'
 
-  .title-box{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+import type { Swiper as SwiperType } from 'swiper'
 
-    height: inherit;
-    padding: 4px 0;
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
 
-    .label{
-      font-size: 10px;
-      font-weight: 700;
-      line-height: 1em;
-    }
+// 親側でリアクティブな状態として持つ
+const isBeginning = ref(true)
+const isEnd = ref(false)
 
-    .title {
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 1em;
-    }
+const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
+  isBeginning.value = newIsBeginning
+  isEnd.value = newIsEnd
+}
+</script>
+
+<template>
+  <HaSectionTitle
+    title="関連イベント"
+    label="RELATED EVENTS"
+  >
+    <template #controls>
+      <button
+        :disabled="isBeginning"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isBeginning }"
+        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+      >
+        <HaChevronLeft />
+      </button>
+      <button
+        :disabled="isEnd"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isEnd }"
+        @click="worksSwiperRef?.swiperInstance?.slideNext()"
+      >
+        <HaChevronRight />
+      </button>
+    </template>
+  </HaSectionTitle>
+
+  <HmSwiper
+    ref="worksSwiperRef"
+    :_slides-per-view="1.4"
+    class="mb-24"
+    @slide-change="onSlideChange"
+  />
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.custom-swiper-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 100px;
+
+  background-color: #1e355b;
+
+  &.is-disabled {
+    opacity: 0.6;
+    background-color: transparent;
   }
 }
 </style>
@@ -978,6 +1213,24 @@ img {
 }
 ````
 
+## File: layers/main/app/components/ha/icons/HaArrowRight.vue
+````vue
+<template>
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 28 28"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M20.2344 12.8676H4.28924C4.06173 12.8676 3.84353 12.958 3.68265 13.1189C3.52178 13.2798 3.4314 13.498 3.4314 13.7255C3.4314 13.953 3.52178 14.1712 3.68265 14.3321C3.84353 14.4929 4.06173 14.5833 4.28924 14.5833H20.2344L13.9748 20.8375C13.8134 20.9989 13.7228 21.2178 13.7228 21.4461C13.7228 21.6743 13.8134 21.8932 13.9748 22.0546C14.1362 22.216 14.3551 22.3067 14.5834 22.3067C14.8116 22.3067 15.0305 22.216 15.1919 22.0546L22.9125 14.334C22.9927 14.2543 23.0564 14.1595 23.0999 14.055C23.1433 13.9506 23.1657 13.8386 23.1657 13.7255C23.1657 13.6124 23.1433 13.5004 23.0999 13.3959C23.0564 13.2915 22.9927 13.1967 22.9125 13.1169L15.1919 5.39635C15.112 5.31644 15.0171 5.25304 14.9127 5.2098C14.8083 5.16655 14.6964 5.14429 14.5834 5.14429C14.4703 5.14429 14.3584 5.16655 14.254 5.2098C14.1496 5.25304 14.0547 5.31644 13.9748 5.39635C13.8949 5.47626 13.8315 5.57113 13.7883 5.67555C13.745 5.77996 13.7228 5.89187 13.7228 6.00488C13.7228 6.1179 13.745 6.22981 13.7883 6.33422C13.8315 6.43863 13.8949 6.5335 13.9748 6.61341L20.2344 12.8676Z"
+      fill="#43FFBD"
+    />
+  </svg>
+</template>
+````
+
 ## File: layers/main/app/components/ha/icons/HaBalanceIcon.vue
 ````vue
 <template>
@@ -1076,6 +1329,37 @@ img {
       d="M18.3613 3.67206H15.4511L13.771 1.83594H8.26263L6.58257 3.67206H3.67231C3.18534 3.67206 2.71831 3.86551 2.37397 4.20985C2.02963 4.55419 1.83618 5.02122 1.83618 5.50819V16.525C1.83618 17.0119 2.02963 17.4789 2.37397 17.8233C2.71831 18.1676 3.18534 18.3611 3.67231 18.3611H18.3613C18.8483 18.3611 19.3153 18.1676 19.6597 17.8233C20.004 17.4789 20.1974 17.0119 20.1974 16.525V5.50819C20.1974 5.02122 20.004 4.55419 19.6597 4.20985C19.3153 3.86551 18.8483 3.67206 18.3613 3.67206ZM18.3613 16.525H3.67231V5.50819H7.39047L9.07052 3.67206H12.9631L14.6432 5.50819H18.3613V16.525ZM11.0168 6.42625C9.79939 6.42625 8.63182 6.90987 7.77097 7.77073C6.91012 8.63158 6.4265 9.79914 6.4265 11.0166C6.4265 12.234 6.91012 13.4016 7.77097 14.2624C8.63182 15.1233 9.79939 15.6069 11.0168 15.6069C12.2342 15.6069 13.4018 15.1233 14.2627 14.2624C15.1235 13.4016 15.6071 12.234 15.6071 11.0166C15.6071 9.79914 15.1235 8.63158 14.2627 7.77073C13.4018 6.90987 12.2342 6.42625 11.0168 6.42625ZM11.0168 13.7708C10.2864 13.7708 9.58582 13.4806 9.06931 12.9641C8.5528 12.4476 8.26263 11.747 8.26263 11.0166C8.26263 10.2861 8.5528 9.58557 9.06931 9.06906C9.58582 8.55255 10.2864 8.26238 11.0168 8.26238C11.7473 8.26238 12.4478 8.55255 12.9643 9.06906C13.4808 9.58557 13.771 10.2861 13.771 11.0166C13.771 11.747 13.4808 12.4476 12.9643 12.9641C12.4478 13.4806 11.7473 13.7708 11.0168 13.7708Z"
       fill="white"
     />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaChevronDownIcon.vue
+````vue
+<template>
+  <svg
+    width="36"
+    height="36"
+    viewBox="0 0 36 36"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_278_53)">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M19.4143 23.8735C18.9962 24.2911 18.4295 24.5257 17.8386 24.5257C17.2477 24.5257 16.6809 24.2911 16.2629 23.8735L7.852 15.4657C7.43389 15.0474 7.19908 14.4801 7.19922 13.8887C7.19936 13.2972 7.43444 12.7301 7.85274 12.312C8.27105 11.8939 8.83831 11.659 9.42975 11.6592C10.0212 11.6593 10.5883 11.8944 11.0064 12.3127L17.8386 19.1449L24.6707 12.3127C25.0911 11.9063 25.6543 11.6813 26.2389 11.6861C26.8236 11.6909 27.3829 11.9252 27.7966 12.3384C28.2102 12.7516 28.445 13.3108 28.4503 13.8954C28.4557 14.4801 28.2312 15.0434 27.8252 15.4642L19.4158 23.875L19.4143 23.8735Z"
+        fill="#43FFBD"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_278_53">
+        <rect
+          width="35.677"
+          height="35.677"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
   </svg>
 </template>
 ````
@@ -1540,188 +1824,6 @@ defineProps<{
 </style>
 ````
 
-## File: layers/main/app/components/ha/HaAccordionItem.vue
-````vue
-<script setup lang="ts">
-import { ref } from 'vue'
-import HaArrowDownIcon from './icons/HaChevronDownIcon.vue'
-
-interface AccordionItem {
-  id: number
-  title: string
-  contents: Array<string>
-}
-
-defineProps<{
-  items: AccordionItem[]
-}>()
-
-const openId = ref<number | null>(null)
-
-const toggle = (id: number) => {
-  openId.value = openId.value === id ? null : id
-}
-</script>
-
-<template>
-  <div class="accordion glassy-box-2">
-    <button
-      v-for="item in items"
-      :key="item.id"
-      class="accordion-item glassy-box-2"
-      :class="{ 'accordion-item--is-open': openId === item.id }"
-      @click="toggle(item.id)"
-    >
-      <div class="accordion-item__header">
-        <div class="accordion-item__left">
-          <p class="accordion-item__label">
-            Q{{ item.id }}
-          </p>
-          <p class="accordion-item__title">
-            {{ item.title }}
-          </p>
-        </div>
-        <HaArrowDownIcon class="accordion-item__icon" />
-      </div>
-
-      <div class="accordion-item__body">
-        <div class="accordion-item__inner">
-          <slot
-            name="content"
-            :item="item"
-          />
-        </div>
-      </div>
-    </button>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-.accordion {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    width: 100%;
-    height: fit-content;
-    padding: 70px 48px;
-}
-
-.accordion-item {
-    width: 100%;
-    padding: 40px;
-
-    background-color: rgb(42 63 99 / 0%);
-    mix-blend-mode: plus-lighter;
-
-    transition: background-color 1s ease;
-
-    &__header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    &__left {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
-
-    &__label {
-      font-size: 20px;
-      font-weight: 700;
-      color: #258966;
-    }
-
-    &__title {
-      font-size: 20px;
-      font-weight: 700;
-      color: white;
-    }
-
-    &__icon {
-      transition: transform 0.3s ease;
-    }
-
-    &__body {
-      display: grid;
-      grid-template-rows: 0fr;
-      padding-top: 0;
-      transition: padding 0.3s ease, grid-template-rows 0.3s ease;
-    }
-
-    &__inner {
-        overflow: hidden;
-
-        padding-left: 44px;
-
-        font-size: 16px;
-        font-weight: 700;
-        color: white;
-        text-align: left;
-    }
-
-    &--is-open {
-        background-color: rgb(42 63 99 / 60%);
-
-        .accordion-item__icon {
-          transform: rotate(180deg);
-        }
-
-        .accordion-item__body {
-          grid-template-rows: 1fr;
-          padding-top: 80px;
-        }
-    }
-}
-
-.glassy-box-2{
-    position: relative;
-    border-radius: 20px;
-    box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
-
-    &::before {
-      pointer-events: none;
-      content:"";
-
-      position: absolute;
-      z-index: 0;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 100%;
-      border: 1px solid transparent;
-      border-radius: inherit;
-
-      background-image:
-      linear-gradient(
-          135deg,
-          rgb(255 255 255 / 75%) 20px,
-          rgb(255 255 255 / 25%) 40px
-      ),
-      linear-gradient(
-          315deg,
-          rgb(255 255 255 / 75%) 20px,
-          rgb(255 255 255 / 25%) 40px
-      );
-      background-clip: border-box, border-box;
-      background-origin: border-box, border-box;
-
-      -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
-}
-</style>
-````
-
 ## File: layers/main/app/components/ha/HaConductCard.vue
 ````vue
 <template>
@@ -1758,6 +1860,7 @@ defineProps({
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .conduct-card {
     display: flex;
@@ -1846,13 +1949,15 @@ defineProps({
     <p class="contact-card__title">
       {{ title }}
     </p>
-    <p class="jump-to-form" /><p class="jump-to-form__text">
-      {{ text }}<br>
-    </p>
-    <div class="jump-to-form__flex">
-      <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
-      <HaJumpToPageIcon class="jump-to-form__icon" />
-    </div>
+    <NuxtLink class="jump-to-form">
+      <p class="jump-to-form__text">
+        {{ text }}<br>
+      </p>
+      <div class="jump-to-form__flex">
+        <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
+        <HaJumpToPageIcon class="jump-to-form__icon" />
+      </div>
+    </NuxtLink>
   </div>
 </template>
 
@@ -1887,6 +1992,7 @@ defineProps({
 
   width: 100%;
   height: 100%;
+  padding: 24px 0;
 
   &__icon {
     display: flex;
@@ -2007,6 +2113,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .document-link {
     overflow: hidden;
@@ -2016,6 +2123,10 @@ defineProps<{
     border-radius: 20px;
 
     background: rgb(217 217 217 / 20%);
+
+    @include m.tb {
+      min-height: 105px;
+    }
 
   &__left {
     position: relative;
@@ -2028,6 +2139,10 @@ defineProps<{
     width: 286px;
     height: inherit;
     border-radius: 20px 0 0 20px;
+
+    @include m.tb {
+      width: 124px;
+    }
 
     &::before {
       content: "";
@@ -2156,6 +2271,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .fv{
     display: flex;
@@ -2172,11 +2288,19 @@ defineProps<{
         color: v.$vket-vermilion;
         text-align: center;
 
+        @include m.tb {
+          font-size: 36px;
+        }
+
         &--bold {
             font-size: 128px;
             font-weight: inherit;
             color: white;
             text-shadow: 0 5px 20px v.$vket-amber;
+
+            @include m.tb {
+              font-size: 96px;
+            }
         }
     }
 }
@@ -2240,6 +2364,7 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .info-card {
   display: flex;
@@ -2311,6 +2436,88 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
 </style>
 ````
 
+## File: layers/main/app/components/ha/HaQuickAccessCard.vue
+````vue
+<!-- components/GlassCard.vue -->
+<script setup lang="ts">
+import HaArrowRight from './icons/HaArrowRight.vue'
+
+defineProps<{
+  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+  title: string
+  label: string
+}>()
+</script>
+
+<template>
+  <div
+    :class="['glassy-box quick-access-card', `glassy-box--${color ?? 'cyan'}`]"
+  >
+    <div class="quick-access-card__head">
+      <div class="quick-access-card__head-left">
+        <div class="glassy-box__icon">
+          <slot name="icon" />
+        </div>
+        <div class="title-box">
+          <p class="label">
+            {{ label }}
+          </p>
+          <h3 class="title">
+            {{ title }}
+          </h3>
+        </div>
+      </div>
+      <div class="quick-access-card__head-right">
+        <HaArrowRight />
+      </div>
+    </div>
+    <div class="quick-access-card__body">
+      <slot name="body" />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.quick-access-card {
+  padding: 22px 36px;
+
+  &__head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__head-left {
+    display: flex;
+    gap: 12px;
+  }
+
+  .title-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    height: inherit;
+    padding: 4px 0;
+
+    .label{
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1em;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1em;
+    }
+  }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ha/HaSponsorCard.vue
 ````vue
 <template>
@@ -2332,47 +2539,47 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
   </div>
 </template>
 
-<script setup>
-defineProps({
-  imgSrc: String,
-  label: String,
-  name: String,
-})
+<script setup lang="ts">
+defineProps<{
+  imgSrc?: string
+  label: string
+  name: string
+}>()
 </script>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
 
 .sponsor-card {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 16px;
+  padding: 24px 36px;
+
+  &__img {
+    aspect-ratio: 1/1;
     width: 100%;
-    height: 100%;
-    margin-bottom: 16px;
-    padding: 24px 36px;
+    margin-bottom: 12px;
+    background-color: gray;
 
-    &__img {
-        aspect-ratio: 1/1;
+    img {
         width: 100%;
-        margin-bottom: 12px;
-        background-color: gray;
-
-        img {
-            width: 100%;
-        }
     }
+  }
 
-    &__label {
-        margin-bottom: 12px;
-        font-size: 12px;
-        line-height: 1em;
-        color: white;
-    }
+  &__label {
+    margin-bottom: 12px;
+    font-size: 12px;
+    line-height: 1em;
+    color: white;
+  }
 
-    &__name {
-        font-size: 24px;
-        font-weight: 700;
-        line-height: 1em;
-        color: white;
-    }
+  &__name {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1em;
+    color: white;
+  }
 }
 </style>
 ````
@@ -2394,21 +2601,16 @@ defineProps({
   </div>
 </template>
 
-<script setup>
-defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  desc: {
-    type: String,
-    required: true,
-  },
-})
+<script setup lang="ts">
+defineProps<{
+  title: string
+  desc: string
+}>()
 </script>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .ticket-card {
   display: flex;
@@ -2423,9 +2625,14 @@ defineProps({
   background: rgb(49 35 96 / 40%);
   mix-blend-mode: plus-lighter;
 
+  @include m.tb {
+    gap: 16px;
+  }
+
   &__title {
     font-size: 24px;
     font-weight: bold;
+    line-height: 1em;
   }
 
   &__desc {
@@ -2447,11 +2654,6 @@ defineProps({
   }
 }
 </style>
-````
-
-## File: layers/main/app/components/hm/.gitkeep
-````
-
 ````
 
 ## File: layers/main/app/components/ho/HoTheHeader.vue
@@ -2496,19 +2698,29 @@ import HaInfoCard from '../ha/HaInfoCard.vue'
     title="アクセス"
     label="access"
   />
-  <div class="flex-2 mb-30">
-    <div class="flex-2__left map-container" />
-    <HaInfoCard class="flex-2__right" />
+  <div class="access-flex mb-30">
+    <div class="access-flex__left map-container" />
+    <HaInfoCard class="access-flex__right" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.flex-2 {
+@use '@/assets/styles/mixins' as m;
+
+.access-flex {
     display: flex;
     gap: 40px;
 
+    @include m.tb {
+      flex-direction: column;
+    }
+
     &__left {
         background-color: #ffffff70;
+
+        @include m.tb {
+          min-height: 480px;
+        }
     }
 
     &__left, &__right {
@@ -2597,6 +2809,7 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
@@ -2610,6 +2823,15 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left:auto;
+
+  @include m.tb {
+    grid-template-columns: 1fr;
+    width: 60%;
+  }
 }
 
 .conduct {
@@ -2623,9 +2845,16 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
     margin: 0 auto;
 
     font-family: Inter, sans-serif;
-    font-size: 14px;;
+    font-size: 14px;
     font-weight: 400;
     color: white;
+
+    background-color: #e5b5ff3b;
+
+    @include m.tb {
+      width: 130px;
+      height: 40px;
+    }
   }
 }
 </style>
@@ -2640,8 +2869,8 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 
 <template>
   <HaSectionTitle
-    title="出展情報"
-    label="exhibition"
+    title="お問い合わせ"
+    label="CONTACT"
   />
   <p class="subtitle subtitle--left mb-24">
     持続可能なイベント開催のため、<br>
@@ -2690,7 +2919,6 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 .Contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 190px 190px;
   gap: 12px 24px;
 
   &__item {
@@ -2781,10 +3009,16 @@ import HaSponsorCard from '../ha/HaSponsorCard.vue'
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
 .sponsor-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 24px;
+
+  @include m.tb {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 </style>
 ````
@@ -2824,6 +3058,7 @@ import HaTicketCard from '../ha/HaTicketCard.vue'
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
@@ -2834,6 +3069,11 @@ import HaTicketCard from '../ha/HaTicketCard.vue'
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 275px 275px;
   gap: 12px 24px;
+
+  @include m.tb {
+    grid-template-rows: 166px 166px;
+    gap: 12px 16px;
+  }
 
   &__item {
     &--full-width {
@@ -4269,6 +4509,162 @@ export default defineVitestConfig({
 @forward 'common';
 ````
 
+## File: layers/main/app/components/ha/HaAccordionItem.vue
+````vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import HaArrowDownIcon from './icons/HaChevronDownIcon.vue'
+
+interface AccordionItem {
+  id: number
+  title: string
+  contents: Array<string>
+}
+
+defineProps<{
+  items: AccordionItem[]
+}>()
+
+const openId = ref<number | null>(null)
+
+const toggle = (id: number) => {
+  openId.value = openId.value === id ? null : id
+}
+</script>
+
+<template>
+  <div class="accordion glassy-box-2">
+    <button
+      v-for="item in items"
+      :key="item.id"
+      class="accordion-item glassy-box-2"
+      :class="{ 'accordion-item--is-open': openId === item.id }"
+      @click="toggle(item.id)"
+    >
+      <div class="accordion-item__header">
+        <div class="accordion-item__left">
+          <p class="accordion-item__label">
+            Q{{ item.id }}
+          </p>
+          <p class="accordion-item__title">
+            {{ item.title }}
+          </p>
+        </div>
+        <HaArrowDownIcon class="accordion-item__icon" />
+      </div>
+
+      <div class="accordion-item__body">
+        <div class="accordion-item__inner">
+          <slot
+            name="content"
+            :item="item"
+          />
+        </div>
+      </div>
+    </button>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    width: 100%;
+    height: fit-content;
+    padding: 70px 48px;
+
+    @include m.tb {
+      padding: 48px 24px;
+      border-radius: 20px;
+    }
+}
+
+.accordion-item {
+    width: 100%;
+    padding: 40px;
+
+    background-color: rgb(42 63 99 / 0%);
+    mix-blend-mode: plus-lighter;
+
+    transition: background-color 1s ease;
+
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__left {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    &__label {
+      font-size: 20px;
+      font-weight: 700;
+      color: #258966;
+    }
+
+    &__title {
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+    }
+
+    &__icon {
+      transition: transform 0.3s ease;
+    }
+
+    &__body {
+      display: grid;
+      grid-template-rows: 0fr;
+      padding-top: 0;
+      transition: padding 0.3s ease, grid-template-rows 0.3s ease;
+    }
+
+    &__inner {
+        overflow: hidden;
+
+        padding-left: 44px;
+
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        text-align: left;
+    }
+
+    &--is-open {
+        background-color: rgb(42 63 99 / 60%);
+
+        .accordion-item__icon {
+          transform: rotate(180deg);
+        }
+
+        .accordion-item__body {
+          grid-template-rows: 1fr;
+          padding-top: 80px;
+        }
+    }
+}
+
+.glassy-box-2{
+    position: relative;
+    border-radius: 20px;
+    box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
+
+    &::before {
+      width: 100%;
+      height: 100%;
+    }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ha/HaSectionTitle.vue
 ````vue
 <script setup lang="ts">
@@ -4281,17 +4677,25 @@ defineProps<{
 <template>
   <div class="section-title">
     <div class="section-title__line" />
-    <p class="section-title__label">
-      {{ label }}
-    </p>
-    <h2 class="section-title__text">
-      {{ title }}
-    </h2>
+    <div class="section-title__flex">
+      <div class="section-title__text-box">
+        <p class="section-title__label">
+          {{ label }}
+        </p>
+        <h2 class="section-title__text">
+          {{ title }}
+        </h2>
+      </div>
+      <div class="section-title__controls">
+        <slot name="controls" />
+      </div>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .section-title {
   position: relative;
@@ -4336,10 +4740,20 @@ defineProps<{
     }
   }
 
+  &__flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   &__label {
     font-size: 12px;
     color: v.$vket-amber;
     letter-spacing: 0.1em;
+
+    @include m.tb {
+      font-size: 10px;
+    }
   }
 
   &__text {
@@ -4347,6 +4761,16 @@ defineProps<{
     font-weight: 700;
     line-height: 1em;
     color: #fff;
+
+    @include m.tb {
+      font-size: 32px;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    gap: 4px;
+    align-items: center;
   }
 }
 </style>
@@ -4453,7 +4877,7 @@ en:
 ## File: layers/main/app/components/ht/HtExhibitionSection.vue
 ````vue
 <script setup lang="ts">
-import HaCard from '../ha/HaAboutCard.vue'
+import HaAboutCard from '../ha/HaAboutCard.vue'
 import HaDocumentLink from '../ha/HaDocumentLink.vue'
 import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
 import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
@@ -4472,7 +4896,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     出展カテゴリ
   </p>
   <div class="card-flex mb-24">
-    <HaCard
+    <HaAboutCard
       class="child"
       color="amber"
     >
@@ -4485,8 +4909,8 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       <template #body>
         VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
       </template>
-    </HaCard>
-    <HaCard
+    </HaAboutCard>
+    <HaAboutCard
       class="child"
       icon-url="/icons/tabler_world.svg"
       color="light-cyan"
@@ -4500,8 +4924,8 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       <template #body>
         XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
       </template>
-    </HaCard>
-    <HaCard
+    </HaAboutCard>
+    <HaAboutCard
       class="child"
       icon-url="/icons/boxicons_community.svg"
       color="light-magenta"
@@ -4515,7 +4939,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       <template #body>
         企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
       </template>
-    </HaCard>
+    </HaAboutCard>
   </div>
   <p class="subtitle">
     出展者向けリソース
@@ -4526,6 +4950,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       label="important"
       color="green"
       text="出展に必要なルール・準備事項をまとめた公式ガイド"
+      class="child"
     >
       <template #icon>
         <HaOpenBookIcon />
@@ -4536,6 +4961,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       label="required"
       color="cyan"
       text="出展者が遵守すべき規約・利用条件"
+      class="child"
     >
       <template #icon>
         <HaBalanceIcon />
@@ -4546,6 +4972,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       label="Q&A"
       color="magenta"
       text="出展に必要なルール・準備事項をまとめた公式ガイド"
+      class="child"
     >
       <template #icon>
         <HaQuestionIcon />
@@ -4556,6 +4983,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
@@ -4570,8 +4998,18 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   margin-right: auto;
   margin-left: auto;
 
+  @include m.tb {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
   .child {
     width: 320px;
+
+    @include m.tb {
+      width: 60%;
+    }
   }
 }
 
@@ -4579,6 +5017,16 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  @include m.tb {
+    align-items: center;
+  }
+
+  .child {
+    @include m.tb {
+      width: 60%;
+    }
+  }
 }
 </style>
 ````
@@ -4677,6 +5125,7 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
@@ -4688,8 +5137,14 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
   &__left {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     align-items: center;
+
     width: 80px;
+
+    @include m.tb {
+      width: 104px;
+    }
   }
 
   &__icon-box {
@@ -4992,7 +5447,8 @@ export default defineNuxtConfig({
 
 ## File: layers/main/app/assets/styles/_common.scss
 ````scss
-@use 'variables' as v;
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .glassy-box {
   position: relative;
@@ -5157,13 +5613,13 @@ export default defineNuxtConfig({
     background-image:
     linear-gradient(
         135deg,
-        rgb(255 255 255 / 75%) 20px,
-        rgb(255 255 255 / 25%) 40px
+        rgb(255 255 255 / 65%) 20px,
+        rgb(255 255 255 / 15%) 40px
     ),
     linear-gradient(
         315deg,
-        rgb(255 255 255 / 75%) 20px,
-        rgb(255 255 255 / 25%) 40px
+        rgb(255 255 255 / 65%) 20px,
+        rgb(255 255 255 / 15%) 40px
     );
     background-clip: border-box, border-box;
     background-origin: border-box, border-box;
@@ -5298,9 +5754,32 @@ export default defineNuxtConfig({
   color: white;
   text-align: center;
 
+  @include m.tb {
+    font-size: 16px;
+  }
+
   &--left {
     text-align: left;
   }
+}
+
+/* swiper.js */
+.custom-swiper-pagination {
+	display: flex;
+	gap: 6px;
+	justify-content: center;
+	margin-top: 60px;
+
+	.swiper-pagination-bullet {
+		width: 16px;
+		height: 16px;
+		border-radius: 10px;
+		background-color: rgb(30 53 91 / 100%);
+        
+        &.swiper-pagination-bullet-active {
+            background-color: rgb(94 130 190 / 100%);
+        }
+	}
 }
 ````
 
@@ -5399,6 +5878,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
@@ -5412,6 +5892,11 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   line-height: 1.5em;
   color: white;
   text-align: center;
+
+  @include m.tb {
+    max-width: 555px;
+    font-size: 16px;
+  }
 }
 
 .info-flex {
@@ -5422,6 +5907,11 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   width: 100%;
   margin-right: auto;
   margin-left: auto;
+
+  @include m.tb {
+    flex-direction: column;
+    align-items: center;
+  }
 
   &__child{
     width: 320px;
@@ -5463,12 +5953,22 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   gap: 32px;
   justify-content: center;
 
+  @include m.tb {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
   width: 100%;
   margin-right: auto;
   margin-left: auto;
 
   .child {
     width: 320px;
+
+    @include m.tb {
+      width: 60%;
+    }
   }
 }
 </style>
@@ -5477,62 +5977,55 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 ## File: layers/main/app/components/ht/HtNewsSection.vue
 ````vue
 <script setup lang="ts">
-import HaCard from '../ha/HaAboutCard.vue'
-import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
-import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
-import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
+import HmSwiper from '../hm/HmSwiper.vue'
+import HaChevronLeft from '../ha/icons/HaChevronLeft.vue'
+import HaChevronRight from '../ha/icons/HaChevronRight.vue'
+
+import type { Swiper as SwiperType } from 'swiper'
+
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
+
+// 親側でリアクティブな状態として持つ
+const isBeginning = ref(true)
+const isEnd = ref(false)
+
+const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
+  isBeginning.value = newIsBeginning
+  isEnd.value = newIsEnd
+}
 </script>
 
 <template>
   <HaSectionTitle
     title="お知らせ"
     label="news"
-  />
+  >
+    <template #controls>
+      <button
+        :disabled="isBeginning"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isBeginning }"
+        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+      >
+        <HaChevronLeft />
+      </button>
+      <button
+        :disabled="isEnd"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isEnd }"
+        @click="worksSwiperRef?.swiperInstance?.slideNext()"
+      >
+        <HaChevronRight />
+      </button>
+    </template>
+  </HaSectionTitle>
 
-  <div class="card-flex mb-24">
-    <HaCard
-      class="child"
-      color="amber"
-    >
-      <template #icon>
-        <HaStarShineIcon />
-      </template>
-      <template #title>
-        バーチャル姿のまま<br>リアルで体験
-      </template>
-      <template #body>
-        アバターとしての生き方を大切にする人々が<br>リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
-      </template>
-    </HaCard>
-    <HaCard
-      class="child"
-      color="cyan"
-    >
-      <template #icon>
-        <HaWorldIcon />
-      </template>
-      <template #title>
-        VRの世界で活躍する<br>クリエイターの出展
-      </template>
-      <template #body>
-        VRとリアルを行き来しながら活躍する<br>クリエイターの作品展示や、新たなXR技術を<br>活用したインタラクティブな企画を展開！
-      </template>
-    </HaCard>
-    <HaCard
-      class="child"
-      color="magenta"
-    >
-      <template #icon>
-        <HaCommunityIcon />
-      </template>
-      <template #title>
-        遊んで、買って、<br>楽しめる企業ブース
-      </template>
-      <template #body>
-        各企業ブースでは最新XRコンテンツを体験でき、<br>ここでしか手に入らない限定グッズも<br>販売されるかも？
-      </template>
-    </HaCard>
-  </div>
+  <HmSwiper
+    ref="worksSwiperRef"
+    :_slides-per-view="1.4"
+    class="mb-24"
+    @slide-change="onSlideChange"
+  />
 </template>
 
 <style lang="scss" scoped>
@@ -5542,157 +6035,21 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
 }
 
-.description {
-  margin: 0 auto 96px;
-
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5em;
-  color: white;
-  text-align: center;
-}
-
-.info-flex {
+.custom-swiper-button {
   display: flex;
-  gap: 32px;
+  align-items: center;
   justify-content: center;
 
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 100px;
 
-  &__child{
-    width: 320px;
+  background-color: #1e355b;
+
+  &.is-disabled {
+    opacity: 0.6;
+    background-color: transparent;
   }
-
-  &__number{
-    margin-bottom: 4px;
-
-    font-size: 64px;
-    font-weight: 700;
-    line-height: 1em;
-    text-align: center;
-    letter-spacing: normal;
-
-    &--cyan{
-      color: v.$vket-cyan;
-    }
-
-    &--amber{
-      color: v.$vket-amber;
-    }
-
-    &--magenta{
-      color: v.$vket-magenta;
-    }
-  }
-
-  &__label{
-    font-size: 16px;
-    font-weight: 400;
-    color: v.$vket-emerald;
-    text-align: center;
-  }
-}
-
-.card-flex {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
-
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-
-  .child {
-    width: 320px;
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtQuickAccessSection.vue
-````vue
-<template>
-  <HaSectionTitle
-    title="参加者向け重要情報"
-    label="quick access"
-  />
-  <div class="grid2x">
-    <HaQuickAccessCard
-      class="grid2x__child"
-      color="cyan"
-      title="開催日"
-      label="DATE"
-    >
-      <template #icon>
-        <HaCalendarIcon />
-      </template>
-      <template #body>
-        <p />
-      </template>
-    </HaQuickAccessCard>
-    <HaQuickAccessCard
-      class="grid2x__child"
-      color="magenta"
-      title="会場"
-      label="LOCATION"
-    >
-      <template #icon>
-        <HaMapPinIcon />
-      </template>
-      <template #body>
-        <p />
-      </template>
-    </HaQuickAccessCard>
-    <HaQuickAccessCard
-      class="grid2x__child"
-      color="amber"
-      title="チケット"
-      label="TICKETS"
-    >
-      <template #icon>
-        <HaTicketIcon />
-      </template>
-      <template #body>
-        <p />
-      </template>
-    </HaQuickAccessCard>
-    <HaQuickAccessCard
-      class="grid2x__child"
-      color="vermilion"
-      title="スケジュール"
-      label="SCHEDULE"
-      icon-url="/icons/material-symbols_timer-outline.svg"
-    >
-      <template #icon>
-        <HaTimerIcon />
-      </template>
-      <template #body>
-        <p />
-      </template>
-    </HaQuickAccessCard>
-  </div>
-</template>
-
-<script setup lang="ts">
-import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
-import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
-import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
-import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
-import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
-</script>
-
-<style lang="scss" scoped>
-.grid2x {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px 20px;
-
-    &__child {
-        height: 100%;
-        min-height: 280px; // FIXME: 適当な値を入れている
-    }
 }
 </style>
 ````
@@ -6017,6 +6374,92 @@ $zindex-loading: 400;
 }
 ````
 
+## File: layers/main/app/components/ht/HtQuickAccessSection.vue
+````vue
+<template>
+  <HaSectionTitle
+    title="参加者向け重要情報"
+    label="quick access"
+  />
+  <div class="grid2x">
+    <HaQuickAccessCard
+      class="grid2x__child"
+      color="cyan"
+      title="開催日"
+      label="DATE"
+    >
+      <template #icon>
+        <HaCalendarIcon />
+      </template>
+      <template #body>
+        <p />
+      </template>
+    </HaQuickAccessCard>
+    <HaQuickAccessCard
+      class="grid2x__child"
+      color="magenta"
+      title="会場"
+      label="LOCATION"
+    >
+      <template #icon>
+        <HaMapPinIcon />
+      </template>
+      <template #body>
+        <p />
+      </template>
+    </HaQuickAccessCard>
+    <HaQuickAccessCard
+      class="grid2x__child"
+      color="amber"
+      title="チケット"
+      label="TICKETS"
+    >
+      <template #icon>
+        <HaTicketIcon />
+      </template>
+      <template #body>
+        <p />
+      </template>
+    </HaQuickAccessCard>
+    <HaQuickAccessCard
+      class="grid2x__child"
+      color="vermilion"
+      title="スケジュール"
+      label="SCHEDULE"
+      icon-url="/icons/material-symbols_timer-outline.svg"
+    >
+      <template #icon>
+        <HaTimerIcon />
+      </template>
+      <template #body>
+        <p />
+      </template>
+    </HaQuickAccessCard>
+  </div>
+</template>
+
+<script setup lang="ts">
+import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
+import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
+import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
+import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
+import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
+</script>
+
+<style lang="scss" scoped>
+.grid2x {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 20px;
+
+    &__child {
+        height: 100%;
+        min-height: 280px; // FIXME: 適当な値を入れている
+    }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ht/HtTop.vue
 ````vue
 <i18n lang="yaml">
@@ -6039,6 +6482,10 @@ en:
 
     <section id="news">
       <HtNewsSection />
+    </section>
+
+    <section id="contents">
+      <HtContentsSection />
     </section>
 
     <section id="schedule">
@@ -6065,6 +6512,10 @@ en:
       <HtCodeOfConductSection />
     </section>
 
+    <section id="related-events">
+      <HtRelatedEventsSection />
+    </section>
+
     <section id="sponsors-and-partners">
       <HtSponsorsAndPartnersSection />
     </section>
@@ -6088,6 +6539,8 @@ import HtQandASection from './HtQandASection.vue'
 import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
 import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
 import HtContactSection from './HtContactSection.vue'
+import HtContentsSection from './HtContentsSection.vue'
+import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -6102,6 +6555,10 @@ import HtContactSection from './HtContactSection.vue'
 
 section {
   padding: 0 136px 108px;
+
+  @include m.tb {
+    padding: 0 24px 72px;
+  }
 }
 </style>
 ````

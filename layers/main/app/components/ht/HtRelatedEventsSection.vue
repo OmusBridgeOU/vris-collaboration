@@ -19,8 +19,8 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
 
 <template>
   <HaSectionTitle
-    title="お知らせ"
-    label="news"
+    title="関連イベント"
+    label="RELATED EVENTS"
   >
     <template #controls>
       <button

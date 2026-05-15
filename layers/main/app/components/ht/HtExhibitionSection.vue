@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HaCard from '../ha/HaAboutCard.vue'
+import HaAboutCard from '../ha/HaAboutCard.vue'
 import HaDocumentLink from '../ha/HaDocumentLink.vue'
 import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
 import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
@@ -18,7 +18,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     出展カテゴリ
   </p>
   <div class="card-flex mb-24">
-    <HaCard
+    <HaAboutCard
       class="child"
       color="amber"
     >
@@ -31,8 +31,8 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       <template #body>
         VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
       </template>
-    </HaCard>
-    <HaCard
+    </HaAboutCard>
+    <HaAboutCard
       class="child"
       icon-url="/icons/tabler_world.svg"
       color="light-cyan"
@@ -46,8 +46,8 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       <template #body>
         XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
       </template>
-    </HaCard>
-    <HaCard
+    </HaAboutCard>
+    <HaAboutCard
       class="child"
       icon-url="/icons/boxicons_community.svg"
       color="light-magenta"
@@ -61,7 +61,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       <template #body>
         企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
       </template>
-    </HaCard>
+    </HaAboutCard>
   </div>
   <p class="subtitle">
     出展者向けリソース
@@ -72,6 +72,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       label="important"
       color="green"
       text="出展に必要なルール・準備事項をまとめた公式ガイド"
+      class="child"
     >
       <template #icon>
         <HaOpenBookIcon />
@@ -82,6 +83,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       label="required"
       color="cyan"
       text="出展者が遵守すべき規約・利用条件"
+      class="child"
     >
       <template #icon>
         <HaBalanceIcon />
@@ -92,6 +94,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       label="Q&A"
       color="magenta"
       text="出展に必要なルール・準備事項をまとめた公式ガイド"
+      class="child"
     >
       <template #icon>
         <HaQuestionIcon />
@@ -102,6 +105,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
@@ -116,8 +120,18 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   margin-right: auto;
   margin-left: auto;
 
+  @include m.tb {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
   .child {
     width: 320px;
+
+    @include m.tb {
+      width: 60%;
+    }
   }
 }
 
@@ -125,5 +139,15 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  @include m.tb {
+    align-items: center;
+  }
+
+  .child {
+    @include m.tb {
+      width: 60%;
+    }
+  }
 }
 </style>

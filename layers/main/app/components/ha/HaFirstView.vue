@@ -10,6 +10,7 @@
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .fv{
     display: flex;
@@ -26,11 +27,19 @@
         color: v.$vket-vermilion;
         text-align: center;
 
+        @include m.tb {
+          font-size: 36px;
+        }
+
         &--bold {
             font-size: 128px;
             font-weight: inherit;
             color: white;
             text-shadow: 0 5px 20px v.$vket-amber;
+
+            @include m.tb {
+              font-size: 96px;
+            }
         }
     }
 }

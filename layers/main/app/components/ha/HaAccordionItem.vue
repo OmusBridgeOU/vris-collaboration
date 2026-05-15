@@ -53,6 +53,8 @@ const toggle = (id: number) => {
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
 .accordion {
     display: flex;
     flex-direction: column;
@@ -61,6 +63,11 @@ const toggle = (id: number) => {
     width: 100%;
     height: fit-content;
     padding: 70px 48px;
+
+    @include m.tb {
+      padding: 48px 24px;
+      border-radius: 20px;
+    }
 }
 
 .accordion-item {
@@ -73,9 +80,9 @@ const toggle = (id: number) => {
     transition: background-color 1s ease;
 
     &__header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     &__left {
@@ -135,44 +142,11 @@ const toggle = (id: number) => {
 .glassy-box-2{
     position: relative;
     border-radius: 20px;
-    box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
+    box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
 
     &::before {
-      pointer-events: none;
-      content:"";
-
-      position: absolute;
-      z-index: 0;
-      top: 0;
-      left: 0;
-
       width: 100%;
       height: 100%;
-      border: 1px solid transparent;
-      border-radius: inherit;
-
-      background-image:
-      linear-gradient(
-          135deg,
-          rgb(255 255 255 / 75%) 20px,
-          rgb(255 255 255 / 25%) 40px
-      ),
-      linear-gradient(
-          315deg,
-          rgb(255 255 255 / 75%) 20px,
-          rgb(255 255 255 / 25%) 40px
-      );
-      background-clip: border-box, border-box;
-      background-origin: border-box, border-box;
-
-      -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
     }
 }
 </style>

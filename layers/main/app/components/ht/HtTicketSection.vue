@@ -31,6 +31,7 @@ import HaTicketCard from '../ha/HaTicketCard.vue'
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
@@ -41,6 +42,11 @@ import HaTicketCard from '../ha/HaTicketCard.vue'
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 275px 275px;
   gap: 12px 24px;
+
+  @include m.tb {
+    grid-template-rows: 166px 166px;
+    gap: 12px 16px;
+  }
 
   &__item {
     &--full-width {

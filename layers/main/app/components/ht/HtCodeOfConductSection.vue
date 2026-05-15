@@ -71,6 +71,7 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
@@ -84,6 +85,15 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left:auto;
+
+  @include m.tb {
+    grid-template-columns: 1fr;
+    width: 60%;
+  }
 }
 
 .conduct {
@@ -97,9 +107,16 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
     margin: 0 auto;
 
     font-family: Inter, sans-serif;
-    font-size: 14px;;
+    font-size: 14px;
     font-weight: 400;
     color: white;
+
+    background-color: #e5b5ff3b;
+
+    @include m.tb {
+      width: 130px;
+      height: 40px;
+    }
   }
 }
 </style>

@@ -7,19 +7,29 @@ import HaInfoCard from '../ha/HaInfoCard.vue'
     title="アクセス"
     label="access"
   />
-  <div class="flex-2 mb-30">
-    <div class="flex-2__left map-container" />
-    <HaInfoCard class="flex-2__right" />
+  <div class="access-flex mb-30">
+    <div class="access-flex__left map-container" />
+    <HaInfoCard class="access-flex__right" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.flex-2 {
+@use '@/assets/styles/mixins' as m;
+
+.access-flex {
     display: flex;
     gap: 40px;
 
+    @include m.tb {
+      flex-direction: column;
+    }
+
     &__left {
         background-color: #ffffff70;
+
+        @include m.tb {
+          min-height: 480px;
+        }
     }
 
     &__left, &__right {

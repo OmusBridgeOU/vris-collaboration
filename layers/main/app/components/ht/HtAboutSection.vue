@@ -91,6 +91,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
@@ -104,6 +105,11 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   line-height: 1.5em;
   color: white;
   text-align: center;
+
+  @include m.tb {
+    max-width: 555px;
+    font-size: 16px;
+  }
 }
 
 .info-flex {
@@ -114,6 +120,11 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   width: 100%;
   margin-right: auto;
   margin-left: auto;
+
+  @include m.tb {
+    flex-direction: column;
+    align-items: center;
+  }
 
   &__child{
     width: 320px;
@@ -155,12 +166,22 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   gap: 32px;
   justify-content: center;
 
+  @include m.tb {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
   width: 100%;
   margin-right: auto;
   margin-left: auto;
 
   .child {
     width: 320px;
+
+    @include m.tb {
+      width: 60%;
+    }
   }
 }
 </style>

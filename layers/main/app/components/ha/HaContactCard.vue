@@ -9,13 +9,15 @@
     <p class="contact-card__title">
       {{ title }}
     </p>
-    <p class="jump-to-form" /><p class="jump-to-form__text">
-      {{ text }}<br>
-    </p>
-    <div class="jump-to-form__flex">
-      <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
-      <HaJumpToPageIcon class="jump-to-form__icon" />
-    </div>
+    <NuxtLink class="jump-to-form">
+      <p class="jump-to-form__text">
+        {{ text }}<br>
+      </p>
+      <div class="jump-to-form__flex">
+        <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
+        <HaJumpToPageIcon class="jump-to-form__icon" />
+      </div>
+    </NuxtLink>
   </div>
 </template>
 
@@ -50,6 +52,7 @@ defineProps({
 
   width: 100%;
   height: 100%;
+  padding: 24px 0;
 
   &__icon {
     display: flex;

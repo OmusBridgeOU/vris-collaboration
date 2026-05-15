@@ -20,6 +20,10 @@ en:
       <HtNewsSection />
     </section>
 
+    <section id="contents">
+      <HtContentsSection />
+    </section>
+
     <section id="schedule">
       <HtScheduleSection />
     </section>
@@ -42,6 +46,10 @@ en:
 
     <section id="code-of-conduction">
       <HtCodeOfConductSection />
+    </section>
+
+    <section id="related-events">
+      <HtRelatedEventsSection />
     </section>
 
     <section id="sponsors-and-partners">
@@ -67,6 +75,8 @@ import HtQandASection from './HtQandASection.vue'
 import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
 import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
 import HtContactSection from './HtContactSection.vue'
+import HtContentsSection from './HtContentsSection.vue'
+import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -81,5 +91,9 @@ import HtContactSection from './HtContactSection.vue'
 
 section {
   padding: 0 136px 108px;
+
+  @include m.tb {
+    padding: 0 24px 72px;
+  }
 }
 </style>

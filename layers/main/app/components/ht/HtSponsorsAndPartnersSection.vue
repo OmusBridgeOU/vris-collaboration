@@ -24,9 +24,15 @@ import HaSponsorCard from '../ha/HaSponsorCard.vue'
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
 .sponsor-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 24px;
+
+  @include m.tb {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 </style>

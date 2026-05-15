@@ -32,6 +32,7 @@ defineProps({
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .conduct-card {
     display: flex;
