@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import HaArrowDownIcon from './icons/HaArrowDownIcon.vue'
+import HaArrowDownIcon from './icons/HaChevronDownIcon.vue'
 
 interface AccordionItem {
   id: number

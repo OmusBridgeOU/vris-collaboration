@@ -4,7 +4,7 @@
     label="quick access"
   />
   <div class="grid2x">
-    <HaLinkCard
+    <HaQuickAccessCard
       class="grid2x__child"
       color="cyan"
       title="開催日"
@@ -16,8 +16,8 @@
       <template #body>
         <p />
       </template>
-    </HaLinkCard>
-    <HaLinkCard
+    </HaQuickAccessCard>
+    <HaQuickAccessCard
       class="grid2x__child"
       color="magenta"
       title="会場"
@@ -29,8 +29,8 @@
       <template #body>
         <p />
       </template>
-    </HaLinkCard>
-    <HaLinkCard
+    </HaQuickAccessCard>
+    <HaQuickAccessCard
       class="grid2x__child"
       color="amber"
       title="チケット"
@@ -42,8 +42,8 @@
       <template #body>
         <p />
       </template>
-    </HaLinkCard>
-    <HaLinkCard
+    </HaQuickAccessCard>
+    <HaQuickAccessCard
       class="grid2x__child"
       color="vermilion"
       title="スケジュール"
@@ -56,12 +56,12 @@
       <template #body>
         <p />
       </template>
-    </HaLinkCard>
+    </HaQuickAccessCard>
   </div>
 </template>
 
 <script setup lang="ts">
-import HaLinkCard from '../ha/HaLinkCard.vue'
+import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
 import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
 import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
 import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'

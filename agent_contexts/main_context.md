@@ -60,11 +60,12 @@ layers/
       components/
         ha/
           icons/
-            HaArrowDownIcon.vue
+            HaArrowRight.vue
             HaBalanceIcon.vue
             HaBroadcastIcon.vue
             HaCalendarIcon.vue
             HaCameraIcon.vue
+            HaChevronDownIcon.vue
             HaCommunityIcon.vue
             HaCompanyIcon.vue
             HaDangerIcon.vue
@@ -91,7 +92,7 @@ layers/
           HaFireworks.vue
           HaFirstView.vue
           HaInfoCard.vue
-          HaLinkCard.vue
+          HaQuickAccessCard.vue
           HaSectionTitle.vue
           HaSponsorCard.vue
           HaTicketCard.vue
@@ -176,510 +177,53 @@ layers/
 
 # Files
 
-## File: layers/main/app/components/ha/icons/HaJumpToPageIcon.vue
+## File: layers/main/app/components/ha/icons/HaArrowRight.vue
 ````vue
 <template>
   <svg
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
+    width="28"
+    height="28"
+    viewBox="0 0 28 28"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g clip-path="url(#clip0_293_154)">
+    <path
+      d="M20.2344 12.8676H4.28924C4.06173 12.8676 3.84353 12.958 3.68265 13.1189C3.52178 13.2798 3.4314 13.498 3.4314 13.7255C3.4314 13.953 3.52178 14.1712 3.68265 14.3321C3.84353 14.4929 4.06173 14.5833 4.28924 14.5833H20.2344L13.9748 20.8375C13.8134 20.9989 13.7228 21.2178 13.7228 21.4461C13.7228 21.6743 13.8134 21.8932 13.9748 22.0546C14.1362 22.216 14.3551 22.3067 14.5834 22.3067C14.8116 22.3067 15.0305 22.216 15.1919 22.0546L22.9125 14.334C22.9927 14.2543 23.0564 14.1595 23.0999 14.055C23.1433 13.9506 23.1657 13.8386 23.1657 13.7255C23.1657 13.6124 23.1433 13.5004 23.0999 13.3959C23.0564 13.2915 22.9927 13.1967 22.9125 13.1169L15.1919 5.39635C15.112 5.31644 15.0171 5.25304 14.9127 5.2098C14.8083 5.16655 14.6964 5.14429 14.5834 5.14429C14.4703 5.14429 14.3584 5.16655 14.254 5.2098C14.1496 5.25304 14.0547 5.31644 13.9748 5.39635C13.8949 5.47626 13.8315 5.57113 13.7883 5.67555C13.745 5.77996 13.7228 5.89187 13.7228 6.00488C13.7228 6.1179 13.745 6.22981 13.7883 6.33422C13.8315 6.43863 13.8949 6.5335 13.9748 6.61341L20.2344 12.8676Z"
+      fill="#43FFBD"
+    />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaChevronDownIcon.vue
+````vue
+<template>
+  <svg
+    width="36"
+    height="36"
+    viewBox="0 0 36 36"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_278_53)">
       <path
-        d="M6.75 5.25L10.5 1.5M10.5 4V1.5H8M10.5 7V9.5C10.5 9.76522 10.3946 10.0196 10.2071 10.2071C10.0196 10.3946 9.76522 10.5 9.5 10.5H2.5C2.23478 10.5 1.98043 10.3946 1.79289 10.2071C1.60536 10.0196 1.5 9.76522 1.5 9.5V2.5C1.5 2.23478 1.60536 1.98043 1.79289 1.79289C1.98043 1.60536 2.23478 1.5 2.5 1.5H5"
-        stroke="#258966"
-        stroke-width="1.33333"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M19.4143 23.8735C18.9962 24.2911 18.4295 24.5257 17.8386 24.5257C17.2477 24.5257 16.6809 24.2911 16.2629 23.8735L7.852 15.4657C7.43389 15.0474 7.19908 14.4801 7.19922 13.8887C7.19936 13.2972 7.43444 12.7301 7.85274 12.312C8.27105 11.8939 8.83831 11.659 9.42975 11.6592C10.0212 11.6593 10.5883 11.8944 11.0064 12.3127L17.8386 19.1449L24.6707 12.3127C25.0911 11.9063 25.6543 11.6813 26.2389 11.6861C26.8236 11.6909 27.3829 11.9252 27.7966 12.3384C28.2102 12.7516 28.445 13.3108 28.4503 13.8954C28.4557 14.4801 28.2312 15.0434 27.8252 15.4642L19.4158 23.875L19.4143 23.8735Z"
+        fill="#43FFBD"
       />
     </g>
     <defs>
-      <clipPath id="clip0_293_154">
+      <clipPath id="clip0_278_53">
         <rect
-          width="12"
-          height="12"
+          width="35.677"
+          height="35.677"
           fill="white"
         />
       </clipPath>
     </defs>
   </svg>
 </template>
-````
-
-## File: layers/main/app/components/ha/HaAboutCard.vue
-````vue
-<!-- components/GlassCard.vue -->
-<script setup lang="ts">
-defineProps<{
-  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
-}>()
-</script>
-
-<template>
-  <div :class="['glassy-box about-card', `glassy-box--${color ?? 'cyan'}`]">
-    <div class="about-card__icon glassy-box__icon">
-      <slot name="icon" />
-    </div>
-    <h3 class="title">
-      <slot name="title" />
-    </h3>
-    <div class="card__body">
-      <slot name="body" />
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.about-card {
-  padding: 20px;
-
-  &__icon {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 8px;
-    border-radius:1000px;
-  }
-
-  &__body {
-    font-size: 13px;
-    line-height: 1.2em;
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ha/HaAccordionItem.vue
-````vue
-<script setup lang="ts">
-import { ref } from 'vue'
-import HaArrowDownIcon from './icons/HaArrowDownIcon.vue'
-
-interface AccordionItem {
-  id: number
-  title: string
-  contents: Array<string>
-}
-
-defineProps<{
-  items: AccordionItem[]
-}>()
-
-const openId = ref<number | null>(null)
-
-const toggle = (id: number) => {
-  openId.value = openId.value === id ? null : id
-}
-</script>
-
-<template>
-  <div class="accordion glassy-box-2">
-    <button
-      v-for="item in items"
-      :key="item.id"
-      class="accordion-item glassy-box-2"
-      :class="{ 'accordion-item--is-open': openId === item.id }"
-      @click="toggle(item.id)"
-    >
-      <div class="accordion-item__header">
-        <div class="accordion-item__left">
-          <p class="accordion-item__label">
-            Q{{ item.id }}
-          </p>
-          <p class="accordion-item__title">
-            {{ item.title }}
-          </p>
-        </div>
-        <HaArrowDownIcon class="accordion-item__icon" />
-      </div>
-
-      <div class="accordion-item__body">
-        <div class="accordion-item__inner">
-          <slot
-            name="content"
-            :item="item"
-          />
-        </div>
-      </div>
-    </button>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-.accordion {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    width: 100%;
-    height: fit-content;
-    padding: 70px 48px;
-}
-
-.accordion-item {
-    width: 100%;
-    padding: 40px;
-
-    background-color: rgb(42 63 99 / 0%);
-    mix-blend-mode: plus-lighter;
-
-    transition: background-color 1s ease;
-
-    &__header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    &__left {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
-
-    &__label {
-      font-size: 20px;
-      font-weight: 700;
-      color: #258966;
-    }
-
-    &__title {
-      font-size: 20px;
-      font-weight: 700;
-      color: white;
-    }
-
-    &__icon {
-      transition: transform 0.3s ease;
-    }
-
-    &__body {
-      display: grid;
-      grid-template-rows: 0fr;
-      padding-top: 0;
-      transition: padding 0.3s ease, grid-template-rows 0.3s ease;
-    }
-
-    &__inner {
-        overflow: hidden;
-
-        padding-left: 44px;
-
-        font-size: 16px;
-        font-weight: 700;
-        color: white;
-        text-align: left;
-    }
-
-    &--is-open {
-        background-color: rgb(42 63 99 / 60%);
-
-        .accordion-item__icon {
-          transform: rotate(180deg);
-        }
-
-        .accordion-item__body {
-          grid-template-rows: 1fr;
-          padding-top: 80px;
-        }
-    }
-}
-
-.glassy-box-2{
-    position: relative;
-    border-radius: 20px;
-    box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
-
-    &::before {
-      pointer-events: none;
-      content:"";
-
-      position: absolute;
-      z-index: 0;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 100%;
-      border: 1px solid transparent;
-      border-radius: inherit;
-
-      background-image:
-      linear-gradient(
-          135deg,
-          rgb(255 255 255 / 75%) 20px,
-          rgb(255 255 255 / 25%) 40px
-      ),
-      linear-gradient(
-          315deg,
-          rgb(255 255 255 / 75%) 20px,
-          rgb(255 255 255 / 25%) 40px
-      );
-      background-clip: border-box, border-box;
-      background-origin: border-box, border-box;
-
-      -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
-}
-</style>
-````
-
-## File: layers/main/app/components/ha/HaConductCard.vue
-````vue
-<template>
-  <div
-    class="conduct-card glassy-box-2"
-    :class="`conduct-card--${color}`"
-  >
-    <div class="conduct-card__icon">
-      <slot name="icon" />
-    </div>
-    <div class="conduct-card__text-box">
-      <p class="conduct-card__title">
-        {{ title }}
-      </p>
-      <p class="conduct-card__text">
-        <slot
-          class="conduct-card__text"
-          name="text"
-        />
-      </p>
-    </div>
-  </div>
-</template>
-
-<script setup>
-defineProps({
-  title: String,
-  color: {
-    type: String,
-    validator: value => ['cyan', 'magenta', 'amber', 'vermilion'].includes(value),
-  },
-})
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.conduct-card {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-
-    width: 100%;
-    height: 100%;
-    padding: 24px 36px;
-
-    &__icon {
-        display: flex;
-        flex-shrink: 0;
-        align-items: center;
-        justify-content: center;
-
-        width: 44px;
-        height: 44px;
-        border-radius: 10px;
-    }
-
-    &__title {
-        font-size: 20px;
-        font-weight: 700;
-    }
-
-    &__text {
-        font-size: 13px;
-        line-height: 1em;
-        color: white;
-    }
-
-    &--magenta {
-        .conduct-card__icon {
-            background-color: rgba(v.$vket-magenta, 0.6);
-        }
-
-        .conduct-card__title {
-            color: v.$vket-magenta;
-        }
-    }
-
-    &--cyan {
-        .conduct-card__icon {
-            background-color: rgba(v.$vket-cyan, 0.6);
-        }
-
-        .conduct-card__title {
-            color: v.$vket-cyan;
-        }
-    }
-
-    &--amber {
-        .conduct-card__icon {
-            background-color: rgba(v.$vket-amber, 0.6);
-        }
-
-        .conduct-card__title {
-            color: v.$vket-amber;
-        }
-    }
-
-    &--vermilion {
-        .conduct-card__icon {
-            background-color: rgba(v.$vket-vermilion, 0.6);
-        }
-
-        .conduct-card__title {
-            color: v.$vket-vermilion;
-        }
-    }
-}
-</style>
-````
-
-## File: layers/main/app/components/ha/HaContactCard.vue
-````vue
-<template>
-  <div
-    class="contact-card glassy-box-2"
-    :class="`contact-card--${color}`"
-  >
-    <div class="contact-card__icon">
-      <slot name="icon" />
-    </div>
-    <p class="contact-card__title">
-      {{ title }}
-    </p>
-    <p class="jump-to-form" /><p class="jump-to-form__text">
-      {{ text }}<br>
-    </p>
-    <div class="jump-to-form__flex">
-      <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
-      <HaJumpToPageIcon class="jump-to-form__icon" />
-    </div>
-  </div>
-</template>
-
-<script setup>
-import HaJumpToPageIcon from './icons/HaJumpToPageIcon.vue'
-
-defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  text: {
-    type: String,
-    required: true,
-  },
-  color: {
-    type: String,
-    validator: value => ['cyan', 'magenta', 'amber', 'vermilion'].includes(value),
-  },
-})
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.contact-card {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 100%;
-
-  &__icon {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-  }
-
-  &__title {
-    font-size: 16px;
-    font-weight: bold;
-  }
-
-  &__link {
-    font-size: 14px;
-    color: v.$vket-green;
-
-    &__underline {
-      text-decoration: underline;
-    }
-  }
-
-  &--magenta {
-      .contact-card__icon {
-        background-color: rgba(v.$vket-magenta, 0.8);
-      }
-    }
-
-    &--cyan {
-      .contact-card__icon {
-        background-color: rgba(v.$vket-cyan, 0.8);
-      }
-    }
-
-    &--amber {
-      .contact-card__icon {
-        background-color: rgba(v.$vket-amber, 0.8);
-      }
-    }
-
-    &--vermilion {
-      .contact-card__icon {
-        background-color: rgba(v.$vket-vermilion, 0.8);
-      }
-    }
-}
-
-.jump-to-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  &__flex {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-
-    width: fit-content;
-    border-bottom: 1px solid v.$vket-green;
-  }
-
-  &__text {
-    font-size: 14px;
-    color: v.$vket-green;
-
-    &--underline {
-      font-size: 12px;
-      text-decoration: underline;
-    }
-  }
-
-  &__icon {
-    width: 14px;
-    height: 14px;
-  }
-}
-</style>
 ````
 
 ## File: layers/main/app/components/ha/HaFireworks.vue
@@ -812,57 +356,43 @@ onUnmounted(() => {
 </style>
 ````
 
-## File: layers/main/app/components/ha/HaInfoCard.vue
+## File: layers/main/app/components/ha/HaQuickAccessCard.vue
 ````vue
+<!-- components/GlassCard.vue -->
 <script setup lang="ts">
-import HaInfoIcon from './icons/HaInfoIcon.vue'
+import HaArrowRight from './icons/HaArrowRight.vue'
+
+defineProps<{
+  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+  title: string
+  label: string
+}>()
 </script>
 
 <template>
-  <div class="info-card glassy-box-2">
-    <div class="info-card__head">
-      <div class="info-card__icon">
-        <ha-info-icon />
+  <div
+    :class="['glassy-box quick-access-card', `glassy-box--${color ?? 'cyan'}`]"
+  >
+    <div class="quick-access-card__head">
+      <div class="quick-access-card__head-left">
+        <div class="glassy-box__icon">
+          <slot name="icon" />
+        </div>
+        <div class="title-box">
+          <p class="label">
+            {{ label }}
+          </p>
+          <h3 class="title">
+            {{ title }}
+          </h3>
+        </div>
       </div>
-      <h4 class="info-card__title">
-        イベント概要
-      </h4>
+      <div class="quick-access-card__head-right">
+        <HaArrowRight />
+      </div>
     </div>
-    <div class="info-card__body">
-      <div class="info-card__items">
-        <div class="info-card__item">
-          <p class="info-card__label">
-            開催日時
-          </p>
-          <p class="info-card__text">
-            2026年 9月26日(土)
-          </p>
-        </div>
-        <div class="info-card__item">
-          <p class="info-card__label">
-            会場
-          </p>
-          <p class="info-card__text">
-            札幌市中央区 アスティーホール<br>(北4条西5丁目1 4F)
-          </p>
-        </div>
-        <div class="info-card__item">
-          <p class="info-card__label">
-            参加費
-          </p>
-          <p class="info-card__text">
-            チケット
-          </p>
-        </div>
-        <div class="info-card__item">
-          <p class="info-card__label">
-            主催
-          </p>
-          <p class="info-card__text">
-            VketReal in 札幌 実行委員会
-          </p>
-        </div>
-      </div>
+    <div class="quick-access-card__body">
+      <slot name="body" />
     </div>
   </div>
 </template>
@@ -870,567 +400,38 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
 
-.info-card {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.quick-access-card {
+  padding: 22px 36px;
 
-  width: 100%;
-  height: 100%;
-  min-height: 340px;
-  padding: 24px;
-
-  &__head {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-  }
-
-  &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-
-    background: rgb(30 53 91 / 100%);
-
-    svg {
-      width: 50%;
-      height: 50%;
-    }
-  }
-
-  &__title {
-    font-size: 20px;
-    font-weight: bold;
-  }
-
-  &__body {
-    flex-grow: 1;
-  }
-
-  &__item {
+  &__head{
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    padding: 16px 0;
-    border-bottom: 1px solid rgb(86 86 86 / 100%);
-
-    &:last-of-type {
-      border: none;
-    }
   }
 
-  &__label {
-    font-size: 16px;
-    font-weight: bold;
-    color: v.$vket-amber;
-  }
-
-  &__text {
-    font-size: 16px;
-    color: white;
-    text-align: right;
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ha/HaSponsorCard.vue
-````vue
-<template>
-  <div class="sponsor-card glassy-box-2">
-    <div class="sponsor-card__img">
-      <img
-        :src="imgSrc"
-        :alt="name"
-      >
-    </div>
-    <div class="sponsor-card__text-box">
-      <p class="sponsor-card__label">
-        {{ label }}
-      </p>
-      <p class="sponsor-card__name">
-        {{ name }}
-      </p>
-    </div>
-  </div>
-</template>
-
-<script setup>
-defineProps({
-  imgSrc: String,
-  label: String,
-  name: String,
-})
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.sponsor-card {
-    width: 100%;
-    height: 100%;
-    margin-bottom: 16px;
-    padding: 24px 36px;
-
-    &__img {
-        aspect-ratio: 1/1;
-        width: 100%;
-        margin-bottom: 12px;
-        background-color: gray;
-
-        img {
-            width: 100%;
-        }
-    }
-
-    &__label {
-        margin-bottom: 12px;
-        font-size: 12px;
-        line-height: 1em;
-        color: white;
-    }
-
-    &__name {
-        font-size: 24px;
-        font-weight: 700;
-        line-height: 1em;
-        color: white;
-    }
-}
-</style>
-````
-
-## File: layers/main/app/components/ha/HaTicketCard.vue
-````vue
-<template>
-  <div class="ticket-card glassy-box-3">
-    <p class="ticket-card__title">
-      {{ title }}
-    </p>
-    <p class="ticket-card_desc">
-      {{ desc }}
-    </p>
-
-    <button class="glassy-button-3 ticket-card__button">
-      チケット購入
-    </button>
-  </div>
-</template>
-
-<script setup>
-defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  desc: {
-    type: String,
-    required: true,
-  },
-})
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.ticket-card {
-  display: flex;
-  flex-direction: column;
-  gap: 44px;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 100%;
-
-  background: rgb(49 35 96 / 40%);
-  mix-blend-mode: plus-lighter;
-
-  &__title {
-    font-size: 24px;
-    font-weight: bold;
-  }
-
-  &__desc {
-    font-size: 16px;
-  }
-
-  &__button {
+  &__head-left {
     display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 130px;
-    height: 40px;
-
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
+    gap: 12px;
   }
-}
-</style>
-````
 
-## File: layers/main/app/components/ht/HtAccessSection.vue
-````vue
-<script setup lang="ts">
-import HaInfoCard from '../ha/HaInfoCard.vue'
-</script>
-
-<template>
-  <HaSectionTitle
-    title="アクセス"
-    label="access"
-  />
-  <div class="flex-2 mb-30">
-    <div class="flex-2__left map-container" />
-    <HaInfoCard class="flex-2__right" />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-.flex-2 {
+  .title-box{
     display: flex;
-    gap: 40px;
+    flex-direction: column;
+    justify-content: space-between;
 
-    &__left {
-        background-color: #ffffff70;
+    height: inherit;
+    padding: 4px 0;
+
+    .label{
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1em;
     }
 
-    &__left, &__right {
-        width: 100%;
-    }
-}
-
-.mb-30 {
-    margin-bottom: 120px;
-}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
-````vue
-<script setup lang="ts">
-import HaConductCard from '../ha/HaConductCard.vue'
-import HaCamera from '../ha/icons/HaCameraIcon.vue'
-import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
-import HaHeartIcon from '../ha/icons/HaHeartIcon.vue'
-import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
-</script>
-
-<template>
-  <HaSectionTitle
-    title="行動規範"
-    label="CODE OF CONDUCT"
-  />
-  <p class="subtitle subtitle--left mb-24">
-    すべての参加者が安全で楽しい時間を過ごせるよう、<br>
-    以下の行動規範を守ってください。
-  </p>
-  <div class="conduct-grid mb-15">
-    <HaConductCard
-      title="互いを尊重しましょう"
-      color="magenta"
-    >
-      <template #icon>
-        <HaHeartIcon />
-      </template>
-      <template #text>
-        すべての参加者の多様性を尊重し、<br>ハラスメントや差別的な行為は禁止です。
-      </template>
-    </HaConductCard>
-    <HaConductCard
-      title="撮影マナーを守りましょう"
-      text="descriptiondescriptiondescription"
-      color="cyan"
-    >
-      <template #icon>
-        <HaCamera />
-      </template>
-      <template #text>
-        他の参加者を撮影する際は必ず許可を取り、<br>撮影禁止エリアでは撮影をお控えください。
-      </template>
-    </HaConductCard>
-    <HaConductCard
-      title="安全に配慮しましょう"
-      text="descriptiondescriptiondescription"
-      color="amber"
-    >
-      <template #icon>
-        <HaDangerIcon />
-      </template>
-      <template #text>
-        会場内では走らない、通路をふさがないなど、<br>安全な行動を心掛けてください。
-      </template>
-    </HaConductCard>
-    <HaConductCard
-      title="スタッフの指示に従いましょう"
-      text="descriptiondescriptiondescription"
-      color="vermilion"
-    >
-      <template #icon>
-        <HaShieldIcon />
-      </template>
-      <template #text>
-        スタッフの指示に従い、<br>問題があれば速やかにスタッフにお知らせください。
-      </template>
-    </HaConductCard>
-  </div>
-  <button class="glassy-button-3 conduct__button">
-    詳細を確認
-  </button>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.mb-15 {
-  margin-bottom: 60px;
-}
-
-.conduct-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.conduct {
-  &__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 185px;
-    height: 57px;
-    margin: 0 auto;
-
-    font-family: Inter, sans-serif;
-    font-size: 14px;;
-    font-weight: 400;
-    color: white;
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtContactSection.vue
-````vue
-<script setup lang="ts">
-import HaContactCard from '../ha/HaContactCard.vue'
-import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
-</script>
-
-<template>
-  <HaSectionTitle
-    title="出展情報"
-    label="exhibition"
-  />
-  <p class="subtitle subtitle--left mb-24">
-    持続可能なイベント開催のため、<br>
-    チケット制でのご参加にご協力をお願いいたします。<br>
-    チケットは複数種類を用意予定です。
-  </p>
-  <div class="Contact-grid">
-    <HaContactCard
-      title="個人向けお問い合わせ"
-      text="一般の方からのお問い合わせはこちら"
-      color="amber"
-    >
-      <template #icon>
-        <HaDangerIcon />
-      </template>
-    </HaContactCard>
-    <HaContactCard
-      title="法人向けお問い合わせ"
-      text="企業・法人の方からのお問い合わせはこちら"
-      color="cyan"
-    >
-      <template #icon>
-        <HaDangerIcon />
-      </template>
-    </HaContactCard>
-    <HaContactCard
-      title="広報向けお問い合わせ"
-      text="メディア・広報関連のお問い合わせはこちら"
-      color="magenta"
-      class="Contact-grid__item--full-width"
-    >
-      <template #icon>
-        <HaDangerIcon />
-      </template>
-    </HaContactCard>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.Contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 190px 190px;
-  gap: 12px 24px;
-
-  &__item {
-    &--full-width {
-      grid-column: 1 / -1;
-    }
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtQandASection.vue
-````vue
-<script setup lang="ts">
-import HaAccordionItem from '../ha/HaAccordionItem.vue'
-
-const items = [
-  { id: 1, title: 'Vket Real in 札幌とはどのようなイベントですか？', contents: ['Vket Real in 札幌は、世界最大級のメタバースイベント「バーチャルマーケットから派生した、北海道の有志XRクリエイターが主催するリアルイベントです。', 'VRSNSユーザーがバーチャルの姿のままリアルの場で集い、交流し、新たな文化を創造する場を目指しています。'] },
-  { id: 2, title: 'Vket Real in 札幌とはどのようなイベントですか？', contents: ['内容内容内容内容'] },
-  { id: 3, title: 'Vket Real in 札幌とはどのようなイベントですか？', contents: ['内容内容内容内容'] },
-]
-</script>
-
-<template>
-  <HaSectionTitle
-    title="よくある質問"
-    label="Q&A"
-  />
-  <HaAccordionItem :items="items">
-    <template #content="{ item }">
-      <p
-        v-for="(content, index) in item.contents"
-        :key="`${item.id}-${index}`"
-      >
-        {{ content }}
-      </p>
-    </template>
-  </HaAccordionItem>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px;
-}
-
-.ticket-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 275px 275px;
-  gap: 12px 24px;
-
-  &__item {
-    &--full-width {
-      grid-column: 1 / -1;
-    }
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtSponsorsAndPartnersSection.vue
-````vue
-<script setup lang="ts">
-import HaSponsorCard from '../ha/HaSponsorCard.vue'
-</script>
-
-<template>
-  <HaSectionTitle
-    title="ご協力"
-    label="SPONSORS & PARTNERS"
-  />
-  <div class="sponsor-grid">
-    <HaSponsorCard
-      label="企業出展"
-      name="〇〇〇 様"
-    />
-    <HaSponsorCard
-      label="企業出展"
-      name="〇〇〇 様"
-    />
-    <HaSponsorCard
-      label="企業出展"
-      name="〇〇〇 様"
-    />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-.sponsor-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 24px;
-}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtTicketSection.vue
-````vue
-<script setup lang="ts">
-import HaTicketCard from '../ha/HaTicketCard.vue'
-</script>
-
-<template>
-  <HaSectionTitle
-    title="チケット"
-    label="tickets"
-  />
-  <p class="subtitle subtitle--left mb-24">
-    持続可能なイベント開催のため、<br>
-    チケット制でのご参加にご協力をお願いいたします。<br>
-    チケットは複数種類を用意予定です。
-  </p>
-  <div class="ticket-grid">
-    <HaTicketCard
-      title="チケット①"
-      desc="descriptiondescriptiondescription"
-    />
-    <HaTicketCard
-      title="チケット②"
-      desc="descriptiondescriptiondescription"
-    />
-    <HaTicketCard
-      title="チケット③"
-      desc="descriptiondescriptiondescription"
-      class="ticket-grid__item--full-width"
-    />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.ticket-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 275px 275px;
-  gap: 12px 24px;
-
-  &__item {
-    &--full-width {
-      grid-column: 1 / -1;
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1em;
     }
   }
 }
@@ -1977,37 +978,6 @@ img {
 }
 ````
 
-## File: layers/main/app/components/ha/icons/HaArrowDownIcon.vue
-````vue
-<template>
-  <svg
-    width="36"
-    height="36"
-    viewBox="0 0 36 36"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g clip-path="url(#clip0_278_53)">
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M19.4143 23.8735C18.9962 24.2911 18.4295 24.5257 17.8386 24.5257C17.2477 24.5257 16.6809 24.2911 16.2629 23.8735L7.852 15.4657C7.43389 15.0474 7.19908 14.4801 7.19922 13.8887C7.19936 13.2972 7.43444 12.7301 7.85274 12.312C8.27105 11.8939 8.83831 11.659 9.42975 11.6592C10.0212 11.6593 10.5883 11.8944 11.0064 12.3127L17.8386 19.1449L24.6707 12.3127C25.0911 11.9063 25.6543 11.6813 26.2389 11.6861C26.8236 11.6909 27.3829 11.9252 27.7966 12.3384C28.2102 12.7516 28.445 13.3108 28.4503 13.8954C28.4557 14.4801 28.2312 15.0434 27.8252 15.4642L19.4158 23.875L19.4143 23.8735Z"
-        fill="#43FFBD"
-      />
-    </g>
-    <defs>
-      <clipPath id="clip0_278_53">
-        <rect
-          width="35.677"
-          height="35.677"
-          fill="white"
-        />
-      </clipPath>
-    </defs>
-  </svg>
-</template>
-````
-
 ## File: layers/main/app/components/ha/icons/HaBalanceIcon.vue
 ````vue
 <template>
@@ -2214,6 +1184,38 @@ img {
       d="M11.9449 8.26976H10.1072V6.43208H11.9449M11.9449 15.6205H10.1072V10.1074H11.9449M11.026 1.83789C9.8194 1.83789 8.62458 2.07556 7.50979 2.53731C6.395 2.99907 5.38208 3.67589 4.52886 4.52911C2.80571 6.25226 1.83765 8.58937 1.83765 11.0263C1.83765 13.4632 2.80571 15.8003 4.52886 17.5234C5.38208 18.3767 6.395 19.0535 7.50979 19.5152C8.62458 19.977 9.8194 20.2147 11.026 20.2147C13.4629 20.2147 15.8 19.2466 17.5232 17.5234C19.2464 15.8003 20.2144 13.4632 20.2144 11.0263C20.2144 9.81964 19.9768 8.62482 19.515 7.51003C19.0532 6.39525 18.3764 5.38233 17.5232 4.52911C16.67 3.67589 15.6571 2.99907 14.5423 2.53731C13.4275 2.07556 12.2327 1.83789 11.026 1.83789Z"
       fill="white"
     />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaJumpToPageIcon.vue
+````vue
+<template>
+  <svg
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_293_154)">
+      <path
+        d="M6.75 5.25L10.5 1.5M10.5 4V1.5H8M10.5 7V9.5C10.5 9.76522 10.3946 10.0196 10.2071 10.2071C10.0196 10.3946 9.76522 10.5 9.5 10.5H2.5C2.23478 10.5 1.98043 10.3946 1.79289 10.2071C1.60536 10.0196 1.5 9.76522 1.5 9.5V2.5C1.5 2.23478 1.60536 1.98043 1.79289 1.79289C1.98043 1.60536 2.23478 1.5 2.5 1.5H5"
+        stroke="#258966"
+        stroke-width="1.33333"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_293_154">
+        <rect
+          width="12"
+          height="12"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
   </svg>
 </template>
 ````
@@ -2494,6 +1496,480 @@ img {
 </template>
 ````
 
+## File: layers/main/app/components/ha/HaAboutCard.vue
+````vue
+<!-- components/GlassCard.vue -->
+<script setup lang="ts">
+defineProps<{
+  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+}>()
+</script>
+
+<template>
+  <div :class="['glassy-box about-card', `glassy-box--${color ?? 'cyan'}`]">
+    <div class="about-card__icon glassy-box__icon">
+      <slot name="icon" />
+    </div>
+    <h3 class="title">
+      <slot name="title" />
+    </h3>
+    <div class="card__body">
+      <slot name="body" />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.about-card {
+  padding: 20px;
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+    border-radius:1000px;
+  }
+
+  &__body {
+    font-size: 13px;
+    line-height: 1.2em;
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ha/HaAccordionItem.vue
+````vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import HaArrowDownIcon from './icons/HaChevronDownIcon.vue'
+
+interface AccordionItem {
+  id: number
+  title: string
+  contents: Array<string>
+}
+
+defineProps<{
+  items: AccordionItem[]
+}>()
+
+const openId = ref<number | null>(null)
+
+const toggle = (id: number) => {
+  openId.value = openId.value === id ? null : id
+}
+</script>
+
+<template>
+  <div class="accordion glassy-box-2">
+    <button
+      v-for="item in items"
+      :key="item.id"
+      class="accordion-item glassy-box-2"
+      :class="{ 'accordion-item--is-open': openId === item.id }"
+      @click="toggle(item.id)"
+    >
+      <div class="accordion-item__header">
+        <div class="accordion-item__left">
+          <p class="accordion-item__label">
+            Q{{ item.id }}
+          </p>
+          <p class="accordion-item__title">
+            {{ item.title }}
+          </p>
+        </div>
+        <HaArrowDownIcon class="accordion-item__icon" />
+      </div>
+
+      <div class="accordion-item__body">
+        <div class="accordion-item__inner">
+          <slot
+            name="content"
+            :item="item"
+          />
+        </div>
+      </div>
+    </button>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    width: 100%;
+    height: fit-content;
+    padding: 70px 48px;
+}
+
+.accordion-item {
+    width: 100%;
+    padding: 40px;
+
+    background-color: rgb(42 63 99 / 0%);
+    mix-blend-mode: plus-lighter;
+
+    transition: background-color 1s ease;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__left {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    &__label {
+      font-size: 20px;
+      font-weight: 700;
+      color: #258966;
+    }
+
+    &__title {
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+    }
+
+    &__icon {
+      transition: transform 0.3s ease;
+    }
+
+    &__body {
+      display: grid;
+      grid-template-rows: 0fr;
+      padding-top: 0;
+      transition: padding 0.3s ease, grid-template-rows 0.3s ease;
+    }
+
+    &__inner {
+        overflow: hidden;
+
+        padding-left: 44px;
+
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        text-align: left;
+    }
+
+    &--is-open {
+        background-color: rgb(42 63 99 / 60%);
+
+        .accordion-item__icon {
+          transform: rotate(180deg);
+        }
+
+        .accordion-item__body {
+          grid-template-rows: 1fr;
+          padding-top: 80px;
+        }
+    }
+}
+
+.glassy-box-2{
+    position: relative;
+    border-radius: 20px;
+    box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
+
+    &::before {
+      pointer-events: none;
+      content:"";
+
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+      border: 1px solid transparent;
+      border-radius: inherit;
+
+      background-image:
+      linear-gradient(
+          135deg,
+          rgb(255 255 255 / 75%) 20px,
+          rgb(255 255 255 / 25%) 40px
+      ),
+      linear-gradient(
+          315deg,
+          rgb(255 255 255 / 75%) 20px,
+          rgb(255 255 255 / 25%) 40px
+      );
+      background-clip: border-box, border-box;
+      background-origin: border-box, border-box;
+
+      -webkit-mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+}
+</style>
+````
+
+## File: layers/main/app/components/ha/HaConductCard.vue
+````vue
+<template>
+  <div
+    class="conduct-card glassy-box-2"
+    :class="`conduct-card--${color}`"
+  >
+    <div class="conduct-card__icon">
+      <slot name="icon" />
+    </div>
+    <div class="conduct-card__text-box">
+      <p class="conduct-card__title">
+        {{ title }}
+      </p>
+      <p class="conduct-card__text">
+        <slot
+          class="conduct-card__text"
+          name="text"
+        />
+      </p>
+    </div>
+  </div>
+</template>
+
+<script setup>
+defineProps({
+  title: String,
+  color: {
+    type: String,
+    validator: value => ['cyan', 'magenta', 'amber', 'vermilion'].includes(value),
+  },
+})
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.conduct-card {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+    padding: 24px 36px;
+
+    &__icon {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+    }
+
+    &__title {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    &__text {
+        font-size: 13px;
+        line-height: 1em;
+        color: white;
+    }
+
+    &--magenta {
+        .conduct-card__icon {
+            background-color: rgba(v.$vket-magenta, 0.6);
+        }
+
+        .conduct-card__title {
+            color: v.$vket-magenta;
+        }
+    }
+
+    &--cyan {
+        .conduct-card__icon {
+            background-color: rgba(v.$vket-cyan, 0.6);
+        }
+
+        .conduct-card__title {
+            color: v.$vket-cyan;
+        }
+    }
+
+    &--amber {
+        .conduct-card__icon {
+            background-color: rgba(v.$vket-amber, 0.6);
+        }
+
+        .conduct-card__title {
+            color: v.$vket-amber;
+        }
+    }
+
+    &--vermilion {
+        .conduct-card__icon {
+            background-color: rgba(v.$vket-vermilion, 0.6);
+        }
+
+        .conduct-card__title {
+            color: v.$vket-vermilion;
+        }
+    }
+}
+</style>
+````
+
+## File: layers/main/app/components/ha/HaContactCard.vue
+````vue
+<template>
+  <div
+    class="contact-card glassy-box-2"
+    :class="`contact-card--${color}`"
+  >
+    <div class="contact-card__icon">
+      <slot name="icon" />
+    </div>
+    <p class="contact-card__title">
+      {{ title }}
+    </p>
+    <p class="jump-to-form" /><p class="jump-to-form__text">
+      {{ text }}<br>
+    </p>
+    <div class="jump-to-form__flex">
+      <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
+      <HaJumpToPageIcon class="jump-to-form__icon" />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import HaJumpToPageIcon from './icons/HaJumpToPageIcon.vue'
+
+defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+  text: {
+    type: String,
+    required: true,
+  },
+  color: {
+    type: String,
+    validator: value => ['cyan', 'magenta', 'amber', 'vermilion'].includes(value),
+  },
+})
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  &__icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  &__link {
+    font-size: 14px;
+    color: v.$vket-green;
+
+    &__underline {
+      text-decoration: underline;
+    }
+  }
+
+  &--magenta {
+      .contact-card__icon {
+        background-color: rgba(v.$vket-magenta, 0.8);
+      }
+    }
+
+    &--cyan {
+      .contact-card__icon {
+        background-color: rgba(v.$vket-cyan, 0.8);
+      }
+    }
+
+    &--amber {
+      .contact-card__icon {
+        background-color: rgba(v.$vket-amber, 0.8);
+      }
+    }
+
+    &--vermilion {
+      .contact-card__icon {
+        background-color: rgba(v.$vket-vermilion, 0.8);
+      }
+    }
+}
+
+.jump-to-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__flex {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+    width: fit-content;
+    border-bottom: 1px solid v.$vket-green;
+  }
+
+  &__text {
+    font-size: 14px;
+    color: v.$vket-green;
+
+    &--underline {
+      font-size: 12px;
+      text-decoration: underline;
+    }
+  }
+
+  &__icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ha/HaDocumentLink.vue
 ````vue
 <script setup lang="ts">
@@ -2707,107 +2183,275 @@ defineProps<{
 </style>
 ````
 
-## File: layers/main/app/components/hm/.gitkeep
-````
-
-````
-
-## File: layers/main/app/components/ho/HoTheFooter.vue
+## File: layers/main/app/components/ha/HaInfoCard.vue
 ````vue
 <script setup lang="ts">
-import HaXIcon from '../ha/icons/HaXIcon.vue'
+import HaInfoIcon from './icons/HaInfoIcon.vue'
 </script>
 
-<!-- <i18n lang="yaml">
-ja:
-  mainlogo: ロゴ名サービス名
-en:
-  mainlogo: logo name
-</i18n> -->
-
 <template>
-  <footer class="footer">
-    <div class="footer__upper">
-      <div class="footer__left">
-        <img
-          src=""
-          alt=""
-          class="footer__logo"
-        >
-        <nav class="footer__nav">
-          <NuxtLink class="footer__link">利用規約</NuxtLink>
-          <NuxtLink class="footer__link">プライバシー</NuxtLink>
-          <NuxtLink class="footer__link">行動規範</NuxtLink>
-          <NuxtLink class="footer__link">出展ガイドライン</NuxtLink>
-          <NuxtLink class="footer__link">出展規約</NuxtLink>
-        </nav>
+  <div class="info-card glassy-box-2">
+    <div class="info-card__head">
+      <div class="info-card__icon">
+        <ha-info-icon />
       </div>
-      <div class="footer__right">
-        <HaXIcon />
+      <h4 class="info-card__title">
+        イベント概要
+      </h4>
+    </div>
+    <div class="info-card__body">
+      <div class="info-card__items">
+        <div class="info-card__item">
+          <p class="info-card__label">
+            開催日時
+          </p>
+          <p class="info-card__text">
+            2026年 9月26日(土)
+          </p>
+        </div>
+        <div class="info-card__item">
+          <p class="info-card__label">
+            会場
+          </p>
+          <p class="info-card__text">
+            札幌市中央区 アスティーホール<br>(北4条西5丁目1 4F)
+          </p>
+        </div>
+        <div class="info-card__item">
+          <p class="info-card__label">
+            参加費
+          </p>
+          <p class="info-card__text">
+            チケット
+          </p>
+        </div>
+        <div class="info-card__item">
+          <p class="info-card__label">
+            主催
+          </p>
+          <p class="info-card__text">
+            VketReal in 札幌 実行委員会
+          </p>
+        </div>
       </div>
     </div>
-    <div class="footer__divider" />
-    <div class="footer__lower">
-      <p class="footer__copy">
-        🄫 2026 VketReal in 札幌 実行委員会. All rights reserved.
-      </p>
-    </div>
-  </footer>
+  </div>
 </template>
 
-<style scoped lang="scss">
-.footer {
-  padding: 88px 105px 0;
-  border-radius: 40px 40px 0 0;
-  background-color: rgb(25 25 25 / 100%);
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
 
-  &__upper {
+.info-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  padding: 24px;
+
+  &__head {
     display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+
+    background: rgb(30 53 91 / 100%);
+
+    svg {
+      width: 50%;
+      height: 50%;
+    }
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  &__body {
+    flex-grow: 1;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    padding-bottom: 48px;
+
+    padding: 16px 0;
+    border-bottom: 1px solid rgb(86 86 86 / 100%);
+
+    &:last-of-type {
+      border: none;
+    }
   }
 
-  &__logo {
-    width: 120px;
-    height: 90px;
-    margin-bottom: 40px;
-    background-color: gray;
+  &__label {
+    font-size: 16px;
+    font-weight: bold;
+    color: v.$vket-amber;
   }
 
-  &__nav{
+  &__text {
+    font-size: 16px;
+    color: white;
+    text-align: right;
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ha/HaSponsorCard.vue
+````vue
+<template>
+  <div class="sponsor-card glassy-box-2">
+    <div class="sponsor-card__img">
+      <img
+        :src="imgSrc"
+        :alt="name"
+      >
+    </div>
+    <div class="sponsor-card__text-box">
+      <p class="sponsor-card__label">
+        {{ label }}
+      </p>
+      <p class="sponsor-card__name">
+        {{ name }}
+      </p>
+    </div>
+  </div>
+</template>
+
+<script setup>
+defineProps({
+  imgSrc: String,
+  label: String,
+  name: String,
+})
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.sponsor-card {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 16px;
+    padding: 24px 36px;
+
+    &__img {
+        aspect-ratio: 1/1;
+        width: 100%;
+        margin-bottom: 12px;
+        background-color: gray;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    &__label {
+        margin-bottom: 12px;
+        font-size: 12px;
+        line-height: 1em;
+        color: white;
+    }
+
+    &__name {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1em;
+        color: white;
+    }
+}
+</style>
+````
+
+## File: layers/main/app/components/ha/HaTicketCard.vue
+````vue
+<template>
+  <div class="ticket-card glassy-box-3">
+    <p class="ticket-card__title">
+      {{ title }}
+    </p>
+    <p class="ticket-card_desc">
+      {{ desc }}
+    </p>
+
+    <button class="glassy-button-3 ticket-card__button">
+      チケット購入
+    </button>
+  </div>
+</template>
+
+<script setup>
+defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+  desc: {
+    type: String,
+    required: true,
+  },
+})
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.ticket-card {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgb(49 35 96 / 40%);
+  mix-blend-mode: plus-lighter;
+
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  &__desc {
+    font-size: 16px;
+  }
+
+  &__button {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
+    align-items: center;
+    justify-content: center;
 
-  &__link {
+    width: 130px;
+    height: 40px;
+
     font-family: Inter, sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: white;
-    text-decoration: underline;
-  }
-
-  &__divider {
-    width: 100%;
-    height: 1px;
-    background-color:#8f8f8f;
-  }
-
-  &__lower {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 78px;
-  }
-
-  &__copy {
-    font-family: Inter, sans-serif;
-    font-size: 12px;
-    color: white;
   }
 }
 </style>
+````
+
+## File: layers/main/app/components/hm/.gitkeep
+````
+
 ````
 
 ## File: layers/main/app/components/ho/HoTheHeader.vue
@@ -2841,17 +2485,157 @@ en:
 </style>
 ````
 
-## File: layers/main/app/components/ht/HtExhibitionSection.vue
+## File: layers/main/app/components/ht/HtAccessSection.vue
 ````vue
 <script setup lang="ts">
-import HaCard from '../ha/HaAboutCard.vue'
-import HaDocumentLink from '../ha/HaDocumentLink.vue'
-import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
-import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
-import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue'
-import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
-import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
-import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
+import HaInfoCard from '../ha/HaInfoCard.vue'
+</script>
+
+<template>
+  <HaSectionTitle
+    title="アクセス"
+    label="access"
+  />
+  <div class="flex-2 mb-30">
+    <div class="flex-2__left map-container" />
+    <HaInfoCard class="flex-2__right" />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.flex-2 {
+    display: flex;
+    gap: 40px;
+
+    &__left {
+        background-color: #ffffff70;
+    }
+
+    &__left, &__right {
+        width: 100%;
+    }
+}
+
+.mb-30 {
+    margin-bottom: 120px;
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
+````vue
+<script setup lang="ts">
+import HaConductCard from '../ha/HaConductCard.vue'
+import HaCamera from '../ha/icons/HaCameraIcon.vue'
+import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
+import HaHeartIcon from '../ha/icons/HaHeartIcon.vue'
+import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
+</script>
+
+<template>
+  <HaSectionTitle
+    title="行動規範"
+    label="CODE OF CONDUCT"
+  />
+  <p class="subtitle subtitle--left mb-24">
+    すべての参加者が安全で楽しい時間を過ごせるよう、<br>
+    以下の行動規範を守ってください。
+  </p>
+  <div class="conduct-grid mb-15">
+    <HaConductCard
+      title="互いを尊重しましょう"
+      color="magenta"
+    >
+      <template #icon>
+        <HaHeartIcon />
+      </template>
+      <template #text>
+        すべての参加者の多様性を尊重し、<br>ハラスメントや差別的な行為は禁止です。
+      </template>
+    </HaConductCard>
+    <HaConductCard
+      title="撮影マナーを守りましょう"
+      text="descriptiondescriptiondescription"
+      color="cyan"
+    >
+      <template #icon>
+        <HaCamera />
+      </template>
+      <template #text>
+        他の参加者を撮影する際は必ず許可を取り、<br>撮影禁止エリアでは撮影をお控えください。
+      </template>
+    </HaConductCard>
+    <HaConductCard
+      title="安全に配慮しましょう"
+      text="descriptiondescriptiondescription"
+      color="amber"
+    >
+      <template #icon>
+        <HaDangerIcon />
+      </template>
+      <template #text>
+        会場内では走らない、通路をふさがないなど、<br>安全な行動を心掛けてください。
+      </template>
+    </HaConductCard>
+    <HaConductCard
+      title="スタッフの指示に従いましょう"
+      text="descriptiondescriptiondescription"
+      color="vermilion"
+    >
+      <template #icon>
+        <HaShieldIcon />
+      </template>
+      <template #text>
+        スタッフの指示に従い、<br>問題があれば速やかにスタッフにお知らせください。
+      </template>
+    </HaConductCard>
+  </div>
+  <button class="glassy-button-3 conduct__button">
+    詳細を確認
+  </button>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.mb-15 {
+  margin-bottom: 60px;
+}
+
+.conduct-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.conduct {
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 185px;
+    height: 57px;
+    margin: 0 auto;
+
+    font-family: Inter, sans-serif;
+    font-size: 14px;;
+    font-weight: 400;
+    color: white;
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtContactSection.vue
+````vue
+<script setup lang="ts">
+import HaContactCard from '../ha/HaContactCard.vue'
+import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 </script>
 
 <template>
@@ -2859,89 +2643,40 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     title="出展情報"
     label="exhibition"
   />
-  <p class="subtitle">
-    出展カテゴリ
+  <p class="subtitle subtitle--left mb-24">
+    持続可能なイベント開催のため、<br>
+    チケット制でのご参加にご協力をお願いいたします。<br>
+    チケットは複数種類を用意予定です。
   </p>
-  <div class="card-flex mb-24">
-    <HaCard
-      class="child"
+  <div class="Contact-grid">
+    <HaContactCard
+      title="個人向けお問い合わせ"
+      text="一般の方からのお問い合わせはこちら"
       color="amber"
     >
       <template #icon>
-        <HaStarShineIcon />
+        <HaDangerIcon />
       </template>
-      <template #title>
-        サークル出展
-      </template>
-      <template #body>
-        VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
-      </template>
-    </HaCard>
-    <HaCard
-      class="child"
-      icon-url="/icons/tabler_world.svg"
-      color="light-cyan"
-    >
-      <template #icon>
-        <HaWorldIcon />
-      </template>
-      <template #title>
-        一般展示
-      </template>
-      <template #body>
-        XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
-      </template>
-    </HaCard>
-    <HaCard
-      class="child"
-      icon-url="/icons/boxicons_community.svg"
-      color="light-magenta"
-    >
-      <template #icon>
-        <HaCommunityIcon />
-      </template>
-      <template #title>
-        企業出展
-      </template>
-      <template #body>
-        企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
-      </template>
-    </HaCard>
-  </div>
-  <p class="subtitle">
-    出展者向けリソース
-  </p>
-  <div class="link-list">
-    <HaDocumentLink
-      title="出展ガイドライン"
-      label="important"
-      color="green"
-      text="出展に必要なルール・準備事項をまとめた公式ガイド"
-    >
-      <template #icon>
-        <HaOpenBookIcon />
-      </template>
-    </HaDocumentLink>
-    <HaDocumentLink
-      title="出展規約"
-      label="required"
+    </HaContactCard>
+    <HaContactCard
+      title="法人向けお問い合わせ"
+      text="企業・法人の方からのお問い合わせはこちら"
       color="cyan"
-      text="出展者が遵守すべき規約・利用条件"
     >
       <template #icon>
-        <HaBalanceIcon />
+        <HaDangerIcon />
       </template>
-    </HaDocumentLink>
-    <HaDocumentLink
-      title="出展ガイドライン"
-      label="Q&A"
+    </HaContactCard>
+    <HaContactCard
+      title="広報向けお問い合わせ"
+      text="メディア・広報関連のお問い合わせはこちら"
       color="magenta"
-      text="出展に必要なルール・準備事項をまとめた公式ガイド"
+      class="Contact-grid__item--full-width"
     >
       <template #icon>
-        <HaQuestionIcon />
+        <HaDangerIcon />
       </template>
-    </HaDocumentLink>
+    </HaContactCard>
   </div>
 </template>
 
@@ -2952,24 +2687,159 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
 }
 
-.card-flex {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
+.Contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 190px 190px;
+  gap: 12px 24px;
 
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-
-  .child {
-    width: 320px;
+  &__item {
+    &--full-width {
+      grid-column: 1 / -1;
+    }
   }
 }
+</style>
+````
 
-.link-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+## File: layers/main/app/components/ht/HtQandASection.vue
+````vue
+<script setup lang="ts">
+import HaAccordionItem from '../ha/HaAccordionItem.vue'
+
+const items = [
+  { id: 1, title: 'Vket Real in 札幌とはどのようなイベントですか？', contents: ['Vket Real in 札幌は、世界最大級のメタバースイベント「バーチャルマーケットから派生した、北海道の有志XRクリエイターが主催するリアルイベントです。', 'VRSNSユーザーがバーチャルの姿のままリアルの場で集い、交流し、新たな文化を創造する場を目指しています。'] },
+  { id: 2, title: 'Vket Real in 札幌とはどのようなイベントですか？', contents: ['内容内容内容内容'] },
+  { id: 3, title: 'Vket Real in 札幌とはどのようなイベントですか？', contents: ['内容内容内容内容'] },
+]
+</script>
+
+<template>
+  <HaSectionTitle
+    title="よくある質問"
+    label="Q&A"
+  />
+  <HaAccordionItem :items="items">
+    <template #content="{ item }">
+      <p
+        v-for="(content, index) in item.contents"
+        :key="`${item.id}-${index}`"
+      >
+        {{ content }}
+      </p>
+    </template>
+  </HaAccordionItem>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.mb-24 {
+  margin-bottom: 96px;
+}
+
+.ticket-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 275px 275px;
+  gap: 12px 24px;
+
+  &__item {
+    &--full-width {
+      grid-column: 1 / -1;
+    }
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtSponsorsAndPartnersSection.vue
+````vue
+<script setup lang="ts">
+import HaSponsorCard from '../ha/HaSponsorCard.vue'
+</script>
+
+<template>
+  <HaSectionTitle
+    title="ご協力"
+    label="SPONSORS & PARTNERS"
+  />
+  <div class="sponsor-grid">
+    <HaSponsorCard
+      label="企業出展"
+      name="〇〇〇 様"
+    />
+    <HaSponsorCard
+      label="企業出展"
+      name="〇〇〇 様"
+    />
+    <HaSponsorCard
+      label="企業出展"
+      name="〇〇〇 様"
+    />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.sponsor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtTicketSection.vue
+````vue
+<script setup lang="ts">
+import HaTicketCard from '../ha/HaTicketCard.vue'
+</script>
+
+<template>
+  <HaSectionTitle
+    title="チケット"
+    label="tickets"
+  />
+  <p class="subtitle subtitle--left mb-24">
+    持続可能なイベント開催のため、<br>
+    チケット制でのご参加にご協力をお願いいたします。<br>
+    チケットは複数種類を用意予定です。
+  </p>
+  <div class="ticket-grid">
+    <HaTicketCard
+      title="チケット①"
+      desc="descriptiondescriptiondescription"
+    />
+    <HaTicketCard
+      title="チケット②"
+      desc="descriptiondescriptiondescription"
+    />
+    <HaTicketCard
+      title="チケット③"
+      desc="descriptiondescriptiondescription"
+      class="ticket-grid__item--full-width"
+    />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.ticket-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 275px 275px;
+  gap: 12px 24px;
+
+  &__item {
+    &--full-width {
+      grid-column: 1 / -1;
+    }
+  }
 }
 </style>
 ````
@@ -4399,97 +4269,6 @@ export default defineVitestConfig({
 @forward 'common';
 ````
 
-## File: layers/main/app/components/ha/HaLinkCard.vue
-````vue
-<!-- components/GlassCard.vue -->
-<script setup lang="ts">
-defineProps<{
-  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
-  title: string
-  label: string
-}>()
-</script>
-
-<template>
-  <div
-    :class="['glassy-box link-card', `glassy-box--${color ?? 'cyan'}`]"
-  >
-    <div class="link-card__head">
-      <div class="link-card__head-left">
-        <div class="icon-box">
-          <slot name="icon" />
-        </div>
-        <div class="title-box">
-          <p class="label">
-            {{ label }}
-          </p>
-          <h3 class="title">
-            {{ title }}
-          </h3>
-        </div>
-      </div>
-      <div class="link-card__head-right">
-        <svg
-          width="28"
-          height="28"
-          viewBox="0 0 28 28"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M20.2344 12.8676H4.28924C4.06173 12.8676 3.84353 12.958 3.68265 13.1189C3.52178 13.2798 3.4314 13.498 3.4314 13.7255C3.4314 13.953 3.52178 14.1712 3.68265 14.3321C3.84353 14.4929 4.06173 14.5833 4.28924 14.5833H20.2344L13.9748 20.8375C13.8134 20.9989 13.7228 21.2178 13.7228 21.4461C13.7228 21.6743 13.8134 21.8932 13.9748 22.0546C14.1362 22.216 14.3551 22.3067 14.5834 22.3067C14.8116 22.3067 15.0305 22.216 15.1919 22.0546L22.9125 14.334C22.9927 14.2543 23.0564 14.1595 23.0999 14.055C23.1433 13.9506 23.1657 13.8386 23.1657 13.7255C23.1657 13.6124 23.1433 13.5004 23.0999 13.3959C23.0564 13.2915 22.9927 13.1967 22.9125 13.1169L15.1919 5.39635C15.112 5.31644 15.0171 5.25304 14.9127 5.2098C14.8083 5.16655 14.6964 5.14429 14.5834 5.14429C14.4703 5.14429 14.3584 5.16655 14.254 5.2098C14.1496 5.25304 14.0547 5.31644 13.9748 5.39635C13.8949 5.47626 13.8315 5.57113 13.7883 5.67555C13.745 5.77996 13.7228 5.89187 13.7228 6.00488C13.7228 6.1179 13.745 6.22981 13.7883 6.33422C13.8315 6.43863 13.8949 6.5335 13.9748 6.61341L20.2344 12.8676Z"
-            fill="#43FFBD"
-          />
-        </svg>
-      </div>
-    </div>
-    <div class="link-card__body">
-      <slot name="body" />
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.link-card {
-  padding: 22px 36px;
-
-  &__head{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__head-left {
-    display: flex;
-    gap: 12px;
-  }
-
-  .title-box{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    height: inherit;
-    padding: 4px 0;
-
-    .label{
-      font-size: 10px;
-      font-weight: 700;
-      line-height: 1em;
-    }
-
-    .title {
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 1em;
-    }
-  }
-}
-</style>
-````
-
 ## File: layers/main/app/components/ha/HaSectionTitle.vue
 ````vue
 <script setup lang="ts">
@@ -4573,53 +4352,125 @@ defineProps<{
 </style>
 ````
 
-## File: layers/main/app/components/ht/HtAboutSection.vue
+## File: layers/main/app/components/ho/HoTheFooter.vue
+````vue
+<script setup lang="ts">
+import HaXIcon from '../ha/icons/HaXIcon.vue'
+</script>
+
+<!-- <i18n lang="yaml">
+ja:
+  mainlogo: ロゴ名サービス名
+en:
+  mainlogo: logo name
+</i18n> -->
+
+<template>
+  <footer class="footer">
+    <div class="footer__upper">
+      <div class="footer__left">
+        <img
+          src=""
+          alt=""
+          class="footer__logo"
+        >
+        <nav class="footer__nav">
+          <NuxtLink class="footer__link">利用規約</NuxtLink>
+          <NuxtLink class="footer__link">プライバシー</NuxtLink>
+          <NuxtLink class="footer__link">行動規範</NuxtLink>
+          <NuxtLink class="footer__link">出展ガイドライン</NuxtLink>
+          <NuxtLink class="footer__link">出展規約</NuxtLink>
+        </nav>
+      </div>
+      <div class="footer__right">
+        <HaXIcon />
+      </div>
+    </div>
+    <div class="footer__divider" />
+    <div class="footer__lower">
+      <p class="footer__copy">
+        🄫 2026 VketReal in 札幌 実行委員会. All rights reserved.
+      </p>
+    </div>
+  </footer>
+</template>
+
+<style scoped lang="scss">
+.footer {
+  padding: 88px 105px 0;
+  border-radius: 40px 40px 0 0;
+  background-color: rgb(25 25 25 / 100%);
+
+  &__upper {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 48px;
+  }
+
+  &__logo {
+    width: 120px;
+    height: 90px;
+    margin-bottom: 40px;
+    background-color: gray;
+  }
+
+  &__nav{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__link {
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    text-decoration: underline;
+  }
+
+  &__divider {
+    width: 100%;
+    height: 1px;
+    background-color:#8f8f8f;
+  }
+
+  &__lower {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 78px;
+  }
+
+  &__copy {
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    color: white;
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtExhibitionSection.vue
 ````vue
 <script setup lang="ts">
 import HaCard from '../ha/HaAboutCard.vue'
+import HaDocumentLink from '../ha/HaDocumentLink.vue'
+import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
 import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
+import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue'
+import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
 import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
 import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 </script>
 
 <template>
   <HaSectionTitle
-    title="VketReal in 札幌とは"
-    label="about"
+    title="出展情報"
+    label="exhibition"
   />
-  <div
-    class="description"
-    style="width: 750px;"
-  >
-    世界最大級のメタバースイベント「バーチャルマーケット(Vket)」から派生した、「バーチャルの姿のままリアルに飛び出す！」リアルイベント。<br>北海道の有志XRクリエイターが主催し、札幌で開催します。
-  </div>
-  <div class="info-flex mb-24">
-    <div class="info-flex__child">
-      <p class="info-flex__number info-flex__number--amber">
-        500名+
-      </p>
-      <p class="info-flex__label">
-        過去の来場者数
-      </p>
-    </div>
-    <div class="info-flex__child">
-      <p class="info-flex__number info-flex__number--cyan">
-        50+
-      </p>
-      <p class="info-flex__label">
-        出展サークル数
-      </p>
-    </div>
-    <div class="info-flex__child">
-      <p class="info-flex__number info-flex__number--magenta">
-        6回
-      </p>
-      <p class="info-flex__label">
-        開催回数
-      </p>
-    </div>
-  </div>
-
+  <p class="subtitle">
+    出展カテゴリ
+  </p>
   <div class="card-flex mb-24">
     <HaCard
       class="child"
@@ -4629,178 +4480,77 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
         <HaStarShineIcon />
       </template>
       <template #title>
-        バーチャル姿のまま<br>リアルで体験
+        サークル出展
       </template>
       <template #body>
-        アバターとしての生き方を大切にする人々が<br>リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
+        VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
       </template>
     </HaCard>
     <HaCard
       class="child"
-      color="cyan"
+      icon-url="/icons/tabler_world.svg"
+      color="light-cyan"
     >
       <template #icon>
         <HaWorldIcon />
       </template>
       <template #title>
-        VRの世界で活躍する<br>クリエイターの出展
+        一般展示
       </template>
       <template #body>
-        VRとリアルを行き来しながら活躍する<br>クリエイターの作品展示や、新たなXR技術を<br>活用したインタラクティブな企画を展開！
+        XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
       </template>
     </HaCard>
     <HaCard
       class="child"
+      icon-url="/icons/boxicons_community.svg"
       color="light-magenta"
     >
       <template #icon>
         <HaCommunityIcon />
       </template>
       <template #title>
-        遊んで、買って、<br>楽しめる企業ブース
+        企業出展
       </template>
       <template #body>
-        各企業ブースでは最新XRコンテンツを体験でき、<br>ここでしか手に入らない限定グッズも<br>販売されるかも？
+        企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
       </template>
     </HaCard>
   </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.description {
-  margin: 0 auto 96px;
-
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5em;
-  color: white;
-  text-align: center;
-}
-
-.info-flex {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
-
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-
-  &__child{
-    width: 320px;
-  }
-
-  &__number{
-    margin-bottom: 4px;
-
-    font-size: 64px;
-    font-weight: 700;
-    line-height: 1em;
-    text-align: center;
-    letter-spacing: normal;
-    white-space: nowrap;
-
-    &--cyan{
-      color: v.$vket-cyan;
-    }
-
-    &--amber{
-      color: v.$vket-amber;
-    }
-
-    &--magenta{
-      color: v.$vket-magenta;
-    }
-  }
-
-  &__label{
-    font-size: 16px;
-    font-weight: 400;
-    color: v.$vket-emerald;
-    text-align: center;
-  }
-}
-
-.card-flex {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
-
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-
-  .child {
-    width: 320px;
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtNewsSection.vue
-````vue
-<script setup lang="ts">
-import HaCard from '../ha/HaAboutCard.vue'
-import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
-import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
-import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
-</script>
-
-<template>
-  <HaSectionTitle
-    title="お知らせ"
-    label="news"
-  />
-
-  <div class="card-flex mb-24">
-    <HaCard
-      class="child"
-      color="amber"
+  <p class="subtitle">
+    出展者向けリソース
+  </p>
+  <div class="link-list">
+    <HaDocumentLink
+      title="出展ガイドライン"
+      label="important"
+      color="green"
+      text="出展に必要なルール・準備事項をまとめた公式ガイド"
     >
       <template #icon>
-        <HaStarShineIcon />
+        <HaOpenBookIcon />
       </template>
-      <template #title>
-        バーチャル姿のまま<br>リアルで体験
-      </template>
-      <template #body>
-        アバターとしての生き方を大切にする人々が<br>リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
-      </template>
-    </HaCard>
-    <HaCard
-      class="child"
+    </HaDocumentLink>
+    <HaDocumentLink
+      title="出展規約"
+      label="required"
       color="cyan"
+      text="出展者が遵守すべき規約・利用条件"
     >
       <template #icon>
-        <HaWorldIcon />
+        <HaBalanceIcon />
       </template>
-      <template #title>
-        VRの世界で活躍する<br>クリエイターの出展
-      </template>
-      <template #body>
-        VRとリアルを行き来しながら活躍する<br>クリエイターの作品展示や、新たなXR技術を<br>活用したインタラクティブな企画を展開！
-      </template>
-    </HaCard>
-    <HaCard
-      class="child"
+    </HaDocumentLink>
+    <HaDocumentLink
+      title="出展ガイドライン"
+      label="Q&A"
       color="magenta"
+      text="出展に必要なルール・準備事項をまとめた公式ガイド"
     >
       <template #icon>
-        <HaCommunityIcon />
+        <HaQuestionIcon />
       </template>
-      <template #title>
-        遊んで、買って、<br>楽しめる企業ブース
-      </template>
-      <template #body>
-        各企業ブースでは最新XRコンテンツを体験でき、<br>ここでしか手に入らない限定グッズも<br>販売されるかも？
-      </template>
-    </HaCard>
+    </HaDocumentLink>
   </div>
 </template>
 
@@ -4809,59 +4559,6 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.description {
-  margin: 0 auto 96px;
-
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5em;
-  color: white;
-  text-align: center;
-}
-
-.info-flex {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
-
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-
-  &__child{
-    width: 320px;
-  }
-
-  &__number{
-    margin-bottom: 4px;
-
-    font-size: 64px;
-    font-weight: 700;
-    line-height: 1em;
-    text-align: center;
-    letter-spacing: normal;
-
-    &--cyan{
-      color: v.$vket-cyan;
-    }
-
-    &--amber{
-      color: v.$vket-amber;
-    }
-
-    &--magenta{
-      color: v.$vket-magenta;
-    }
-  }
-
-  &__label{
-    font-size: 16px;
-    font-weight: 400;
-    color: v.$vket-emerald;
-    text-align: center;
-  }
 }
 
 .card-flex {
@@ -4876,6 +4573,12 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   .child {
     width: 320px;
   }
+}
+
+.link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 </style>
 ````
@@ -5601,6 +5304,313 @@ export default defineNuxtConfig({
 }
 ````
 
+## File: layers/main/app/components/ht/HtAboutSection.vue
+````vue
+<script setup lang="ts">
+import HaCard from '../ha/HaAboutCard.vue'
+import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
+import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
+import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
+</script>
+
+<template>
+  <HaSectionTitle
+    title="VketReal in 札幌とは"
+    label="about"
+  />
+  <div
+    class="description"
+    style="width: 750px;"
+  >
+    世界最大級のメタバースイベント「バーチャルマーケット(Vket)」から派生した、「バーチャルの姿のままリアルに飛び出す！」リアルイベント。<br>北海道の有志XRクリエイターが主催し、札幌で開催します。
+  </div>
+  <div class="info-flex mb-24">
+    <div class="info-flex__child">
+      <p class="info-flex__number info-flex__number--amber">
+        500名+
+      </p>
+      <p class="info-flex__label">
+        過去の来場者数
+      </p>
+    </div>
+    <div class="info-flex__child">
+      <p class="info-flex__number info-flex__number--cyan">
+        50+
+      </p>
+      <p class="info-flex__label">
+        出展サークル数
+      </p>
+    </div>
+    <div class="info-flex__child">
+      <p class="info-flex__number info-flex__number--magenta">
+        6回
+      </p>
+      <p class="info-flex__label">
+        開催回数
+      </p>
+    </div>
+  </div>
+
+  <div class="card-flex mb-24">
+    <HaCard
+      class="child"
+      color="amber"
+    >
+      <template #icon>
+        <HaStarShineIcon />
+      </template>
+      <template #title>
+        バーチャル姿のまま<br>リアルで体験
+      </template>
+      <template #body>
+        アバターとしての生き方を大切にする人々が<br>リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
+      </template>
+    </HaCard>
+    <HaCard
+      class="child"
+      color="cyan"
+    >
+      <template #icon>
+        <HaWorldIcon />
+      </template>
+      <template #title>
+        VRの世界で活躍する<br>クリエイターの出展
+      </template>
+      <template #body>
+        VRとリアルを行き来しながら活躍する<br>クリエイターの作品展示や、新たなXR技術を<br>活用したインタラクティブな企画を展開！
+      </template>
+    </HaCard>
+    <HaCard
+      class="child"
+      color="light-magenta"
+    >
+      <template #icon>
+        <HaCommunityIcon />
+      </template>
+      <template #title>
+        遊んで、買って、<br>楽しめる企業ブース
+      </template>
+      <template #body>
+        各企業ブースでは最新XRコンテンツを体験でき、<br>ここでしか手に入らない限定グッズも<br>販売されるかも？
+      </template>
+    </HaCard>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.description {
+  margin: 0 auto 96px;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5em;
+  color: white;
+  text-align: center;
+}
+
+.info-flex {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  &__child{
+    width: 320px;
+  }
+
+  &__number{
+    margin-bottom: 4px;
+
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1em;
+    text-align: center;
+    letter-spacing: normal;
+    white-space: nowrap;
+
+    &--cyan{
+      color: v.$vket-cyan;
+    }
+
+    &--amber{
+      color: v.$vket-amber;
+    }
+
+    &--magenta{
+      color: v.$vket-magenta;
+    }
+  }
+
+  &__label{
+    font-size: 16px;
+    font-weight: 400;
+    color: v.$vket-emerald;
+    text-align: center;
+  }
+}
+
+.card-flex {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  .child {
+    width: 320px;
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtNewsSection.vue
+````vue
+<script setup lang="ts">
+import HaCard from '../ha/HaAboutCard.vue'
+import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
+import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
+import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
+</script>
+
+<template>
+  <HaSectionTitle
+    title="お知らせ"
+    label="news"
+  />
+
+  <div class="card-flex mb-24">
+    <HaCard
+      class="child"
+      color="amber"
+    >
+      <template #icon>
+        <HaStarShineIcon />
+      </template>
+      <template #title>
+        バーチャル姿のまま<br>リアルで体験
+      </template>
+      <template #body>
+        アバターとしての生き方を大切にする人々が<br>リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
+      </template>
+    </HaCard>
+    <HaCard
+      class="child"
+      color="cyan"
+    >
+      <template #icon>
+        <HaWorldIcon />
+      </template>
+      <template #title>
+        VRの世界で活躍する<br>クリエイターの出展
+      </template>
+      <template #body>
+        VRとリアルを行き来しながら活躍する<br>クリエイターの作品展示や、新たなXR技術を<br>活用したインタラクティブな企画を展開！
+      </template>
+    </HaCard>
+    <HaCard
+      class="child"
+      color="magenta"
+    >
+      <template #icon>
+        <HaCommunityIcon />
+      </template>
+      <template #title>
+        遊んで、買って、<br>楽しめる企業ブース
+      </template>
+      <template #body>
+        各企業ブースでは最新XRコンテンツを体験でき、<br>ここでしか手に入らない限定グッズも<br>販売されるかも？
+      </template>
+    </HaCard>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.description {
+  margin: 0 auto 96px;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5em;
+  color: white;
+  text-align: center;
+}
+
+.info-flex {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  &__child{
+    width: 320px;
+  }
+
+  &__number{
+    margin-bottom: 4px;
+
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1em;
+    text-align: center;
+    letter-spacing: normal;
+
+    &--cyan{
+      color: v.$vket-cyan;
+    }
+
+    &--amber{
+      color: v.$vket-amber;
+    }
+
+    &--magenta{
+      color: v.$vket-magenta;
+    }
+  }
+
+  &__label{
+    font-size: 16px;
+    font-weight: 400;
+    color: v.$vket-emerald;
+    text-align: center;
+  }
+}
+
+.card-flex {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  .child {
+    width: 320px;
+  }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ht/HtQuickAccessSection.vue
 ````vue
 <template>
@@ -5609,7 +5619,7 @@ export default defineNuxtConfig({
     label="quick access"
   />
   <div class="grid2x">
-    <HaLinkCard
+    <HaQuickAccessCard
       class="grid2x__child"
       color="cyan"
       title="開催日"
@@ -5621,8 +5631,8 @@ export default defineNuxtConfig({
       <template #body>
         <p />
       </template>
-    </HaLinkCard>
-    <HaLinkCard
+    </HaQuickAccessCard>
+    <HaQuickAccessCard
       class="grid2x__child"
       color="magenta"
       title="会場"
@@ -5634,8 +5644,8 @@ export default defineNuxtConfig({
       <template #body>
         <p />
       </template>
-    </HaLinkCard>
-    <HaLinkCard
+    </HaQuickAccessCard>
+    <HaQuickAccessCard
       class="grid2x__child"
       color="amber"
       title="チケット"
@@ -5647,8 +5657,8 @@ export default defineNuxtConfig({
       <template #body>
         <p />
       </template>
-    </HaLinkCard>
-    <HaLinkCard
+    </HaQuickAccessCard>
+    <HaQuickAccessCard
       class="grid2x__child"
       color="vermilion"
       title="スケジュール"
@@ -5661,12 +5671,12 @@ export default defineNuxtConfig({
       <template #body>
         <p />
       </template>
-    </HaLinkCard>
+    </HaQuickAccessCard>
   </div>
 </template>
 
 <script setup lang="ts">
-import HaLinkCard from '../ha/HaLinkCard.vue'
+import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
 import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
 import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
 import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
