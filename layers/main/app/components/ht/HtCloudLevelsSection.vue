@@ -2,40 +2,12 @@
 import HaSectionTitle from '../ha/HaSectionTitle.vue'
 import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
 import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
-import { ref, onMounted, computed } from 'vue'
 
-type CrowdLevel = 1 | 2 | 3
-
-interface CrowdData {
-  venueId: string
-  venueName: string
-  crowdLevel: CrowdLevel
-  updatedAt: string
-}
-
-const crowdData = ref<CrowdData | null>(null)
-
-const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-  1: '余裕あり',
-  2: 'やや混雑',
-  3: '混雑',
-}
-
-const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-  1: 'cyan',
-  2: 'amber',
-  3: 'vermilion',
-}
-
-const crowdLevel = computed<CrowdLevel>(() => crowdData.value?.crowdLevel ?? 2)
-const fillCount = computed(() => crowdLevel.value)
-const statusText = computed(() => CROWD_LEVEL_TEXT[crowdLevel.value])
-const statusColor = computed(() => CROWD_LEVEL_COLOR[crowdLevel.value])
-
-onMounted(async () => {
-  const res = await fetch('/api/crowd-levels')
-  crowdData.value = await res.json()
-})
+// 本番用
+import { useCrowdData } from '~/composables/useCrowdData'
+// テスト用
+// import { useCrowdData } from '~/composables/useMockCrowdData'
+const { isLoading, isError, fillCount, statusText, statusColor } = useCrowdData()
 </script>
 
 <template>
@@ -43,13 +15,22 @@ onMounted(async () => {
     title="混雑状況"
     label="crowd-levels"
   />
-  <div class="crowd-levels">
+  <p v-if="isLoading">
+    読み込み中...
+  </p>
+  <p v-else-if="isError">
+    混雑状況を取得できませんでした
+  </p>
+  <div
+    v-else
+    class="crowd-levels"
+  >
     <div class="crowd-levels__head">
       <p class="crowd-levels__label">
         メイン会場
       </p>
       <p class="crowd-levels__name">
-        {{ crowdData?.venueName ?? 'アスティーホール' }}
+        アスティーホール
       </p>
     </div>
     <div class="crowd-levels__body">
@@ -68,7 +49,7 @@ onMounted(async () => {
             :key="`fill-${i}`"
           />
           <HaPeopleIcon
-            v-for="i in 3-fillCount"
+            v-for="i in 3 - fillCount"
             :key="`empty-${i}`"
           />
         </div>

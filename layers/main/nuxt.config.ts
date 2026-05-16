@@ -151,6 +151,12 @@ export default defineNuxtConfig({
     analyze: needAnalyze,
   },
 
+  routeRules: {
+    '/external/**': {
+      proxy: 'https://d1-api-test-project.solarkamimura.workers.dev/api/**',
+    },
+  },
+
   sourcemap: {
     server: needSourcemap,
     client: needSourcemap,
@@ -167,6 +173,7 @@ export default defineNuxtConfig({
   googleFonts: {
     families: {
       'Noto+Sans+JP': [100, 300, 400, 500, 700, 900],
+      'Inter': [100, 300, 400, 500, 700, 900],
     },
     display: 'swap',
   },

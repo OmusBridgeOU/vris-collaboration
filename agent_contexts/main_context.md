@@ -124,6 +124,8 @@ layers/
           HtTop.vue
       composables/
         useApi.ts
+        useCrowdData.ts
+        useMockCrowdData.ts
       layouts/
         default.vue
         document.vue
@@ -193,129 +195,6 @@ layers/
 ```
 
 # Files
-
-## File: layers/main/app/components/ha/icons/HaArrowRightIcon.vue
-````vue
-<template>
-  <svg
-    width="28"
-    height="28"
-    viewBox="0 0 28 28"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M20.2344 12.8676H4.28924C4.06173 12.8676 3.84353 12.958 3.68265 13.1189C3.52178 13.2798 3.4314 13.498 3.4314 13.7255C3.4314 13.953 3.52178 14.1712 3.68265 14.3321C3.84353 14.4929 4.06173 14.5833 4.28924 14.5833H20.2344L13.9748 20.8375C13.8134 20.9989 13.7228 21.2178 13.7228 21.4461C13.7228 21.6743 13.8134 21.8932 13.9748 22.0546C14.1362 22.216 14.3551 22.3067 14.5834 22.3067C14.8116 22.3067 15.0305 22.216 15.1919 22.0546L22.9125 14.334C22.9927 14.2543 23.0564 14.1595 23.0999 14.055C23.1433 13.9506 23.1657 13.8386 23.1657 13.7255C23.1657 13.6124 23.1433 13.5004 23.0999 13.3959C23.0564 13.2915 22.9927 13.1967 22.9125 13.1169L15.1919 5.39635C15.112 5.31644 15.0171 5.25304 14.9127 5.2098C14.8083 5.16655 14.6964 5.14429 14.5834 5.14429C14.4703 5.14429 14.3584 5.16655 14.254 5.2098C14.1496 5.25304 14.0547 5.31644 13.9748 5.39635C13.8949 5.47626 13.8315 5.57113 13.7883 5.67555C13.745 5.77996 13.7228 5.89187 13.7228 6.00488C13.7228 6.1179 13.745 6.22981 13.7883 6.33422C13.8315 6.43863 13.8949 6.5335 13.9748 6.61341L20.2344 12.8676Z"
-      fill="#43FFBD"
-    />
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaChevronLeftIcon.vue
-````vue
-<template>
-  <svg
-    width="34"
-    height="34"
-    viewBox="0 0 34 34"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g clip-path="url(#clip0_360_1868)">
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M11.0515 18.1781C10.6605 17.7866 10.4409 17.2559 10.4409 16.7027C10.4409 16.1494 10.6605 15.6187 11.0515 15.2273L18.9241 7.35194C19.3157 6.96045 19.8469 6.74059 20.4006 6.74072C20.6748 6.74079 20.9464 6.79486 21.1997 6.89985C21.453 7.00484 21.6831 7.1587 21.877 7.35264C22.0708 7.54657 22.2245 7.77679 22.3294 8.03014C22.4343 8.2835 22.4882 8.55503 22.4882 8.82923C22.4881 9.10343 22.434 9.37494 22.329 9.62824C22.224 9.88155 22.0702 10.1117 21.8763 10.3055L15.4805 16.7027L21.8776 23.0998C22.0771 23.2923 22.2363 23.5226 22.3459 23.7773C22.4554 24.032 22.5131 24.3059 22.5157 24.5831C22.5182 24.8603 22.4655 25.1353 22.3606 25.3919C22.2558 25.6486 22.1009 25.8817 21.9049 26.0779C21.709 26.274 21.4759 26.4291 21.2194 26.5342C20.9629 26.6393 20.688 26.6923 20.4108 26.69C20.1335 26.6877 19.8595 26.6303 19.6048 26.521C19.35 26.4117 19.1195 26.2527 18.9268 26.0534L11.0487 18.1781H11.0515Z"
-        fill="#FFFFFF"
-      />
-    </g>
-    <defs>
-      <clipPath id="clip0_360_1868">
-        <rect
-          width="33.4054"
-          height="33.4054"
-          fill="white"
-        />
-      </clipPath>
-    </defs>
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaChevronRightIcon.vue
-````vue
-<template>
-  <svg
-    width="34"
-    height="34"
-    viewBox="0 0 34 34"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g clip-path="url(#clip0_360_1864)">
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M22.3539 15.2273C22.7449 15.6188 22.9645 16.1495 22.9645 16.7027C22.9645 17.256 22.7449 17.7867 22.3539 18.1781L14.4814 26.0535C14.0897 26.445 13.5585 26.6648 13.0048 26.6647C12.451 26.6646 11.9199 26.4444 11.5285 26.0528C11.137 25.6611 10.9171 25.13 10.9172 24.5762C10.9174 24.0224 11.1375 23.4914 11.5291 23.0999L17.9263 16.7027L11.5291 10.3056C11.1486 9.91201 10.9379 9.38472 10.9424 8.83729C10.9469 8.28986 11.1663 7.7661 11.5532 7.37881C11.9401 6.99152 12.4637 6.7717 13.0111 6.76669C13.5585 6.76168 14.086 6.97187 14.48 7.35201L22.3553 15.2259L22.3539 15.2273Z"
-        fill="white"
-      />
-    </g>
-    <defs>
-      <clipPath id="clip0_360_1864">
-        <rect
-          width="33.4054"
-          height="33.4054"
-          fill="white"
-        />
-      </clipPath>
-    </defs>
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaPeopleFillIcon.vue
-````vue
-<template>
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M12 10C12.4596 10 12.9148 9.90947 13.3394 9.73358C13.764 9.55769 14.1499 9.29988 14.4749 8.97487C14.7999 8.64987 15.0577 8.26403 15.2336 7.83939C15.4095 7.41475 15.5 6.95963 15.5 6.5C15.5 6.04037 15.4095 5.58525 15.2336 5.16061C15.0577 4.73597 14.7999 4.35013 14.4749 4.02513C14.1499 3.70012 13.764 3.44231 13.3394 3.26642C12.9148 3.09053 12.4596 3 12 3C11.0717 3 10.1815 3.36875 9.52513 4.02513C8.86875 4.6815 8.5 5.57174 8.5 6.5C8.5 7.42826 8.86875 8.3185 9.52513 8.97487C10.1815 9.63125 11.0717 10 12 10ZM3 20.4V21H21V20.4C21 18.16 21 17.04 20.564 16.184C20.1805 15.4314 19.5686 14.8195 18.816 14.436C17.96 14 16.84 14 14.6 14H9.4C7.16 14 6.04 14 5.184 14.436C4.43139 14.8195 3.81949 15.4314 3.436 16.184C3 17.04 3 18.16 3 20.4Z"
-      fill="white"
-      stroke="white"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaPeopleIcon.vue
-````vue
-<template>
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M12 10C12.4596 10 12.9148 9.90947 13.3394 9.73358C13.764 9.55769 14.1499 9.29988 14.4749 8.97487C14.7999 8.64987 15.0577 8.26403 15.2336 7.83939C15.4095 7.41475 15.5 6.95963 15.5 6.5C15.5 6.04037 15.4095 5.58525 15.2336 5.16061C15.0577 4.73597 14.7999 4.35013 14.4749 4.02513C14.1499 3.70012 13.764 3.44231 13.3394 3.26642C12.9148 3.09053 12.4596 3 12 3C11.0717 3 10.1815 3.36875 9.52513 4.02513C8.86875 4.6815 8.5 5.57174 8.5 6.5C8.5 7.42826 8.86875 8.3185 9.52513 8.97487C10.1815 9.63125 11.0717 10 12 10ZM3 20.4V21H21V20.4C21 18.16 21 17.04 20.564 16.184C20.1805 15.4314 19.5686 14.8195 18.816 14.436C17.96 14 16.84 14 14.6 14H9.4C7.16 14 6.04 14 5.184 14.436C4.43139 14.8195 3.81949 15.4314 3.436 16.184C3 17.04 3 18.16 3 20.4Z"
-      stroke="white"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-</template>
-````
 
 ## File: layers/main/app/components/ha/HaFireworks.vue
 ````vue
@@ -447,185 +326,177 @@ onUnmounted(() => {
 </style>
 ````
 
-## File: layers/main/app/components/ht/HtCloudLevelsSection.vue
-````vue
-<script setup lang="ts">
-import HaSectionTitle from '../ha/HaSectionTitle.vue'
-import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
-import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
-import { ref, onMounted, computed } from 'vue'
+## File: layers/main/app/composables/useCrowdData.ts
+````typescript
+// モジュールスコープ
+type CrowdLevel = 0 | 1 | 2 | 3
 
-type CrowdLevel = 1 | 2 | 3
-
-interface CrowdData {
-  venueId: string
-  venueName: string
-  crowdLevel: CrowdLevel
-  updatedAt: string
+interface ReadResponse {
+  timestamp: string
+  value: CrowdLevel
 }
 
-const crowdData = ref<CrowdData | null>(null)
+let timerId: ReturnType<typeof setTimeout> | null = null
+let isFetching = false // Fetch実行中フラグ（開発者ツールを用いたリトライ攻撃対策）
+let retryCount = 0
 
-const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-  1: '余裕あり',
-  2: 'やや混雑',
-  3: '混雑',
+// 開催日時までは特別表示
+const EVENT_START = new Date('2026-06-01T00:00:00+09:00') // 開催日時を指定
+
+function isBeforeEvent(): boolean {
+  return new Date() < EVENT_START
 }
 
-const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-  1: 'cyan',
-  2: 'amber',
-  3: 'vermilion',
-}
+export function useCrowdData() {
+  const crowdData = ref<ReadResponse | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+  const isBeforeEventStart = ref(isBeforeEvent()) // 開催日時までは特別表示
 
-const crowdLevel = computed<CrowdLevel>(() => crowdData.value?.crowdLevel ?? 2)
-const fillCount = computed(() => crowdLevel.value)
-const statusText = computed(() => CROWD_LEVEL_TEXT[crowdLevel.value])
-const statusColor = computed(() => CROWD_LEVEL_COLOR[crowdLevel.value])
+  const NORMAL_INTERVAL_MS = 5 * 60 * 1000 // 通常時 : 5分に1回
+  const RETRY_INTERVAL_MS = 30 * 1000 // 取得エラー時 : 30秒に回
+  const MAX_RETRY_COUNT = 5 // 取得エラーが続く場合は5回までリトライ
 
-onMounted(async () => {
-  const res = await fetch('/api/crowd-levels')
-  crowdData.value = await res.json()
-})
-</script>
-
-<template>
-  <HaSectionTitle
-    title="混雑状況"
-    label="crowd-levels"
-  />
-  <div class="crowd-levels">
-    <div class="crowd-levels__head">
-      <p class="crowd-levels__label">
-        メイン会場
-      </p>
-      <p class="crowd-levels__name">
-        {{ crowdData?.venueName ?? 'アスティーホール' }}
-      </p>
-    </div>
-    <div class="crowd-levels__body">
-      <img
-        src="/crowd-levels/asty.png"
-        alt=""
-        class="crowd-levels__img"
-      >
-      <div
-        class="crowd-levels__status-box"
-        :class="`crowd-levels__status-box--${statusColor}`"
-      >
-        <div class="crowd-levels__icon-box">
-          <HaPeopleFillIcon
-            v-for="i in fillCount"
-            :key="`fill-${i}`"
-          />
-          <HaPeopleIcon
-            v-for="i in 3-fillCount"
-            :key="`empty-${i}`"
-          />
-        </div>
-        <p class="crowd-levels__status-text">
-          {{ statusText }}
-        </p>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px;
-}
-
-.crowd-levels {
-  &__head {
-    text-align: center;
+  const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
+    0: '開催期間外',
+    1: '余裕あり',
+    2: 'やや混雑',
+    3: '混雑',
   }
 
-  &__label {
-    font-size: 14px;
-    color: white;
+  const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+    0: 'cyan',
+    1: 'cyan',
+    2: 'amber',
+    3: 'vermilion',
   }
 
-  &__name {
-    font-size: 32px;
-    color: white;
-  }
+  const crowdLevel = computed<CrowdLevel | null>(() => {
+    if (isBeforeEventStart.value) return 0 // 開催期間外は強制的に0
+    return crowdData.value?.value ?? null
+  })
+  const fillCount = computed(() => crowdLevel.value ?? 0)
+  const statusText = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
+  const statusColor = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
 
-  &__body {
-    position: relative;
-  }
+  async function fetchCrowdData() {
+    if (isBeforeEventStart.value) return // 開催前はfetchしない
+    if (isFetching) return // 多重実行を防ぐ
+    isFetching = true
 
-  &__img {
-    width: 100%;
-    height: 100%;
-  }
-
-  &__status-box {
-    position: absolute;
-    top: 30%;
-    left: 30%;
-
-    display: flex;
-    gap: 12px;
-    align-items: center;
-
-    padding: 10px 32px;
-    border-radius: 22px;
-
-    &::before {
-      content: '';
-
-      position: absolute;
-      bottom: -16px;
-      left: 50%;
-
-      display: block;
-
-      width: 0;
-      height: 0;
-      border-top: 20px solid v.$vket-amber;
-      border-right: 14px solid transparent;
-      border-left: 14px solid transparent;
-    }
-
-    &--cyan {
-      background-color: v.$vket-cyan;
-
-      &::before {
-        border-top: 20px solid v.$vket-cyan;
+    try {
+      const res = await fetch('/external/read')
+      if (!res.ok) throw new Error()
+      crowdData.value = await res.json()
+      isError.value = false
+      retryCount = 0
+      schedule(NORMAL_INTERVAL_MS)
+    } catch (e) {
+      if (import.meta.dev) {
+        console.error('混雑情報の取得に失敗しました', e)
       }
-    }
+      isError.value = true
 
-    &--amber {
-      background-color: v.$vket-amber;
-
-      &::before {
-        border-top: 20px solid v.$vket-amber;
+      // 取得エラーが続く場合は5回までリトライ
+      if (retryCount < MAX_RETRY_COUNT) {
+        retryCount++
+        schedule(RETRY_INTERVAL_MS)
       }
-    }
-
-    &--vermilion {
-      background-color: v.$vket-vermilion;
-
-      &::before {
-        border-top: 20px solid v.$vket-vermilion;
-      }
+    } finally {
+      isLoading.value = false
+      isFetching = false
     }
   }
 
-  &__icon-box {
-    display: flex;
+  function schedule(ms: number) {
+    if (timerId !== null) clearTimeout(timerId)
+    timerId = setTimeout(fetchCrowdData, ms)
   }
 
-  &__status-text {
-    font-size: 32px;
-    font-weight: bold;
-  }
+  onMounted(() => {
+    if (isBeforeEventStart.value) {
+      // 開催開始時刻になったらフラグを更新してfetchを開始する
+      const msUntilStart = EVENT_START.getTime() - Date.now()
+      timerId = setTimeout(() => {
+        isBeforeEventStart.value = false
+        isLoading.value = false // ローディングを解除してcrowdLevel=0を表示
+        fetchCrowdData()
+      }, msUntilStart)
+
+      isLoading.value = false // 開催前はローディングを解除
+      return
+    }
+
+    if (timerId !== null) {
+      clearTimeout(timerId)
+      timerId = null
+    }
+    fetchCrowdData()
+  })
+
+  onUnmounted(() => {
+    if (timerId !== null) clearTimeout(timerId)
+  })
+
+  return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
 }
-</style>
+````
+
+## File: layers/main/app/composables/useMockCrowdData.ts
+````typescript
+// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
+import { ref, onMounted, onUnmounted } from 'vue'
+
+type CrowdLevel = 0 | 1 | 2 | 3
+
+export function useCrowdData() {
+  const crowdData = ref<{ timestamp: string, value: CrowdLevel } | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+
+  const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
+    0: '開催期間外',
+    1: '余裕あり',
+    2: 'やや混雑',
+    3: '混雑',
+  }
+
+  const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+    0: 'cyan',
+    1: 'cyan',
+    2: 'amber',
+    3: 'vermilion',
+  }
+
+  const MOCK_INTERVAL_MS = 10 * 1000 // 10秒
+  const crowdLevel = computed<CrowdLevel | null>(() => crowdData.value?.value ?? null)
+  const fillCount = computed(() => crowdLevel.value ?? 0)
+  const statusText = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
+  const statusColor = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
+
+  let timerId: ReturnType<typeof setInterval> | null = null
+
+  function generateMock() {
+    console.log('取得：ダミー')
+    crowdData.value = {
+      timestamp: new Date().toISOString(),
+      value: (Math.floor(Math.random() * 3) + 1) as CrowdLevel,
+    }
+    isLoading.value = false
+    isError.value = false
+  }
+
+  onMounted(() => {
+    generateMock()
+    timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
+  })
+
+  onUnmounted(() => {
+    if (timerId !== null) clearInterval(timerId)
+  })
+
+  return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
+}
 ````
 
 ## File: layers/main/@types/auto-imports.d.ts
@@ -1168,6 +1039,24 @@ img {
 }
 ````
 
+## File: layers/main/app/components/ha/icons/HaArrowRightIcon.vue
+````vue
+<template>
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 28 28"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M20.2344 12.8676H4.28924C4.06173 12.8676 3.84353 12.958 3.68265 13.1189C3.52178 13.2798 3.4314 13.498 3.4314 13.7255C3.4314 13.953 3.52178 14.1712 3.68265 14.3321C3.84353 14.4929 4.06173 14.5833 4.28924 14.5833H20.2344L13.9748 20.8375C13.8134 20.9989 13.7228 21.2178 13.7228 21.4461C13.7228 21.6743 13.8134 21.8932 13.9748 22.0546C14.1362 22.216 14.3551 22.3067 14.5834 22.3067C14.8116 22.3067 15.0305 22.216 15.1919 22.0546L22.9125 14.334C22.9927 14.2543 23.0564 14.1595 23.0999 14.055C23.1433 13.9506 23.1657 13.8386 23.1657 13.7255C23.1657 13.6124 23.1433 13.5004 23.0999 13.3959C23.0564 13.2915 22.9927 13.1967 22.9125 13.1169L15.1919 5.39635C15.112 5.31644 15.0171 5.25304 14.9127 5.2098C14.8083 5.16655 14.6964 5.14429 14.5834 5.14429C14.4703 5.14429 14.3584 5.16655 14.254 5.2098C14.1496 5.25304 14.0547 5.31644 13.9748 5.39635C13.8949 5.47626 13.8315 5.57113 13.7883 5.67555C13.745 5.77996 13.7228 5.89187 13.7228 6.00488C13.7228 6.1179 13.745 6.22981 13.7883 6.33422C13.8315 6.43863 13.8949 6.5335 13.9748 6.61341L20.2344 12.8676Z"
+      fill="#43FFBD"
+    />
+  </svg>
+</template>
+````
+
 ## File: layers/main/app/components/ha/icons/HaBalanceIcon.vue
 ````vue
 <template>
@@ -1293,6 +1182,68 @@ img {
         <rect
           width="35.677"
           height="35.677"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaChevronLeftIcon.vue
+````vue
+<template>
+  <svg
+    width="34"
+    height="34"
+    viewBox="0 0 34 34"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_360_1868)">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M11.0515 18.1781C10.6605 17.7866 10.4409 17.2559 10.4409 16.7027C10.4409 16.1494 10.6605 15.6187 11.0515 15.2273L18.9241 7.35194C19.3157 6.96045 19.8469 6.74059 20.4006 6.74072C20.6748 6.74079 20.9464 6.79486 21.1997 6.89985C21.453 7.00484 21.6831 7.1587 21.877 7.35264C22.0708 7.54657 22.2245 7.77679 22.3294 8.03014C22.4343 8.2835 22.4882 8.55503 22.4882 8.82923C22.4881 9.10343 22.434 9.37494 22.329 9.62824C22.224 9.88155 22.0702 10.1117 21.8763 10.3055L15.4805 16.7027L21.8776 23.0998C22.0771 23.2923 22.2363 23.5226 22.3459 23.7773C22.4554 24.032 22.5131 24.3059 22.5157 24.5831C22.5182 24.8603 22.4655 25.1353 22.3606 25.3919C22.2558 25.6486 22.1009 25.8817 21.9049 26.0779C21.709 26.274 21.4759 26.4291 21.2194 26.5342C20.9629 26.6393 20.688 26.6923 20.4108 26.69C20.1335 26.6877 19.8595 26.6303 19.6048 26.521C19.35 26.4117 19.1195 26.2527 18.9268 26.0534L11.0487 18.1781H11.0515Z"
+        fill="#FFFFFF"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_360_1868">
+        <rect
+          width="33.4054"
+          height="33.4054"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaChevronRightIcon.vue
+````vue
+<template>
+  <svg
+    width="34"
+    height="34"
+    viewBox="0 0 34 34"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_360_1864)">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M22.3539 15.2273C22.7449 15.6188 22.9645 16.1495 22.9645 16.7027C22.9645 17.256 22.7449 17.7867 22.3539 18.1781L14.4814 26.0535C14.0897 26.445 13.5585 26.6648 13.0048 26.6647C12.451 26.6646 11.9199 26.4444 11.5285 26.0528C11.137 25.6611 10.9171 25.13 10.9172 24.5762C10.9174 24.0224 11.1375 23.4914 11.5291 23.0999L17.9263 16.7027L11.5291 10.3056C11.1486 9.91201 10.9379 9.38472 10.9424 8.83729C10.9469 8.28986 11.1663 7.7661 11.5532 7.37881C11.9401 6.99152 12.4637 6.7717 13.0111 6.76669C13.5585 6.76168 14.086 6.97187 14.48 7.35201L22.3553 15.2259L22.3539 15.2273Z"
+        fill="white"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_360_1864">
+        <rect
+          width="33.4054"
+          height="33.4054"
           fill="white"
         />
       </clipPath>
@@ -1481,6 +1432,49 @@ img {
       d="M23.3334 31.667C22.4494 31.667 21.6015 32.0182 20.9764 32.6433C20.3513 33.2684 20.0001 34.1163 20.0001 35.0003C20.0001 34.1163 19.6489 33.2684 19.0238 32.6433C18.3986 32.0182 17.5508 31.667 16.6667 31.667"
       stroke="white"
       stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaPeopleFillIcon.vue
+````vue
+<template>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 10C12.4596 10 12.9148 9.90947 13.3394 9.73358C13.764 9.55769 14.1499 9.29988 14.4749 8.97487C14.7999 8.64987 15.0577 8.26403 15.2336 7.83939C15.4095 7.41475 15.5 6.95963 15.5 6.5C15.5 6.04037 15.4095 5.58525 15.2336 5.16061C15.0577 4.73597 14.7999 4.35013 14.4749 4.02513C14.1499 3.70012 13.764 3.44231 13.3394 3.26642C12.9148 3.09053 12.4596 3 12 3C11.0717 3 10.1815 3.36875 9.52513 4.02513C8.86875 4.6815 8.5 5.57174 8.5 6.5C8.5 7.42826 8.86875 8.3185 9.52513 8.97487C10.1815 9.63125 11.0717 10 12 10ZM3 20.4V21H21V20.4C21 18.16 21 17.04 20.564 16.184C20.1805 15.4314 19.5686 14.8195 18.816 14.436C17.96 14 16.84 14 14.6 14H9.4C7.16 14 6.04 14 5.184 14.436C4.43139 14.8195 3.81949 15.4314 3.436 16.184C3 17.04 3 18.16 3 20.4Z"
+      fill="white"
+      stroke="white"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaPeopleIcon.vue
+````vue
+<template>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 10C12.4596 10 12.9148 9.90947 13.3394 9.73358C13.764 9.55769 14.1499 9.29988 14.4749 8.97487C14.7999 8.64987 15.0577 8.26403 15.2336 7.83939C15.4095 7.41475 15.5 6.95963 15.5 6.5C15.5 6.04037 15.4095 5.58525 15.2336 5.16061C15.0577 4.73597 14.7999 4.35013 14.4749 4.02513C14.1499 3.70012 13.764 3.44231 13.3394 3.26642C12.9148 3.09053 12.4596 3 12 3C11.0717 3 10.1815 3.36875 9.52513 4.02513C8.86875 4.6815 8.5 5.57174 8.5 6.5C8.5 7.42826 8.86875 8.3185 9.52513 8.97487C10.1815 9.63125 11.0717 10 12 10ZM3 20.4V21H21V20.4C21 18.16 21 17.04 20.564 16.184C20.1805 15.4314 19.5686 14.8195 18.816 14.436C17.96 14 16.84 14 14.6 14H9.4C7.16 14 6.04 14 5.184 14.436C4.43139 14.8195 3.81949 15.4314 3.436 16.184C3 17.04 3 18.16 3 20.4Z"
+      stroke="white"
+      stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
@@ -1761,88 +1755,6 @@ defineProps<{
 </style>
 ````
 
-## File: layers/main/app/components/ha/HaQuickAccessCard.vue
-````vue
-<!-- components/GlassCard.vue -->
-<script setup lang="ts">
-import HaArrowRight from './icons/HaArrowRightIcon.vue'
-
-defineProps<{
-  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
-  title: string
-  label: string
-}>()
-</script>
-
-<template>
-  <div
-    :class="['glassy-box quick-access-card', `glassy-box--${color ?? 'cyan'}`]"
-  >
-    <div class="quick-access-card__head">
-      <div class="quick-access-card__head-left">
-        <div class="glassy-box__icon">
-          <slot name="icon" />
-        </div>
-        <div class="title-box">
-          <p class="label">
-            {{ label }}
-          </p>
-          <h3 class="title">
-            {{ title }}
-          </h3>
-        </div>
-      </div>
-      <div class="quick-access-card__head-right">
-        <HaArrowRight />
-      </div>
-    </div>
-    <div class="quick-access-card__body">
-      <slot name="body" />
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.quick-access-card {
-  padding: 22px 36px;
-
-  &__head{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__head-left {
-    display: flex;
-    gap: 12px;
-  }
-
-  .title-box{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    height: inherit;
-    padding: 4px 0;
-
-    .label{
-      font-size: 10px;
-      font-weight: 700;
-      line-height: 1em;
-    }
-
-    .title {
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 1em;
-    }
-  }
-}
-</style>
-````
-
 ## File: layers/main/app/components/ha/HaSwiperCard.vue
 ````vue
 <template>
@@ -2010,84 +1922,163 @@ en:
 </style>
 ````
 
-## File: layers/main/app/components/ht/HtContentsSection.vue
+## File: layers/main/app/components/ht/HtCloudLevelsSection.vue
 ````vue
 <script setup lang="ts">
-import HmSwiper from '../hm/HmSwiper.vue'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+import HaSectionTitle from '../ha/HaSectionTitle.vue'
+import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
+import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
 
-import type { Swiper as SwiperType } from 'swiper'
-
-const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
-
-// 親側でリアクティブな状態として持つ
-const isBeginning = ref(true)
-const isEnd = ref(false)
-
-const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
-  isBeginning.value = newIsBeginning
-  isEnd.value = newIsEnd
-}
+// 本番用
+// import { useCrowdData } from '~/composables/useCrowdData'
+// テスト用
+import { useCrowdData } from '~/composables/useMockCrowdData'
+const { isLoading, isError, fillCount, statusText, statusColor } = useCrowdData()
 </script>
 
 <template>
   <HaSectionTitle
-    title="企画・コンテンツ"
-    label="contents"
-  >
-    <template #controls>
-      <button
-        :disabled="isBeginning"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isBeginning }"
-        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
-      >
-        <HaChevronLeftIcon />
-      </button>
-      <button
-        :disabled="isEnd"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isEnd }"
-        @click="worksSwiperRef?.swiperInstance?.slideNext()"
-      >
-        <HaChevronRightIcon />
-      </button>
-    </template>
-  </HaSectionTitle>
-
-  <HmSwiper
-    ref="worksSwiperRef"
-    :_slides-per-view="2"
-    class="mb-24"
-    :_breakpoints="{
-      1024: { slidesPerView: 2.8 },
-    }"
-    @slide-change="onSlideChange"
+    title="混雑状況"
+    label="crowd-levels"
   />
+  <p v-if="isLoading">
+    読み込み中...
+  </p>
+  <p v-else-if="isError">
+    混雑状況を取得できませんでした
+  </p>
+  <div
+    v-else
+    class="crowd-levels"
+  >
+    <div class="crowd-levels__head">
+      <p class="crowd-levels__label">
+        メイン会場
+      </p>
+      <p class="crowd-levels__name">
+        アスティーホール
+      </p>
+    </div>
+    <div class="crowd-levels__body">
+      <img
+        src="/crowd-levels/asty.png"
+        alt=""
+        class="crowd-levels__img"
+      >
+      <div
+        class="crowd-levels__status-box"
+        :class="`crowd-levels__status-box--${statusColor}`"
+      >
+        <div class="crowd-levels__icon-box">
+          <HaPeopleFillIcon
+            v-for="i in fillCount"
+            :key="`fill-${i}`"
+          />
+          <HaPeopleIcon
+            v-for="i in 3 - fillCount"
+            :key="`empty-${i}`"
+          />
+        </div>
+        <p class="crowd-levels__status-text">
+          {{ statusText }}
+        </p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+  margin-bottom: 96px;
 }
 
-.custom-swiper-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.crowd-levels {
+  &__head {
+    text-align: center;
+  }
 
-  width: 44px;
-  height: 44px;
-  border-radius: 100px;
+  &__label {
+    font-size: 14px;
+    color: white;
+  }
 
-  background-color: #1e355b;
+  &__name {
+    font-size: 32px;
+    color: white;
+  }
 
-  &.is-disabled {
-    opacity: 0.6;
-    background-color: transparent;
+  &__body {
+    position: relative;
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__status-box {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    padding: 10px 32px;
+    border-radius: 22px;
+
+    &::before {
+      content: '';
+
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+
+      display: block;
+
+      width: 0;
+      height: 0;
+      border-top: 20px solid v.$vket-amber;
+      border-right: 14px solid transparent;
+      border-left: 14px solid transparent;
+    }
+
+    &--cyan {
+      background-color: v.$vket-cyan;
+
+      &::before {
+        border-top: 20px solid v.$vket-cyan;
+      }
+    }
+
+    &--amber {
+      background-color: v.$vket-amber;
+
+      &::before {
+        border-top: 20px solid v.$vket-amber;
+      }
+    }
+
+    &--vermilion {
+      background-color: v.$vket-vermilion;
+
+      &::before {
+        border-top: 20px solid v.$vket-vermilion;
+      }
+    }
+  }
+
+  &__icon-box {
+    display: flex;
+  }
+
+  &__status-text {
+    font-size: 32px;
+    font-weight: bold;
   }
 }
 </style>
@@ -2139,86 +2130,6 @@ const items = [
     &--full-width {
       grid-column: 1 / -1;
     }
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtRelatedEventsSection.vue
-````vue
-<script setup lang="ts">
-import HmSwiper from '../hm/HmSwiper.vue'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-import type { Swiper as SwiperType } from 'swiper'
-
-const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
-
-// 親側でリアクティブな状態として持つ
-const isBeginning = ref(true)
-const isEnd = ref(false)
-
-const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
-  isBeginning.value = newIsBeginning
-  isEnd.value = newIsEnd
-}
-</script>
-
-<template>
-  <HaSectionTitle
-    title="関連イベント"
-    label="RELATED EVENTS"
-  >
-    <template #controls>
-      <button
-        :disabled="isBeginning"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isBeginning }"
-        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
-      >
-        <HaChevronLeftIcon />
-      </button>
-      <button
-        :disabled="isEnd"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isEnd }"
-        @click="worksSwiperRef?.swiperInstance?.slideNext()"
-      >
-        <HaChevronRightIcon />
-      </button>
-    </template>
-  </HaSectionTitle>
-
-  <HmSwiper
-    ref="worksSwiperRef"
-    :_slides-per-view="1.4"
-    class="mb-24"
-    @slide-change="onSlideChange"
-  />
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.custom-swiper-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 44px;
-  height: 44px;
-  border-radius: 100px;
-
-  background-color: #1e355b;
-
-  &.is-disabled {
-    opacity: 0.6;
-    background-color: transparent;
   }
 }
 </style>
@@ -4612,6 +4523,88 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
 </style>
 ````
 
+## File: layers/main/app/components/ha/HaQuickAccessCard.vue
+````vue
+<!-- components/GlassCard.vue -->
+<script setup lang="ts">
+import HaArrowRight from './icons/HaArrowRightIcon.vue'
+
+defineProps<{
+  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+  title: string
+  label: string
+}>()
+</script>
+
+<template>
+  <div
+    :class="['glassy-box quick-access-card', `glassy-box--${color ?? 'cyan'}`]"
+  >
+    <div class="quick-access-card__head">
+      <div class="quick-access-card__head-left">
+        <div class="glassy-box__icon">
+          <slot name="icon" />
+        </div>
+        <div class="title-box">
+          <p class="label">
+            {{ label }}
+          </p>
+          <h3 class="title">
+            {{ title }}
+          </h3>
+        </div>
+      </div>
+      <div class="quick-access-card__head-right">
+        <HaArrowRight />
+      </div>
+    </div>
+    <div class="quick-access-card__body">
+      <slot name="body" />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.quick-access-card {
+  padding: 22px 36px;
+
+  &__head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__head-left {
+    display: flex;
+    gap: 12px;
+  }
+
+  .title-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    height: inherit;
+    padding: 4px 0;
+
+    .label{
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1em;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1em;
+    }
+  }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ha/HaSponsorCard.vue
 ````vue
 <template>
@@ -5091,6 +5084,169 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 </style>
 ````
 
+## File: layers/main/app/components/ht/HtContentsSection.vue
+````vue
+<script setup lang="ts">
+import HmSwiper from '../hm/HmSwiper.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+import type { Swiper as SwiperType } from 'swiper'
+
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
+
+// 親側でリアクティブな状態として持つ
+const isBeginning = ref(true)
+const isEnd = ref(false)
+
+const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
+  isBeginning.value = newIsBeginning
+  isEnd.value = newIsEnd
+}
+</script>
+
+<template>
+  <HaSectionTitle
+    title="企画・コンテンツ"
+    label="contents"
+  >
+    <template #controls>
+      <button
+        :disabled="isBeginning"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isBeginning }"
+        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+      >
+        <HaChevronLeftIcon />
+      </button>
+      <button
+        :disabled="isEnd"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isEnd }"
+        @click="worksSwiperRef?.swiperInstance?.slideNext()"
+      >
+        <HaChevronRightIcon />
+      </button>
+    </template>
+  </HaSectionTitle>
+
+  <HmSwiper
+    ref="worksSwiperRef"
+    :_slides-per-view="2"
+    class="mb-24"
+    :_breakpoints="{
+      1024: { slidesPerView: 2.8 },
+    }"
+    @slide-change="onSlideChange"
+  />
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.custom-swiper-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 100px;
+
+  background-color: #1e355b;
+
+  &.is-disabled {
+    opacity: 0.6;
+    background-color: transparent;
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtRelatedEventsSection.vue
+````vue
+<script setup lang="ts">
+import HmSwiper from '../hm/HmSwiper.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+import type { Swiper as SwiperType } from 'swiper'
+
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
+
+// 親側でリアクティブな状態として持つ
+const isBeginning = ref(true)
+const isEnd = ref(false)
+
+const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
+  isBeginning.value = newIsBeginning
+  isEnd.value = newIsEnd
+}
+</script>
+
+<template>
+  <HaSectionTitle
+    title="関連イベント"
+    label="RELATED EVENTS"
+  >
+    <template #controls>
+      <button
+        :disabled="isBeginning"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isBeginning }"
+        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+      >
+        <HaChevronLeftIcon />
+      </button>
+      <button
+        :disabled="isEnd"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isEnd }"
+        @click="worksSwiperRef?.swiperInstance?.slideNext()"
+      >
+        <HaChevronRightIcon />
+      </button>
+    </template>
+  </HaSectionTitle>
+
+  <HmSwiper
+    ref="worksSwiperRef"
+    :_slides-per-view="1.4"
+    class="mb-24"
+    @slide-change="onSlideChange"
+  />
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.custom-swiper-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 100px;
+
+  background-color: #1e355b;
+
+  &.is-disabled {
+    opacity: 0.6;
+    background-color: transparent;
+  }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ht/HtSponsorsAndPartnersSection.vue
 ````vue
 <script setup lang="ts">
@@ -5295,6 +5451,12 @@ export default defineNuxtConfig({
     },
   },
 
+  routeRules: {
+    '/external/**': {
+      proxy: 'https://d1-api-test-project.solarkamimura.workers.dev/api/**'
+    }
+  },
+
   css: cssUrls,
 
   content: {
@@ -5425,162 +5587,6 @@ export default defineNuxtConfig({
     "vket-boilerplate-nuxt-base": "workspace:*"
   }
 }
-````
-
-## File: layers/main/app/components/ha/HaAccordionItem.vue
-````vue
-<script setup lang="ts">
-import { ref } from 'vue'
-import HaChevronDownIcon from './icons/HaChevronDownIcon.vue'
-
-interface AccordionItem {
-  id: number
-  title: string
-  contents: Array<string>
-}
-
-defineProps<{
-  items: AccordionItem[]
-}>()
-
-const openId = ref<number | null>(null)
-
-const toggle = (id: number) => {
-  openId.value = openId.value === id ? null : id
-}
-</script>
-
-<template>
-  <div class="accordion glassy-box-2">
-    <button
-      v-for="item in items"
-      :key="item.id"
-      class="accordion-item glassy-box-2"
-      :class="{ 'accordion-item--is-open': openId === item.id }"
-      @click="toggle(item.id)"
-    >
-      <div class="accordion-item__header">
-        <div class="accordion-item__left">
-          <p class="accordion-item__label">
-            Q{{ item.id }}
-          </p>
-          <p class="accordion-item__title">
-            {{ item.title }}
-          </p>
-        </div>
-        <HaChevronDownIcon class="accordion-item__icon" />
-      </div>
-
-      <div class="accordion-item__body">
-        <div class="accordion-item__inner">
-          <slot
-            name="content"
-            :item="item"
-          />
-        </div>
-      </div>
-    </button>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/mixins' as m;
-
-.accordion {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    width: 100%;
-    height: fit-content;
-    padding: 70px 48px;
-
-    @include m.tb {
-      padding: 48px 24px;
-      border-radius: 20px;
-    }
-}
-
-.accordion-item {
-    width: 100%;
-    padding: 40px;
-
-    background-color: rgb(42 63 99 / 0%);
-    mix-blend-mode: plus-lighter;
-
-    transition: background-color 1s ease;
-
-    &__header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    &__left {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
-
-    &__label {
-      font-size: 20px;
-      font-weight: 700;
-      color: #258966;
-    }
-
-    &__title {
-      font-size: 20px;
-      font-weight: 700;
-      color: white;
-    }
-
-    &__icon {
-      transition: transform 0.3s ease;
-    }
-
-    &__body {
-      display: grid;
-      grid-template-rows: 0fr;
-      padding-top: 0;
-      transition: padding 0.3s ease, grid-template-rows 0.3s ease;
-    }
-
-    &__inner {
-        overflow: hidden;
-
-        padding-left: 44px;
-
-        font-size: 16px;
-        font-weight: 700;
-        color: white;
-        text-align: left;
-    }
-
-    &--is-open {
-        background-color: rgb(42 63 99 / 60%);
-
-        .accordion-item__icon {
-          transform: rotate(180deg);
-        }
-
-        .accordion-item__body {
-          grid-template-rows: 1fr;
-          padding-top: 80px;
-        }
-    }
-}
-
-.glassy-box-2{
-    position: relative;
-    border-radius: 20px;
-    box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
-
-    &::before {
-      width: 100%;
-      height: 100%;
-    }
-}
-</style>
 ````
 
 ## File: layers/main/app/components/ha/HaSectionTitle.vue
@@ -6690,6 +6696,162 @@ $zindex-loading: 400;
 }
 ````
 
+## File: layers/main/app/components/ha/HaAccordionItem.vue
+````vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import HaChevronDownIcon from './icons/HaChevronDownIcon.vue'
+
+interface AccordionItem {
+  id: number
+  title: string
+  contents: Array<string>
+}
+
+defineProps<{
+  items: AccordionItem[]
+}>()
+
+const openId = ref<number | null>(null)
+
+const toggle = (id: number) => {
+  openId.value = openId.value === id ? null : id
+}
+</script>
+
+<template>
+  <div class="accordion glassy-box-2">
+    <button
+      v-for="item in items"
+      :key="item.id"
+      class="accordion-item glassy-box-2"
+      :class="{ 'accordion-item--is-open': openId === item.id }"
+      @click="toggle(item.id)"
+    >
+      <div class="accordion-item__header">
+        <div class="accordion-item__left">
+          <p class="accordion-item__label">
+            Q{{ item.id }}
+          </p>
+          <p class="accordion-item__title">
+            {{ item.title }}
+          </p>
+        </div>
+        <HaChevronDownIcon class="accordion-item__icon" />
+      </div>
+
+      <div class="accordion-item__body">
+        <div class="accordion-item__inner">
+          <slot
+            name="content"
+            :item="item"
+          />
+        </div>
+      </div>
+    </button>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    width: 100%;
+    height: fit-content;
+    padding: 70px 48px;
+
+    @include m.tb {
+      padding: 48px 24px;
+      border-radius: 20px;
+    }
+}
+
+.accordion-item {
+    width: 100%;
+    padding: 40px;
+
+    background-color: rgb(42 63 99 / 0%);
+    mix-blend-mode: plus-lighter;
+
+    transition: background-color 1s ease;
+
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__left {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    &__label {
+      font-size: 20px;
+      font-weight: 700;
+      color: #258966;
+    }
+
+    &__title {
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+    }
+
+    &__icon {
+      transition: transform 0.3s ease;
+    }
+
+    &__body {
+      display: grid;
+      grid-template-rows: 0fr;
+      padding-top: 0;
+      transition: padding 0.3s ease, grid-template-rows 0.3s ease;
+    }
+
+    &__inner {
+        overflow: hidden;
+
+        padding-left: 44px;
+
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        text-align: left;
+    }
+
+    &--is-open {
+        background-color: rgb(42 63 99 / 60%);
+
+        .accordion-item__icon {
+          transform: rotate(180deg);
+        }
+
+        .accordion-item__body {
+          grid-template-rows: 1fr;
+          padding-top: 80px;
+        }
+    }
+}
+
+.glassy-box-2{
+    position: relative;
+    border-radius: 20px;
+    box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
+
+    &::before {
+      width: 100%;
+      height: 100%;
+    }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ht/HtAboutSection.vue
 ````vue
 <script setup lang="ts">
@@ -6881,86 +7043,6 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 </style>
 ````
 
-## File: layers/main/app/components/ht/HtNewsSection.vue
-````vue
-<script setup lang="ts">
-import HmSwiper from '../hm/HmSwiper.vue'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-import type { Swiper as SwiperType } from 'swiper'
-
-const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
-
-// 親側でリアクティブな状態として持つ
-const isBeginning = ref(true)
-const isEnd = ref(false)
-
-const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
-  isBeginning.value = newIsBeginning
-  isEnd.value = newIsEnd
-}
-</script>
-
-<template>
-  <HaSectionTitle
-    title="お知らせ"
-    label="news"
-  >
-    <template #controls>
-      <button
-        :disabled="isBeginning"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isBeginning }"
-        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
-      >
-        <HaChevronLeftIcon />
-      </button>
-      <button
-        :disabled="isEnd"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isEnd }"
-        @click="worksSwiperRef?.swiperInstance?.slideNext()"
-      >
-        <HaChevronRightIcon />
-      </button>
-    </template>
-  </HaSectionTitle>
-
-  <HmSwiper
-    ref="worksSwiperRef"
-    :_slides-per-view="1.4"
-    class="mb-24"
-    @slide-change="onSlideChange"
-  />
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.custom-swiper-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 44px;
-  height: 44px;
-  border-radius: 100px;
-
-  background-color: #1e355b;
-
-  &.is-disabled {
-    opacity: 0.6;
-    background-color: transparent;
-  }
-}
-</style>
-````
-
 ## File: layers/main/app/components/ht/HtQuickAccessSection.vue
 ````vue
 <template>
@@ -7043,6 +7125,86 @@ import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
         height: 100%;
         min-height: 280px; // FIXME: 適当な値を入れている
     }
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtNewsSection.vue
+````vue
+<script setup lang="ts">
+import HmSwiper from '../hm/HmSwiper.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+import type { Swiper as SwiperType } from 'swiper'
+
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
+
+// 親側でリアクティブな状態として持つ
+const isBeginning = ref(true)
+const isEnd = ref(false)
+
+const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
+  isBeginning.value = newIsBeginning
+  isEnd.value = newIsEnd
+}
+</script>
+
+<template>
+  <HaSectionTitle
+    title="お知らせ"
+    label="news"
+  >
+    <template #controls>
+      <button
+        :disabled="isBeginning"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isBeginning }"
+        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+      >
+        <HaChevronLeftIcon />
+      </button>
+      <button
+        :disabled="isEnd"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isEnd }"
+        @click="worksSwiperRef?.swiperInstance?.slideNext()"
+      >
+        <HaChevronRightIcon />
+      </button>
+    </template>
+  </HaSectionTitle>
+
+  <HmSwiper
+    ref="worksSwiperRef"
+    :_slides-per-view="1.4"
+    class="mb-24"
+    @slide-change="onSlideChange"
+  />
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.custom-swiper-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 100px;
+
+  background-color: #1e355b;
+
+  &.is-disabled {
+    opacity: 0.6;
+    background-color: transparent;
+  }
 }
 </style>
 ````
