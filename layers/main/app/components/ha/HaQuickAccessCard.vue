@@ -1,6 +1,6 @@
 <!-- components/GlassCard.vue -->
 <script setup lang="ts">
-import HaArrowRight from './icons/HaArrowRight.vue'
+import HaArrowRight from './icons/HaArrowRightIcon.vue'
 
 defineProps<{
   color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている

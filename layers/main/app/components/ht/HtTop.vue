@@ -8,6 +8,11 @@ en:
 <template>
   <main class="ht-top">
     <HaFirstView />
+
+    <section id="cloud-levels">
+      <HtCloudLevelsSection />
+    </section>
+
     <section id="quick-access">
       <HtQuickAccessSection />
     </section>
@@ -77,6 +82,7 @@ import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
 import HtContactSection from './HtContactSection.vue'
 import HtContentsSection from './HtContentsSection.vue'
 import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
+import HtCloudLevelsSection from './HtCloudLevelsSection.vue'
 </script>
 
 <style lang="scss" scoped>

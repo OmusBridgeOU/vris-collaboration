@@ -60,14 +60,14 @@ layers/
       components/
         ha/
           icons/
-            HaArrowRight.vue
+            HaArrowRightIcon.vue
             HaBalanceIcon.vue
             HaBroadcastIcon.vue
             HaCalendarIcon.vue
             HaCameraIcon.vue
             HaChevronDownIcon.vue
-            HaChevronLeft.vue
-            HaChevronRight.vue
+            HaChevronLeftIcon.vue
+            HaChevronRightIcon.vue
             HaCommunityIcon.vue
             HaCompanyIcon.vue
             HaDangerIcon.vue
@@ -77,6 +77,8 @@ layers/
             HaJumpToPageIcon.vue
             HaMapPinIcon.vue
             HaOpenBookIcon.vue
+            HaPeopleFillIcon.vue
+            HaPeopleIcon.vue
             HaQuestionIcon.vue
             HaShieldIcon.vue
             HaStarShineIcon.vue
@@ -107,6 +109,7 @@ layers/
         ht/
           HtAboutSection.vue
           HtAccessSection.vue
+          HtCloudLevelsSection.vue
           HtCodeOfConductSection.vue
           HtContactSection.vue
           HtContentsSection.vue
@@ -171,6 +174,8 @@ layers/
         ja.json
       i18n.config.ts
     public/
+      crowd-levels/
+        asty.png
       icons/
         mingcute_question-line.svg
       _robots.txt
@@ -188,6 +193,129 @@ layers/
 ```
 
 # Files
+
+## File: layers/main/app/components/ha/icons/HaArrowRightIcon.vue
+````vue
+<template>
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 28 28"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M20.2344 12.8676H4.28924C4.06173 12.8676 3.84353 12.958 3.68265 13.1189C3.52178 13.2798 3.4314 13.498 3.4314 13.7255C3.4314 13.953 3.52178 14.1712 3.68265 14.3321C3.84353 14.4929 4.06173 14.5833 4.28924 14.5833H20.2344L13.9748 20.8375C13.8134 20.9989 13.7228 21.2178 13.7228 21.4461C13.7228 21.6743 13.8134 21.8932 13.9748 22.0546C14.1362 22.216 14.3551 22.3067 14.5834 22.3067C14.8116 22.3067 15.0305 22.216 15.1919 22.0546L22.9125 14.334C22.9927 14.2543 23.0564 14.1595 23.0999 14.055C23.1433 13.9506 23.1657 13.8386 23.1657 13.7255C23.1657 13.6124 23.1433 13.5004 23.0999 13.3959C23.0564 13.2915 22.9927 13.1967 22.9125 13.1169L15.1919 5.39635C15.112 5.31644 15.0171 5.25304 14.9127 5.2098C14.8083 5.16655 14.6964 5.14429 14.5834 5.14429C14.4703 5.14429 14.3584 5.16655 14.254 5.2098C14.1496 5.25304 14.0547 5.31644 13.9748 5.39635C13.8949 5.47626 13.8315 5.57113 13.7883 5.67555C13.745 5.77996 13.7228 5.89187 13.7228 6.00488C13.7228 6.1179 13.745 6.22981 13.7883 6.33422C13.8315 6.43863 13.8949 6.5335 13.9748 6.61341L20.2344 12.8676Z"
+      fill="#43FFBD"
+    />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaChevronLeftIcon.vue
+````vue
+<template>
+  <svg
+    width="34"
+    height="34"
+    viewBox="0 0 34 34"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_360_1868)">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M11.0515 18.1781C10.6605 17.7866 10.4409 17.2559 10.4409 16.7027C10.4409 16.1494 10.6605 15.6187 11.0515 15.2273L18.9241 7.35194C19.3157 6.96045 19.8469 6.74059 20.4006 6.74072C20.6748 6.74079 20.9464 6.79486 21.1997 6.89985C21.453 7.00484 21.6831 7.1587 21.877 7.35264C22.0708 7.54657 22.2245 7.77679 22.3294 8.03014C22.4343 8.2835 22.4882 8.55503 22.4882 8.82923C22.4881 9.10343 22.434 9.37494 22.329 9.62824C22.224 9.88155 22.0702 10.1117 21.8763 10.3055L15.4805 16.7027L21.8776 23.0998C22.0771 23.2923 22.2363 23.5226 22.3459 23.7773C22.4554 24.032 22.5131 24.3059 22.5157 24.5831C22.5182 24.8603 22.4655 25.1353 22.3606 25.3919C22.2558 25.6486 22.1009 25.8817 21.9049 26.0779C21.709 26.274 21.4759 26.4291 21.2194 26.5342C20.9629 26.6393 20.688 26.6923 20.4108 26.69C20.1335 26.6877 19.8595 26.6303 19.6048 26.521C19.35 26.4117 19.1195 26.2527 18.9268 26.0534L11.0487 18.1781H11.0515Z"
+        fill="#FFFFFF"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_360_1868">
+        <rect
+          width="33.4054"
+          height="33.4054"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaChevronRightIcon.vue
+````vue
+<template>
+  <svg
+    width="34"
+    height="34"
+    viewBox="0 0 34 34"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_360_1864)">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M22.3539 15.2273C22.7449 15.6188 22.9645 16.1495 22.9645 16.7027C22.9645 17.256 22.7449 17.7867 22.3539 18.1781L14.4814 26.0535C14.0897 26.445 13.5585 26.6648 13.0048 26.6647C12.451 26.6646 11.9199 26.4444 11.5285 26.0528C11.137 25.6611 10.9171 25.13 10.9172 24.5762C10.9174 24.0224 11.1375 23.4914 11.5291 23.0999L17.9263 16.7027L11.5291 10.3056C11.1486 9.91201 10.9379 9.38472 10.9424 8.83729C10.9469 8.28986 11.1663 7.7661 11.5532 7.37881C11.9401 6.99152 12.4637 6.7717 13.0111 6.76669C13.5585 6.76168 14.086 6.97187 14.48 7.35201L22.3553 15.2259L22.3539 15.2273Z"
+        fill="white"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_360_1864">
+        <rect
+          width="33.4054"
+          height="33.4054"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaPeopleFillIcon.vue
+````vue
+<template>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 10C12.4596 10 12.9148 9.90947 13.3394 9.73358C13.764 9.55769 14.1499 9.29988 14.4749 8.97487C14.7999 8.64987 15.0577 8.26403 15.2336 7.83939C15.4095 7.41475 15.5 6.95963 15.5 6.5C15.5 6.04037 15.4095 5.58525 15.2336 5.16061C15.0577 4.73597 14.7999 4.35013 14.4749 4.02513C14.1499 3.70012 13.764 3.44231 13.3394 3.26642C12.9148 3.09053 12.4596 3 12 3C11.0717 3 10.1815 3.36875 9.52513 4.02513C8.86875 4.6815 8.5 5.57174 8.5 6.5C8.5 7.42826 8.86875 8.3185 9.52513 8.97487C10.1815 9.63125 11.0717 10 12 10ZM3 20.4V21H21V20.4C21 18.16 21 17.04 20.564 16.184C20.1805 15.4314 19.5686 14.8195 18.816 14.436C17.96 14 16.84 14 14.6 14H9.4C7.16 14 6.04 14 5.184 14.436C4.43139 14.8195 3.81949 15.4314 3.436 16.184C3 17.04 3 18.16 3 20.4Z"
+      fill="white"
+      stroke="white"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaPeopleIcon.vue
+````vue
+<template>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 10C12.4596 10 12.9148 9.90947 13.3394 9.73358C13.764 9.55769 14.1499 9.29988 14.4749 8.97487C14.7999 8.64987 15.0577 8.26403 15.2336 7.83939C15.4095 7.41475 15.5 6.95963 15.5 6.5C15.5 6.04037 15.4095 5.58525 15.2336 5.16061C15.0577 4.73597 14.7999 4.35013 14.4749 4.02513C14.1499 3.70012 13.764 3.44231 13.3394 3.26642C12.9148 3.09053 12.4596 3 12 3C11.0717 3 10.1815 3.36875 9.52513 4.02513C8.86875 4.6815 8.5 5.57174 8.5 6.5C8.5 7.42826 8.86875 8.3185 9.52513 8.97487C10.1815 9.63125 11.0717 10 12 10ZM3 20.4V21H21V20.4C21 18.16 21 17.04 20.564 16.184C20.1805 15.4314 19.5686 14.8195 18.816 14.436C17.96 14 16.84 14 14.6 14H9.4C7.16 14 6.04 14 5.184 14.436C4.43139 14.8195 3.81949 15.4314 3.436 16.184C3 17.04 3 18.16 3 20.4Z"
+      stroke="white"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</template>
+````
 
 ## File: layers/main/app/components/ha/HaFireworks.vue
 ````vue
@@ -319,43 +447,85 @@ onUnmounted(() => {
 </style>
 ````
 
-## File: layers/main/app/layouts/document.vue
+## File: layers/main/app/components/ht/HtCloudLevelsSection.vue
 ````vue
-<template>
-  <div class="layout -top">
-    <HoTheHeader />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
+<script setup lang="ts">
+import HaSectionTitle from '../ha/HaSectionTitle.vue'
+import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
+import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
+import { ref, onMounted, computed } from 'vue'
 
-<style lang="scss" scoped>
-.layout.-top {
-  overflow-x: hidden;
+type CrowdLevel = 1 | 2 | 3
+
+interface CrowdData {
+  venueId: string
+  venueName: string
+  crowdLevel: CrowdLevel
+  updatedAt: string
 }
-</style>
-````
 
-## File: layers/main/app/pages/documents/[...slug].vue
-````vue
-<script lang="ts" setup>
-const route = useRoute()
-const { data: page } = await useAsyncData(route.path, () => {
-  return queryCollection('content').path(route.path).first()
-})
-definePageMeta({
-  layout: 'top',
+const crowdData = ref<CrowdData | null>(null)
+
+const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
+  1: '余裕あり',
+  2: 'やや混雑',
+  3: '混雑',
+}
+
+const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+  1: 'cyan',
+  2: 'amber',
+  3: 'vermilion',
+}
+
+const crowdLevel = computed<CrowdLevel>(() => crowdData.value?.crowdLevel ?? 2)
+const fillCount = computed(() => crowdLevel.value)
+const statusText = computed(() => CROWD_LEVEL_TEXT[crowdLevel.value])
+const statusColor = computed(() => CROWD_LEVEL_COLOR[crowdLevel.value])
+
+onMounted(async () => {
+  const res = await fetch('/api/crowd-levels')
+  crowdData.value = await res.json()
 })
 </script>
 
 <template>
-  <div class="md-document">
-    <div class="md-document__card">
-      <div class="md-document__inner">
-        <ContentRenderer
-          v-if="page"
-          :value="page"
-        />
+  <HaSectionTitle
+    title="混雑状況"
+    label="crowd-levels"
+  />
+  <div class="crowd-levels">
+    <div class="crowd-levels__head">
+      <p class="crowd-levels__label">
+        メイン会場
+      </p>
+      <p class="crowd-levels__name">
+        {{ crowdData?.venueName ?? 'アスティーホール' }}
+      </p>
+    </div>
+    <div class="crowd-levels__body">
+      <img
+        src="/crowd-levels/asty.png"
+        alt=""
+        class="crowd-levels__img"
+      >
+      <div
+        class="crowd-levels__status-box"
+        :class="`crowd-levels__status-box--${statusColor}`"
+      >
+        <div class="crowd-levels__icon-box">
+          <HaPeopleFillIcon
+            v-for="i in fillCount"
+            :key="`fill-${i}`"
+          />
+          <HaPeopleIcon
+            v-for="i in 3-fillCount"
+            :key="`empty-${i}`"
+          />
+        </div>
+        <p class="crowd-levels__status-text">
+          {{ statusText }}
+        </p>
       </div>
     </div>
   </div>
@@ -363,311 +533,99 @@ definePageMeta({
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
-.md-document {
-  padding: 48px 32px;
+.mb-24 {
+  margin-bottom: 96px;
+}
 
-  &__card {
-    position: relative;
-
-    padding-top: 90px;
-    border-radius: 20px;
-
-    background-color: rgb(217 217 217 / 20%);
-    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
-
-    &::before {
-      pointer-events: none;
-      content:"";
-
-      position: absolute;
-      z-index: 0;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 100%;
-      border: 1px solid transparent;
-      border-radius: inherit;
-
-      background-image:
-      linear-gradient(
-          45deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-          225deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-          135deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 15%) 20px,
-      ),
-      linear-gradient(
-          315deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 15%) 20px,
-      );
-      background-clip: border-box, border-box, border-box, border-box;
-      background-origin: border-box, border-box, border-box, border-box;
-
-      -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
-  }
-
-  &__inner {
-    max-width: 910px;
-    margin: 0 auto;
-  }
-
-  :deep(h1) {
-    font-size: 1.8rem;
-    color: white;
+.crowd-levels {
+  &__head {
     text-align: center;
   }
 
-  :deep(h2) {
-    margin-top: 2rem;
-    border-bottom: 2px solid #333;
-    font-size: 1.5rem;
+  &__label {
+    font-size: 14px;
     color: white;
+  }
 
-    a{
-      color: inherit;
+  &__name {
+    font-size: 32px;
+    color: white;
+  }
+
+  &__body {
+    position: relative;
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__status-box {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    padding: 10px 32px;
+    border-radius: 22px;
+
+    &::before {
+      content: '';
+
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+
+      display: block;
+
+      width: 0;
+      height: 0;
+      border-top: 20px solid v.$vket-amber;
+      border-right: 14px solid transparent;
+      border-left: 14px solid transparent;
+    }
+
+    &--cyan {
+      background-color: v.$vket-cyan;
+
+      &::before {
+        border-top: 20px solid v.$vket-cyan;
+      }
+    }
+
+    &--amber {
+      background-color: v.$vket-amber;
+
+      &::before {
+        border-top: 20px solid v.$vket-amber;
+      }
+    }
+
+    &--vermilion {
+      background-color: v.$vket-vermilion;
+
+      &::before {
+        border-top: 20px solid v.$vket-vermilion;
+      }
     }
   }
 
-  :deep(p) {
-    line-height: 1.8;
+  &__icon-box {
+    display: flex;
   }
 
-  :deep(.section-a) {
-    h2 {
-      color: red;
-    }
-  }
-
-  :deep(.section-b) {
-    h2 {
-      color: blue;
-    }
-  }
-
-  :deep(hr) {
-    margin: 2rem 0;
-    border: none;
-    border-top: 1px solid #999;
+  &__status-text {
+    font-size: 32px;
+    font-weight: bold;
   }
 }
 </style>
-````
-
-## File: layers/main/content/documents/policy.md
-````markdown
----
-title: 'プライバシーポリシー'
-description: '当該サービスが、ユーザーから取得した個人情報をどのように収集・利用・管理・保護するかを定めた方針です。'
----
-
-# 利用規約
-
-最終更新日: 2026年3月1日
-
-本利用規約（以下「本規約」）は、本サービスの提供者（以下「運営者」）が提供するウェブサービス（以下「本サービス」）の利用条件を定めるものです。ユーザーは、本サービスを利用することで、本規約に同意したものとみなされます。
-
----
-
-## 第1条（適用）
-
-1. 本規約は、ユーザーと運営者との間の本サービスの利用に関する一切の関係に適用されます。
-2. 運営者は、本サービスに関し、本規約のほか個別の利用条件やガイドラインを定める場合があります。これらは本規約の一部を構成します。
-
----
-
-## 第2条（定義）
-
-本規約において使用する用語の定義は以下のとおりとします。
-
-- **ユーザー**：本サービスを利用するすべての個人または法人
-- **コンテンツ**：ユーザーが本サービスを通じて投稿、送信、または表示する情報（テキスト、画像、動画等）
-
----
-
-## 第3条（利用登録）
-
-1. 本サービスの一部機能は、利用登録を必要とする場合があります。
-2. ユーザーは、正確かつ最新の情報を登録するものとします。
-3. 運営者は、以下の場合に登録を拒否または取り消すことがあります。
-   - 虚偽の情報を登録した場合
-   - 本規約に違反したことがある場合
-   - その他、運営者が不適切と判断した場合
-
----
-
-## 第4条（アカウント管理）
-
-1. ユーザーは、自己の責任においてアカウント情報を管理するものとします。
-2. アカウントの不正使用による損害について、運営者は一切の責任を負いません。
-
----
-
-## 第5条（禁止事項）
-
-ユーザーは、本サービスの利用にあたり、以下の行為を行ってはなりません。
-
-- 法令または公序良俗に違反する行為
-- 犯罪行為に関連する行為
-- 他のユーザーまたは第三者の権利を侵害する行為
-- サービスの運営を妨害する行為
-- 不正アクセスまたはそれを試みる行為
-- その他、運営者が不適切と判断する行為
-
----
-
-## 第6条（コンテンツの権利）
-
-1. ユーザーが投稿したコンテンツの著作権は、原則としてユーザーに帰属します。
-2. ユーザーは、運営者に対して、本サービスの運営・改善のために必要な範囲でコンテンツを利用する権利を許諾するものとします。
-
----
-
-## 第7条（サービス内容の変更）
-
-運営者は、ユーザーへの事前通知なく、本サービスの内容を変更または提供を停止することがあります。
-
----
-
-## 第8条（免責事項）
-
-1. 運営者は、本サービスの完全性、正確性、有用性について保証しません。
-2. 本サービスの利用により生じた損害について、運営者は一切の責任を負いません。
-
----
-
-## 第9条（利用停止）
-
-運営者は、ユーザーが本規約に違反した場合、事前通知なくアカウント停止または利用制限を行うことができます。
-
----
-
-## 第10条（規約の変更）
-
-1. 運営者は、必要と判断した場合、本規約を変更することができます。
-2. 変更後の規約は、本サービス上に掲載した時点で効力を生じます。
-
----
-
-## 第11条（準拠法・管轄）
-
-1. 本規約の解釈には日本法を準拠法とします。
-2. 本サービスに関して紛争が生じた場合、運営者の所在地を管轄する裁判所を専属的合意管轄とします。
-
----
-
-## お問い合わせ
-
-本規約に関するお問い合わせは、以下までご連絡ください。
-
-- 運営者: サンプル株式会社
-- メール: support@example.com
-````
-
-## File: layers/main/content/documents/terms.md
-````markdown
----
-title: '利用規約'
-description: '当該サービスを利用するにあたっての規約'
----
-
-# 利用規約
-
-最終更新日: 2026年3月1日
-
-本利用規約（以下「本規約」）は、本サービスの提供者（以下「運営者」）が提供するウェブサービス（以下「本サービス」）の利用条件を定めるものです。ユーザーは、本サービスを利用することで、本規約に同意したものとみなされます。
-
-## 第1条（適用）
-
-1. 本規約は、ユーザーと運営者との間の本サービスの利用に関する一切の関係に適用されます。
-2. 運営者は、本サービスに関し、本規約のほか個別の利用条件やガイドラインを定める場合があります。これらは本規約の一部を構成します。
-
-## 第2条（定義）
-
-本規約において使用する用語の定義は以下のとおりとします。
-
-- **ユーザー**：本サービスを利用するすべての個人または法人
-- **コンテンツ**：ユーザーが本サービスを通じて投稿、送信、または表示する情報（テキスト、画像、動画等）
-
-## 第3条（利用登録）
-
-1. 本サービスの一部機能は、利用登録を必要とする場合があります。
-2. ユーザーは、正確かつ最新の情報を登録するものとします。
-3. 運営者は、以下の場合に登録を拒否または取り消すことがあります。
-   - 虚偽の情報を登録した場合
-   - 本規約に違反したことがある場合
-   - その他、運営者が不適切と判断した場合
-
-## 第4条（アカウント管理）
-
-1. ユーザーは、自己の責任においてアカウント情報を管理するものとします。
-2. アカウントの不正使用による損害について、運営者は一切の責任を負いません。
-
-## 第5条（禁止事項）
-
-ユーザーは、本サービスの利用にあたり、以下の行為を行ってはなりません。
-
-- 法令または公序良俗に違反する行為
-- 犯罪行為に関連する行為
-- 他のユーザーまたは第三者の権利を侵害する行為
-- サービスの運営を妨害する行為
-- 不正アクセスまたはそれを試みる行為
-- その他、運営者が不適切と判断する行為
-
-## 第6条（コンテンツの権利）
-
-1. ユーザーが投稿したコンテンツの著作権は、原則としてユーザーに帰属します。
-2. ユーザーは、運営者に対して、本サービスの運営・改善のために必要な範囲でコンテンツを利用する権利を許諾するものとします。
-
-## 第7条（サービス内容の変更）
-
-運営者は、ユーザーへの事前通知なく、本サービスの内容を変更または提供を停止することがあります。
-
-## 第8条（免責事項）
-
-1. 運営者は、本サービスの完全性、正確性、有用性について保証しません。
-2. 本サービスの利用により生じた損害について、運営者は一切の責任を負いません。
-
-## 第9条（利用停止）
-
-運営者は、ユーザーが本規約に違反した場合、事前通知なくアカウント停止または利用制限を行うことができます。
-
-## 第10条（規約の変更）
-
-1. 運営者は、必要と判断した場合、本規約を変更することができます。
-2. 変更後の規約は、本サービス上に掲載した時点で効力を生じます。
-
-## 第11条（準拠法・管轄）
-
-1. 本規約の解釈には日本法を準拠法とします。
-2. 本サービスに関して紛争が生じた場合、運営者の所在地を管轄する裁判所を専属的合意管轄とします。
-
-::div{class="section-a"}
-## お問い合わせ
-
-本規約に関するお問い合わせは、以下までご連絡ください。
-
-- 運営者: サンプル株式会社
-- メール: support@example.com
-::
 ````
 
 ## File: layers/main/@types/auto-imports.d.ts
@@ -1210,24 +1168,6 @@ img {
 }
 ````
 
-## File: layers/main/app/components/ha/icons/HaArrowRight.vue
-````vue
-<template>
-  <svg
-    width="28"
-    height="28"
-    viewBox="0 0 28 28"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M20.2344 12.8676H4.28924C4.06173 12.8676 3.84353 12.958 3.68265 13.1189C3.52178 13.2798 3.4314 13.498 3.4314 13.7255C3.4314 13.953 3.52178 14.1712 3.68265 14.3321C3.84353 14.4929 4.06173 14.5833 4.28924 14.5833H20.2344L13.9748 20.8375C13.8134 20.9989 13.7228 21.2178 13.7228 21.4461C13.7228 21.6743 13.8134 21.8932 13.9748 22.0546C14.1362 22.216 14.3551 22.3067 14.5834 22.3067C14.8116 22.3067 15.0305 22.216 15.1919 22.0546L22.9125 14.334C22.9927 14.2543 23.0564 14.1595 23.0999 14.055C23.1433 13.9506 23.1657 13.8386 23.1657 13.7255C23.1657 13.6124 23.1433 13.5004 23.0999 13.3959C23.0564 13.2915 22.9927 13.1967 22.9125 13.1169L15.1919 5.39635C15.112 5.31644 15.0171 5.25304 14.9127 5.2098C14.8083 5.16655 14.6964 5.14429 14.5834 5.14429C14.4703 5.14429 14.3584 5.16655 14.254 5.2098C14.1496 5.25304 14.0547 5.31644 13.9748 5.39635C13.8949 5.47626 13.8315 5.57113 13.7883 5.67555C13.745 5.77996 13.7228 5.89187 13.7228 6.00488C13.7228 6.1179 13.745 6.22981 13.7883 6.33422C13.8315 6.43863 13.8949 6.5335 13.9748 6.61341L20.2344 12.8676Z"
-      fill="#43FFBD"
-    />
-  </svg>
-</template>
-````
-
 ## File: layers/main/app/components/ha/icons/HaBalanceIcon.vue
 ````vue
 <template>
@@ -1353,68 +1293,6 @@ img {
         <rect
           width="35.677"
           height="35.677"
-          fill="white"
-        />
-      </clipPath>
-    </defs>
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaChevronLeft.vue
-````vue
-<template>
-  <svg
-    width="34"
-    height="34"
-    viewBox="0 0 34 34"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g clip-path="url(#clip0_360_1868)">
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M11.0515 18.1781C10.6605 17.7866 10.4409 17.2559 10.4409 16.7027C10.4409 16.1494 10.6605 15.6187 11.0515 15.2273L18.9241 7.35194C19.3157 6.96045 19.8469 6.74059 20.4006 6.74072C20.6748 6.74079 20.9464 6.79486 21.1997 6.89985C21.453 7.00484 21.6831 7.1587 21.877 7.35264C22.0708 7.54657 22.2245 7.77679 22.3294 8.03014C22.4343 8.2835 22.4882 8.55503 22.4882 8.82923C22.4881 9.10343 22.434 9.37494 22.329 9.62824C22.224 9.88155 22.0702 10.1117 21.8763 10.3055L15.4805 16.7027L21.8776 23.0998C22.0771 23.2923 22.2363 23.5226 22.3459 23.7773C22.4554 24.032 22.5131 24.3059 22.5157 24.5831C22.5182 24.8603 22.4655 25.1353 22.3606 25.3919C22.2558 25.6486 22.1009 25.8817 21.9049 26.0779C21.709 26.274 21.4759 26.4291 21.2194 26.5342C20.9629 26.6393 20.688 26.6923 20.4108 26.69C20.1335 26.6877 19.8595 26.6303 19.6048 26.521C19.35 26.4117 19.1195 26.2527 18.9268 26.0534L11.0487 18.1781H11.0515Z"
-        fill="#FFFFFF"
-      />
-    </g>
-    <defs>
-      <clipPath id="clip0_360_1868">
-        <rect
-          width="33.4054"
-          height="33.4054"
-          fill="white"
-        />
-      </clipPath>
-    </defs>
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaChevronRight.vue
-````vue
-<template>
-  <svg
-    width="34"
-    height="34"
-    viewBox="0 0 34 34"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g clip-path="url(#clip0_360_1864)">
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M22.3539 15.2273C22.7449 15.6188 22.9645 16.1495 22.9645 16.7027C22.9645 17.256 22.7449 17.7867 22.3539 18.1781L14.4814 26.0535C14.0897 26.445 13.5585 26.6648 13.0048 26.6647C12.451 26.6646 11.9199 26.4444 11.5285 26.0528C11.137 25.6611 10.9171 25.13 10.9172 24.5762C10.9174 24.0224 11.1375 23.4914 11.5291 23.0999L17.9263 16.7027L11.5291 10.3056C11.1486 9.91201 10.9379 9.38472 10.9424 8.83729C10.9469 8.28986 11.1663 7.7661 11.5532 7.37881C11.9401 6.99152 12.4637 6.7717 13.0111 6.76669C13.5585 6.76168 14.086 6.97187 14.48 7.35201L22.3553 15.2259L22.3539 15.2273Z"
-        fill="white"
-      />
-    </g>
-    <defs>
-      <clipPath id="clip0_360_1864">
-        <rect
-          width="33.4054"
-          height="33.4054"
           fill="white"
         />
       </clipPath>
@@ -1887,7 +1765,7 @@ defineProps<{
 ````vue
 <!-- components/GlassCard.vue -->
 <script setup lang="ts">
-import HaArrowRight from './icons/HaArrowRight.vue'
+import HaArrowRight from './icons/HaArrowRightIcon.vue'
 
 defineProps<{
   color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
@@ -2136,8 +2014,8 @@ en:
 ````vue
 <script setup lang="ts">
 import HmSwiper from '../hm/HmSwiper.vue'
-import HaChevronLeft from '../ha/icons/HaChevronLeft.vue'
-import HaChevronRight from '../ha/icons/HaChevronRight.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 
 import type { Swiper as SwiperType } from 'swiper'
 
@@ -2165,7 +2043,7 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
         :class="{ 'is-disabled': isBeginning }"
         @click="worksSwiperRef?.swiperInstance?.slidePrev()"
       >
-        <HaChevronLeft />
+        <HaChevronLeftIcon />
       </button>
       <button
         :disabled="isEnd"
@@ -2173,7 +2051,7 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
         :class="{ 'is-disabled': isEnd }"
         @click="worksSwiperRef?.swiperInstance?.slideNext()"
       >
-        <HaChevronRight />
+        <HaChevronRightIcon />
       </button>
     </template>
   </HaSectionTitle>
@@ -2270,8 +2148,8 @@ const items = [
 ````vue
 <script setup lang="ts">
 import HmSwiper from '../hm/HmSwiper.vue'
-import HaChevronLeft from '../ha/icons/HaChevronLeft.vue'
-import HaChevronRight from '../ha/icons/HaChevronRight.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 
 import type { Swiper as SwiperType } from 'swiper'
 
@@ -2299,7 +2177,7 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
         :class="{ 'is-disabled': isBeginning }"
         @click="worksSwiperRef?.swiperInstance?.slidePrev()"
       >
-        <HaChevronLeft />
+        <HaChevronLeftIcon />
       </button>
       <button
         :disabled="isEnd"
@@ -2307,7 +2185,7 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
         :class="{ 'is-disabled': isEnd }"
         @click="worksSwiperRef?.swiperInstance?.slideNext()"
       >
-        <HaChevronRight />
+        <HaChevronRightIcon />
       </button>
     </template>
   </HaSectionTitle>
@@ -2397,6 +2275,23 @@ export default function useApi<K extends RepositoryKey>(endpoint: K) {
 </style>
 ````
 
+## File: layers/main/app/layouts/document.vue
+````vue
+<template>
+  <div class="layout -top">
+    <HoTheHeader />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.layout.-top {
+  overflow-x: hidden;
+}
+</style>
+````
+
 ## File: layers/main/app/layouts/top.vue
 ````vue
 <template>
@@ -2452,6 +2347,142 @@ export const todoSchema = z.object({
 })
 
 export type Todo = z.infer<typeof todoSchema>
+````
+
+## File: layers/main/app/pages/documents/[...slug].vue
+````vue
+<script lang="ts" setup>
+const route = useRoute()
+const { data: page } = await useAsyncData(route.path, () => {
+  return queryCollection('content').path(route.path).first()
+})
+definePageMeta({
+  layout: 'top',
+})
+</script>
+
+<template>
+  <div class="md-document">
+    <div class="md-document__card">
+      <div class="md-document__inner">
+        <ContentRenderer
+          v-if="page"
+          :value="page"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.md-document {
+  padding: 48px 32px;
+
+  &__card {
+    position: relative;
+
+    padding-top: 90px;
+    border-radius: 20px;
+
+    background-color: rgb(217 217 217 / 20%);
+    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+
+    &::before {
+      pointer-events: none;
+      content:"";
+
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+      border: 1px solid transparent;
+      border-radius: inherit;
+
+      background-image:
+      linear-gradient(
+          45deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+          225deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+          135deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 15%) 20px,
+      ),
+      linear-gradient(
+          315deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 15%) 20px,
+      );
+      background-clip: border-box, border-box, border-box, border-box;
+      background-origin: border-box, border-box, border-box, border-box;
+
+      -webkit-mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+  }
+
+  &__inner {
+    max-width: 910px;
+    margin: 0 auto;
+  }
+
+  :deep(h1) {
+    font-size: 1.8rem;
+    color: white;
+    text-align: center;
+  }
+
+  :deep(h2) {
+    margin-top: 2rem;
+    border-bottom: 2px solid #333;
+    font-size: 1.5rem;
+    color: white;
+
+    a{
+      color: inherit;
+    }
+  }
+
+  :deep(p) {
+    line-height: 1.8;
+  }
+
+  :deep(.section-a) {
+    h2 {
+      color: red;
+    }
+  }
+
+  :deep(.section-b) {
+    h2 {
+      color: blue;
+    }
+  }
+
+  :deep(hr) {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid #999;
+  }
+}
+</style>
 ````
 
 ## File: layers/main/app/pages/index.vue
@@ -3564,6 +3595,204 @@ function getProduction(envType: EnvType) {
     },
   } as const
 }
+````
+
+## File: layers/main/content/documents/policy.md
+````markdown
+---
+title: 'プライバシーポリシー'
+description: '当該サービスが、ユーザーから取得した個人情報をどのように収集・利用・管理・保護するかを定めた方針です。'
+---
+
+# 利用規約
+
+最終更新日: 2026年3月1日
+
+本利用規約（以下「本規約」）は、本サービスの提供者（以下「運営者」）が提供するウェブサービス（以下「本サービス」）の利用条件を定めるものです。ユーザーは、本サービスを利用することで、本規約に同意したものとみなされます。
+
+---
+
+## 第1条（適用）
+
+1. 本規約は、ユーザーと運営者との間の本サービスの利用に関する一切の関係に適用されます。
+2. 運営者は、本サービスに関し、本規約のほか個別の利用条件やガイドラインを定める場合があります。これらは本規約の一部を構成します。
+
+---
+
+## 第2条（定義）
+
+本規約において使用する用語の定義は以下のとおりとします。
+
+- **ユーザー**：本サービスを利用するすべての個人または法人
+- **コンテンツ**：ユーザーが本サービスを通じて投稿、送信、または表示する情報（テキスト、画像、動画等）
+
+---
+
+## 第3条（利用登録）
+
+1. 本サービスの一部機能は、利用登録を必要とする場合があります。
+2. ユーザーは、正確かつ最新の情報を登録するものとします。
+3. 運営者は、以下の場合に登録を拒否または取り消すことがあります。
+   - 虚偽の情報を登録した場合
+   - 本規約に違反したことがある場合
+   - その他、運営者が不適切と判断した場合
+
+---
+
+## 第4条（アカウント管理）
+
+1. ユーザーは、自己の責任においてアカウント情報を管理するものとします。
+2. アカウントの不正使用による損害について、運営者は一切の責任を負いません。
+
+---
+
+## 第5条（禁止事項）
+
+ユーザーは、本サービスの利用にあたり、以下の行為を行ってはなりません。
+
+- 法令または公序良俗に違反する行為
+- 犯罪行為に関連する行為
+- 他のユーザーまたは第三者の権利を侵害する行為
+- サービスの運営を妨害する行為
+- 不正アクセスまたはそれを試みる行為
+- その他、運営者が不適切と判断する行為
+
+---
+
+## 第6条（コンテンツの権利）
+
+1. ユーザーが投稿したコンテンツの著作権は、原則としてユーザーに帰属します。
+2. ユーザーは、運営者に対して、本サービスの運営・改善のために必要な範囲でコンテンツを利用する権利を許諾するものとします。
+
+---
+
+## 第7条（サービス内容の変更）
+
+運営者は、ユーザーへの事前通知なく、本サービスの内容を変更または提供を停止することがあります。
+
+---
+
+## 第8条（免責事項）
+
+1. 運営者は、本サービスの完全性、正確性、有用性について保証しません。
+2. 本サービスの利用により生じた損害について、運営者は一切の責任を負いません。
+
+---
+
+## 第9条（利用停止）
+
+運営者は、ユーザーが本規約に違反した場合、事前通知なくアカウント停止または利用制限を行うことができます。
+
+---
+
+## 第10条（規約の変更）
+
+1. 運営者は、必要と判断した場合、本規約を変更することができます。
+2. 変更後の規約は、本サービス上に掲載した時点で効力を生じます。
+
+---
+
+## 第11条（準拠法・管轄）
+
+1. 本規約の解釈には日本法を準拠法とします。
+2. 本サービスに関して紛争が生じた場合、運営者の所在地を管轄する裁判所を専属的合意管轄とします。
+
+---
+
+## お問い合わせ
+
+本規約に関するお問い合わせは、以下までご連絡ください。
+
+- 運営者: サンプル株式会社
+- メール: support@example.com
+````
+
+## File: layers/main/content/documents/terms.md
+````markdown
+---
+title: '利用規約'
+description: '当該サービスを利用するにあたっての規約'
+---
+
+# 利用規約
+
+最終更新日: 2026年3月1日
+
+本利用規約（以下「本規約」）は、本サービスの提供者（以下「運営者」）が提供するウェブサービス（以下「本サービス」）の利用条件を定めるものです。ユーザーは、本サービスを利用することで、本規約に同意したものとみなされます。
+
+## 第1条（適用）
+
+1. 本規約は、ユーザーと運営者との間の本サービスの利用に関する一切の関係に適用されます。
+2. 運営者は、本サービスに関し、本規約のほか個別の利用条件やガイドラインを定める場合があります。これらは本規約の一部を構成します。
+
+## 第2条（定義）
+
+本規約において使用する用語の定義は以下のとおりとします。
+
+- **ユーザー**：本サービスを利用するすべての個人または法人
+- **コンテンツ**：ユーザーが本サービスを通じて投稿、送信、または表示する情報（テキスト、画像、動画等）
+
+## 第3条（利用登録）
+
+1. 本サービスの一部機能は、利用登録を必要とする場合があります。
+2. ユーザーは、正確かつ最新の情報を登録するものとします。
+3. 運営者は、以下の場合に登録を拒否または取り消すことがあります。
+   - 虚偽の情報を登録した場合
+   - 本規約に違反したことがある場合
+   - その他、運営者が不適切と判断した場合
+
+## 第4条（アカウント管理）
+
+1. ユーザーは、自己の責任においてアカウント情報を管理するものとします。
+2. アカウントの不正使用による損害について、運営者は一切の責任を負いません。
+
+## 第5条（禁止事項）
+
+ユーザーは、本サービスの利用にあたり、以下の行為を行ってはなりません。
+
+- 法令または公序良俗に違反する行為
+- 犯罪行為に関連する行為
+- 他のユーザーまたは第三者の権利を侵害する行為
+- サービスの運営を妨害する行為
+- 不正アクセスまたはそれを試みる行為
+- その他、運営者が不適切と判断する行為
+
+## 第6条（コンテンツの権利）
+
+1. ユーザーが投稿したコンテンツの著作権は、原則としてユーザーに帰属します。
+2. ユーザーは、運営者に対して、本サービスの運営・改善のために必要な範囲でコンテンツを利用する権利を許諾するものとします。
+
+## 第7条（サービス内容の変更）
+
+運営者は、ユーザーへの事前通知なく、本サービスの内容を変更または提供を停止することがあります。
+
+## 第8条（免責事項）
+
+1. 運営者は、本サービスの完全性、正確性、有用性について保証しません。
+2. 本サービスの利用により生じた損害について、運営者は一切の責任を負いません。
+
+## 第9条（利用停止）
+
+運営者は、ユーザーが本規約に違反した場合、事前通知なくアカウント停止または利用制限を行うことができます。
+
+## 第10条（規約の変更）
+
+1. 運営者は、必要と判断した場合、本規約を変更することができます。
+2. 変更後の規約は、本サービス上に掲載した時点で効力を生じます。
+
+## 第11条（準拠法・管轄）
+
+1. 本規約の解釈には日本法を準拠法とします。
+2. 本サービスに関して紛争が生じた場合、運営者の所在地を管轄する裁判所を専属的合意管轄とします。
+
+::div{class="section-a"}
+## お問い合わせ
+
+本規約に関するお問い合わせは、以下までご連絡ください。
+
+- 運営者: サンプル株式会社
+- メール: support@example.com
+::
 ````
 
 ## File: layers/main/i18n/locales/en.json
@@ -5202,7 +5431,7 @@ export default defineNuxtConfig({
 ````vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import HaArrowDownIcon from './icons/HaChevronDownIcon.vue'
+import HaChevronDownIcon from './icons/HaChevronDownIcon.vue'
 
 interface AccordionItem {
   id: number
@@ -5239,7 +5468,7 @@ const toggle = (id: number) => {
             {{ item.title }}
           </p>
         </div>
-        <HaArrowDownIcon class="accordion-item__icon" />
+        <HaChevronDownIcon class="accordion-item__icon" />
       </div>
 
       <div class="accordion-item__body">
@@ -6656,8 +6885,8 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 ````vue
 <script setup lang="ts">
 import HmSwiper from '../hm/HmSwiper.vue'
-import HaChevronLeft from '../ha/icons/HaChevronLeft.vue'
-import HaChevronRight from '../ha/icons/HaChevronRight.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 
 import type { Swiper as SwiperType } from 'swiper'
 
@@ -6685,7 +6914,7 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
         :class="{ 'is-disabled': isBeginning }"
         @click="worksSwiperRef?.swiperInstance?.slidePrev()"
       >
-        <HaChevronLeft />
+        <HaChevronLeftIcon />
       </button>
       <button
         :disabled="isEnd"
@@ -6693,7 +6922,7 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
         :class="{ 'is-disabled': isEnd }"
         @click="worksSwiperRef?.swiperInstance?.slideNext()"
       >
-        <HaChevronRight />
+        <HaChevronRightIcon />
       </button>
     </template>
   </HaSectionTitle>
@@ -6830,6 +7059,11 @@ en:
 <template>
   <main class="ht-top">
     <HaFirstView />
+
+    <section id="cloud-levels">
+      <HtCloudLevelsSection />
+    </section>
+
     <section id="quick-access">
       <HtQuickAccessSection />
     </section>
@@ -6899,6 +7133,7 @@ import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
 import HtContactSection from './HtContactSection.vue'
 import HtContentsSection from './HtContentsSection.vue'
 import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
+import HtCloudLevelsSection from './HtCloudLevelsSection.vue'
 </script>
 
 <style lang="scss" scoped>

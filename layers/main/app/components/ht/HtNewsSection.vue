@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import HmSwiper from '../hm/HmSwiper.vue'
-import HaChevronLeft from '../ha/icons/HaChevronLeft.vue'
-import HaChevronRight from '../ha/icons/HaChevronRight.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 
 import type { Swiper as SwiperType } from 'swiper'
 
@@ -29,7 +29,7 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
         :class="{ 'is-disabled': isBeginning }"
         @click="worksSwiperRef?.swiperInstance?.slidePrev()"
       >
-        <HaChevronLeft />
+        <HaChevronLeftIcon />
       </button>
       <button
         :disabled="isEnd"
@@ -37,7 +37,7 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
         :class="{ 'is-disabled': isEnd }"
         @click="worksSwiperRef?.swiperInstance?.slideNext()"
       >
-        <HaChevronRight />
+        <HaChevronRightIcon />
       </button>
     </template>
   </HaSectionTitle>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import HaArrowDownIcon from './icons/HaChevronDownIcon.vue'
+import HaChevronDownIcon from './icons/HaChevronDownIcon.vue'
 
 interface AccordionItem {
   id: number
@@ -37,7 +37,7 @@ const toggle = (id: number) => {
             {{ item.title }}
           </p>
         </div>
-        <HaArrowDownIcon class="accordion-item__icon" />
+        <HaChevronDownIcon class="accordion-item__icon" />
       </div>
 
       <div class="accordion-item__body">
