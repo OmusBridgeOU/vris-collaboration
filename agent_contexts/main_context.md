@@ -326,179 +326,6 @@ onUnmounted(() => {
 </style>
 ````
 
-## File: layers/main/app/composables/useCrowdData.ts
-````typescript
-// モジュールスコープ
-type CrowdLevel = 0 | 1 | 2 | 3
-
-interface ReadResponse {
-  timestamp: string
-  value: CrowdLevel
-}
-
-let timerId: ReturnType<typeof setTimeout> | null = null
-let isFetching = false // Fetch実行中フラグ（開発者ツールを用いたリトライ攻撃対策）
-let retryCount = 0
-
-// 開催日時までは特別表示
-const EVENT_START = new Date('2026-06-01T00:00:00+09:00') // 開催日時を指定
-
-function isBeforeEvent(): boolean {
-  return new Date() < EVENT_START
-}
-
-export function useCrowdData() {
-  const crowdData = ref<ReadResponse | null>(null)
-  const isLoading = ref(true)
-  const isError = ref(false)
-  const isBeforeEventStart = ref(isBeforeEvent()) // 開催日時までは特別表示
-
-  const NORMAL_INTERVAL_MS = 5 * 60 * 1000 // 通常時 : 5分に1回
-  const RETRY_INTERVAL_MS = 30 * 1000 // 取得エラー時 : 30秒に回
-  const MAX_RETRY_COUNT = 5 // 取得エラーが続く場合は5回までリトライ
-
-  const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-    0: '開催期間外',
-    1: '余裕あり',
-    2: 'やや混雑',
-    3: '混雑',
-  }
-
-  const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-    0: 'cyan',
-    1: 'cyan',
-    2: 'amber',
-    3: 'vermilion',
-  }
-
-  const crowdLevel = computed<CrowdLevel | null>(() => {
-    if (isBeforeEventStart.value) return 0 // 開催期間外は強制的に0
-    return crowdData.value?.value ?? null
-  })
-  const fillCount = computed(() => crowdLevel.value ?? 0)
-  const statusText = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
-  const statusColor = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
-
-  async function fetchCrowdData() {
-    if (isBeforeEventStart.value) return // 開催前はfetchしない
-    if (isFetching) return // 多重実行を防ぐ
-    isFetching = true
-
-    try {
-      const res = await fetch('/external/read')
-      if (!res.ok) throw new Error()
-      crowdData.value = await res.json()
-      isError.value = false
-      retryCount = 0
-      schedule(NORMAL_INTERVAL_MS)
-    } catch (e) {
-      if (import.meta.dev) {
-        console.error('混雑情報の取得に失敗しました', e)
-      }
-      isError.value = true
-
-      // 取得エラーが続く場合は5回までリトライ
-      if (retryCount < MAX_RETRY_COUNT) {
-        retryCount++
-        schedule(RETRY_INTERVAL_MS)
-      }
-    } finally {
-      isLoading.value = false
-      isFetching = false
-    }
-  }
-
-  function schedule(ms: number) {
-    if (timerId !== null) clearTimeout(timerId)
-    timerId = setTimeout(fetchCrowdData, ms)
-  }
-
-  onMounted(() => {
-    if (isBeforeEventStart.value) {
-      // 開催開始時刻になったらフラグを更新してfetchを開始する
-      const msUntilStart = EVENT_START.getTime() - Date.now()
-      timerId = setTimeout(() => {
-        isBeforeEventStart.value = false
-        isLoading.value = false // ローディングを解除してcrowdLevel=0を表示
-        fetchCrowdData()
-      }, msUntilStart)
-
-      isLoading.value = false // 開催前はローディングを解除
-      return
-    }
-
-    if (timerId !== null) {
-      clearTimeout(timerId)
-      timerId = null
-    }
-    fetchCrowdData()
-  })
-
-  onUnmounted(() => {
-    if (timerId !== null) clearTimeout(timerId)
-  })
-
-  return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
-}
-````
-
-## File: layers/main/app/composables/useMockCrowdData.ts
-````typescript
-// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
-import { ref, onMounted, onUnmounted } from 'vue'
-
-type CrowdLevel = 0 | 1 | 2 | 3
-
-export function useCrowdData() {
-  const crowdData = ref<{ timestamp: string, value: CrowdLevel } | null>(null)
-  const isLoading = ref(true)
-  const isError = ref(false)
-
-  const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-    0: '開催期間外',
-    1: '余裕あり',
-    2: 'やや混雑',
-    3: '混雑',
-  }
-
-  const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-    0: 'cyan',
-    1: 'cyan',
-    2: 'amber',
-    3: 'vermilion',
-  }
-
-  const MOCK_INTERVAL_MS = 10 * 1000 // 10秒
-  const crowdLevel = computed<CrowdLevel | null>(() => crowdData.value?.value ?? null)
-  const fillCount = computed(() => crowdLevel.value ?? 0)
-  const statusText = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
-  const statusColor = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
-
-  let timerId: ReturnType<typeof setInterval> | null = null
-
-  function generateMock() {
-    console.log('取得：ダミー')
-    crowdData.value = {
-      timestamp: new Date().toISOString(),
-      value: (Math.floor(Math.random() * 3) + 1) as CrowdLevel,
-    }
-    isLoading.value = false
-    isError.value = false
-  }
-
-  onMounted(() => {
-    generateMock()
-    timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
-  })
-
-  onUnmounted(() => {
-    if (timerId !== null) clearInterval(timerId)
-  })
-
-  return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
-}
-````
-
 ## File: layers/main/@types/auto-imports.d.ts
 ````typescript
 /* eslint-disable */
@@ -1922,168 +1749,6 @@ en:
 </style>
 ````
 
-## File: layers/main/app/components/ht/HtCloudLevelsSection.vue
-````vue
-<script setup lang="ts">
-import HaSectionTitle from '../ha/HaSectionTitle.vue'
-import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
-import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
-
-// 本番用
-// import { useCrowdData } from '~/composables/useCrowdData'
-// テスト用
-import { useCrowdData } from '~/composables/useMockCrowdData'
-const { isLoading, isError, fillCount, statusText, statusColor } = useCrowdData()
-</script>
-
-<template>
-  <HaSectionTitle
-    title="混雑状況"
-    label="crowd-levels"
-  />
-  <p v-if="isLoading">
-    読み込み中...
-  </p>
-  <p v-else-if="isError">
-    混雑状況を取得できませんでした
-  </p>
-  <div
-    v-else
-    class="crowd-levels"
-  >
-    <div class="crowd-levels__head">
-      <p class="crowd-levels__label">
-        メイン会場
-      </p>
-      <p class="crowd-levels__name">
-        アスティーホール
-      </p>
-    </div>
-    <div class="crowd-levels__body">
-      <img
-        src="/crowd-levels/asty.png"
-        alt=""
-        class="crowd-levels__img"
-      >
-      <div
-        class="crowd-levels__status-box"
-        :class="`crowd-levels__status-box--${statusColor}`"
-      >
-        <div class="crowd-levels__icon-box">
-          <HaPeopleFillIcon
-            v-for="i in fillCount"
-            :key="`fill-${i}`"
-          />
-          <HaPeopleIcon
-            v-for="i in 3 - fillCount"
-            :key="`empty-${i}`"
-          />
-        </div>
-        <p class="crowd-levels__status-text">
-          {{ statusText }}
-        </p>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px;
-}
-
-.crowd-levels {
-  &__head {
-    text-align: center;
-  }
-
-  &__label {
-    font-size: 14px;
-    color: white;
-  }
-
-  &__name {
-    font-size: 32px;
-    color: white;
-  }
-
-  &__body {
-    position: relative;
-  }
-
-  &__img {
-    width: 100%;
-    height: 100%;
-  }
-
-  &__status-box {
-    position: absolute;
-    top: 30%;
-    left: 30%;
-
-    display: flex;
-    gap: 12px;
-    align-items: center;
-
-    padding: 10px 32px;
-    border-radius: 22px;
-
-    &::before {
-      content: '';
-
-      position: absolute;
-      bottom: -16px;
-      left: 50%;
-
-      display: block;
-
-      width: 0;
-      height: 0;
-      border-top: 20px solid v.$vket-amber;
-      border-right: 14px solid transparent;
-      border-left: 14px solid transparent;
-    }
-
-    &--cyan {
-      background-color: v.$vket-cyan;
-
-      &::before {
-        border-top: 20px solid v.$vket-cyan;
-      }
-    }
-
-    &--amber {
-      background-color: v.$vket-amber;
-
-      &::before {
-        border-top: 20px solid v.$vket-amber;
-      }
-    }
-
-    &--vermilion {
-      background-color: v.$vket-vermilion;
-
-      &::before {
-        border-top: 20px solid v.$vket-vermilion;
-      }
-    }
-  }
-
-  &__icon-box {
-    display: flex;
-  }
-
-  &__status-text {
-    font-size: 32px;
-    font-weight: bold;
-  }
-}
-</style>
-````
-
 ## File: layers/main/app/components/ht/HtQandASection.vue
 ````vue
 <script setup lang="ts">
@@ -2166,6 +1831,179 @@ export default function useApi<K extends RepositoryKey>(endpoint: K) {
   return {
     repository,
   }
+}
+````
+
+## File: layers/main/app/composables/useCrowdData.ts
+````typescript
+// モジュールスコープ
+type CrowdLevel = 0 | 1 | 2 | 3
+
+interface ReadResponse {
+  timestamp: string
+  value: CrowdLevel
+}
+
+let timerId: ReturnType<typeof setTimeout> | null = null
+let isFetching = false // Fetch実行中フラグ（開発者ツールを用いたリトライ攻撃対策）
+let retryCount = 0
+
+// 開催日時までは特別表示
+const EVENT_START = new Date('2026-06-01T00:00:00+09:00') // 開催日時を指定
+
+function isBeforeEvent(): boolean {
+  return new Date() < EVENT_START
+}
+
+export function useCrowdData() {
+  const crowdData = ref<ReadResponse | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+  const isBeforeEventStart = ref(isBeforeEvent()) // 開催日時までは特別表示
+
+  const NORMAL_INTERVAL_MS = 5 * 60 * 1000 // 通常時 : 5分に1回
+  const RETRY_INTERVAL_MS = 30 * 1000 // 取得エラー時 : 30秒に回
+  const MAX_RETRY_COUNT = 5 // 取得エラーが続く場合は5回までリトライ
+
+  const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
+    0: '開催期間外',
+    1: '余裕あり',
+    2: 'やや混雑',
+    3: '混雑',
+  }
+
+  const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+    0: 'cyan',
+    1: 'cyan',
+    2: 'amber',
+    3: 'vermilion',
+  }
+
+  const crowdLevel = computed<CrowdLevel | null>(() => {
+    if (isBeforeEventStart.value) return 0 // 開催期間外は強制的に0
+    return crowdData.value?.value ?? null
+  })
+  const fillCount = computed(() => crowdLevel.value ?? 0)
+  const statusText = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
+  const statusColor = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
+
+  async function fetchCrowdData() {
+    if (isBeforeEventStart.value) return // 開催前はfetchしない
+    if (isFetching) return // 多重実行を防ぐ
+    isFetching = true
+
+    try {
+      const res = await fetch('/external/read')
+      if (!res.ok) throw new Error()
+      crowdData.value = await res.json()
+      isError.value = false
+      retryCount = 0
+      schedule(NORMAL_INTERVAL_MS)
+    } catch (e) {
+      if (import.meta.dev) {
+        console.error('混雑情報の取得に失敗しました', e)
+      }
+      isError.value = true
+
+      // 取得エラーが続く場合は5回までリトライ
+      if (retryCount < MAX_RETRY_COUNT) {
+        retryCount++
+        schedule(RETRY_INTERVAL_MS)
+      }
+    } finally {
+      isLoading.value = false
+      isFetching = false
+    }
+  }
+
+  function schedule(ms: number) {
+    if (timerId !== null) clearTimeout(timerId)
+    timerId = setTimeout(fetchCrowdData, ms)
+  }
+
+  onMounted(() => {
+    if (isBeforeEventStart.value) {
+      // 開催開始時刻になったらフラグを更新してfetchを開始する
+      const msUntilStart = EVENT_START.getTime() - Date.now()
+      timerId = setTimeout(() => {
+        isBeforeEventStart.value = false
+        isLoading.value = false // ローディングを解除してcrowdLevel=0を表示
+        fetchCrowdData()
+      }, msUntilStart)
+
+      isLoading.value = false // 開催前はローディングを解除
+      return
+    }
+
+    if (timerId !== null) {
+      clearTimeout(timerId)
+      timerId = null
+    }
+    fetchCrowdData()
+  })
+
+  onUnmounted(() => {
+    if (timerId !== null) clearTimeout(timerId)
+  })
+
+  return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
+}
+````
+
+## File: layers/main/app/composables/useMockCrowdData.ts
+````typescript
+// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
+import { ref, onMounted, onUnmounted } from 'vue'
+
+type CrowdLevel = 0 | 1 | 2 | 3
+
+export function useCrowdData() {
+  const crowdData = ref<{ timestamp: string, value: CrowdLevel } | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+
+  const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
+    0: '開催期間外',
+    1: '余裕あり',
+    2: 'やや混雑',
+    3: '混雑',
+  }
+
+  const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+    0: 'cyan',
+    1: 'cyan',
+    2: 'amber',
+    3: 'vermilion',
+  }
+
+  const MOCK_INTERVAL_MS = 10 * 1000 // 10秒
+  const crowdLevel = computed<CrowdLevel | null>(() => crowdData.value?.value ?? null)
+  const fillCount = computed(() => crowdLevel.value ?? 0)
+  const statusText = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
+  const statusColor = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
+
+  let timerId: ReturnType<typeof setInterval> | null = null
+
+  function generateMock() {
+    console.log('取得：ダミー')
+    crowdData.value = {
+      timestamp: new Date().toISOString(),
+      value: (Math.floor(Math.random() * 3) + 1) as CrowdLevel,
+    }
+    isLoading.value = false
+    isError.value = false
+  }
+
+  onMounted(() => {
+    generateMock()
+    timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
+  })
+
+  onUnmounted(() => {
+    if (timerId !== null) clearInterval(timerId)
+  })
+
+  return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
 }
 ````
 
@@ -4888,6 +4726,166 @@ import HaInfoCard from '../ha/HaInfoCard.vue'
 </style>
 ````
 
+## File: layers/main/app/components/ht/HtCloudLevelsSection.vue
+````vue
+<script setup lang="ts">
+import HaSectionTitle from '../ha/HaSectionTitle.vue'
+import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
+import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
+// import { useCrowdData } from '~/composables/useCrowdData' // 本番用
+import { useCrowdData } from '~/composables/useMockCrowdData'
+// テスト用
+const { isLoading, isError, fillCount, statusText, statusColor } = useCrowdData()
+</script>
+
+<template>
+  <HaSectionTitle
+    title="混雑状況"
+    label="crowd-levels"
+  />
+  <p v-if="isLoading">
+    読み込み中...
+  </p>
+  <p v-else-if="isError">
+    混雑状況を取得できませんでした
+  </p>
+  <div
+    v-else
+    class="crowd-levels"
+  >
+    <div class="crowd-levels__head">
+      <p class="crowd-levels__label">
+        メイン会場
+      </p>
+      <p class="crowd-levels__name">
+        アスティーホール
+      </p>
+    </div>
+    <div class="crowd-levels__body">
+      <img
+        src="/crowd-levels/asty.png"
+        alt=""
+        class="crowd-levels__img"
+      >
+      <div
+        class="crowd-levels__status-box"
+        :class="`crowd-levels__status-box--${statusColor}`"
+      >
+        <div class="crowd-levels__icon-box">
+          <HaPeopleFillIcon
+            v-for="i in fillCount"
+            :key="`fill-${i}`"
+          />
+          <HaPeopleIcon
+            v-for="i in 3 - fillCount"
+            :key="`empty-${i}`"
+          />
+        </div>
+        <p class="crowd-levels__status-text">
+          {{ statusText }}
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px;
+}
+
+.crowd-levels {
+  &__head {
+    text-align: center;
+  }
+
+  &__label {
+    font-size: 14px;
+    color: white;
+  }
+
+  &__name {
+    font-size: 32px;
+    color: white;
+  }
+
+  &__body {
+    position: relative;
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__status-box {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    padding: 10px 32px;
+    border-radius: 22px;
+
+    &::before {
+      content: '';
+
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+
+      display: block;
+
+      width: 0;
+      height: 0;
+      border-top: 20px solid v.$vket-amber;
+      border-right: 14px solid transparent;
+      border-left: 14px solid transparent;
+    }
+
+    &--cyan {
+      background-color: v.$vket-cyan;
+
+      &::before {
+        border-top: 20px solid v.$vket-cyan;
+      }
+    }
+
+    &--amber {
+      background-color: v.$vket-amber;
+
+      &::before {
+        border-top: 20px solid v.$vket-amber;
+      }
+    }
+
+    &--vermilion {
+      background-color: v.$vket-vermilion;
+
+      &::before {
+        border-top: 20px solid v.$vket-vermilion;
+      }
+    }
+  }
+
+  &__icon-box {
+    display: flex;
+  }
+
+  &__status-text {
+    font-size: 32px;
+    font-weight: bold;
+  }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
 ````vue
 <script setup lang="ts">
@@ -5348,201 +5346,6 @@ import HaTicketCard from '../ha/HaTicketCard.vue'
   }
 }
 </style>
-````
-
-## File: layers/main/nuxt.config.ts
-````typescript
-import { defineNuxtConfig } from 'nuxt/config'
-import path from 'path'
-import { readEnvType } from './config/models/EnvType'
-import { getRuntimeConfigOfEnvType } from './config/runtimeConfig'
-import { nuxtI18nOptions } from './i18n/i18n.config'
-
-type MetaInfo = {
-  title: string
-  description: string
-  robots: string
-  siteName: string
-  ogImageUrl: string
-  ogUrl: string
-  twitterSite: string
-  twitterCreator: string
-}
-
-const NUXT_ENV_OUTPUT_ENV = readEnvType(process.env)
-const runtimeConfig = getRuntimeConfigOfEnvType(NUXT_ENV_OUTPUT_ENV)
-const cssUrls = [`@/assets/styles/style.scss`]
-const srcDir = 'app'
-const isSsr = false
-const checkTypeCheckOnBuild = true
-const needAnalyze = NUXT_ENV_OUTPUT_ENV === 'local'
-const needSourcemap = NUXT_ENV_OUTPUT_ENV !== 'production'
-const enableDebug = NUXT_ENV_OUTPUT_ENV === 'local'
-
-const meta: MetaInfo = {
-  title: '',
-  description: '',
-  robots: NUXT_ENV_OUTPUT_ENV === 'production' ? 'all' : 'none',
-  siteName: '',
-  ogImageUrl: `${runtimeConfig.public.url}/images/ogp.jpg`,
-  ogUrl: runtimeConfig.public.url,
-  twitterSite: 'https://x.com/',
-  twitterCreator: 'https://x.com/',
-}
-
-// https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
-  extends: path.resolve(__dirname, '../base'),
-  modules: [
-    '@nuxtjs/google-fonts',
-    '@nuxt/content',
-  ],
-  ssr: isSsr,
-
-  imports: {
-    dirs: ['utils/types/**'],
-    global: false,
-  },
-
-  app: {
-    head: {
-      meta: [
-        { name: 'robots', content: meta.robots },
-        {
-          name: 'description',
-          content: meta.description,
-        },
-        {
-          property: 'og:site_name',
-          content: meta.siteName,
-        },
-        {
-          property: 'og:url',
-          content: meta.ogUrl,
-        },
-        {
-          property: 'og:title',
-          content: meta.title,
-        },
-        {
-          property: 'og:description',
-          content: meta.description,
-        },
-        {
-          property: 'og:image',
-          content: meta.ogImageUrl,
-        },
-        {
-          name: 'twitter:site',
-          content: meta.twitterSite,
-        },
-        {
-          name: 'twitter:creator',
-          content: meta.twitterCreator,
-        },
-      ],
-      link: [
-        {
-          rel: 'icon',
-          type: 'image/x-icon',
-          href: `${runtimeConfig.public.url}/favicon.ico`,
-        },
-      ],
-    },
-  },
-
-  routeRules: {
-    '/external/**': {
-      proxy: 'https://d1-api-test-project.solarkamimura.workers.dev/api/**'
-    }
-  },
-
-  css: cssUrls,
-
-  content: {
-    watch: {
-      enabled: true,
-    },
-    build: {
-      markdown: {
-        toc: {
-          depth: 4,
-        },
-        highlight: {
-          theme: {
-            default: 'github-light',
-            dark: 'github-dark',
-            sepia: 'monokai',
-          },
-        },
-        remarkPlugins: {
-          'remark-gfm': {
-            singleTilde: false,
-          },
-        },
-      },
-    },
-    experimental: {
-      nativeSqlite: true,
-    },
-  },
-
-  runtimeConfig,
-  dir: {
-    public: path.resolve(__dirname, './public'),
-  },
-  rootDir: __dirname,
-  srcDir: `${srcDir}/`,
-
-  alias: {
-    '#base': path.resolve(__dirname, '../base'),
-    '#main': __dirname,
-    '@': path.resolve(__dirname, './app'),
-  },
-
-  ignore: [
-    '.output',
-    '**/test/*.{js,ts,jsx,tsx}',
-    '**/*.{spec,test}.{js,ts,jsx,tsx}',
-    '**/-*.*',
-  ],
-
-  build: {
-    analyze: needAnalyze,
-  },
-
-  sourcemap: {
-    server: needSourcemap,
-    client: needSourcemap,
-  },
-
-  compatibilityDate: '2024-04-03',
-
-  typescript: {
-    typeCheck: checkTypeCheckOnBuild,
-  },
-
-  debug: process.env.VITEST === 'true' ? false : enableDebug,
-
-  googleFonts: {
-    families: {
-      'Noto+Sans+JP': [100, 300, 400, 500, 700, 900],
-      'Inter': [100, 300, 400, 500, 700, 900],
-    },
-    display: 'swap',
-  },
-
-  i18n: nuxtI18nOptions,
-
-  vite: {
-    server: {
-      watch: {
-        usePolling: true,
-        interval: 300,
-      }
-    }
-  }
-})
 ````
 
 ## File: layers/main/package.json
@@ -6142,6 +5945,201 @@ useHeadSafe({
   ],
 })
 </script>
+````
+
+## File: layers/main/nuxt.config.ts
+````typescript
+import { defineNuxtConfig } from 'nuxt/config'
+import path from 'path'
+import { readEnvType } from './config/models/EnvType'
+import { getRuntimeConfigOfEnvType } from './config/runtimeConfig'
+import { nuxtI18nOptions } from './i18n/i18n.config'
+
+type MetaInfo = {
+  title: string
+  description: string
+  robots: string
+  siteName: string
+  ogImageUrl: string
+  ogUrl: string
+  twitterSite: string
+  twitterCreator: string
+}
+
+const NUXT_ENV_OUTPUT_ENV = readEnvType(process.env)
+const runtimeConfig = getRuntimeConfigOfEnvType(NUXT_ENV_OUTPUT_ENV)
+const cssUrls = [`@/assets/styles/style.scss`]
+const srcDir = 'app'
+const isSsr = false
+const checkTypeCheckOnBuild = true
+const needAnalyze = NUXT_ENV_OUTPUT_ENV === 'local'
+const needSourcemap = NUXT_ENV_OUTPUT_ENV !== 'production'
+const enableDebug = NUXT_ENV_OUTPUT_ENV === 'local'
+
+const meta: MetaInfo = {
+  title: '',
+  description: '',
+  robots: NUXT_ENV_OUTPUT_ENV === 'production' ? 'all' : 'none',
+  siteName: '',
+  ogImageUrl: `${runtimeConfig.public.url}/images/ogp.jpg`,
+  ogUrl: runtimeConfig.public.url,
+  twitterSite: 'https://x.com/',
+  twitterCreator: 'https://x.com/',
+}
+
+// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  extends: path.resolve(__dirname, '../base'),
+  modules: [
+    '@nuxtjs/google-fonts',
+    '@nuxt/content',
+  ],
+  ssr: isSsr,
+
+  imports: {
+    dirs: ['utils/types/**'],
+    global: false,
+  },
+
+  app: {
+    head: {
+      meta: [
+        { name: 'robots', content: meta.robots },
+        {
+          name: 'description',
+          content: meta.description,
+        },
+        {
+          property: 'og:site_name',
+          content: meta.siteName,
+        },
+        {
+          property: 'og:url',
+          content: meta.ogUrl,
+        },
+        {
+          property: 'og:title',
+          content: meta.title,
+        },
+        {
+          property: 'og:description',
+          content: meta.description,
+        },
+        {
+          property: 'og:image',
+          content: meta.ogImageUrl,
+        },
+        {
+          name: 'twitter:site',
+          content: meta.twitterSite,
+        },
+        {
+          name: 'twitter:creator',
+          content: meta.twitterCreator,
+        },
+      ],
+      link: [
+        {
+          rel: 'icon',
+          type: 'image/x-icon',
+          href: `${runtimeConfig.public.url}/favicon.ico`,
+        },
+      ],
+    },
+  },
+
+  routeRules: {
+    '/external/**': {
+      proxy: 'https://d1-api-test-project.solarkamimura.workers.dev/api/**'
+    }
+  },
+
+  css: cssUrls,
+
+  content: {
+    watch: {
+      enabled: true,
+    },
+    build: {
+      markdown: {
+        toc: {
+          depth: 4,
+        },
+        highlight: {
+          theme: {
+            default: 'github-light',
+            dark: 'github-dark',
+            sepia: 'monokai',
+          },
+        },
+        remarkPlugins: {
+          'remark-gfm': {
+            singleTilde: false,
+          },
+        },
+      },
+    },
+    experimental: {
+      nativeSqlite: true,
+    },
+  },
+
+  runtimeConfig,
+  dir: {
+    public: path.resolve(__dirname, './public'),
+  },
+  rootDir: __dirname,
+  srcDir: `${srcDir}/`,
+
+  alias: {
+    '#base': path.resolve(__dirname, '../base'),
+    '#main': __dirname,
+    '@': path.resolve(__dirname, './app'),
+  },
+
+  ignore: [
+    '.output',
+    '**/test/*.{js,ts,jsx,tsx}',
+    '**/*.{spec,test}.{js,ts,jsx,tsx}',
+    '**/-*.*',
+  ],
+
+  build: {
+    analyze: needAnalyze,
+  },
+
+  sourcemap: {
+    server: needSourcemap,
+    client: needSourcemap,
+  },
+
+  compatibilityDate: '2024-04-03',
+
+  typescript: {
+    typeCheck: checkTypeCheckOnBuild,
+  },
+
+  debug: process.env.VITEST === 'true' ? false : enableDebug,
+
+  googleFonts: {
+    families: {
+      'Noto+Sans+JP': [100, 300, 400, 500, 700, 900],
+      'Inter': [100, 300, 400, 500, 700, 900],
+    },
+    display: 'swap',
+  },
+
+  i18n: nuxtI18nOptions,
+
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,
+        interval: 300,
+      }
+    }
+  }
+})
 ````
 
 ## File: layers/main/app/assets/styles/_common.scss

@@ -2,11 +2,9 @@
 import HaSectionTitle from '../ha/HaSectionTitle.vue'
 import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
 import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
-
-// 本番用
-import { useCrowdData } from '~/composables/useCrowdData'
+// import { useCrowdData } from '~/composables/useCrowdData' // 本番用
+import { useCrowdData } from '~/composables/useMockCrowdData'
 // テスト用
-// import { useCrowdData } from '~/composables/useMockCrowdData'
 const { isLoading, isError, fillCount, statusText, statusColor } = useCrowdData()
 </script>
 
