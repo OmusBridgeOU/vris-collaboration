@@ -59,6 +59,17 @@ layers/
           style.scss
       components/
         ha/
+          buildings/
+            HaAstyLevel1.vue
+            HaAstyLevel2.vue
+            HaAstyLevel3.vue
+            HaAstyLoading.vue
+            HaAstyUnable.vue
+            HaDTCLevel1.vue
+            HaDTCLevel2.vue
+            HaDTCLevel3.vue
+            HaDTCLoading.vue
+            HaDTCUnable.vue
           icons/
             HaArrowRightIcon.vue
             HaBalanceIcon.vue
@@ -68,6 +79,7 @@ layers/
             HaChevronDownIcon.vue
             HaChevronLeftIcon.vue
             HaChevronRightIcon.vue
+            HaCircledQuestionIcon.vue
             HaCommunityIcon.vue
             HaCompanyIcon.vue
             HaDangerIcon.vue
@@ -79,6 +91,7 @@ layers/
             HaOpenBookIcon.vue
             HaPeopleFillIcon.vue
             HaPeopleIcon.vue
+            HaPeopleUnableIcon.vue
             HaQuestionIcon.vue
             HaShieldIcon.vue
             HaStarShineIcon.vue
@@ -93,7 +106,6 @@ layers/
           HaConductCard.vue
           HaContactCard.vue
           HaDocumentLink.vue
-          HaFireworks.vue
           HaFirstView.vue
           HaInfoCard.vue
           HaQuickAccessCard.vue
@@ -102,6 +114,7 @@ layers/
           HaSwiperCard.vue
           HaTicketCard.vue
         hm/
+          HmCrowdLevelCard.vue
           HmSwiper.vue
         ho/
           HoTheFooter.vue
@@ -109,10 +122,10 @@ layers/
         ht/
           HtAboutSection.vue
           HtAccessSection.vue
-          HtCloudLevelsSection.vue
           HtCodeOfConductSection.vue
           HtContactSection.vue
           HtContentsSection.vue
+          HtCrowdLevelsSection.vue
           HtExhibitionSection.vue
           HtNewsSection.vue
           HtQandASection.vue
@@ -196,132 +209,1283 @@ layers/
 
 # Files
 
-## File: layers/main/app/components/ha/HaFireworks.vue
+## File: layers/main/app/components/ha/buildings/HaAstyLevel1.vue
 ````vue
 <template>
-  <canvas
-    ref="canvasRef"
-    class="fireworks-canvas"
-  />
+  <svg viewBox="0 0 269 173" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect
+      width="159.096"
+      height="85.5081"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8297 110.497)"
+      fill="url(#paint0_linear_645_816)"
+    />
+    <path
+      d="M24.0251 125.026V110.491L97.8948 153.093V167.626L24.0251 125.026Z"
+      fill="url(#paint1_linear_645_816)"
+    />
+    <path
+      d="M97.8948 153.289V167.626L235.472 88.2839V73.9473L97.8948 153.289Z"
+      fill="url(#paint2_linear_645_816)"
+    />
+    <g filter="url(#filter0_f_645_816)">
+      <rect
+        width="167.407"
+        height="93.9689"
+        transform="matrix(0.866044 -0.499967 0.866044 0.499967 21.0938 104.792)"
+        fill="#71FFCD"
+        fill-opacity="0.25"
+      />
+    </g>
+    <rect
+      width="158.315"
+      height="85.0886"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8163 99.8572)"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M234.615 56.2449L170.871 93.0447H24.1425L23.8163 92.8562L160.925 13.7039L234.615 56.2449Z"
+      fill="#D2FFEF"
+    />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M97.3235 142.321C97.314 142.297 97.3069 142.271 97.3069 142.244V135.438C97.3069 135.411 97.3138 135.385 97.3235 135.361V142.321ZM234.315 56.3031C234.38 56.2655 234.46 56.2655 234.526 56.3031C234.591 56.3408 234.631 56.4104 234.631 56.4857V63.2924C234.631 63.3676 234.591 63.4374 234.526 63.475L183.251 93.0453H170.604L234.315 56.3031Z"
+      fill="#C2D3CD"
+    />
+    <path
+      d="M170.883 100.045H23.8163V93.0449H183.163L170.883 100.045Z"
+      fill="#C2D3CD"
+    />
+    <defs>
+      <filter
+        id="filter0_f_645_816"
+        x="0"
+        y="0"
+        width="268.551"
+        height="172.867"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="10.5469"
+          result="effect1_foregroundBlur_645_816"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_645_816"
+        x1="79.5479"
+        y1="85.5081"
+        x2="79.5479"
+        y2="0"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+      <linearGradient
+        id="paint1_linear_645_816"
+        x1="60.96"
+        y1="167.626"
+        x2="60.96"
+        y2="110.491"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+      <linearGradient
+        id="paint2_linear_645_816"
+        x1="166.683"
+        y1="167.626"
+        x2="166.683"
+        y2="73.9473"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+    </defs>
+  </svg>
 </template>
+````
 
-<script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+## File: layers/main/app/components/ha/buildings/HaAstyLevel2.vue
+````vue
+<template>
+  <svg viewBox="0 0 269 175" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect
+      width="159.096"
+      height="85.5081"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.4806 111.793)"
+      fill="url(#paint0_linear_645_831)"
+    />
+    <path
+      d="M23.676 126.323V111.787L97.5457 154.389V168.923L23.676 126.323Z"
+      fill="url(#paint1_linear_645_831)"
+    />
+    <path
+      d="M97.5458 154.585V168.923L235.123 89.5801V75.2434L97.5458 154.585Z"
+      fill="url(#paint2_linear_645_831)"
+    />
+    <g filter="url(#filter0_f_645_831)">
+      <path
+        d="M21.0938 106.088L166.076 22.3898L247.457 69.3712L102.475 153.069L21.0938 106.088Z"
+        fill="#FFA500"
+        fill-opacity="0.25"
+      />
+    </g>
+    <rect
+      width="158.315"
+      height="85.0886"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8163 101.153)"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M234.615 42.542L144.889 94.3408H50.1259L23.8163 79.1523L160.925 0L234.615 42.542Z"
+      fill="#F5EFDC"
+    />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M97.3235 143.617C97.314 143.593 97.3069 143.567 97.3069 143.541V121.733C97.3069 121.706 97.3136 121.68 97.3235 121.655V143.617ZM234.315 42.5973C234.38 42.5597 234.46 42.5597 234.526 42.5973C234.591 42.635 234.631 42.7046 234.631 42.7799V64.5885C234.631 64.6638 234.591 64.7335 234.526 64.7711L183.252 94.3405H144.592L234.315 42.5973Z"
+      fill="#D3CFC2"
+    />
+    <path
+      d="M183.276 94.2761L170.883 101.342H23.8163V79.3425H183.276V94.2761Z"
+      fill="#D3CFC2"
+    />
+    <defs>
+      <filter
+        id="filter0_f_645_831"
+        x="0"
+        y="1.29614"
+        width="268.551"
+        height="172.867"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="10.5469"
+          result="effect1_foregroundBlur_645_831"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_645_831"
+        x1="79.5479"
+        y1="85.5081"
+        x2="79.5479"
+        y2="0"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+      <linearGradient
+        id="paint1_linear_645_831"
+        x1="60.6109"
+        y1="168.923"
+        x2="60.6109"
+        y2="111.787"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+      <linearGradient
+        id="paint2_linear_645_831"
+        x1="166.334"
+        y1="168.923"
+        x2="166.334"
+        y2="75.2434"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
 
-const canvasRef = ref<HTMLCanvasElement | null>(null)
-let animationId: number | null = null
-let resizeObserver: ResizeObserver | null = null
+## File: layers/main/app/components/ha/buildings/HaAstyLevel3.vue
+````vue
+<template>
+  <svg viewBox="0 0 269 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect
+      width="159.096"
+      height="85.5081"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.6173 126.793)"
+      fill="url(#paint0_linear_645_845)"
+    />
+    <path
+      d="M23.8129 141.323V126.787L97.6825 169.389V183.923L23.8129 141.323Z"
+      fill="url(#paint1_linear_645_845)"
+    />
+    <path
+      d="M97.6825 169.585V183.923L235.26 104.58V90.2434L97.6825 169.585Z"
+      fill="url(#paint2_linear_645_845)"
+    />
+    <g filter="url(#filter0_f_645_845)">
+      <path
+        d="M21.0938 121.088L166.076 37.3898L247.457 84.3712L102.475 168.069L21.0938 121.088Z"
+        fill="#FF4500"
+        fill-opacity="0.24"
+      />
+    </g>
+    <rect
+      width="158.315"
+      height="85.0886"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8163 116.153)"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M234.615 42.542L144.889 94.3408H50.1259L23.8163 79.1523L160.925 0L234.615 42.542Z"
+      fill="#FFD2C2"
+    />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M97.3235 158.617C97.314 158.592 97.3069 158.567 97.3069 158.54V121.733C97.3069 121.706 97.3139 121.68 97.3235 121.656V158.617ZM234.315 42.597C234.38 42.5594 234.46 42.5595 234.526 42.597C234.591 42.6347 234.631 42.7044 234.631 42.7797V79.5883C234.631 79.6635 234.591 79.7333 234.526 79.7709L183.251 109.341H118.581L234.315 42.597Z"
+      fill="#D3CAC2"
+    />
+    <path
+      d="M183.276 109.276L170.883 116.342H23.8163V79.3425H183.276V109.276Z"
+      fill="#D3CAC2"
+    />
+    <defs>
+      <filter
+        id="filter0_f_645_845"
+        x="0"
+        y="16.2961"
+        width="268.551"
+        height="172.867"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="10.5469"
+          result="effect1_foregroundBlur_645_845"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_645_845"
+        x1="79.5479"
+        y1="85.5081"
+        x2="79.5479"
+        y2="0"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+      <linearGradient
+        id="paint1_linear_645_845"
+        x1="60.7477"
+        y1="183.923"
+        x2="60.7477"
+        y2="126.787"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+      <linearGradient
+        id="paint2_linear_645_845"
+        x1="166.471"
+        y1="183.923"
+        x2="166.471"
+        y2="90.2434"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
 
-function random(min: number, max: number): number {
-  return Math.random() * (max - min) + min
-}
+## File: layers/main/app/components/ha/buildings/HaAstyLoading.vue
+````vue
+<template>
+  <svg viewBox="0 0 269 173" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect
+      width="159.096"
+      height="85.5081"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8296 110.497)"
+      fill="url(#paint0_linear_645_914)"
+    />
+    <path
+      d="M24.0251 125.026V110.491L97.8947 153.093V167.626L24.0251 125.026Z"
+      fill="url(#paint1_linear_645_914)"
+    />
+    <path
+      d="M97.8948 153.289V167.626L235.472 88.2839V73.9473L97.8948 153.289Z"
+      fill="url(#paint2_linear_645_914)"
+    />
+    <g filter="url(#filter0_f_645_914)">
+      <rect
+        width="167.407"
+        height="93.9689"
+        transform="matrix(0.866044 -0.499967 0.866044 0.499967 21.0938 104.792)"
+        fill="#9747FF"
+        fill-opacity="0.25"
+      />
+    </g>
+    <rect
+      width="158.315"
+      height="85.0886"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8162 99.8572)"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M234.615 56.2449L170.871 93.0447H24.1424L23.8162 92.8562L160.925 13.7039L234.615 56.2449Z"
+      fill="#EEE0FF"
+    />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M97.3234 142.321C97.3139 142.296 97.3069 142.271 97.3068 142.244V135.438C97.3068 135.411 97.3137 135.385 97.3234 135.361V142.321ZM234.315 56.3031C234.38 56.2655 234.46 56.2655 234.526 56.3031C234.591 56.3407 234.631 56.4104 234.631 56.4857V63.2923C234.631 63.3676 234.591 63.4374 234.526 63.475L183.251 93.0453H170.604L234.315 56.3031Z"
+      fill="#C9BED7"
+    />
+    <path
+      d="M170.883 100.045H23.8162V93.0449H183.163L170.883 100.045Z"
+      fill="#C9BED7"
+    />
+    <defs>
+      <filter
+        id="filter0_f_645_914"
+        x="0"
+        y="0"
+        width="268.551"
+        height="172.867"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="10.5469"
+          result="effect1_foregroundBlur_645_914"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_645_914"
+        x1="79.5479"
+        y1="85.5081"
+        x2="79.5479"
+        y2="0"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+      <linearGradient
+        id="paint1_linear_645_914"
+        x1="60.9599"
+        y1="167.626"
+        x2="60.9599"
+        y2="110.491"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+      <linearGradient
+        id="paint2_linear_645_914"
+        x1="166.683"
+        y1="167.626"
+        x2="166.683"
+        y2="73.9473"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
 
-interface Particle {
-  x: number
-  y: number
-  vx: number
-  vy: number
-  alpha: number
-  color: string
-}
+## File: layers/main/app/components/ha/buildings/HaAstyUnable.vue
+````vue
+<template>
+  <svg viewBox="0 0 269 173" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect
+      width="159.096"
+      height="85.5081"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8297 110.497)"
+      fill="url(#paint0_linear_645_898)"
+    />
+    <path
+      d="M24.0251 125.026V110.491L97.8948 153.093V167.626L24.0251 125.026Z"
+      fill="url(#paint1_linear_645_898)"
+    />
+    <path
+      d="M97.8948 153.289V167.626L235.472 88.2839V73.9473L97.8948 153.289Z"
+      fill="url(#paint2_linear_645_898)"
+    />
+    <g filter="url(#filter0_f_645_898)">
+      <rect
+        width="167.407"
+        height="93.9689"
+        transform="matrix(0.866044 -0.499967 0.866044 0.499967 21.0938 104.792)"
+        fill="#ACBABF"
+        fill-opacity="0.25"
+      />
+    </g>
+    <rect
+      width="158.315"
+      height="85.0886"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8163 99.8572)"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M234.615 56.2449L170.871 93.0447H24.1425L23.8163 92.8562L160.925 13.7039L234.615 56.2449Z"
+      fill="#D8E8EE"
+    />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M97.3235 142.321C97.314 142.297 97.307 142.272 97.3069 142.245V135.438C97.3069 135.411 97.3138 135.386 97.3235 135.361V142.321ZM234.315 56.3036C234.38 56.266 234.46 56.266 234.526 56.3036C234.591 56.3413 234.631 56.4109 234.631 56.4862V63.2929C234.631 63.368 234.591 63.438 234.526 63.4755L183.252 93.0448H170.606L234.315 56.3036Z"
+      fill="#C2D0D3"
+    />
+    <path
+      d="M170.883 100.045H23.8163V93.0449H183.163L170.883 100.045Z"
+      fill="#C2D0D3"
+    />
+    <defs>
+      <filter
+        id="filter0_f_645_898"
+        x="0"
+        y="0"
+        width="268.551"
+        height="172.867"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="10.5469"
+          result="effect1_foregroundBlur_645_898"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_645_898"
+        x1="79.5479"
+        y1="85.5081"
+        x2="79.5479"
+        y2="0"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+      <linearGradient
+        id="paint1_linear_645_898"
+        x1="60.96"
+        y1="167.626"
+        x2="60.96"
+        y2="110.491"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+      <linearGradient
+        id="paint2_linear_645_898"
+        x1="166.684"
+        y1="167.626"
+        x2="166.684"
+        y2="73.9473"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
 
-// アニメーションのメイン処理
-function startAnimation(canvas: HTMLCanvasElement) {
-  const ctx = canvas.getContext('2d')!
-  let particles: Particle[] = []
+## File: layers/main/app/components/ha/buildings/HaDTCLevel1.vue
+````vue
+<template>
+  <svg viewBox="0 0 280 187" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M36.4197 93.7966C36.3331 93.7479 36.2265 93.7488 36.1404 93.7986C36.0536 93.8489 35.9998 93.9414 35.9998 94.0417V114.476C35.9998 114.577 36.0543 114.67 36.1414 114.72L135.156 171.75L136.488 172.522C136.505 172.598 136.552 172.665 136.621 172.705C136.708 172.755 136.815 172.755 136.902 172.705L218.139 125.479L235.414 115.526L235.332 115.477C235.395 115.424 235.433 115.347 235.433 115.263V94.7078L235.677 94.5681L235.362 94.3845C235.342 94.3622 235.319 94.3423 235.293 94.3269C235.267 94.3118 235.238 94.3017 235.21 94.2957L135.712 36.4753L36.4197 93.7966Z"
+      fill="url(#paint0_linear_637_546)"
+    />
+    <g filter="url(#filter0_f_637_546)">
+      <path
+        d="M251.678 91.5139L129.802 28.1251L20 91.5139L138.857 158.001L251.678 91.5139Z"
+        fill="#71FFCD"
+        fill-opacity="0.25"
+      />
+    </g>
+    <path
+      d="M236.723 86.1103L136.48 27.9248L37.5791 85.0608L137.797 143.108L236.723 86.1103Z"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M38.0813 74.4588L137.813 132.224L236.499 75.1526L137.02 17.3414L38.0813 74.4588Z"
+      fill="#D2FFEF"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M236.461 85.8477V75.1499L138.069 132.09V143.046L236.461 85.8477Z"
+      fill="#C2D3CD"
+      stroke="#ACBABF"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M137.807 132.09V142.784L37.5896 85.061V74.6301L137.807 132.09Z"
+      fill="#C2D3CD"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <defs>
+      <filter
+        id="filter0_f_637_546"
+        x="-8.125"
+        y="0"
+        width="287.928"
+        height="186.126"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="14.0625"
+          result="effect1_foregroundBlur_637_546"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_637_546"
+        x1="135.838"
+        y1="172.742"
+        x2="135.838"
+        y2="36.4753"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
 
-  /** 花火を1発生成 */
-  function createFirework() {
-    const count = 100
-    const x = random(100, canvas.width - 100)
-    const y = random(100, canvas.height / 2)
-    const color = `hsl(${Math.floor(random(0, 360))}, 100%, 60%)`
+## File: layers/main/app/components/ha/buildings/HaDTCLevel2.vue
+````vue
+<template>
+  <svg viewBox="0 0 288 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M44.5447 96.7366C44.4581 96.6878 44.3515 96.6887 44.2654 96.7385C44.1786 96.7888 44.1248 96.8814 44.1248 96.9817V117.416C44.1248 117.517 44.1793 117.61 44.2664 117.66L143.281 174.69L144.613 175.462C144.63 175.538 144.677 175.605 144.746 175.645C144.833 175.695 144.94 175.695 145.027 175.645L226.264 128.419L243.539 118.466L243.457 118.417C243.52 118.364 243.558 118.287 243.558 118.203V97.6477L243.802 97.5081L243.487 97.3245C243.467 97.3021 243.444 97.2822 243.418 97.2668C243.392 97.2518 243.363 97.2416 243.335 97.2356L143.837 39.4153L44.5447 96.7366Z"
+      fill="url(#paint0_linear_637_561)"
+    />
+    <g filter="url(#filter0_f_637_561)">
+      <path
+        d="M259.803 94.4539L137.927 31.0651L28.125 94.4538L146.982 160.941L259.803 94.4539Z"
+        fill="#FFA500"
+        fill-opacity="0.25"
+      />
+    </g>
+    <path
+      d="M244.848 89.0502L144.605 30.8647L45.7041 88.0007L145.922 146.048L244.848 89.0502Z"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M46.2063 57.3987L145.938 115.164L244.624 58.0925L145.145 0.281352L46.2063 57.3987Z"
+      fill="#F5EFDC"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M244.586 88.7877V58.0898L146.194 115.03V145.986L244.586 88.7877Z"
+      fill="#D3CFC2"
+      stroke="#ACBABF"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M145.932 115.03V145.723L45.7146 88.0007V57.5698L145.932 115.03Z"
+      fill="#D3CFC2"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <defs>
+      <filter
+        id="filter0_f_637_561"
+        x="0"
+        y="2.93994"
+        width="287.928"
+        height="186.126"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="14.0625"
+          result="effect1_foregroundBlur_637_561"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_637_561"
+        x1="143.963"
+        y1="175.682"
+        x2="143.963"
+        y2="39.4153"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
 
-    for (let i = 0; i < count; i++) {
-      particles.push({ x, y, vx: random(-5, 5), vy: random(-5, 5), alpha: 1, color })
+## File: layers/main/app/components/ha/buildings/HaDTCLevel3.vue
+````vue
+<template>
+  <svg viewBox="0 0 288 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M44.5447 116.737C44.4581 116.688 44.3515 116.689 44.2654 116.739C44.1786 116.789 44.1248 116.881 44.1248 116.982V137.416C44.1248 137.517 44.1793 137.61 44.2664 137.66L143.281 194.69L144.613 195.462C144.63 195.538 144.677 195.605 144.746 195.645C144.833 195.695 144.94 195.695 145.027 195.645L226.264 148.419L243.539 138.466L243.457 138.417C243.52 138.364 243.558 138.287 243.558 138.203V117.648L243.802 117.508L243.487 117.324C243.467 117.302 243.444 117.282 243.418 117.267C243.392 117.252 243.363 117.242 243.335 117.236L143.837 59.4153L44.5447 116.737Z"
+      fill="url(#paint0_linear_638_576)"
+    />
+    <g filter="url(#filter0_f_638_576)">
+      <path
+        d="M259.803 114.454L137.927 51.0651L28.125 114.454L146.982 180.941L259.803 114.454Z"
+        fill="#FF4500"
+        fill-opacity="0.25"
+      />
+    </g>
+    <path
+      d="M244.848 109.05L144.605 50.8647L45.7041 108.001L145.922 166.048L244.848 109.05Z"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M46.2063 57.3987L145.938 115.164L244.624 58.0925L145.145 0.281352L46.2063 57.3987Z"
+      fill="#FFD2C2"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M244.586 108.788V58.0901L146.194 115.03V165.986L244.586 108.788Z"
+      fill="#D3CAC2"
+      stroke="#ACBABF"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M145.932 115.03V165.724L45.7146 108.001V57.5701L145.932 115.03Z"
+      fill="#D3CAC2"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <defs>
+      <filter
+        id="filter0_f_638_576"
+        x="0"
+        y="22.9399"
+        width="287.928"
+        height="186.126"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="14.0625"
+          result="effect1_foregroundBlur_638_576"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_638_576"
+        x1="143.963"
+        y1="195.682"
+        x2="143.963"
+        y2="59.4153"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/buildings/HaDTCLoading.vue
+````vue
+<template>
+  <svg viewBox="0 0 288 187" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M44.5447 93.7966C44.4581 93.7479 44.3516 93.7488 44.2654 93.7986C44.1786 93.8489 44.1248 93.9414 44.1248 94.0417V114.476C44.1249 114.577 44.1793 114.67 44.2664 114.72L143.281 171.75L144.613 172.522C144.63 172.598 144.677 172.665 144.746 172.705C144.833 172.755 144.94 172.755 145.027 172.705L226.264 125.479L243.539 115.526L243.457 115.477C243.52 115.424 243.558 115.347 243.558 115.263V94.7078L243.802 94.5681L243.487 94.3845C243.467 94.3622 243.444 94.3423 243.418 94.3269C243.392 94.3118 243.364 94.3017 243.335 94.2957L143.837 36.4753L44.5447 93.7966Z"
+      fill="url(#paint0_linear_640_762)"
+    />
+    <g filter="url(#filter0_f_640_762)">
+      <path
+        d="M259.803 91.5139L137.927 28.1251L28.125 91.5139L146.982 158.001L259.803 91.5139Z"
+        fill="#9747FF"
+        fill-opacity="0.25"
+      />
+    </g>
+    <path
+      d="M244.848 86.1103L144.605 27.9248L45.7042 85.0608L145.922 143.108L244.848 86.1103Z"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M46.2064 74.4588L145.938 132.224L244.624 75.1526L145.145 17.3414L46.2064 74.4588Z"
+      fill="#EEE0FF"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M244.586 85.8477V75.1499L146.194 132.09V143.046L244.586 85.8477Z"
+      fill="#C9BED7"
+      stroke="#ACBABF"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M145.932 132.09V142.784L45.7147 85.061V74.6301L145.932 132.09Z"
+      fill="#C9BED7"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <defs>
+      <filter
+        id="filter0_f_640_762"
+        x="0"
+        y="0"
+        width="287.928"
+        height="186.126"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="14.0625"
+          result="effect1_foregroundBlur_640_762"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_640_762"
+        x1="143.963"
+        y1="172.742"
+        x2="143.963"
+        y2="36.4753"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/buildings/HaDTCUnable.vue
+````vue
+<template>
+  <svg viewBox="0 0 288 187" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M44.5447 93.7966C44.4581 93.7479 44.3515 93.7488 44.2654 93.7986C44.1786 93.8489 44.1248 93.9414 44.1248 94.0417V114.476C44.1248 114.577 44.1793 114.67 44.2664 114.72L143.281 171.75L144.613 172.522C144.63 172.598 144.677 172.665 144.746 172.705C144.833 172.755 144.94 172.755 145.027 172.705L226.264 125.479L243.539 115.526L243.457 115.477C243.52 115.424 243.558 115.347 243.558 115.263V94.7078L243.802 94.5681L243.487 94.3845C243.467 94.3622 243.444 94.3423 243.418 94.3269C243.392 94.3118 243.363 94.3017 243.335 94.2957L143.837 36.4753L44.5447 93.7966Z"
+      fill="url(#paint0_linear_640_747)"
+    />
+    <g filter="url(#filter0_f_640_747)">
+      <path
+        d="M259.803 91.5139L137.927 28.1251L28.125 91.5139L146.982 158.001L259.803 91.5139Z"
+        fill="#ACBABF"
+        fill-opacity="0.25"
+      />
+    </g>
+    <path
+      d="M244.848 86.1103L144.605 27.9248L45.7041 85.0608L145.922 143.108L244.848 86.1103Z"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M46.2063 74.4588L145.938 132.224L244.624 75.1526L145.145 17.3414L46.2063 74.4588Z"
+      fill="#D8E8EE"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M244.586 85.8477V75.1499L146.194 132.09V143.046L244.586 85.8477Z"
+      fill="#C2D0D3"
+      stroke="#ACBABF"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M145.932 132.09V142.784L45.7146 85.061V74.6301L145.932 132.09Z"
+      fill="#C2D0D3"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <defs>
+      <filter
+        id="filter0_f_640_747"
+        x="0"
+        y="0"
+        width="287.928"
+        height="186.126"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="14.0625"
+          result="effect1_foregroundBlur_640_747"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_640_747"
+        x1="143.963"
+        y1="172.742"
+        x2="143.963"
+        y2="36.4753"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#565656" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaCircledQuestionIcon.vue
+````vue
+<template>
+  <svg
+    width="40"
+    height="40"
+    viewBox="0 0 40 40"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M20 3.33301C29.205 3.33301 36.6667 10.7947 36.6667 19.9997C36.6667 29.2047 29.205 36.6663 20 36.6663C10.795 36.6663 3.33337 29.2047 3.33337 19.9997C3.33337 10.7947 10.795 3.33301 20 3.33301ZM20 6.66634C16.4638 6.66634 13.0724 8.0711 10.572 10.5716C8.07147 13.0721 6.66671 16.4635 6.66671 19.9997C6.66671 23.5359 8.07147 26.9273 10.572 29.4278C13.0724 31.9282 16.4638 33.333 20 33.333C23.5363 33.333 26.9276 31.9282 29.4281 29.4278C31.9286 26.9273 33.3334 23.5359 33.3334 19.9997C33.3334 16.4635 31.9286 13.0721 29.4281 10.5716C26.9276 8.0711 23.5363 6.66634 20 6.66634ZM20 26.6663C20.4421 26.6663 20.866 26.8419 21.1786 27.1545C21.4911 27.4671 21.6667 27.891 21.6667 28.333C21.6667 28.775 21.4911 29.199 21.1786 29.5115C20.866 29.8241 20.4421 29.9997 20 29.9997C19.558 29.9997 19.1341 29.8241 18.8215 29.5115C18.509 29.199 18.3334 28.775 18.3334 28.333C18.3334 27.891 18.509 27.4671 18.8215 27.1545C19.1341 26.8419 19.558 26.6663 20 26.6663ZM20 10.833C21.4038 10.8331 22.7638 11.3219 23.8463 12.2157C24.9289 13.1094 25.6664 14.3522 25.9322 15.7306C26.198 17.109 25.9756 18.537 25.303 19.7692C24.6305 21.0014 23.5498 21.9609 22.2467 22.483C22.0537 22.554 21.8797 22.6686 21.7384 22.818C21.665 22.9013 21.6534 23.008 21.655 23.118L21.6667 23.333C21.6662 23.7578 21.5036 24.1664 21.212 24.4753C20.9203 24.7842 20.5218 24.9701 20.0977 24.995C19.6736 25.0199 19.2561 24.8819 18.9303 24.6092C18.6046 24.3366 18.3952 23.9498 18.345 23.528L18.3334 23.333V22.9163C18.3334 20.9947 19.8834 19.8413 21.0067 19.3897C21.4639 19.2071 21.8627 18.9035 22.1603 18.5113C22.458 18.1192 22.6432 17.6534 22.696 17.1639C22.7489 16.6745 22.6674 16.1799 22.4604 15.7332C22.2534 15.2866 21.9286 14.9048 21.5209 14.6288C21.1133 14.3528 20.6381 14.1931 20.1465 14.1668C19.655 14.1405 19.1655 14.2486 18.7307 14.4795C18.2959 14.7103 17.9322 15.0553 17.6787 15.4773C17.4252 15.8993 17.2914 16.3824 17.2917 16.8747C17.2917 17.3167 17.1161 17.7406 16.8036 18.0532C16.491 18.3657 16.0671 18.5413 15.625 18.5413C15.183 18.5413 14.7591 18.3657 14.4465 18.0532C14.134 17.7406 13.9584 17.3167 13.9584 16.8747C13.9584 15.2723 14.5949 13.7356 15.7279 12.6026C16.861 11.4695 18.3977 10.833 20 10.833Z"
+      fill="white"
+    />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaPeopleUnableIcon.vue
+````vue
+<template>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 4C8.93913 4 7.92172 4.42143 7.17157 5.17157C6.42143 5.92172 6 6.93913 6 8C6 9.06087 6.42143 10.0783 7.17157 10.8284C7.92172 11.5786 8.93913 12 10 12C11.0609 12 12.0783 11.5786 12.8284 10.8284C13.5786 10.0783 14 9.06087 14 8C14 6.93913 13.5786 5.92172 12.8284 5.17157C12.0783 4.42143 11.0609 4 10 4ZM17.5 13C15 13 13 15 13 17.5C13 20 15 22 17.5 22C20 22 22 20 22 17.5C22 15 20 13 17.5 13ZM10 14C5.58 14 2 15.79 2 18V20H11.5C11.1699 19.2078 11 18.3582 11 17.5C11.0043 16.3143 11.3328 15.1524 11.95 14.14C11.32 14.06 10.68 14 10 14ZM17.5 14.5C19.16 14.5 20.5 15.84 20.5 17.5C20.5 18.06 20.35 18.58 20.08 19L16 14.92C16.42 14.65 16.94 14.5 17.5 14.5ZM14.92 16L19 20.08C18.58 20.35 18.06 20.5 17.5 20.5C15.84 20.5 14.5 19.16 14.5 17.5C14.5 16.94 14.65 16.42 14.92 16Z" fill="white"/>
+    </svg>
+</template>
+````
+
+## File: layers/main/app/components/hm/HmCrowdLevelCard.vue
+````vue
+<script lang="ts" setup>
+import HaAstyLevel1 from '../ha/buildings/HaAstyLevel1.vue'
+import HaAstyLevel2 from '../ha/buildings/HaAstyLevel2.vue'
+import HaAstyLevel3 from '../ha/buildings/HaAstyLevel3.vue'
+import HaAstyLoading from '../ha/buildings/HaAstyLoading.vue'
+import HaAstyUnable from '../ha/buildings/HaAstyUnable.vue'
+import HaDTCLevel1 from '../ha/buildings/HaDTCLevel1.vue'
+import HaDTCLevel2 from '../ha/buildings/HaDTCLevel2.vue'
+import HaDTCLevel3 from '../ha/buildings/HaDTCLevel3.vue'
+import HaDTCLoading from '../ha/buildings/HaDTCLoading.vue'
+import HaDTCUnable from '../ha/buildings/HaDTCUnable.vue'
+import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
+import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
+import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
+import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
+
+const props = defineProps<{
+  label: string
+  name: string
+  isLoading: boolean
+  building: 1 | 2
+  statusText: string
+  statusColor: string
+  fillCount: 0 | 1 | 2 | 3
+}>()
+</script>
+<template>
+  <div
+    class="glassy-box-4 crowd-level-card"
+    :class="`crowd-level-card--${statusColor}`"
+  >
+    <div class="crowd-level-card__head">
+      <div class="crowd-level-card__text-box">
+        <p class="crowd-level-card__label">{{ label }}</p>
+        <p class="crowd-level-card__name">{{ name }}</p>
+      </div>
+      <div class="crowd-level-card__status-box">
+        <div class="crowd-level-card__icon-box">
+          <template v-if="isLoading">
+            <HaPeopleIcon />
+            <HaQuestionIcon />
+          </template>
+          <template v-else-if="fillCount == 0">
+            <HaPeopleUnableIcon />
+          </template>
+          <template v-else>
+            <HaPeopleFillIcon v-for="i in fillCount" :key="`fill-${i}`" />
+            <HaPeopleIcon v-for="i in 3 - fillCount" :key="`empty-${i}`" />
+          </template>
+        </div>
+        <p class="crowd-level-card__status-text">
+          {{ statusText }}
+        </p>
+      </div>
+    </div>
+    <div class="crowd-level-card__body">
+      <div class="crowd-level-card__image">
+        <template v-if="building == 1">
+          <HaAstyLoading v-if="isLoading" />
+          <template v-else>
+            <HaAstyUnable v-show="statusColor == 'gray'" />
+            <HaAstyLevel1 v-show="statusColor == 'emgreen'" />
+            <HaAstyLevel2 v-show="statusColor == 'amber'" />
+            <HaAstyLevel3 v-show="statusColor == 'vermilion'" />
+          </template>
+        </template>
+        <template v-else-if="building == 2">
+          <HaDTCLoading v-if="isLoading" />
+          <template v-else>
+            <HaDTCUnable v-show="statusColor == 'gray'" />
+            <HaDTCLevel1 v-show="statusColor == 'emgreen'" />
+            <HaDTCLevel2 v-show="statusColor == 'amber'" />
+            <HaDTCLevel3 v-show="statusColor == 'vermilion'" />
+          </template>
+        </template>
+      </div>
+      <div class="crowd-level-card__footer">
+        <p class="crowd-level-card__text">混雑状況</p>
+        <div class="crowd-level-card__carousel glassy-carousel">
+          <div
+            class="crowd-level-card__carousel-inner glassy-carousel"
+            :class="`glassy-carousel  crowd-level-card__carousel-inner--${
+              isLoading || fillCount == 0 || fillCount == 3
+                ? '1-1'
+                : fillCount == 1
+                ? '1-4'
+                : fillCount == 2
+                ? '1-2'
+                : ''
+            }`"
+          />
+        </div>
+        <p class="crowd-level-card__text">
+          {{
+            isLoading
+              ? '取得中'
+              : fillCount == 0
+              ? '期間外'
+              : fillCount == 1
+              ? '低'
+              : fillCount == 2
+              ? '中'
+              : fillCount == 3
+              ? '高'
+              : ''
+          }}
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.crowd-level-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 18px 24px 32px;
+
+  &--emgreen {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-emgreen;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-emgreen, 0.75);
     }
   }
 
-  /** パーティクルの更新と描画 */
-  function updateParticles() {
-    // 残像効果
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
+  &--amber {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-amber;
+    }
 
-    // 後ろから削除するため reverse() してインデックスがずれないようにする
-    particles = particles.filter((p) => {
-      p.x += p.vx
-      p.y += p.vy
-      p.alpha -= 0.01
-
-      ctx.beginPath()
-      ctx.arc(p.x, p.y, 2, 0, Math.PI * 2)
-      ctx.fillStyle = p.color
-      ctx.globalAlpha = p.alpha
-      ctx.fill()
-
-      return p.alpha > 0 // falseになったパーティクルは除外
-    })
-
-    ctx.globalAlpha = 1
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-amber, 0.75);
+    }
   }
 
-  /** アニメーションループ */
-  function animate() {
-    animationId = requestAnimationFrame(animate)
-    updateParticles()
-    if (Math.random() < 0.05) createFirework()
+  &--gray {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-gray;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-gray, 0.75);
+    }
   }
 
-  animate()
-}
+  &--purple {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-purple;
+    }
 
-/** アニメーション停止 */
-function stopAnimation() {
-  if (animationId !== null) {
-    cancelAnimationFrame(animationId)
-    animationId = null
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-purple, 0.75);
+    }
+  }
+
+  &--vermilion {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-vermilion;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-vermilion, 0.75);
+    }
+  }
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  &__text-box {
+    width: fit-content;
+  }
+
+  &__label {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  &__name {
+    font-weight: 900;
+    font-size: 32px;
+  }
+
+  &__icon-box {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  &__status-box {
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 18px;
+    border-radius: 20px;
+  }
+
+  &__status-text {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 100%;
+    text-wrap: nowrap;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+
+  &__image {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 50%;
+
+    svg {
+      width: 100%;
+    }
+  }
+
+  &__footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__carousel {
+    height: 14px;
+    flex-grow: 1;
+    display: flex;
+  }
+
+  &__carousel-inner {
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+    transition: width 0.6s ease;
+
+    &--1-1 {
+      width: 100%;
+    }
+
+    &--1-2 {
+      width: 50%;
+    }
+
+    &--1-4 {
+      width: 25%;
+    }
+  }
+
+  &__text {
+    width: 4em;
   }
 }
+</style>
+````
 
-// 描画解像度が変わらないように、canvasのサイズを更新する
-function resizeCanvas(canvas: HTMLCanvasElement) {
-  const parent = canvas.parentElement
-  if (!parent) return
-  canvas.width = parent.clientWidth
-  canvas.height = parent.clientHeight
-}
+## File: layers/main/app/components/ht/HtCrowdLevelsSection.vue
+````vue
+<script setup lang="ts">
+import HaSectionTitle from '../ha/HaSectionTitle.vue'
 
-// ライフサイクル
-onMounted(() => {
-  const canvas = canvasRef.value
-  if (!canvas) return
-
-  // 初回サイズ設定
-  resizeCanvas(canvas)
-
-  // 親要素のリサイズを監視
-  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
-  resizeObserver.observe(canvas.parentElement!)
-
-  // アニメーション開始
-  startAnimation(canvas)
-})
-
-onUnmounted(() => {
-  stopAnimation()
-  resizeObserver?.disconnect()
-})
+// import { useCrowdData } from '~/composables/useCrowdData' // 本番用
+import { useCrowdData } from '~/composables/useMockCrowdData'
+import HmCrowdLevelCard from '../hm/HmCrowdLevelCard.vue'
+// テスト用
+const { isLoading, isError, fillCount, statusText, statusColor } =
+  useCrowdData()
 </script>
 
+<template>
+  <HaSectionTitle title="混雑状況" label="crowd-levels" />
+  <p v-if="isLoading">読み込み中...</p>
+  <p v-else-if="isError">混雑状況を取得できませんでした</p>
+  <div class="crowd-levels__grid">
+    <HmCrowdLevelCard
+      label="メイン会場"
+      name="アスティーホール"
+      :fillCount="fillCount"
+      :building="1"
+      :statusColor="statusColor"
+      :isLoading="isLoading"
+      :statusText="statusText"
+    />
+    <HmCrowdLevelCard
+      label="サブ会場"
+      name="Deep-tech CORE SAPPORO"
+      :fillCount="fillCount"
+      :building="2"
+      :statusColor="statusColor"
+      :isLoading="isLoading"
+      :statusText="statusText"
+    />
+  </div>
+</template>
+
 <style lang="scss" scoped>
-.fireworks-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px;
+}
+
+.crowd-levels {
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+
+    @include m.tb {
+      grid-template-columns: 1fr;
+    }
+  }
 }
 </style>
 ````
@@ -1312,18 +2476,9 @@ img {
 ## File: layers/main/app/components/ha/icons/HaQuestionIcon.vue
 ````vue
 <template>
-  <svg
-    width="40"
-    height="40"
-    viewBox="0 0 40 40"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M20 3.33301C29.205 3.33301 36.6667 10.7947 36.6667 19.9997C36.6667 29.2047 29.205 36.6663 20 36.6663C10.795 36.6663 3.33337 29.2047 3.33337 19.9997C3.33337 10.7947 10.795 3.33301 20 3.33301ZM20 6.66634C16.4638 6.66634 13.0724 8.0711 10.572 10.5716C8.07147 13.0721 6.66671 16.4635 6.66671 19.9997C6.66671 23.5359 8.07147 26.9273 10.572 29.4278C13.0724 31.9282 16.4638 33.333 20 33.333C23.5363 33.333 26.9276 31.9282 29.4281 29.4278C31.9286 26.9273 33.3334 23.5359 33.3334 19.9997C33.3334 16.4635 31.9286 13.0721 29.4281 10.5716C26.9276 8.0711 23.5363 6.66634 20 6.66634ZM20 26.6663C20.4421 26.6663 20.866 26.8419 21.1786 27.1545C21.4911 27.4671 21.6667 27.891 21.6667 28.333C21.6667 28.775 21.4911 29.199 21.1786 29.5115C20.866 29.8241 20.4421 29.9997 20 29.9997C19.558 29.9997 19.1341 29.8241 18.8215 29.5115C18.509 29.199 18.3334 28.775 18.3334 28.333C18.3334 27.891 18.509 27.4671 18.8215 27.1545C19.1341 26.8419 19.558 26.6663 20 26.6663ZM20 10.833C21.4038 10.8331 22.7638 11.3219 23.8463 12.2157C24.9289 13.1094 25.6664 14.3522 25.9322 15.7306C26.198 17.109 25.9756 18.537 25.303 19.7692C24.6305 21.0014 23.5498 21.9609 22.2467 22.483C22.0537 22.554 21.8797 22.6686 21.7384 22.818C21.665 22.9013 21.6534 23.008 21.655 23.118L21.6667 23.333C21.6662 23.7578 21.5036 24.1664 21.212 24.4753C20.9203 24.7842 20.5218 24.9701 20.0977 24.995C19.6736 25.0199 19.2561 24.8819 18.9303 24.6092C18.6046 24.3366 18.3952 23.9498 18.345 23.528L18.3334 23.333V22.9163C18.3334 20.9947 19.8834 19.8413 21.0067 19.3897C21.4639 19.2071 21.8627 18.9035 22.1603 18.5113C22.458 18.1192 22.6432 17.6534 22.696 17.1639C22.7489 16.6745 22.6674 16.1799 22.4604 15.7332C22.2534 15.2866 21.9286 14.9048 21.5209 14.6288C21.1133 14.3528 20.6381 14.1931 20.1465 14.1668C19.655 14.1405 19.1655 14.2486 18.7307 14.4795C18.2959 14.7103 17.9322 15.0553 17.6787 15.4773C17.4252 15.8993 17.2914 16.3824 17.2917 16.8747C17.2917 17.3167 17.1161 17.7406 16.8036 18.0532C16.491 18.3657 16.0671 18.5413 15.625 18.5413C15.183 18.5413 14.7591 18.3657 14.4465 18.0532C14.134 17.7406 13.9584 17.3167 13.9584 16.8747C13.9584 15.2723 14.5949 13.7356 15.7279 12.6026C16.861 11.4695 18.3977 10.833 20 10.833Z"
-      fill="white"
-    />
-  </svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3C9.519 3 7.5 5.019 7.5 7.5C7.5 7.79837 7.61853 8.08452 7.8295 8.2955C8.04048 8.50647 8.32663 8.625 8.625 8.625C8.92337 8.625 9.20952 8.50647 9.4205 8.2955C9.63147 8.08452 9.75 7.79837 9.75 7.5C9.75 6.261 10.761 5.25 12 5.25C13.239 5.25 14.25 6.261 14.25 7.5C14.25 8.4795 14.067 9.027 13.869 9.375C13.6635 9.738 13.3875 9.99 12.9675 10.3395L12.891 10.4025C12.501 10.725 11.973 11.163 11.571 11.811C11.121 12.5355 10.875 13.431 10.875 14.625V15.375C10.875 15.6734 10.9935 15.9595 11.2045 16.1705C11.4155 16.3815 11.7016 16.5 12 16.5C12.2984 16.5 12.5845 16.3815 12.7955 16.1705C13.0065 15.9595 13.125 15.6734 13.125 15.375V14.625C13.125 13.7565 13.299 13.293 13.4835 12.9975C13.6875 12.669 13.9575 12.4425 14.4075 12.0675C14.832 11.7135 15.3975 11.238 15.825 10.488C16.26 9.723 16.5 8.7705 16.5 7.5C16.5 5.019 14.481 3 12 3ZM12 21.375C12.3978 21.375 12.7794 21.217 13.0607 20.9357C13.342 20.6544 13.5 20.2728 13.5 19.875C13.5 19.4772 13.342 19.0956 13.0607 18.8143C12.7794 18.533 12.3978 18.375 12 18.375C11.6022 18.375 11.2206 18.533 10.9393 18.8143C10.658 19.0956 10.5 19.4772 10.5 19.875C10.5 20.2728 10.658 20.6544 10.9393 20.9357C11.2206 21.217 11.6022 21.375 12 21.375Z" fill="white"/>
+    </svg>
 </template>
 ````
 
@@ -1866,15 +3021,15 @@ export function useCrowdData() {
   const MAX_RETRY_COUNT = 5 // 取得エラーが続く場合は5回までリトライ
 
   const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-    0: '開催期間外',
+    0: '期間外',
     1: '余裕あり',
     2: 'やや混雑',
     3: '混雑',
   }
 
   const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-    0: 'cyan',
-    1: 'cyan',
+    0: 'gray',
+    1: 'emgreen',
     2: 'amber',
     3: 'vermilion',
   }
@@ -1884,7 +3039,7 @@ export function useCrowdData() {
     return crowdData.value?.value ?? null
   })
   const fillCount = computed(() => crowdLevel.value ?? 0)
-  const statusText = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
+  const statusText = computed(() => isLoading.value ? '取得中' : crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
   const statusColor = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
 
   async function fetchCrowdData() {
@@ -1970,16 +3125,16 @@ export function useCrowdData() {
   }
 
   const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-    0: 'cyan',
-    1: 'cyan',
+    0: 'gray',
+    1: 'emgreen',
     2: 'amber',
     3: 'vermilion',
   }
 
-  const MOCK_INTERVAL_MS = 10 * 1000 // 10秒
+  const MOCK_INTERVAL_MS = 3 * 1000 // 10秒
   const crowdLevel = computed<CrowdLevel | null>(() => crowdData.value?.value ?? null)
   const fillCount = computed(() => crowdLevel.value ?? 0)
-  const statusText = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
+  const statusText = computed(() => isLoading.value ? '取得中' : crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
   const statusColor = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
 
   let timerId: ReturnType<typeof setInterval> | null = null
@@ -2132,7 +3287,7 @@ definePageMeta({
   &__card {
     position: relative;
 
-    padding-top: 90px;
+    padding: 90px 0;
     border-radius: 20px;
 
     background-color: rgb(217 217 217 / 20%);
@@ -2140,7 +3295,7 @@ definePageMeta({
 
     &::before {
       pointer-events: none;
-      content:"";
+      content: '';
 
       position: absolute;
       z-index: 0;
@@ -2152,36 +3307,33 @@ definePageMeta({
       border: 1px solid transparent;
       border-radius: inherit;
 
-      background-image:
-      linear-gradient(
+      background-image: linear-gradient(
           45deg,
           rgb(v.$base-background-color, 0.8) 10px,
           rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
+        ),
+        linear-gradient(
           225deg,
           rgb(v.$base-background-color, 0.8) 10px,
           rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
+        ),
+        linear-gradient(
           135deg,
           rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 15%) 20px,
-      ),
-      linear-gradient(
+          rgb(255 255 255 / 15%) 20px
+        ),
+        linear-gradient(
           315deg,
           rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 15%) 20px,
-      );
+          rgb(255 255 255 / 15%) 20px
+        );
       background-clip: border-box, border-box, border-box, border-box;
       background-origin: border-box, border-box, border-box, border-box;
 
-      -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
       -webkit-mask-composite: destination-out;
       mask-composite: exclude;
     }
@@ -2200,29 +3352,16 @@ definePageMeta({
 
   :deep(h2) {
     margin-top: 2rem;
-    border-bottom: 2px solid #333;
     font-size: 1.5rem;
     color: white;
 
-    a{
+    a {
       color: inherit;
     }
   }
 
   :deep(p) {
     line-height: 1.8;
-  }
-
-  :deep(.section-a) {
-    h2 {
-      color: red;
-    }
-  }
-
-  :deep(.section-b) {
-    h2 {
-      color: blue;
-    }
   }
 
   :deep(hr) {
@@ -4726,166 +5865,6 @@ import HaInfoCard from '../ha/HaInfoCard.vue'
 </style>
 ````
 
-## File: layers/main/app/components/ht/HtCloudLevelsSection.vue
-````vue
-<script setup lang="ts">
-import HaSectionTitle from '../ha/HaSectionTitle.vue'
-import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
-import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
-// import { useCrowdData } from '~/composables/useCrowdData' // 本番用
-import { useCrowdData } from '~/composables/useMockCrowdData'
-// テスト用
-const { isLoading, isError, fillCount, statusText, statusColor } = useCrowdData()
-</script>
-
-<template>
-  <HaSectionTitle
-    title="混雑状況"
-    label="crowd-levels"
-  />
-  <p v-if="isLoading">
-    読み込み中...
-  </p>
-  <p v-else-if="isError">
-    混雑状況を取得できませんでした
-  </p>
-  <div
-    v-else
-    class="crowd-levels"
-  >
-    <div class="crowd-levels__head">
-      <p class="crowd-levels__label">
-        メイン会場
-      </p>
-      <p class="crowd-levels__name">
-        アスティーホール
-      </p>
-    </div>
-    <div class="crowd-levels__body">
-      <img
-        src="/crowd-levels/asty.png"
-        alt=""
-        class="crowd-levels__img"
-      >
-      <div
-        class="crowd-levels__status-box"
-        :class="`crowd-levels__status-box--${statusColor}`"
-      >
-        <div class="crowd-levels__icon-box">
-          <HaPeopleFillIcon
-            v-for="i in fillCount"
-            :key="`fill-${i}`"
-          />
-          <HaPeopleIcon
-            v-for="i in 3 - fillCount"
-            :key="`empty-${i}`"
-          />
-        </div>
-        <p class="crowd-levels__status-text">
-          {{ statusText }}
-        </p>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px;
-}
-
-.crowd-levels {
-  &__head {
-    text-align: center;
-  }
-
-  &__label {
-    font-size: 14px;
-    color: white;
-  }
-
-  &__name {
-    font-size: 32px;
-    color: white;
-  }
-
-  &__body {
-    position: relative;
-  }
-
-  &__img {
-    width: 100%;
-    height: 100%;
-  }
-
-  &__status-box {
-    position: absolute;
-    top: 30%;
-    left: 30%;
-
-    display: flex;
-    gap: 12px;
-    align-items: center;
-
-    padding: 10px 32px;
-    border-radius: 22px;
-
-    &::before {
-      content: '';
-
-      position: absolute;
-      bottom: -16px;
-      left: 50%;
-
-      display: block;
-
-      width: 0;
-      height: 0;
-      border-top: 20px solid v.$vket-amber;
-      border-right: 14px solid transparent;
-      border-left: 14px solid transparent;
-    }
-
-    &--cyan {
-      background-color: v.$vket-cyan;
-
-      &::before {
-        border-top: 20px solid v.$vket-cyan;
-      }
-    }
-
-    &--amber {
-      background-color: v.$vket-amber;
-
-      &::before {
-        border-top: 20px solid v.$vket-amber;
-      }
-    }
-
-    &--vermilion {
-      background-color: v.$vket-vermilion;
-
-      &::before {
-        border-top: 20px solid v.$vket-vermilion;
-      }
-    }
-  }
-
-  &__icon-box {
-    display: flex;
-  }
-
-  &__status-text {
-    font-size: 32px;
-    font-weight: bold;
-  }
-}
-</style>
-````
-
 ## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
 ````vue
 <script setup lang="ts">
@@ -5511,7 +6490,7 @@ import HaDocumentLink from '../ha/HaDocumentLink.vue'
 import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
 import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
 import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue'
-import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
+import HaCircledQuestionIcon from '../ha/icons/HaCircledQuestionIcon.vue'
 import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
 import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 </script>
@@ -5604,7 +6583,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       class="child"
     >
       <template #icon>
-        <HaQuestionIcon />
+        <HaCircledQuestionIcon />
       </template>
     </HaDocumentLink>
   </div>
@@ -6048,12 +7027,6 @@ export default defineNuxtConfig({
     },
   },
 
-  routeRules: {
-    '/external/**': {
-      proxy: 'https://d1-api-test-project.solarkamimura.workers.dev/api/**'
-    }
-  },
-
   css: cssUrls,
 
   content: {
@@ -6106,6 +7079,12 @@ export default defineNuxtConfig({
 
   build: {
     analyze: needAnalyze,
+  },
+
+  routeRules: {
+    '/external/**': {
+      proxy: 'https://d1-api-test-project.solarkamimura.workers.dev/api/**',
+    },
   },
 
   sourcemap: {
@@ -6165,9 +7144,7 @@ export default defineNuxtConfig({
 
     background: rgb(88 88 88);
 
-    mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask-composite: exclude;
   }
 
@@ -6175,15 +7152,15 @@ export default defineNuxtConfig({
     box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
 
     .glassy-box__icon {
-        background: rgba(v.$vket-cyan, 0.4);
+      background: rgba(v.$vket-cyan, 0.4);
     }
 
-    >.title{
-        color: v.$vket-cyan;
+    > .title {
+      color: v.$vket-cyan;
     }
 
-    .title-box .label{
-        color: v.$vket-cyan;
+    .title-box .label {
+      color: v.$vket-cyan;
     }
   }
 
@@ -6191,15 +7168,15 @@ export default defineNuxtConfig({
     box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
 
     .glassy-box__icon {
-        background: rgba(v.$vket-cyan, 0.4);
+      background: rgba(v.$vket-cyan, 0.4);
     }
 
-    >.title{
-        color: v.$vket-light-cyan;
+    > .title {
+      color: v.$vket-light-cyan;
     }
 
-    .title-box .label{
-        color: v.$vket-cyan;
+    .title-box .label {
+      color: v.$vket-cyan;
     }
   }
 
@@ -6207,15 +7184,15 @@ export default defineNuxtConfig({
     box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
 
     .glassy-box__icon {
-        background: rgba(v.$vket-magenta, 0.4);
+      background: rgba(v.$vket-magenta, 0.4);
     }
 
-    >.title {
-        color: v.$vket-magenta;
+    > .title {
+      color: v.$vket-magenta;
     }
 
-    .title-box .label{
-        color: v.$vket-magenta;
+    .title-box .label {
+      color: v.$vket-magenta;
     }
   }
 
@@ -6223,15 +7200,15 @@ export default defineNuxtConfig({
     box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
 
     .glassy-box__icon {
-        background: rgba(v.$vket-magenta, 0.4);
+      background: rgba(v.$vket-magenta, 0.4);
     }
 
-    >.title {
-        color: v.$vket-light-magenta;
+    > .title {
+      color: v.$vket-light-magenta;
     }
 
-    .title-box .label{
-        color: v.$vket-magenta;
+    .title-box .label {
+      color: v.$vket-magenta;
     }
   }
 
@@ -6239,15 +7216,15 @@ export default defineNuxtConfig({
     box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
 
     .glassy-box__icon {
-        background: rgba(v.$vket-amber, 0.4);
+      background: rgba(v.$vket-amber, 0.4);
     }
 
-    >.title{
-        color: v.$vket-amber;
+    > .title {
+      color: v.$vket-amber;
     }
 
-    .title-box .label{
-        color: v.$vket-amber;
+    .title-box .label {
+      color: v.$vket-amber;
     }
   }
 
@@ -6255,19 +7232,19 @@ export default defineNuxtConfig({
     box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
 
     .glassy-box__icon {
-        background: rgba(v.$vket-vermilion, 0.4);
+      background: rgba(v.$vket-vermilion, 0.4);
     }
 
-    >.title{
-        color: v.$vket-vermilion;
+    > .title {
+      color: v.$vket-vermilion;
     }
 
-    .title-box .label{
-        color: v.$vket-vermilion;
+    .title-box .label {
+      color: v.$vket-vermilion;
     }
   }
 
-  >.title {
+  > .title {
     margin-bottom: 8px;
     font-size: 16px;
     line-height: 1.2em;
@@ -6282,20 +7259,20 @@ export default defineNuxtConfig({
     height: 54px;
     border-radius: 20px;
 
-    svg{
-        height: 50%;
+    svg {
+      height: 50%;
     }
   }
 }
 
-.glassy-box-2{
+.glassy-box-2 {
   position: relative;
   border-radius: 20px;
   box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
-  
+
   &::before {
     pointer-events: none;
-    content:"";
+    content: '';
 
     position: absolute;
     z-index: 0;
@@ -6307,138 +7284,218 @@ export default defineNuxtConfig({
     border: 1px solid transparent;
     border-radius: inherit;
 
-    background-image:
-    linear-gradient(
+    background-image: linear-gradient(
         135deg,
         rgb(255 255 255 / 65%) 20px,
         rgb(255 255 255 / 15%) 40px
-    ),
-    linear-gradient(
+      ),
+      linear-gradient(
         315deg,
         rgb(255 255 255 / 65%) 20px,
         rgb(255 255 255 / 15%) 40px
-    );
+      );
     background-clip: border-box, border-box;
     background-origin: border-box, border-box;
 
-    -webkit-mask:
-    linear-gradient(#fff 0 0) padding-box,
-    linear-gradient(#fff 0 0) border-box;
-    mask:
-    linear-gradient(#fff 0 0) padding-box,
-    linear-gradient(#fff 0 0) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
     -webkit-mask-composite: destination-out;
     mask-composite: exclude;
   }
 }
 
-.glassy-box-3{
-    position: relative;
-    border-radius: 20px;
-    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
-    
-    &::before {
-      pointer-events: none;
-      content:"";
+.glassy-box-3 {
+  position: relative;
+  border-radius: 20px;
+  box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
 
-      position: absolute;
-      z-index: 0;
-      top: 0;
-      left: 0;
+  &::before {
+    pointer-events: none;
+    content: '';
 
-      width: 100%;
-      height: 100%;
-      border: 2px solid transparent;
-      border-radius: inherit;
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
 
-      background-image:
-      linear-gradient(
-          45deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
+    width: 100%;
+    height: 100%;
+    border: 2px solid transparent;
+    border-radius: inherit;
+
+    background-image: linear-gradient(
+        45deg,
+        rgb(v.$base-background-color, 0.8) 10px,
+        rgb(v.$base-background-color, 0) 20px
       ),
       linear-gradient(
-          225deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
+        225deg,
+        rgb(v.$base-background-color, 0.8) 10px,
+        rgb(v.$base-background-color, 0) 20px
       ),
       linear-gradient(
-          135deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px,
+        135deg,
+        rgb(255 255 255 / 75%) 10px,
+        rgb(255 255 255 / 30%) 20px
       ),
       linear-gradient(
-          315deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px,
+        315deg,
+        rgb(255 255 255 / 75%) 10px,
+        rgb(255 255 255 / 30%) 20px
       );
-      background-clip: border-box, border-box, border-box, border-box;
-      background-origin: border-box, border-box, border-box, border-box;
+    background-clip: border-box, border-box, border-box, border-box;
+    background-origin: border-box, border-box, border-box, border-box;
 
-      -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box,
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
       linear-gradient(#fff 0 0) border-box;
-      mask:
-      linear-gradient(#fff 0 0) padding-box,
+    mask: linear-gradient(#fff 0 0) padding-box,
       linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+}
+
+.glassy-box-4 {
+  position: relative;
+  border-radius: 20px;
+  background-color: rgb(217 217 217 / 20%);
+
+  &::before {
+    pointer-events: none;
+    content: '';
+
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    border: 1px solid transparent;
+    border-radius: inherit;
+
+    background-image: linear-gradient(
+        45deg,
+        rgb(v.$base-background-color, 0.75) 10px,
+        rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+        225deg,
+        rgb(v.$base-background-color, 0.75) 10px,
+        rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+        135deg,
+        rgb(255 255 255 / 65%) 10px,
+        rgb(255 255 255 / 15%) 20px
+      ),
+      linear-gradient(
+        315deg,
+        rgb(255 255 255 / 65%) 10px,
+        rgb(255 255 255 / 15%) 20px
+      );
+    background-clip: border-box, border-box, border-box, border-box;
+    background-origin: border-box, border-box, border-box, border-box;
+
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+}
+
+.glassy-carousel {
+  position: relative;
+  border-radius: 7px;
+  background-color: rgb(217 217 217 / 20%);
+
+  &::before {
+    pointer-events: none;
+    content: '';
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid transparent;
+    border-radius: inherit;
+    background-image: linear-gradient(
+        45deg,
+        rgb(v.$base-background-color, 0.75) 3.5px,
+        rgb(v.$base-background-color, 0) 7px
+      ),
+      linear-gradient(
+        225deg,
+        rgb(v.$base-background-color, 0.75) 3.5px,
+        rgb(v.$base-background-color, 0) 7px
+      ),
+      linear-gradient(135deg, rgb(255 255 255 / 55%));
+    background-clip: border-box, border-box, border-box;
+    background-origin: border-box, border-box, border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
 }
 
 .glassy-button-3 {
-    position: relative;
-    border-radius: 1000px;
-    background-color: rgb(217 217 217 / 20%);
-    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
-    
-    &::before {
-      pointer-events: none;
-      content:"";
+  position: relative;
+  border-radius: 1000px;
+  background-color: rgb(217 217 217 / 20%);
+  box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
 
-      position: absolute;
-      z-index: 0;
-      top: 0;
-      left: 0;
+  &::before {
+    pointer-events: none;
+    content: '';
 
-      width: inherit;
-      height: inherit;
-      border: 1px solid transparent;
-      border-radius: inherit;
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
 
-      background-image:
-      linear-gradient(
-          45deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
+    width: inherit;
+    height: inherit;
+    border: 1px solid transparent;
+    border-radius: inherit;
+
+    background-image: linear-gradient(
+        45deg,
+        rgb(v.$base-background-color, 0.8) 10px,
+        rgb(v.$base-background-color, 0) 20px
       ),
       linear-gradient(
-          225deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
+        225deg,
+        rgb(v.$base-background-color, 0.8) 10px,
+        rgb(v.$base-background-color, 0) 20px
       ),
       linear-gradient(
-          135deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px,
+        135deg,
+        rgb(255 255 255 / 75%) 10px,
+        rgb(255 255 255 / 30%) 20px
       ),
       linear-gradient(
-          315deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px,
+        315deg,
+        rgb(255 255 255 / 75%) 10px,
+        rgb(255 255 255 / 30%) 20px
       );
-      background-clip: border-box, border-box, border-box, border-box;
-      background-origin: border-box, border-box, border-box, border-box;
+    background-clip: border-box, border-box, border-box, border-box;
+    background-origin: border-box, border-box, border-box, border-box;
 
-      -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box,
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
       linear-gradient(#fff 0 0) border-box;
-      mask:
-      linear-gradient(#fff 0 0) padding-box,
+    mask: linear-gradient(#fff 0 0) padding-box,
       linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
 }
 
 .subtitle {
@@ -6462,21 +7519,21 @@ export default defineNuxtConfig({
 
 /* swiper.js */
 .custom-swiper-pagination {
-	display: flex;
-	gap: 6px;
-	justify-content: center;
-	margin-top: 60px;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 60px;
 
-	.swiper-pagination-bullet {
-		width: 16px;
-		height: 16px;
-		border-radius: 10px;
-		background-color: rgb(30 53 91 / 100%);
-        
-        &.swiper-pagination-bullet-active {
-            background-color: rgb(94 130 190 / 100%);
-        }
-	}
+  .swiper-pagination-bullet {
+    width: 16px;
+    height: 16px;
+    border-radius: 10px;
+    background-color: rgb(30 53 91 / 100%);
+
+    &.swiper-pagination-bullet-active {
+      background-color: rgb(94 130 190 / 100%);
+    }
+  }
 }
 ````
 
@@ -6527,7 +7584,8 @@ $vket-ice-blue: #b0e0e6;
 $vket-light-cyan: #6dd3ff;
 $vket-light-magenta: #ff82b8;
 $vket-green: #258966;
-
+$vket-purple: #9747ff;
+$vket-emgreen: #62d9af;
 
 /* スタイルガイドにないcolor */
 $gray-1: #d1d1d1;
@@ -7221,7 +8279,7 @@ en:
     <HaFirstView />
 
     <section id="cloud-levels">
-      <HtCloudLevelsSection />
+      <HtCrowdLevelsSection />
     </section>
 
     <section id="quick-access">
@@ -7293,7 +8351,7 @@ import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
 import HtContactSection from './HtContactSection.vue'
 import HtContentsSection from './HtContentsSection.vue'
 import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
-import HtCloudLevelsSection from './HtCloudLevelsSection.vue'
+import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
 </script>
 
 <style lang="scss" scoped>

@@ -30,7 +30,7 @@ definePageMeta({
   &__card {
     position: relative;
 
-    padding-top: 90px;
+    padding: 90px 0;
     border-radius: 20px;
 
     background-color: rgb(217 217 217 / 20%);
@@ -38,7 +38,7 @@ definePageMeta({
 
     &::before {
       pointer-events: none;
-      content:"";
+      content: '';
 
       position: absolute;
       z-index: 0;
@@ -50,36 +50,33 @@ definePageMeta({
       border: 1px solid transparent;
       border-radius: inherit;
 
-      background-image:
-      linear-gradient(
+      background-image: linear-gradient(
           45deg,
           rgb(v.$base-background-color, 0.8) 10px,
           rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
+        ),
+        linear-gradient(
           225deg,
           rgb(v.$base-background-color, 0.8) 10px,
           rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
+        ),
+        linear-gradient(
           135deg,
           rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 15%) 20px,
-      ),
-      linear-gradient(
+          rgb(255 255 255 / 15%) 20px
+        ),
+        linear-gradient(
           315deg,
           rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 15%) 20px,
-      );
+          rgb(255 255 255 / 15%) 20px
+        );
       background-clip: border-box, border-box, border-box, border-box;
       background-origin: border-box, border-box, border-box, border-box;
 
-      -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-      mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
       -webkit-mask-composite: destination-out;
       mask-composite: exclude;
     }
@@ -98,29 +95,16 @@ definePageMeta({
 
   :deep(h2) {
     margin-top: 2rem;
-    border-bottom: 2px solid #333;
     font-size: 1.5rem;
     color: white;
 
-    a{
+    a {
       color: inherit;
     }
   }
 
   :deep(p) {
     line-height: 1.8;
-  }
-
-  :deep(.section-a) {
-    h2 {
-      color: red;
-    }
-  }
-
-  :deep(.section-b) {
-    h2 {
-      color: blue;
-    }
   }
 
   :deep(hr) {
