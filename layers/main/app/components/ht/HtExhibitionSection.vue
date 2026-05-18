@@ -4,7 +4,7 @@ import HaDocumentLink from '../ha/HaDocumentLink.vue'
 import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
 import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
 import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue'
-import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
+import HaCircledQuestionIcon from '../ha/icons/HaCircledQuestionIcon.vue'
 import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
 import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 </script>
@@ -97,7 +97,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
       class="child"
     >
       <template #icon>
-        <HaQuestionIcon />
+        <HaCircledQuestionIcon />
       </template>
     </HaDocumentLink>
   </div>

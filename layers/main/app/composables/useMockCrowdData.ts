@@ -16,16 +16,16 @@ export function useCrowdData() {
   }
 
   const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-    0: 'cyan',
-    1: 'cyan',
+    0: 'gray',
+    1: 'emgreen',
     2: 'amber',
     3: 'vermilion',
   }
 
-  const MOCK_INTERVAL_MS = 10 * 1000 // 10秒
+  const MOCK_INTERVAL_MS = 3 * 1000 // 10秒
   const crowdLevel = computed<CrowdLevel | null>(() => crowdData.value?.value ?? null)
   const fillCount = computed(() => crowdLevel.value ?? 0)
-  const statusText = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
+  const statusText = computed(() => isLoading.value ? '取得中' : crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
   const statusColor = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
 
   let timerId: ReturnType<typeof setInterval> | null = null

@@ -10,7 +10,7 @@ en:
     <HaFirstView />
 
     <section id="cloud-levels">
-      <HtCloudLevelsSection />
+      <HtCrowdLevelsSection />
     </section>
 
     <section id="quick-access">
@@ -82,7 +82,7 @@ import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
 import HtContactSection from './HtContactSection.vue'
 import HtContentsSection from './HtContentsSection.vue'
 import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
-import HtCloudLevelsSection from './HtCloudLevelsSection.vue'
+import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
 </script>
 
 <style lang="scss" scoped>

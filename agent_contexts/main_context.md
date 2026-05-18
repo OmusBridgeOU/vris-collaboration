@@ -212,7 +212,11 @@ layers/
 ## File: layers/main/app/components/ha/buildings/HaAstyLevel1.vue
 ````vue
 <template>
-  <svg viewBox="0 0 269 173" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 269 173"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <rect
       width="159.096"
       height="85.5081"
@@ -266,7 +270,10 @@ layers/
         filterUnits="userSpaceOnUse"
         color-interpolation-filters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
         <feBlend
           mode="normal"
           in="SourceGraphic"
@@ -286,8 +293,15 @@ layers/
         y2="0"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
       <linearGradient
         id="paint1_linear_645_816"
@@ -297,8 +311,15 @@ layers/
         y2="110.491"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
       <linearGradient
         id="paint2_linear_645_816"
@@ -308,8 +329,15 @@ layers/
         y2="73.9473"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
     </defs>
   </svg>
@@ -319,7 +347,11 @@ layers/
 ## File: layers/main/app/components/ha/buildings/HaAstyLevel2.vue
 ````vue
 <template>
-  <svg viewBox="0 0 269 175" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 269 175"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <rect
       width="159.096"
       height="85.5081"
@@ -371,7 +403,10 @@ layers/
         filterUnits="userSpaceOnUse"
         color-interpolation-filters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
         <feBlend
           mode="normal"
           in="SourceGraphic"
@@ -391,8 +426,15 @@ layers/
         y2="0"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
       <linearGradient
         id="paint1_linear_645_831"
@@ -402,8 +444,15 @@ layers/
         y2="111.787"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
       <linearGradient
         id="paint2_linear_645_831"
@@ -413,8 +462,15 @@ layers/
         y2="75.2434"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
     </defs>
   </svg>
@@ -424,7 +480,11 @@ layers/
 ## File: layers/main/app/components/ha/buildings/HaAstyLevel3.vue
 ````vue
 <template>
-  <svg viewBox="0 0 269 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 269 190"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <rect
       width="159.096"
       height="85.5081"
@@ -476,7 +536,10 @@ layers/
         filterUnits="userSpaceOnUse"
         color-interpolation-filters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
         <feBlend
           mode="normal"
           in="SourceGraphic"
@@ -496,8 +559,15 @@ layers/
         y2="0"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
       <linearGradient
         id="paint1_linear_645_845"
@@ -507,8 +577,15 @@ layers/
         y2="126.787"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
       <linearGradient
         id="paint2_linear_645_845"
@@ -518,8 +595,15 @@ layers/
         y2="90.2434"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
     </defs>
   </svg>
@@ -529,7 +613,11 @@ layers/
 ## File: layers/main/app/components/ha/buildings/HaAstyLoading.vue
 ````vue
 <template>
-  <svg viewBox="0 0 269 173" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 269 173"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <rect
       width="159.096"
       height="85.5081"
@@ -583,7 +671,10 @@ layers/
         filterUnits="userSpaceOnUse"
         color-interpolation-filters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
         <feBlend
           mode="normal"
           in="SourceGraphic"
@@ -603,8 +694,15 @@ layers/
         y2="0"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
       <linearGradient
         id="paint1_linear_645_914"
@@ -614,8 +712,15 @@ layers/
         y2="110.491"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
       <linearGradient
         id="paint2_linear_645_914"
@@ -625,8 +730,15 @@ layers/
         y2="73.9473"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
     </defs>
   </svg>
@@ -636,7 +748,11 @@ layers/
 ## File: layers/main/app/components/ha/buildings/HaAstyUnable.vue
 ````vue
 <template>
-  <svg viewBox="0 0 269 173" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 269 173"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <rect
       width="159.096"
       height="85.5081"
@@ -690,7 +806,10 @@ layers/
         filterUnits="userSpaceOnUse"
         color-interpolation-filters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
         <feBlend
           mode="normal"
           in="SourceGraphic"
@@ -710,8 +829,15 @@ layers/
         y2="0"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
       <linearGradient
         id="paint1_linear_645_898"
@@ -721,8 +847,15 @@ layers/
         y2="110.491"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
       <linearGradient
         id="paint2_linear_645_898"
@@ -732,8 +865,15 @@ layers/
         y2="73.9473"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
     </defs>
   </svg>
@@ -743,7 +883,11 @@ layers/
 ## File: layers/main/app/components/ha/buildings/HaDTCLevel1.vue
 ````vue
 <template>
-  <svg viewBox="0 0 280 187" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 280 187"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M36.4197 93.7966C36.3331 93.7479 36.2265 93.7488 36.1404 93.7986C36.0536 93.8489 35.9998 93.9414 35.9998 94.0417V114.476C35.9998 114.577 36.0543 114.67 36.1414 114.72L135.156 171.75L136.488 172.522C136.505 172.598 136.552 172.665 136.621 172.705C136.708 172.755 136.815 172.755 136.902 172.705L218.139 125.479L235.414 115.526L235.332 115.477C235.395 115.424 235.433 115.347 235.433 115.263V94.7078L235.677 94.5681L235.362 94.3845C235.342 94.3622 235.319 94.3423 235.293 94.3269C235.267 94.3118 235.238 94.3017 235.21 94.2957L135.712 36.4753L36.4197 93.7966Z"
       fill="url(#paint0_linear_637_546)"
@@ -790,7 +934,10 @@ layers/
         filterUnits="userSpaceOnUse"
         color-interpolation-filters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
         <feBlend
           mode="normal"
           in="SourceGraphic"
@@ -810,8 +957,15 @@ layers/
         y2="36.4753"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
     </defs>
   </svg>
@@ -821,7 +975,11 @@ layers/
 ## File: layers/main/app/components/ha/buildings/HaDTCLevel2.vue
 ````vue
 <template>
-  <svg viewBox="0 0 288 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 288 190"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M44.5447 96.7366C44.4581 96.6878 44.3515 96.6887 44.2654 96.7385C44.1786 96.7888 44.1248 96.8814 44.1248 96.9817V117.416C44.1248 117.517 44.1793 117.61 44.2664 117.66L143.281 174.69L144.613 175.462C144.63 175.538 144.677 175.605 144.746 175.645C144.833 175.695 144.94 175.695 145.027 175.645L226.264 128.419L243.539 118.466L243.457 118.417C243.52 118.364 243.558 118.287 243.558 118.203V97.6477L243.802 97.5081L243.487 97.3245C243.467 97.3021 243.444 97.2822 243.418 97.2668C243.392 97.2518 243.363 97.2416 243.335 97.2356L143.837 39.4153L44.5447 96.7366Z"
       fill="url(#paint0_linear_637_561)"
@@ -868,7 +1026,10 @@ layers/
         filterUnits="userSpaceOnUse"
         color-interpolation-filters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
         <feBlend
           mode="normal"
           in="SourceGraphic"
@@ -888,8 +1049,15 @@ layers/
         y2="39.4153"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
     </defs>
   </svg>
@@ -899,7 +1067,11 @@ layers/
 ## File: layers/main/app/components/ha/buildings/HaDTCLevel3.vue
 ````vue
 <template>
-  <svg viewBox="0 0 288 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 288 210"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M44.5447 116.737C44.4581 116.688 44.3515 116.689 44.2654 116.739C44.1786 116.789 44.1248 116.881 44.1248 116.982V137.416C44.1248 137.517 44.1793 137.61 44.2664 137.66L143.281 194.69L144.613 195.462C144.63 195.538 144.677 195.605 144.746 195.645C144.833 195.695 144.94 195.695 145.027 195.645L226.264 148.419L243.539 138.466L243.457 138.417C243.52 138.364 243.558 138.287 243.558 138.203V117.648L243.802 117.508L243.487 117.324C243.467 117.302 243.444 117.282 243.418 117.267C243.392 117.252 243.363 117.242 243.335 117.236L143.837 59.4153L44.5447 116.737Z"
       fill="url(#paint0_linear_638_576)"
@@ -946,7 +1118,10 @@ layers/
         filterUnits="userSpaceOnUse"
         color-interpolation-filters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
         <feBlend
           mode="normal"
           in="SourceGraphic"
@@ -966,8 +1141,15 @@ layers/
         y2="59.4153"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
     </defs>
   </svg>
@@ -977,7 +1159,11 @@ layers/
 ## File: layers/main/app/components/ha/buildings/HaDTCLoading.vue
 ````vue
 <template>
-  <svg viewBox="0 0 288 187" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 288 187"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M44.5447 93.7966C44.4581 93.7479 44.3516 93.7488 44.2654 93.7986C44.1786 93.8489 44.1248 93.9414 44.1248 94.0417V114.476C44.1249 114.577 44.1793 114.67 44.2664 114.72L143.281 171.75L144.613 172.522C144.63 172.598 144.677 172.665 144.746 172.705C144.833 172.755 144.94 172.755 145.027 172.705L226.264 125.479L243.539 115.526L243.457 115.477C243.52 115.424 243.558 115.347 243.558 115.263V94.7078L243.802 94.5681L243.487 94.3845C243.467 94.3622 243.444 94.3423 243.418 94.3269C243.392 94.3118 243.364 94.3017 243.335 94.2957L143.837 36.4753L44.5447 93.7966Z"
       fill="url(#paint0_linear_640_762)"
@@ -1024,7 +1210,10 @@ layers/
         filterUnits="userSpaceOnUse"
         color-interpolation-filters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
         <feBlend
           mode="normal"
           in="SourceGraphic"
@@ -1044,8 +1233,15 @@ layers/
         y2="36.4753"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
     </defs>
   </svg>
@@ -1055,7 +1251,11 @@ layers/
 ## File: layers/main/app/components/ha/buildings/HaDTCUnable.vue
 ````vue
 <template>
-  <svg viewBox="0 0 288 187" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 288 187"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M44.5447 93.7966C44.4581 93.7479 44.3515 93.7488 44.2654 93.7986C44.1786 93.8489 44.1248 93.9414 44.1248 94.0417V114.476C44.1248 114.577 44.1793 114.67 44.2664 114.72L143.281 171.75L144.613 172.522C144.63 172.598 144.677 172.665 144.746 172.705C144.833 172.755 144.94 172.755 145.027 172.705L226.264 125.479L243.539 115.526L243.457 115.477C243.52 115.424 243.558 115.347 243.558 115.263V94.7078L243.802 94.5681L243.487 94.3845C243.467 94.3622 243.444 94.3423 243.418 94.3269C243.392 94.3118 243.363 94.3017 243.335 94.2957L143.837 36.4753L44.5447 93.7966Z"
       fill="url(#paint0_linear_640_747)"
@@ -1102,7 +1302,10 @@ layers/
         filterUnits="userSpaceOnUse"
         color-interpolation-filters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
         <feBlend
           mode="normal"
           in="SourceGraphic"
@@ -1122,8 +1325,15 @@ layers/
         y2="36.4753"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#565656" stop-opacity="0.02" />
-        <stop offset="1" stop-color="#BCBCBC" stop-opacity="0.2" />
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
       </linearGradient>
     </defs>
   </svg>
@@ -1151,9 +1361,18 @@ layers/
 ## File: layers/main/app/components/ha/icons/HaPeopleUnableIcon.vue
 ````vue
 <template>
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10 4C8.93913 4 7.92172 4.42143 7.17157 5.17157C6.42143 5.92172 6 6.93913 6 8C6 9.06087 6.42143 10.0783 7.17157 10.8284C7.92172 11.5786 8.93913 12 10 12C11.0609 12 12.0783 11.5786 12.8284 10.8284C13.5786 10.0783 14 9.06087 14 8C14 6.93913 13.5786 5.92172 12.8284 5.17157C12.0783 4.42143 11.0609 4 10 4ZM17.5 13C15 13 13 15 13 17.5C13 20 15 22 17.5 22C20 22 22 20 22 17.5C22 15 20 13 17.5 13ZM10 14C5.58 14 2 15.79 2 18V20H11.5C11.1699 19.2078 11 18.3582 11 17.5C11.0043 16.3143 11.3328 15.1524 11.95 14.14C11.32 14.06 10.68 14 10 14ZM17.5 14.5C19.16 14.5 20.5 15.84 20.5 17.5C20.5 18.06 20.35 18.58 20.08 19L16 14.92C16.42 14.65 16.94 14.5 17.5 14.5ZM14.92 16L19 20.08C18.58 20.35 18.06 20.5 17.5 20.5C15.84 20.5 14.5 19.16 14.5 17.5C14.5 16.94 14.65 16.42 14.92 16Z" fill="white"/>
-    </svg>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M10 4C8.93913 4 7.92172 4.42143 7.17157 5.17157C6.42143 5.92172 6 6.93913 6 8C6 9.06087 6.42143 10.0783 7.17157 10.8284C7.92172 11.5786 8.93913 12 10 12C11.0609 12 12.0783 11.5786 12.8284 10.8284C13.5786 10.0783 14 9.06087 14 8C14 6.93913 13.5786 5.92172 12.8284 5.17157C12.0783 4.42143 11.0609 4 10 4ZM17.5 13C15 13 13 15 13 17.5C13 20 15 22 17.5 22C20 22 22 20 22 17.5C22 15 20 13 17.5 13ZM10 14C5.58 14 2 15.79 2 18V20H11.5C11.1699 19.2078 11 18.3582 11 17.5C11.0043 16.3143 11.3328 15.1524 11.95 14.14C11.32 14.06 10.68 14 10 14ZM17.5 14.5C19.16 14.5 20.5 15.84 20.5 17.5C20.5 18.06 20.35 18.58 20.08 19L16 14.92C16.42 14.65 16.94 14.5 17.5 14.5ZM14.92 16L19 20.08C18.58 20.35 18.06 20.5 17.5 20.5C15.84 20.5 14.5 19.16 14.5 17.5C14.5 16.94 14.65 16.42 14.92 16Z"
+      fill="white"
+    />
+  </svg>
 </template>
 ````
 
@@ -1175,7 +1394,7 @@ import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
 import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
 import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
 
-const props = defineProps<{
+defineProps<{
   label: string
   name: string
   isLoading: boolean
@@ -1185,6 +1404,7 @@ const props = defineProps<{
   fillCount: 0 | 1 | 2 | 3
 }>()
 </script>
+
 <template>
   <div
     class="glassy-box-4 crowd-level-card"
@@ -1192,8 +1412,12 @@ const props = defineProps<{
   >
     <div class="crowd-level-card__head">
       <div class="crowd-level-card__text-box">
-        <p class="crowd-level-card__label">{{ label }}</p>
-        <p class="crowd-level-card__name">{{ name }}</p>
+        <p class="crowd-level-card__label">
+          {{ label }}
+        </p>
+        <p class="crowd-level-card__name">
+          {{ name }}
+        </p>
       </div>
       <div class="crowd-level-card__status-box">
         <div class="crowd-level-card__icon-box">
@@ -1205,8 +1429,14 @@ const props = defineProps<{
             <HaPeopleUnableIcon />
           </template>
           <template v-else>
-            <HaPeopleFillIcon v-for="i in fillCount" :key="`fill-${i}`" />
-            <HaPeopleIcon v-for="i in 3 - fillCount" :key="`empty-${i}`" />
+            <HaPeopleFillIcon
+              v-for="i in fillCount"
+              :key="`fill-${i}`"
+            />
+            <HaPeopleIcon
+              v-for="i in 3 - fillCount"
+              :key="`empty-${i}`"
+            />
           </template>
         </div>
         <p class="crowd-level-card__status-text">
@@ -1236,7 +1466,9 @@ const props = defineProps<{
         </template>
       </div>
       <div class="crowd-level-card__footer">
-        <p class="crowd-level-card__text">混雑状況</p>
+        <p class="crowd-level-card__text">
+          混雑状況
+        </p>
         <div class="crowd-level-card__carousel glassy-carousel">
           <div
             class="crowd-level-card__carousel-inner glassy-carousel"
@@ -1244,10 +1476,10 @@ const props = defineProps<{
               isLoading || fillCount == 0 || fillCount == 3
                 ? '1-1'
                 : fillCount == 1
-                ? '1-4'
-                : fillCount == 2
-                ? '1-2'
-                : ''
+                  ? '1-4'
+                  : fillCount == 2
+                    ? '1-2'
+                    : ''
             }`"
           />
         </div>
@@ -1256,20 +1488,21 @@ const props = defineProps<{
             isLoading
               ? '取得中'
               : fillCount == 0
-              ? '期間外'
-              : fillCount == 1
-              ? '低'
-              : fillCount == 2
-              ? '中'
-              : fillCount == 3
-              ? '高'
-              : ''
+                ? '期間外'
+                : fillCount == 1
+                  ? '低'
+                  : fillCount == 2
+                    ? '中'
+                    : fillCount == 3
+                      ? '高'
+                      : ''
           }}
         </p>
       </div>
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
 
@@ -1330,8 +1563,8 @@ const props = defineProps<{
 
   &__head {
     display: flex;
-    justify-content: space-between;
     gap: 8px;
+    justify-content: space-between;
   }
 
   &__text-box {
@@ -1344,8 +1577,8 @@ const props = defineProps<{
   }
 
   &__name {
-    font-weight: 900;
     font-size: 32px;
+    font-weight: 900;
   }
 
   &__icon-box {
@@ -1354,18 +1587,19 @@ const props = defineProps<{
   }
 
   &__status-box {
-    width: fit-content;
-    height: fit-content;
     display: flex;
     gap: 12px;
     align-items: center;
+
+    width: fit-content;
+    height: fit-content;
     padding: 10px 18px;
     border-radius: 20px;
   }
 
   &__status-text {
-    font-weight: 600;
     font-size: 20px;
+    font-weight: 600;
     line-height: 100%;
     text-wrap: nowrap;
   }
@@ -1373,10 +1607,10 @@ const props = defineProps<{
   &__body {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
     flex-grow: 1;
     flex-shrink: 1;
+    align-items: center;
+    justify-content: flex-end;
   }
 
   &__image {
@@ -1391,21 +1625,21 @@ const props = defineProps<{
   }
 
   &__footer {
-    width: 100%;
     display: flex;
-    align-items: center;
     gap: 8px;
+    align-items: center;
+    width: 100%;
   }
 
   &__carousel {
-    height: 14px;
-    flex-grow: 1;
     display: flex;
+    flex-grow: 1;
+    height: 14px;
   }
 
   &__carousel-inner {
-    height: 100%;
     width: 100%;
+    height: 100%;
     border-radius: inherit;
     transition: width 0.6s ease;
 
@@ -1438,32 +1672,39 @@ import HaSectionTitle from '../ha/HaSectionTitle.vue'
 import { useCrowdData } from '~/composables/useMockCrowdData'
 import HmCrowdLevelCard from '../hm/HmCrowdLevelCard.vue'
 // テスト用
-const { isLoading, isError, fillCount, statusText, statusColor } =
-  useCrowdData()
+const { isLoading, isError, fillCount, statusText, statusColor }
+  = useCrowdData()
 </script>
 
 <template>
-  <HaSectionTitle title="混雑状況" label="crowd-levels" />
-  <p v-if="isLoading">読み込み中...</p>
-  <p v-else-if="isError">混雑状況を取得できませんでした</p>
+  <HaSectionTitle
+    title="混雑状況"
+    label="crowd-levels"
+  />
+  <p v-if="isLoading">
+    読み込み中...
+  </p>
+  <p v-else-if="isError">
+    混雑状況を取得できませんでした
+  </p>
   <div class="crowd-levels__grid">
     <HmCrowdLevelCard
       label="メイン会場"
       name="アスティーホール"
-      :fillCount="fillCount"
+      :fill-count="fillCount"
       :building="1"
-      :statusColor="statusColor"
-      :isLoading="isLoading"
-      :statusText="statusText"
+      :status-color="statusColor"
+      :is-loading="isLoading"
+      :status-text="statusText"
     />
     <HmCrowdLevelCard
       label="サブ会場"
       name="Deep-tech CORE SAPPORO"
-      :fillCount="fillCount"
+      :fill-count="fillCount"
       :building="2"
-      :statusColor="statusColor"
-      :isLoading="isLoading"
-      :statusText="statusText"
+      :status-color="statusColor"
+      :is-loading="isLoading"
+      :status-text="statusText"
     />
   </div>
 </template>
@@ -2476,9 +2717,18 @@ img {
 ## File: layers/main/app/components/ha/icons/HaQuestionIcon.vue
 ````vue
 <template>
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 3C9.519 3 7.5 5.019 7.5 7.5C7.5 7.79837 7.61853 8.08452 7.8295 8.2955C8.04048 8.50647 8.32663 8.625 8.625 8.625C8.92337 8.625 9.20952 8.50647 9.4205 8.2955C9.63147 8.08452 9.75 7.79837 9.75 7.5C9.75 6.261 10.761 5.25 12 5.25C13.239 5.25 14.25 6.261 14.25 7.5C14.25 8.4795 14.067 9.027 13.869 9.375C13.6635 9.738 13.3875 9.99 12.9675 10.3395L12.891 10.4025C12.501 10.725 11.973 11.163 11.571 11.811C11.121 12.5355 10.875 13.431 10.875 14.625V15.375C10.875 15.6734 10.9935 15.9595 11.2045 16.1705C11.4155 16.3815 11.7016 16.5 12 16.5C12.2984 16.5 12.5845 16.3815 12.7955 16.1705C13.0065 15.9595 13.125 15.6734 13.125 15.375V14.625C13.125 13.7565 13.299 13.293 13.4835 12.9975C13.6875 12.669 13.9575 12.4425 14.4075 12.0675C14.832 11.7135 15.3975 11.238 15.825 10.488C16.26 9.723 16.5 8.7705 16.5 7.5C16.5 5.019 14.481 3 12 3ZM12 21.375C12.3978 21.375 12.7794 21.217 13.0607 20.9357C13.342 20.6544 13.5 20.2728 13.5 19.875C13.5 19.4772 13.342 19.0956 13.0607 18.8143C12.7794 18.533 12.3978 18.375 12 18.375C11.6022 18.375 11.2206 18.533 10.9393 18.8143C10.658 19.0956 10.5 19.4772 10.5 19.875C10.5 20.2728 10.658 20.6544 10.9393 20.9357C11.2206 21.217 11.6022 21.375 12 21.375Z" fill="white"/>
-    </svg>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 3C9.519 3 7.5 5.019 7.5 7.5C7.5 7.79837 7.61853 8.08452 7.8295 8.2955C8.04048 8.50647 8.32663 8.625 8.625 8.625C8.92337 8.625 9.20952 8.50647 9.4205 8.2955C9.63147 8.08452 9.75 7.79837 9.75 7.5C9.75 6.261 10.761 5.25 12 5.25C13.239 5.25 14.25 6.261 14.25 7.5C14.25 8.4795 14.067 9.027 13.869 9.375C13.6635 9.738 13.3875 9.99 12.9675 10.3395L12.891 10.4025C12.501 10.725 11.973 11.163 11.571 11.811C11.121 12.5355 10.875 13.431 10.875 14.625V15.375C10.875 15.6734 10.9935 15.9595 11.2045 16.1705C11.4155 16.3815 11.7016 16.5 12 16.5C12.2984 16.5 12.5845 16.3815 12.7955 16.1705C13.0065 15.9595 13.125 15.6734 13.125 15.375V14.625C13.125 13.7565 13.299 13.293 13.4835 12.9975C13.6875 12.669 13.9575 12.4425 14.4075 12.0675C14.832 11.7135 15.3975 11.238 15.825 10.488C16.26 9.723 16.5 8.7705 16.5 7.5C16.5 5.019 14.481 3 12 3ZM12 21.375C12.3978 21.375 12.7794 21.217 13.0607 20.9357C13.342 20.6544 13.5 20.2728 13.5 19.875C13.5 19.4772 13.342 19.0956 13.0607 18.8143C12.7794 18.533 12.3978 18.375 12 18.375C11.6022 18.375 11.2206 18.533 10.9393 18.8143C10.658 19.0956 10.5 19.4772 10.5 19.875C10.5 20.2728 10.658 20.6544 10.9393 20.9357C11.2206 21.217 11.6022 21.375 12 21.375Z"
+      fill="white"
+    />
+  </svg>
 </template>
 ````
 
@@ -3251,126 +3501,6 @@ export const todoSchema = z.object({
 })
 
 export type Todo = z.infer<typeof todoSchema>
-````
-
-## File: layers/main/app/pages/documents/[...slug].vue
-````vue
-<script lang="ts" setup>
-const route = useRoute()
-const { data: page } = await useAsyncData(route.path, () => {
-  return queryCollection('content').path(route.path).first()
-})
-definePageMeta({
-  layout: 'top',
-})
-</script>
-
-<template>
-  <div class="md-document">
-    <div class="md-document__card">
-      <div class="md-document__inner">
-        <ContentRenderer
-          v-if="page"
-          :value="page"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.md-document {
-  padding: 48px 32px;
-
-  &__card {
-    position: relative;
-
-    padding: 90px 0;
-    border-radius: 20px;
-
-    background-color: rgb(217 217 217 / 20%);
-    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
-
-    &::before {
-      pointer-events: none;
-      content: '';
-
-      position: absolute;
-      z-index: 0;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 100%;
-      border: 1px solid transparent;
-      border-radius: inherit;
-
-      background-image: linear-gradient(
-          45deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-        ),
-        linear-gradient(
-          225deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-        ),
-        linear-gradient(
-          135deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 15%) 20px
-        ),
-        linear-gradient(
-          315deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 15%) 20px
-        );
-      background-clip: border-box, border-box, border-box, border-box;
-      background-origin: border-box, border-box, border-box, border-box;
-
-      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
-  }
-
-  &__inner {
-    max-width: 910px;
-    margin: 0 auto;
-  }
-
-  :deep(h1) {
-    font-size: 1.8rem;
-    color: white;
-    text-align: center;
-  }
-
-  :deep(h2) {
-    margin-top: 2rem;
-    font-size: 1.5rem;
-    color: white;
-
-    a {
-      color: inherit;
-    }
-  }
-
-  :deep(p) {
-    line-height: 1.8;
-  }
-
-  :deep(hr) {
-    margin: 2rem 0;
-    border: none;
-    border-top: 1px solid #999;
-  }
-}
-</style>
 ````
 
 ## File: layers/main/app/pages/index.vue
@@ -6327,6 +6457,126 @@ import HaTicketCard from '../ha/HaTicketCard.vue'
 </style>
 ````
 
+## File: layers/main/app/pages/documents/[...slug].vue
+````vue
+<script lang="ts" setup>
+const route = useRoute()
+const { data: page } = await useAsyncData(route.path, () => {
+  return queryCollection('content').path(route.path).first()
+})
+definePageMeta({
+  layout: 'top',
+})
+</script>
+
+<template>
+  <div class="md-document">
+    <div class="md-document__card">
+      <div class="md-document__inner">
+        <ContentRenderer
+          v-if="page"
+          :value="page"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.md-document {
+  padding: 48px 32px;
+
+  &__card {
+    position: relative;
+
+    padding: 90px 0;
+    border-radius: 20px;
+
+    background-color: rgb(217 217 217 / 20%);
+    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+
+    &::before {
+      pointer-events: none;
+      content: '';
+
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+      border: 1px solid transparent;
+      border-radius: inherit;
+
+      background-image: linear-gradient(
+          45deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+        ),
+        linear-gradient(
+          225deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+        ),
+        linear-gradient(
+          135deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 15%) 20px
+        ),
+        linear-gradient(
+          315deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 15%) 20px
+        );
+      background-clip: border-box, border-box, border-box, border-box;
+      background-origin: border-box, border-box, border-box, border-box;
+
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+  }
+
+  &__inner {
+    max-width: 910px;
+    margin: 0 auto;
+  }
+
+  :deep(h1) {
+    font-size: 1.8rem;
+    color: white;
+    text-align: center;
+  }
+
+  :deep(h2) {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    color: white;
+
+    a {
+      color: inherit;
+    }
+  }
+
+  :deep(p) {
+    line-height: 1.8;
+  }
+
+  :deep(hr) {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid #999;
+  }
+}
+</style>
+````
+
 ## File: layers/main/package.json
 ````json
 {
@@ -7416,14 +7666,17 @@ export default defineNuxtConfig({
   &::before {
     pointer-events: none;
     content: '';
+
     position: absolute;
     z-index: 0;
     top: 0;
     left: 0;
+
     width: 100%;
     height: 100%;
     border: 1px solid transparent;
     border-radius: inherit;
+
     background-image: linear-gradient(
         45deg,
         rgb(v.$base-background-color, 0.75) 3.5px,
@@ -7437,6 +7690,7 @@ export default defineNuxtConfig({
       linear-gradient(135deg, rgb(255 255 255 / 55%));
     background-clip: border-box, border-box, border-box;
     background-origin: border-box, border-box, border-box;
+
     -webkit-mask: linear-gradient(#fff 0 0) padding-box,
       linear-gradient(#fff 0 0) border-box;
     mask: linear-gradient(#fff 0 0) padding-box,

@@ -28,15 +28,15 @@ export function useCrowdData() {
   const MAX_RETRY_COUNT = 5 // 取得エラーが続く場合は5回までリトライ
 
   const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-    0: '開催期間外',
+    0: '期間外',
     1: '余裕あり',
     2: 'やや混雑',
     3: '混雑',
   }
 
   const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-    0: 'cyan',
-    1: 'cyan',
+    0: 'gray',
+    1: 'emgreen',
     2: 'amber',
     3: 'vermilion',
   }
@@ -46,7 +46,7 @@ export function useCrowdData() {
     return crowdData.value?.value ?? null
   })
   const fillCount = computed(() => crowdLevel.value ?? 0)
-  const statusText = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
+  const statusText = computed(() => isLoading.value ? '取得中' : crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
   const statusColor = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
 
   async function fetchCrowdData() {
