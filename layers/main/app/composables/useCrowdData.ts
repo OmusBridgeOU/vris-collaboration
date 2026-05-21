@@ -47,7 +47,7 @@ export function useCrowdData() {
   })
   const fillCount = computed(() => crowdLevel.value ?? 0)
   const statusText = computed(() => isLoading.value ? '取得中' : crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
-  const statusColor = computed(() => crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
+  const statusColor = computed(() => isLoading.value ? 'purple' : crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
 
   async function fetchCrowdData() {
     if (isBeforeEventStart.value) return // 開催前はfetchしない
