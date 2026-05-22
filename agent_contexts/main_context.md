@@ -160,6 +160,15 @@ layers/
       test/
         composables/
           useApi.spec.ts
+          useCrowdData.spec.ts
+        e2e/
+          snapshots/
+            visual/
+              nuxtContent.spec.ts-snapshots/
+                policy-linux.png
+                terms-linux.png
+          visual/
+            nuxtContent.spec.ts
         utils/
           @types/
             auto-imports.d.ts
@@ -203,11 +212,203 @@ layers/
     eslint.config.mjs
     nuxt.config.ts
     package.json
+    playwright.config.ts
     tsconfig.json
     vitest.config.mts
 ```
 
 # Files
+
+## File: layers/main/app/test/composables/useCrowdData.spec.ts
+````typescript
+// app/test/composables/useCrowdData.spec.ts
+import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
+
+const EVENT_START = new Date('2026-06-01T00:00:00+09:00') // 本番コードと同じ開催日時
+
+// EVENT_STARTを基準に前後の日時を生成
+const BEFORE_EVENT = new Date(EVENT_START.getTime() - 1000) // 1秒前
+const AFTER_EVENT = new Date(EVENT_START.getTime() + 1000) // 1秒後
+
+// モジュールスコープの状態を都度リセットするため、動的importを使う
+async function importFresh() {
+  vi.resetModules()
+  return await import('~/composables/useCrowdData')
+}
+
+// 開催時刻の判定と分岐は正常か
+describe('isBeforeEvent()', () => {
+  beforeEach(() => vi.useFakeTimers())
+  afterEach(() => vi.useRealTimers())
+
+  test('EVENT_STARTより1秒前はtrueを返す', async () => {
+    vi.setSystemTime(BEFORE_EVENT)
+    const { isBeforeEvent } = await importFresh()
+    expect(isBeforeEvent()).toBe(true)
+  })
+
+  test('EVENT_STARTより1秒後はfalseを返す', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    const { isBeforeEvent } = await importFresh()
+    expect(isBeforeEvent()).toBe(false)
+  })
+})
+
+// 混雑度レベルに応じて適切な処理分岐が出来るか
+describe('crowdLevel（computed）', () => {
+  beforeEach(() => vi.useFakeTimers())
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.unstubAllGlobals()
+  })
+
+  test('開催前はcrowdLevelが強制的に0になる', async () => {
+    vi.setSystemTime(BEFORE_EVENT)
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel } = useCrowdData()
+    expect(crowdLevel.value).toBe(0)
+  })
+
+  test('開催後・APIレスポンス前はcrowdLevelがnullになる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() => new Promise(() => {})))
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel } = useCrowdData()
+    expect(crowdLevel.value).toBeNull()
+  })
+
+  test('APIがvalue:1を返したときcrowdLevelが1になる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 1 }),
+      }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+
+    expect(crowdLevel.value).toBe(1)
+  })
+
+  test('APIがvalue:2を返したときcrowdLevelが2になる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 2 }),
+      }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+
+    expect(crowdLevel.value).toBe(2)
+  })
+
+  test('APIがvalue:3を返したときcrowdLevelが3になる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 3 }),
+      }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+
+    expect(crowdLevel.value).toBe(3)
+  })
+})
+
+// データフェッチの仕様は適切か
+describe('リトライ制御', () => {
+  beforeEach(() => vi.useFakeTimers())
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.unstubAllGlobals()
+  })
+
+  test('APIエラー時にisErrorがtrueになる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({ ok: false }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { isError, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+
+    expect(isError.value).toBe(true)
+  })
+
+  test('APIエラーが MAX_RETRY_COUNT(5) 回を超えてもfetchは6回以上呼ばれない', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    const fetchMock = vi.fn(() => Promise.resolve({ ok: false }))
+    vi.stubGlobal('fetch', fetchMock)
+
+    const { useCrowdData } = await importFresh()
+    const { fetchCrowdData } = useCrowdData()
+
+    // 初回実行
+    await fetchCrowdData()
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+
+    // リトライ5回分：タイマーを30秒進める*5回
+    for (let i = 0; i < 5; i++) {
+      await vi.advanceTimersByTimeAsync(30_000) // RETRY_INTERVAL_MS = 30秒
+    }
+    expect(fetchMock).toHaveBeenCalledTimes(6)
+
+    // さらに30秒進めてもフェッチは実行されないか
+    await vi.advanceTimersByTimeAsync(30_000)
+    expect(fetchMock).toHaveBeenCalledTimes(6)
+  })
+})
+````
+
+## File: layers/main/app/test/e2e/visual/nuxtContent.spec.ts
+````typescript
+// app/test/e2e/visual/pages.spec.ts
+import { test, expect } from '@playwright/test'
+
+// テスト対象となるページ: nuxtContentを使用しているページ
+const PAGES = [
+  { name: 'terms',   path: '/documents/terms' },
+  { name: 'policy', path: '/documents/policy' },
+]
+
+for (const { name, path } of PAGES) {
+  test(`${name}: ページの表示がベース画像と一致する`, async ({ page }) => {
+    await page.goto(path)
+    await page.waitForLoadState('networkidle')
+
+    await expect(page).toHaveScreenshot(`${name}.png`, {
+      maxDiffPixelRatio: 0.02,
+      fullPage: true,
+    })
+  })
+}
+````
+
+## File: layers/main/playwright.config.ts
+````typescript
+// playwright.config.ts（nuxt.config.ts と同じ階層に置く）
+import { defineConfig } from '@playwright/test'
+
+export default defineConfig({
+  testDir: './app/test/e2e',
+  snapshotDir: './app/test/e2e/snapshots',
+  use: {
+    baseURL: 'http://localhost:3000',
+  },
+})
+````
 
 ## File: layers/main/@types/auto-imports.d.ts
 ````typescript
@@ -2678,15 +2879,47 @@ import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
 import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
 import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
 
-defineProps<{
+type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
+
+const props = defineProps<{
   label: string
   name: string
   isLoading: boolean
   building: 1 | 2
-  statusText: string
-  statusColor: string
-  fillCount: 0 | 1 | 2 | 3
+  crowdLevel: CrowdLevel | null
 }>()
+
+const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
+  0: '期間外',
+  1: '余裕あり',
+  2: 'やや混雑',
+  3: '混雑',
+}
+
+const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+  0: 'gray',
+  1: 'emgreen',
+  2: 'amber',
+  3: 'vermilion',
+}
+
+const statusText = computed(() =>
+  props.isLoading
+    ? '取得中'
+    : props.crowdLevel !== null
+      ? CROWD_LEVEL_TEXT[props.crowdLevel]
+      : '',
+)
+
+const statusColor = computed(() =>
+  props.isLoading
+    ? 'purple'
+    : props.crowdLevel !== null
+      ? CROWD_LEVEL_COLOR[props.crowdLevel]
+      : '',
+)
+
+const fillCount = computed(() => props.crowdLevel ?? 0)
 </script>
 
 <template>
@@ -2723,7 +2956,10 @@ defineProps<{
             />
           </template>
         </div>
-        <p class="crowd-level-card__status-text">
+        <p
+          class="crowd-level-card__status-text"
+          data-testid="crowd-status-text"
+        >
           {{ statusText }}
         </p>
       </div>
@@ -2756,7 +2992,7 @@ defineProps<{
         <div class="crowd-level-card__carousel glassy-carousel">
           <div
             class="crowd-level-card__carousel-inner glassy-carousel"
-            :class="`glassy-carousel  crowd-level-card__carousel-inner--${
+            :class="`glassy-carousel crowd-level-card__carousel-inner--${
               isLoading || fillCount == 0 || fillCount == 3
                 ? '1-1'
                 : fillCount == 1
@@ -3072,13 +3308,10 @@ en:
 ````vue
 <script setup lang="ts">
 import HaSectionTitle from '../ha/HaSectionTitle.vue'
-
-// import { useCrowdData } from '~/composables/useCrowdData' // 本番用
-import { useCrowdData } from '~/composables/useMockCrowdData'
+import { useCrowdData } from '~/composables/useCrowdData'
 import HmCrowdLevelCard from '../hm/HmCrowdLevelCard.vue'
-// テスト用
-const { isLoading, isError, fillCount, statusText, statusColor }
-  = useCrowdData()
+
+const { isLoading, isError, crowdLevel } = useCrowdData()
 </script>
 
 <template>
@@ -3086,30 +3319,32 @@ const { isLoading, isError, fillCount, statusText, statusColor }
     title="混雑状況"
     label="crowd-levels"
   />
-  <p v-if="isLoading">
+  <p
+    v-if="isLoading"
+    data-testid="crowd-loading"
+  >
     読み込み中...
   </p>
-  <p v-else-if="isError">
+  <p
+    v-else-if="isError"
+    data-testid="crowd-error"
+  >
     混雑状況を取得できませんでした
   </p>
   <div class="crowd-levels__grid">
     <HmCrowdLevelCard
       label="メイン会場"
       name="アスティーホール"
-      :fill-count="fillCount"
       :building="1"
-      :status-color="statusColor"
       :is-loading="isLoading"
-      :status-text="statusText"
+      :crowd-level="crowdLevel"
     />
     <HmCrowdLevelCard
       label="サブ会場"
       name="Deep-tech CORE SAPPORO"
-      :fill-count="fillCount"
       :building="2"
-      :status-color="statusColor"
       :is-loading="isLoading"
-      :status-text="statusText"
+      :crowd-level="crowdLevel"
     />
   </div>
 </template>
@@ -4793,6 +5028,8 @@ export default defineVitestConfig({
   test: {
     globals: true,
     environment: 'nuxt',
+    hookTimeout: 60000,
+    testTimeout: 30000,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
@@ -6284,185 +6521,6 @@ import HaTicketCard from '../ha/HaTicketCard.vue'
 </style>
 ````
 
-## File: layers/main/app/composables/useCrowdData.ts
-````typescript
-// モジュールスコープ
-type CrowdLevel = 0 | 1 | 2 | 3
-
-interface ReadResponse {
-  timestamp: string
-  value: CrowdLevel
-}
-
-let timerId: ReturnType<typeof setTimeout> | null = null
-let isFetching = false // Fetch実行中フラグ（開発者ツールを用いたリトライ攻撃対策）
-let retryCount = 0
-
-// 開催日時までは特別表示
-const EVENT_START = new Date('2026-06-01T00:00:00+09:00') // 開催日時を指定
-
-function isBeforeEvent(): boolean {
-  return new Date() < EVENT_START
-}
-
-export function useCrowdData() {
-  const crowdData = ref<ReadResponse | null>(null)
-  const isLoading = ref(true)
-  const isError = ref(false)
-  const isBeforeEventStart = ref(isBeforeEvent()) // 開催日時までは特別表示
-
-  const NORMAL_INTERVAL_MS = 5 * 60 * 1000 // 通常時 : 5分に1回
-  const RETRY_INTERVAL_MS = 30 * 1000 // 取得エラー時 : 30秒に回
-  const MAX_RETRY_COUNT = 5 // 取得エラーが続く場合は5回までリトライ
-
-  const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-    0: '期間外',
-    1: '余裕あり',
-    2: 'やや混雑',
-    3: '混雑',
-  }
-
-  const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-    0: 'gray',
-    1: 'emgreen',
-    2: 'amber',
-    3: 'vermilion',
-  }
-
-  const crowdLevel = computed<CrowdLevel | null>(() => {
-    if (isBeforeEventStart.value) return 0 // 開催期間外は強制的に0
-    return crowdData.value?.value ?? null
-  })
-  const fillCount = computed(() => crowdLevel.value ?? 0)
-  const statusText = computed(() => isLoading.value ? '取得中' : crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
-  const statusColor = computed(() => isLoading.value ? 'purple' : crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
-
-  async function fetchCrowdData() {
-    if (isBeforeEventStart.value) return // 開催前はfetchしない
-    if (isFetching) return // 多重実行を防ぐ
-    isFetching = true
-
-    try {
-      const res = await fetch('/external/read')
-      if (!res.ok) throw new Error()
-      crowdData.value = await res.json()
-      isError.value = false
-      retryCount = 0
-      schedule(NORMAL_INTERVAL_MS)
-    } catch (e) {
-      if (import.meta.dev) {
-        console.error('混雑情報の取得に失敗しました', e)
-      }
-      isError.value = true
-
-      // 取得エラーが続く場合は5回までリトライ
-      if (retryCount < MAX_RETRY_COUNT) {
-        retryCount++
-        schedule(RETRY_INTERVAL_MS)
-      }
-    } finally {
-      isLoading.value = false
-      isFetching = false
-    }
-  }
-
-  function schedule(ms: number) {
-    if (timerId !== null) clearTimeout(timerId)
-    timerId = setTimeout(fetchCrowdData, ms)
-  }
-
-  onMounted(() => {
-    if (isBeforeEventStart.value) {
-      // 開催開始時刻になったらフラグを更新してfetchを開始する
-      const msUntilStart = EVENT_START.getTime() - Date.now()
-      timerId = setTimeout(() => {
-        isBeforeEventStart.value = false
-        isLoading.value = false // ローディングを解除してcrowdLevel=0を表示
-        fetchCrowdData()
-      }, msUntilStart)
-
-      isLoading.value = false // 開催前はローディングを解除
-      return
-    }
-
-    if (timerId !== null) {
-      clearTimeout(timerId)
-      timerId = null
-    }
-    fetchCrowdData()
-  })
-
-  onUnmounted(() => {
-    if (timerId !== null) clearTimeout(timerId)
-  })
-
-  return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
-}
-````
-
-## File: layers/main/app/composables/useMockCrowdData.ts
-````typescript
-// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
-import { ref, onMounted, onUnmounted } from 'vue'
-
-type CrowdLevel = 0 | 1 | 2 | 3
-
-export function useCrowdData() {
-  const crowdData = ref<{ timestamp: string, value: CrowdLevel } | null>(null)
-  const isLoading = ref(true)
-  const isError = ref(false)
-
-  const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-    0: '開催期間外',
-    1: '余裕あり',
-    2: 'やや混雑',
-    3: '混雑',
-  }
-
-  const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-    0: 'gray',
-    1: 'emgreen',
-    2: 'amber',
-    3: 'vermilion',
-  }
-
-  const MOCK_INTERVAL_MS = 3 * 1000 // 10秒
-  const MOCK_INITIAL_DELAY_MS = 10 * 1000 // 初回ローディング 10秒
-  const crowdLevel = computed<CrowdLevel | null>(() => crowdData.value?.value ?? null)
-  const fillCount = computed(() => crowdLevel.value ?? 0)
-  const statusText = computed(() => isLoading.value ? '取得中' : crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
-  const statusColor = computed(() => isLoading.value ? 'purple' : crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
-
-  let timerId: ReturnType<typeof setInterval> | null = null
-  let initialTimerId: ReturnType<typeof setTimeout> | null = null // 追加
-
-  function generateMock() {
-    console.log('取得：ダミー')
-    crowdData.value = {
-      timestamp: new Date().toISOString(),
-      value: (Math.floor(Math.random() * 3) + 1) as CrowdLevel,
-    }
-    isLoading.value = false
-    isError.value = false
-  }
-
-  onMounted(() => {
-    // 10秒後に初回データ取得 → その後3秒おきに更新
-    initialTimerId = setTimeout(() => {
-      generateMock()
-      timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
-    }, MOCK_INITIAL_DELAY_MS)
-  })
-
-  onUnmounted(() => {
-    if (initialTimerId !== null) clearTimeout(initialTimerId) // 追加
-    if (timerId !== null) clearInterval(timerId)
-  })
-
-  return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
-}
-````
-
 ## File: layers/main/app/pages/documents/[...slug].vue
 ````vue
 <script lang="ts" setup>
@@ -6614,6 +6672,8 @@ definePageMeta({
     "test:watch": "cmd='vitest --dir ./app/test' bun exec-test",
     "test:ui": "cmd='vitest --ui --dir ./app/test' bun exec-test",
     "test:coverage": "cmd='vitest run --dir ./app/test --coverage' bun exec-test",
+    "test:visual":        "PLAYWRIGHT=true playwright test app/test/e2e/visual/nuxtContent.spec.ts",
+    "test:visual:update": "PLAYWRIGHT=true playwright test app/test/e2e/visual/nuxtContent.spec.ts --update-snapshots",
     "exec-test": "baseDir='./app/test' ext='\\.spec\\.ts' bun exec-if-file-exists",
     "exec-if-file-exists": "[ \"$(find $baseDir | grep \"${ext}$\" | wc -l)\" -gt 0 ] && $cmd || true",
     "package-update": "bunx npm-check-updates -i",
@@ -6917,6 +6977,166 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
   }
 }
 </style>
+````
+
+## File: layers/main/app/composables/useCrowdData.ts
+````typescript
+type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
+
+// FIXME: 本APIでは建物別にvalueがあるので、要変更
+interface ReadResponse {
+  timestamp: string
+  value: CrowdLevel
+}
+
+let timerId: ReturnType<typeof setTimeout> | null = null
+let isFetching = false // Fetch実行中フラグ（開発者ツールを用いたリトライ攻撃対策）
+let retryCount = 0
+
+// 開催日時を指定
+const EVENT_START = new Date('2026-06-01T00:00:00+09:00')
+
+export function isBeforeEvent(): boolean {
+  return new Date() < EVENT_START
+}
+
+export function useCrowdData() {
+  const crowdData = ref<ReadResponse | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+  const isBeforeEventStart = ref(isBeforeEvent()) // 開催期間外はデータフェッチ自体させたくないため、フロントエンド側でも開催期間外フラグを用意している。
+
+  // データフェッチの仕様
+  const NORMAL_INTERVAL_MS = 5 * 60 * 1000
+  const RETRY_INTERVAL_MS = 30 * 1000
+  const MAX_RETRY_COUNT = 5
+
+  const crowdLevel = computed<CrowdLevel | null>(() => {
+    if (isBeforeEventStart.value) return 0 // 念のため、開催期間外は強制的に0
+    return crowdData.value?.value ?? null
+  })
+
+  async function fetchCrowdData() {
+    if (isBeforeEventStart.value) return // 開催前はfetchしない
+    if (isFetching) return // fetchの多重実行を防ぐ
+    isFetching = true
+
+    try {
+      const res = await fetch('/external/read')
+      if (!res.ok) throw new Error()
+      crowdData.value = await res.json()
+      isError.value = false
+      retryCount = 0
+      schedule(NORMAL_INTERVAL_MS)
+    } catch (e) {
+      if (import.meta.dev) {
+        console.error('混雑情報の取得に失敗しました', e)
+      }
+      isError.value = true
+      if (retryCount < MAX_RETRY_COUNT) {
+        retryCount++
+        schedule(RETRY_INTERVAL_MS)
+      }
+    } finally {
+      isLoading.value = false
+      isFetching = false
+    }
+  }
+
+  function schedule(ms: number) {
+    if (timerId !== null) clearTimeout(timerId)
+    timerId = setTimeout(fetchCrowdData, ms)
+  }
+
+  onMounted(() => {
+    if (isBeforeEventStart.value) {
+      const msUntilStart = EVENT_START.getTime() - Date.now()
+
+      // ページ表示中にイベント開催日時に到達しても問題ないように、開催時刻にデータフェッチをスケジュール
+      timerId = setTimeout(() => {
+        isBeforeEventStart.value = false
+        isLoading.value = false
+        fetchCrowdData()
+      }, msUntilStart)
+      isLoading.value = false // 開催期間前である表示を出すため、ローディングを即解除
+      return
+    }
+    if (timerId !== null) {
+      clearTimeout(timerId)
+      timerId = null
+    }
+    fetchCrowdData()
+  })
+
+  onUnmounted(() => {
+    if (timerId !== null) clearTimeout(timerId)
+  })
+
+  return { isLoading, isError, crowdLevel, fetchCrowdData }
+}
+````
+
+## File: layers/main/app/composables/useMockCrowdData.ts
+````typescript
+// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
+import { ref, onMounted, onUnmounted } from 'vue'
+
+type CrowdLevel = 0 | 1 | 2 | 3
+
+export function useCrowdData() {
+  const crowdData = ref<{ timestamp: string, value: CrowdLevel } | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+
+  const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
+    0: '開催期間外',
+    1: '余裕あり',
+    2: 'やや混雑',
+    3: '混雑',
+  }
+
+  const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+    0: 'gray',
+    1: 'emgreen',
+    2: 'amber',
+    3: 'vermilion',
+  }
+
+  const MOCK_INTERVAL_MS = 3 * 1000 // 10秒
+  const MOCK_INITIAL_DELAY_MS = 10 * 1000 // 初回ローディング 10秒
+  const crowdLevel = computed<CrowdLevel | null>(() => crowdData.value?.value ?? null)
+  const fillCount = computed(() => crowdLevel.value ?? 0)
+  const statusText = computed(() => isLoading.value ? '取得中' : crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
+  const statusColor = computed(() => isLoading.value ? 'purple' : crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
+
+  let timerId: ReturnType<typeof setInterval> | null = null
+  let initialTimerId: ReturnType<typeof setTimeout> | null = null // 追加
+
+  function generateMock() {
+    console.log('取得：ダミー')
+    crowdData.value = {
+      timestamp: new Date().toISOString(),
+      value: (Math.floor(Math.random() * 3) + 1) as CrowdLevel,
+    }
+    isLoading.value = false
+    isError.value = false
+  }
+
+  onMounted(() => {
+    // 10秒後に初回データ取得 → その後3秒おきに更新
+    initialTimerId = setTimeout(() => {
+      generateMock()
+      timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
+    }, MOCK_INITIAL_DELAY_MS)
+  })
+
+  onUnmounted(() => {
+    if (initialTimerId !== null) clearTimeout(initialTimerId) // 追加
+    if (timerId !== null) clearInterval(timerId)
+  })
+
+  return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
+}
 ````
 
 ## File: layers/main/app/app.vue

@@ -14,15 +14,47 @@ import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
 import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
 import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
 
-defineProps<{
+type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
+
+const props = defineProps<{
   label: string
   name: string
   isLoading: boolean
   building: 1 | 2
-  statusText: string
-  statusColor: string
-  fillCount: 0 | 1 | 2 | 3
+  crowdLevel: CrowdLevel | null
 }>()
+
+const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
+  0: '期間外',
+  1: '余裕あり',
+  2: 'やや混雑',
+  3: '混雑',
+}
+
+const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+  0: 'gray',
+  1: 'emgreen',
+  2: 'amber',
+  3: 'vermilion',
+}
+
+const statusText = computed(() =>
+  props.isLoading
+    ? '取得中'
+    : props.crowdLevel !== null
+      ? CROWD_LEVEL_TEXT[props.crowdLevel]
+      : '',
+)
+
+const statusColor = computed(() =>
+  props.isLoading
+    ? 'purple'
+    : props.crowdLevel !== null
+      ? CROWD_LEVEL_COLOR[props.crowdLevel]
+      : '',
+)
+
+const fillCount = computed(() => props.crowdLevel ?? 0)
 </script>
 
 <template>
@@ -59,7 +91,10 @@ defineProps<{
             />
           </template>
         </div>
-        <p class="crowd-level-card__status-text">
+        <p
+          class="crowd-level-card__status-text"
+          data-testid="crowd-status-text"
+        >
           {{ statusText }}
         </p>
       </div>
@@ -92,7 +127,7 @@ defineProps<{
         <div class="crowd-level-card__carousel glassy-carousel">
           <div
             class="crowd-level-card__carousel-inner glassy-carousel"
-            :class="`glassy-carousel  crowd-level-card__carousel-inner--${
+            :class="`glassy-carousel crowd-level-card__carousel-inner--${
               isLoading || fillCount == 0 || fillCount == 3
                 ? '1-1'
                 : fillCount == 1
