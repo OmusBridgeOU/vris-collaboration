@@ -219,159 +219,6 @@ layers/
 
 # Files
 
-## File: layers/main/app/test/composables/useCrowdData.spec.ts
-````typescript
-// app/test/composables/useCrowdData.spec.ts
-import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
-
-const EVENT_START = new Date('2026-06-01T00:00:00+09:00') // 本番コードと同じ開催日時
-
-// EVENT_STARTを基準に前後の日時を生成
-const BEFORE_EVENT = new Date(EVENT_START.getTime() - 1000) // 1秒前
-const AFTER_EVENT = new Date(EVENT_START.getTime() + 1000) // 1秒後
-
-// モジュールスコープの状態を都度リセットするため、動的importを使う
-async function importFresh() {
-  vi.resetModules()
-  return await import('~/composables/useCrowdData')
-}
-
-// 開催時刻の判定と分岐は正常か
-describe('isBeforeEvent()', () => {
-  beforeEach(() => vi.useFakeTimers())
-  afterEach(() => vi.useRealTimers())
-
-  test('EVENT_STARTより1秒前はtrueを返す', async () => {
-    vi.setSystemTime(BEFORE_EVENT)
-    const { isBeforeEvent } = await importFresh()
-    expect(isBeforeEvent()).toBe(true)
-  })
-
-  test('EVENT_STARTより1秒後はfalseを返す', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    const { isBeforeEvent } = await importFresh()
-    expect(isBeforeEvent()).toBe(false)
-  })
-})
-
-// 混雑度レベルに応じて適切な処理分岐が出来るか
-describe('crowdLevel（computed）', () => {
-  beforeEach(() => vi.useFakeTimers())
-  afterEach(() => {
-    vi.useRealTimers()
-    vi.unstubAllGlobals()
-  })
-
-  test('開催前はcrowdLevelが強制的に0になる', async () => {
-    vi.setSystemTime(BEFORE_EVENT)
-    const { useCrowdData } = await importFresh()
-    const { crowdLevel } = useCrowdData()
-    expect(crowdLevel.value).toBe(0)
-  })
-
-  test('開催後・APIレスポンス前はcrowdLevelがnullになる', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    vi.stubGlobal('fetch', vi.fn(() => new Promise(() => {})))
-    const { useCrowdData } = await importFresh()
-    const { crowdLevel } = useCrowdData()
-    expect(crowdLevel.value).toBeNull()
-  })
-
-  test('APIがvalue:1を返したときcrowdLevelが1になる', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    vi.stubGlobal('fetch', vi.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 1 }),
-      }),
-    ))
-    const { useCrowdData } = await importFresh()
-    const { crowdLevel, fetchCrowdData } = useCrowdData()
-
-    await fetchCrowdData()
-
-    expect(crowdLevel.value).toBe(1)
-  })
-
-  test('APIがvalue:2を返したときcrowdLevelが2になる', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    vi.stubGlobal('fetch', vi.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 2 }),
-      }),
-    ))
-    const { useCrowdData } = await importFresh()
-    const { crowdLevel, fetchCrowdData } = useCrowdData()
-
-    await fetchCrowdData()
-
-    expect(crowdLevel.value).toBe(2)
-  })
-
-  test('APIがvalue:3を返したときcrowdLevelが3になる', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    vi.stubGlobal('fetch', vi.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 3 }),
-      }),
-    ))
-    const { useCrowdData } = await importFresh()
-    const { crowdLevel, fetchCrowdData } = useCrowdData()
-
-    await fetchCrowdData()
-
-    expect(crowdLevel.value).toBe(3)
-  })
-})
-
-// データフェッチの仕様は適切か
-describe('リトライ制御', () => {
-  beforeEach(() => vi.useFakeTimers())
-  afterEach(() => {
-    vi.useRealTimers()
-    vi.unstubAllGlobals()
-  })
-
-  test('APIエラー時にisErrorがtrueになる', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    vi.stubGlobal('fetch', vi.fn(() =>
-      Promise.resolve({ ok: false }),
-    ))
-    const { useCrowdData } = await importFresh()
-    const { isError, fetchCrowdData } = useCrowdData()
-
-    await fetchCrowdData()
-
-    expect(isError.value).toBe(true)
-  })
-
-  test('APIエラーが MAX_RETRY_COUNT(5) 回を超えてもfetchは6回以上呼ばれない', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    const fetchMock = vi.fn(() => Promise.resolve({ ok: false }))
-    vi.stubGlobal('fetch', fetchMock)
-
-    const { useCrowdData } = await importFresh()
-    const { fetchCrowdData } = useCrowdData()
-
-    // 初回実行
-    await fetchCrowdData()
-    expect(fetchMock).toHaveBeenCalledTimes(1)
-
-    // リトライ5回分：タイマーを30秒進める*5回
-    for (let i = 0; i < 5; i++) {
-      await vi.advanceTimersByTimeAsync(30_000) // RETRY_INTERVAL_MS = 30秒
-    }
-    expect(fetchMock).toHaveBeenCalledTimes(6)
-
-    // さらに30秒進めてもフェッチは実行されないか
-    await vi.advanceTimersByTimeAsync(30_000)
-    expect(fetchMock).toHaveBeenCalledTimes(6)
-  })
-})
-````
-
 ## File: layers/main/app/test/e2e/visual/nuxtContent.spec.ts
 ````typescript
 // app/test/e2e/visual/pages.spec.ts
@@ -379,7 +226,7 @@ import { test, expect } from '@playwright/test'
 
 // テスト対象となるページ: nuxtContentを使用しているページ
 const PAGES = [
-  { name: 'terms',   path: '/documents/terms' },
+  { name: 'terms', path: '/documents/terms' },
   { name: 'policy', path: '/documents/policy' },
 ]
 
@@ -2861,328 +2708,6 @@ defineProps<{ item: { id: number, title: string, href: string, imgSrc: string } 
 </style>
 ````
 
-## File: layers/main/app/components/hm/HmCrowdLevelCard.vue
-````vue
-<script lang="ts" setup>
-import HaAstyLevel1 from '../ha/buildings/HaAstyLevel1.vue'
-import HaAstyLevel2 from '../ha/buildings/HaAstyLevel2.vue'
-import HaAstyLevel3 from '../ha/buildings/HaAstyLevel3.vue'
-import HaAstyLoading from '../ha/buildings/HaAstyLoading.vue'
-import HaAstyUnable from '../ha/buildings/HaAstyUnable.vue'
-import HaDTCLevel1 from '../ha/buildings/HaDTCLevel1.vue'
-import HaDTCLevel2 from '../ha/buildings/HaDTCLevel2.vue'
-import HaDTCLevel3 from '../ha/buildings/HaDTCLevel3.vue'
-import HaDTCLoading from '../ha/buildings/HaDTCLoading.vue'
-import HaDTCUnable from '../ha/buildings/HaDTCUnable.vue'
-import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
-import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
-import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
-import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
-
-type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
-
-const props = defineProps<{
-  label: string
-  name: string
-  isLoading: boolean
-  building: 1 | 2
-  crowdLevel: CrowdLevel | null
-}>()
-
-const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-  0: '期間外',
-  1: '余裕あり',
-  2: 'やや混雑',
-  3: '混雑',
-}
-
-const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-  0: 'gray',
-  1: 'emgreen',
-  2: 'amber',
-  3: 'vermilion',
-}
-
-const statusText = computed(() =>
-  props.isLoading
-    ? '取得中'
-    : props.crowdLevel !== null
-      ? CROWD_LEVEL_TEXT[props.crowdLevel]
-      : '',
-)
-
-const statusColor = computed(() =>
-  props.isLoading
-    ? 'purple'
-    : props.crowdLevel !== null
-      ? CROWD_LEVEL_COLOR[props.crowdLevel]
-      : '',
-)
-
-const fillCount = computed(() => props.crowdLevel ?? 0)
-</script>
-
-<template>
-  <div
-    class="glassy-box-4 crowd-level-card"
-    :class="`crowd-level-card--${statusColor}`"
-  >
-    <div class="crowd-level-card__head">
-      <div class="crowd-level-card__text-box">
-        <p class="crowd-level-card__label">
-          {{ label }}
-        </p>
-        <p class="crowd-level-card__name">
-          {{ name }}
-        </p>
-      </div>
-      <div class="crowd-level-card__status-box">
-        <div class="crowd-level-card__icon-box">
-          <template v-if="isLoading">
-            <HaPeopleIcon />
-            <HaQuestionIcon />
-          </template>
-          <template v-else-if="fillCount == 0">
-            <HaPeopleUnableIcon />
-          </template>
-          <template v-else>
-            <HaPeopleFillIcon
-              v-for="i in fillCount"
-              :key="`fill-${i}`"
-            />
-            <HaPeopleIcon
-              v-for="i in 3 - fillCount"
-              :key="`empty-${i}`"
-            />
-          </template>
-        </div>
-        <p
-          class="crowd-level-card__status-text"
-          data-testid="crowd-status-text"
-        >
-          {{ statusText }}
-        </p>
-      </div>
-    </div>
-    <div class="crowd-level-card__body">
-      <div class="crowd-level-card__image">
-        <template v-if="building == 1">
-          <HaAstyLoading v-if="isLoading" />
-          <template v-else>
-            <HaAstyUnable v-show="statusColor == 'gray'" />
-            <HaAstyLevel1 v-show="statusColor == 'emgreen'" />
-            <HaAstyLevel2 v-show="statusColor == 'amber'" />
-            <HaAstyLevel3 v-show="statusColor == 'vermilion'" />
-          </template>
-        </template>
-        <template v-else-if="building == 2">
-          <HaDTCLoading v-if="isLoading" />
-          <template v-else>
-            <HaDTCUnable v-show="statusColor == 'gray'" />
-            <HaDTCLevel1 v-show="statusColor == 'emgreen'" />
-            <HaDTCLevel2 v-show="statusColor == 'amber'" />
-            <HaDTCLevel3 v-show="statusColor == 'vermilion'" />
-          </template>
-        </template>
-      </div>
-      <div class="crowd-level-card__footer">
-        <p class="crowd-level-card__text">
-          混雑状況
-        </p>
-        <div class="crowd-level-card__carousel glassy-carousel">
-          <div
-            class="crowd-level-card__carousel-inner glassy-carousel"
-            :class="`glassy-carousel crowd-level-card__carousel-inner--${
-              isLoading || fillCount == 0 || fillCount == 3
-                ? '1-1'
-                : fillCount == 1
-                  ? '1-4'
-                  : fillCount == 2
-                    ? '1-2'
-                    : ''
-            }`"
-          />
-        </div>
-        <p class="crowd-level-card__text">
-          {{
-            isLoading
-              ? '取得中'
-              : fillCount == 0
-                ? '期間外'
-                : fillCount == 1
-                  ? '低'
-                  : fillCount == 2
-                    ? '中'
-                    : fillCount == 3
-                      ? '高'
-                      : ''
-          }}
-        </p>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.crowd-level-card {
-  display: flex;
-  flex-direction: column;
-  padding: 24px 18px 24px 32px;
-
-  &--emgreen {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-emgreen;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-emgreen, 0.75);
-    }
-  }
-
-  &--amber {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-amber;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-amber, 0.75);
-    }
-  }
-
-  &--gray {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-gray;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-gray, 0.75);
-    }
-  }
-
-  &--purple {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-purple;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-purple, 0.75);
-    }
-  }
-
-  &--vermilion {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-vermilion;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-vermilion, 0.75);
-    }
-  }
-
-  &__head {
-    display: flex;
-    gap: 8px;
-    justify-content: space-between;
-  }
-
-  &__text-box {
-    width: fit-content;
-  }
-
-  &__label {
-    font-size: 14px;
-    font-weight: 700;
-  }
-
-  &__name {
-    font-size: 32px;
-    font-weight: 900;
-  }
-
-  &__icon-box {
-    display: flex;
-    flex-shrink: 0;
-  }
-
-  &__status-box {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-
-    width: fit-content;
-    height: fit-content;
-    padding: 10px 18px;
-    border-radius: 20px;
-  }
-
-  &__status-text {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 100%;
-    text-wrap: nowrap;
-  }
-
-  &__body {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    flex-shrink: 1;
-    align-items: center;
-    justify-content: flex-end;
-  }
-
-  &__image {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    width: 50%;
-
-    svg {
-      width: 100%;
-    }
-  }
-
-  &__footer {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    width: 100%;
-  }
-
-  &__carousel {
-    display: flex;
-    flex-grow: 1;
-    height: 14px;
-  }
-
-  &__carousel-inner {
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    transition: width 0.6s ease;
-
-    &--1-1 {
-      width: 100%;
-    }
-
-    &--1-2 {
-      width: 50%;
-    }
-
-    &--1-4 {
-      width: 25%;
-    }
-  }
-
-  &__text {
-    width: 4em;
-  }
-}
-</style>
-````
-
 ## File: layers/main/app/components/hm/HmSwiper.vue
 ````vue
 <script setup lang="ts">
@@ -3301,73 +2826,6 @@ en:
 
 <style scoped lang="scss">
 // .ho-the-header{}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtCrowdLevelsSection.vue
-````vue
-<script setup lang="ts">
-import HaSectionTitle from '../ha/HaSectionTitle.vue'
-import { useCrowdData } from '~/composables/useCrowdData'
-import HmCrowdLevelCard from '../hm/HmCrowdLevelCard.vue'
-
-const { isLoading, isError, crowdLevel } = useCrowdData()
-</script>
-
-<template>
-  <HaSectionTitle
-    title="混雑状況"
-    label="crowd-levels"
-  />
-  <p
-    v-if="isLoading"
-    data-testid="crowd-loading"
-  >
-    読み込み中...
-  </p>
-  <p
-    v-else-if="isError"
-    data-testid="crowd-error"
-  >
-    混雑状況を取得できませんでした
-  </p>
-  <div class="crowd-levels__grid">
-    <HmCrowdLevelCard
-      label="メイン会場"
-      name="アスティーホール"
-      :building="1"
-      :is-loading="isLoading"
-      :crowd-level="crowdLevel"
-    />
-    <HmCrowdLevelCard
-      label="サブ会場"
-      name="Deep-tech CORE SAPPORO"
-      :building="2"
-      :is-loading="isLoading"
-      :crowd-level="crowdLevel"
-    />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px;
-}
-
-.crowd-levels {
-  &__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 22px;
-
-    @include m.tb {
-      grid-template-columns: 1fr;
-    }
-  }
-}
 </style>
 ````
 
@@ -3646,6 +3104,159 @@ test('fetcher', () => {
   const options = {}
   // useFetchが発火することを確認。戻り値はmockの戻り値とする
   expect(fetcher(path, options)).toStrictEqual({ path, options })
+})
+````
+
+## File: layers/main/app/test/composables/useCrowdData.spec.ts
+````typescript
+// app/test/composables/useCrowdData.spec.ts
+import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
+
+const EVENT_START = new Date('2026-06-01T00:00:00+09:00') // 本番コードと同じ開催日時
+
+// EVENT_STARTを基準に前後の日時を生成
+const BEFORE_EVENT = new Date(EVENT_START.getTime() - 1000) // 1秒前
+const AFTER_EVENT = new Date(EVENT_START.getTime() + 1000) // 1秒後
+
+// モジュールスコープの状態を都度リセットするため、動的importを使う
+async function importFresh() {
+  vi.resetModules()
+  return await import('~/composables/useCrowdData')
+}
+
+// 開催時刻の判定と分岐は正常か
+describe('isBeforeEvent()', () => {
+  beforeEach(() => vi.useFakeTimers())
+  afterEach(() => vi.useRealTimers())
+
+  test('EVENT_STARTより1秒前はtrueを返す', async () => {
+    vi.setSystemTime(BEFORE_EVENT)
+    const { isBeforeEvent } = await importFresh()
+    expect(isBeforeEvent()).toBe(true)
+  })
+
+  test('EVENT_STARTより1秒後はfalseを返す', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    const { isBeforeEvent } = await importFresh()
+    expect(isBeforeEvent()).toBe(false)
+  })
+})
+
+// 混雑度レベルに応じて適切な処理分岐が出来るか
+describe('crowdLevel（computed）', () => {
+  beforeEach(() => vi.useFakeTimers())
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.unstubAllGlobals()
+  })
+
+  test('開催前はcrowdLevelが強制的に0になる', async () => {
+    vi.setSystemTime(BEFORE_EVENT)
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel } = useCrowdData()
+    expect(crowdLevel.value).toBe(0)
+  })
+
+  test('開催後・APIレスポンス前はcrowdLevelがnullになる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() => new Promise(() => {})))
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel } = useCrowdData()
+    expect(crowdLevel.value).toBeNull()
+  })
+
+  test('APIがvalue:1を返したときcrowdLevelが1になる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 1 }),
+      }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+
+    expect(crowdLevel.value).toBe(1)
+  })
+
+  test('APIがvalue:2を返したときcrowdLevelが2になる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 2 }),
+      }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+
+    expect(crowdLevel.value).toBe(2)
+  })
+
+  test('APIがvalue:3を返したときcrowdLevelが3になる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 3 }),
+      }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+
+    expect(crowdLevel.value).toBe(3)
+  })
+})
+
+// データフェッチの仕様は適切か
+describe('リトライ制御', () => {
+  beforeEach(() => vi.useFakeTimers())
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.unstubAllGlobals()
+  })
+
+  test('APIエラー時にisErrorがtrueになる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({ ok: false }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { isError, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+
+    expect(isError.value).toBe(true)
+  })
+
+  test('APIエラーが MAX_RETRY_COUNT(5) 回を超えてもfetchは6回以上呼ばれない', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    const fetchMock = vi.fn(() => Promise.resolve({ ok: false }))
+    vi.stubGlobal('fetch', fetchMock)
+
+    const { useCrowdData } = await importFresh()
+    const { fetchCrowdData } = useCrowdData()
+
+    // 初回実行
+    await fetchCrowdData()
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+
+    // リトライ5回分：タイマーを30秒進める*5回
+    for (let i = 0; i < 5; i++) {
+      await vi.advanceTimersByTimeAsync(30_000) // RETRY_INTERVAL_MS = 30秒
+    }
+    expect(fetchMock).toHaveBeenCalledTimes(6)
+
+    // さらに30秒進めてもフェッチは実行されないか
+    await vi.advanceTimersByTimeAsync(30_000)
+    expect(fetchMock).toHaveBeenCalledTimes(6)
+  })
 })
 ````
 
@@ -5019,44 +4630,6 @@ export default withNuxt(
 }
 ````
 
-## File: layers/main/vitest.config.mts
-````typescript
-import { defineVitestConfig } from '@nuxt/test-utils/config'
-import path from 'path'
-
-export default defineVitestConfig({
-  test: {
-    globals: true,
-    environment: 'nuxt',
-    hookTimeout: 60000,
-    testTimeout: 30000,
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html'],
-      reportsDirectory: '../coverage',
-      reportOnFailure: true,
-      allowExternal: true,
-      include: ['**/*.{vue,ts}'],
-      exclude: [
-        'plugins/**',
-        'middleware/**',
-        'layouts/**',
-        'test/**',
-      ],
-    },
-    setupFiles: ['app/test/setup.ts'],
-    alias: {
-      '#base': path.resolve(__dirname, '../base'),
-    },
-  },
-  resolve: {
-    alias: {
-      '#base': path.resolve(__dirname, '../base'),
-    },
-  },
-})
-````
-
 ## File: layers/main/app/assets/styles/style.scss
 ````scss
 @forward 'reset';
@@ -5914,6 +5487,328 @@ defineProps<{
 </style>
 ````
 
+## File: layers/main/app/components/hm/HmCrowdLevelCard.vue
+````vue
+<script lang="ts" setup>
+import HaAstyLevel1 from '../ha/buildings/HaAstyLevel1.vue'
+import HaAstyLevel2 from '../ha/buildings/HaAstyLevel2.vue'
+import HaAstyLevel3 from '../ha/buildings/HaAstyLevel3.vue'
+import HaAstyLoading from '../ha/buildings/HaAstyLoading.vue'
+import HaAstyUnable from '../ha/buildings/HaAstyUnable.vue'
+import HaDTCLevel1 from '../ha/buildings/HaDTCLevel1.vue'
+import HaDTCLevel2 from '../ha/buildings/HaDTCLevel2.vue'
+import HaDTCLevel3 from '../ha/buildings/HaDTCLevel3.vue'
+import HaDTCLoading from '../ha/buildings/HaDTCLoading.vue'
+import HaDTCUnable from '../ha/buildings/HaDTCUnable.vue'
+import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
+import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
+import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
+import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
+
+type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
+
+const props = defineProps<{
+  label: string
+  name: string
+  isLoading: boolean
+  building: 1 | 2
+  crowdLevel: CrowdLevel | null
+}>()
+
+const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
+  0: '期間外',
+  1: '余裕あり',
+  2: 'やや混雑',
+  3: '混雑',
+}
+
+const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+  0: 'gray',
+  1: 'emgreen',
+  2: 'amber',
+  3: 'vermilion',
+}
+
+const statusText = computed(() =>
+  props.isLoading
+    ? '取得中'
+    : props.crowdLevel !== null
+      ? CROWD_LEVEL_TEXT[props.crowdLevel]
+      : '',
+)
+
+const statusColor = computed(() =>
+  props.isLoading
+    ? 'purple'
+    : props.crowdLevel !== null
+      ? CROWD_LEVEL_COLOR[props.crowdLevel]
+      : '',
+)
+
+const fillCount = computed(() => props.crowdLevel ?? 0)
+</script>
+
+<template>
+  <div
+    class="glassy-box-4 crowd-level-card"
+    :class="`crowd-level-card--${statusColor}`"
+  >
+    <div class="crowd-level-card__head">
+      <div class="crowd-level-card__text-box">
+        <p class="crowd-level-card__label">
+          {{ label }}
+        </p>
+        <p class="crowd-level-card__name">
+          {{ name }}
+        </p>
+      </div>
+      <div class="crowd-level-card__status-box">
+        <div class="crowd-level-card__icon-box">
+          <template v-if="isLoading">
+            <HaPeopleIcon />
+            <HaQuestionIcon />
+          </template>
+          <template v-else-if="fillCount == 0">
+            <HaPeopleUnableIcon />
+          </template>
+          <template v-else>
+            <HaPeopleFillIcon
+              v-for="i in fillCount"
+              :key="`fill-${i}`"
+            />
+            <HaPeopleIcon
+              v-for="i in 3 - fillCount"
+              :key="`empty-${i}`"
+            />
+          </template>
+        </div>
+        <p
+          class="crowd-level-card__status-text"
+          data-testid="crowd-status-text"
+        >
+          {{ statusText }}
+        </p>
+      </div>
+    </div>
+    <div class="crowd-level-card__body">
+      <div class="crowd-level-card__image">
+        <template v-if="building == 1">
+          <HaAstyLoading v-if="isLoading" />
+          <template v-else>
+            <HaAstyUnable v-show="statusColor == 'gray'" />
+            <HaAstyLevel1 v-show="statusColor == 'emgreen'" />
+            <HaAstyLevel2 v-show="statusColor == 'amber'" />
+            <HaAstyLevel3 v-show="statusColor == 'vermilion'" />
+          </template>
+        </template>
+        <template v-else-if="building == 2">
+          <HaDTCLoading v-if="isLoading" />
+          <template v-else>
+            <HaDTCUnable v-show="statusColor == 'gray'" />
+            <HaDTCLevel1 v-show="statusColor == 'emgreen'" />
+            <HaDTCLevel2 v-show="statusColor == 'amber'" />
+            <HaDTCLevel3 v-show="statusColor == 'vermilion'" />
+          </template>
+        </template>
+      </div>
+      <div class="crowd-level-card__footer">
+        <p class="crowd-level-card__text">
+          混雑状況
+        </p>
+        <div class="crowd-level-card__carousel glassy-carousel">
+          <div
+            class="crowd-level-card__carousel-inner glassy-carousel"
+            :class="`glassy-carousel crowd-level-card__carousel-inner--${
+              isLoading || fillCount == 0 || fillCount == 3
+                ? '1-1'
+                : fillCount == 1
+                  ? '1-4'
+                  : fillCount == 2
+                    ? '1-2'
+                    : ''
+            }`"
+          />
+        </div>
+        <p class="crowd-level-card__text">
+          {{
+            isLoading
+              ? '取得中'
+              : fillCount == 0
+                ? '期間外'
+                : fillCount == 1
+                  ? '低'
+                  : fillCount == 2
+                    ? '中'
+                    : fillCount == 3
+                      ? '高'
+                      : ''
+          }}
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.crowd-level-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 18px 24px 32px;
+
+  &--emgreen {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-emgreen;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-emgreen, 0.75);
+    }
+  }
+
+  &--amber {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-amber;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-amber, 0.75);
+    }
+  }
+
+  &--gray {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-gray;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-gray, 0.75);
+    }
+  }
+
+  &--purple {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-purple;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-purple, 0.75);
+    }
+  }
+
+  &--vermilion {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-vermilion;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-vermilion, 0.75);
+    }
+  }
+
+  &__head {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  &__text-box {
+    width: fit-content;
+  }
+
+  &__label {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  &__name {
+    font-size: 32px;
+    font-weight: 900;
+  }
+
+  &__icon-box {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  &__status-box {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 18px;
+    border-radius: 20px;
+  }
+
+  &__status-text {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 100%;
+    text-wrap: nowrap;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &__image {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 50%;
+
+    svg {
+      width: 100%;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__carousel {
+    display: flex;
+    flex-grow: 1;
+    height: 14px;
+  }
+
+  &__carousel-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    transition: width 0.6s ease;
+
+    &--1-1 {
+      width: 100%;
+    }
+
+    &--1-2 {
+      width: 50%;
+    }
+
+    &--1-4 {
+      width: 25%;
+    }
+  }
+
+  &__text {
+    width: 4em;
+  }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ho/HoTheFooter.vue
 ````vue
 <script setup lang="ts">
@@ -6338,6 +6233,73 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
 </style>
 ````
 
+## File: layers/main/app/components/ht/HtCrowdLevelsSection.vue
+````vue
+<script setup lang="ts">
+import HaSectionTitle from '../ha/HaSectionTitle.vue'
+import { useCrowdData } from '~/composables/useCrowdData'
+import HmCrowdLevelCard from '../hm/HmCrowdLevelCard.vue'
+
+const { isLoading, isError, crowdLevel } = useCrowdData()
+</script>
+
+<template>
+  <HaSectionTitle
+    title="混雑状況"
+    label="crowd-levels"
+  />
+  <p
+    v-if="isLoading"
+    data-testid="crowd-loading"
+  >
+    読み込み中...
+  </p>
+  <p
+    v-else-if="isError"
+    data-testid="crowd-error"
+  >
+    混雑状況を取得できませんでした
+  </p>
+  <div class="crowd-levels__grid">
+    <HmCrowdLevelCard
+      label="メイン会場"
+      name="アスティーホール"
+      :building="1"
+      :is-loading="isLoading"
+      :crowd-level="crowdLevel"
+    />
+    <HmCrowdLevelCard
+      label="サブ会場"
+      name="Deep-tech CORE SAPPORO"
+      :building="2"
+      :is-loading="isLoading"
+      :crowd-level="crowdLevel"
+    />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px;
+}
+
+.crowd-levels {
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+
+    @include m.tb {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ht/HtRelatedEventsSection.vue
 ````vue
 <script setup lang="ts">
@@ -6687,6 +6649,44 @@ definePageMeta({
 }
 ````
 
+## File: layers/main/vitest.config.mts
+````typescript
+import { defineVitestConfig } from '@nuxt/test-utils/config'
+import path from 'path'
+
+export default defineVitestConfig({
+  test: {
+    globals: true,
+    environment: 'nuxt',
+    hookTimeout: 60000,
+    testTimeout: 30000,
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      reportsDirectory: '../coverage',
+      reportOnFailure: true,
+      allowExternal: true,
+      include: ['**/*.{vue,ts}'],
+      exclude: [
+        'plugins/**',
+        'middleware/**',
+        'layouts/**',
+        'test/**',
+      ],
+    },
+    setupFiles: ['app/test/setup.ts'],
+    alias: {
+      '#base': path.resolve(__dirname, '../base'),
+    },
+  },
+  resolve: {
+    alias: {
+      '#base': path.resolve(__dirname, '../base'),
+    },
+  },
+})
+````
+
 ## File: layers/main/app/components/ha/HaSectionTitle.vue
 ````vue
 <script setup lang="ts">
@@ -6977,103 +6977,6 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
   }
 }
 </style>
-````
-
-## File: layers/main/app/composables/useCrowdData.ts
-````typescript
-type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
-
-// FIXME: 本APIでは建物別にvalueがあるので、要変更
-interface ReadResponse {
-  timestamp: string
-  value: CrowdLevel
-}
-
-let timerId: ReturnType<typeof setTimeout> | null = null
-let isFetching = false // Fetch実行中フラグ（開発者ツールを用いたリトライ攻撃対策）
-let retryCount = 0
-
-// 開催日時を指定
-const EVENT_START = new Date('2026-06-01T00:00:00+09:00')
-
-export function isBeforeEvent(): boolean {
-  return new Date() < EVENT_START
-}
-
-export function useCrowdData() {
-  const crowdData = ref<ReadResponse | null>(null)
-  const isLoading = ref(true)
-  const isError = ref(false)
-  const isBeforeEventStart = ref(isBeforeEvent()) // 開催期間外はデータフェッチ自体させたくないため、フロントエンド側でも開催期間外フラグを用意している。
-
-  // データフェッチの仕様
-  const NORMAL_INTERVAL_MS = 5 * 60 * 1000
-  const RETRY_INTERVAL_MS = 30 * 1000
-  const MAX_RETRY_COUNT = 5
-
-  const crowdLevel = computed<CrowdLevel | null>(() => {
-    if (isBeforeEventStart.value) return 0 // 念のため、開催期間外は強制的に0
-    return crowdData.value?.value ?? null
-  })
-
-  async function fetchCrowdData() {
-    if (isBeforeEventStart.value) return // 開催前はfetchしない
-    if (isFetching) return // fetchの多重実行を防ぐ
-    isFetching = true
-
-    try {
-      const res = await fetch('/external/read')
-      if (!res.ok) throw new Error()
-      crowdData.value = await res.json()
-      isError.value = false
-      retryCount = 0
-      schedule(NORMAL_INTERVAL_MS)
-    } catch (e) {
-      if (import.meta.dev) {
-        console.error('混雑情報の取得に失敗しました', e)
-      }
-      isError.value = true
-      if (retryCount < MAX_RETRY_COUNT) {
-        retryCount++
-        schedule(RETRY_INTERVAL_MS)
-      }
-    } finally {
-      isLoading.value = false
-      isFetching = false
-    }
-  }
-
-  function schedule(ms: number) {
-    if (timerId !== null) clearTimeout(timerId)
-    timerId = setTimeout(fetchCrowdData, ms)
-  }
-
-  onMounted(() => {
-    if (isBeforeEventStart.value) {
-      const msUntilStart = EVENT_START.getTime() - Date.now()
-
-      // ページ表示中にイベント開催日時に到達しても問題ないように、開催時刻にデータフェッチをスケジュール
-      timerId = setTimeout(() => {
-        isBeforeEventStart.value = false
-        isLoading.value = false
-        fetchCrowdData()
-      }, msUntilStart)
-      isLoading.value = false // 開催期間前である表示を出すため、ローディングを即解除
-      return
-    }
-    if (timerId !== null) {
-      clearTimeout(timerId)
-      timerId = null
-    }
-    fetchCrowdData()
-  })
-
-  onUnmounted(() => {
-    if (timerId !== null) clearTimeout(timerId)
-  })
-
-  return { isLoading, isError, crowdLevel, fetchCrowdData }
-}
 ````
 
 ## File: layers/main/app/composables/useMockCrowdData.ts
@@ -8028,6 +7931,103 @@ import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
     }
 }
 </style>
+````
+
+## File: layers/main/app/composables/useCrowdData.ts
+````typescript
+type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
+
+// FIXME: 本APIでは建物別にvalueがあるので、要変更
+interface ReadResponse {
+  timestamp: string
+  value: CrowdLevel
+}
+
+let timerId: ReturnType<typeof setTimeout> | null = null
+let isFetching = false // Fetch実行中フラグ（開発者ツールを用いたリトライ攻撃対策）
+let retryCount = 0
+
+// 開催日時を指定
+const EVENT_START = new Date('2026-06-01T00:00:00+09:00')
+
+export function isBeforeEvent(): boolean {
+  return new Date() < EVENT_START
+}
+
+export function useCrowdData() {
+  const crowdData = ref<ReadResponse | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+  const isBeforeEventStart = ref(isBeforeEvent()) // 開催期間外はデータフェッチ自体させたくないため、フロントエンド側でも開催期間外フラグを用意している。
+
+  // データフェッチの仕様
+  const NORMAL_INTERVAL_MS = 5 * 60 * 1000
+  const RETRY_INTERVAL_MS = 30 * 1000
+  const MAX_RETRY_COUNT = 5
+
+  const crowdLevel = computed<CrowdLevel | null>(() => {
+    if (isBeforeEventStart.value) return 0 // 念のため、開催期間外は強制的に0
+    return crowdData.value?.value ?? null
+  })
+
+  async function fetchCrowdData() {
+    if (isBeforeEventStart.value) return // 開催前はfetchしない
+    if (isFetching) return // fetchの多重実行を防ぐ
+    isFetching = true
+
+    try {
+      const res = await fetch('/external/read')
+      if (!res.ok) throw new Error()
+      crowdData.value = await res.json()
+      isError.value = false
+      retryCount = 0
+      schedule(NORMAL_INTERVAL_MS)
+    } catch (e) {
+      if (import.meta.dev) {
+        console.error('混雑情報の取得に失敗しました', e)
+      }
+      isError.value = true
+      if (retryCount < MAX_RETRY_COUNT) {
+        retryCount++
+        schedule(RETRY_INTERVAL_MS)
+      }
+    } finally {
+      isLoading.value = false
+      isFetching = false
+    }
+  }
+
+  function schedule(ms: number) {
+    if (timerId !== null) clearTimeout(timerId)
+    timerId = setTimeout(fetchCrowdData, ms)
+  }
+
+  onMounted(() => {
+    if (isBeforeEventStart.value) {
+      const msUntilStart = EVENT_START.getTime() - Date.now()
+
+      // ページ表示中にイベント開催日時に到達しても問題ないように、開催時刻にデータフェッチをスケジュール
+      timerId = setTimeout(() => {
+        isBeforeEventStart.value = false
+        isLoading.value = false
+        fetchCrowdData()
+      }, msUntilStart)
+      isLoading.value = false // 開催期間前である表示を出すため、ローディングを即解除
+      return
+    }
+    if (timerId !== null) {
+      clearTimeout(timerId)
+      timerId = null
+    }
+    fetchCrowdData()
+  })
+
+  onUnmounted(() => {
+    if (timerId !== null) clearTimeout(timerId)
+  })
+
+  return { isLoading, isError, crowdLevel, fetchCrowdData }
+}
 ````
 
 ## File: layers/main/app/assets/styles/_common.scss
