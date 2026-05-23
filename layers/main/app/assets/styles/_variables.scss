@@ -20,6 +20,32 @@ $navy-2: #19477f; // Line
 $white: #fff;
 $white-1: rgba(#fff, 0.7);
 
+/* vket color palette */
+$vket-dark-navy: #0f1b2e;
+$vket-cyan: #00d9ff;
+$vket-magenta: #ff006e;
+$vket-amber: #ffa500;
+$vket-vermilion: #ff4500;
+$vket-emerald: #43ffbd;
+$vket-white: #fff;
+$vket-gray: #a0a0a0;
+$vket-dark-purple: #2d1b4e; // デザイン要件定義には「薄紫」と記載されている
+$vket-pink: #ff1493;
+$vket-yellow-green: #7fff00;
+$vket-cherry-blossom: #ffb7c5;
+$vket-rich-navy: #001a4d;
+$vket-lime: #0f0;
+$vket-orange: #ff8c00;
+$vket-light-blue: #00bfff;
+$vket-deep-navy: #0a0f1a;
+$vket-light-purple: #dda0dd;
+$vket-ice-blue: #b0e0e6;
+$vket-light-cyan: #6dd3ff;
+$vket-light-magenta: #ff82b8;
+$vket-green: #258966;
+$vket-purple: #9747ff;
+$vket-emgreen: #62d9af;
+
 /* スタイルガイドにないcolor */
 $gray-1: #d1d1d1;
 $gray-2: #505050;
@@ -48,8 +74,9 @@ $primary-color: $orange;
 $primary-hover-color: $yellow;
 $secondary-color: $blue;
 $secondary-hover-color: $pink;
-$base-background-color: $black;
-$base-font-color: $text-body;
+$base-background-color: #0f1b2e;
+$base-font-color: $vket-white;
+$sub-font-color: $vket-gray;
 $font-color-note: $text-note;
 $font-color-link: $text-link;
 $font-color-headline: $black;
@@ -62,12 +89,40 @@ $secondary-button-default-color: $blue;
 $secondary-button-active-color: $pink;
 $button-disabled-color: $gray;
 
+/* early spring */
+$spring-background-color: $vket-dark-navy;
+$spring-accent-color-1: $vket-pink;
+$spring-accent-color-2: $vket-yellow-green;
+$spring-accent-color-3: $vket-cherry-blossom;
+
+/* summer */
+$summer-background-color: $vket-rich-navy;
+$summer-accent-color-1: $vket-lime;
+$summer-accent-color-2: $vket-orange;
+$summer-accent-color-3: $vket-light-blue;
+
+/* autumn */
+$autumn-background-color: $vket-dark-navy;
+$autumn-accent-color-1: $vket-cyan;
+$autumn-accent-color-2: $vket-magenta;
+$autumn-accent-color-3: $vket-vermilion;
+
+/* winter */
+$winter-background-color: $vket-deep-navy;
+$winter-accent-color-1: $vket-white;
+$winter-accent-color-2: $vket-light-purple;
+$winter-accent-color-3: $vket-ice-blue;
+
 /* font-settings */
 // 参考： https://ics.media/entry/200317/
-$base-font-family: 'Segoe UI', 'Helvetica Neue', helvetica, arial, 'メイリオ',
-  'ヒラギノ角ゴシック', 'Noto sans JP', 'Segoe UI', '游ゴシック', sans-serif;
+$base-font-family: 'Noto Sans JP', '游ゴシック', sans-serif;
 $base-font-weight: 400;
 $base-font-size: 16px;
+$h1-font-size: 4rem;
+$h2-font-size: 3rem;
+$h3-font-size: 2rem;
+$body-font-size: 1rem;
+$caption-font-size: 14px; // FIXME: base-font-sizeを10pxとして1.4remとすべきかもしれない。レスポンシブ対応によるbase-font-sizeの変動についてデザイナーに仕様を確認してフォントサイズの管理方法を決める。
 
 /* content width */
 $pc-content-max-width: 1920px;
@@ -91,6 +146,13 @@ $mypage-header-height-sp: 72px;
 /* space-settings */
 $space-base: 16px;
 $space-unit: 4px;
+
+/* vket space settings */
+$margin-between-sections-pc: 80px;
+$margin-between-sections-tablet: 60px;
+$margin-between-sections-sp: 40px;
+$padding-card-pc: 24px;
+$padding-card-sp: 16px;
 
 @function space($value) {
   @return $value * $space-unit;

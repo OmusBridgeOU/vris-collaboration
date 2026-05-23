@@ -41,13 +41,11 @@
       />
     </template>
   </Head>
-  <div class="app">
+  <Body class="app">
     <NuxtLayout>
-      <NuxtRouteAnnouncer />
-      <NuxtWelcome />
       <NuxtPage />
     </NuxtLayout>
-  </div>
+  </Body>
 </template>
 
 <script lang="ts" setup>
