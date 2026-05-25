@@ -1,7 +1,7 @@
 // app/test/composables/useCrowdData.spec.ts
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
 
-const EVENT_START = new Date('2026-06-01T00:00:00+09:00') // 本番コードと同じ開催日時
+const EVENT_START = new Date('2026-06-15T00:00:00+09:00') // 本番コードと同じ開催日時
 
 // EVENT_STARTを基準に前後の日時を生成
 const BEFORE_EVENT = new Date(EVENT_START.getTime() - 1000) // 1秒前
@@ -64,9 +64,7 @@ describe('crowdLevel（computed）', () => {
     ))
     const { useCrowdData } = await importFresh()
     const { crowdLevel, fetchCrowdData } = useCrowdData()
-
     await fetchCrowdData()
-
     expect(crowdLevel.value).toBe(1)
   })
 
@@ -80,9 +78,7 @@ describe('crowdLevel（computed）', () => {
     ))
     const { useCrowdData } = await importFresh()
     const { crowdLevel, fetchCrowdData } = useCrowdData()
-
     await fetchCrowdData()
-
     expect(crowdLevel.value).toBe(2)
   })
 
@@ -96,14 +92,13 @@ describe('crowdLevel（computed）', () => {
     ))
     const { useCrowdData } = await importFresh()
     const { crowdLevel, fetchCrowdData } = useCrowdData()
-
     await fetchCrowdData()
-
     expect(crowdLevel.value).toBe(3)
   })
 })
 
 // データフェッチの仕様は適切か
+// NOTE: 仕様変更に合わせてテストコードも修正する必要がある
 describe('リトライ制御', () => {
   beforeEach(() => vi.useFakeTimers())
   afterEach(() => {
@@ -124,7 +119,39 @@ describe('リトライ制御', () => {
     expect(isError.value).toBe(true)
   })
 
-  test('APIエラーが MAX_RETRY_COUNT(5) 回を超えてもfetchは6回以上呼ばれない', async () => {
+  test('APIエラーがMAX_RETRY_COUNT(5)回に達したときisErrorがtrueになる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({ ok: false }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { isError, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+    for (let i = 0; i < 5; i++) {
+      await vi.advanceTimersByTimeAsync(30_000)
+    }
+
+    expect(isError.value).toBe(true)
+  })
+
+  test('APIエラーがMAX_RETRY_COUNT(5)回に達したときisLoadingがfalseになる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({ ok: false }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { isLoading, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+    for (let i = 0; i < 5; i++) {
+      await vi.advanceTimersByTimeAsync(30_000)
+    }
+
+    expect(isLoading.value).toBe(false)
+  })
+
+  test('APIエラーがMAX_RETRY_COUNT(5)回を超えてもfetchは6回以上呼ばれない', async () => {
     vi.setSystemTime(AFTER_EVENT)
     const fetchMock = vi.fn(() => Promise.resolve({ ok: false }))
     vi.stubGlobal('fetch', fetchMock)
@@ -132,17 +159,14 @@ describe('リトライ制御', () => {
     const { useCrowdData } = await importFresh()
     const { fetchCrowdData } = useCrowdData()
 
-    // 初回実行
     await fetchCrowdData()
     expect(fetchMock).toHaveBeenCalledTimes(1)
 
-    // リトライ5回分：タイマーを30秒進める*5回
     for (let i = 0; i < 5; i++) {
-      await vi.advanceTimersByTimeAsync(30_000) // RETRY_INTERVAL_MS = 30秒
+      await vi.advanceTimersByTimeAsync(30_000)
     }
     expect(fetchMock).toHaveBeenCalledTimes(6)
 
-    // さらに30秒進めてもフェッチは実行されないか
     await vi.advanceTimersByTimeAsync(30_000)
     expect(fetchMock).toHaveBeenCalledTimes(6)
   })

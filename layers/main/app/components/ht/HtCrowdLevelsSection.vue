@@ -11,23 +11,12 @@ const { isLoading, isError, crowdLevel } = useCrowdData()
     title="混雑状況"
     label="crowd-levels"
   />
-  <p
-    v-if="isLoading"
-    data-testid="crowd-loading"
-  >
-    読み込み中...
-  </p>
-  <p
-    v-else-if="isError"
-    data-testid="crowd-error"
-  >
-    混雑状況を取得できませんでした
-  </p>
   <div class="crowd-levels__grid">
     <HmCrowdLevelCard
       label="メイン会場"
       name="アスティーホール"
       :building="1"
+      :is-error="isError"
       :is-loading="isLoading"
       :crowd-level="crowdLevel"
     />
@@ -35,6 +24,7 @@ const { isLoading, isError, crowdLevel } = useCrowdData()
       label="サブ会場"
       name="Deep-tech CORE SAPPORO"
       :building="2"
+      :is-error="isError"
       :is-loading="isLoading"
       :crowd-level="crowdLevel"
     />

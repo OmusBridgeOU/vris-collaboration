@@ -60,11 +60,13 @@ layers/
       components/
         ha/
           buildings/
+            HaAstyError.vue
             HaAstyLevel1.vue
             HaAstyLevel2.vue
             HaAstyLevel3.vue
             HaAstyLoading.vue
             HaAstyUnable.vue
+            HaDTCError.vue
             HaDTCLevel1.vue
             HaDTCLevel2.vue
             HaDTCLevel3.vue
@@ -110,6 +112,7 @@ layers/
           HaInfoCard.vue
           HaQuickAccessCard.vue
           HaSectionTitle.vue
+          HaShimmer.vue
           HaSponsorCard.vue
           HaSwiperCard.vue
           HaTicketCard.vue
@@ -219,42 +222,314 @@ layers/
 
 # Files
 
-## File: layers/main/app/test/e2e/visual/nuxtContent.spec.ts
-````typescript
-// app/test/e2e/visual/pages.spec.ts
-import { test, expect } from '@playwright/test'
-
-// テスト対象となるページ: nuxtContentを使用しているページ
-const PAGES = [
-  { name: 'terms', path: '/documents/terms' },
-  { name: 'policy', path: '/documents/policy' },
-]
-
-for (const { name, path } of PAGES) {
-  test(`${name}: ページの表示がベース画像と一致する`, async ({ page }) => {
-    await page.goto(path)
-    await page.waitForLoadState('networkidle')
-
-    await expect(page).toHaveScreenshot(`${name}.png`, {
-      maxDiffPixelRatio: 0.02,
-      fullPage: true,
-    })
-  })
-}
+## File: layers/main/app/components/ha/buildings/HaAstyError.vue
+````vue
+<template>
+  <svg
+    viewBox="0 0 269 173"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      width="159.096"
+      height="85.5081"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8297 110.497)"
+      fill="url(#paint0_linear_645_898)"
+    />
+    <path
+      d="M24.0251 125.026V110.491L97.8948 153.093V167.626L24.0251 125.026Z"
+      fill="url(#paint1_linear_645_898)"
+    />
+    <path
+      d="M97.8948 153.289V167.626L235.472 88.2839V73.9473L97.8948 153.289Z"
+      fill="url(#paint2_linear_645_898)"
+    />
+    <g filter="url(#filter0_f_645_898)">
+      <rect
+        width="167.407"
+        height="93.9689"
+        transform="matrix(0.866044 -0.499967 0.866044 0.499967 21.0938 104.792)"
+        fill="#ACBABF"
+        fill-opacity="0.25"
+      />
+    </g>
+    <rect
+      width="158.315"
+      height="85.0886"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8163 99.8572)"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M234.615 56.2449L170.871 93.0447H24.1425L23.8163 92.8562L160.925 13.7039L234.615 56.2449Z"
+      fill="#D8E8EE"
+    />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M97.3235 142.321C97.314 142.297 97.307 142.272 97.3069 142.245V135.438C97.3069 135.411 97.3138 135.386 97.3235 135.361V142.321ZM234.315 56.3036C234.38 56.266 234.46 56.266 234.526 56.3036C234.591 56.3413 234.631 56.4109 234.631 56.4862V63.2929C234.631 63.368 234.591 63.438 234.526 63.4755L183.252 93.0448H170.606L234.315 56.3036Z"
+      fill="#C2D0D3"
+    />
+    <path
+      d="M170.883 100.045H23.8163V93.0449H183.163L170.883 100.045Z"
+      fill="#C2D0D3"
+    />
+    <defs>
+      <filter
+        id="filter0_f_645_898"
+        x="0"
+        y="0"
+        width="268.551"
+        height="172.867"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="10.5469"
+          result="effect1_foregroundBlur_645_898"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_645_898"
+        x1="79.5479"
+        y1="85.5081"
+        x2="79.5479"
+        y2="0"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
+      </linearGradient>
+      <linearGradient
+        id="paint1_linear_645_898"
+        x1="60.96"
+        y1="167.626"
+        x2="60.96"
+        y2="110.491"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
+      </linearGradient>
+      <linearGradient
+        id="paint2_linear_645_898"
+        x1="166.684"
+        y1="167.626"
+        x2="166.684"
+        y2="73.9473"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
 ````
 
-## File: layers/main/playwright.config.ts
-````typescript
-// playwright.config.ts（nuxt.config.ts と同じ階層に置く）
-import { defineConfig } from '@playwright/test'
+## File: layers/main/app/components/ha/buildings/HaDTCError.vue
+````vue
+<template>
+  <svg
+    viewBox="0 0 288 187"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M44.5447 93.7966C44.4581 93.7479 44.3515 93.7488 44.2654 93.7986C44.1786 93.8489 44.1248 93.9414 44.1248 94.0417V114.476C44.1248 114.577 44.1793 114.67 44.2664 114.72L143.281 171.75L144.613 172.522C144.63 172.598 144.677 172.665 144.746 172.705C144.833 172.755 144.94 172.755 145.027 172.705L226.264 125.479L243.539 115.526L243.457 115.477C243.52 115.424 243.558 115.347 243.558 115.263V94.7078L243.802 94.5681L243.487 94.3845C243.467 94.3622 243.444 94.3423 243.418 94.3269C243.392 94.3118 243.363 94.3017 243.335 94.2957L143.837 36.4753L44.5447 93.7966Z"
+      fill="url(#paint0_linear_640_747)"
+    />
+    <g filter="url(#filter0_f_640_747)">
+      <path
+        d="M259.803 91.5139L137.927 28.1251L28.125 91.5139L146.982 158.001L259.803 91.5139Z"
+        fill="#ACBABF"
+        fill-opacity="0.25"
+      />
+    </g>
+    <path
+      d="M244.848 86.1103L144.605 27.9248L45.7041 85.0608L145.922 143.108L244.848 86.1103Z"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M46.2063 74.4588L145.938 132.224L244.624 75.1526L145.145 17.3414L46.2063 74.4588Z"
+      fill="#D8E8EE"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M244.586 85.8477V75.1499L146.194 132.09V143.046L244.586 85.8477Z"
+      fill="#C2D0D3"
+      stroke="#ACBABF"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M145.932 132.09V142.784L45.7146 85.061V74.6301L145.932 132.09Z"
+      fill="#C2D0D3"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <defs>
+      <filter
+        id="filter0_f_640_747"
+        x="0"
+        y="0"
+        width="287.928"
+        height="186.126"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="14.0625"
+          result="effect1_foregroundBlur_640_747"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_640_747"
+        x1="143.963"
+        y1="172.742"
+        x2="143.963"
+        y2="36.4753"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
 
-export default defineConfig({
-  testDir: './app/test/e2e',
-  snapshotDir: './app/test/e2e/snapshots',
-  use: {
-    baseURL: 'http://localhost:3000',
+## File: layers/main/app/components/ha/HaShimmer.vue
+````vue
+<template>
+  <component
+    :is="as"
+    class="shimmer-wrap"
+    :class="{ 'shimmer-wrap--loading': loading }"
+    :style="{
+      minHeight: loading ? minHeight : undefined,
+      minWidth: loading ? minWidth : undefined,
+    }"
+  >
+    <slot />
+    <div
+      v-if="loading"
+      class="shimmer"
+    />
+  </component>
+</template>
+
+<script setup lang="ts">
+withDefaults(
+  defineProps<{
+    loading: boolean
+    as?: string
+    minHeight?: string
+    minWidth?: string
+  }>(),
+  {
+    as: 'div',
+    minHeight: '1em',
+    minWidth: '4em',
   },
-})
+)
+</script>
+
+<style scoped lang="scss">
+.shimmer-wrap {
+  position: relative;
+
+  &--loading {
+    visibility: hidden;
+
+    > .shimmer {
+      visibility: visible;
+    }
+  }
+}
+
+.shimmer {
+  pointer-events: none;
+
+  position: absolute;
+  z-index: calc(var(--parent-z, 0) + 1);
+  inset: 0;
+
+  border-radius: inherit;
+
+  background: linear-gradient(
+    90deg,
+    rgb(217 217 217 / 100%) 0%,
+    rgb(200 200 200 / 100%) 40%,
+    rgb(232 232 232 / 100%) 50%,
+    rgb(200 200 200 / 100%) 60%,
+    rgb(217 217 217 / 100%) 100%
+  );
+  background-size: 200% 100%;
+
+  animation: shimmer 1.6s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+</style>
 ````
 
 ## File: layers/main/@types/auto-imports.d.ts
@@ -1209,49 +1484,47 @@ img {
     <rect
       width="159.096"
       height="85.5081"
-      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8296 110.497)"
-      fill="url(#paint0_linear_645_914)"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8297 110.497)"
+      fill="url(#paint0_linear_690_685)"
     />
     <path
-      d="M24.0251 125.026V110.491L97.8947 153.093V167.626L24.0251 125.026Z"
-      fill="url(#paint1_linear_645_914)"
+      d="M24.0251 125.026V110.491L97.8948 153.093V167.626L24.0251 125.026Z"
+      fill="url(#paint1_linear_690_685)"
     />
     <path
       d="M97.8948 153.289V167.626L235.472 88.2839V73.9473L97.8948 153.289Z"
-      fill="url(#paint2_linear_645_914)"
+      fill="url(#paint2_linear_690_685)"
     />
-    <g filter="url(#filter0_f_645_914)">
+    <g filter="url(#filter0_f_690_685)">
       <rect
         width="167.407"
         height="93.9689"
         transform="matrix(0.866044 -0.499967 0.866044 0.499967 21.0938 104.792)"
-        fill="#9747FF"
+        fill="#ACBABF"
         fill-opacity="0.25"
       />
     </g>
     <rect
       width="158.315"
       height="85.0886"
-      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8162 99.8572)"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8163 99.8572)"
       fill="#D9D9D9"
     />
     <path
-      d="M234.615 56.2449L170.871 93.0447H24.1424L23.8162 92.8562L160.925 13.7039L234.615 56.2449Z"
-      fill="#EEE0FF"
+      d="M234.615 56.2449L170.871 93.0447H24.1425L23.8163 92.8562L160.925 13.7039L234.615 56.2449Z"
+      fill="#D9D9D9"
     />
     <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M97.3234 142.321C97.3139 142.296 97.3069 142.271 97.3068 142.244V135.438C97.3068 135.411 97.3137 135.385 97.3234 135.361V142.321ZM234.315 56.3031C234.38 56.2655 234.46 56.2655 234.526 56.3031C234.591 56.3407 234.631 56.4104 234.631 56.4857V63.2923C234.631 63.3676 234.591 63.4374 234.526 63.475L183.251 93.0453H170.604L234.315 56.3031Z"
-      fill="#C9BED7"
+      d="M97.3235 142.321C97.314 142.297 97.307 142.272 97.3069 142.245V135.438C97.3069 135.411 97.3138 135.386 97.3235 135.361V142.321ZM234.315 56.3037C234.38 56.2661 234.46 56.2661 234.526 56.3037C234.591 56.3414 234.631 56.411 234.631 56.4863V63.293C234.631 63.3681 234.591 63.438 234.526 63.4756L183.252 93.0449H170.606L234.315 56.3037Z"
+      fill="#D9D9D9"
     />
     <path
-      d="M170.883 100.045H23.8162V93.0449H183.163L170.883 100.045Z"
-      fill="#C9BED7"
+      d="M170.883 100.045H23.8163V93.0449H183.163L170.883 100.045Z"
+      fill="#D9D9D9"
     />
     <defs>
       <filter
-        id="filter0_f_645_914"
+        id="filter0_f_690_685"
         x="0"
         y="0"
         width="268.551"
@@ -1271,11 +1544,11 @@ img {
         />
         <feGaussianBlur
           stdDeviation="10.5469"
-          result="effect1_foregroundBlur_645_914"
+          result="effect1_foregroundBlur_690_685"
         />
       </filter>
       <linearGradient
-        id="paint0_linear_645_914"
+        id="paint0_linear_690_685"
         x1="79.5479"
         y1="85.5081"
         x2="79.5479"
@@ -1293,10 +1566,10 @@ img {
         />
       </linearGradient>
       <linearGradient
-        id="paint1_linear_645_914"
-        x1="60.9599"
+        id="paint1_linear_690_685"
+        x1="60.96"
         y1="167.626"
-        x2="60.9599"
+        x2="60.96"
         y2="110.491"
         gradientUnits="userSpaceOnUse"
       >
@@ -1311,10 +1584,10 @@ img {
         />
       </linearGradient>
       <linearGradient
-        id="paint2_linear_645_914"
-        x1="166.683"
+        id="paint2_linear_690_685"
+        x1="166.684"
         y1="167.626"
-        x2="166.683"
+        x2="166.684"
         y2="73.9473"
         gradientUnits="userSpaceOnUse"
       >
@@ -1753,44 +2026,41 @@ img {
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      d="M44.5447 93.7966C44.4581 93.7479 44.3516 93.7488 44.2654 93.7986C44.1786 93.8489 44.1248 93.9414 44.1248 94.0417V114.476C44.1249 114.577 44.1793 114.67 44.2664 114.72L143.281 171.75L144.613 172.522C144.63 172.598 144.677 172.665 144.746 172.705C144.833 172.755 144.94 172.755 145.027 172.705L226.264 125.479L243.539 115.526L243.457 115.477C243.52 115.424 243.558 115.347 243.558 115.263V94.7078L243.802 94.5681L243.487 94.3845C243.467 94.3622 243.444 94.3423 243.418 94.3269C243.392 94.3118 243.364 94.3017 243.335 94.2957L143.837 36.4753L44.5447 93.7966Z"
-      fill="url(#paint0_linear_640_762)"
+      d="M44.5447 93.7959C44.4581 93.7471 44.3516 93.748 44.2654 93.7979C44.1786 93.8482 44.1248 93.9407 44.1248 94.041V114.476C44.1249 114.576 44.1793 114.67 44.2664 114.72L143.281 171.749L144.613 172.521C144.63 172.597 144.677 172.664 144.746 172.704C144.833 172.754 144.94 172.754 145.027 172.704L226.264 125.479L243.539 115.525L243.457 115.477C243.52 115.424 243.558 115.346 243.558 115.263V94.707L243.802 94.5674L243.487 94.3838C243.467 94.3614 243.444 94.3416 243.418 94.3262C243.392 94.3111 243.364 94.3009 243.335 94.2949L143.837 36.4746L44.5447 93.7959Z"
+      fill="url(#paint0_linear_690_720)"
     />
-    <g filter="url(#filter0_f_640_762)">
+    <g filter="url(#filter0_f_690_720)">
       <path
-        d="M259.803 91.5139L137.927 28.1251L28.125 91.5139L146.982 158.001L259.803 91.5139Z"
-        fill="#9747FF"
+        d="M259.803 91.5137L137.927 28.1248L28.125 91.5137L146.982 158.001L259.803 91.5137Z"
+        fill="#ACBABF"
         fill-opacity="0.25"
       />
     </g>
     <path
-      d="M244.848 86.1103L144.605 27.9248L45.7042 85.0608L145.922 143.108L244.848 86.1103Z"
+      d="M244.848 86.1098L144.605 27.9243L45.7042 85.0603L145.922 143.108L244.848 86.1098Z"
       fill="#D9D9D9"
     />
     <path
-      d="M46.2064 74.4588L145.938 132.224L244.624 75.1526L145.145 17.3414L46.2064 74.4588Z"
-      fill="#EEE0FF"
+      d="M46.2064 74.458L145.938 132.223L244.624 75.1518L145.145 17.3407L46.2064 74.458Z"
+      fill="#D9D9D9"
       stroke="#D9D9D9"
       stroke-width="0.5625"
       stroke-linejoin="round"
     />
     <path
-      d="M244.586 85.8477V75.1499L146.194 132.09V143.046L244.586 85.8477Z"
-      fill="#C9BED7"
-      stroke="#ACBABF"
-      stroke-width="0.5625"
-      stroke-linejoin="round"
+      d="M244.586 85.8473V75.1494L146.194 132.089V143.045L244.586 85.8473Z"
+      fill="#D9D9D9"
     />
     <path
-      d="M145.932 132.09V142.784L45.7147 85.061V74.6301L145.932 132.09Z"
-      fill="#C9BED7"
+      d="M145.932 132.089V142.783L45.7147 85.0602V74.6294L145.932 132.089Z"
+      fill="#D9D9D9"
       stroke="#D9D9D9"
       stroke-width="0.5625"
       stroke-linejoin="round"
     />
     <defs>
       <filter
-        id="filter0_f_640_762"
+        id="filter0_f_690_720"
         x="0"
         y="0"
         width="287.928"
@@ -1810,15 +2080,15 @@ img {
         />
         <feGaussianBlur
           stdDeviation="14.0625"
-          result="effect1_foregroundBlur_640_762"
+          result="effect1_foregroundBlur_690_720"
         />
       </filter>
       <linearGradient
-        id="paint0_linear_640_762"
+        id="paint0_linear_690_720"
         x1="143.963"
         y1="172.742"
         x2="143.963"
-        y2="36.4753"
+        y2="36.4746"
         gradientUnits="userSpaceOnUse"
       >
         <stop
@@ -3112,7 +3382,7 @@ test('fetcher', () => {
 // app/test/composables/useCrowdData.spec.ts
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
 
-const EVENT_START = new Date('2026-06-01T00:00:00+09:00') // 本番コードと同じ開催日時
+const EVENT_START = new Date('2026-06-15T00:00:00+09:00') // 本番コードと同じ開催日時
 
 // EVENT_STARTを基準に前後の日時を生成
 const BEFORE_EVENT = new Date(EVENT_START.getTime() - 1000) // 1秒前
@@ -3175,9 +3445,7 @@ describe('crowdLevel（computed）', () => {
     ))
     const { useCrowdData } = await importFresh()
     const { crowdLevel, fetchCrowdData } = useCrowdData()
-
     await fetchCrowdData()
-
     expect(crowdLevel.value).toBe(1)
   })
 
@@ -3191,9 +3459,7 @@ describe('crowdLevel（computed）', () => {
     ))
     const { useCrowdData } = await importFresh()
     const { crowdLevel, fetchCrowdData } = useCrowdData()
-
     await fetchCrowdData()
-
     expect(crowdLevel.value).toBe(2)
   })
 
@@ -3207,14 +3473,13 @@ describe('crowdLevel（computed）', () => {
     ))
     const { useCrowdData } = await importFresh()
     const { crowdLevel, fetchCrowdData } = useCrowdData()
-
     await fetchCrowdData()
-
     expect(crowdLevel.value).toBe(3)
   })
 })
 
 // データフェッチの仕様は適切か
+// NOTE: 仕様変更に合わせてテストコードも修正する必要がある
 describe('リトライ制御', () => {
   beforeEach(() => vi.useFakeTimers())
   afterEach(() => {
@@ -3235,7 +3500,39 @@ describe('リトライ制御', () => {
     expect(isError.value).toBe(true)
   })
 
-  test('APIエラーが MAX_RETRY_COUNT(5) 回を超えてもfetchは6回以上呼ばれない', async () => {
+  test('APIエラーがMAX_RETRY_COUNT(5)回に達したときisErrorがtrueになる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({ ok: false }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { isError, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+    for (let i = 0; i < 5; i++) {
+      await vi.advanceTimersByTimeAsync(30_000)
+    }
+
+    expect(isError.value).toBe(true)
+  })
+
+  test('APIエラーがMAX_RETRY_COUNT(5)回に達したときisLoadingがfalseになる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({ ok: false }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { isLoading, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+    for (let i = 0; i < 5; i++) {
+      await vi.advanceTimersByTimeAsync(30_000)
+    }
+
+    expect(isLoading.value).toBe(false)
+  })
+
+  test('APIエラーがMAX_RETRY_COUNT(5)回を超えてもfetchは6回以上呼ばれない', async () => {
     vi.setSystemTime(AFTER_EVENT)
     const fetchMock = vi.fn(() => Promise.resolve({ ok: false }))
     vi.stubGlobal('fetch', fetchMock)
@@ -3243,21 +3540,42 @@ describe('リトライ制御', () => {
     const { useCrowdData } = await importFresh()
     const { fetchCrowdData } = useCrowdData()
 
-    // 初回実行
     await fetchCrowdData()
     expect(fetchMock).toHaveBeenCalledTimes(1)
 
-    // リトライ5回分：タイマーを30秒進める*5回
     for (let i = 0; i < 5; i++) {
-      await vi.advanceTimersByTimeAsync(30_000) // RETRY_INTERVAL_MS = 30秒
+      await vi.advanceTimersByTimeAsync(30_000)
     }
     expect(fetchMock).toHaveBeenCalledTimes(6)
 
-    // さらに30秒進めてもフェッチは実行されないか
     await vi.advanceTimersByTimeAsync(30_000)
     expect(fetchMock).toHaveBeenCalledTimes(6)
   })
 })
+````
+
+## File: layers/main/app/test/e2e/visual/nuxtContent.spec.ts
+````typescript
+// app/test/e2e/visual/pages.spec.ts
+import { test, expect } from '@playwright/test'
+
+// テスト対象となるページ: nuxtContentを使用しているページ
+const PAGES = [
+  { name: 'terms', path: '/documents/terms' },
+  { name: 'policy', path: '/documents/policy' },
+]
+
+for (const { name, path } of PAGES) {
+  test(`${name}: ページの表示がベース画像と一致する`, async ({ page }) => {
+    await page.goto(path)
+    await page.waitForLoadState('networkidle')
+
+    await expect(page).toHaveScreenshot(`${name}.png`, {
+      maxDiffPixelRatio: 0.02,
+      fullPage: true,
+    })
+  })
+}
 ````
 
 ## File: layers/main/app/test/utils/@types/auto-imports.d.ts
@@ -4617,6 +4935,20 @@ export default withNuxt(
 )
 ````
 
+## File: layers/main/playwright.config.ts
+````typescript
+// playwright.config.ts（nuxt.config.ts と同じ階層に置く）
+import { defineConfig } from '@playwright/test'
+
+export default defineConfig({
+  testDir: './app/test/e2e',
+  snapshotDir: './app/test/e2e/snapshots',
+  use: {
+    baseURL: 'http://localhost:3000',
+  },
+})
+````
+
 ## File: layers/main/tsconfig.json
 ````json
 {
@@ -5490,16 +5822,19 @@ defineProps<{
 ## File: layers/main/app/components/hm/HmCrowdLevelCard.vue
 ````vue
 <script lang="ts" setup>
+import HaAstyError from '../ha/buildings/HaAstyError.vue'
 import HaAstyLevel1 from '../ha/buildings/HaAstyLevel1.vue'
 import HaAstyLevel2 from '../ha/buildings/HaAstyLevel2.vue'
 import HaAstyLevel3 from '../ha/buildings/HaAstyLevel3.vue'
 import HaAstyLoading from '../ha/buildings/HaAstyLoading.vue'
 import HaAstyUnable from '../ha/buildings/HaAstyUnable.vue'
+import HaDTCError from '../ha/buildings/HaDTCError.vue'
 import HaDTCLevel1 from '../ha/buildings/HaDTCLevel1.vue'
 import HaDTCLevel2 from '../ha/buildings/HaDTCLevel2.vue'
 import HaDTCLevel3 from '../ha/buildings/HaDTCLevel3.vue'
 import HaDTCLoading from '../ha/buildings/HaDTCLoading.vue'
 import HaDTCUnable from '../ha/buildings/HaDTCUnable.vue'
+import HaShimmer from '../ha/HaShimmer.vue'
 import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
 import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
 import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
@@ -5511,6 +5846,7 @@ const props = defineProps<{
   label: string
   name: string
   isLoading: boolean
+  isError: boolean
   building: 1 | 2
   crowdLevel: CrowdLevel | null
 }>()
@@ -5530,19 +5866,19 @@ const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
 }
 
 const statusText = computed(() =>
-  props.isLoading
+  props.isLoading || props.isError
     ? '取得中'
     : props.crowdLevel !== null
       ? CROWD_LEVEL_TEXT[props.crowdLevel]
-      : '',
+      : '取得中',
 )
 
 const statusColor = computed(() =>
-  props.isLoading
-    ? 'purple'
+  props.isLoading || props.isError
+    ? 'gray'
     : props.crowdLevel !== null
       ? CROWD_LEVEL_COLOR[props.crowdLevel]
-      : '',
+      : 'gray',
 )
 
 const fillCount = computed(() => props.crowdLevel ?? 0)
@@ -5555,16 +5891,30 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
   >
     <div class="crowd-level-card__head">
       <div class="crowd-level-card__text-box">
-        <p class="crowd-level-card__label">
+        <HaShimmer
+          :loading="isLoading"
+          as="p"
+          class="crowd-level-card__label"
+        >
           {{ label }}
-        </p>
-        <p class="crowd-level-card__name">
-          {{ name }}
-        </p>
+        </HaShimmer>
+        <HaShimmer
+          :loading="isLoading"
+          as="p"
+          class="crowd-level-card__name"
+        >
+          {{
+            name
+          }}
+        </HaShimmer>
       </div>
-      <div class="crowd-level-card__status-box">
+      <HaShimmer
+        :loading="isLoading"
+        as="div"
+        class="crowd-level-card__status-box"
+      >
         <div class="crowd-level-card__icon-box">
-          <template v-if="isLoading">
+          <template v-if="isError">
             <HaPeopleIcon />
             <HaQuestionIcon />
           </template>
@@ -5588,12 +5938,13 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
         >
           {{ statusText }}
         </p>
-      </div>
+      </HaShimmer>
     </div>
     <div class="crowd-level-card__body">
       <div class="crowd-level-card__image">
         <template v-if="building == 1">
           <HaAstyLoading v-if="isLoading" />
+          <HaAstyError v-else-if="isError" />
           <template v-else>
             <HaAstyUnable v-show="statusColor == 'gray'" />
             <HaAstyLevel1 v-show="statusColor == 'emgreen'" />
@@ -5603,6 +5954,7 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
         </template>
         <template v-else-if="building == 2">
           <HaDTCLoading v-if="isLoading" />
+          <HaDTCError v-else-if="isError" />
           <template v-else>
             <HaDTCUnable v-show="statusColor == 'gray'" />
             <HaDTCLevel1 v-show="statusColor == 'emgreen'" />
@@ -5611,40 +5963,52 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
           </template>
         </template>
       </div>
-      <div class="crowd-level-card__footer">
-        <p class="crowd-level-card__text">
-          混雑状況
-        </p>
-        <div class="crowd-level-card__carousel glassy-carousel">
-          <div
-            class="crowd-level-card__carousel-inner glassy-carousel"
-            :class="`glassy-carousel crowd-level-card__carousel-inner--${
-              isLoading || fillCount == 0 || fillCount == 3
-                ? '1-1'
-                : fillCount == 1
-                  ? '1-4'
-                  : fillCount == 2
-                    ? '1-2'
+    </div>
+    <div class="crowd-level-card__footer">
+      <HaShimmer
+        :loading="isLoading"
+        as="p"
+        class="crowd-level-card__text"
+      >
+        混雑状況
+      </HaShimmer>
+      <HaShimmer
+        :loading="isLoading"
+        as="div"
+        class="crowd-level-card__carousel glassy-carousel"
+      >
+        <div
+          class="crowd-level-card__carousel-inner glassy-carousel"
+          :class="`glassy-carousel crowd-level-card__carousel-inner--${
+            isError || fillCount == 0 || fillCount == 3
+              ? '1-1'
+              : fillCount == 1
+                ? '1-4'
+                : fillCount == 2
+                  ? '1-2'
+                  : ''
+          }`"
+        />
+      </HaShimmer>
+      <HaShimmer
+        :loading="isLoading"
+        as="p"
+        class="crowd-level-card__text"
+      >
+        {{
+          isError
+            ? '取得中'
+            : fillCount == 0
+              ? '期間外'
+              : fillCount == 1
+                ? '低'
+                : fillCount == 2
+                  ? '中'
+                  : fillCount == 3
+                    ? '高'
                     : ''
-            }`"
-          />
-        </div>
-        <p class="crowd-level-card__text">
-          {{
-            isLoading
-              ? '取得中'
-              : fillCount == 0
-                ? '期間外'
-                : fillCount == 1
-                  ? '低'
-                  : fillCount == 2
-                    ? '中'
-                    : fillCount == 3
-                      ? '高'
-                      : ''
-          }}
-        </p>
-      </div>
+        }}
+      </HaShimmer>
     </div>
   </div>
 </template>
@@ -5718,6 +6082,7 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
   }
 
   &__label {
+    margin-bottom: 8px;
     font-size: 14px;
     font-weight: 700;
   }
@@ -5725,6 +6090,7 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
   &__name {
     font-size: 32px;
     font-weight: 900;
+    line-height: 1em;
   }
 
   &__icon-box {
@@ -5804,6 +6170,7 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
 
   &__text {
     width: 4em;
+    line-height: 1em;
   }
 }
 </style>
@@ -6248,23 +6615,12 @@ const { isLoading, isError, crowdLevel } = useCrowdData()
     title="混雑状況"
     label="crowd-levels"
   />
-  <p
-    v-if="isLoading"
-    data-testid="crowd-loading"
-  >
-    読み込み中...
-  </p>
-  <p
-    v-else-if="isError"
-    data-testid="crowd-error"
-  >
-    混雑状況を取得できませんでした
-  </p>
   <div class="crowd-levels__grid">
     <HmCrowdLevelCard
       label="メイン会場"
       name="アスティーホール"
       :building="1"
+      :is-error="isError"
       :is-loading="isLoading"
       :crowd-level="crowdLevel"
     />
@@ -6272,6 +6628,7 @@ const { isLoading, isError, crowdLevel } = useCrowdData()
       label="サブ会場"
       name="Deep-tech CORE SAPPORO"
       :building="2"
+      :is-error="isError"
       :is-loading="isLoading"
       :crowd-level="crowdLevel"
     />
@@ -6601,52 +6958,6 @@ definePageMeta({
   }
 }
 </style>
-````
-
-## File: layers/main/package.json
-````json
-{
-  "name": "vket-boilerplate-nuxt-main",
-  "private": true,
-  "type": "module",
-  "version": "1.0.1",
-  "packageManager": "bun@1.3.9",
-  "scripts": {
-    "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
-    "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
-    "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
-    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
-    "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
-    "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
-    "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",
-    "generate:local": "cross-env VITE_OUTPUT_ENV=local nuxt generate",
-    "preview": "nuxt preview",
-    "typecheck": "cross-env VITE_OUTPUT_ENV=local nuxt typecheck",
-    "analyze": "cross-env VITE_OUTPUT_ENV=local nuxt analyze",
-    "lint": "bun lint:eslint && bun lint:stylelint",
-    "lint:eslint": "eslint --cache --cache-strategy content './app'",
-    "lint:stylelint": "stylelint --cache --cache-strategy content './app/**/*.{css,scss,sass,vue}'",
-    "fix": "bun fix:eslint && bun fix:stylelint",
-    "fix:eslint": "eslint --cache --cache-strategy content --fix './app'",
-    "fix:stylelint": "stylelint --cache-strategy content --fix './app/**/*.{css,scss,sass,vue}'",
-    "fix-openapi-models": "baseDir='./app/models/openapi' ext='\\.ts' cmd='eslint --cache --cache-strategy content --fix ./app/models/openapi' bun exec-if-file-exists",
-    "test:ut": "cmd='vitest run --dir ./app/test' bun exec-test",
-    "test:watch": "cmd='vitest --dir ./app/test' bun exec-test",
-    "test:ui": "cmd='vitest --ui --dir ./app/test' bun exec-test",
-    "test:coverage": "cmd='vitest run --dir ./app/test --coverage' bun exec-test",
-    "test:visual":        "PLAYWRIGHT=true playwright test app/test/e2e/visual/nuxtContent.spec.ts",
-    "test:visual:update": "PLAYWRIGHT=true playwright test app/test/e2e/visual/nuxtContent.spec.ts --update-snapshots",
-    "exec-test": "baseDir='./app/test' ext='\\.spec\\.ts' bun exec-if-file-exists",
-    "exec-if-file-exists": "[ \"$(find $baseDir | grep \"${ext}$\" | wc -l)\" -gt 0 ] && $cmd || true",
-    "package-update": "bunx npm-check-updates -i",
-    "clean-install": "bun run ../../scripts/clean_install.js",
-    "allclean-install": "bun run ../../scripts/clean_install.js all"
-  },
-  "dependencies": {
-    "@nuxt/content": "^3.12.0",
-    "vket-boilerplate-nuxt-base": "workspace:*"
-  }
-}
 ````
 
 ## File: layers/main/vitest.config.mts
@@ -7335,12 +7646,58 @@ export default defineNuxtConfig({
   vite: {
     server: {
       watch: {
-        usePolling: true,
-        interval: 300,
-      }
-    }
-  }
+        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
+        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
+      },
+    },
+  },
 })
+````
+
+## File: layers/main/package.json
+````json
+{
+  "name": "vket-boilerplate-nuxt-main",
+  "private": true,
+  "type": "module",
+  "version": "1.0.1",
+  "packageManager": "bun@1.3.9",
+  "scripts": {
+    "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
+    "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
+    "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
+    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
+    "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
+    "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
+    "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",
+    "generate:local": "cross-env VITE_OUTPUT_ENV=local nuxt generate",
+    "preview": "nuxt preview",
+    "typecheck": "cross-env VITE_OUTPUT_ENV=local nuxt typecheck",
+    "analyze": "cross-env VITE_OUTPUT_ENV=local nuxt analyze",
+    "lint": "bun lint:eslint && bun lint:stylelint",
+    "lint:eslint": "eslint --cache --cache-strategy content './app'",
+    "lint:stylelint": "stylelint --cache --cache-strategy content './app/**/*.{css,scss,sass,vue}'",
+    "fix": "bun fix:eslint && bun fix:stylelint",
+    "fix:eslint": "eslint --cache --cache-strategy content --fix './app'",
+    "fix:stylelint": "stylelint --cache-strategy content --fix './app/**/*.{css,scss,sass,vue}'",
+    "fix-openapi-models": "baseDir='./app/models/openapi' ext='\\.ts' cmd='eslint --cache --cache-strategy content --fix ./app/models/openapi' bun exec-if-file-exists",
+    "test:ut": "cmd='vitest run --dir ./app/test' bun exec-test",
+    "test:watch": "cmd='vitest --dir ./app/test' bun exec-test",
+    "test:ui": "cmd='vitest --ui --dir ./app/test' bun exec-test",
+    "test:coverage": "cmd='vitest run --dir ./app/test --coverage' bun exec-test",
+    "test:visual":        "PLAYWRIGHT=true playwright test app/test/e2e/visual/nuxtContent.spec.ts",
+    "test:visual:update": "PLAYWRIGHT=true playwright test app/test/e2e/visual/nuxtContent.spec.ts --update-snapshots",
+    "exec-test": "baseDir='./app/test' ext='\\.spec\\.ts' bun exec-if-file-exists",
+    "exec-if-file-exists": "[ \"$(find $baseDir | grep \"${ext}$\" | wc -l)\" -gt 0 ] && $cmd || true",
+    "package-update": "bunx npm-check-updates -i",
+    "clean-install": "bun run ../../scripts/clean_install.js",
+    "allclean-install": "bun run ../../scripts/clean_install.js all"
+  },
+  "dependencies": {
+    "@nuxt/content": "^3.12.0",
+    "vket-boilerplate-nuxt-base": "workspace:*"
+  }
+}
 ````
 
 ## File: layers/main/app/components/ha/HaAccordionItem.vue
@@ -7948,7 +8305,7 @@ let isFetching = false // Fetch実行中フラグ（開発者ツールを用い�
 let retryCount = 0
 
 // 開催日時を指定
-const EVENT_START = new Date('2026-06-01T00:00:00+09:00')
+const EVENT_START = new Date('2026-06-15T00:00:00+09:00')
 
 export function isBeforeEvent(): boolean {
   return new Date() < EVENT_START
@@ -7962,7 +8319,7 @@ export function useCrowdData() {
 
   // データフェッチの仕様
   const NORMAL_INTERVAL_MS = 5 * 60 * 1000
-  const RETRY_INTERVAL_MS = 30 * 1000
+  const RETRY_INTERVAL_MS = 3 * 1000
   const MAX_RETRY_COUNT = 5
 
   const crowdLevel = computed<CrowdLevel | null>(() => {
@@ -8009,7 +8366,6 @@ export function useCrowdData() {
       // ページ表示中にイベント開催日時に到達しても問題ないように、開催時刻にデータフェッチをスケジュール
       timerId = setTimeout(() => {
         isBeforeEventStart.value = false
-        isLoading.value = false
         fetchCrowdData()
       }, msUntilStart)
       isLoading.value = false // 開催期間前である表示を出すため、ローディングを即解除

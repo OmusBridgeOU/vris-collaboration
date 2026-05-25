@@ -11,7 +11,7 @@ let isFetching = false // Fetch実行中フラグ（開発者ツールを用い�
 let retryCount = 0
 
 // 開催日時を指定
-const EVENT_START = new Date('2026-06-01T00:00:00+09:00')
+const EVENT_START = new Date('2026-06-15T00:00:00+09:00')
 
 export function isBeforeEvent(): boolean {
   return new Date() < EVENT_START
@@ -25,7 +25,7 @@ export function useCrowdData() {
 
   // データフェッチの仕様
   const NORMAL_INTERVAL_MS = 5 * 60 * 1000
-  const RETRY_INTERVAL_MS = 30 * 1000
+  const RETRY_INTERVAL_MS = 3 * 1000
   const MAX_RETRY_COUNT = 5
 
   const crowdLevel = computed<CrowdLevel | null>(() => {
@@ -72,7 +72,6 @@ export function useCrowdData() {
       // ページ表示中にイベント開催日時に到達しても問題ないように、開催時刻にデータフェッチをスケジュール
       timerId = setTimeout(() => {
         isBeforeEventStart.value = false
-        isLoading.value = false
         fetchCrowdData()
       }, msUntilStart)
       isLoading.value = false // 開催期間前である表示を出すため、ローディングを即解除

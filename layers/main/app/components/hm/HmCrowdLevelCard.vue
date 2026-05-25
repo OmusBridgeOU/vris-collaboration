@@ -1,14 +1,17 @@
 <script lang="ts" setup>
+import HaAstyError from '../ha/buildings/HaAstyError.vue'
 import HaAstyLevel1 from '../ha/buildings/HaAstyLevel1.vue'
 import HaAstyLevel2 from '../ha/buildings/HaAstyLevel2.vue'
 import HaAstyLevel3 from '../ha/buildings/HaAstyLevel3.vue'
 import HaAstyLoading from '../ha/buildings/HaAstyLoading.vue'
 import HaAstyUnable from '../ha/buildings/HaAstyUnable.vue'
+import HaDTCError from '../ha/buildings/HaDTCError.vue'
 import HaDTCLevel1 from '../ha/buildings/HaDTCLevel1.vue'
 import HaDTCLevel2 from '../ha/buildings/HaDTCLevel2.vue'
 import HaDTCLevel3 from '../ha/buildings/HaDTCLevel3.vue'
 import HaDTCLoading from '../ha/buildings/HaDTCLoading.vue'
 import HaDTCUnable from '../ha/buildings/HaDTCUnable.vue'
+import HaShimmer from '../ha/HaShimmer.vue'
 import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
 import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
 import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
@@ -20,6 +23,7 @@ const props = defineProps<{
   label: string
   name: string
   isLoading: boolean
+  isError: boolean
   building: 1 | 2
   crowdLevel: CrowdLevel | null
 }>()
@@ -39,19 +43,19 @@ const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
 }
 
 const statusText = computed(() =>
-  props.isLoading
+  props.isLoading || props.isError
     ? '取得中'
     : props.crowdLevel !== null
       ? CROWD_LEVEL_TEXT[props.crowdLevel]
-      : '',
+      : '取得中',
 )
 
 const statusColor = computed(() =>
-  props.isLoading
-    ? 'purple'
+  props.isLoading || props.isError
+    ? 'gray'
     : props.crowdLevel !== null
       ? CROWD_LEVEL_COLOR[props.crowdLevel]
-      : '',
+      : 'gray',
 )
 
 const fillCount = computed(() => props.crowdLevel ?? 0)
@@ -64,16 +68,30 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
   >
     <div class="crowd-level-card__head">
       <div class="crowd-level-card__text-box">
-        <p class="crowd-level-card__label">
+        <HaShimmer
+          :loading="isLoading"
+          as="p"
+          class="crowd-level-card__label"
+        >
           {{ label }}
-        </p>
-        <p class="crowd-level-card__name">
-          {{ name }}
-        </p>
+        </HaShimmer>
+        <HaShimmer
+          :loading="isLoading"
+          as="p"
+          class="crowd-level-card__name"
+        >
+          {{
+            name
+          }}
+        </HaShimmer>
       </div>
-      <div class="crowd-level-card__status-box">
+      <HaShimmer
+        :loading="isLoading"
+        as="div"
+        class="crowd-level-card__status-box"
+      >
         <div class="crowd-level-card__icon-box">
-          <template v-if="isLoading">
+          <template v-if="isError">
             <HaPeopleIcon />
             <HaQuestionIcon />
           </template>
@@ -97,12 +115,13 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
         >
           {{ statusText }}
         </p>
-      </div>
+      </HaShimmer>
     </div>
     <div class="crowd-level-card__body">
       <div class="crowd-level-card__image">
         <template v-if="building == 1">
           <HaAstyLoading v-if="isLoading" />
+          <HaAstyError v-else-if="isError" />
           <template v-else>
             <HaAstyUnable v-show="statusColor == 'gray'" />
             <HaAstyLevel1 v-show="statusColor == 'emgreen'" />
@@ -112,6 +131,7 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
         </template>
         <template v-else-if="building == 2">
           <HaDTCLoading v-if="isLoading" />
+          <HaDTCError v-else-if="isError" />
           <template v-else>
             <HaDTCUnable v-show="statusColor == 'gray'" />
             <HaDTCLevel1 v-show="statusColor == 'emgreen'" />
@@ -120,40 +140,52 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
           </template>
         </template>
       </div>
-      <div class="crowd-level-card__footer">
-        <p class="crowd-level-card__text">
-          混雑状況
-        </p>
-        <div class="crowd-level-card__carousel glassy-carousel">
-          <div
-            class="crowd-level-card__carousel-inner glassy-carousel"
-            :class="`glassy-carousel crowd-level-card__carousel-inner--${
-              isLoading || fillCount == 0 || fillCount == 3
-                ? '1-1'
-                : fillCount == 1
-                  ? '1-4'
-                  : fillCount == 2
-                    ? '1-2'
+    </div>
+    <div class="crowd-level-card__footer">
+      <HaShimmer
+        :loading="isLoading"
+        as="p"
+        class="crowd-level-card__text"
+      >
+        混雑状況
+      </HaShimmer>
+      <HaShimmer
+        :loading="isLoading"
+        as="div"
+        class="crowd-level-card__carousel glassy-carousel"
+      >
+        <div
+          class="crowd-level-card__carousel-inner glassy-carousel"
+          :class="`glassy-carousel crowd-level-card__carousel-inner--${
+            isError || fillCount == 0 || fillCount == 3
+              ? '1-1'
+              : fillCount == 1
+                ? '1-4'
+                : fillCount == 2
+                  ? '1-2'
+                  : ''
+          }`"
+        />
+      </HaShimmer>
+      <HaShimmer
+        :loading="isLoading"
+        as="p"
+        class="crowd-level-card__text"
+      >
+        {{
+          isError
+            ? '取得中'
+            : fillCount == 0
+              ? '期間外'
+              : fillCount == 1
+                ? '低'
+                : fillCount == 2
+                  ? '中'
+                  : fillCount == 3
+                    ? '高'
                     : ''
-            }`"
-          />
-        </div>
-        <p class="crowd-level-card__text">
-          {{
-            isLoading
-              ? '取得中'
-              : fillCount == 0
-                ? '期間外'
-                : fillCount == 1
-                  ? '低'
-                  : fillCount == 2
-                    ? '中'
-                    : fillCount == 3
-                      ? '高'
-                      : ''
-          }}
-        </p>
-      </div>
+        }}
+      </HaShimmer>
     </div>
   </div>
 </template>
@@ -227,6 +259,7 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
   }
 
   &__label {
+    margin-bottom: 8px;
     font-size: 14px;
     font-weight: 700;
   }
@@ -234,6 +267,7 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
   &__name {
     font-size: 32px;
     font-weight: 900;
+    line-height: 1em;
   }
 
   &__icon-box {
@@ -313,6 +347,7 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
 
   &__text {
     width: 4em;
+    line-height: 1em;
   }
 }
 </style>
