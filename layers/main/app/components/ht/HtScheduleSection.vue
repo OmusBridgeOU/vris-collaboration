@@ -1,88 +1,100 @@
 <script setup lang="ts">
 import HaSunIcon from '../ha/icons/HaSunIcon.vue'
 import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
 </script>
 
 <template>
-  <HaSectionTitle
-    title="開催スケジュール"
-    label="schedule"
-  />
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="開催スケジュール"
+      label="schedule"
+    />
 
-  <div class="schedule">
-    <div class="schedule__left">
-      <div class="schedule__icon-box">
-        <HaSunIcon />
+    <div class="schedule">
+      <div class="schedule__left">
+        <div class="schedule__icon-box">
+          <HaSunIcon />
+        </div>
+        <span class="schedule__line" />
+        <div class="schedule__icon-box">
+          <HaSunsetIcon />
+        </div>
       </div>
-      <span class="schedule__line" />
-      <div class="schedule__icon-box">
-        <HaSunsetIcon />
-      </div>
-    </div>
-    <div class="schedule__right">
-      <div class="schedule__item">
-        <p class="schedule__time">
-          10:00
-        </p>
-        <p class="schedule__content">
-          会場・受付開始
-        </p>
-      </div>
-      <div class="schedule__item">
-        <p class="schedule__time">
-          10:30
-        </p>
-        <p class="schedule__content">
-          オープニングセレモニー
-        </p>
-      </div>
-      <div class="schedule__item">
-        <p class="schedule__time">
-          11:00
-        </p>
-        <p class="schedule__content">
-          展示・即売会開始
-        </p>
-      </div>
-      <div class="schedule__item schedule__item--1h">
-        <p class="schedule__time">
-          12:00
-        </p>
-        <p class="schedule__content">
-          XR体験ブースオープン
-        </p>
-      </div>
-      <div class="schedule__item schedule__item--1h">
-        <p class="schedule__time">
-          13:00
-        </p>
-        <p class="schedule__content">
-          スペシャルトークセッション
-        </p>
-      </div>
-      <div class="schedule__item schedule__item--15h">
-        <p class="schedule__time">
-          14:30
-        </p>
-        <p class="schedule__content">
-          スペシャルトークセッション
-        </p>
-      </div>
-      <div class="schedule__item schedule__item--2h">
-        <p class="schedule__time">
-          16:00
-        </p>
-        <p class="schedule__content">
-          スペシャルライブ
-        </p>
-      </div>
-      <div class="schedule__item schedule__item--1h">
-        <p class="schedule__time">
-          18:00
-        </p>
-        <p class="schedule__content">
-          閉場
-        </p>
+      <div class="schedule__right">
+        <div class="schedule__item">
+          <p class="schedule__time">
+            10:00
+          </p>
+          <p class="schedule__content">
+            会場・受付開始
+          </p>
+        </div>
+        <div class="schedule__item">
+          <p class="schedule__time">
+            10:30
+          </p>
+          <p class="schedule__content">
+            オープニングセレモニー
+          </p>
+        </div>
+        <div class="schedule__item">
+          <p class="schedule__time">
+            11:00
+          </p>
+          <p class="schedule__content">
+            展示・即売会開始
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--1h">
+          <p class="schedule__time">
+            12:00
+          </p>
+          <p class="schedule__content">
+            XR体験ブースオープン
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--1h">
+          <p class="schedule__time">
+            13:00
+          </p>
+          <p class="schedule__content">
+            スペシャルトークセッション
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--15h">
+          <p class="schedule__time">
+            14:30
+          </p>
+          <p class="schedule__content">
+            スペシャルトークセッション
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--2h">
+          <p class="schedule__time">
+            16:00
+          </p>
+          <p class="schedule__content">
+            スペシャルライブ
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--1h">
+          <p class="schedule__time">
+            18:00
+          </p>
+          <p class="schedule__content">
+            閉場
+          </p>
+        </div>
       </div>
     </div>
   </div>

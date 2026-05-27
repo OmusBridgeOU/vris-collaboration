@@ -1,31 +1,53 @@
 <script setup lang="ts">
 import HaTicketCard from '../ha/HaTicketCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.ticket-grid__item')
+  fadeInUpStagger(Array.from(items))
+})
 </script>
 
 <template>
-  <HaSectionTitle
-    title="チケット"
-    label="tickets"
-  />
-  <p class="description description--left">
-    持続可能なイベント開催のため、<br>
-    チケット制でのご参加にご協力をお願いいたします。<br>
-    チケットは複数種類を用意予定です。
-  </p>
-  <div class="ticket-grid">
-    <HaTicketCard
-      title="チケット①"
-      desc="descriptiondescriptiondescription"
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="チケット"
+      label="tickets"
     />
-    <HaTicketCard
-      title="チケット②"
-      desc="descriptiondescriptiondescription"
-    />
-    <HaTicketCard
-      title="チケット③"
-      desc="descriptiondescriptiondescription"
-      class="ticket-grid__item--full-width"
-    />
+    <p class="description description--left">
+      持続可能なイベント開催のため、<br>
+      チケット制でのご参加にご協力をお願いいたします。<br>
+      チケットは複数種類を用意予定です。
+    </p>
+    <div
+      ref="listRef"
+      class="ticket-grid"
+    >
+      <HaTicketCard
+        title="チケット①"
+        desc="descriptiondescriptiondescription"
+        class="ticket-grid__item"
+      />
+      <HaTicketCard
+        title="チケット②"
+        desc="descriptiondescriptiondescription"
+        class="ticket-grid__item"
+      />
+      <HaTicketCard
+        title="チケット③"
+        desc="descriptiondescriptiondescription"
+        class="ticket-grid__item ticket-grid__item--full-width"
+      />
+    </div>
   </div>
 </template>
 

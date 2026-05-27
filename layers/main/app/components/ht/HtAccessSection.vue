@@ -1,15 +1,27 @@
 <script setup lang="ts">
 import HaInfoCard from '../ha/HaInfoCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
 </script>
 
 <template>
-  <HaSectionTitle
-    title="アクセス"
-    label="access"
-  />
-  <div class="access-flex">
-    <div class="access-flex__left map-container" />
-    <HaInfoCard class="access-flex__right" />
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="アクセス"
+      label="access"
+    />
+    <div class="access-flex">
+      <div class="access-flex__left map-container" />
+      <HaInfoCard class="access-flex__right" />
+    </div>
   </div>
 </template>
 

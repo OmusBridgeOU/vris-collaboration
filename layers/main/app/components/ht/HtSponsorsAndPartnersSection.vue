@@ -1,25 +1,47 @@
 <script setup lang="ts">
 import HaSponsorCard from '../ha/HaSponsorCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.sponsor-grid__child')
+  fadeInUpStagger(Array.from(items))
+})
 </script>
 
 <template>
-  <HaSectionTitle
-    title="ご協力"
-    label="SPONSORS & PARTNERS"
-  />
-  <div class="sponsor-grid">
-    <HaSponsorCard
-      label="企業出展"
-      name="〇〇〇 様"
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="ご協力"
+      label="SPONSORS & PARTNERS"
     />
-    <HaSponsorCard
-      label="企業出展"
-      name="〇〇〇 様"
-    />
-    <HaSponsorCard
-      label="企業出展"
-      name="〇〇〇 様"
-    />
+    <div
+      ref="listRef"
+      class="sponsor-grid"
+    >
+      <HaSponsorCard
+        label="企業出展"
+        name="〇〇〇 様"
+        class="sponsor-grid__child"
+      />
+      <HaSponsorCard
+        label="企業出展"
+        name="〇〇〇 様"
+        class="sponsor-grid__child"
+      />
+      <HaSponsorCard
+        label="企業出展"
+        name="〇〇〇 様"
+        class="sponsor-grid__child"
+      />
+    </div>
   </div>
 </template>
 

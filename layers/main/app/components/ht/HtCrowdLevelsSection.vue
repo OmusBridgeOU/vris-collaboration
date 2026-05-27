@@ -3,31 +3,41 @@ import HaSectionTitle from '../ha/HaSectionTitle.vue'
 import { useCrowdData } from '~/composables/useCrowdData'
 import HmCrowdLevelCard from '../hm/HmCrowdLevelCard.vue'
 
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
 const { isLoading, isError, crowdLevel } = useCrowdData()
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
 </script>
 
 <template>
-  <HaSectionTitle
-    title="混雑状況"
-    label="crowd-levels"
-  />
-  <div class="crowd-levels__grid">
-    <HmCrowdLevelCard
-      label="メイン会場"
-      name="アスティーホール"
-      :building="1"
-      :is-error="isError"
-      :is-loading="isLoading"
-      :crowd-level="crowdLevel"
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="混雑状況"
+      label="crowd-levels"
     />
-    <HmCrowdLevelCard
-      label="サブ会場"
-      name="Deep-tech CORE SAPPORO"
-      :building="2"
-      :is-error="isError"
-      :is-loading="isLoading"
-      :crowd-level="crowdLevel"
-    />
+    <div class="crowd-levels__grid">
+      <HmCrowdLevelCard
+        label="メイン会場"
+        name="アスティーホール"
+        :building="1"
+        :is-error="isError"
+        :is-loading="isLoading"
+        :crowd-level="crowdLevel"
+      />
+      <HmCrowdLevelCard
+        label="サブ会場"
+        name="Deep-tech CORE SAPPORO"
+        :building="2"
+        :is-error="isError"
+        :is-loading="isLoading"
+        :crowd-level="crowdLevel"
+      />
+    </div>
   </div>
 </template>
 
