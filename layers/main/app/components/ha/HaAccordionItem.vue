@@ -20,11 +20,11 @@ const toggle = (id: number) => {
 </script>
 
 <template>
-  <div class="accordion glassy-box-2">
+  <div class="accordion glassy-box accordion-glassy-box">
     <button
       v-for="item in items"
       :key="item.id"
-      class="accordion-item glassy-box-2"
+      class="accordion-item glassy-box accordion-glassy-box"
       :class="{ 'accordion-item--is-open': openId === item.id }"
       @click="toggle(item.id)"
     >
@@ -37,7 +37,9 @@ const toggle = (id: number) => {
             {{ item.title }}
           </p>
         </div>
-        <HaChevronDownIcon class="accordion-item__icon" />
+        <div class="accordion-item__icon">
+          <HaChevronDownIcon />
+        </div>
       </div>
 
       <div class="accordion-item__body">
@@ -56,97 +58,126 @@ const toggle = (id: number) => {
 @use '@/assets/styles/mixins' as m;
 
 .accordion {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 
-    width: 100%;
-    height: fit-content;
-    padding: 70px 48px;
+  width: 100%;
+  height: fit-content;
+  padding: 70px 48px;
 
-    @include m.tb {
-      padding: 48px 24px;
-      border-radius: 20px;
-    }
+  @include m.tb {
+    padding: 48px 24px;
+    border-radius: 20px;
+  }
+
+  @include m.sp {
+    padding: 32px 16px;
+  }
 }
 
 .accordion-item {
-    width: 100%;
-    padding: 40px;
+  width: 100%;
+  padding: 40px;
 
-    background-color: rgb(42 63 99 / 0%);
-    mix-blend-mode: plus-lighter;
+  background-color: rgb(42 63 99 / 0%);
+  mix-blend-mode: plus-lighter;
 
-    transition: background-color 1s ease;
+  transition: background-color 1s ease;
 
-    &__header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+  @include m.sp {
+    padding: 16px;
+  }
+
+  &__header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__left {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  &__label {
+    font-size: 20px;
+    font-weight: 700;
+    color: #258966;
+    white-space: nowrap;
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    text-align: left;
+
+    @include m.sp {
+      font-size: 12px;
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    transition: transform 0.3s ease;
+
+    @include m.sp {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    padding-top: 0;
+    transition: padding 0.3s ease, grid-template-rows 0.3s ease;
+  }
+
+  &__inner {
+    overflow: hidden;
+
+    padding-left: 44px;
+
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    text-align: left;
+
+    @include m.sp {
+      font-size: 12px;
+      font-weight: normal;
+    }
+  }
+
+  &--is-open {
+    background-color: rgb(42 63 99 / 60%);
+
+    .accordion-item__icon {
+      transform: rotate(180deg);
     }
 
-    &__left {
-      display: flex;
-      gap: 16px;
-      align-items: center;
+    .accordion-item__body {
+      grid-template-rows: 1fr;
+      padding-top: 80px;
+
+      @include m.sp {
+        padding-top: 32px;
+      }
     }
-
-    &__label {
-      font-size: 20px;
-      font-weight: 700;
-      color: #258966;
-    }
-
-    &__title {
-      font-size: 20px;
-      font-weight: 700;
-      color: white;
-    }
-
-    &__icon {
-      transition: transform 0.3s ease;
-    }
-
-    &__body {
-      display: grid;
-      grid-template-rows: 0fr;
-      padding-top: 0;
-      transition: padding 0.3s ease, grid-template-rows 0.3s ease;
-    }
-
-    &__inner {
-        overflow: hidden;
-
-        padding-left: 44px;
-
-        font-size: 16px;
-        font-weight: 700;
-        color: white;
-        text-align: left;
-    }
-
-    &--is-open {
-        background-color: rgb(42 63 99 / 60%);
-
-        .accordion-item__icon {
-          transform: rotate(180deg);
-        }
-
-        .accordion-item__body {
-          grid-template-rows: 1fr;
-          padding-top: 80px;
-        }
-    }
+  }
 }
 
-.glassy-box-2{
-    position: relative;
-    border-radius: 20px;
-    box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
-
-    &::before {
-      width: 100%;
-      height: 100%;
-    }
+.accordion-glassy-box {
+  box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
 }
 </style>

@@ -8,11 +8,6 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
     title="お問い合わせ"
     label="CONTACT"
   />
-  <p class="subtitle subtitle--left mb-24">
-    持続可能なイベント開催のため、<br>
-    チケット制でのご参加にご協力をお願いいたします。<br>
-    チケットは複数種類を用意予定です。
-  </p>
   <div class="Contact-grid">
     <HaContactCard
       title="個人向けお問い合わせ"
@@ -47,6 +42,7 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
@@ -56,6 +52,10 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px 24px;
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+  }
 
   &__item {
     &--full-width {

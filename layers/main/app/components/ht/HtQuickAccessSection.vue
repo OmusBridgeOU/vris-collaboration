@@ -69,14 +69,21 @@ import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
 </script>
 
 <style lang="scss" scoped>
-.grid2x {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px 20px;
+@use '@/assets/styles/mixins' as m;
 
-    &__child {
-        height: 100%;
-        min-height: 280px; // FIXME: 適当な値を入れている
-    }
+.grid2x {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 20px;
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  &__child {
+    height: 100%;
+    min-height: 280px;
+  }
 }
 </style>

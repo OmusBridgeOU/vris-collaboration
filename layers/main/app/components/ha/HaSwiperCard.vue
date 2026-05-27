@@ -13,30 +13,37 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{ item: { id: number, title: string, href: string, imgSrc: string } }>()
+defineProps<{
+  item: { id: number, title: string, href: string, imgSrc: string }
+}>()
 </script>
 
 <style lang="scss" scoped>
-/* ── カード全体 ── */
-.swiper-card {
-    cursor: pointer;
+@use '@/assets/styles/mixins' as m;
 
+.swiper-card {
+  cursor: pointer;
+
+  display: block;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+
+  @include m.tb {
+    min-height: 380px;
+  }
+
+  &__img {
     display: block;
 
-    box-sizing: border-box;
     width: 100%;
     height: 100%;
-    min-height: 500px;
 
-    &__img {
-        display: block;
+    object-fit: cover;
 
-        width: 100%;
-        height: 100%;
-
-        object-fit: cover;
-
-        transition: transform 0.2s ease;
-    }
+    transition: transform 0.2s ease;
+  }
 }
 </style>

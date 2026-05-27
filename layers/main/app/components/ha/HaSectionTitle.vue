@@ -33,6 +33,10 @@ defineProps<{
   margin-bottom: 96px;
   padding-top: 16px;
 
+  @include m.sp {
+    margin-bottom: 32px;
+  }
+
   &__line {
     position: relative;
 
@@ -67,7 +71,11 @@ defineProps<{
       height: 2px;
       margin-left: 12px;
 
-      background: linear-gradient(to right, v.$vket-amber 0%, v.$vket-vermilion 100%);
+      background: linear-gradient(
+        to right,
+        v.$vket-amber 0%,
+        v.$vket-vermilion 100%
+      );
     }
   }
 
@@ -95,6 +103,10 @@ defineProps<{
 
     @include m.tb {
       font-size: 32px;
+    }
+
+    @include m.sp {
+      font-size: 24px;
     }
   }
 

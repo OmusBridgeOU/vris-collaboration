@@ -109,6 +109,10 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
 }
 
 .card-flex {
@@ -132,6 +136,10 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     @include m.tb {
       width: 60%;
     }
+
+    @include m.sp {
+      width: 100%;
+    }
   }
 }
 
@@ -147,6 +155,10 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   .child {
     @include m.tb {
       width: 60%;
+    }
+
+    @include m.sp {
+      width: 100%;
     }
   }
 }

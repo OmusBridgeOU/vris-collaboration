@@ -11,7 +11,7 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
     title="行動規範"
     label="CODE OF CONDUCT"
   />
-  <p class="subtitle subtitle--left mb-24">
+  <p class="description description--left">
     すべての参加者が安全で楽しい時間を過ごせるよう、<br>
     以下の行動規範を守ってください。
   </p>
@@ -79,6 +79,10 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
 
 .mb-15 {
   margin-bottom: 60px;
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
 }
 
 .conduct-grid {
@@ -88,11 +92,15 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
 
   width: 100%;
   margin-right: auto;
-  margin-left:auto;
+  margin-left: auto;
 
   @include m.tb {
     grid-template-columns: 1fr;
     width: 60%;
+  }
+
+  @include m.sp {
+    width: 100%;
   }
 }
 

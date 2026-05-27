@@ -10,11 +10,10 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     title="VketReal in 札幌とは"
     label="about"
   />
-  <div
-    class="description"
-    style="width: 750px;"
-  >
-    世界最大級のメタバースイベント「バーチャルマーケット(Vket)」から派生した、「バーチャルの姿のままリアルに飛び出す！」リアルイベント。<br>北海道の有志XRクリエイターが主催し、札幌で開催します。
+  <div class="description">
+    世界最大級のメタバースイベント「バーチャルマーケット(Vket)」から派生した、「バーチャルの姿のままリアルに飛び出す！」リアルイベント。<br
+      class="sp-none"
+    >北海道の有志XRクリエイターが主催し、札幌で開催します。
   </div>
   <div class="info-flex mb-24">
     <div class="info-flex__child">
@@ -43,7 +42,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     </div>
   </div>
 
-  <div class="card-flex mb-24">
+  <div class="card-flex">
     <HaCard
       class="child"
       color="amber"
@@ -55,7 +54,8 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
         バーチャル姿のまま<br>リアルで体験
       </template>
       <template #body>
-        アバターとしての生き方を大切にする人々が<br>リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
+        アバターとしての生き方を大切にする人々が<br>
+        リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
       </template>
     </HaCard>
     <HaCard
@@ -98,6 +98,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 }
 
 .description {
+  width: 750px;
   margin: 0 auto 96px;
 
   font-size: 20px;
@@ -107,8 +108,13 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   text-align: center;
 
   @include m.tb {
-    max-width: 555px;
+    width: 555px;
     font-size: 16px;
+  }
+
+  @include m.sp {
+    width: initial;
+    font-size: 14px;
   }
 }
 
@@ -126,11 +132,11 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     align-items: center;
   }
 
-  &__child{
+  &__child {
     width: 320px;
   }
 
-  &__number{
+  &__number {
     margin-bottom: 4px;
 
     font-size: 64px;
@@ -140,24 +146,33 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     letter-spacing: normal;
     white-space: nowrap;
 
-    &--cyan{
+    @include m.sp {
+      margin-bottom: 8px;
+      font-size: 48px;
+    }
+
+    &--cyan {
       color: v.$vket-cyan;
     }
 
-    &--amber{
+    &--amber {
       color: v.$vket-amber;
     }
 
-    &--magenta{
+    &--magenta {
       color: v.$vket-magenta;
     }
   }
 
-  &__label{
+  &__label {
     font-size: 16px;
     font-weight: 400;
     color: v.$vket-emerald;
     text-align: center;
+
+    @include m.sp {
+      font-size: 10px;
+    }
   }
 }
 
@@ -181,6 +196,10 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 
     @include m.tb {
       width: 60%;
+    }
+
+    @include m.sp {
+      width: 100%;
     }
   }
 }

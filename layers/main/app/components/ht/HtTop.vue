@@ -7,6 +7,8 @@ en:
 
 <template>
   <main class="ht-top">
+    <HtHeroSection />
+
     <HaFirstView />
 
     <section id="cloud-levels">
@@ -83,6 +85,7 @@ import HtContactSection from './HtContactSection.vue'
 import HtContentsSection from './HtContentsSection.vue'
 import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
 import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
+import HtHeroSection from './HtHeroSection.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -99,7 +102,7 @@ section {
   padding: 0 136px 108px;
 
   @include m.tb {
-    padding: 0 24px 72px;
+    padding: 0 24px 84px;
   }
 }
 </style>

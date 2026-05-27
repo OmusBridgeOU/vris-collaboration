@@ -44,36 +44,11 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
 
   <HmSwiper
     ref="worksSwiperRef"
-    :_slides-per-view="2"
-    class="mb-24"
+    :_slides-per-view="1"
     :_breakpoints="{
+      768: { slidesPerView: 2 },
       1024: { slidesPerView: 2.8 },
     }"
     @slide-change="onSlideChange"
   />
 </template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.custom-swiper-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 44px;
-  height: 44px;
-  border-radius: 100px;
-
-  background-color: #1e355b;
-
-  &.is-disabled {
-    opacity: 0.6;
-    background-color: transparent;
-  }
-}
-</style>

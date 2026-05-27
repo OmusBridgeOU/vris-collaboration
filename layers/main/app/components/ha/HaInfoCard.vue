@@ -99,9 +99,7 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
 
   &__item {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-
     padding: 16px 0;
     border-bottom: 1px solid rgb(86 86 86 / 100%);
 

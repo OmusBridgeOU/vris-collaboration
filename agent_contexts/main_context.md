@@ -130,6 +130,7 @@ layers/
           HtContentsSection.vue
           HtCrowdLevelsSection.vue
           HtExhibitionSection.vue
+          HtHeroSection.vue
           HtNewsSection.vue
           HtQandASection.vue
           HtQuickAccessSection.vue
@@ -207,6 +208,7 @@ layers/
         mingcute_question-line.svg
       _robots.txt
       favicon.ico
+      kv.png
     server/
       tsconfig.json
     .nuxtrc
@@ -222,311 +224,29 @@ layers/
 
 # Files
 
-## File: layers/main/app/components/ha/buildings/HaAstyError.vue
+## File: layers/main/app/components/ht/HtHeroSection.vue
 ````vue
 <template>
-  <svg
-    viewBox="0 0 269 173"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect
-      width="159.096"
-      height="85.5081"
-      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8297 110.497)"
-      fill="url(#paint0_linear_645_898)"
-    />
-    <path
-      d="M24.0251 125.026V110.491L97.8948 153.093V167.626L24.0251 125.026Z"
-      fill="url(#paint1_linear_645_898)"
-    />
-    <path
-      d="M97.8948 153.289V167.626L235.472 88.2839V73.9473L97.8948 153.289Z"
-      fill="url(#paint2_linear_645_898)"
-    />
-    <g filter="url(#filter0_f_645_898)">
-      <rect
-        width="167.407"
-        height="93.9689"
-        transform="matrix(0.866044 -0.499967 0.866044 0.499967 21.0938 104.792)"
-        fill="#ACBABF"
-        fill-opacity="0.25"
-      />
-    </g>
-    <rect
-      width="158.315"
-      height="85.0886"
-      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8163 99.8572)"
-      fill="#D9D9D9"
-    />
-    <path
-      d="M234.615 56.2449L170.871 93.0447H24.1425L23.8163 92.8562L160.925 13.7039L234.615 56.2449Z"
-      fill="#D8E8EE"
-    />
-    <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M97.3235 142.321C97.314 142.297 97.307 142.272 97.3069 142.245V135.438C97.3069 135.411 97.3138 135.386 97.3235 135.361V142.321ZM234.315 56.3036C234.38 56.266 234.46 56.266 234.526 56.3036C234.591 56.3413 234.631 56.4109 234.631 56.4862V63.2929C234.631 63.368 234.591 63.438 234.526 63.4755L183.252 93.0448H170.606L234.315 56.3036Z"
-      fill="#C2D0D3"
-    />
-    <path
-      d="M170.883 100.045H23.8163V93.0449H183.163L170.883 100.045Z"
-      fill="#C2D0D3"
-    />
-    <defs>
-      <filter
-        id="filter0_f_645_898"
-        x="0"
-        y="0"
-        width="268.551"
-        height="172.867"
-        filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
-      >
-        <feFlood
-          flood-opacity="0"
-          result="BackgroundImageFix"
-        />
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="BackgroundImageFix"
-          result="shape"
-        />
-        <feGaussianBlur
-          stdDeviation="10.5469"
-          result="effect1_foregroundBlur_645_898"
-        />
-      </filter>
-      <linearGradient
-        id="paint0_linear_645_898"
-        x1="79.5479"
-        y1="85.5081"
-        x2="79.5479"
-        y2="0"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop
-          stop-color="#565656"
-          stop-opacity="0.02"
-        />
-        <stop
-          offset="1"
-          stop-color="#BCBCBC"
-          stop-opacity="0.2"
-        />
-      </linearGradient>
-      <linearGradient
-        id="paint1_linear_645_898"
-        x1="60.96"
-        y1="167.626"
-        x2="60.96"
-        y2="110.491"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop
-          stop-color="#565656"
-          stop-opacity="0.02"
-        />
-        <stop
-          offset="1"
-          stop-color="#BCBCBC"
-          stop-opacity="0.2"
-        />
-      </linearGradient>
-      <linearGradient
-        id="paint2_linear_645_898"
-        x1="166.684"
-        y1="167.626"
-        x2="166.684"
-        y2="73.9473"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop
-          stop-color="#565656"
-          stop-opacity="0.02"
-        />
-        <stop
-          offset="1"
-          stop-color="#BCBCBC"
-          stop-opacity="0.2"
-        />
-      </linearGradient>
-    </defs>
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/buildings/HaDTCError.vue
-````vue
-<template>
-  <svg
-    viewBox="0 0 288 187"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M44.5447 93.7966C44.4581 93.7479 44.3515 93.7488 44.2654 93.7986C44.1786 93.8489 44.1248 93.9414 44.1248 94.0417V114.476C44.1248 114.577 44.1793 114.67 44.2664 114.72L143.281 171.75L144.613 172.522C144.63 172.598 144.677 172.665 144.746 172.705C144.833 172.755 144.94 172.755 145.027 172.705L226.264 125.479L243.539 115.526L243.457 115.477C243.52 115.424 243.558 115.347 243.558 115.263V94.7078L243.802 94.5681L243.487 94.3845C243.467 94.3622 243.444 94.3423 243.418 94.3269C243.392 94.3118 243.363 94.3017 243.335 94.2957L143.837 36.4753L44.5447 93.7966Z"
-      fill="url(#paint0_linear_640_747)"
-    />
-    <g filter="url(#filter0_f_640_747)">
-      <path
-        d="M259.803 91.5139L137.927 28.1251L28.125 91.5139L146.982 158.001L259.803 91.5139Z"
-        fill="#ACBABF"
-        fill-opacity="0.25"
-      />
-    </g>
-    <path
-      d="M244.848 86.1103L144.605 27.9248L45.7041 85.0608L145.922 143.108L244.848 86.1103Z"
-      fill="#D9D9D9"
-    />
-    <path
-      d="M46.2063 74.4588L145.938 132.224L244.624 75.1526L145.145 17.3414L46.2063 74.4588Z"
-      fill="#D8E8EE"
-      stroke="#D9D9D9"
-      stroke-width="0.5625"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M244.586 85.8477V75.1499L146.194 132.09V143.046L244.586 85.8477Z"
-      fill="#C2D0D3"
-      stroke="#ACBABF"
-      stroke-width="0.5625"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M145.932 132.09V142.784L45.7146 85.061V74.6301L145.932 132.09Z"
-      fill="#C2D0D3"
-      stroke="#D9D9D9"
-      stroke-width="0.5625"
-      stroke-linejoin="round"
-    />
-    <defs>
-      <filter
-        id="filter0_f_640_747"
-        x="0"
-        y="0"
-        width="287.928"
-        height="186.126"
-        filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
-      >
-        <feFlood
-          flood-opacity="0"
-          result="BackgroundImageFix"
-        />
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="BackgroundImageFix"
-          result="shape"
-        />
-        <feGaussianBlur
-          stdDeviation="14.0625"
-          result="effect1_foregroundBlur_640_747"
-        />
-      </filter>
-      <linearGradient
-        id="paint0_linear_640_747"
-        x1="143.963"
-        y1="172.742"
-        x2="143.963"
-        y2="36.4753"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop
-          stop-color="#565656"
-          stop-opacity="0.02"
-        />
-        <stop
-          offset="1"
-          stop-color="#BCBCBC"
-          stop-opacity="0.2"
-        />
-      </linearGradient>
-    </defs>
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/HaShimmer.vue
-````vue
-<template>
-  <component
-    :is="as"
-    class="shimmer-wrap"
-    :class="{ 'shimmer-wrap--loading': loading }"
-    :style="{
-      minHeight: loading ? minHeight : undefined,
-      minWidth: loading ? minWidth : undefined,
-    }"
-  >
-    <slot />
-    <div
-      v-if="loading"
-      class="shimmer"
-    />
-  </component>
+  <div class="hero">
+    <img
+      src="/kv.png"
+      alt="Vket Real in 札幌 2026 Autumnのキービジュアル"
+      class="hero__kv"
+    >
+  </div>
 </template>
 
-<script setup lang="ts">
-withDefaults(
-  defineProps<{
-    loading: boolean
-    as?: string
-    minHeight?: string
-    minWidth?: string
-  }>(),
-  {
-    as: 'div',
-    minHeight: '1em',
-    minWidth: '4em',
-  },
-)
-</script>
+<style lang="scss" scoped>
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 
-<style scoped lang="scss">
-.shimmer-wrap {
-  position: relative;
-
-  &--loading {
-    visibility: hidden;
-
-    > .shimmer {
-      visibility: visible;
-    }
-  }
-}
-
-.shimmer {
-  pointer-events: none;
-
-  position: absolute;
-  z-index: calc(var(--parent-z, 0) + 1);
-  inset: 0;
-
-  border-radius: inherit;
-
-  background: linear-gradient(
-    90deg,
-    rgb(217 217 217 / 100%) 0%,
-    rgb(200 200 200 / 100%) 40%,
-    rgb(232 232 232 / 100%) 50%,
-    rgb(200 200 200 / 100%) 60%,
-    rgb(217 217 217 / 100%) 100%
-  );
-  background-size: 200% 100%;
-
-  animation: shimmer 1.6s infinite linear;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-
-  100% {
-    background-position: -200% 0;
+  &__kv {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 </style>
@@ -1072,6 +792,141 @@ img {
 }
 ````
 
+## File: layers/main/app/components/ha/buildings/HaAstyError.vue
+````vue
+<template>
+  <svg
+    viewBox="0 0 269 173"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      width="159.096"
+      height="85.5081"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8297 110.497)"
+      fill="url(#paint0_linear_645_898)"
+    />
+    <path
+      d="M24.0251 125.026V110.491L97.8948 153.093V167.626L24.0251 125.026Z"
+      fill="url(#paint1_linear_645_898)"
+    />
+    <path
+      d="M97.8948 153.289V167.626L235.472 88.2839V73.9473L97.8948 153.289Z"
+      fill="url(#paint2_linear_645_898)"
+    />
+    <g filter="url(#filter0_f_645_898)">
+      <rect
+        width="167.407"
+        height="93.9689"
+        transform="matrix(0.866044 -0.499967 0.866044 0.499967 21.0938 104.792)"
+        fill="#ACBABF"
+        fill-opacity="0.25"
+      />
+    </g>
+    <rect
+      width="158.315"
+      height="85.0886"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8163 99.8572)"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M234.615 56.2449L170.871 93.0447H24.1425L23.8163 92.8562L160.925 13.7039L234.615 56.2449Z"
+      fill="#D8E8EE"
+    />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M97.3235 142.321C97.314 142.297 97.307 142.272 97.3069 142.245V135.438C97.3069 135.411 97.3138 135.386 97.3235 135.361V142.321ZM234.315 56.3036C234.38 56.266 234.46 56.266 234.526 56.3036C234.591 56.3413 234.631 56.4109 234.631 56.4862V63.2929C234.631 63.368 234.591 63.438 234.526 63.4755L183.252 93.0448H170.606L234.315 56.3036Z"
+      fill="#C2D0D3"
+    />
+    <path
+      d="M170.883 100.045H23.8163V93.0449H183.163L170.883 100.045Z"
+      fill="#C2D0D3"
+    />
+    <defs>
+      <filter
+        id="filter0_f_645_898"
+        x="0"
+        y="0"
+        width="268.551"
+        height="172.867"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="10.5469"
+          result="effect1_foregroundBlur_645_898"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_645_898"
+        x1="79.5479"
+        y1="85.5081"
+        x2="79.5479"
+        y2="0"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
+      </linearGradient>
+      <linearGradient
+        id="paint1_linear_645_898"
+        x1="60.96"
+        y1="167.626"
+        x2="60.96"
+        y2="110.491"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
+      </linearGradient>
+      <linearGradient
+        id="paint2_linear_645_898"
+        x1="166.684"
+        y1="167.626"
+        x2="166.684"
+        y2="73.9473"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
+
 ## File: layers/main/app/components/ha/buildings/HaAstyLevel1.vue
 ````vue
 <template>
@@ -1473,139 +1328,6 @@ img {
 </template>
 ````
 
-## File: layers/main/app/components/ha/buildings/HaAstyLoading.vue
-````vue
-<template>
-  <svg
-    viewBox="0 0 269 173"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect
-      width="159.096"
-      height="85.5081"
-      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8297 110.497)"
-      fill="url(#paint0_linear_690_685)"
-    />
-    <path
-      d="M24.0251 125.026V110.491L97.8948 153.093V167.626L24.0251 125.026Z"
-      fill="url(#paint1_linear_690_685)"
-    />
-    <path
-      d="M97.8948 153.289V167.626L235.472 88.2839V73.9473L97.8948 153.289Z"
-      fill="url(#paint2_linear_690_685)"
-    />
-    <g filter="url(#filter0_f_690_685)">
-      <rect
-        width="167.407"
-        height="93.9689"
-        transform="matrix(0.866044 -0.499967 0.866044 0.499967 21.0938 104.792)"
-        fill="#ACBABF"
-        fill-opacity="0.25"
-      />
-    </g>
-    <rect
-      width="158.315"
-      height="85.0886"
-      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8163 99.8572)"
-      fill="#D9D9D9"
-    />
-    <path
-      d="M234.615 56.2449L170.871 93.0447H24.1425L23.8163 92.8562L160.925 13.7039L234.615 56.2449Z"
-      fill="#D9D9D9"
-    />
-    <path
-      d="M97.3235 142.321C97.314 142.297 97.307 142.272 97.3069 142.245V135.438C97.3069 135.411 97.3138 135.386 97.3235 135.361V142.321ZM234.315 56.3037C234.38 56.2661 234.46 56.2661 234.526 56.3037C234.591 56.3414 234.631 56.411 234.631 56.4863V63.293C234.631 63.3681 234.591 63.438 234.526 63.4756L183.252 93.0449H170.606L234.315 56.3037Z"
-      fill="#D9D9D9"
-    />
-    <path
-      d="M170.883 100.045H23.8163V93.0449H183.163L170.883 100.045Z"
-      fill="#D9D9D9"
-    />
-    <defs>
-      <filter
-        id="filter0_f_690_685"
-        x="0"
-        y="0"
-        width="268.551"
-        height="172.867"
-        filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
-      >
-        <feFlood
-          flood-opacity="0"
-          result="BackgroundImageFix"
-        />
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="BackgroundImageFix"
-          result="shape"
-        />
-        <feGaussianBlur
-          stdDeviation="10.5469"
-          result="effect1_foregroundBlur_690_685"
-        />
-      </filter>
-      <linearGradient
-        id="paint0_linear_690_685"
-        x1="79.5479"
-        y1="85.5081"
-        x2="79.5479"
-        y2="0"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop
-          stop-color="#565656"
-          stop-opacity="0.02"
-        />
-        <stop
-          offset="1"
-          stop-color="#BCBCBC"
-          stop-opacity="0.2"
-        />
-      </linearGradient>
-      <linearGradient
-        id="paint1_linear_690_685"
-        x1="60.96"
-        y1="167.626"
-        x2="60.96"
-        y2="110.491"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop
-          stop-color="#565656"
-          stop-opacity="0.02"
-        />
-        <stop
-          offset="1"
-          stop-color="#BCBCBC"
-          stop-opacity="0.2"
-        />
-      </linearGradient>
-      <linearGradient
-        id="paint2_linear_690_685"
-        x1="166.684"
-        y1="167.626"
-        x2="166.684"
-        y2="73.9473"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop
-          stop-color="#565656"
-          stop-opacity="0.02"
-        />
-        <stop
-          offset="1"
-          stop-color="#BCBCBC"
-          stop-opacity="0.2"
-        />
-      </linearGradient>
-    </defs>
-  </svg>
-</template>
-````
-
 ## File: layers/main/app/components/ha/buildings/HaAstyUnable.vue
 ````vue
 <template>
@@ -1724,6 +1446,98 @@ img {
         y1="167.626"
         x2="166.684"
         y2="73.9473"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/buildings/HaDTCError.vue
+````vue
+<template>
+  <svg
+    viewBox="0 0 288 187"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M44.5447 93.7966C44.4581 93.7479 44.3515 93.7488 44.2654 93.7986C44.1786 93.8489 44.1248 93.9414 44.1248 94.0417V114.476C44.1248 114.577 44.1793 114.67 44.2664 114.72L143.281 171.75L144.613 172.522C144.63 172.598 144.677 172.665 144.746 172.705C144.833 172.755 144.94 172.755 145.027 172.705L226.264 125.479L243.539 115.526L243.457 115.477C243.52 115.424 243.558 115.347 243.558 115.263V94.7078L243.802 94.5681L243.487 94.3845C243.467 94.3622 243.444 94.3423 243.418 94.3269C243.392 94.3118 243.363 94.3017 243.335 94.2957L143.837 36.4753L44.5447 93.7966Z"
+      fill="url(#paint0_linear_640_747)"
+    />
+    <g filter="url(#filter0_f_640_747)">
+      <path
+        d="M259.803 91.5139L137.927 28.1251L28.125 91.5139L146.982 158.001L259.803 91.5139Z"
+        fill="#ACBABF"
+        fill-opacity="0.25"
+      />
+    </g>
+    <path
+      d="M244.848 86.1103L144.605 27.9248L45.7041 85.0608L145.922 143.108L244.848 86.1103Z"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M46.2063 74.4588L145.938 132.224L244.624 75.1526L145.145 17.3414L46.2063 74.4588Z"
+      fill="#D8E8EE"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M244.586 85.8477V75.1499L146.194 132.09V143.046L244.586 85.8477Z"
+      fill="#C2D0D3"
+      stroke="#ACBABF"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M145.932 132.09V142.784L45.7146 85.061V74.6301L145.932 132.09Z"
+      fill="#C2D0D3"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <defs>
+      <filter
+        id="filter0_f_640_747"
+        x="0"
+        y="0"
+        width="287.928"
+        height="186.126"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="14.0625"
+          result="effect1_foregroundBlur_640_747"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_640_747"
+        x1="143.963"
+        y1="172.742"
+        x2="143.963"
+        y2="36.4753"
         gradientUnits="userSpaceOnUse"
       >
         <stop
@@ -2017,95 +1831,6 @@ img {
 </template>
 ````
 
-## File: layers/main/app/components/ha/buildings/HaDTCLoading.vue
-````vue
-<template>
-  <svg
-    viewBox="0 0 288 187"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M44.5447 93.7959C44.4581 93.7471 44.3516 93.748 44.2654 93.7979C44.1786 93.8482 44.1248 93.9407 44.1248 94.041V114.476C44.1249 114.576 44.1793 114.67 44.2664 114.72L143.281 171.749L144.613 172.521C144.63 172.597 144.677 172.664 144.746 172.704C144.833 172.754 144.94 172.754 145.027 172.704L226.264 125.479L243.539 115.525L243.457 115.477C243.52 115.424 243.558 115.346 243.558 115.263V94.707L243.802 94.5674L243.487 94.3838C243.467 94.3614 243.444 94.3416 243.418 94.3262C243.392 94.3111 243.364 94.3009 243.335 94.2949L143.837 36.4746L44.5447 93.7959Z"
-      fill="url(#paint0_linear_690_720)"
-    />
-    <g filter="url(#filter0_f_690_720)">
-      <path
-        d="M259.803 91.5137L137.927 28.1248L28.125 91.5137L146.982 158.001L259.803 91.5137Z"
-        fill="#ACBABF"
-        fill-opacity="0.25"
-      />
-    </g>
-    <path
-      d="M244.848 86.1098L144.605 27.9243L45.7042 85.0603L145.922 143.108L244.848 86.1098Z"
-      fill="#D9D9D9"
-    />
-    <path
-      d="M46.2064 74.458L145.938 132.223L244.624 75.1518L145.145 17.3407L46.2064 74.458Z"
-      fill="#D9D9D9"
-      stroke="#D9D9D9"
-      stroke-width="0.5625"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M244.586 85.8473V75.1494L146.194 132.089V143.045L244.586 85.8473Z"
-      fill="#D9D9D9"
-    />
-    <path
-      d="M145.932 132.089V142.783L45.7147 85.0602V74.6294L145.932 132.089Z"
-      fill="#D9D9D9"
-      stroke="#D9D9D9"
-      stroke-width="0.5625"
-      stroke-linejoin="round"
-    />
-    <defs>
-      <filter
-        id="filter0_f_690_720"
-        x="0"
-        y="0"
-        width="287.928"
-        height="186.126"
-        filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
-      >
-        <feFlood
-          flood-opacity="0"
-          result="BackgroundImageFix"
-        />
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="BackgroundImageFix"
-          result="shape"
-        />
-        <feGaussianBlur
-          stdDeviation="14.0625"
-          result="effect1_foregroundBlur_690_720"
-        />
-      </filter>
-      <linearGradient
-        id="paint0_linear_690_720"
-        x1="143.963"
-        y1="172.742"
-        x2="143.963"
-        y2="36.4746"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop
-          stop-color="#565656"
-          stop-opacity="0.02"
-        />
-        <stop
-          offset="1"
-          stop-color="#BCBCBC"
-          stop-opacity="0.2"
-        />
-      </linearGradient>
-    </defs>
-  </svg>
-</template>
-````
-
 ## File: layers/main/app/components/ha/buildings/HaDTCUnable.vue
 ````vue
 <template>
@@ -2220,8 +1945,6 @@ img {
 ````vue
 <template>
   <svg
-    width="40"
-    height="40"
     viewBox="0 0 40 40"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -2304,8 +2027,6 @@ img {
 ````vue
 <template>
   <svg
-    width="23"
-    height="23"
     viewBox="0 0 23 23"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -2322,8 +2043,6 @@ img {
 ````vue
 <template>
   <svg
-    width="36"
-    height="36"
     viewBox="0 0 36 36"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -2415,8 +2134,6 @@ img {
 ````vue
 <template>
   <svg
-    width="40"
-    height="40"
     viewBox="0 0 40 40"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -2505,8 +2222,6 @@ img {
 ````vue
 <template>
   <svg
-    width="23"
-    height="23"
     viewBox="0 0 23 23"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -2593,20 +2308,18 @@ img {
 ````vue
 <template>
   <svg
-    width="40"
-    height="40"
-    viewBox="0 0 40 40"
+    viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      d="M20 35.0002V11.6668M20 11.6668C20 10.7828 20.3512 9.93493 20.9764 9.30981C21.6015 8.68469 22.4493 8.3335 23.3334 8.3335H35.6667C35.798 8.3335 35.9281 8.35936 36.0494 8.40962C36.1707 8.45987 36.281 8.53353 36.3738 8.62639C36.4667 8.71925 36.5403 8.82949 36.5906 8.95081C36.6408 9.07214 36.6667 9.20217 36.6667 9.3335V31.1902M20 11.6668C20 10.7828 19.6489 9.93493 19.0237 9.30981C18.3986 8.68469 17.5508 8.3335 16.6667 8.3335H4.33337C4.06816 8.3335 3.8138 8.43885 3.62627 8.62639C3.43873 8.81393 3.33337 9.06828 3.33337 9.3335V31.1902M23.3334 31.6668H36.6667M16.6667 31.6668H3.33337"
+      d="M12 21V7M12 7C12 6.46957 12.2107 5.96086 12.5858 5.58579C12.9609 5.21071 13.4696 5 14 5H21.4C21.4788 5 21.5568 5.01552 21.6296 5.04567C21.7024 5.07583 21.7685 5.12002 21.8243 5.17574C21.88 5.23145 21.9242 5.29759 21.9543 5.37039C21.9845 5.44319 22 5.52121 22 5.6V18.714M12 7C12 6.46957 11.7893 5.96086 11.4142 5.58579C11.0391 5.21071 10.5304 5 10 5H2.6C2.44087 5 2.28826 5.06321 2.17574 5.17574C2.06321 5.28826 2 5.44087 2 5.6V18.714M14 19H22M10 19H2"
       stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
     />
     <path
-      d="M23.3334 31.667C22.4494 31.667 21.6015 32.0182 20.9764 32.6433C20.3513 33.2684 20.0001 34.1163 20.0001 35.0003C20.0001 34.1163 19.6489 33.2684 19.0238 32.6433C18.3986 32.0182 17.5508 31.667 16.6667 31.667"
+      d="M14 19C13.4696 19 12.9609 19.2107 12.5858 19.5858C12.2107 19.9609 12 20.4696 12 21C12 20.4696 11.7893 19.9609 11.4142 19.5858C11.0391 19.2107 10.5304 19 10 19"
       stroke="white"
       stroke-width="1.5"
       stroke-linecap="round"
@@ -2620,8 +2333,6 @@ img {
 ````vue
 <template>
   <svg
-    width="24"
-    height="24"
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -2642,8 +2353,6 @@ img {
 ````vue
 <template>
   <svg
-    width="24"
-    height="24"
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -2663,8 +2372,6 @@ img {
 ````vue
 <template>
   <svg
-    width="24"
-    height="24"
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -2681,8 +2388,6 @@ img {
 ````vue
 <template>
   <svg
-    width="23"
-    height="23"
     viewBox="0 0 23 23"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -2847,8 +2552,6 @@ img {
 ````vue
 <template>
   <svg
-    width="29"
-    height="29"
     viewBox="0 0 29 29"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -2856,7 +2559,7 @@ img {
     <g clip-path="url(#clip0_287_95)">
       <mask
         id="mask0_287_95"
-        style="mask-type:luminance"
+        style="mask-type: luminance"
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
@@ -2893,7 +2596,13 @@ img {
 <!-- components/GlassCard.vue -->
 <script setup lang="ts">
 defineProps<{
-  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+  color:
+    | 'cyan'
+    | 'magenta'
+    | 'amber'
+    | 'vermilion'
+    | 'light-cyan'
+    | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
 }>()
 </script>
 
@@ -2902,10 +2611,10 @@ defineProps<{
     <div class="about-card__icon glassy-box__icon">
       <slot name="icon" />
     </div>
-    <h3 class="title">
+    <h3 class="title about-card__title">
       <slot name="title" />
     </h3>
-    <div class="card__body">
+    <div class="about-card__body">
       <slot name="body" />
     </div>
   </div>
@@ -2921,12 +2630,99 @@ defineProps<{
     width: 40px;
     height: 40px;
     margin-bottom: 8px;
-    border-radius:1000px;
+    border-radius: 1000px;
+  }
+
+  &__title {
+    font-size: 16px;
   }
 
   &__body {
     font-size: 13px;
     line-height: 1.2em;
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ha/HaShimmer.vue
+````vue
+<template>
+  <component
+    :is="as"
+    class="shimmer-wrap"
+    :class="{ 'shimmer-wrap--loading': loading }"
+    :style="{
+      minHeight: loading ? minHeight : undefined,
+      minWidth: loading ? minWidth : undefined,
+    }"
+  >
+    <slot />
+    <div
+      v-if="loading"
+      class="shimmer"
+    />
+  </component>
+</template>
+
+<script setup lang="ts">
+withDefaults(
+  defineProps<{
+    loading: boolean
+    as?: string
+    minHeight?: string
+    minWidth?: string
+  }>(),
+  {
+    as: 'div',
+    minHeight: '1em',
+    minWidth: '4em',
+  },
+)
+</script>
+
+<style scoped lang="scss">
+.shimmer-wrap {
+  position: relative;
+
+  &--loading {
+    visibility: hidden;
+
+    > .shimmer {
+      visibility: visible;
+    }
+  }
+}
+
+.shimmer {
+  pointer-events: none;
+
+  position: absolute;
+  z-index: calc(var(--parent-z, 0) + 1);
+  inset: 0;
+
+  border-radius: inherit;
+
+  background: linear-gradient(
+    90deg,
+    rgb(217 217 217 / 100%) 0%,
+    rgb(200 200 200 / 100%) 40%,
+    rgb(232 232 232 / 100%) 50%,
+    rgb(200 200 200 / 100%) 60%,
+    rgb(217 217 217 / 100%) 100%
+  );
+  background-size: 200% 100%;
+
+  animation: shimmer 1.6s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
   }
 }
 </style>
@@ -2949,31 +2745,38 @@ defineProps<{
 </template>
 
 <script setup lang="ts">
-defineProps<{ item: { id: number, title: string, href: string, imgSrc: string } }>()
+defineProps<{
+  item: { id: number, title: string, href: string, imgSrc: string }
+}>()
 </script>
 
 <style lang="scss" scoped>
-/* ── カード全体 ── */
-.swiper-card {
-    cursor: pointer;
+@use '@/assets/styles/mixins' as m;
 
+.swiper-card {
+  cursor: pointer;
+
+  display: block;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+
+  @include m.tb {
+    min-height: 380px;
+  }
+
+  &__img {
     display: block;
 
-    box-sizing: border-box;
     width: 100%;
     height: 100%;
-    min-height: 500px;
 
-    &__img {
-        display: block;
+    object-fit: cover;
 
-        width: 100%;
-        height: 100%;
-
-        object-fit: cover;
-
-        transition: transform 0.2s ease;
-    }
+    transition: transform 0.2s ease;
+  }
 }
 </style>
 ````
@@ -3374,183 +3177,6 @@ test('fetcher', () => {
   const options = {}
   // useFetchが発火することを確認。戻り値はmockの戻り値とする
   expect(fetcher(path, options)).toStrictEqual({ path, options })
-})
-````
-
-## File: layers/main/app/test/composables/useCrowdData.spec.ts
-````typescript
-// app/test/composables/useCrowdData.spec.ts
-import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
-
-const EVENT_START = new Date('2026-06-15T00:00:00+09:00') // 本番コードと同じ開催日時
-
-// EVENT_STARTを基準に前後の日時を生成
-const BEFORE_EVENT = new Date(EVENT_START.getTime() - 1000) // 1秒前
-const AFTER_EVENT = new Date(EVENT_START.getTime() + 1000) // 1秒後
-
-// モジュールスコープの状態を都度リセットするため、動的importを使う
-async function importFresh() {
-  vi.resetModules()
-  return await import('~/composables/useCrowdData')
-}
-
-// 開催時刻の判定と分岐は正常か
-describe('isBeforeEvent()', () => {
-  beforeEach(() => vi.useFakeTimers())
-  afterEach(() => vi.useRealTimers())
-
-  test('EVENT_STARTより1秒前はtrueを返す', async () => {
-    vi.setSystemTime(BEFORE_EVENT)
-    const { isBeforeEvent } = await importFresh()
-    expect(isBeforeEvent()).toBe(true)
-  })
-
-  test('EVENT_STARTより1秒後はfalseを返す', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    const { isBeforeEvent } = await importFresh()
-    expect(isBeforeEvent()).toBe(false)
-  })
-})
-
-// 混雑度レベルに応じて適切な処理分岐が出来るか
-describe('crowdLevel（computed）', () => {
-  beforeEach(() => vi.useFakeTimers())
-  afterEach(() => {
-    vi.useRealTimers()
-    vi.unstubAllGlobals()
-  })
-
-  test('開催前はcrowdLevelが強制的に0になる', async () => {
-    vi.setSystemTime(BEFORE_EVENT)
-    const { useCrowdData } = await importFresh()
-    const { crowdLevel } = useCrowdData()
-    expect(crowdLevel.value).toBe(0)
-  })
-
-  test('開催後・APIレスポンス前はcrowdLevelがnullになる', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    vi.stubGlobal('fetch', vi.fn(() => new Promise(() => {})))
-    const { useCrowdData } = await importFresh()
-    const { crowdLevel } = useCrowdData()
-    expect(crowdLevel.value).toBeNull()
-  })
-
-  test('APIがvalue:1を返したときcrowdLevelが1になる', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    vi.stubGlobal('fetch', vi.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 1 }),
-      }),
-    ))
-    const { useCrowdData } = await importFresh()
-    const { crowdLevel, fetchCrowdData } = useCrowdData()
-    await fetchCrowdData()
-    expect(crowdLevel.value).toBe(1)
-  })
-
-  test('APIがvalue:2を返したときcrowdLevelが2になる', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    vi.stubGlobal('fetch', vi.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 2 }),
-      }),
-    ))
-    const { useCrowdData } = await importFresh()
-    const { crowdLevel, fetchCrowdData } = useCrowdData()
-    await fetchCrowdData()
-    expect(crowdLevel.value).toBe(2)
-  })
-
-  test('APIがvalue:3を返したときcrowdLevelが3になる', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    vi.stubGlobal('fetch', vi.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 3 }),
-      }),
-    ))
-    const { useCrowdData } = await importFresh()
-    const { crowdLevel, fetchCrowdData } = useCrowdData()
-    await fetchCrowdData()
-    expect(crowdLevel.value).toBe(3)
-  })
-})
-
-// データフェッチの仕様は適切か
-// NOTE: 仕様変更に合わせてテストコードも修正する必要がある
-describe('リトライ制御', () => {
-  beforeEach(() => vi.useFakeTimers())
-  afterEach(() => {
-    vi.useRealTimers()
-    vi.unstubAllGlobals()
-  })
-
-  test('APIエラー時にisErrorがtrueになる', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    vi.stubGlobal('fetch', vi.fn(() =>
-      Promise.resolve({ ok: false }),
-    ))
-    const { useCrowdData } = await importFresh()
-    const { isError, fetchCrowdData } = useCrowdData()
-
-    await fetchCrowdData()
-
-    expect(isError.value).toBe(true)
-  })
-
-  test('APIエラーがMAX_RETRY_COUNT(5)回に達したときisErrorがtrueになる', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    vi.stubGlobal('fetch', vi.fn(() =>
-      Promise.resolve({ ok: false }),
-    ))
-    const { useCrowdData } = await importFresh()
-    const { isError, fetchCrowdData } = useCrowdData()
-
-    await fetchCrowdData()
-    for (let i = 0; i < 5; i++) {
-      await vi.advanceTimersByTimeAsync(30_000)
-    }
-
-    expect(isError.value).toBe(true)
-  })
-
-  test('APIエラーがMAX_RETRY_COUNT(5)回に達したときisLoadingがfalseになる', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    vi.stubGlobal('fetch', vi.fn(() =>
-      Promise.resolve({ ok: false }),
-    ))
-    const { useCrowdData } = await importFresh()
-    const { isLoading, fetchCrowdData } = useCrowdData()
-
-    await fetchCrowdData()
-    for (let i = 0; i < 5; i++) {
-      await vi.advanceTimersByTimeAsync(30_000)
-    }
-
-    expect(isLoading.value).toBe(false)
-  })
-
-  test('APIエラーがMAX_RETRY_COUNT(5)回を超えてもfetchは6回以上呼ばれない', async () => {
-    vi.setSystemTime(AFTER_EVENT)
-    const fetchMock = vi.fn(() => Promise.resolve({ ok: false }))
-    vi.stubGlobal('fetch', fetchMock)
-
-    const { useCrowdData } = await importFresh()
-    const { fetchCrowdData } = useCrowdData()
-
-    await fetchCrowdData()
-    expect(fetchMock).toHaveBeenCalledTimes(1)
-
-    for (let i = 0; i < 5; i++) {
-      await vi.advanceTimersByTimeAsync(30_000)
-    }
-    expect(fetchMock).toHaveBeenCalledTimes(6)
-
-    await vi.advanceTimersByTimeAsync(30_000)
-    expect(fetchMock).toHaveBeenCalledTimes(6)
-  })
 })
 ````
 
@@ -4969,6 +4595,228 @@ export default defineConfig({
 @forward 'common';
 ````
 
+## File: layers/main/app/components/ha/buildings/HaAstyLoading.vue
+````vue
+<template>
+  <svg
+    viewBox="0 0 269 173"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      width="159.096"
+      height="85.5081"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8297 110.497)"
+      fill="url(#paint0_linear_690_685)"
+    />
+    <path
+      d="M24.0251 125.026V110.491L97.8948 153.093V167.626L24.0251 125.026Z"
+      fill="url(#paint1_linear_690_685)"
+    />
+    <path
+      d="M97.8948 153.289V167.626L235.472 88.2839V73.9473L97.8948 153.289Z"
+      fill="url(#paint2_linear_690_685)"
+    />
+    <g filter="url(#filter0_f_690_685)">
+      <rect
+        width="167.407"
+        height="93.9689"
+        transform="matrix(0.866044 -0.499967 0.866044 0.499967 21.0938 104.792)"
+        fill="#ACBABF"
+        fill-opacity="0.25"
+      />
+    </g>
+    <rect
+      width="158.315"
+      height="85.0886"
+      transform="matrix(0.866044 -0.499967 0.866044 0.499967 23.8163 99.8572)"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M234.615 56.2449L170.871 93.0447H24.1425L23.8163 92.8562L160.925 13.7039L234.615 56.2449Z"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M97.3235 142.321C97.314 142.297 97.307 142.272 97.3069 142.245V135.438C97.3069 135.411 97.3138 135.386 97.3235 135.361V142.321ZM234.315 56.3037C234.38 56.2661 234.46 56.2661 234.526 56.3037C234.591 56.3414 234.631 56.411 234.631 56.4863V63.293C234.631 63.3681 234.591 63.438 234.526 63.4756L183.252 93.0449H170.606L234.315 56.3037Z"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M170.883 100.045H23.8163V93.0449H183.163L170.883 100.045Z"
+      fill="#D9D9D9"
+    />
+    <defs>
+      <filter
+        id="filter0_f_690_685"
+        x="0"
+        y="0"
+        width="268.551"
+        height="172.867"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="10.5469"
+          result="effect1_foregroundBlur_690_685"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_690_685"
+        x1="79.5479"
+        y1="85.5081"
+        x2="79.5479"
+        y2="0"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
+      </linearGradient>
+      <linearGradient
+        id="paint1_linear_690_685"
+        x1="60.96"
+        y1="167.626"
+        x2="60.96"
+        y2="110.491"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
+      </linearGradient>
+      <linearGradient
+        id="paint2_linear_690_685"
+        x1="166.684"
+        y1="167.626"
+        x2="166.684"
+        y2="73.9473"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/buildings/HaDTCLoading.vue
+````vue
+<template>
+  <svg
+    viewBox="0 0 288 187"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M44.5447 93.7959C44.4581 93.7471 44.3516 93.748 44.2654 93.7979C44.1786 93.8482 44.1248 93.9407 44.1248 94.041V114.476C44.1249 114.576 44.1793 114.67 44.2664 114.72L143.281 171.749L144.613 172.521C144.63 172.597 144.677 172.664 144.746 172.704C144.833 172.754 144.94 172.754 145.027 172.704L226.264 125.479L243.539 115.525L243.457 115.477C243.52 115.424 243.558 115.346 243.558 115.263V94.707L243.802 94.5674L243.487 94.3838C243.467 94.3614 243.444 94.3416 243.418 94.3262C243.392 94.3111 243.364 94.3009 243.335 94.2949L143.837 36.4746L44.5447 93.7959Z"
+      fill="url(#paint0_linear_690_720)"
+    />
+    <g filter="url(#filter0_f_690_720)">
+      <path
+        d="M259.803 91.5137L137.927 28.1248L28.125 91.5137L146.982 158.001L259.803 91.5137Z"
+        fill="#ACBABF"
+        fill-opacity="0.25"
+      />
+    </g>
+    <path
+      d="M244.848 86.1098L144.605 27.9243L45.7042 85.0603L145.922 143.108L244.848 86.1098Z"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M46.2064 74.458L145.938 132.223L244.624 75.1518L145.145 17.3407L46.2064 74.458Z"
+      fill="#D9D9D9"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M244.586 85.8473V75.1494L146.194 132.089V143.045L244.586 85.8473Z"
+      fill="#D9D9D9"
+    />
+    <path
+      d="M145.932 132.089V142.783L45.7147 85.0602V74.6294L145.932 132.089Z"
+      fill="#D9D9D9"
+      stroke="#D9D9D9"
+      stroke-width="0.5625"
+      stroke-linejoin="round"
+    />
+    <defs>
+      <filter
+        id="filter0_f_690_720"
+        x="0"
+        y="0"
+        width="287.928"
+        height="186.126"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood
+          flood-opacity="0"
+          result="BackgroundImageFix"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="BackgroundImageFix"
+          result="shape"
+        />
+        <feGaussianBlur
+          stdDeviation="14.0625"
+          result="effect1_foregroundBlur_690_720"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_690_720"
+        x1="143.963"
+        y1="172.742"
+        x2="143.963"
+        y2="36.4746"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop
+          stop-color="#565656"
+          stop-opacity="0.02"
+        />
+        <stop
+          offset="1"
+          stop-color="#BCBCBC"
+          stop-opacity="0.2"
+        />
+      </linearGradient>
+    </defs>
+  </svg>
+</template>
+````
+
 ## File: layers/main/app/components/ha/icons/HaQuestionIcon.vue
 ````vue
 <template>
@@ -4991,11 +4839,13 @@ export default defineConfig({
 ````vue
 <template>
   <div
-    class="conduct-card glassy-box-2"
+    class="conduct-card glassy-box"
     :class="`conduct-card--${color}`"
   >
-    <div class="conduct-card__icon">
-      <slot name="icon" />
+    <div class="conduct-card__icon-box">
+      <div class="conduct-card__icon">
+        <slot name="icon" />
+      </div>
     </div>
     <div class="conduct-card__text-box">
       <p class="conduct-card__title">
@@ -5016,7 +4866,8 @@ defineProps({
   title: String,
   color: {
     type: String,
-    validator: value => ['cyan', 'magenta', 'amber', 'vermilion'].includes(value),
+    validator: value =>
+      ['cyan', 'magenta', 'amber', 'vermilion'].includes(value),
   },
 })
 </script>
@@ -5026,75 +4877,104 @@ defineProps({
 @use '@/assets/styles/mixins' as m;
 
 .conduct-card {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+  padding: 24px 36px;
+
+  box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
+
+  @include m.sp {
+    gap: 16px;
+    padding: 16px 28px;
+  }
+
+  &__icon-box {
     display: flex;
-    gap: 24px;
+    flex-shrink: 0;
     align-items: center;
+    justify-content: center;
 
-    width: 100%;
-    height: 100%;
-    padding: 24px 36px;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
 
-    &__icon {
-        display: flex;
-        flex-shrink: 0;
-        align-items: center;
-        justify-content: center;
+    @include m.sp {
+      width: 32px;
+      height: 32px;
+    }
+  }
 
-        width: 44px;
-        height: 44px;
-        border-radius: 10px;
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 50%;
+    height: 50%;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__text {
+    font-size: 13px;
+    line-height: 1em;
+    color: white;
+
+    @include m.sp {
+      font-size: 10px;
+    }
+  }
+
+  &--magenta {
+    .conduct-card__icon-box {
+      background-color: rgba(v.$vket-magenta, 0.6);
     }
 
-    &__title {
-        font-size: 20px;
-        font-weight: 700;
+    .conduct-card__title {
+      color: v.$vket-magenta;
+    }
+  }
+
+  &--cyan {
+    .conduct-card__icon-box {
+      background-color: rgba(v.$vket-cyan, 0.6);
     }
 
-    &__text {
-        font-size: 13px;
-        line-height: 1em;
-        color: white;
+    .conduct-card__title {
+      color: v.$vket-cyan;
+    }
+  }
+
+  &--amber {
+    .conduct-card__icon-box {
+      background-color: rgba(v.$vket-amber, 0.6);
     }
 
-    &--magenta {
-        .conduct-card__icon {
-            background-color: rgba(v.$vket-magenta, 0.6);
-        }
+    .conduct-card__title {
+      color: v.$vket-amber;
+    }
+  }
 
-        .conduct-card__title {
-            color: v.$vket-magenta;
-        }
+  &--vermilion {
+    .conduct-card__icon-box {
+      background-color: rgba(v.$vket-vermilion, 0.6);
     }
 
-    &--cyan {
-        .conduct-card__icon {
-            background-color: rgba(v.$vket-cyan, 0.6);
-        }
-
-        .conduct-card__title {
-            color: v.$vket-cyan;
-        }
+    .conduct-card__title {
+      color: v.$vket-vermilion;
     }
-
-    &--amber {
-        .conduct-card__icon {
-            background-color: rgba(v.$vket-amber, 0.6);
-        }
-
-        .conduct-card__title {
-            color: v.$vket-amber;
-        }
-    }
-
-    &--vermilion {
-        .conduct-card__icon {
-            background-color: rgba(v.$vket-vermilion, 0.6);
-        }
-
-        .conduct-card__title {
-            color: v.$vket-vermilion;
-        }
-    }
+  }
 }
 </style>
 ````
@@ -5113,9 +4993,7 @@ defineProps({
       {{ title }}
     </p>
     <NuxtLink class="jump-to-form">
-      <p class="jump-to-form__text">
-        {{ text }}<br>
-      </p>
+      <p class="jump-to-form__text">{{ text }}<br></p>
       <div class="jump-to-form__flex">
         <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
         <HaJumpToPageIcon class="jump-to-form__icon" />
@@ -5138,13 +5016,15 @@ defineProps({
   },
   color: {
     type: String,
-    validator: value => ['cyan', 'magenta', 'amber', 'vermilion'].includes(value),
+    validator: value =>
+      ['cyan', 'magenta', 'amber', 'vermilion'].includes(value),
   },
 })
 </script>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .contact-card {
   display: flex;
@@ -5183,34 +5063,38 @@ defineProps({
   }
 
   &--magenta {
-      .contact-card__icon {
-        background-color: rgba(v.$vket-magenta, 0.8);
-      }
+    .contact-card__icon {
+      background-color: rgba(v.$vket-magenta, 0.8);
     }
+  }
 
-    &--cyan {
-      .contact-card__icon {
-        background-color: rgba(v.$vket-cyan, 0.8);
-      }
+  &--cyan {
+    .contact-card__icon {
+      background-color: rgba(v.$vket-cyan, 0.8);
     }
+  }
 
-    &--amber {
-      .contact-card__icon {
-        background-color: rgba(v.$vket-amber, 0.8);
-      }
+  &--amber {
+    .contact-card__icon {
+      background-color: rgba(v.$vket-amber, 0.8);
     }
+  }
 
-    &--vermilion {
-      .contact-card__icon {
-        background-color: rgba(v.$vket-vermilion, 0.8);
-      }
+  &--vermilion {
+    .contact-card__icon {
+      background-color: rgba(v.$vket-vermilion, 0.8);
     }
+  }
 }
 
 .jump-to-form {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @include m.sp {
+    gap: 16px;
+  }
 
   &__flex {
     display: flex;
@@ -5226,6 +5110,7 @@ defineProps({
     color: v.$vket-green;
 
     &--underline {
+      margin-bottom: 0;
       font-size: 12px;
       text-decoration: underline;
     }
@@ -5253,16 +5138,39 @@ defineProps<{
 <template>
   <div class="document-link">
     <div :class="['document-link__left', `document-link__left--${color}`]">
-      <slot name="icon" />
+      <div class="document-link__icon">
+        <slot name="icon" />
+      </div>
     </div>
     <div class="document-link__right">
       <div class="document-link__row">
         <p class="document-link__title">
           出展ガイドライン
         </p>
-        <div :class="['document-link__label', `document-link__label--${label=='important' ? 'amber' : label=='required' ? 'vermilion' : label=='Q&A' ? 'magenta' : ''}`]">
+        <div
+          :class="[
+            'document-link__label',
+            `document-link__label--${
+              label == 'important'
+                ? 'amber'
+                : label == 'required'
+                  ? 'vermilion'
+                  : label == 'Q&A'
+                    ? 'magenta'
+                    : ''
+            }`,
+          ]"
+        >
           <p class="document-link__label-text">
-            {{ label=='important' ? '重要' : label=='required' ? '必読' : label=='Q&A' ? 'Q&A' : '' }}
+            {{
+              label == 'important'
+                ? '重要'
+                : label == 'required'
+                  ? '必読'
+                  : label == 'Q&A'
+                    ? 'Q&A'
+                    : ''
+            }}
           </p>
         </div>
       </div>
@@ -5279,17 +5187,17 @@ defineProps<{
 @use '@/assets/styles/mixins' as m;
 
 .document-link {
-    overflow: hidden;
-    display: flex;
+  overflow: hidden;
+  display: flex;
 
-    min-height: 150px;
-    border-radius: 20px;
+  min-height: 150px;
+  border-radius: 20px;
 
-    background: rgb(217 217 217 / 20%);
+  background: rgb(217 217 217 / 20%);
 
-    @include m.tb {
-      min-height: 105px;
-    }
+  @include m.tb {
+    min-height: 105px;
+  }
 
   &__left {
     position: relative;
@@ -5308,7 +5216,7 @@ defineProps<{
     }
 
     &::before {
-      content: "";
+      content: '';
 
       position: absolute;
       inset: 0;
@@ -5316,45 +5224,48 @@ defineProps<{
       border: 1.5px solid transparent;
       border-radius: 20px 0 0 20px;
 
-      background-image:
-        linear-gradient(
+      background-image: linear-gradient(
           135deg,
           rgb(255 255 255 / 30%) 20px,
           rgb(255 255 255 / 0%) 150px
         ),
-        linear-gradient(
-          to left,
-          rgb(255 255 255 / 10%),
-          rgb(255 255 255 / 10%)
-        );
+        linear-gradient(to left, rgb(255 255 255 / 10%), rgb(255 255 255 / 10%));
       background-clip: border-box, border-box;
       background-origin: border-box, border-box;
 
-      -webkit-mask:
-        linear-gradient(#fff 0 0) padding-box,
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
         linear-gradient(#fff 0 0) border-box;
-      mask:
-        linear-gradient(#fff 0 0) padding-box,
+      mask: linear-gradient(#fff 0 0) padding-box,
         linear-gradient(#fff 0 0) border-box;
       -webkit-mask-composite: destination-out;
       mask-composite: exclude;
     }
 
     &--green {
-        background-color: rgba(#43ffbd, 0.4);
+      background-color: rgba(#43ffbd, 0.4);
     }
 
     &--cyan {
-        background-color: rgba(v.$vket-cyan, 0.4);
+      background-color: rgba(v.$vket-cyan, 0.4);
     }
 
     &--magenta {
-        background-color: rgba(v.$vket-magenta, 0.4);
+      background-color: rgba(v.$vket-magenta, 0.4);
+    }
+  }
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+
+    @include m.sp {
+      width: 24px;
+      height: 24px;
     }
 
-    &__icon {
-      width: 40px;
-      height: 40px;
+    svg {
+      width: 100%;
+      height: 100%;
     }
   }
 
@@ -5376,46 +5287,58 @@ defineProps<{
     justify-content: space-between;
   }
 
-    &__title {
-        font-size: 20px;
-        font-weight: 700;
-        color: white;
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__text {
+    font-size: 14px;
+    color: white;
+
+    @include m.sp {
+      font-size: 10px;
+    }
+  }
+
+  &__link {
+    font-size: 12px;
+    color: #43ffbd;
+    text-decoration: underline;
+
+    @include m.sp {
+      font-size: 10px;
+    }
+  }
+
+  &__label {
+    width: fit-content;
+    padding: 3px 5px;
+    border-radius: 6px;
+
+    &--amber {
+      background-color: rgba(v.$vket-amber, 0.6);
     }
 
-    &__text {
-        font-size: 14px;
-        color: white;
+    &--vermilion {
+      background-color: rgba(v.$vket-vermilion, 0.6);
     }
 
-    &__link {
-        font-size: 12px;
-        color: #43ffbd;
-        text-decoration: underline;
+    &--magenta {
+      background-color: rgba(v.$vket-magenta, 0.6);
     }
+  }
 
-    &__label {
-        width: fit-content;
-        padding: 3px 5px;
-        border-radius: 6px;
-
-        &--amber {
-            background-color: rgba(v.$vket-amber, 0.6);
-        }
-
-        &--vermilion {
-            background-color: rgba(v.$vket-vermilion, 0.6);
-        }
-
-        &--magenta {
-            background-color: rgba(v.$vket-magenta, 0.6);
-        }
-    }
-
-    &__label-text {
-        font-size: 14px;
-        font-weight: 400;
-        color: white;
-    }
+  &__label-text {
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+  }
 }
 </style>
 ````
@@ -5425,8 +5348,8 @@ defineProps<{
 <template>
   <div class="fv">
     <h2 class="fv__title">
-      リアルとバーチャルの境界を、
-      <br>
+      <span class="nowrap">リアルとバーチャルの</span>
+      <span class="nowrap">境界を、</span>
       <span class="fv__title--bold">開拓せよ。</span>
     </h2>
   </div>
@@ -5436,36 +5359,60 @@ defineProps<{
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.fv{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.fv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    width: 100svw;
-    height: 1100px; // FIXME: 仮置き
+  width: 100svw;
+  height: 1100px;
 
-    &__title {
-        font-size: 64px;
-        font-weight: 700;
-        line-height: 1.6em;
-        color: v.$vket-vermilion;
-        text-align: center;
+  @include m.sp {
+    height: 100svw;
+  }
 
-        @include m.tb {
-          font-size: 36px;
-        }
+  &__title {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.2em;
+    color: v.$vket-vermilion;
+    text-align: center;
 
-        &--bold {
-            font-size: 128px;
-            font-weight: inherit;
-            color: white;
-            text-shadow: 0 5px 20px v.$vket-amber;
-
-            @include m.tb {
-              font-size: 96px;
-            }
-        }
+    @include m.tb {
+      font-size: 36px;
     }
+
+    @include m.sp {
+      max-width: 76%;
+      font-size: 24px;
+    }
+
+    span {
+      display: inline-block;
+
+      @include m.tb {
+        display: block;
+      }
+    }
+
+    &--bold {
+      display: block;
+
+      font-size: 128px;
+      font-weight: inherit;
+      line-height: 100%;
+      color: white;
+      text-shadow: 0 5px 20px v.$vket-amber;
+
+      @include m.tb {
+        font-size: 96px;
+      }
+
+      @include m.sp {
+        font-size: 48px;
+      }
+    }
+  }
 }
 </style>
 ````
@@ -5573,9 +5520,7 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
 
   &__item {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-
     padding: 16px 0;
     border-bottom: 1px solid rgb(86 86 86 / 100%);
 
@@ -5606,7 +5551,13 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
 import HaArrowRight from './icons/HaArrowRightIcon.vue'
 
 defineProps<{
-  color: 'cyan' | 'magenta' | 'amber' | 'vermilion' | 'light-cyan' | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+  color:
+    | 'cyan'
+    | 'magenta'
+    | 'amber'
+    | 'vermilion'
+    | 'light-cyan'
+    | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
   title: string
   label: string
 }>()
@@ -5618,7 +5569,7 @@ defineProps<{
   >
     <div class="quick-access-card__head">
       <div class="quick-access-card__head-left">
-        <div class="glassy-box__icon">
+        <div class="glassy-box__icon quick-access-card__icon-box">
           <slot name="icon" />
         </div>
         <div class="title-box">
@@ -5642,11 +5593,16 @@ defineProps<{
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .quick-access-card {
   padding: 22px 36px;
 
-  &__head{
+  @include m.sp {
+    padding: 16px 24px;
+  }
+
+  &__head {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -5657,24 +5613,55 @@ defineProps<{
     gap: 12px;
   }
 
-  .title-box{
+  &__head-right {
+    height: 20px;
+
+    svg {
+      height: 100%;
+    }
+  }
+
+  &__icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 54px;
+    height: 54px;
+    border-radius: 20px;
+
+    @include m.tb {
+      width: 38px;
+      height: 38px;
+      border-radius: 100px;
+    }
+  }
+
+  .title-box {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-
+    justify-content: center;
     height: inherit;
-    padding: 4px 0;
 
-    .label{
+    .label {
+      margin-bottom: 8px;
       font-size: 10px;
       font-weight: 700;
       line-height: 1em;
+
+      @include m.tb {
+        margin-bottom: 4px;
+      }
     }
 
     .title {
       font-size: 24px;
       font-weight: 700;
       line-height: 1em;
+
+      @include m.sp {
+        font-size: 20px;
+      }
     }
   }
 }
@@ -5712,12 +5699,17 @@ defineProps<{
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .sponsor-card {
   width: 100%;
   height: 100%;
   margin-bottom: 16px;
   padding: 24px 36px;
+
+  @include m.sp {
+    padding: 16px 24px;
+  }
 
   &__img {
     aspect-ratio: 1/1;
@@ -5726,7 +5718,7 @@ defineProps<{
     background-color: gray;
 
     img {
-        width: 100%;
+      width: 100%;
     }
   }
 
@@ -5742,6 +5734,11 @@ defineProps<{
     font-weight: 700;
     line-height: 1em;
     color: white;
+
+    @include m.sp {
+      font-size: 20px;
+      font-weight: normal;
+    }
   }
 }
 </style>
@@ -5819,363 +5816,6 @@ defineProps<{
 </style>
 ````
 
-## File: layers/main/app/components/hm/HmCrowdLevelCard.vue
-````vue
-<script lang="ts" setup>
-import HaAstyError from '../ha/buildings/HaAstyError.vue'
-import HaAstyLevel1 from '../ha/buildings/HaAstyLevel1.vue'
-import HaAstyLevel2 from '../ha/buildings/HaAstyLevel2.vue'
-import HaAstyLevel3 from '../ha/buildings/HaAstyLevel3.vue'
-import HaAstyLoading from '../ha/buildings/HaAstyLoading.vue'
-import HaAstyUnable from '../ha/buildings/HaAstyUnable.vue'
-import HaDTCError from '../ha/buildings/HaDTCError.vue'
-import HaDTCLevel1 from '../ha/buildings/HaDTCLevel1.vue'
-import HaDTCLevel2 from '../ha/buildings/HaDTCLevel2.vue'
-import HaDTCLevel3 from '../ha/buildings/HaDTCLevel3.vue'
-import HaDTCLoading from '../ha/buildings/HaDTCLoading.vue'
-import HaDTCUnable from '../ha/buildings/HaDTCUnable.vue'
-import HaShimmer from '../ha/HaShimmer.vue'
-import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
-import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
-import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
-import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
-
-type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
-
-const props = defineProps<{
-  label: string
-  name: string
-  isLoading: boolean
-  isError: boolean
-  building: 1 | 2
-  crowdLevel: CrowdLevel | null
-}>()
-
-const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-  0: '期間外',
-  1: '余裕あり',
-  2: 'やや混雑',
-  3: '混雑',
-}
-
-const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-  0: 'gray',
-  1: 'emgreen',
-  2: 'amber',
-  3: 'vermilion',
-}
-
-const statusText = computed(() =>
-  props.isLoading || props.isError
-    ? '取得中'
-    : props.crowdLevel !== null
-      ? CROWD_LEVEL_TEXT[props.crowdLevel]
-      : '取得中',
-)
-
-const statusColor = computed(() =>
-  props.isLoading || props.isError
-    ? 'gray'
-    : props.crowdLevel !== null
-      ? CROWD_LEVEL_COLOR[props.crowdLevel]
-      : 'gray',
-)
-
-const fillCount = computed(() => props.crowdLevel ?? 0)
-</script>
-
-<template>
-  <div
-    class="glassy-box-4 crowd-level-card"
-    :class="`crowd-level-card--${statusColor}`"
-  >
-    <div class="crowd-level-card__head">
-      <div class="crowd-level-card__text-box">
-        <HaShimmer
-          :loading="isLoading"
-          as="p"
-          class="crowd-level-card__label"
-        >
-          {{ label }}
-        </HaShimmer>
-        <HaShimmer
-          :loading="isLoading"
-          as="p"
-          class="crowd-level-card__name"
-        >
-          {{
-            name
-          }}
-        </HaShimmer>
-      </div>
-      <HaShimmer
-        :loading="isLoading"
-        as="div"
-        class="crowd-level-card__status-box"
-      >
-        <div class="crowd-level-card__icon-box">
-          <template v-if="isError">
-            <HaPeopleIcon />
-            <HaQuestionIcon />
-          </template>
-          <template v-else-if="fillCount == 0">
-            <HaPeopleUnableIcon />
-          </template>
-          <template v-else>
-            <HaPeopleFillIcon
-              v-for="i in fillCount"
-              :key="`fill-${i}`"
-            />
-            <HaPeopleIcon
-              v-for="i in 3 - fillCount"
-              :key="`empty-${i}`"
-            />
-          </template>
-        </div>
-        <p
-          class="crowd-level-card__status-text"
-          data-testid="crowd-status-text"
-        >
-          {{ statusText }}
-        </p>
-      </HaShimmer>
-    </div>
-    <div class="crowd-level-card__body">
-      <div class="crowd-level-card__image">
-        <template v-if="building == 1">
-          <HaAstyLoading v-if="isLoading" />
-          <HaAstyError v-else-if="isError" />
-          <template v-else>
-            <HaAstyUnable v-show="statusColor == 'gray'" />
-            <HaAstyLevel1 v-show="statusColor == 'emgreen'" />
-            <HaAstyLevel2 v-show="statusColor == 'amber'" />
-            <HaAstyLevel3 v-show="statusColor == 'vermilion'" />
-          </template>
-        </template>
-        <template v-else-if="building == 2">
-          <HaDTCLoading v-if="isLoading" />
-          <HaDTCError v-else-if="isError" />
-          <template v-else>
-            <HaDTCUnable v-show="statusColor == 'gray'" />
-            <HaDTCLevel1 v-show="statusColor == 'emgreen'" />
-            <HaDTCLevel2 v-show="statusColor == 'amber'" />
-            <HaDTCLevel3 v-show="statusColor == 'vermilion'" />
-          </template>
-        </template>
-      </div>
-    </div>
-    <div class="crowd-level-card__footer">
-      <HaShimmer
-        :loading="isLoading"
-        as="p"
-        class="crowd-level-card__text"
-      >
-        混雑状況
-      </HaShimmer>
-      <HaShimmer
-        :loading="isLoading"
-        as="div"
-        class="crowd-level-card__carousel glassy-carousel"
-      >
-        <div
-          class="crowd-level-card__carousel-inner glassy-carousel"
-          :class="`glassy-carousel crowd-level-card__carousel-inner--${
-            isError || fillCount == 0 || fillCount == 3
-              ? '1-1'
-              : fillCount == 1
-                ? '1-4'
-                : fillCount == 2
-                  ? '1-2'
-                  : ''
-          }`"
-        />
-      </HaShimmer>
-      <HaShimmer
-        :loading="isLoading"
-        as="p"
-        class="crowd-level-card__text"
-      >
-        {{
-          isError
-            ? '取得中'
-            : fillCount == 0
-              ? '期間外'
-              : fillCount == 1
-                ? '低'
-                : fillCount == 2
-                  ? '中'
-                  : fillCount == 3
-                    ? '高'
-                    : ''
-        }}
-      </HaShimmer>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.crowd-level-card {
-  display: flex;
-  flex-direction: column;
-  padding: 24px 18px 24px 32px;
-
-  &--emgreen {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-emgreen;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-emgreen, 0.75);
-    }
-  }
-
-  &--amber {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-amber;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-amber, 0.75);
-    }
-  }
-
-  &--gray {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-gray;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-gray, 0.75);
-    }
-  }
-
-  &--purple {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-purple;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-purple, 0.75);
-    }
-  }
-
-  &--vermilion {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-vermilion;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-vermilion, 0.75);
-    }
-  }
-
-  &__head {
-    display: flex;
-    gap: 8px;
-    justify-content: space-between;
-  }
-
-  &__text-box {
-    width: fit-content;
-  }
-
-  &__label {
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 700;
-  }
-
-  &__name {
-    font-size: 32px;
-    font-weight: 900;
-    line-height: 1em;
-  }
-
-  &__icon-box {
-    display: flex;
-    flex-shrink: 0;
-  }
-
-  &__status-box {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-
-    width: fit-content;
-    height: fit-content;
-    padding: 10px 18px;
-    border-radius: 20px;
-  }
-
-  &__status-text {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 100%;
-    text-wrap: nowrap;
-  }
-
-  &__body {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    flex-shrink: 1;
-    align-items: center;
-    justify-content: flex-end;
-  }
-
-  &__image {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    width: 50%;
-
-    svg {
-      width: 100%;
-    }
-  }
-
-  &__footer {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    width: 100%;
-  }
-
-  &__carousel {
-    display: flex;
-    flex-grow: 1;
-    height: 14px;
-  }
-
-  &__carousel-inner {
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    transition: width 0.6s ease;
-
-    &--1-1 {
-      width: 100%;
-    }
-
-    &--1-2 {
-      width: 50%;
-    }
-
-    &--1-4 {
-      width: 25%;
-    }
-  }
-
-  &__text {
-    width: 4em;
-    line-height: 1em;
-  }
-}
-</style>
-````
-
 ## File: layers/main/app/components/ho/HoTheFooter.vue
 ````vue
 <script setup lang="ts">
@@ -6206,7 +5846,7 @@ en:
           <NuxtLink class="footer__link">出展規約</NuxtLink>
         </nav>
       </div>
-      <div class="footer__right">
+      <div class="footer__x-logo">
         <HaXIcon />
       </div>
     </div>
@@ -6220,10 +5860,16 @@ en:
 </template>
 
 <style scoped lang="scss">
+@use '@/assets/styles/mixins' as m;
+
 .footer {
   padding: 88px 105px 0;
   border-radius: 40px 40px 0 0;
   background-color: rgb(25 25 25 / 100%);
+
+  @include m.sp {
+    padding: 52px 32px 0;
+  }
 
   &__upper {
     display: flex;
@@ -6238,10 +5884,10 @@ en:
     background-color: gray;
   }
 
-  &__nav{
+  &__nav {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 22px;
   }
 
   &__link {
@@ -6250,12 +5896,25 @@ en:
     font-weight: 400;
     color: white;
     text-decoration: underline;
+
+    @include m.tb {
+      font-size: 12px;
+      text-decoration: none;
+    }
   }
 
   &__divider {
     width: 100%;
     height: 1px;
-    background-color:#8f8f8f;
+    background-color: #8f8f8f;
+  }
+
+  &__x-logo {
+    width: 30px;
+
+    @include m.sp {
+      width: 16px;
+    }
   }
 
   &__lower {
@@ -6269,6 +5928,10 @@ en:
     font-family: Inter, sans-serif;
     font-size: 12px;
     color: white;
+
+    @include m.sp {
+      font-size: 8px;
+    }
   }
 }
 </style>
@@ -6285,7 +5948,7 @@ import HaInfoCard from '../ha/HaInfoCard.vue'
     title="アクセス"
     label="access"
   />
-  <div class="access-flex mb-30">
+  <div class="access-flex">
     <div class="access-flex__left map-container" />
     <HaInfoCard class="access-flex__right" />
   </div>
@@ -6295,28 +5958,37 @@ import HaInfoCard from '../ha/HaInfoCard.vue'
 @use '@/assets/styles/mixins' as m;
 
 .access-flex {
-    display: flex;
-    gap: 40px;
+  display: flex;
+  gap: 40px;
+
+  @include m.tb {
+    flex-direction: column;
+  }
+
+  @include m.sp {
+    gap: 22px;
+  }
+
+  &__left {
+    background-color: #ffffff70;
 
     @include m.tb {
-      flex-direction: column;
+      min-height: 480px;
     }
 
-    &__left {
-        background-color: #ffffff70;
-
-        @include m.tb {
-          min-height: 480px;
-        }
+    @include m.sp {
+      min-height: 150px;
     }
+  }
 
-    &__left, &__right {
-        width: 100%;
-    }
+  &__left,
+  &__right {
+    width: 100%;
+  }
 }
 
 .mb-30 {
-    margin-bottom: 120px;
+  margin-bottom: 120px;
 }
 </style>
 ````
@@ -6336,7 +6008,7 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
     title="行動規範"
     label="CODE OF CONDUCT"
   />
-  <p class="subtitle subtitle--left mb-24">
+  <p class="description description--left">
     すべての参加者が安全で楽しい時間を過ごせるよう、<br>
     以下の行動規範を守ってください。
   </p>
@@ -6404,6 +6076,10 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
 
 .mb-15 {
   margin-bottom: 60px;
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
 }
 
 .conduct-grid {
@@ -6413,11 +6089,15 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
 
   width: 100%;
   margin-right: auto;
-  margin-left:auto;
+  margin-left: auto;
 
   @include m.tb {
     grid-template-columns: 1fr;
     width: 60%;
+  }
+
+  @include m.sp {
+    width: 100%;
   }
 }
 
@@ -6459,11 +6139,6 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
     title="お問い合わせ"
     label="CONTACT"
   />
-  <p class="subtitle subtitle--left mb-24">
-    持続可能なイベント開催のため、<br>
-    チケット制でのご参加にご協力をお願いいたします。<br>
-    チケットは複数種類を用意予定です。
-  </p>
   <div class="Contact-grid">
     <HaContactCard
       title="個人向けお問い合わせ"
@@ -6498,6 +6173,7 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
@@ -6507,6 +6183,10 @@ import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px 24px;
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+  }
 
   &__item {
     &--full-width {
@@ -6565,96 +6245,14 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
 
   <HmSwiper
     ref="worksSwiperRef"
-    :_slides-per-view="2"
-    class="mb-24"
+    :_slides-per-view="1"
     :_breakpoints="{
+      768: { slidesPerView: 2 },
       1024: { slidesPerView: 2.8 },
     }"
     @slide-change="onSlideChange"
   />
 </template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.custom-swiper-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 44px;
-  height: 44px;
-  border-radius: 100px;
-
-  background-color: #1e355b;
-
-  &.is-disabled {
-    opacity: 0.6;
-    background-color: transparent;
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtCrowdLevelsSection.vue
-````vue
-<script setup lang="ts">
-import HaSectionTitle from '../ha/HaSectionTitle.vue'
-import { useCrowdData } from '~/composables/useCrowdData'
-import HmCrowdLevelCard from '../hm/HmCrowdLevelCard.vue'
-
-const { isLoading, isError, crowdLevel } = useCrowdData()
-</script>
-
-<template>
-  <HaSectionTitle
-    title="混雑状況"
-    label="crowd-levels"
-  />
-  <div class="crowd-levels__grid">
-    <HmCrowdLevelCard
-      label="メイン会場"
-      name="アスティーホール"
-      :building="1"
-      :is-error="isError"
-      :is-loading="isLoading"
-      :crowd-level="crowdLevel"
-    />
-    <HmCrowdLevelCard
-      label="サブ会場"
-      name="Deep-tech CORE SAPPORO"
-      :building="2"
-      :is-error="isError"
-      :is-loading="isLoading"
-      :crowd-level="crowdLevel"
-    />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px;
-}
-
-.crowd-levels {
-  &__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 22px;
-
-    @include m.tb {
-      grid-template-columns: 1fr;
-    }
-  }
-}
-</style>
 ````
 
 ## File: layers/main/app/components/ht/HtRelatedEventsSection.vue
@@ -6704,37 +6302,13 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
   </HaSectionTitle>
 
   <HmSwiper
-    ref="worksSwiperRef"
-    :_slides-per-view="1.4"
-    class="mb-24"
+    :_slides-per-view="1"
+    :_breakpoints="{
+      768: { slidesPerView: 1.4 },
+    }"
     @slide-change="onSlideChange"
   />
 </template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.custom-swiper-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 44px;
-  height: 44px;
-  border-radius: 100px;
-
-  background-color: #1e355b;
-
-  &.is-disabled {
-    opacity: 0.6;
-    background-color: transparent;
-  }
-}
-</style>
 ````
 
 ## File: layers/main/app/components/ht/HtSponsorsAndPartnersSection.vue
@@ -6775,6 +6349,10 @@ import HaSponsorCard from '../ha/HaSponsorCard.vue'
   @include m.tb {
     grid-template-columns: 1fr 1fr;
   }
+
+  @include m.sp {
+    gap: 20px;
+  }
 }
 </style>
 ````
@@ -6790,7 +6368,7 @@ import HaTicketCard from '../ha/HaTicketCard.vue'
     title="チケット"
     label="tickets"
   />
-  <p class="subtitle subtitle--left mb-24">
+  <p class="description description--left">
     持続可能なイベント開催のため、<br>
     チケット制でのご参加にご協力をお願いいたします。<br>
     チケットは複数種類を用意予定です。
@@ -6816,19 +6394,19 @@ import HaTicketCard from '../ha/HaTicketCard.vue'
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
 .ticket-grid {
   display: grid;
+  grid-auto-rows: 275px;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 275px 275px;
   gap: 12px 24px;
 
   @include m.tb {
-    grid-template-rows: 166px 166px;
+    grid-auto-rows: 166px;
     gap: 12px 16px;
+  }
+
+  @include m.sp {
+    grid-template-columns: 1fr;
   }
 
   &__item {
@@ -6960,6 +6538,183 @@ definePageMeta({
 </style>
 ````
 
+## File: layers/main/app/test/composables/useCrowdData.spec.ts
+````typescript
+// app/test/composables/useCrowdData.spec.ts
+import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
+
+const EVENT_START = new Date('2026-06-15T00:00:00+09:00') // 本番コードと同じ開催日時
+
+// EVENT_STARTを基準に前後の日時を生成
+const BEFORE_EVENT = new Date(EVENT_START.getTime() - 1000) // 1秒前
+const AFTER_EVENT = new Date(EVENT_START.getTime() + 1000) // 1秒後
+
+// モジュールスコープの状態を都度リセットするため、動的importを使う
+async function importFresh() {
+  vi.resetModules()
+  return await import('~/composables/useCrowdData')
+}
+
+// 開催時刻の判定と分岐は正常か
+describe('isBeforeEvent()', () => {
+  beforeEach(() => vi.useFakeTimers())
+  afterEach(() => vi.useRealTimers())
+
+  test('EVENT_STARTより1秒前はtrueを返す', async () => {
+    vi.setSystemTime(BEFORE_EVENT)
+    const { isBeforeEvent } = await importFresh()
+    expect(isBeforeEvent()).toBe(true)
+  })
+
+  test('EVENT_STARTより1秒後はfalseを返す', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    const { isBeforeEvent } = await importFresh()
+    expect(isBeforeEvent()).toBe(false)
+  })
+})
+
+// 混雑度レベルに応じて適切な処理分岐が出来るか
+describe('crowdLevel（computed）', () => {
+  beforeEach(() => vi.useFakeTimers())
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.unstubAllGlobals()
+  })
+
+  test('開催前はcrowdLevelが強制的に0になる', async () => {
+    vi.setSystemTime(BEFORE_EVENT)
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel } = useCrowdData()
+    expect(crowdLevel.value).toBe(0)
+  })
+
+  test('開催後・APIレスポンス前はcrowdLevelがnullになる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() => new Promise(() => {})))
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel } = useCrowdData()
+    expect(crowdLevel.value).toBeNull()
+  })
+
+  test('APIがvalue:1を返したときcrowdLevelが1になる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 1 }),
+      }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel, fetchCrowdData } = useCrowdData()
+    await fetchCrowdData()
+    expect(crowdLevel.value).toBe(1)
+  })
+
+  test('APIがvalue:2を返したときcrowdLevelが2になる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 2 }),
+      }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel, fetchCrowdData } = useCrowdData()
+    await fetchCrowdData()
+    expect(crowdLevel.value).toBe(2)
+  })
+
+  test('APIがvalue:3を返したときcrowdLevelが3になる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 3 }),
+      }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { crowdLevel, fetchCrowdData } = useCrowdData()
+    await fetchCrowdData()
+    expect(crowdLevel.value).toBe(3)
+  })
+})
+
+// データフェッチの仕様は適切か
+// NOTE: 仕様変更に合わせてテストコードも修正する必要がある
+describe('リトライ制御', () => {
+  beforeEach(() => vi.useFakeTimers())
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.unstubAllGlobals()
+  })
+
+  test('APIエラー時にisErrorがtrueになる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({ ok: false }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { isError, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+
+    expect(isError.value).toBe(true)
+  })
+
+  test('APIエラーがMAX_RETRY_COUNT(5)回に達したときisErrorがtrueになる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({ ok: false }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { isError, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+    for (let i = 0; i < 5; i++) {
+      await vi.advanceTimersByTimeAsync(30_000)
+    }
+
+    expect(isError.value).toBe(true)
+  })
+
+  test('APIエラーがMAX_RETRY_COUNT(5)回に達したときisLoadingがfalseになる', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({ ok: false }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { isLoading, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+    for (let i = 0; i < 5; i++) {
+      await vi.advanceTimersByTimeAsync(30_000)
+    }
+
+    expect(isLoading.value).toBe(false)
+  })
+
+  test('APIエラーがMAX_RETRY_COUNT(5)回を超えてもfetchは6回以上呼ばれない', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    const fetchMock = vi.fn(() => Promise.resolve({ ok: false }))
+    vi.stubGlobal('fetch', fetchMock)
+
+    const { useCrowdData } = await importFresh()
+    const { fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+
+    for (let i = 0; i < 5; i++) {
+      await vi.advanceTimersByTimeAsync(30_000)
+    }
+    expect(fetchMock).toHaveBeenCalledTimes(6)
+
+    await vi.advanceTimersByTimeAsync(30_000)
+    expect(fetchMock).toHaveBeenCalledTimes(6)
+  })
+})
+````
+
 ## File: layers/main/vitest.config.mts
 ````typescript
 import { defineVitestConfig } from '@nuxt/test-utils/config'
@@ -7035,6 +6790,10 @@ defineProps<{
   margin-bottom: 96px;
   padding-top: 16px;
 
+  @include m.sp {
+    margin-bottom: 32px;
+  }
+
   &__line {
     position: relative;
 
@@ -7069,7 +6828,11 @@ defineProps<{
       height: 2px;
       margin-left: 12px;
 
-      background: linear-gradient(to right, v.$vket-amber 0%, v.$vket-vermilion 100%);
+      background: linear-gradient(
+        to right,
+        v.$vket-amber 0%,
+        v.$vket-vermilion 100%
+      );
     }
   }
 
@@ -7098,12 +6861,461 @@ defineProps<{
     @include m.tb {
       font-size: 32px;
     }
+
+    @include m.sp {
+      font-size: 24px;
+    }
   }
 
   &__controls {
     display: flex;
     gap: 4px;
     align-items: center;
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/hm/HmCrowdLevelCard.vue
+````vue
+<script lang="ts" setup>
+import HaAstyError from '../ha/buildings/HaAstyError.vue'
+import HaAstyLevel1 from '../ha/buildings/HaAstyLevel1.vue'
+import HaAstyLevel2 from '../ha/buildings/HaAstyLevel2.vue'
+import HaAstyLevel3 from '../ha/buildings/HaAstyLevel3.vue'
+import HaAstyLoading from '../ha/buildings/HaAstyLoading.vue'
+import HaAstyUnable from '../ha/buildings/HaAstyUnable.vue'
+import HaDTCError from '../ha/buildings/HaDTCError.vue'
+import HaDTCLevel1 from '../ha/buildings/HaDTCLevel1.vue'
+import HaDTCLevel2 from '../ha/buildings/HaDTCLevel2.vue'
+import HaDTCLevel3 from '../ha/buildings/HaDTCLevel3.vue'
+import HaDTCLoading from '../ha/buildings/HaDTCLoading.vue'
+import HaDTCUnable from '../ha/buildings/HaDTCUnable.vue'
+import HaShimmer from '../ha/HaShimmer.vue'
+import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
+import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
+import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
+import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
+
+type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
+
+const props = defineProps<{
+  label: string
+  name: string
+  isLoading: boolean
+  isError: boolean
+  building: 1 | 2
+  crowdLevel: CrowdLevel | null
+}>()
+
+const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
+  0: '期間外',
+  1: '余裕あり',
+  2: 'やや混雑',
+  3: '混雑',
+}
+
+const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+  0: 'gray',
+  1: 'emgreen',
+  2: 'amber',
+  3: 'vermilion',
+}
+
+const statusText = computed(() =>
+  props.isLoading || props.isError
+    ? '取得中'
+    : props.crowdLevel !== null
+      ? CROWD_LEVEL_TEXT[props.crowdLevel]
+      : '取得中',
+)
+
+const statusColor = computed(() =>
+  props.isLoading || props.isError
+    ? 'gray'
+    : props.crowdLevel !== null
+      ? CROWD_LEVEL_COLOR[props.crowdLevel]
+      : 'gray',
+)
+
+const fillCount = computed(() => props.crowdLevel ?? 0)
+</script>
+
+<template>
+  <div
+    class="glassy-box-4 crowd-level-card"
+    :class="`crowd-level-card--${statusColor}`"
+  >
+    <div class="crowd-level-card__head">
+      <div class="crowd-level-card__text-box">
+        <HaShimmer
+          :loading="isLoading"
+          as="p"
+          class="crowd-level-card__label"
+        >
+          {{ label }}
+        </HaShimmer>
+        <HaShimmer
+          :loading="isLoading"
+          as="p"
+          class="crowd-level-card__name"
+        >
+          {{ name }}
+        </HaShimmer>
+      </div>
+      <HaShimmer
+        :loading="isLoading"
+        as="div"
+        class="crowd-level-card__status-box"
+      >
+        <div class="crowd-level-card__icon-box">
+          <template v-if="isError">
+            <HaPeopleIcon />
+            <HaQuestionIcon />
+          </template>
+          <template v-else-if="fillCount == 0">
+            <HaPeopleUnableIcon />
+          </template>
+          <template v-else>
+            <HaPeopleFillIcon
+              v-for="i in fillCount"
+              :key="`fill-${i}`"
+            />
+            <HaPeopleIcon
+              v-for="i in 3 - fillCount"
+              :key="`empty-${i}`"
+            />
+          </template>
+        </div>
+        <p
+          class="crowd-level-card__status-text"
+          data-testid="crowd-status-text"
+        >
+          {{ statusText }}
+        </p>
+      </HaShimmer>
+    </div>
+    <div class="crowd-level-card__body">
+      <div class="crowd-level-card__image">
+        <template v-if="building == 1">
+          <HaAstyLoading v-if="isLoading" />
+          <HaAstyError v-else-if="isError" />
+          <template v-else>
+            <HaAstyUnable v-show="statusColor == 'gray'" />
+            <HaAstyLevel1 v-show="statusColor == 'emgreen'" />
+            <HaAstyLevel2 v-show="statusColor == 'amber'" />
+            <HaAstyLevel3 v-show="statusColor == 'vermilion'" />
+          </template>
+        </template>
+        <template v-else-if="building == 2">
+          <HaDTCLoading v-if="isLoading" />
+          <HaDTCError v-else-if="isError" />
+          <template v-else>
+            <HaDTCUnable v-show="statusColor == 'gray'" />
+            <HaDTCLevel1 v-show="statusColor == 'emgreen'" />
+            <HaDTCLevel2 v-show="statusColor == 'amber'" />
+            <HaDTCLevel3 v-show="statusColor == 'vermilion'" />
+          </template>
+        </template>
+      </div>
+    </div>
+    <div class="crowd-level-card__footer">
+      <HaShimmer
+        :loading="isLoading"
+        as="p"
+        class="crowd-level-card__text"
+      >
+        混雑状況
+      </HaShimmer>
+      <HaShimmer
+        :loading="isLoading"
+        as="div"
+        class="crowd-level-card__carousel glassy-carousel"
+      >
+        <div
+          class="crowd-level-card__carousel-inner glassy-carousel"
+          :class="`glassy-carousel crowd-level-card__carousel-inner--${
+            isError || fillCount == 0 || fillCount == 3
+              ? '1-1'
+              : fillCount == 1
+                ? '1-4'
+                : fillCount == 2
+                  ? '1-2'
+                  : ''
+          }`"
+        />
+      </HaShimmer>
+      <HaShimmer
+        :loading="isLoading"
+        as="p"
+        class="crowd-level-card__text"
+      >
+        {{
+          isError
+            ? '取得中'
+            : fillCount == 0
+              ? '期間外'
+              : fillCount == 1
+                ? '低'
+                : fillCount == 2
+                  ? '中'
+                  : fillCount == 3
+                    ? '高'
+                    : ''
+        }}
+      </HaShimmer>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.crowd-level-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 18px 24px 32px;
+
+  @include m.sp {
+    padding: 16px;
+  }
+
+  &--emgreen {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-emgreen;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-emgreen, 0.75);
+    }
+  }
+
+  &--amber {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-amber;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-amber, 0.75);
+    }
+  }
+
+  &--gray {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-gray;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-gray, 0.75);
+    }
+  }
+
+  &--purple {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-purple;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-purple, 0.75);
+    }
+  }
+
+  &--vermilion {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-vermilion;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-vermilion, 0.75);
+    }
+  }
+
+  &__head {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  &__text-box {
+    width: fit-content;
+  }
+
+  &__label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 700;
+
+    @include m.sp {
+      font-size: 10px;
+    }
+  }
+
+  &__name {
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1em;
+
+    @include m.sp {
+      font-size: 18px;
+    }
+  }
+
+  &__icon-box {
+    display: flex;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+
+    @include m.sp {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__status-box {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 18px;
+    border-radius: 20px;
+
+    @include m.sp {
+      padding: 6px 12px;
+    }
+  }
+
+  &__status-text {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 100%;
+    text-wrap: nowrap;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &__image {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 50%;
+
+    svg {
+      width: 100%;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__carousel {
+    display: flex;
+    flex-grow: 1;
+    height: 14px;
+  }
+
+  &__carousel-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    transition: width 0.6s ease;
+
+    &--1-1 {
+      width: 100%;
+    }
+
+    &--1-2 {
+      width: 50%;
+    }
+
+    &--1-4 {
+      width: 25%;
+    }
+  }
+
+  &__text {
+    width: 4em;
+    font-size: 16px;
+    line-height: 1em;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtCrowdLevelsSection.vue
+````vue
+<script setup lang="ts">
+import HaSectionTitle from '../ha/HaSectionTitle.vue'
+import { useCrowdData } from '~/composables/useCrowdData'
+import HmCrowdLevelCard from '../hm/HmCrowdLevelCard.vue'
+
+const { isLoading, isError, crowdLevel } = useCrowdData()
+</script>
+
+<template>
+  <HaSectionTitle
+    title="混雑状況"
+    label="crowd-levels"
+  />
+  <div class="crowd-levels__grid">
+    <HmCrowdLevelCard
+      label="メイン会場"
+      name="アスティーホール"
+      :building="1"
+      :is-error="isError"
+      :is-loading="isLoading"
+      :crowd-level="crowdLevel"
+    />
+    <HmCrowdLevelCard
+      label="サブ会場"
+      name="Deep-tech CORE SAPPORO"
+      :building="2"
+      :is-error="isError"
+      :is-loading="isLoading"
+      :crowd-level="crowdLevel"
+    />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px;
+}
+
+.crowd-levels {
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+
+    @include m.tb {
+      grid-template-columns: 1fr;
+    }
   }
 }
 </style>
@@ -7122,7 +7334,7 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
     label="schedule"
   />
 
-  <div class="schedule mb-24">
+  <div class="schedule">
     <div class="schedule__left">
       <div class="schedule__icon-box">
         <HaSunIcon />
@@ -7205,10 +7417,6 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
 .schedule {
   display: flex;
 
@@ -7223,6 +7431,10 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
     @include m.tb {
       width: 104px;
     }
+
+    @include m.sp {
+      width: 84px;
+    }
   }
 
   &__icon-box {
@@ -7233,7 +7445,11 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
 
     width: 80px;
     height: 80px;
-    padding: 16px;
+
+    @include m.sp {
+      width: 74px;
+      height: 74px;
+    }
   }
 
   &__icon {
@@ -7251,6 +7467,10 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
   &__right {
     flex-grow: 1;
     padding: 100px 0;
+
+    @include m.sp {
+      padding: 38px 0;
+    }
   }
 
   &__item {
@@ -7262,16 +7482,33 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
     height: 100px;
     border-top: 2px solid white;
 
+    @include m.sp {
+      height: 44px;
+      border-width: 1px;
+    }
+
     &:last-of-type {
       border-bottom: 2px solid white;
+
+      @include m.sp {
+        border-width: 1px;
+      }
     }
 
     &--1h {
       height: 150px;
+
+      @include m.sp {
+        height: 62px;
+      }
     }
 
     &--15h {
       height: 200px;
+
+      @include m.sp {
+        height: 74px;
+      }
     }
   }
 
@@ -7279,12 +7516,20 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
     font-size: 16px;
     font-weight: 700;
     color: white;
+
+    @include m.sp {
+      font-size: 10px;
+    }
   }
 
   &__content {
     font-size: 20px;
     font-weight: 700;
     color: white;
+
+    @include m.sp {
+      font-size: 12px;
+    }
   }
 }
 </style>
@@ -7724,11 +7969,11 @@ const toggle = (id: number) => {
 </script>
 
 <template>
-  <div class="accordion glassy-box-2">
+  <div class="accordion glassy-box accordion-glassy-box">
     <button
       v-for="item in items"
       :key="item.id"
-      class="accordion-item glassy-box-2"
+      class="accordion-item glassy-box accordion-glassy-box"
       :class="{ 'accordion-item--is-open': openId === item.id }"
       @click="toggle(item.id)"
     >
@@ -7741,7 +7986,9 @@ const toggle = (id: number) => {
             {{ item.title }}
           </p>
         </div>
-        <HaChevronDownIcon class="accordion-item__icon" />
+        <div class="accordion-item__icon">
+          <HaChevronDownIcon />
+        </div>
       </div>
 
       <div class="accordion-item__body">
@@ -7760,98 +8007,127 @@ const toggle = (id: number) => {
 @use '@/assets/styles/mixins' as m;
 
 .accordion {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 
-    width: 100%;
-    height: fit-content;
-    padding: 70px 48px;
+  width: 100%;
+  height: fit-content;
+  padding: 70px 48px;
 
-    @include m.tb {
-      padding: 48px 24px;
-      border-radius: 20px;
-    }
+  @include m.tb {
+    padding: 48px 24px;
+    border-radius: 20px;
+  }
+
+  @include m.sp {
+    padding: 32px 16px;
+  }
 }
 
 .accordion-item {
-    width: 100%;
-    padding: 40px;
+  width: 100%;
+  padding: 40px;
 
-    background-color: rgb(42 63 99 / 0%);
-    mix-blend-mode: plus-lighter;
+  background-color: rgb(42 63 99 / 0%);
+  mix-blend-mode: plus-lighter;
 
-    transition: background-color 1s ease;
+  transition: background-color 1s ease;
 
-    &__header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+  @include m.sp {
+    padding: 16px;
+  }
+
+  &__header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__left {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  &__label {
+    font-size: 20px;
+    font-weight: 700;
+    color: #258966;
+    white-space: nowrap;
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    text-align: left;
+
+    @include m.sp {
+      font-size: 12px;
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    transition: transform 0.3s ease;
+
+    @include m.sp {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    padding-top: 0;
+    transition: padding 0.3s ease, grid-template-rows 0.3s ease;
+  }
+
+  &__inner {
+    overflow: hidden;
+
+    padding-left: 44px;
+
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    text-align: left;
+
+    @include m.sp {
+      font-size: 12px;
+      font-weight: normal;
+    }
+  }
+
+  &--is-open {
+    background-color: rgb(42 63 99 / 60%);
+
+    .accordion-item__icon {
+      transform: rotate(180deg);
     }
 
-    &__left {
-      display: flex;
-      gap: 16px;
-      align-items: center;
+    .accordion-item__body {
+      grid-template-rows: 1fr;
+      padding-top: 80px;
+
+      @include m.sp {
+        padding-top: 32px;
+      }
     }
-
-    &__label {
-      font-size: 20px;
-      font-weight: 700;
-      color: #258966;
-    }
-
-    &__title {
-      font-size: 20px;
-      font-weight: 700;
-      color: white;
-    }
-
-    &__icon {
-      transition: transform 0.3s ease;
-    }
-
-    &__body {
-      display: grid;
-      grid-template-rows: 0fr;
-      padding-top: 0;
-      transition: padding 0.3s ease, grid-template-rows 0.3s ease;
-    }
-
-    &__inner {
-        overflow: hidden;
-
-        padding-left: 44px;
-
-        font-size: 16px;
-        font-weight: 700;
-        color: white;
-        text-align: left;
-    }
-
-    &--is-open {
-        background-color: rgb(42 63 99 / 60%);
-
-        .accordion-item__icon {
-          transform: rotate(180deg);
-        }
-
-        .accordion-item__body {
-          grid-template-rows: 1fr;
-          padding-top: 80px;
-        }
-    }
+  }
 }
 
-.glassy-box-2{
-    position: relative;
-    border-radius: 20px;
-    box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
-
-    &::before {
-      width: 100%;
-      height: 100%;
-    }
+.accordion-glassy-box {
+  box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
 }
 </style>
 ````
@@ -7870,11 +8146,10 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     title="VketReal in 札幌とは"
     label="about"
   />
-  <div
-    class="description"
-    style="width: 750px;"
-  >
-    世界最大級のメタバースイベント「バーチャルマーケット(Vket)」から派生した、「バーチャルの姿のままリアルに飛び出す！」リアルイベント。<br>北海道の有志XRクリエイターが主催し、札幌で開催します。
+  <div class="description">
+    世界最大級のメタバースイベント「バーチャルマーケット(Vket)」から派生した、「バーチャルの姿のままリアルに飛び出す！」リアルイベント。<br
+      class="sp-none"
+    >北海道の有志XRクリエイターが主催し、札幌で開催します。
   </div>
   <div class="info-flex mb-24">
     <div class="info-flex__child">
@@ -7903,7 +8178,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     </div>
   </div>
 
-  <div class="card-flex mb-24">
+  <div class="card-flex">
     <HaCard
       class="child"
       color="amber"
@@ -7915,7 +8190,8 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
         バーチャル姿のまま<br>リアルで体験
       </template>
       <template #body>
-        アバターとしての生き方を大切にする人々が<br>リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
+        アバターとしての生き方を大切にする人々が<br>
+        リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
       </template>
     </HaCard>
     <HaCard
@@ -7958,6 +8234,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 }
 
 .description {
+  width: 750px;
   margin: 0 auto 96px;
 
   font-size: 20px;
@@ -7967,8 +8244,13 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   text-align: center;
 
   @include m.tb {
-    max-width: 555px;
+    width: 555px;
     font-size: 16px;
+  }
+
+  @include m.sp {
+    width: initial;
+    font-size: 14px;
   }
 }
 
@@ -7986,11 +8268,11 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     align-items: center;
   }
 
-  &__child{
+  &__child {
     width: 320px;
   }
 
-  &__number{
+  &__number {
     margin-bottom: 4px;
 
     font-size: 64px;
@@ -8000,24 +8282,33 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     letter-spacing: normal;
     white-space: nowrap;
 
-    &--cyan{
+    @include m.sp {
+      margin-bottom: 8px;
+      font-size: 48px;
+    }
+
+    &--cyan {
       color: v.$vket-cyan;
     }
 
-    &--amber{
+    &--amber {
       color: v.$vket-amber;
     }
 
-    &--magenta{
+    &--magenta {
       color: v.$vket-magenta;
     }
   }
 
-  &__label{
+  &__label {
     font-size: 16px;
     font-weight: 400;
     color: v.$vket-emerald;
     text-align: center;
+
+    @include m.sp {
+      font-size: 10px;
+    }
   }
 }
 
@@ -8041,6 +8332,10 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 
     @include m.tb {
       width: 60%;
+    }
+
+    @include m.sp {
+      width: 100%;
     }
   }
 }
@@ -8160,6 +8455,10 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
 }
 
 .card-flex {
@@ -8183,6 +8482,10 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
     @include m.tb {
       width: 60%;
     }
+
+    @include m.sp {
+      width: 100%;
+    }
   }
 }
 
@@ -8198,6 +8501,10 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
   .child {
     @include m.tb {
       width: 60%;
+    }
+
+    @include m.sp {
+      width: 100%;
     }
   }
 }
@@ -8277,119 +8584,47 @@ import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
 </script>
 
 <style lang="scss" scoped>
-.grid2x {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px 20px;
+@use '@/assets/styles/mixins' as m;
 
-    &__child {
-        height: 100%;
-        min-height: 280px; // FIXME: 適当な値を入れている
-    }
+.grid2x {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 20px;
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  &__child {
+    height: 100%;
+    min-height: 280px;
+  }
 }
 </style>
-````
-
-## File: layers/main/app/composables/useCrowdData.ts
-````typescript
-type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
-
-// FIXME: 本APIでは建物別にvalueがあるので、要変更
-interface ReadResponse {
-  timestamp: string
-  value: CrowdLevel
-}
-
-let timerId: ReturnType<typeof setTimeout> | null = null
-let isFetching = false // Fetch実行中フラグ（開発者ツールを用いたリトライ攻撃対策）
-let retryCount = 0
-
-// 開催日時を指定
-const EVENT_START = new Date('2026-06-15T00:00:00+09:00')
-
-export function isBeforeEvent(): boolean {
-  return new Date() < EVENT_START
-}
-
-export function useCrowdData() {
-  const crowdData = ref<ReadResponse | null>(null)
-  const isLoading = ref(true)
-  const isError = ref(false)
-  const isBeforeEventStart = ref(isBeforeEvent()) // 開催期間外はデータフェッチ自体させたくないため、フロントエンド側でも開催期間外フラグを用意している。
-
-  // データフェッチの仕様
-  const NORMAL_INTERVAL_MS = 5 * 60 * 1000
-  const RETRY_INTERVAL_MS = 3 * 1000
-  const MAX_RETRY_COUNT = 5
-
-  const crowdLevel = computed<CrowdLevel | null>(() => {
-    if (isBeforeEventStart.value) return 0 // 念のため、開催期間外は強制的に0
-    return crowdData.value?.value ?? null
-  })
-
-  async function fetchCrowdData() {
-    if (isBeforeEventStart.value) return // 開催前はfetchしない
-    if (isFetching) return // fetchの多重実行を防ぐ
-    isFetching = true
-
-    try {
-      const res = await fetch('/external/read')
-      if (!res.ok) throw new Error()
-      crowdData.value = await res.json()
-      isError.value = false
-      retryCount = 0
-      schedule(NORMAL_INTERVAL_MS)
-    } catch (e) {
-      if (import.meta.dev) {
-        console.error('混雑情報の取得に失敗しました', e)
-      }
-      isError.value = true
-      if (retryCount < MAX_RETRY_COUNT) {
-        retryCount++
-        schedule(RETRY_INTERVAL_MS)
-      }
-    } finally {
-      isLoading.value = false
-      isFetching = false
-    }
-  }
-
-  function schedule(ms: number) {
-    if (timerId !== null) clearTimeout(timerId)
-    timerId = setTimeout(fetchCrowdData, ms)
-  }
-
-  onMounted(() => {
-    if (isBeforeEventStart.value) {
-      const msUntilStart = EVENT_START.getTime() - Date.now()
-
-      // ページ表示中にイベント開催日時に到達しても問題ないように、開催時刻にデータフェッチをスケジュール
-      timerId = setTimeout(() => {
-        isBeforeEventStart.value = false
-        fetchCrowdData()
-      }, msUntilStart)
-      isLoading.value = false // 開催期間前である表示を出すため、ローディングを即解除
-      return
-    }
-    if (timerId !== null) {
-      clearTimeout(timerId)
-      timerId = null
-    }
-    fetchCrowdData()
-  })
-
-  onUnmounted(() => {
-    if (timerId !== null) clearTimeout(timerId)
-  })
-
-  return { isLoading, isError, crowdLevel, fetchCrowdData }
-}
 ````
 
 ## File: layers/main/app/assets/styles/_common.scss
 ````scss
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
+
+.nowrap {
+  display: block;
+
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  white-space: nowrap;
+}
+
+/* 画面幅によって表示or非表示 */
+@include m.sp {
+  .sp-none {
+    display: none;
+  }
+}
 
 .glassy-box {
   position: relative;
@@ -8402,14 +8637,33 @@ export function useCrowdData() {
     content: '';
 
     position: absolute;
-    inset: 0;
+    z-index: 0;
+    top: 0;
+    left: 0;
 
-    padding: 1px;
+    width: 100%;
+    height: 100%;
+    border: 1px solid transparent;
     border-radius: inherit;
 
-    background: rgb(88 88 88);
+    background-image: linear-gradient(
+        135deg,
+        rgb(255 255 255 / 85%) 6px,
+        rgb(255 255 255 / 10%) 12px
+      ),
+      linear-gradient(
+        315deg,
+        rgb(255 255 255 / 30%) 20px,
+        rgb(255 255 255 / 10%) 40px
+      );
+    background-clip: border-box, border-box;
+    background-origin: border-box, border-box;
 
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    -webkit-mask-composite: destination-out;
     mask-composite: exclude;
   }
 
@@ -8520,10 +8774,6 @@ export function useCrowdData() {
     align-items: center;
     justify-content: center;
 
-    width: 54px;
-    height: 54px;
-    border-radius: 20px;
-
     svg {
       height: 50%;
     }
@@ -8619,6 +8869,10 @@ export function useCrowdData() {
       linear-gradient(#fff 0 0) border-box;
     -webkit-mask-composite: destination-out;
     mask-composite: exclude;
+
+    @include m.sp {
+      border-width: 1px;
+    }
   }
 }
 
@@ -8778,7 +9032,32 @@ export function useCrowdData() {
   text-align: center;
 
   @include m.tb {
+    font-size: 20px;
+  }
+
+  @include m.sp {
+    margin-bottom: 40px;
+  }
+}
+
+.description {
+  width: fit-content;
+  margin: 0 auto 42px;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5em;
+  color: white;
+  text-align: center;
+
+  @include m.tb {
     font-size: 16px;
+  }
+
+  @include m.sp {
+    margin-bottom: 40px;
+    font-size: 12px;
+    font-weight: normal;
   }
 
   &--left {
@@ -8787,11 +9066,41 @@ export function useCrowdData() {
 }
 
 /* swiper.js */
+.custom-swiper-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 100px;
+
+  background-color: #1e355b;
+
+  @include m.sp {
+    width: 24px;
+    height: 24px;
+
+    svg {
+      height: 80%;
+    }
+  }
+
+  &.is-disabled {
+    opacity: 0.6;
+    background-color: transparent;
+  }
+}
+
 .custom-swiper-pagination {
   display: flex;
   gap: 6px;
   justify-content: center;
   margin-top: 60px;
+
+  @include m.tb {
+    display: none;
+  }
 
   .swiper-pagination-bullet {
     width: 16px;
@@ -9069,36 +9378,109 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
 
   <HmSwiper
     ref="worksSwiperRef"
-    :_slides-per-view="1.4"
-    class="mb-24"
+    :_slides-per-view="1"
+    :_breakpoints="{
+      768: { slidesPerView: 1.4 },
+    }"
     @slide-change="onSlideChange"
   />
 </template>
+````
 
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
+## File: layers/main/app/composables/useCrowdData.ts
+````typescript
+type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
 
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+// FIXME: 本APIでは建物別にvalueがあるので、要変更
+interface ReadResponse {
+  timestamp: string
+  value: CrowdLevel
 }
 
-.custom-swiper-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+let timerId: ReturnType<typeof setTimeout> | null = null
+let isFetching = false // Fetch実行中フラグ（開発者ツールを用いたリトライ攻撃対策）
+let retryCount = 0
 
-  width: 44px;
-  height: 44px;
-  border-radius: 100px;
+// 開催日時を指定
+const EVENT_START = new Date('2026-06-15T00:00:00+09:00')
 
-  background-color: #1e355b;
+export function isBeforeEvent(): boolean {
+  return new Date() < EVENT_START
+}
 
-  &.is-disabled {
-    opacity: 0.6;
-    background-color: transparent;
+export function useCrowdData() {
+  const crowdData = ref<ReadResponse | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+  const isBeforeEventStart = ref(isBeforeEvent()) // 開催期間外はデータフェッチ自体させたくないため、フロントエンド側でも開催期間外フラグを用意している。
+
+  // データフェッチの仕様
+  const NORMAL_INTERVAL_MS = 5 * 60 * 1000
+  const RETRY_INTERVAL_MS = 3 * 1000
+  const MAX_RETRY_COUNT = 5
+
+  const crowdLevel = computed<CrowdLevel | null>(() => {
+    if (isBeforeEventStart.value) return 0 // 念のため、開催期間外は強制的に0
+    return crowdData.value?.value ?? null
+  })
+
+  async function fetchCrowdData() {
+    if (isBeforeEventStart.value) return // 開催前はfetchしない
+    if (isFetching) return // fetchの多重実行を防ぐ
+    isFetching = true
+
+    try {
+      const res = await fetch('/external/read')
+      if (!res.ok) throw new Error()
+      crowdData.value = await res.json()
+      isError.value = false
+      retryCount = 0
+      schedule(NORMAL_INTERVAL_MS)
+    } catch (e) {
+      if (import.meta.dev) {
+        console.error('混雑情報の取得に失敗しました', e)
+      }
+      isError.value = true
+      if (retryCount < MAX_RETRY_COUNT) {
+        retryCount++
+        schedule(RETRY_INTERVAL_MS)
+      }
+    } finally {
+      isLoading.value = false
+      isFetching = false
+    }
   }
+
+  function schedule(ms: number) {
+    if (timerId !== null) clearTimeout(timerId)
+    timerId = setTimeout(fetchCrowdData, ms)
+  }
+
+  onMounted(() => {
+    if (isBeforeEventStart.value) {
+      const msUntilStart = EVENT_START.getTime() - Date.now()
+
+      // ページ表示中にイベント開催日時に到達しても問題ないように、開催時刻にデータフェッチをスケジュール
+      timerId = setTimeout(() => {
+        isBeforeEventStart.value = false
+        fetchCrowdData()
+      }, msUntilStart)
+      isLoading.value = false // 開催期間前である表示を出すため、ローディングを即解除
+      return
+    }
+    if (timerId !== null) {
+      clearTimeout(timerId)
+      timerId = null
+    }
+    fetchCrowdData()
+  })
+
+  onUnmounted(() => {
+    if (timerId !== null) clearTimeout(timerId)
+  })
+
+  return { isLoading, isError, crowdLevel, fetchCrowdData }
 }
-</style>
 ````
 
 ## File: layers/main/app/components/ht/HtTop.vue
@@ -9112,6 +9494,8 @@ en:
 
 <template>
   <main class="ht-top">
+    <HtHeroSection />
+
     <HaFirstView />
 
     <section id="cloud-levels">
@@ -9188,6 +9572,7 @@ import HtContactSection from './HtContactSection.vue'
 import HtContentsSection from './HtContentsSection.vue'
 import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
 import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
+import HtHeroSection from './HtHeroSection.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -9204,7 +9589,7 @@ section {
   padding: 0 136px 108px;
 
   @include m.tb {
-    padding: 0 24px 72px;
+    padding: 0 24px 84px;
   }
 }
 </style>

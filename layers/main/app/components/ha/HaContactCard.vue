@@ -10,9 +10,7 @@
       {{ title }}
     </p>
     <NuxtLink class="jump-to-form">
-      <p class="jump-to-form__text">
-        {{ text }}<br>
-      </p>
+      <p class="jump-to-form__text">{{ text }}<br></p>
       <div class="jump-to-form__flex">
         <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
         <HaJumpToPageIcon class="jump-to-form__icon" />
@@ -35,13 +33,15 @@ defineProps({
   },
   color: {
     type: String,
-    validator: value => ['cyan', 'magenta', 'amber', 'vermilion'].includes(value),
+    validator: value =>
+      ['cyan', 'magenta', 'amber', 'vermilion'].includes(value),
   },
 })
 </script>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .contact-card {
   display: flex;
@@ -80,34 +80,38 @@ defineProps({
   }
 
   &--magenta {
-      .contact-card__icon {
-        background-color: rgba(v.$vket-magenta, 0.8);
-      }
+    .contact-card__icon {
+      background-color: rgba(v.$vket-magenta, 0.8);
     }
+  }
 
-    &--cyan {
-      .contact-card__icon {
-        background-color: rgba(v.$vket-cyan, 0.8);
-      }
+  &--cyan {
+    .contact-card__icon {
+      background-color: rgba(v.$vket-cyan, 0.8);
     }
+  }
 
-    &--amber {
-      .contact-card__icon {
-        background-color: rgba(v.$vket-amber, 0.8);
-      }
+  &--amber {
+    .contact-card__icon {
+      background-color: rgba(v.$vket-amber, 0.8);
     }
+  }
 
-    &--vermilion {
-      .contact-card__icon {
-        background-color: rgba(v.$vket-vermilion, 0.8);
-      }
+  &--vermilion {
+    .contact-card__icon {
+      background-color: rgba(v.$vket-vermilion, 0.8);
     }
+  }
 }
 
 .jump-to-form {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @include m.sp {
+    gap: 16px;
+  }
 
   &__flex {
     display: flex;
@@ -123,6 +127,7 @@ defineProps({
     color: v.$vket-green;
 
     &--underline {
+      margin-bottom: 0;
       font-size: 12px;
       text-decoration: underline;
     }

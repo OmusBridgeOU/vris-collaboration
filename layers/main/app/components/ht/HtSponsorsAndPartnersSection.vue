@@ -34,5 +34,9 @@ import HaSponsorCard from '../ha/HaSponsorCard.vue'
   @include m.tb {
     grid-template-columns: 1fr 1fr;
   }
+
+  @include m.sp {
+    gap: 20px;
+  }
 }
 </style>
