@@ -7,6 +7,11 @@ en:
 
 <template>
   <main class="ht-top">
+    <div class="canvas-wrapper">
+      <HaConfetti />
+      <HaFireworks />
+    </div>
+
     <HtHeroSection />
 
     <HaFirstView />
@@ -86,6 +91,8 @@ import HtContentsSection from './HtContentsSection.vue'
 import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
 import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
 import HtHeroSection from './HtHeroSection.vue'
+import HaFireworks from '../ha/HaFireworks.vue'
+import HaConfetti from '../ha/HaConfetti.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -93,9 +100,23 @@ import HtHeroSection from './HtHeroSection.vue'
 @use '@/assets/styles/mixins' as m;
 
 .ht-top {
+  position: relative;
+  z-index: 0;
+
   width: 100%;
   height: 100%;
+
   background-color: v.$base-background-color;
+}
+
+.canvas-wrapper {
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
 }
 
 section {

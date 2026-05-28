@@ -22,6 +22,7 @@
   position: relative;
   padding: 22px 36px;
   border-radius: 20px;
+  backdrop-filter: blur(4px);
 
   // グラスモーフィズム的な表現のための疑似要素
   &::after {
@@ -175,6 +176,7 @@
 .glassy-box-2 {
   position: relative;
   border-radius: 20px;
+  backdrop-filter: blur(4px);
   box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
 
   &::before {
@@ -216,6 +218,7 @@
 .glassy-box-3 {
   position: relative;
   border-radius: 20px;
+  backdrop-filter: blur(4px);
   box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
 
   &::before {
@@ -272,6 +275,7 @@
   position: relative;
   border-radius: 20px;
   background-color: rgb(217 217 217 / 20%);
+  backdrop-filter: blur(4px);
 
   &::before {
     pointer-events: none;
@@ -363,8 +367,11 @@
 
 .glassy-button-3 {
   position: relative;
+
   border-radius: 1000px;
+
   background-color: rgb(217 217 217 / 20%);
+  backdrop-filter: blur(4px);
   box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
 
   &::before {

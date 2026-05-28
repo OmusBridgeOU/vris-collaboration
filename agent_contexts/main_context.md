@@ -106,8 +106,10 @@ layers/
           HaAboutCard.vue
           HaAccordionItem.vue
           HaConductCard.vue
+          HaConfetti.vue
           HaContactCard.vue
           HaDocumentLink.vue
+          HaFireworks.vue
           HaFirstView.vue
           HaInfoCard.vue
           HaQuickAccessCard.vue
@@ -226,83 +228,461 @@ layers/
 
 # Files
 
-## File: layers/main/app/composables/useGsapFadeIn.ts
-````typescript
-import { gsap } from 'gsap'
+## File: layers/main/app/components/ha/HaConfetti.vue
+````vue
+<script setup lang="ts">
+/*
+  canvas最上部のランダムな位置から、ランダムな角度でランダムな色の長方形を一定間隔で収縮させながら落下させている。
+*/
+import { ref, onMounted, onUnmounted } from 'vue'
 
-export const useGsapFadeIn = () => {
-  const fadeInUp = (
-    target: string | Element | Ref<Element | null>,
-    options?: { delay?: number, duration?: number, distance?: number },
-  ) => {
-    const el = isRef(target) ? target.value : target
-    if (!el) return
+const canvasRef = ref<HTMLCanvasElement | null>(null)
 
-    gsap.fromTo(
-      el,
-      {
-        opacity: 0,
-        y: options?.distance ?? 40,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: options?.duration ?? 0.8,
-        delay: options?.delay ?? 0,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: el as Element,
-          start: 'top 75%',
-          once: true,
-        },
-      },
-    )
-  }
+// 調整可能なパラメータ
+const CONFIG = {
+  particleCount: 80,
+  fallSpeed: 2,
+  maxAngle: 15,
+  maxRotation: 65,
+  width: 12,
+  height: 8,
+  flipInterval: 500,
+} as const
 
-  // 複数要素を順番にアニメーション（stagger）
-  const fadeInUpStagger = (
-    targets: string | Element[],
-    options?: { stagger?: number, duration?: number, delay?: number, distance?: number },
-  ) => {
-    gsap.fromTo(
-      targets,
-      { opacity: 0, y: options?.distance ?? 40 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: options?.duration ?? 0.8,
-        delay: options?.delay ?? 0,
-        ease: 'power2.out',
-        stagger: options?.stagger ?? 0.15,
-        scrollTrigger: {
-          trigger: (typeof targets === 'string' ? targets : targets[0]) as Element,
-          start: 'top 85%',
-          once: true,
-        },
-      },
-    )
-  }
-
-  return { fadeInUp, fadeInUpStagger }
+// 型定義
+interface Confetti {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  hue: number
+  scaleY: number
+  scaleDirection: number
+  flipTimer: number
+  rotation: number
 }
-````
 
-## File: layers/main/app/plugins/gsap.client.ts
-````typescript
-// plugins/gsap.client.ts
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+// 状態管理
+let animationId: number | null = null
+let resizeObserver: ResizeObserver | null = null
+let intersectionObserver: IntersectionObserver | null = null
+let visibilityHandler: (() => void) | null = null
+let scaleFactor: number = 1
+let confetti: Confetti[] = []
 
-gsap.registerPlugin(ScrollTrigger)
+// ユーティリティ
+function random(min: number, max: number): number {
+  return Math.random() * (max - min) + min
+}
 
-export default defineNuxtPlugin(() => {
+// 紙吹雪を1個生成（canvas最上部からスタート）
+function createConfetti(canvasWidth: number): Confetti {
+  const sign = Math.random() < 0.5 ? 1 : -1
+  const angleRad = ((random(0, CONFIG.maxAngle) * Math.PI) / 180) * sign
+  const speed = CONFIG.fallSpeed * scaleFactor
+
   return {
-    provide: {
-      gsap,
-      ScrollTrigger,
+    x: random(0, canvasWidth),
+    y: -CONFIG.height,
+    vx: Math.sin(angleRad) * speed,
+    vy: Math.cos(angleRad) * speed,
+    hue: Math.floor(random(0, 360)),
+    scaleY: 1,
+    scaleDirection: -1,
+    flipTimer: performance.now() + CONFIG.flipInterval,
+    rotation:
+      (random(-1 * CONFIG.maxRotation, CONFIG.maxRotation) * Math.PI) / 180,
+  }
+}
+
+// 再開時にflipTimerをばらつかせてリセット（これがないと収縮タイミングが同期してしまう）
+function resetFlipTimers() {
+  const now = performance.now()
+  confetti.forEach((c) => {
+    c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
+  })
+}
+
+// アニメーションのメイン処理
+function startAnimation(canvas: HTMLCanvasElement) {
+  if (animationId !== null) return
+
+  const ctx = canvas.getContext('2d')!
+
+  // 初期状態では、パーティクルを画面内のランダムな高さに配置
+  if (confetti.length === 0) {
+    const now = performance.now()
+    confetti = Array.from({ length: CONFIG.particleCount }, () => {
+      const c = createConfetti(canvas.width)
+      c.y = random(0, canvas.height)
+      c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
+      return c
+    })
+  }
+
+  function updateConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    const now = performance.now()
+    const w = CONFIG.width * scaleFactor
+    const h = CONFIG.height * scaleFactor
+
+    confetti.forEach((c) => {
+      c.x += c.vx
+      c.y += c.vy
+
+      // 回転アニメーション（収縮アニメーションによる疑似的なもの）：flipTimerごとに折り返す
+      if (now >= c.flipTimer) {
+        c.scaleDirection *= -1
+        c.flipTimer = now + CONFIG.flipInterval
+      }
+      c.scaleY += c.scaleDirection * 0.05
+      c.scaleY = Math.max(0.1, Math.min(1, c.scaleY))
+
+      // 光の反射表現（回転アニメーションに合わせて輝度を変化させることによる疑似的なもの）
+      const lightness = 30 + c.scaleY * 40
+
+      // 画面下に出たら最上部に戻す
+      if (c.y > canvas.height + h) {
+        const next = createConfetti(canvas.width)
+        Object.assign(c, next)
+      }
+
+      ctx.save()
+      ctx.translate(c.x, c.y)
+      ctx.rotate(c.rotation)
+      ctx.scale(1, c.scaleY)
+      ctx.fillStyle = `hsl(${c.hue}, 90%, ${lightness}%)`
+      ctx.fillRect(-w / 2, -h / 2, w, h)
+      ctx.restore()
+    })
+  }
+
+  function animate() {
+    animationId = requestAnimationFrame(animate)
+    updateConfetti()
+  }
+
+  animate()
+}
+
+// 停止・リサイズ
+function stopAnimation() {
+  if (animationId !== null) {
+    cancelAnimationFrame(animationId)
+    animationId = null
+  }
+}
+
+function resizeCanvas(canvas: HTMLCanvasElement) {
+  const parent = canvas.parentElement
+  if (!parent) return
+  canvas.width = parent.clientWidth
+  canvas.height = parent.clientHeight
+}
+
+// ライフサイクル
+onMounted(() => {
+  const canvas = canvasRef.value
+  if (!canvas) return
+
+  const width = window.innerWidth
+  if (width < 768) {
+    scaleFactor = 0.6
+  } else if (width < 1024) {
+    scaleFactor = 0.8
+  } else {
+    scaleFactor = 1.0
+  }
+
+  resizeCanvas(canvas)
+
+  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
+  resizeObserver.observe(canvas.parentElement!)
+
+  intersectionObserver = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0]
+      if (!entry) return
+      if (entry.isIntersecting) {
+        resetFlipTimers()
+        startAnimation(canvas)
+      } else {
+        stopAnimation()
+      }
     },
+    { threshold: 0 },
+  )
+  intersectionObserver.observe(canvas)
+
+  visibilityHandler = () => {
+    if (document.hidden) {
+      stopAnimation()
+    } else {
+      resetFlipTimers()
+      startAnimation(canvas)
+    }
+  }
+  document.addEventListener('visibilitychange', visibilityHandler)
+})
+
+onUnmounted(() => {
+  stopAnimation()
+  resizeObserver?.disconnect()
+  intersectionObserver?.disconnect()
+  if (visibilityHandler) {
+    document.removeEventListener('visibilitychange', visibilityHandler)
+    visibilityHandler = null
   }
 })
+</script>
+
+<template>
+  <canvas
+    ref="canvasRef"
+    class="confetti-canvas"
+  />
+</template>
+
+<style scoped>
+.confetti-canvas {
+  pointer-events: none;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+}
+</style>
+````
+
+## File: layers/main/app/components/ha/HaFireworks.vue
+````vue
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const canvasRef = ref<HTMLCanvasElement | null>(null)
+
+// アニメーション管理用の変数
+let animationId: number | null = null
+let resizeObserver: ResizeObserver | null = null
+let intersectionObserver: IntersectionObserver | null = null
+let visibilityHandler: (() => void) | null = null
+
+// 花火の発射タイミング管理
+let nextFireworkTime: number = 0
+
+// 画面サイズに応じたスケール係数（起動時に1度だけ決定）
+let scaleFactor: number = 1
+
+// ユーティリティ
+function random(min: number, max: number): number {
+  return Math.random() * (max - min) + min
+}
+
+// パーティクルの型定義
+interface Particle {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  alpha: number
+  hue: number
+}
+
+// パーティクルをstartAnimationの外で管理（再起動時にリセットされないようにする）
+let particles: Particle[] = []
+
+// 次の花火を打ち上げる時刻をセット（1〜2秒のランダムなタイミング）
+function scheduleNextFirework() {
+  nextFireworkTime = performance.now() + random(1000, 2000)
+}
+
+// アニメーションのメイン処理
+function startAnimation(canvas: HTMLCanvasElement) {
+  // 二重起動を防ぐ
+  if (animationId !== null) return
+
+  const ctx = canvas.getContext('2d')!
+
+  // 花火を1発生成
+  function createFirework() {
+    const x = random(100, canvas.width - 100)
+    const y = random(100, canvas.height - 100)
+    const hue = Math.floor(random(0, 360))
+
+    // 固定パーティクル（強: 24度間隔 × 15個、中: 36度間隔 × 10個、弱: 72度間隔 × 5個 = 合計30個）を設けて概形を整える
+    const fixedConfig = [
+      { count: 15, interval: 24, speed: 5 * scaleFactor },
+      { count: 10, interval: 36, speed: 3 * scaleFactor },
+      { count: 5, interval: 72, speed: 1 * scaleFactor },
+    ]
+
+    // 花火1発ごとにランダムな回転オフセット（0〜12度）
+    const rotationOffset = (random(0, 12) * Math.PI) / 180
+
+    fixedConfig.forEach(({ count, interval, speed }) => {
+      Array.from({ length: count }, (_, i) => {
+        const angle = (i * interval * Math.PI) / 180 + rotationOffset
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          alpha: 1,
+          hue,
+        })
+      })
+    })
+
+    // ランダムパーティクル（30個）
+    for (let i = 0; i < 30; i++) {
+      const angle = random(0, Math.PI * 2)
+      const speed = random(1, 5) * scaleFactor
+
+      particles.push({
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        alpha: 1,
+        hue,
+      })
+    }
+
+    scheduleNextFirework()
+  }
+
+  // パーティクルの更新と描画
+  function updateParticles() {
+    // 画面全体をクリア（背景を透過させる）
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    particles = particles.filter((p) => {
+      p.x += p.vx
+      p.y += p.vy
+      p.alpha -= 0.01
+      return p.alpha > 0
+    })
+
+    particles.forEach((p) => {
+      ctx.beginPath()
+      ctx.fillStyle = `hsla(${p.hue}, 100%, 60%, ${p.alpha})`
+      ctx.arc(p.x, p.y, 2 * scaleFactor, 0, Math.PI * 2)
+      ctx.fill()
+    })
+  }
+
+  // アニメーションループ
+  function animate() {
+    animationId = requestAnimationFrame(animate)
+    updateParticles()
+
+    if (performance.now() >= nextFireworkTime) {
+      createFirework()
+    }
+  }
+
+  animate()
+}
+
+// アニメーション停止
+function stopAnimation() {
+  if (animationId !== null) {
+    cancelAnimationFrame(animationId)
+    animationId = null
+  }
+}
+
+// canvasのサイズを親要素に合わせる
+function resizeCanvas(canvas: HTMLCanvasElement) {
+  const parent = canvas.parentElement
+  if (!parent) return
+  canvas.width = parent.clientWidth
+  canvas.height = parent.clientHeight
+}
+
+onMounted(() => {
+  const canvas = canvasRef.value
+  if (!canvas) return
+
+  // 起動時に1度だけ画面幅でscaleFactorを決定
+  const width = window.innerWidth
+  if (width < 768) {
+    scaleFactor = 0.6
+  } else if (width < 1024) {
+    scaleFactor = 0.8
+  } else {
+    scaleFactor = 1.0
+  }
+
+  resizeCanvas(canvas)
+
+  // 親要素のリサイズを監視
+  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
+  resizeObserver.observe(canvas.parentElement!)
+
+  // 要素の表示・非表示を監視（スクロールで画面外に出た場合）
+  intersectionObserver = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0]
+      if (!entry) return
+      if (entry.isIntersecting) {
+        startAnimation(canvas)
+      } else {
+        stopAnimation()
+      }
+    },
+    { threshold: 0 },
+  )
+  intersectionObserver.observe(canvas)
+
+  // タブの表示・非表示を監視
+  visibilityHandler = () => {
+    if (document.hidden) {
+      stopAnimation()
+    } else {
+      startAnimation(canvas)
+    }
+  }
+  document.addEventListener('visibilitychange', visibilityHandler)
+
+  // 初回スケジュール（ここでのみ呼ぶ）
+  scheduleNextFirework()
+})
+
+onUnmounted(() => {
+  stopAnimation()
+  resizeObserver?.disconnect()
+  intersectionObserver?.disconnect()
+  if (visibilityHandler) {
+    document.removeEventListener('visibilitychange', visibilityHandler)
+    visibilityHandler = null
+  }
+})
+</script>
+
+<template>
+  <canvas
+    ref="canvasRef"
+    class="fireworks-canvas"
+  />
+</template>
+
+<style scoped>
+.fireworks-canvas {
+  pointer-events: none;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+}
+</style>
 ````
 
 ## File: layers/main/@types/auto-imports.d.ts
@@ -2633,84 +3013,6 @@ en:
 </style>
 ````
 
-## File: layers/main/app/components/ht/HtQandASection.vue
-````vue
-<script setup lang="ts">
-import HaAccordionItem from '../ha/HaAccordionItem.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const items = [
-  {
-    id: 1,
-    title: 'Vket Real in 札幌とはどのようなイベントですか？',
-    contents: [
-      'Vket Real in 札幌は、世界最大級のメタバースイベント「バーチャルマーケットから派生した、北海道の有志XRクリエイターが主催するリアルイベントです。',
-      'VRSNSユーザーがバーチャルの姿のままリアルの場で集い、交流し、新たな文化を創造する場を目指しています。',
-    ],
-  },
-  {
-    id: 2,
-    title: 'Vket Real in 札幌とはどのようなイベントですか？',
-    contents: ['内容内容内容内容'],
-  },
-  {
-    id: 3,
-    title: 'Vket Real in 札幌とはどのようなイベントですか？',
-    contents: ['内容内容内容内容'],
-  },
-]
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="よくある質問"
-      label="Q&A"
-    />
-    <HaAccordionItem :items="items">
-      <template #content="{ item }">
-        <p
-          v-for="(content, index) in item.contents"
-          :key="`${item.id}-${index}`"
-        >
-          {{ content }}
-        </p>
-      </template>
-    </HaAccordionItem>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px;
-}
-
-.ticket-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 275px 275px;
-  gap: 12px 24px;
-
-  &__item {
-    &--full-width {
-      grid-column: 1 / -1;
-    }
-  }
-}
-</style>
-````
-
 ## File: layers/main/app/composables/useApi.ts
 ````typescript
 /**
@@ -2742,6 +3044,67 @@ export default function useApi<K extends RepositoryKey>(endpoint: K) {
   return {
     repository,
   }
+}
+````
+
+## File: layers/main/app/composables/useGsapFadeIn.ts
+````typescript
+import { gsap } from 'gsap'
+
+export const useGsapFadeIn = () => {
+  const fadeInUp = (
+    target: string | Element | Ref<Element | null>,
+    options?: { delay?: number, duration?: number, distance?: number },
+  ) => {
+    const el = isRef(target) ? target.value : target
+    if (!el) return
+
+    gsap.fromTo(
+      el,
+      {
+        opacity: 0,
+        y: options?.distance ?? 40,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: options?.duration ?? 0.8,
+        delay: options?.delay ?? 0,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: el as Element,
+          start: 'top 75%',
+          once: true,
+        },
+      },
+    )
+  }
+
+  // 複数要素を順番にアニメーション（stagger）
+  const fadeInUpStagger = (
+    targets: string | Element[],
+    options?: { stagger?: number, duration?: number, delay?: number, distance?: number },
+  ) => {
+    gsap.fromTo(
+      targets,
+      { opacity: 0, y: options?.distance ?? 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: options?.duration ?? 0.8,
+        delay: options?.delay ?? 0,
+        ease: 'power2.out',
+        stagger: options?.stagger ?? 0.15,
+        scrollTrigger: {
+          trigger: (typeof targets === 'string' ? targets : targets[0]) as Element,
+          start: 'top 85%',
+          once: true,
+        },
+      },
+    )
+  }
+
+  return { fadeInUp, fadeInUpStagger }
 }
 ````
 
@@ -2847,6 +3210,24 @@ definePageMeta({
   layout: 'top',
 })
 </script>
+````
+
+## File: layers/main/app/plugins/gsap.client.ts
+````typescript
+// plugins/gsap.client.ts
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+export default defineNuxtPlugin(() => {
+  return {
+    provide: {
+      gsap,
+      ScrollTrigger,
+    },
+  }
+})
 ````
 
 ## File: layers/main/app/plugins/gtm.client.ts
@@ -5015,6 +5396,84 @@ defineProps<{
 </style>
 ````
 
+## File: layers/main/app/components/ht/HtQandASection.vue
+````vue
+<script setup lang="ts">
+import HaAccordionItem from '../ha/HaAccordionItem.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const items = [
+  {
+    id: 1,
+    title: 'Vket Real in 札幌とはどのようなイベントですか？',
+    contents: [
+      'Vket Real in 札幌は、世界最大級のメタバースイベント「バーチャルマーケットから派生した、北海道の有志XRクリエイターが主催するリアルイベントです。',
+      'VRSNSユーザーがバーチャルの姿のままリアルの場で集い、交流し、新たな文化を創造する場を目指しています。',
+    ],
+  },
+  {
+    id: 2,
+    title: 'Vket Real in 札幌とはどのようなイベントですか？',
+    contents: ['内容内容内容内容'],
+  },
+  {
+    id: 3,
+    title: 'Vket Real in 札幌とはどのようなイベントですか？',
+    contents: ['内容内容内容内容'],
+  },
+]
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="よくある質問"
+      label="Q&A"
+    />
+    <HaAccordionItem :items="items">
+      <template #content="{ item }">
+        <p
+          v-for="(content, index) in item.contents"
+          :key="`${item.id}-${index}`"
+        >
+          {{ content }}
+        </p>
+      </template>
+    </HaAccordionItem>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+
+.mb-24 {
+  margin-bottom: 96px;
+}
+
+.ticket-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 275px 275px;
+  gap: 12px 24px;
+
+  &__item {
+    &--full-width {
+      grid-column: 1 / -1;
+    }
+  }
+}
+</style>
+````
+
 ## File: layers/main/app/pages/documents/[...slug].vue
 ````vue
 <script lang="ts" setup>
@@ -6380,6 +6839,881 @@ en:
 </style>
 ````
 
+## File: layers/main/app/composables/useMockCrowdData.ts
+````typescript
+// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
+import { ref, onMounted, onUnmounted } from 'vue'
+
+type CrowdLevel = 0 | 1 | 2 | 3
+
+export function useCrowdData() {
+  const crowdData = ref<{ timestamp: string, value: CrowdLevel } | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+
+  const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
+    0: '開催期間外',
+    1: '余裕あり',
+    2: 'やや混雑',
+    3: '混雑',
+  }
+
+  const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+    0: 'gray',
+    1: 'emgreen',
+    2: 'amber',
+    3: 'vermilion',
+  }
+
+  const MOCK_INTERVAL_MS = 3 * 1000 // 10秒
+  const MOCK_INITIAL_DELAY_MS = 10 * 1000 // 初回ローディング 10秒
+  const crowdLevel = computed<CrowdLevel | null>(() => crowdData.value?.value ?? null)
+  const fillCount = computed(() => crowdLevel.value ?? 0)
+  const statusText = computed(() => isLoading.value ? '取得中' : crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
+  const statusColor = computed(() => isLoading.value ? 'purple' : crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
+
+  let timerId: ReturnType<typeof setInterval> | null = null
+  let initialTimerId: ReturnType<typeof setTimeout> | null = null // 追加
+
+  function generateMock() {
+    console.log('取得：ダミー')
+    crowdData.value = {
+      timestamp: new Date().toISOString(),
+      value: (Math.floor(Math.random() * 3) + 1) as CrowdLevel,
+    }
+    isLoading.value = false
+    isError.value = false
+  }
+
+  onMounted(() => {
+    // 10秒後に初回データ取得 → その後3秒おきに更新
+    initialTimerId = setTimeout(() => {
+      generateMock()
+      timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
+    }, MOCK_INITIAL_DELAY_MS)
+  })
+
+  onUnmounted(() => {
+    if (initialTimerId !== null) clearTimeout(initialTimerId) // 追加
+    if (timerId !== null) clearInterval(timerId)
+  })
+
+  return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
+}
+````
+
+## File: layers/main/app/app.vue
+````vue
+<i18n lang="yaml">
+  ja:
+    site:
+      title: Vket Boilerplate Nuxt
+      title_template: "{title} - HIKKY Web Frontend"
+      description: Vketのサイト開発で活用しているボイラープレート
+  en:
+    site:
+      title: Vket Boilerplate Nuxt
+      title_template: "{title} - HIKKY Web Frontend"
+      description: A boilerplate used for Vket site development
+</i18n>
+
+<template>
+  <Head>
+    <Link
+      rel="alternate"
+      hreflang="ja"
+      :href="currentJaFullPath"
+    />
+    <Link
+      rel="alternate"
+      hreflang="en"
+      :href="currentEnFullPath"
+    />
+    <Link
+      rel="alternate"
+      hreflang="x-default"
+      :href="currentJaFullPath"
+    />
+    <template v-if="currentLang === 'ja'">
+      <Link
+        rel="canonical"
+        :href="currentJaFullPath"
+      />
+    </template>
+    <template v-if="currentLang === 'en'">
+      <Link
+        rel="canonical"
+        :href="currentEnFullPath"
+      />
+    </template>
+  </Head>
+  <Body class="app">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </Body>
+</template>
+
+<script lang="ts" setup>
+const route = useRoute()
+const i18n = useI18n()
+const currentFullPath = ref(`${useRuntimeConfig().public.url}${route.fullPath}`)
+const currentLang = ref(i18n.locale.value)
+
+const currentJaFullPath = computed(() => {
+  if (currentLang.value === 'ja') {
+    return currentFullPath.value
+  } else {
+    return currentFullPath.value
+      .replace(/\/en(\/|$)/, '/')
+      .replace(/\/{2,}/, '/')
+  }
+})
+
+const currentEnFullPath = computed(() => {
+  if (currentLang.value === 'en') {
+    return currentFullPath.value
+  } else {
+    const path = route.fullPath.endsWith('/')
+      ? route.fullPath
+      : `${route.fullPath}/`
+    return `${useRuntimeConfig().public.url}/en${path}`
+  }
+})
+
+useHeadSafe({
+  htmlAttrs: {
+    lang: currentLang.value,
+  },
+  titleTemplate: (titleChunk) => {
+    return titleChunk
+      ? i18n.t('site.title_template', { title: titleChunk })
+      : i18n.t('site.title')
+  },
+  meta: [
+    {
+      name: 'description',
+      content: i18n.t('site.description'),
+    },
+    {
+      property: 'og:description',
+      content: i18n.t('site.description'),
+    },
+    {
+      property: 'og:site_name',
+      content: i18n.t('site.title'),
+    },
+  ],
+})
+</script>
+````
+
+## File: layers/main/nuxt.config.ts
+````typescript
+import { defineNuxtConfig } from 'nuxt/config'
+import path from 'path'
+import { readEnvType } from './config/models/EnvType'
+import { getRuntimeConfigOfEnvType } from './config/runtimeConfig'
+import { nuxtI18nOptions } from './i18n/i18n.config'
+
+type MetaInfo = {
+  title: string
+  description: string
+  robots: string
+  siteName: string
+  ogImageUrl: string
+  ogUrl: string
+  twitterSite: string
+  twitterCreator: string
+}
+
+const NUXT_ENV_OUTPUT_ENV = readEnvType(process.env)
+const runtimeConfig = getRuntimeConfigOfEnvType(NUXT_ENV_OUTPUT_ENV)
+const cssUrls = [`@/assets/styles/style.scss`]
+const srcDir = 'app'
+const isSsr = false
+const checkTypeCheckOnBuild = true
+const needAnalyze = NUXT_ENV_OUTPUT_ENV === 'local'
+const needSourcemap = NUXT_ENV_OUTPUT_ENV !== 'production'
+const enableDebug = NUXT_ENV_OUTPUT_ENV === 'local'
+
+const meta: MetaInfo = {
+  title: '',
+  description: '',
+  robots: NUXT_ENV_OUTPUT_ENV === 'production' ? 'all' : 'none',
+  siteName: '',
+  ogImageUrl: `${runtimeConfig.public.url}/images/ogp.jpg`,
+  ogUrl: runtimeConfig.public.url,
+  twitterSite: 'https://x.com/',
+  twitterCreator: 'https://x.com/',
+}
+
+// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  extends: path.resolve(__dirname, '../base'),
+  modules: [
+    '@nuxtjs/google-fonts',
+    '@nuxt/content',
+  ],
+  ssr: isSsr,
+
+  imports: {
+    dirs: ['utils/types/**'],
+    global: false,
+  },
+
+  app: {
+    head: {
+      meta: [
+        { name: 'robots', content: meta.robots },
+        {
+          name: 'description',
+          content: meta.description,
+        },
+        {
+          property: 'og:site_name',
+          content: meta.siteName,
+        },
+        {
+          property: 'og:url',
+          content: meta.ogUrl,
+        },
+        {
+          property: 'og:title',
+          content: meta.title,
+        },
+        {
+          property: 'og:description',
+          content: meta.description,
+        },
+        {
+          property: 'og:image',
+          content: meta.ogImageUrl,
+        },
+        {
+          name: 'twitter:site',
+          content: meta.twitterSite,
+        },
+        {
+          name: 'twitter:creator',
+          content: meta.twitterCreator,
+        },
+      ],
+      link: [
+        {
+          rel: 'icon',
+          type: 'image/x-icon',
+          href: `${runtimeConfig.public.url}/favicon.ico`,
+        },
+      ],
+    },
+  },
+
+  css: cssUrls,
+
+  content: {
+    watch: {
+      enabled: true,
+    },
+    build: {
+      markdown: {
+        toc: {
+          depth: 4,
+        },
+        highlight: {
+          theme: {
+            default: 'github-light',
+            dark: 'github-dark',
+            sepia: 'monokai',
+          },
+        },
+        remarkPlugins: {
+          'remark-gfm': {
+            singleTilde: false,
+          },
+        },
+      },
+    },
+    experimental: {
+      nativeSqlite: true,
+    },
+  },
+
+  runtimeConfig,
+  dir: {
+    public: path.resolve(__dirname, './public'),
+  },
+  rootDir: __dirname,
+  srcDir: `${srcDir}/`,
+
+  alias: {
+    '#base': path.resolve(__dirname, '../base'),
+    '#main': __dirname,
+    '@': path.resolve(__dirname, './app'),
+  },
+
+  ignore: [
+    '.output',
+    '**/test/*.{js,ts,jsx,tsx}',
+    '**/*.{spec,test}.{js,ts,jsx,tsx}',
+    '**/-*.*',
+  ],
+
+  build: {
+    analyze: needAnalyze,
+  },
+
+  routeRules: {
+    '/external/**': {
+      proxy: 'https://d1-api-test-project.solarkamimura.workers.dev/api/**',
+    },
+  },
+
+  sourcemap: {
+    server: needSourcemap,
+    client: needSourcemap,
+  },
+
+  compatibilityDate: '2024-04-03',
+
+  typescript: {
+    typeCheck: checkTypeCheckOnBuild,
+  },
+
+  debug: process.env.VITEST === 'true' ? false : enableDebug,
+
+  googleFonts: {
+    families: {
+      'Noto+Sans+JP': [100, 300, 400, 500, 700, 900],
+      'Inter': [100, 300, 400, 500, 700, 900],
+    },
+    display: 'swap',
+  },
+
+  i18n: nuxtI18nOptions,
+
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
+        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
+      },
+    },
+  },
+})
+````
+
+## File: layers/main/app/components/ha/HaSectionTitle.vue
+````vue
+<script setup lang="ts">
+defineProps<{
+  label: string
+  title: string
+}>()
+</script>
+
+<template>
+  <div class="section-title">
+    <div class="section-title__line" />
+    <div class="section-title__flex">
+      <div class="section-title__text-box">
+        <p class="section-title__label">
+          {{ label }}
+        </p>
+        <h2 class="section-title__text">
+          {{ title }}
+        </h2>
+      </div>
+      <div class="section-title__controls">
+        <slot name="controls" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.section-title {
+  position: relative;
+  margin-bottom: 96px;
+  padding-top: 16px;
+
+  @include m.sp {
+    margin-bottom: 32px;
+  }
+
+  &__line {
+    position: relative;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 2px;
+    margin-bottom: 4px;
+
+    // 点
+    &::before {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 2px;
+      height: 2px;
+
+      background: v.$vket-amber;
+    }
+
+    &::after {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 2px;
+      margin-left: 12px;
+
+      background: linear-gradient(
+        to right,
+        v.$vket-amber 0%,
+        v.$vket-vermilion 100%
+      );
+    }
+  }
+
+  &__flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__label {
+    font-size: 12px;
+    color: v.$vket-amber;
+    letter-spacing: 0.1em;
+
+    @include m.tb {
+      font-size: 10px;
+    }
+  }
+
+  &__text {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1em;
+    color: #fff;
+
+    @include m.tb {
+      font-size: 32px;
+    }
+
+    @include m.sp {
+      font-size: 24px;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/hm/HmCrowdLevelCard.vue
+````vue
+<script lang="ts" setup>
+import HaAstyError from '../ha/buildings/HaAstyError.vue'
+import HaAstyLevel1 from '../ha/buildings/HaAstyLevel1.vue'
+import HaAstyLevel2 from '../ha/buildings/HaAstyLevel2.vue'
+import HaAstyLevel3 from '../ha/buildings/HaAstyLevel3.vue'
+import HaAstyLoading from '../ha/buildings/HaAstyLoading.vue'
+import HaAstyUnable from '../ha/buildings/HaAstyUnable.vue'
+import HaDTCError from '../ha/buildings/HaDTCError.vue'
+import HaDTCLevel1 from '../ha/buildings/HaDTCLevel1.vue'
+import HaDTCLevel2 from '../ha/buildings/HaDTCLevel2.vue'
+import HaDTCLevel3 from '../ha/buildings/HaDTCLevel3.vue'
+import HaDTCLoading from '../ha/buildings/HaDTCLoading.vue'
+import HaDTCUnable from '../ha/buildings/HaDTCUnable.vue'
+import HaShimmer from '../ha/HaShimmer.vue'
+import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
+import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
+import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
+import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
+
+type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
+
+const props = defineProps<{
+  label: string
+  name: string
+  isLoading: boolean
+  isError: boolean
+  building: 1 | 2
+  crowdLevel: CrowdLevel | null
+}>()
+
+const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
+  0: '期間外',
+  1: '余裕あり',
+  2: 'やや混雑',
+  3: '混雑',
+}
+
+const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+  0: 'gray',
+  1: 'emgreen',
+  2: 'amber',
+  3: 'vermilion',
+}
+
+const statusText = computed(() =>
+  props.isLoading || props.isError
+    ? '取得中'
+    : props.crowdLevel !== null
+      ? CROWD_LEVEL_TEXT[props.crowdLevel]
+      : '取得中',
+)
+
+const statusColor = computed(() =>
+  props.isLoading || props.isError
+    ? 'gray'
+    : props.crowdLevel !== null
+      ? CROWD_LEVEL_COLOR[props.crowdLevel]
+      : 'gray',
+)
+
+const fillCount = computed(() => props.crowdLevel ?? 0)
+</script>
+
+<template>
+  <div
+    class="glassy-box-4 crowd-level-card"
+    :class="`crowd-level-card--${statusColor}`"
+  >
+    <div class="crowd-level-card__head">
+      <div class="crowd-level-card__text-box">
+        <HaShimmer
+          :loading="isLoading"
+          as="p"
+          class="crowd-level-card__label"
+        >
+          {{ label }}
+        </HaShimmer>
+        <HaShimmer
+          :loading="isLoading"
+          as="p"
+          class="crowd-level-card__name"
+        >
+          {{ name }}
+        </HaShimmer>
+      </div>
+      <HaShimmer
+        :loading="isLoading"
+        as="div"
+        class="crowd-level-card__status-box"
+      >
+        <div class="crowd-level-card__icon-box">
+          <template v-if="isError">
+            <HaPeopleIcon />
+            <HaQuestionIcon />
+          </template>
+          <template v-else-if="fillCount == 0">
+            <HaPeopleUnableIcon />
+          </template>
+          <template v-else>
+            <HaPeopleFillIcon
+              v-for="i in fillCount"
+              :key="`fill-${i}`"
+            />
+            <HaPeopleIcon
+              v-for="i in 3 - fillCount"
+              :key="`empty-${i}`"
+            />
+          </template>
+        </div>
+        <p
+          class="crowd-level-card__status-text"
+          data-testid="crowd-status-text"
+        >
+          {{ statusText }}
+        </p>
+      </HaShimmer>
+    </div>
+    <div class="crowd-level-card__body">
+      <div class="crowd-level-card__image">
+        <template v-if="building == 1">
+          <HaAstyLoading v-if="isLoading" />
+          <HaAstyError v-else-if="isError" />
+          <template v-else>
+            <HaAstyUnable v-show="statusColor == 'gray'" />
+            <HaAstyLevel1 v-show="statusColor == 'emgreen'" />
+            <HaAstyLevel2 v-show="statusColor == 'amber'" />
+            <HaAstyLevel3 v-show="statusColor == 'vermilion'" />
+          </template>
+        </template>
+        <template v-else-if="building == 2">
+          <HaDTCLoading v-if="isLoading" />
+          <HaDTCError v-else-if="isError" />
+          <template v-else>
+            <HaDTCUnable v-show="statusColor == 'gray'" />
+            <HaDTCLevel1 v-show="statusColor == 'emgreen'" />
+            <HaDTCLevel2 v-show="statusColor == 'amber'" />
+            <HaDTCLevel3 v-show="statusColor == 'vermilion'" />
+          </template>
+        </template>
+      </div>
+    </div>
+    <div class="crowd-level-card__footer">
+      <HaShimmer
+        :loading="isLoading"
+        as="p"
+        class="crowd-level-card__text"
+      >
+        混雑状況
+      </HaShimmer>
+      <HaShimmer
+        :loading="isLoading"
+        as="div"
+        class="crowd-level-card__carousel glassy-carousel"
+      >
+        <div
+          class="crowd-level-card__carousel-inner glassy-carousel"
+          :class="`glassy-carousel crowd-level-card__carousel-inner--${
+            isError || fillCount == 0 || fillCount == 3
+              ? '1-1'
+              : fillCount == 1
+                ? '1-4'
+                : fillCount == 2
+                  ? '1-2'
+                  : ''
+          }`"
+        />
+      </HaShimmer>
+      <HaShimmer
+        :loading="isLoading"
+        as="p"
+        class="crowd-level-card__text"
+      >
+        {{
+          isError
+            ? '取得中'
+            : fillCount == 0
+              ? '期間外'
+              : fillCount == 1
+                ? '低'
+                : fillCount == 2
+                  ? '中'
+                  : fillCount == 3
+                    ? '高'
+                    : ''
+        }}
+      </HaShimmer>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.crowd-level-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 18px 24px 32px;
+
+  @include m.sp {
+    padding: 16px;
+  }
+
+  &--emgreen {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-emgreen;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-emgreen, 0.75);
+    }
+  }
+
+  &--amber {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-amber;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-amber, 0.75);
+    }
+  }
+
+  &--gray {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-gray;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-gray, 0.75);
+    }
+  }
+
+  &--purple {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-purple;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-purple, 0.75);
+    }
+  }
+
+  &--vermilion {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-vermilion;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-vermilion, 0.75);
+    }
+  }
+
+  &__head {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  &__text-box {
+    width: fit-content;
+  }
+
+  &__label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 700;
+
+    @include m.sp {
+      font-size: 10px;
+    }
+  }
+
+  &__name {
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1em;
+
+    @include m.sp {
+      font-size: 18px;
+    }
+  }
+
+  &__icon-box {
+    display: flex;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+
+    @include m.sp {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__status-box {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 18px;
+    border-radius: 20px;
+
+    @include m.sp {
+      padding: 6px 12px;
+    }
+  }
+
+  &__status-text {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 100%;
+    text-wrap: nowrap;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &__image {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 50%;
+
+    svg {
+      width: 100%;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__carousel {
+    display: flex;
+    flex-grow: 1;
+    height: 14px;
+  }
+
+  &__carousel-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    transition: width 0.6s ease;
+
+    &--1-1 {
+      width: 100%;
+    }
+
+    &--1-2 {
+      width: 50%;
+    }
+
+    &--1-4 {
+      width: 25%;
+    }
+  }
+
+  &__text {
+    width: 4em;
+    font-size: 16px;
+    line-height: 1em;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ht/HtAccessSection.vue
 ````vue
 <script setup lang="ts">
@@ -7045,370 +8379,6 @@ onMounted(() => {
 </style>
 ````
 
-## File: layers/main/app/composables/useMockCrowdData.ts
-````typescript
-// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
-import { ref, onMounted, onUnmounted } from 'vue'
-
-type CrowdLevel = 0 | 1 | 2 | 3
-
-export function useCrowdData() {
-  const crowdData = ref<{ timestamp: string, value: CrowdLevel } | null>(null)
-  const isLoading = ref(true)
-  const isError = ref(false)
-
-  const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-    0: '開催期間外',
-    1: '余裕あり',
-    2: 'やや混雑',
-    3: '混雑',
-  }
-
-  const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-    0: 'gray',
-    1: 'emgreen',
-    2: 'amber',
-    3: 'vermilion',
-  }
-
-  const MOCK_INTERVAL_MS = 3 * 1000 // 10秒
-  const MOCK_INITIAL_DELAY_MS = 10 * 1000 // 初回ローディング 10秒
-  const crowdLevel = computed<CrowdLevel | null>(() => crowdData.value?.value ?? null)
-  const fillCount = computed(() => crowdLevel.value ?? 0)
-  const statusText = computed(() => isLoading.value ? '取得中' : crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
-  const statusColor = computed(() => isLoading.value ? 'purple' : crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
-
-  let timerId: ReturnType<typeof setInterval> | null = null
-  let initialTimerId: ReturnType<typeof setTimeout> | null = null // 追加
-
-  function generateMock() {
-    console.log('取得：ダミー')
-    crowdData.value = {
-      timestamp: new Date().toISOString(),
-      value: (Math.floor(Math.random() * 3) + 1) as CrowdLevel,
-    }
-    isLoading.value = false
-    isError.value = false
-  }
-
-  onMounted(() => {
-    // 10秒後に初回データ取得 → その後3秒おきに更新
-    initialTimerId = setTimeout(() => {
-      generateMock()
-      timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
-    }, MOCK_INITIAL_DELAY_MS)
-  })
-
-  onUnmounted(() => {
-    if (initialTimerId !== null) clearTimeout(initialTimerId) // 追加
-    if (timerId !== null) clearInterval(timerId)
-  })
-
-  return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
-}
-````
-
-## File: layers/main/app/app.vue
-````vue
-<i18n lang="yaml">
-  ja:
-    site:
-      title: Vket Boilerplate Nuxt
-      title_template: "{title} - HIKKY Web Frontend"
-      description: Vketのサイト開発で活用しているボイラープレート
-  en:
-    site:
-      title: Vket Boilerplate Nuxt
-      title_template: "{title} - HIKKY Web Frontend"
-      description: A boilerplate used for Vket site development
-</i18n>
-
-<template>
-  <Head>
-    <Link
-      rel="alternate"
-      hreflang="ja"
-      :href="currentJaFullPath"
-    />
-    <Link
-      rel="alternate"
-      hreflang="en"
-      :href="currentEnFullPath"
-    />
-    <Link
-      rel="alternate"
-      hreflang="x-default"
-      :href="currentJaFullPath"
-    />
-    <template v-if="currentLang === 'ja'">
-      <Link
-        rel="canonical"
-        :href="currentJaFullPath"
-      />
-    </template>
-    <template v-if="currentLang === 'en'">
-      <Link
-        rel="canonical"
-        :href="currentEnFullPath"
-      />
-    </template>
-  </Head>
-  <Body class="app">
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </Body>
-</template>
-
-<script lang="ts" setup>
-const route = useRoute()
-const i18n = useI18n()
-const currentFullPath = ref(`${useRuntimeConfig().public.url}${route.fullPath}`)
-const currentLang = ref(i18n.locale.value)
-
-const currentJaFullPath = computed(() => {
-  if (currentLang.value === 'ja') {
-    return currentFullPath.value
-  } else {
-    return currentFullPath.value
-      .replace(/\/en(\/|$)/, '/')
-      .replace(/\/{2,}/, '/')
-  }
-})
-
-const currentEnFullPath = computed(() => {
-  if (currentLang.value === 'en') {
-    return currentFullPath.value
-  } else {
-    const path = route.fullPath.endsWith('/')
-      ? route.fullPath
-      : `${route.fullPath}/`
-    return `${useRuntimeConfig().public.url}/en${path}`
-  }
-})
-
-useHeadSafe({
-  htmlAttrs: {
-    lang: currentLang.value,
-  },
-  titleTemplate: (titleChunk) => {
-    return titleChunk
-      ? i18n.t('site.title_template', { title: titleChunk })
-      : i18n.t('site.title')
-  },
-  meta: [
-    {
-      name: 'description',
-      content: i18n.t('site.description'),
-    },
-    {
-      property: 'og:description',
-      content: i18n.t('site.description'),
-    },
-    {
-      property: 'og:site_name',
-      content: i18n.t('site.title'),
-    },
-  ],
-})
-</script>
-````
-
-## File: layers/main/nuxt.config.ts
-````typescript
-import { defineNuxtConfig } from 'nuxt/config'
-import path from 'path'
-import { readEnvType } from './config/models/EnvType'
-import { getRuntimeConfigOfEnvType } from './config/runtimeConfig'
-import { nuxtI18nOptions } from './i18n/i18n.config'
-
-type MetaInfo = {
-  title: string
-  description: string
-  robots: string
-  siteName: string
-  ogImageUrl: string
-  ogUrl: string
-  twitterSite: string
-  twitterCreator: string
-}
-
-const NUXT_ENV_OUTPUT_ENV = readEnvType(process.env)
-const runtimeConfig = getRuntimeConfigOfEnvType(NUXT_ENV_OUTPUT_ENV)
-const cssUrls = [`@/assets/styles/style.scss`]
-const srcDir = 'app'
-const isSsr = false
-const checkTypeCheckOnBuild = true
-const needAnalyze = NUXT_ENV_OUTPUT_ENV === 'local'
-const needSourcemap = NUXT_ENV_OUTPUT_ENV !== 'production'
-const enableDebug = NUXT_ENV_OUTPUT_ENV === 'local'
-
-const meta: MetaInfo = {
-  title: '',
-  description: '',
-  robots: NUXT_ENV_OUTPUT_ENV === 'production' ? 'all' : 'none',
-  siteName: '',
-  ogImageUrl: `${runtimeConfig.public.url}/images/ogp.jpg`,
-  ogUrl: runtimeConfig.public.url,
-  twitterSite: 'https://x.com/',
-  twitterCreator: 'https://x.com/',
-}
-
-// https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
-  extends: path.resolve(__dirname, '../base'),
-  modules: [
-    '@nuxtjs/google-fonts',
-    '@nuxt/content',
-  ],
-  ssr: isSsr,
-
-  imports: {
-    dirs: ['utils/types/**'],
-    global: false,
-  },
-
-  app: {
-    head: {
-      meta: [
-        { name: 'robots', content: meta.robots },
-        {
-          name: 'description',
-          content: meta.description,
-        },
-        {
-          property: 'og:site_name',
-          content: meta.siteName,
-        },
-        {
-          property: 'og:url',
-          content: meta.ogUrl,
-        },
-        {
-          property: 'og:title',
-          content: meta.title,
-        },
-        {
-          property: 'og:description',
-          content: meta.description,
-        },
-        {
-          property: 'og:image',
-          content: meta.ogImageUrl,
-        },
-        {
-          name: 'twitter:site',
-          content: meta.twitterSite,
-        },
-        {
-          name: 'twitter:creator',
-          content: meta.twitterCreator,
-        },
-      ],
-      link: [
-        {
-          rel: 'icon',
-          type: 'image/x-icon',
-          href: `${runtimeConfig.public.url}/favicon.ico`,
-        },
-      ],
-    },
-  },
-
-  css: cssUrls,
-
-  content: {
-    watch: {
-      enabled: true,
-    },
-    build: {
-      markdown: {
-        toc: {
-          depth: 4,
-        },
-        highlight: {
-          theme: {
-            default: 'github-light',
-            dark: 'github-dark',
-            sepia: 'monokai',
-          },
-        },
-        remarkPlugins: {
-          'remark-gfm': {
-            singleTilde: false,
-          },
-        },
-      },
-    },
-    experimental: {
-      nativeSqlite: true,
-    },
-  },
-
-  runtimeConfig,
-  dir: {
-    public: path.resolve(__dirname, './public'),
-  },
-  rootDir: __dirname,
-  srcDir: `${srcDir}/`,
-
-  alias: {
-    '#base': path.resolve(__dirname, '../base'),
-    '#main': __dirname,
-    '@': path.resolve(__dirname, './app'),
-  },
-
-  ignore: [
-    '.output',
-    '**/test/*.{js,ts,jsx,tsx}',
-    '**/*.{spec,test}.{js,ts,jsx,tsx}',
-    '**/-*.*',
-  ],
-
-  build: {
-    analyze: needAnalyze,
-  },
-
-  routeRules: {
-    '/external/**': {
-      proxy: 'https://d1-api-test-project.solarkamimura.workers.dev/api/**',
-    },
-  },
-
-  sourcemap: {
-    server: needSourcemap,
-    client: needSourcemap,
-  },
-
-  compatibilityDate: '2024-04-03',
-
-  typescript: {
-    typeCheck: checkTypeCheckOnBuild,
-  },
-
-  debug: process.env.VITEST === 'true' ? false : enableDebug,
-
-  googleFonts: {
-    families: {
-      'Noto+Sans+JP': [100, 300, 400, 500, 700, 900],
-      'Inter': [100, 300, 400, 500, 700, 900],
-    },
-    display: 'swap',
-  },
-
-  i18n: nuxtI18nOptions,
-
-  vite: {
-    server: {
-      watch: {
-        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
-        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
-      },
-    },
-  },
-})
-````
-
 ## File: layers/main/package.json
 ````json
 {
@@ -7454,743 +8424,6 @@ export default defineNuxtConfig({
     "vket-boilerplate-nuxt-base": "workspace:*"
   }
 }
-````
-
-## File: layers/main/app/components/ha/HaSectionTitle.vue
-````vue
-<script setup lang="ts">
-defineProps<{
-  label: string
-  title: string
-}>()
-</script>
-
-<template>
-  <div class="section-title">
-    <div class="section-title__line" />
-    <div class="section-title__flex">
-      <div class="section-title__text-box">
-        <p class="section-title__label">
-          {{ label }}
-        </p>
-        <h2 class="section-title__text">
-          {{ title }}
-        </h2>
-      </div>
-      <div class="section-title__controls">
-        <slot name="controls" />
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.section-title {
-  position: relative;
-  margin-bottom: 96px;
-  padding-top: 16px;
-
-  @include m.sp {
-    margin-bottom: 32px;
-  }
-
-  &__line {
-    position: relative;
-
-    overflow: hidden;
-
-    width: 100%;
-    height: 2px;
-    margin-bottom: 4px;
-
-    // 点
-    &::before {
-      content: '';
-
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: 2px;
-      height: 2px;
-
-      background: v.$vket-amber;
-    }
-
-    &::after {
-      content: '';
-
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 2px;
-      margin-left: 12px;
-
-      background: linear-gradient(
-        to right,
-        v.$vket-amber 0%,
-        v.$vket-vermilion 100%
-      );
-    }
-  }
-
-  &__flex {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__label {
-    font-size: 12px;
-    color: v.$vket-amber;
-    letter-spacing: 0.1em;
-
-    @include m.tb {
-      font-size: 10px;
-    }
-  }
-
-  &__text {
-    font-size: 48px;
-    font-weight: 700;
-    line-height: 1em;
-    color: #fff;
-
-    @include m.tb {
-      font-size: 32px;
-    }
-
-    @include m.sp {
-      font-size: 24px;
-    }
-  }
-
-  &__controls {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/hm/HmCrowdLevelCard.vue
-````vue
-<script lang="ts" setup>
-import HaAstyError from '../ha/buildings/HaAstyError.vue'
-import HaAstyLevel1 from '../ha/buildings/HaAstyLevel1.vue'
-import HaAstyLevel2 from '../ha/buildings/HaAstyLevel2.vue'
-import HaAstyLevel3 from '../ha/buildings/HaAstyLevel3.vue'
-import HaAstyLoading from '../ha/buildings/HaAstyLoading.vue'
-import HaAstyUnable from '../ha/buildings/HaAstyUnable.vue'
-import HaDTCError from '../ha/buildings/HaDTCError.vue'
-import HaDTCLevel1 from '../ha/buildings/HaDTCLevel1.vue'
-import HaDTCLevel2 from '../ha/buildings/HaDTCLevel2.vue'
-import HaDTCLevel3 from '../ha/buildings/HaDTCLevel3.vue'
-import HaDTCLoading from '../ha/buildings/HaDTCLoading.vue'
-import HaDTCUnable from '../ha/buildings/HaDTCUnable.vue'
-import HaShimmer from '../ha/HaShimmer.vue'
-import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
-import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
-import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
-import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
-
-type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
-
-const props = defineProps<{
-  label: string
-  name: string
-  isLoading: boolean
-  isError: boolean
-  building: 1 | 2
-  crowdLevel: CrowdLevel | null
-}>()
-
-const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-  0: '期間外',
-  1: '余裕あり',
-  2: 'やや混雑',
-  3: '混雑',
-}
-
-const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-  0: 'gray',
-  1: 'emgreen',
-  2: 'amber',
-  3: 'vermilion',
-}
-
-const statusText = computed(() =>
-  props.isLoading || props.isError
-    ? '取得中'
-    : props.crowdLevel !== null
-      ? CROWD_LEVEL_TEXT[props.crowdLevel]
-      : '取得中',
-)
-
-const statusColor = computed(() =>
-  props.isLoading || props.isError
-    ? 'gray'
-    : props.crowdLevel !== null
-      ? CROWD_LEVEL_COLOR[props.crowdLevel]
-      : 'gray',
-)
-
-const fillCount = computed(() => props.crowdLevel ?? 0)
-</script>
-
-<template>
-  <div
-    class="glassy-box-4 crowd-level-card"
-    :class="`crowd-level-card--${statusColor}`"
-  >
-    <div class="crowd-level-card__head">
-      <div class="crowd-level-card__text-box">
-        <HaShimmer
-          :loading="isLoading"
-          as="p"
-          class="crowd-level-card__label"
-        >
-          {{ label }}
-        </HaShimmer>
-        <HaShimmer
-          :loading="isLoading"
-          as="p"
-          class="crowd-level-card__name"
-        >
-          {{ name }}
-        </HaShimmer>
-      </div>
-      <HaShimmer
-        :loading="isLoading"
-        as="div"
-        class="crowd-level-card__status-box"
-      >
-        <div class="crowd-level-card__icon-box">
-          <template v-if="isError">
-            <HaPeopleIcon />
-            <HaQuestionIcon />
-          </template>
-          <template v-else-if="fillCount == 0">
-            <HaPeopleUnableIcon />
-          </template>
-          <template v-else>
-            <HaPeopleFillIcon
-              v-for="i in fillCount"
-              :key="`fill-${i}`"
-            />
-            <HaPeopleIcon
-              v-for="i in 3 - fillCount"
-              :key="`empty-${i}`"
-            />
-          </template>
-        </div>
-        <p
-          class="crowd-level-card__status-text"
-          data-testid="crowd-status-text"
-        >
-          {{ statusText }}
-        </p>
-      </HaShimmer>
-    </div>
-    <div class="crowd-level-card__body">
-      <div class="crowd-level-card__image">
-        <template v-if="building == 1">
-          <HaAstyLoading v-if="isLoading" />
-          <HaAstyError v-else-if="isError" />
-          <template v-else>
-            <HaAstyUnable v-show="statusColor == 'gray'" />
-            <HaAstyLevel1 v-show="statusColor == 'emgreen'" />
-            <HaAstyLevel2 v-show="statusColor == 'amber'" />
-            <HaAstyLevel3 v-show="statusColor == 'vermilion'" />
-          </template>
-        </template>
-        <template v-else-if="building == 2">
-          <HaDTCLoading v-if="isLoading" />
-          <HaDTCError v-else-if="isError" />
-          <template v-else>
-            <HaDTCUnable v-show="statusColor == 'gray'" />
-            <HaDTCLevel1 v-show="statusColor == 'emgreen'" />
-            <HaDTCLevel2 v-show="statusColor == 'amber'" />
-            <HaDTCLevel3 v-show="statusColor == 'vermilion'" />
-          </template>
-        </template>
-      </div>
-    </div>
-    <div class="crowd-level-card__footer">
-      <HaShimmer
-        :loading="isLoading"
-        as="p"
-        class="crowd-level-card__text"
-      >
-        混雑状況
-      </HaShimmer>
-      <HaShimmer
-        :loading="isLoading"
-        as="div"
-        class="crowd-level-card__carousel glassy-carousel"
-      >
-        <div
-          class="crowd-level-card__carousel-inner glassy-carousel"
-          :class="`glassy-carousel crowd-level-card__carousel-inner--${
-            isError || fillCount == 0 || fillCount == 3
-              ? '1-1'
-              : fillCount == 1
-                ? '1-4'
-                : fillCount == 2
-                  ? '1-2'
-                  : ''
-          }`"
-        />
-      </HaShimmer>
-      <HaShimmer
-        :loading="isLoading"
-        as="p"
-        class="crowd-level-card__text"
-      >
-        {{
-          isError
-            ? '取得中'
-            : fillCount == 0
-              ? '期間外'
-              : fillCount == 1
-                ? '低'
-                : fillCount == 2
-                  ? '中'
-                  : fillCount == 3
-                    ? '高'
-                    : ''
-        }}
-      </HaShimmer>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.crowd-level-card {
-  display: flex;
-  flex-direction: column;
-  padding: 24px 18px 24px 32px;
-
-  @include m.sp {
-    padding: 16px;
-  }
-
-  &--emgreen {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-emgreen;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-emgreen, 0.75);
-    }
-  }
-
-  &--amber {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-amber;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-amber, 0.75);
-    }
-  }
-
-  &--gray {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-gray;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-gray, 0.75);
-    }
-  }
-
-  &--purple {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-purple;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-purple, 0.75);
-    }
-  }
-
-  &--vermilion {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-vermilion;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-vermilion, 0.75);
-    }
-  }
-
-  &__head {
-    display: flex;
-    gap: 8px;
-    justify-content: space-between;
-  }
-
-  &__text-box {
-    width: fit-content;
-  }
-
-  &__label {
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 700;
-
-    @include m.sp {
-      font-size: 10px;
-    }
-  }
-
-  &__name {
-    font-size: 32px;
-    font-weight: 900;
-    line-height: 1em;
-
-    @include m.sp {
-      font-size: 18px;
-    }
-  }
-
-  &__icon-box {
-    display: flex;
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
-
-    @include m.sp {
-      width: 16px;
-      height: 16px;
-    }
-  }
-
-  &__status-box {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-
-    width: fit-content;
-    height: fit-content;
-    padding: 10px 18px;
-    border-radius: 20px;
-
-    @include m.sp {
-      padding: 6px 12px;
-    }
-  }
-
-  &__status-text {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 100%;
-    text-wrap: nowrap;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__body {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    flex-shrink: 1;
-    align-items: center;
-    justify-content: flex-end;
-  }
-
-  &__image {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    width: 50%;
-
-    svg {
-      width: 100%;
-    }
-  }
-
-  &__footer {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    width: 100%;
-  }
-
-  &__carousel {
-    display: flex;
-    flex-grow: 1;
-    height: 14px;
-  }
-
-  &__carousel-inner {
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    transition: width 0.6s ease;
-
-    &--1-1 {
-      width: 100%;
-    }
-
-    &--1-2 {
-      width: 50%;
-    }
-
-    &--1-4 {
-      width: 25%;
-    }
-  }
-
-  &__text {
-    width: 4em;
-    font-size: 16px;
-    line-height: 1em;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtScheduleSection.vue
-````vue
-<script setup lang="ts">
-import HaSunIcon from '../ha/icons/HaSunIcon.vue'
-import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="開催スケジュール"
-      label="schedule"
-    />
-
-    <div class="schedule">
-      <div class="schedule__left">
-        <div class="schedule__icon-box">
-          <HaSunIcon />
-        </div>
-        <span class="schedule__line" />
-        <div class="schedule__icon-box">
-          <HaSunsetIcon />
-        </div>
-      </div>
-      <div class="schedule__right">
-        <div class="schedule__item">
-          <p class="schedule__time">
-            10:00
-          </p>
-          <p class="schedule__content">
-            会場・受付開始
-          </p>
-        </div>
-        <div class="schedule__item">
-          <p class="schedule__time">
-            10:30
-          </p>
-          <p class="schedule__content">
-            オープニングセレモニー
-          </p>
-        </div>
-        <div class="schedule__item">
-          <p class="schedule__time">
-            11:00
-          </p>
-          <p class="schedule__content">
-            展示・即売会開始
-          </p>
-        </div>
-        <div class="schedule__item schedule__item--1h">
-          <p class="schedule__time">
-            12:00
-          </p>
-          <p class="schedule__content">
-            XR体験ブースオープン
-          </p>
-        </div>
-        <div class="schedule__item schedule__item--1h">
-          <p class="schedule__time">
-            13:00
-          </p>
-          <p class="schedule__content">
-            スペシャルトークセッション
-          </p>
-        </div>
-        <div class="schedule__item schedule__item--15h">
-          <p class="schedule__time">
-            14:30
-          </p>
-          <p class="schedule__content">
-            スペシャルトークセッション
-          </p>
-        </div>
-        <div class="schedule__item schedule__item--2h">
-          <p class="schedule__time">
-            16:00
-          </p>
-          <p class="schedule__content">
-            スペシャルライブ
-          </p>
-        </div>
-        <div class="schedule__item schedule__item--1h">
-          <p class="schedule__time">
-            18:00
-          </p>
-          <p class="schedule__content">
-            閉場
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.schedule {
-  display: flex;
-
-  &__left {
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    align-items: center;
-
-    width: 80px;
-
-    @include m.tb {
-      width: 104px;
-    }
-
-    @include m.sp {
-      width: 84px;
-    }
-  }
-
-  &__icon-box {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-
-    width: 80px;
-    height: 80px;
-
-    @include m.sp {
-      width: 74px;
-      height: 74px;
-    }
-  }
-
-  &__icon {
-    width: 100%;
-    height: 100%;
-  }
-
-  &__line {
-    flex-grow: 1;
-    width: 1px;
-    height: 100px;
-    background-color: white;
-  }
-
-  &__right {
-    flex-grow: 1;
-    padding: 100px 0;
-
-    @include m.sp {
-      padding: 38px 0;
-    }
-  }
-
-  &__item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    width: 100%;
-    height: 100px;
-    border-top: 2px solid white;
-
-    @include m.sp {
-      height: 44px;
-      border-width: 1px;
-    }
-
-    &:last-of-type {
-      border-bottom: 2px solid white;
-
-      @include m.sp {
-        border-width: 1px;
-      }
-    }
-
-    &--1h {
-      height: 150px;
-
-      @include m.sp {
-        height: 62px;
-      }
-    }
-
-    &--15h {
-      height: 200px;
-
-      @include m.sp {
-        height: 74px;
-      }
-    }
-  }
-
-  &__time {
-    font-size: 16px;
-    font-weight: 700;
-    color: white;
-
-    @include m.sp {
-      font-size: 10px;
-    }
-  }
-
-  &__content {
-    font-size: 20px;
-    font-weight: 700;
-    color: white;
-
-    @include m.sp {
-      font-size: 12px;
-    }
-  }
-}
-</style>
 ````
 
 ## File: layers/main/app/assets/styles/_variables.scss
@@ -8593,6 +8826,846 @@ const toggle = (id: number) => {
   box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
 }
 </style>
+````
+
+## File: layers/main/app/components/ht/HtScheduleSection.vue
+````vue
+<script setup lang="ts">
+import HaSunIcon from '../ha/icons/HaSunIcon.vue'
+import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="開催スケジュール"
+      label="schedule"
+    />
+
+    <div class="schedule">
+      <div class="schedule__left">
+        <div class="schedule__icon-box">
+          <HaSunIcon />
+        </div>
+        <span class="schedule__line" />
+        <div class="schedule__icon-box">
+          <HaSunsetIcon />
+        </div>
+      </div>
+      <div class="schedule__right">
+        <div class="schedule__item">
+          <p class="schedule__time">
+            10:00
+          </p>
+          <p class="schedule__content">
+            会場・受付開始
+          </p>
+        </div>
+        <div class="schedule__item">
+          <p class="schedule__time">
+            10:30
+          </p>
+          <p class="schedule__content">
+            オープニングセレモニー
+          </p>
+        </div>
+        <div class="schedule__item">
+          <p class="schedule__time">
+            11:00
+          </p>
+          <p class="schedule__content">
+            展示・即売会開始
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--1h">
+          <p class="schedule__time">
+            12:00
+          </p>
+          <p class="schedule__content">
+            XR体験ブースオープン
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--1h">
+          <p class="schedule__time">
+            13:00
+          </p>
+          <p class="schedule__content">
+            スペシャルトークセッション
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--15h">
+          <p class="schedule__time">
+            14:30
+          </p>
+          <p class="schedule__content">
+            スペシャルトークセッション
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--2h">
+          <p class="schedule__time">
+            16:00
+          </p>
+          <p class="schedule__content">
+            スペシャルライブ
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--1h">
+          <p class="schedule__time">
+            18:00
+          </p>
+          <p class="schedule__content">
+            閉場
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.schedule {
+  display: flex;
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    align-items: center;
+
+    width: 80px;
+
+    @include m.tb {
+      width: 104px;
+    }
+
+    @include m.sp {
+      width: 84px;
+    }
+  }
+
+  &__icon-box {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+
+    width: 80px;
+    height: 80px;
+
+    @include m.sp {
+      width: 74px;
+      height: 74px;
+    }
+  }
+
+  &__icon {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__line {
+    flex-grow: 1;
+    width: 1px;
+    height: 100px;
+    background-color: white;
+  }
+
+  &__right {
+    flex-grow: 1;
+    padding: 100px 0;
+
+    @include m.sp {
+      padding: 38px 0;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    height: 100px;
+    border-top: 2px solid white;
+
+    @include m.sp {
+      height: 44px;
+      border-width: 1px;
+    }
+
+    &:last-of-type {
+      border-bottom: 2px solid white;
+
+      @include m.sp {
+        border-width: 1px;
+      }
+    }
+
+    &--1h {
+      height: 150px;
+
+      @include m.sp {
+        height: 62px;
+      }
+    }
+
+    &--15h {
+      height: 200px;
+
+      @include m.sp {
+        height: 74px;
+      }
+    }
+  }
+
+  &__time {
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+
+    @include m.sp {
+      font-size: 10px;
+    }
+  }
+
+  &__content {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+
+    @include m.sp {
+      font-size: 12px;
+    }
+  }
+}
+</style>
+````
+
+## File: layers/main/app/composables/useCrowdData.ts
+````typescript
+type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
+
+// FIXME: 本APIでは建物別にvalueがあるので、要変更
+interface ReadResponse {
+  timestamp: string
+  value: CrowdLevel
+}
+
+let timerId: ReturnType<typeof setTimeout> | null = null
+let isFetching = false // Fetch実行中フラグ（開発者ツールを用いたリトライ攻撃対策）
+let retryCount = 0
+
+// 開催日時を指定
+const EVENT_START = new Date('2026-06-15T00:00:00+09:00')
+
+export function isBeforeEvent(): boolean {
+  return new Date() < EVENT_START
+}
+
+export function useCrowdData() {
+  const crowdData = ref<ReadResponse | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+  const isBeforeEventStart = ref(isBeforeEvent()) // 開催期間外はデータフェッチ自体させたくないため、フロントエンド側でも開催期間外フラグを用意している。
+
+  // データフェッチの仕様
+  const NORMAL_INTERVAL_MS = 5 * 60 * 1000
+  const RETRY_INTERVAL_MS = 3 * 1000
+  const MAX_RETRY_COUNT = 5
+
+  const crowdLevel = computed<CrowdLevel | null>(() => {
+    if (isBeforeEventStart.value) return 0 // 念のため、開催期間外は強制的に0
+    return crowdData.value?.value ?? null
+  })
+
+  async function fetchCrowdData() {
+    if (isBeforeEventStart.value) return // 開催前はfetchしない
+    if (isFetching) return // fetchの多重実行を防ぐ
+    isFetching = true
+
+    try {
+      const res = await fetch('/external/read')
+      if (!res.ok) throw new Error()
+      crowdData.value = await res.json()
+      isError.value = false
+      retryCount = 0
+      schedule(NORMAL_INTERVAL_MS)
+    } catch (e) {
+      if (import.meta.dev) {
+        console.error('混雑情報の取得に失敗しました', e)
+      }
+      isError.value = true
+      if (retryCount < MAX_RETRY_COUNT) {
+        retryCount++
+        schedule(RETRY_INTERVAL_MS)
+      }
+    } finally {
+      isLoading.value = false
+      isFetching = false
+    }
+  }
+
+  function schedule(ms: number) {
+    if (timerId !== null) clearTimeout(timerId)
+    timerId = setTimeout(fetchCrowdData, ms)
+  }
+
+  onMounted(() => {
+    if (isBeforeEventStart.value) {
+      const msUntilStart = EVENT_START.getTime() - Date.now()
+
+      // ページ表示中にイベント開催日時に到達しても問題ないように、開催時刻にデータフェッチをスケジュール
+      timerId = setTimeout(() => {
+        isBeforeEventStart.value = false
+        fetchCrowdData()
+      }, msUntilStart)
+      isLoading.value = false // 開催期間前である表示を出すため、ローディングを即解除
+      return
+    }
+    if (timerId !== null) {
+      clearTimeout(timerId)
+      timerId = null
+    }
+    fetchCrowdData()
+  })
+
+  onUnmounted(() => {
+    if (timerId !== null) clearTimeout(timerId)
+  })
+
+  return { isLoading, isError, crowdLevel, fetchCrowdData }
+}
+````
+
+## File: layers/main/app/assets/styles/_common.scss
+````scss
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.nowrap {
+  display: block;
+
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  white-space: nowrap;
+}
+
+/* 画面幅によって表示or非表示 */
+@include m.sp {
+  .sp-none {
+    display: none;
+  }
+}
+
+.glassy-box {
+  position: relative;
+  padding: 22px 36px;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+
+  // グラスモーフィズム的な表現のための疑似要素
+  &::after {
+    pointer-events: none;
+    content: '';
+
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    border: 1px solid transparent;
+    border-radius: inherit;
+
+    background-image: linear-gradient(
+        135deg,
+        rgb(255 255 255 / 85%) 6px,
+        rgb(255 255 255 / 10%) 12px
+      ),
+      linear-gradient(
+        315deg,
+        rgb(255 255 255 / 30%) 20px,
+        rgb(255 255 255 / 10%) 40px
+      );
+    background-clip: border-box, border-box;
+    background-origin: border-box, border-box;
+
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+
+  &--cyan {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
+
+    .glassy-box__icon {
+      background: rgba(v.$vket-cyan, 0.4);
+    }
+
+    > .title {
+      color: v.$vket-cyan;
+    }
+
+    .title-box .label {
+      color: v.$vket-cyan;
+    }
+  }
+
+  &--light-cyan {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
+
+    .glassy-box__icon {
+      background: rgba(v.$vket-cyan, 0.4);
+    }
+
+    > .title {
+      color: v.$vket-light-cyan;
+    }
+
+    .title-box .label {
+      color: v.$vket-cyan;
+    }
+  }
+
+  &--magenta {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
+
+    .glassy-box__icon {
+      background: rgba(v.$vket-magenta, 0.4);
+    }
+
+    > .title {
+      color: v.$vket-magenta;
+    }
+
+    .title-box .label {
+      color: v.$vket-magenta;
+    }
+  }
+
+  &--light-magenta {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
+
+    .glassy-box__icon {
+      background: rgba(v.$vket-magenta, 0.4);
+    }
+
+    > .title {
+      color: v.$vket-light-magenta;
+    }
+
+    .title-box .label {
+      color: v.$vket-magenta;
+    }
+  }
+
+  &--amber {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
+
+    .glassy-box__icon {
+      background: rgba(v.$vket-amber, 0.4);
+    }
+
+    > .title {
+      color: v.$vket-amber;
+    }
+
+    .title-box .label {
+      color: v.$vket-amber;
+    }
+  }
+
+  &--vermilion {
+    box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
+
+    .glassy-box__icon {
+      background: rgba(v.$vket-vermilion, 0.4);
+    }
+
+    > .title {
+      color: v.$vket-vermilion;
+    }
+
+    .title-box .label {
+      color: v.$vket-vermilion;
+    }
+  }
+
+  > .title {
+    margin-bottom: 8px;
+    font-size: 16px;
+    line-height: 1.2em;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      height: 50%;
+    }
+  }
+}
+
+.glassy-box-2 {
+  position: relative;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+  box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
+
+  &::before {
+    pointer-events: none;
+    content: '';
+
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+
+    width: inherit;
+    height: inherit;
+    border: 1px solid transparent;
+    border-radius: inherit;
+
+    background-image: linear-gradient(
+        135deg,
+        rgb(255 255 255 / 65%) 20px,
+        rgb(255 255 255 / 15%) 40px
+      ),
+      linear-gradient(
+        315deg,
+        rgb(255 255 255 / 65%) 20px,
+        rgb(255 255 255 / 15%) 40px
+      );
+    background-clip: border-box, border-box;
+    background-origin: border-box, border-box;
+
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+}
+
+.glassy-box-3 {
+  position: relative;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+  box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+
+  &::before {
+    pointer-events: none;
+    content: '';
+
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    border: 2px solid transparent;
+    border-radius: inherit;
+
+    background-image: linear-gradient(
+        45deg,
+        rgb(v.$base-background-color, 0.8) 10px,
+        rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+        225deg,
+        rgb(v.$base-background-color, 0.8) 10px,
+        rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+        135deg,
+        rgb(255 255 255 / 75%) 10px,
+        rgb(255 255 255 / 30%) 20px
+      ),
+      linear-gradient(
+        315deg,
+        rgb(255 255 255 / 75%) 10px,
+        rgb(255 255 255 / 30%) 20px
+      );
+    background-clip: border-box, border-box, border-box, border-box;
+    background-origin: border-box, border-box, border-box, border-box;
+
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+
+    @include m.sp {
+      border-width: 1px;
+    }
+  }
+}
+
+.glassy-box-4 {
+  position: relative;
+  border-radius: 20px;
+  background-color: rgb(217 217 217 / 20%);
+  backdrop-filter: blur(4px);
+
+  &::before {
+    pointer-events: none;
+    content: '';
+
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    border: 1px solid transparent;
+    border-radius: inherit;
+
+    background-image: linear-gradient(
+        45deg,
+        rgb(v.$base-background-color, 0.75) 10px,
+        rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+        225deg,
+        rgb(v.$base-background-color, 0.75) 10px,
+        rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+        135deg,
+        rgb(255 255 255 / 65%) 10px,
+        rgb(255 255 255 / 15%) 20px
+      ),
+      linear-gradient(
+        315deg,
+        rgb(255 255 255 / 65%) 10px,
+        rgb(255 255 255 / 15%) 20px
+      );
+    background-clip: border-box, border-box, border-box, border-box;
+    background-origin: border-box, border-box, border-box, border-box;
+
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+}
+
+.glassy-carousel {
+  position: relative;
+  border-radius: 7px;
+  background-color: rgb(217 217 217 / 20%);
+
+  &::before {
+    pointer-events: none;
+    content: '';
+
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    border: 1px solid transparent;
+    border-radius: inherit;
+
+    background-image: linear-gradient(
+        45deg,
+        rgb(v.$base-background-color, 0.75) 3.5px,
+        rgb(v.$base-background-color, 0) 7px
+      ),
+      linear-gradient(
+        225deg,
+        rgb(v.$base-background-color, 0.75) 3.5px,
+        rgb(v.$base-background-color, 0) 7px
+      ),
+      linear-gradient(135deg, rgb(255 255 255 / 55%));
+    background-clip: border-box, border-box, border-box;
+    background-origin: border-box, border-box, border-box;
+
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+}
+
+.glassy-button-3 {
+  position: relative;
+
+  border-radius: 1000px;
+
+  background-color: rgb(217 217 217 / 20%);
+  backdrop-filter: blur(4px);
+  box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+
+  &::before {
+    pointer-events: none;
+    content: '';
+
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+
+    width: inherit;
+    height: inherit;
+    border: 1px solid transparent;
+    border-radius: inherit;
+
+    background-image: linear-gradient(
+        45deg,
+        rgb(v.$base-background-color, 0.8) 10px,
+        rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+        225deg,
+        rgb(v.$base-background-color, 0.8) 10px,
+        rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+        135deg,
+        rgb(255 255 255 / 75%) 10px,
+        rgb(255 255 255 / 30%) 20px
+      ),
+      linear-gradient(
+        315deg,
+        rgb(255 255 255 / 75%) 10px,
+        rgb(255 255 255 / 30%) 20px
+      );
+    background-clip: border-box, border-box, border-box, border-box;
+    background-origin: border-box, border-box, border-box, border-box;
+
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+}
+
+.subtitle {
+  width: fit-content;
+  margin: 0 auto 42px;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5em;
+  color: white;
+  text-align: center;
+
+  @include m.tb {
+    font-size: 20px;
+  }
+
+  @include m.sp {
+    margin-bottom: 40px;
+  }
+}
+
+.description {
+  width: fit-content;
+  margin: 0 auto 42px;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5em;
+  color: white;
+  text-align: center;
+
+  @include m.tb {
+    font-size: 16px;
+  }
+
+  @include m.sp {
+    margin-bottom: 40px;
+    font-size: 12px;
+    font-weight: normal;
+  }
+
+  &--left {
+    text-align: left;
+  }
+}
+
+/* swiper.js */
+.custom-swiper-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 100px;
+
+  background-color: #1e355b;
+
+  @include m.sp {
+    width: 24px;
+    height: 24px;
+
+    svg {
+      height: 80%;
+    }
+  }
+
+  &.is-disabled {
+    opacity: 0.6;
+    background-color: transparent;
+  }
+}
+
+.custom-swiper-pagination {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 60px;
+
+  @include m.tb {
+    display: none;
+  }
+
+  .swiper-pagination-bullet {
+    width: 16px;
+    height: 16px;
+    border-radius: 10px;
+    background-color: rgb(30 53 91 / 100%);
+
+    &.swiper-pagination-bullet-active {
+      background-color: rgb(94 130 190 / 100%);
+    }
+  }
+}
 ````
 
 ## File: layers/main/app/components/ht/HtAboutSection.vue
@@ -9133,613 +10206,6 @@ onMounted(() => {
 </style>
 ````
 
-## File: layers/main/app/composables/useCrowdData.ts
-````typescript
-type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
-
-// FIXME: 本APIでは建物別にvalueがあるので、要変更
-interface ReadResponse {
-  timestamp: string
-  value: CrowdLevel
-}
-
-let timerId: ReturnType<typeof setTimeout> | null = null
-let isFetching = false // Fetch実行中フラグ（開発者ツールを用いたリトライ攻撃対策）
-let retryCount = 0
-
-// 開催日時を指定
-const EVENT_START = new Date('2026-06-15T00:00:00+09:00')
-
-export function isBeforeEvent(): boolean {
-  return new Date() < EVENT_START
-}
-
-export function useCrowdData() {
-  const crowdData = ref<ReadResponse | null>(null)
-  const isLoading = ref(true)
-  const isError = ref(false)
-  const isBeforeEventStart = ref(isBeforeEvent()) // 開催期間外はデータフェッチ自体させたくないため、フロントエンド側でも開催期間外フラグを用意している。
-
-  // データフェッチの仕様
-  const NORMAL_INTERVAL_MS = 5 * 60 * 1000
-  const RETRY_INTERVAL_MS = 3 * 1000
-  const MAX_RETRY_COUNT = 5
-
-  const crowdLevel = computed<CrowdLevel | null>(() => {
-    if (isBeforeEventStart.value) return 0 // 念のため、開催期間外は強制的に0
-    return crowdData.value?.value ?? null
-  })
-
-  async function fetchCrowdData() {
-    if (isBeforeEventStart.value) return // 開催前はfetchしない
-    if (isFetching) return // fetchの多重実行を防ぐ
-    isFetching = true
-
-    try {
-      const res = await fetch('/external/read')
-      if (!res.ok) throw new Error()
-      crowdData.value = await res.json()
-      isError.value = false
-      retryCount = 0
-      schedule(NORMAL_INTERVAL_MS)
-    } catch (e) {
-      if (import.meta.dev) {
-        console.error('混雑情報の取得に失敗しました', e)
-      }
-      isError.value = true
-      if (retryCount < MAX_RETRY_COUNT) {
-        retryCount++
-        schedule(RETRY_INTERVAL_MS)
-      }
-    } finally {
-      isLoading.value = false
-      isFetching = false
-    }
-  }
-
-  function schedule(ms: number) {
-    if (timerId !== null) clearTimeout(timerId)
-    timerId = setTimeout(fetchCrowdData, ms)
-  }
-
-  onMounted(() => {
-    if (isBeforeEventStart.value) {
-      const msUntilStart = EVENT_START.getTime() - Date.now()
-
-      // ページ表示中にイベント開催日時に到達しても問題ないように、開催時刻にデータフェッチをスケジュール
-      timerId = setTimeout(() => {
-        isBeforeEventStart.value = false
-        fetchCrowdData()
-      }, msUntilStart)
-      isLoading.value = false // 開催期間前である表示を出すため、ローディングを即解除
-      return
-    }
-    if (timerId !== null) {
-      clearTimeout(timerId)
-      timerId = null
-    }
-    fetchCrowdData()
-  })
-
-  onUnmounted(() => {
-    if (timerId !== null) clearTimeout(timerId)
-  })
-
-  return { isLoading, isError, crowdLevel, fetchCrowdData }
-}
-````
-
-## File: layers/main/app/assets/styles/_common.scss
-````scss
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.nowrap {
-  display: block;
-
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
-  letter-spacing: inherit;
-  white-space: nowrap;
-}
-
-/* 画面幅によって表示or非表示 */
-@include m.sp {
-  .sp-none {
-    display: none;
-  }
-}
-
-.glassy-box {
-  position: relative;
-  padding: 22px 36px;
-  border-radius: 20px;
-
-  // グラスモーフィズム的な表現のための疑似要素
-  &::after {
-    pointer-events: none;
-    content: '';
-
-    position: absolute;
-    z-index: 0;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-    border: 1px solid transparent;
-    border-radius: inherit;
-
-    background-image: linear-gradient(
-        135deg,
-        rgb(255 255 255 / 85%) 6px,
-        rgb(255 255 255 / 10%) 12px
-      ),
-      linear-gradient(
-        315deg,
-        rgb(255 255 255 / 30%) 20px,
-        rgb(255 255 255 / 10%) 40px
-      );
-    background-clip: border-box, border-box;
-    background-origin: border-box, border-box;
-
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-    mask: linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-  }
-
-  &--cyan {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
-
-    .glassy-box__icon {
-      background: rgba(v.$vket-cyan, 0.4);
-    }
-
-    > .title {
-      color: v.$vket-cyan;
-    }
-
-    .title-box .label {
-      color: v.$vket-cyan;
-    }
-  }
-
-  &--light-cyan {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
-
-    .glassy-box__icon {
-      background: rgba(v.$vket-cyan, 0.4);
-    }
-
-    > .title {
-      color: v.$vket-light-cyan;
-    }
-
-    .title-box .label {
-      color: v.$vket-cyan;
-    }
-  }
-
-  &--magenta {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
-
-    .glassy-box__icon {
-      background: rgba(v.$vket-magenta, 0.4);
-    }
-
-    > .title {
-      color: v.$vket-magenta;
-    }
-
-    .title-box .label {
-      color: v.$vket-magenta;
-    }
-  }
-
-  &--light-magenta {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
-
-    .glassy-box__icon {
-      background: rgba(v.$vket-magenta, 0.4);
-    }
-
-    > .title {
-      color: v.$vket-light-magenta;
-    }
-
-    .title-box .label {
-      color: v.$vket-magenta;
-    }
-  }
-
-  &--amber {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
-
-    .glassy-box__icon {
-      background: rgba(v.$vket-amber, 0.4);
-    }
-
-    > .title {
-      color: v.$vket-amber;
-    }
-
-    .title-box .label {
-      color: v.$vket-amber;
-    }
-  }
-
-  &--vermilion {
-    box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
-
-    .glassy-box__icon {
-      background: rgba(v.$vket-vermilion, 0.4);
-    }
-
-    > .title {
-      color: v.$vket-vermilion;
-    }
-
-    .title-box .label {
-      color: v.$vket-vermilion;
-    }
-  }
-
-  > .title {
-    margin-bottom: 8px;
-    font-size: 16px;
-    line-height: 1.2em;
-  }
-
-  &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-      height: 50%;
-    }
-  }
-}
-
-.glassy-box-2 {
-  position: relative;
-  border-radius: 20px;
-  box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
-
-  &::before {
-    pointer-events: none;
-    content: '';
-
-    position: absolute;
-    z-index: 0;
-    top: 0;
-    left: 0;
-
-    width: inherit;
-    height: inherit;
-    border: 1px solid transparent;
-    border-radius: inherit;
-
-    background-image: linear-gradient(
-        135deg,
-        rgb(255 255 255 / 65%) 20px,
-        rgb(255 255 255 / 15%) 40px
-      ),
-      linear-gradient(
-        315deg,
-        rgb(255 255 255 / 65%) 20px,
-        rgb(255 255 255 / 15%) 40px
-      );
-    background-clip: border-box, border-box;
-    background-origin: border-box, border-box;
-
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-    mask: linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-  }
-}
-
-.glassy-box-3 {
-  position: relative;
-  border-radius: 20px;
-  box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
-
-  &::before {
-    pointer-events: none;
-    content: '';
-
-    position: absolute;
-    z-index: 0;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-    border: 2px solid transparent;
-    border-radius: inherit;
-
-    background-image: linear-gradient(
-        45deg,
-        rgb(v.$base-background-color, 0.8) 10px,
-        rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-        225deg,
-        rgb(v.$base-background-color, 0.8) 10px,
-        rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-        135deg,
-        rgb(255 255 255 / 75%) 10px,
-        rgb(255 255 255 / 30%) 20px
-      ),
-      linear-gradient(
-        315deg,
-        rgb(255 255 255 / 75%) 10px,
-        rgb(255 255 255 / 30%) 20px
-      );
-    background-clip: border-box, border-box, border-box, border-box;
-    background-origin: border-box, border-box, border-box, border-box;
-
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-    mask: linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-
-    @include m.sp {
-      border-width: 1px;
-    }
-  }
-}
-
-.glassy-box-4 {
-  position: relative;
-  border-radius: 20px;
-  background-color: rgb(217 217 217 / 20%);
-
-  &::before {
-    pointer-events: none;
-    content: '';
-
-    position: absolute;
-    z-index: 0;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-    border: 1px solid transparent;
-    border-radius: inherit;
-
-    background-image: linear-gradient(
-        45deg,
-        rgb(v.$base-background-color, 0.75) 10px,
-        rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-        225deg,
-        rgb(v.$base-background-color, 0.75) 10px,
-        rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-        135deg,
-        rgb(255 255 255 / 65%) 10px,
-        rgb(255 255 255 / 15%) 20px
-      ),
-      linear-gradient(
-        315deg,
-        rgb(255 255 255 / 65%) 10px,
-        rgb(255 255 255 / 15%) 20px
-      );
-    background-clip: border-box, border-box, border-box, border-box;
-    background-origin: border-box, border-box, border-box, border-box;
-
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-    mask: linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-  }
-}
-
-.glassy-carousel {
-  position: relative;
-  border-radius: 7px;
-  background-color: rgb(217 217 217 / 20%);
-
-  &::before {
-    pointer-events: none;
-    content: '';
-
-    position: absolute;
-    z-index: 0;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-    border: 1px solid transparent;
-    border-radius: inherit;
-
-    background-image: linear-gradient(
-        45deg,
-        rgb(v.$base-background-color, 0.75) 3.5px,
-        rgb(v.$base-background-color, 0) 7px
-      ),
-      linear-gradient(
-        225deg,
-        rgb(v.$base-background-color, 0.75) 3.5px,
-        rgb(v.$base-background-color, 0) 7px
-      ),
-      linear-gradient(135deg, rgb(255 255 255 / 55%));
-    background-clip: border-box, border-box, border-box;
-    background-origin: border-box, border-box, border-box;
-
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-    mask: linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-  }
-}
-
-.glassy-button-3 {
-  position: relative;
-  border-radius: 1000px;
-  background-color: rgb(217 217 217 / 20%);
-  box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
-
-  &::before {
-    pointer-events: none;
-    content: '';
-
-    position: absolute;
-    z-index: 0;
-    top: 0;
-    left: 0;
-
-    width: inherit;
-    height: inherit;
-    border: 1px solid transparent;
-    border-radius: inherit;
-
-    background-image: linear-gradient(
-        45deg,
-        rgb(v.$base-background-color, 0.8) 10px,
-        rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-        225deg,
-        rgb(v.$base-background-color, 0.8) 10px,
-        rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-        135deg,
-        rgb(255 255 255 / 75%) 10px,
-        rgb(255 255 255 / 30%) 20px
-      ),
-      linear-gradient(
-        315deg,
-        rgb(255 255 255 / 75%) 10px,
-        rgb(255 255 255 / 30%) 20px
-      );
-    background-clip: border-box, border-box, border-box, border-box;
-    background-origin: border-box, border-box, border-box, border-box;
-
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-    mask: linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0) border-box;
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-  }
-}
-
-.subtitle {
-  width: fit-content;
-  margin: 0 auto 42px;
-
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5em;
-  color: white;
-  text-align: center;
-
-  @include m.tb {
-    font-size: 20px;
-  }
-
-  @include m.sp {
-    margin-bottom: 40px;
-  }
-}
-
-.description {
-  width: fit-content;
-  margin: 0 auto 42px;
-
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5em;
-  color: white;
-  text-align: center;
-
-  @include m.tb {
-    font-size: 16px;
-  }
-
-  @include m.sp {
-    margin-bottom: 40px;
-    font-size: 12px;
-    font-weight: normal;
-  }
-
-  &--left {
-    text-align: left;
-  }
-}
-
-/* swiper.js */
-.custom-swiper-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 44px;
-  height: 44px;
-  border-radius: 100px;
-
-  background-color: #1e355b;
-
-  @include m.sp {
-    width: 24px;
-    height: 24px;
-
-    svg {
-      height: 80%;
-    }
-  }
-
-  &.is-disabled {
-    opacity: 0.6;
-    background-color: transparent;
-  }
-}
-
-.custom-swiper-pagination {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-  margin-top: 60px;
-
-  @include m.tb {
-    display: none;
-  }
-
-  .swiper-pagination-bullet {
-    width: 16px;
-    height: 16px;
-    border-radius: 10px;
-    background-color: rgb(30 53 91 / 100%);
-
-    &.swiper-pagination-bullet-active {
-      background-color: rgb(94 130 190 / 100%);
-    }
-  }
-}
-````
-
 ## File: layers/main/app/components/ht/HtNewsSection.vue
 ````vue
 <script setup lang="ts">
@@ -9820,6 +10286,11 @@ en:
 
 <template>
   <main class="ht-top">
+    <div class="canvas-wrapper">
+      <HaConfetti />
+      <HaFireworks />
+    </div>
+
     <HtHeroSection />
 
     <HaFirstView />
@@ -9899,6 +10370,8 @@ import HtContentsSection from './HtContentsSection.vue'
 import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
 import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
 import HtHeroSection from './HtHeroSection.vue'
+import HaFireworks from '../ha/HaFireworks.vue'
+import HaConfetti from '../ha/HaConfetti.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -9906,9 +10379,23 @@ import HtHeroSection from './HtHeroSection.vue'
 @use '@/assets/styles/mixins' as m;
 
 .ht-top {
+  position: relative;
+  z-index: 0;
+
   width: 100%;
   height: 100%;
+
   background-color: v.$base-background-color;
+}
+
+.canvas-wrapper {
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
 }
 
 section {
