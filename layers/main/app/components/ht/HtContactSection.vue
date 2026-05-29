@@ -24,7 +24,7 @@ onMounted(() => {
       title="お問い合わせ"
       label="CONTACT"
     />
-    <div class="Contact-grid">
+    <div class="contact-grid">
       <HaContactCard
         title="個人向けお問い合わせ"
         text="一般の方からのお問い合わせはこちら"

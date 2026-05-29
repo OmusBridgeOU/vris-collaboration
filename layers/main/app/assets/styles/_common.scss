@@ -1,5 +1,6 @@
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
+@use 'sass:color';
 
 .nowrap {
   display: block;
@@ -20,9 +21,16 @@
 
 .glassy-box {
   position: relative;
+
+  width: 100%;
+  height: 100%;
   padding: 22px 36px;
   border-radius: 20px;
+
+  background-color: transparent;
   backdrop-filter: blur(4px);
+
+  transition: 0.15s transform ease, 0.15s background-color ease;
 
   // グラスモーフィズム的な表現のための疑似要素
   &::after {
@@ -60,7 +68,36 @@
     mask-composite: exclude;
   }
 
+  &:not(.none-hover-animation):hover {
+    transform: scale(1.02);
+
+    &.glassy-box--cyan {
+      background-color: rgba(v.$vket-cyan, 0.2);
+    }
+
+    &.glassy-box--light-cyan {
+      background-color: rgba(v.$vket-cyan, 0.2);
+    }
+
+    &.glassy-box--magenta {
+      background-color: rgba(v.$vket-magenta, 0.2);
+    }
+
+    &.glassy-box--light-magenta {
+      background-color: rgba(v.$vket-magenta, 0.2);
+    }
+
+    &.glassy-box--amber {
+      background-color: rgba(v.$vket-amber, 0.2);
+    }
+
+    &.glassy-box--vermilion {
+      background-color: rgba(v.$vket-vermilion, 0.2);
+    }
+  }
+
   &--cyan {
+    background-color: rgba(color.mix(black, v.$vket-cyan, 60%), 0.05);
     box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
 
     .glassy-box__icon {
@@ -77,6 +114,7 @@
   }
 
   &--light-cyan {
+    background-color: rgba(color.mix(black, v.$vket-cyan, 60%), 0.05);
     box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
 
     .glassy-box__icon {
@@ -93,6 +131,7 @@
   }
 
   &--magenta {
+    background-color: rgba(color.mix(black, v.$vket-magenta, 60%), 0.05);
     box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
 
     .glassy-box__icon {
@@ -109,6 +148,7 @@
   }
 
   &--light-magenta {
+    background-color: rgba(color.mix(black, v.$vket-magenta, 60%), 0.05);
     box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
 
     .glassy-box__icon {
@@ -125,6 +165,7 @@
   }
 
   &--amber {
+    background-color: rgba(color.mix(black, v.$vket-amber, 60%), 0.05);
     box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
 
     .glassy-box__icon {
@@ -141,6 +182,7 @@
   }
 
   &--vermilion {
+    background-color: rgba(color.mix(black, v.$vket-vermilion, 60%), 0.05);
     box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
 
     .glassy-box__icon {
@@ -175,9 +217,13 @@
 
 .glassy-box-2 {
   position: relative;
+
   border-radius: 20px;
+
   backdrop-filter: blur(4px);
   box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
+
+  transition: 0.15s transform ease;
 
   &::before {
     pointer-events: none;
@@ -213,13 +259,21 @@
     -webkit-mask-composite: destination-out;
     mask-composite: exclude;
   }
+
+  &:not(.none-hover-animation):hover {
+    transform: scale(1.02);
+  }
 }
 
 .glassy-box-3 {
   position: relative;
+
   border-radius: 20px;
+
   backdrop-filter: blur(4px);
   box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+
+  transition: 0.15s transform ease;
 
   &::before {
     pointer-events: none;
@@ -269,13 +323,21 @@
       border-width: 1px;
     }
   }
+
+  &:not(.none-hover-animation):hover {
+    transform: scale(1.02);
+  }
 }
 
 .glassy-box-4 {
   position: relative;
+
   border-radius: 20px;
+
   background-color: rgb(217 217 217 / 20%);
   backdrop-filter: blur(4px);
+
+  transition: 0.15s transform ease;
 
   &::before {
     pointer-events: none;
@@ -320,6 +382,10 @@
       linear-gradient(#fff 0 0) border-box;
     -webkit-mask-composite: destination-out;
     mask-composite: exclude;
+  }
+
+  &:not(.none-hover-animation):hover {
+    transform: scale(1.02);
   }
 }
 
@@ -417,6 +483,10 @@
       linear-gradient(#fff 0 0) border-box;
     -webkit-mask-composite: destination-out;
     mask-composite: exclude;
+  }
+
+  &:not(.none-hover-animation):hover {
+    transform: scale(1.02);
   }
 }
 

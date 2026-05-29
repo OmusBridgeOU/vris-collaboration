@@ -35,57 +35,61 @@ onMounted(() => {
       ref="listRef"
       class="conduct-grid mb-15"
     >
-      <HaConductCard
-        title="互いを尊重しましょう"
-        color="magenta"
-        class="conduct-grid__child"
-      >
-        <template #icon>
-          <HaHeartIcon />
-        </template>
-        <template #text>
-          すべての参加者の多様性を尊重し、<br>ハラスメントや差別的な行為は禁止です。
-        </template>
-      </HaConductCard>
-      <HaConductCard
-        title="撮影マナーを守りましょう"
-        text="descriptiondescriptiondescription"
-        color="cyan"
-        class="conduct-grid__child"
-      >
-        <template #icon>
-          <HaCamera />
-        </template>
-        <template #text>
-          他の参加者を撮影する際は必ず許可を取り、<br>撮影禁止エリアでは撮影をお控えください。
-        </template>
-      </HaConductCard>
-      <HaConductCard
-        title="安全に配慮しましょう"
-        text="descriptiondescriptiondescription"
-        color="amber"
-        class="conduct-grid__child"
-      >
-        <template #icon>
-          <HaDangerIcon />
-        </template>
-        <template #text>
-          会場内では走らない、通路をふさがないなど、<br>安全な行動を心掛けてください。
-        </template>
-      </HaConductCard>
-      <HaConductCard
-        title="スタッフの指示に従いましょう"
-        text="descriptiondescriptiondescription"
-        color="vermilion"
-        class="conduct-grid__child"
-      >
-        <template #icon>
-          <HaShieldIcon />
-        </template>
-        <template #text>
-          スタッフの指示に従い、<br>問題があれば速やかにスタッフにお知らせください。
-        </template>
-      </HaConductCard>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="互いを尊重しましょう"
+          color="magenta"
+        >
+          <template #icon>
+            <HaHeartIcon />
+          </template>
+          <template #text>
+            すべての参加者の多様性を尊重し、<br>ハラスメントや差別的な行為は禁止です。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="撮影マナーを守りましょう"
+          text="descriptiondescriptiondescription"
+          color="cyan"
+        >
+          <template #icon>
+            <HaCamera />
+          </template>
+          <template #text>
+            他の参加者を撮影する際は必ず許可を取り、<br>撮影禁止エリアでは撮影をお控えください。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="安全に配慮しましょう"
+          text="descriptiondescriptiondescription"
+          color="amber"
+        >
+          <template #icon>
+            <HaDangerIcon />
+          </template>
+          <template #text>
+            会場内では走らない、通路をふさがないなど、<br>安全な行動を心掛けてください。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="スタッフの指示に従いましょう"
+          text="descriptiondescriptiondescription"
+          color="vermilion"
+        >
+          <template #icon>
+            <HaShieldIcon />
+          </template>
+          <template #text>
+            スタッフの指示に従い、<br>問題があれば速やかにスタッフにお知らせください。
+          </template>
+        </HaConductCard>
+      </div>
     </div>
     <button class="glassy-button-3 conduct__button">
       詳細を確認

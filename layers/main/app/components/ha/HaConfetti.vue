@@ -104,6 +104,7 @@ function startAnimation(canvas: HTMLCanvasElement) {
         c.scaleDirection *= -1
         c.flipTimer = now + CONFIG.flipInterval
       }
+
       c.scaleY += c.scaleDirection * 0.05
       c.scaleY = Math.max(0.1, Math.min(1, c.scaleY))
 

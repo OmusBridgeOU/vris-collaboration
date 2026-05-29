@@ -193,6 +193,10 @@ defineProps<{
     padding: 3px 5px;
     border-radius: 6px;
 
+    @include m.sp {
+      border-radius: 4px;
+    }
+
     &--amber {
       background-color: rgba(v.$vket-amber, 0.6);
     }
@@ -209,7 +213,12 @@ defineProps<{
   &__label-text {
     font-size: 14px;
     font-weight: 400;
+    line-height: 1em;
     color: white;
+
+    @include m.sp {
+      font-size: 10px;
+    }
   }
 }
 </style>

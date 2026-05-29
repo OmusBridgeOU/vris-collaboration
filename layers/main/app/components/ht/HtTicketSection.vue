@@ -32,21 +32,24 @@ onMounted(() => {
       ref="listRef"
       class="ticket-grid"
     >
-      <HaTicketCard
-        title="チケット①"
-        desc="descriptiondescriptiondescription"
-        class="ticket-grid__item"
-      />
-      <HaTicketCard
-        title="チケット②"
-        desc="descriptiondescriptiondescription"
-        class="ticket-grid__item"
-      />
-      <HaTicketCard
-        title="チケット③"
-        desc="descriptiondescriptiondescription"
-        class="ticket-grid__item ticket-grid__item--full-width"
-      />
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          title="チケット①"
+          desc="descriptiondescriptiondescription"
+        />
+      </div>
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          title="チケット②"
+          desc="descriptiondescriptiondescription"
+        />
+      </div>
+      <div class="ticket-grid__item ticket-grid__item--full-width">
+        <HaTicketCard
+          title="チケット③"
+          desc="descriptiondescriptiondescription"
+        />
+      </div>
     </div>
   </div>
 </template>

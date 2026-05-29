@@ -40,50 +40,51 @@ onMounted(() => {
       ref="listRef"
       class="card-flex mb-24"
     >
-      <HaAboutCard
-        class="card-flex__child"
-        color="amber"
-      >
-        <template #icon>
-          <HaStarShineIcon />
-        </template>
-        <template #title>
-          サークル出展
-        </template>
-        <template #body>
-          VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
-        </template>
-      </HaAboutCard>
-      <HaAboutCard
-        class="card-flex__child"
-        icon-url="/icons/tabler_world.svg"
-        color="light-cyan"
-      >
-        <template #icon>
-          <HaWorldIcon />
-        </template>
-        <template #title>
-          一般展示
-        </template>
-        <template #body>
-          XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
-        </template>
-      </HaAboutCard>
-      <HaAboutCard
-        class="card-flex__child"
-        icon-url="/icons/boxicons_community.svg"
-        color="light-magenta"
-      >
-        <template #icon>
-          <HaCommunityIcon />
-        </template>
-        <template #title>
-          企業出展
-        </template>
-        <template #body>
-          企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
-        </template>
-      </HaAboutCard>
+      <div class="card-flex__child">
+        <HaAboutCard color="amber">
+          <template #icon>
+            <HaStarShineIcon />
+          </template>
+          <template #title>
+            サークル出展
+          </template>
+          <template #body>
+            VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
+          </template>
+        </HaAboutCard>
+      </div>
+      <div class="card-flex__child">
+        <HaAboutCard
+          icon-url="/icons/tabler_world.svg"
+          color="light-cyan"
+        >
+          <template #icon>
+            <HaWorldIcon />
+          </template>
+          <template #title>
+            一般展示
+          </template>
+          <template #body>
+            XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
+          </template>
+        </HaAboutCard>
+      </div>
+      <div class="card-flex__child">
+        <HaAboutCard
+          icon-url="/icons/boxicons_community.svg"
+          color="light-magenta"
+        >
+          <template #icon>
+            <HaCommunityIcon />
+          </template>
+          <template #title>
+            企業出展
+          </template>
+          <template #body>
+            企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
+          </template>
+        </HaAboutCard>
+      </div>
     </div>
     <p class="subtitle">
       出展者向けリソース
@@ -142,25 +143,25 @@ onMounted(() => {
 }
 
 .card-flex {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 330px));
   gap: 32px;
   justify-content: center;
 
-  width: 100%;
+  max-width: 1080px;
   margin-right: auto;
   margin-left: auto;
 
   @include m.tb {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 12px;
-    align-items: center;
   }
 
   &__child {
-    width: 320px;
-
     @include m.tb {
       width: 60%;
+      margin-right: auto;
+      margin-left: auto;
     }
 
     @include m.sp {

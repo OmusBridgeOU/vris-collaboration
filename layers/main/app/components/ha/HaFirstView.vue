@@ -1,9 +1,24 @@
 <template>
   <div class="fv">
     <h2 class="fv__title">
-      <span class="nowrap">リアルとバーチャルの</span>
-      <span class="nowrap">境界を、</span>
-      <span class="fv__title--bold">開拓せよ。</span>
+      <HaTypewriterText
+        class="nowrap"
+        text="リアルとバーチャルの"
+        :speed="80"
+        :delay="500"
+      />
+      <HaTypewriterText
+        class="nowrap"
+        text="境界を、"
+        :speed="80"
+        :delay="1380"
+      />
+      <HaTypewriterText
+        class="fv__title--bold"
+        text="開拓せよ。"
+        :speed="80"
+        :delay="1900"
+      />
     </h2>
   </div>
 </template>

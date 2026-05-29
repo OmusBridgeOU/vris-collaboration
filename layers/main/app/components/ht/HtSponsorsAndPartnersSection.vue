@@ -26,21 +26,24 @@ onMounted(() => {
       ref="listRef"
       class="sponsor-grid"
     >
-      <HaSponsorCard
-        label="企業出展"
-        name="〇〇〇 様"
-        class="sponsor-grid__child"
-      />
-      <HaSponsorCard
-        label="企業出展"
-        name="〇〇〇 様"
-        class="sponsor-grid__child"
-      />
-      <HaSponsorCard
-        label="企業出展"
-        name="〇〇〇 様"
-        class="sponsor-grid__child"
-      />
+      <div class="sponsor-grid__child">
+        <HaSponsorCard
+          label="企業出展"
+          name="〇〇〇 様"
+        />
+      </div>
+      <div class="sponsor-grid__child">
+        <HaSponsorCard
+          label="企業出展"
+          name="〇〇〇 様"
+        />
+      </div>
+      <div class="sponsor-grid__child">
+        <HaSponsorCard
+          label="企業出展"
+          name="〇〇〇 様"
+        />
+      </div>
     </div>
   </div>
 </template>

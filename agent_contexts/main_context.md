@@ -108,6 +108,7 @@ layers/
           HaConductCard.vue
           HaConfetti.vue
           HaContactCard.vue
+          HaCountUpNumber.vue
           HaDocumentLink.vue
           HaFireworks.vue
           HaFirstView.vue
@@ -118,6 +119,7 @@ layers/
           HaSponsorCard.vue
           HaSwiperCard.vue
           HaTicketCard.vue
+          HaTypewriterText.vue
         hm/
           HmCrowdLevelCard.vue
           HmSwiper.vue
@@ -228,461 +230,186 @@ layers/
 
 # Files
 
-## File: layers/main/app/components/ha/HaConfetti.vue
+## File: layers/main/app/components/ha/HaCountUpNumber.vue
 ````vue
 <script setup lang="ts">
-/*
-  canvas最上部のランダムな位置から、ランダムな角度でランダムな色の長方形を一定間隔で収縮させながら落下させている。
-*/
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const canvasRef = ref<HTMLCanvasElement | null>(null)
-
-// 調整可能なパラメータ
-const CONFIG = {
-  particleCount: 80,
-  fallSpeed: 2,
-  maxAngle: 15,
-  maxRotation: 65,
-  width: 12,
-  height: 8,
-  flipInterval: 500,
-} as const
-
-// 型定義
-interface Confetti {
-  x: number
-  y: number
-  vx: number
-  vy: number
-  hue: number
-  scaleY: number
-  scaleDirection: number
-  flipTimer: number
-  rotation: number
-}
+// props
+const props = withDefaults(
+  defineProps<{
+    value: number
+    duration?: number
+    delay?: number
+  }>(),
+  {
+    duration: 2000,
+    delay: 0,
+  },
+)
 
 // 状態管理
+const spanRef = ref<HTMLSpanElement | null>(null)
+const displayValue = ref(0)
 let animationId: number | null = null
-let resizeObserver: ResizeObserver | null = null
+let timeoutId: ReturnType<typeof setTimeout> | null = null
+let hasPlayed = false
 let intersectionObserver: IntersectionObserver | null = null
-let visibilityHandler: (() => void) | null = null
-let scaleFactor: number = 1
-let confetti: Confetti[] = []
 
-// ユーティリティ
-function random(min: number, max: number): number {
-  return Math.random() * (max - min) + min
-}
-
-// 紙吹雪を1個生成（canvas最上部からスタート）
-function createConfetti(canvasWidth: number): Confetti {
-  const sign = Math.random() < 0.5 ? 1 : -1
-  const angleRad = ((random(0, CONFIG.maxAngle) * Math.PI) / 180) * sign
-  const speed = CONFIG.fallSpeed * scaleFactor
-
-  return {
-    x: random(0, canvasWidth),
-    y: -CONFIG.height,
-    vx: Math.sin(angleRad) * speed,
-    vy: Math.cos(angleRad) * speed,
-    hue: Math.floor(random(0, 360)),
-    scaleY: 1,
-    scaleDirection: -1,
-    flipTimer: performance.now() + CONFIG.flipInterval,
-    rotation:
-      (random(-1 * CONFIG.maxRotation, CONFIG.maxRotation) * Math.PI) / 180,
-  }
-}
-
-// 再開時にflipTimerをばらつかせてリセット（これがないと収縮タイミングが同期してしまう）
-function resetFlipTimers() {
-  const now = performance.now()
-  confetti.forEach((c) => {
-    c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
-  })
-}
-
-// アニメーションのメイン処理
-function startAnimation(canvas: HTMLCanvasElement) {
-  if (animationId !== null) return
-
-  const ctx = canvas.getContext('2d')!
-
-  // 初期状態では、パーティクルを画面内のランダムな高さに配置
-  if (confetti.length === 0) {
-    const now = performance.now()
-    confetti = Array.from({ length: CONFIG.particleCount }, () => {
-      const c = createConfetti(canvas.width)
-      c.y = random(0, canvas.height)
-      c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
-      return c
-    })
-  }
-
-  function updateConfetti() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-    const now = performance.now()
-    const w = CONFIG.width * scaleFactor
-    const h = CONFIG.height * scaleFactor
-
-    confetti.forEach((c) => {
-      c.x += c.vx
-      c.y += c.vy
-
-      // 回転アニメーション（収縮アニメーションによる疑似的なもの）：flipTimerごとに折り返す
-      if (now >= c.flipTimer) {
-        c.scaleDirection *= -1
-        c.flipTimer = now + CONFIG.flipInterval
-      }
-      c.scaleY += c.scaleDirection * 0.05
-      c.scaleY = Math.max(0.1, Math.min(1, c.scaleY))
-
-      // 光の反射表現（回転アニメーションに合わせて輝度を変化させることによる疑似的なもの）
-      const lightness = 30 + c.scaleY * 40
-
-      // 画面下に出たら最上部に戻す
-      if (c.y > canvas.height + h) {
-        const next = createConfetti(canvas.width)
-        Object.assign(c, next)
-      }
-
-      ctx.save()
-      ctx.translate(c.x, c.y)
-      ctx.rotate(c.rotation)
-      ctx.scale(1, c.scaleY)
-      ctx.fillStyle = `hsl(${c.hue}, 90%, ${lightness}%)`
-      ctx.fillRect(-w / 2, -h / 2, w, h)
-      ctx.restore()
-    })
-  }
-
-  function animate() {
-    animationId = requestAnimationFrame(animate)
-    updateConfetti()
-  }
-
-  animate()
-}
-
-// 停止・リサイズ
-function stopAnimation() {
+// アニメーション処理
+function clearTimers() {
   if (animationId !== null) {
     cancelAnimationFrame(animationId)
     animationId = null
   }
+  if (timeoutId !== null) {
+    clearTimeout(timeoutId)
+    timeoutId = null
+  }
 }
 
-function resizeCanvas(canvas: HTMLCanvasElement) {
-  const parent = canvas.parentElement
-  if (!parent) return
-  canvas.width = parent.clientWidth
-  canvas.height = parent.clientHeight
+function startCountUp(targetValue: number) {
+  clearTimers()
+  displayValue.value = 0
+
+  timeoutId = setTimeout(() => {
+    const startTime = performance.now()
+
+    function tick(currentTime: number) {
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / props.duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 4) // 最初は速く、終盤はゆっくり目標値に近づく
+
+      displayValue.value = Math.round(eased * targetValue)
+
+      if (progress < 1) {
+        animationId = requestAnimationFrame(tick)
+      }
+    }
+
+    animationId = requestAnimationFrame(tick)
+  }, props.delay)
 }
 
 // ライフサイクル
 onMounted(() => {
-  const canvas = canvasRef.value
-  if (!canvas) return
-
-  const width = window.innerWidth
-  if (width < 768) {
-    scaleFactor = 0.6
-  } else if (width < 1024) {
-    scaleFactor = 0.8
-  } else {
-    scaleFactor = 1.0
-  }
-
-  resizeCanvas(canvas)
-
-  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
-  resizeObserver.observe(canvas.parentElement!)
+  const el = spanRef.value
+  if (!el) return
 
   intersectionObserver = new IntersectionObserver(
     (entries) => {
       const entry = entries[0]
       if (!entry) return
-      if (entry.isIntersecting) {
-        resetFlipTimers()
-        startAnimation(canvas)
-      } else {
-        stopAnimation()
+
+      // 画面内に入り、かつまだ再生していない場合のみ発火
+      if (entry.isIntersecting && !hasPlayed) {
+        hasPlayed = true
+        startCountUp(props.value)
+
+        // 一度再生したら監視を解除
+        intersectionObserver?.disconnect()
+        intersectionObserver = null
       }
     },
     { threshold: 0 },
   )
-  intersectionObserver.observe(canvas)
-
-  visibilityHandler = () => {
-    if (document.hidden) {
-      stopAnimation()
-    } else {
-      resetFlipTimers()
-      startAnimation(canvas)
-    }
-  }
-  document.addEventListener('visibilitychange', visibilityHandler)
+  intersectionObserver.observe(el)
 })
 
 onUnmounted(() => {
-  stopAnimation()
-  resizeObserver?.disconnect()
+  clearTimers()
   intersectionObserver?.disconnect()
-  if (visibilityHandler) {
-    document.removeEventListener('visibilitychange', visibilityHandler)
-    visibilityHandler = null
-  }
 })
 </script>
 
 <template>
-  <canvas
-    ref="canvasRef"
-    class="confetti-canvas"
-  />
+  <span ref="spanRef">{{ displayValue }}</span>
 </template>
-
-<style scoped>
-.confetti-canvas {
-  pointer-events: none;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-}
-</style>
 ````
 
-## File: layers/main/app/components/ha/HaFireworks.vue
+## File: layers/main/app/components/ha/HaTypewriterText.vue
 ````vue
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const canvasRef = ref<HTMLCanvasElement | null>(null)
+// props
+const props = withDefaults(
+  defineProps<{
+    text: string
+    speed?: number
+    delay?: number
+  }>(),
+  {
+    speed: 50,
+    delay: 0,
+  },
+)
 
-// アニメーション管理用の変数
-let animationId: number | null = null
-let resizeObserver: ResizeObserver | null = null
+// 状態管理
+const spanRef = ref<HTMLSpanElement | null>(null)
+const displayText = ref('')
+let timeoutId: ReturnType<typeof setTimeout> | null = null
+let hasPlayed = false // 一度再生したら二度と発火しないフラグ
 let intersectionObserver: IntersectionObserver | null = null
-let visibilityHandler: (() => void) | null = null
 
-// 花火の発射タイミング管理
-let nextFireworkTime: number = 0
-
-// 画面サイズに応じたスケール係数（起動時に1度だけ決定）
-let scaleFactor: number = 1
-
-// ユーティリティ
-function random(min: number, max: number): number {
-  return Math.random() * (max - min) + min
-}
-
-// パーティクルの型定義
-interface Particle {
-  x: number
-  y: number
-  vx: number
-  vy: number
-  alpha: number
-  hue: number
-}
-
-// パーティクルをstartAnimationの外で管理（再起動時にリセットされないようにする）
-let particles: Particle[] = []
-
-// 次の花火を打ち上げる時刻をセット（1〜2秒のランダムなタイミング）
-function scheduleNextFirework() {
-  nextFireworkTime = performance.now() + random(1000, 2000)
-}
-
-// アニメーションのメイン処理
-function startAnimation(canvas: HTMLCanvasElement) {
-  // 二重起動を防ぐ
-  if (animationId !== null) return
-
-  const ctx = canvas.getContext('2d')!
-
-  // 花火を1発生成
-  function createFirework() {
-    const x = random(100, canvas.width - 100)
-    const y = random(100, canvas.height - 100)
-    const hue = Math.floor(random(0, 360))
-
-    // 固定パーティクル（強: 24度間隔 × 15個、中: 36度間隔 × 10個、弱: 72度間隔 × 5個 = 合計30個）を設けて概形を整える
-    const fixedConfig = [
-      { count: 15, interval: 24, speed: 5 * scaleFactor },
-      { count: 10, interval: 36, speed: 3 * scaleFactor },
-      { count: 5, interval: 72, speed: 1 * scaleFactor },
-    ]
-
-    // 花火1発ごとにランダムな回転オフセット（0〜12度）
-    const rotationOffset = (random(0, 12) * Math.PI) / 180
-
-    fixedConfig.forEach(({ count, interval, speed }) => {
-      Array.from({ length: count }, (_, i) => {
-        const angle = (i * interval * Math.PI) / 180 + rotationOffset
-        particles.push({
-          x,
-          y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          alpha: 1,
-          hue,
-        })
-      })
-    })
-
-    // ランダムパーティクル（30個）
-    for (let i = 0; i < 30; i++) {
-      const angle = random(0, Math.PI * 2)
-      const speed = random(1, 5) * scaleFactor
-
-      particles.push({
-        x,
-        y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        alpha: 1,
-        hue,
-      })
-    }
-
-    scheduleNextFirework()
-  }
-
-  // パーティクルの更新と描画
-  function updateParticles() {
-    // 画面全体をクリア（背景を透過させる）
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-    particles = particles.filter((p) => {
-      p.x += p.vx
-      p.y += p.vy
-      p.alpha -= 0.01
-      return p.alpha > 0
-    })
-
-    particles.forEach((p) => {
-      ctx.beginPath()
-      ctx.fillStyle = `hsla(${p.hue}, 100%, 60%, ${p.alpha})`
-      ctx.arc(p.x, p.y, 2 * scaleFactor, 0, Math.PI * 2)
-      ctx.fill()
-    })
-  }
-
-  // アニメーションループ
-  function animate() {
-    animationId = requestAnimationFrame(animate)
-    updateParticles()
-
-    if (performance.now() >= nextFireworkTime) {
-      createFirework()
-    }
-  }
-
-  animate()
-}
-
-// アニメーション停止
-function stopAnimation() {
-  if (animationId !== null) {
-    cancelAnimationFrame(animationId)
-    animationId = null
+// アニメーション処理
+function clearTimer() {
+  if (timeoutId !== null) {
+    clearTimeout(timeoutId)
+    timeoutId = null
   }
 }
 
-// canvasのサイズを親要素に合わせる
-function resizeCanvas(canvas: HTMLCanvasElement) {
-  const parent = canvas.parentElement
-  if (!parent) return
-  canvas.width = parent.clientWidth
-  canvas.height = parent.clientHeight
+function startTypewriter(text: string) {
+  clearTimer()
+  displayText.value = ''
+
+  let index = 0
+
+  function typeNextChar() {
+    if (index >= text.length) return
+    displayText.value += text[index]
+    index++
+    timeoutId = setTimeout(typeNextChar, props.speed)
+  }
+
+  timeoutId = setTimeout(typeNextChar, props.delay)
 }
 
+// ライフサイクル
 onMounted(() => {
-  const canvas = canvasRef.value
-  if (!canvas) return
+  const el = spanRef.value
+  if (!el) return
 
-  // 起動時に1度だけ画面幅でscaleFactorを決定
-  const width = window.innerWidth
-  if (width < 768) {
-    scaleFactor = 0.6
-  } else if (width < 1024) {
-    scaleFactor = 0.8
-  } else {
-    scaleFactor = 1.0
-  }
-
-  resizeCanvas(canvas)
-
-  // 親要素のリサイズを監視
-  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
-  resizeObserver.observe(canvas.parentElement!)
-
-  // 要素の表示・非表示を監視（スクロールで画面外に出た場合）
   intersectionObserver = new IntersectionObserver(
     (entries) => {
       const entry = entries[0]
       if (!entry) return
-      if (entry.isIntersecting) {
-        startAnimation(canvas)
-      } else {
-        stopAnimation()
+
+      // 画面内に入り、かつまだ再生していない場合のみ発火
+      if (entry.isIntersecting && !hasPlayed) {
+        hasPlayed = true
+        startTypewriter(props.text)
+
+        // 一度再生したら監視を解除
+        intersectionObserver?.disconnect()
+        intersectionObserver = null
       }
     },
     { threshold: 0 },
   )
-  intersectionObserver.observe(canvas)
-
-  // タブの表示・非表示を監視
-  visibilityHandler = () => {
-    if (document.hidden) {
-      stopAnimation()
-    } else {
-      startAnimation(canvas)
-    }
-  }
-  document.addEventListener('visibilitychange', visibilityHandler)
-
-  // 初回スケジュール（ここでのみ呼ぶ）
-  scheduleNextFirework()
+  intersectionObserver.observe(el)
 })
 
 onUnmounted(() => {
-  stopAnimation()
-  resizeObserver?.disconnect()
+  clearTimer()
   intersectionObserver?.disconnect()
-  if (visibilityHandler) {
-    document.removeEventListener('visibilitychange', visibilityHandler)
-    visibilityHandler = null
-  }
 })
 </script>
 
 <template>
-  <canvas
-    ref="canvasRef"
-    class="fireworks-canvas"
-  />
+  <span ref="spanRef">{{ displayText }}</span>
 </template>
-
-<style scoped>
-.fireworks-canvas {
-  pointer-events: none;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-}
-</style>
 ````
 
 ## File: layers/main/@types/auto-imports.d.ts
@@ -2779,6 +2506,464 @@ img {
     />
   </svg>
 </template>
+````
+
+## File: layers/main/app/components/ha/HaConfetti.vue
+````vue
+<script setup lang="ts">
+/*
+  canvas最上部のランダムな位置から、ランダムな角度でランダムな色の長方形を一定間隔で収縮させながら落下させている。
+*/
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const canvasRef = ref<HTMLCanvasElement | null>(null)
+
+// 調整可能なパラメータ
+const CONFIG = {
+  particleCount: 80,
+  fallSpeed: 2,
+  maxAngle: 15,
+  maxRotation: 65,
+  width: 12,
+  height: 8,
+  flipInterval: 500,
+} as const
+
+// 型定義
+interface Confetti {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  hue: number
+  scaleY: number
+  scaleDirection: number
+  flipTimer: number
+  rotation: number
+}
+
+// 状態管理
+let animationId: number | null = null
+let resizeObserver: ResizeObserver | null = null
+let intersectionObserver: IntersectionObserver | null = null
+let visibilityHandler: (() => void) | null = null
+let scaleFactor: number = 1
+let confetti: Confetti[] = []
+
+// ユーティリティ
+function random(min: number, max: number): number {
+  return Math.random() * (max - min) + min
+}
+
+// 紙吹雪を1個生成（canvas最上部からスタート）
+function createConfetti(canvasWidth: number): Confetti {
+  const sign = Math.random() < 0.5 ? 1 : -1
+  const angleRad = ((random(0, CONFIG.maxAngle) * Math.PI) / 180) * sign
+  const speed = CONFIG.fallSpeed * scaleFactor
+
+  return {
+    x: random(0, canvasWidth),
+    y: -CONFIG.height,
+    vx: Math.sin(angleRad) * speed,
+    vy: Math.cos(angleRad) * speed,
+    hue: Math.floor(random(0, 360)),
+    scaleY: 1,
+    scaleDirection: -1,
+    flipTimer: performance.now() + CONFIG.flipInterval,
+    rotation:
+      (random(-1 * CONFIG.maxRotation, CONFIG.maxRotation) * Math.PI) / 180,
+  }
+}
+
+// 再開時にflipTimerをばらつかせてリセット（これがないと収縮タイミングが同期してしまう）
+function resetFlipTimers() {
+  const now = performance.now()
+  confetti.forEach((c) => {
+    c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
+  })
+}
+
+// アニメーションのメイン処理
+function startAnimation(canvas: HTMLCanvasElement) {
+  if (animationId !== null) return
+
+  const ctx = canvas.getContext('2d')!
+
+  // 初期状態では、パーティクルを画面内のランダムな高さに配置
+  if (confetti.length === 0) {
+    const now = performance.now()
+    confetti = Array.from({ length: CONFIG.particleCount }, () => {
+      const c = createConfetti(canvas.width)
+      c.y = random(0, canvas.height)
+      c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
+      return c
+    })
+  }
+
+  function updateConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    const now = performance.now()
+    const w = CONFIG.width * scaleFactor
+    const h = CONFIG.height * scaleFactor
+
+    confetti.forEach((c) => {
+      c.x += c.vx
+      c.y += c.vy
+
+      // 回転アニメーション（収縮アニメーションによる疑似的なもの）：flipTimerごとに折り返す
+      if (now >= c.flipTimer) {
+        c.scaleDirection *= -1
+        c.flipTimer = now + CONFIG.flipInterval
+      }
+
+      c.scaleY += c.scaleDirection * 0.05
+      c.scaleY = Math.max(0.1, Math.min(1, c.scaleY))
+
+      // 光の反射表現（回転アニメーションに合わせて輝度を変化させることによる疑似的なもの）
+      const lightness = 30 + c.scaleY * 40
+
+      // 画面下に出たら最上部に戻す
+      if (c.y > canvas.height + h) {
+        const next = createConfetti(canvas.width)
+        Object.assign(c, next)
+      }
+
+      ctx.save()
+      ctx.translate(c.x, c.y)
+      ctx.rotate(c.rotation)
+      ctx.scale(1, c.scaleY)
+      ctx.fillStyle = `hsl(${c.hue}, 90%, ${lightness}%)`
+      ctx.fillRect(-w / 2, -h / 2, w, h)
+      ctx.restore()
+    })
+  }
+
+  function animate() {
+    animationId = requestAnimationFrame(animate)
+    updateConfetti()
+  }
+
+  animate()
+}
+
+// 停止・リサイズ
+function stopAnimation() {
+  if (animationId !== null) {
+    cancelAnimationFrame(animationId)
+    animationId = null
+  }
+}
+
+function resizeCanvas(canvas: HTMLCanvasElement) {
+  const parent = canvas.parentElement
+  if (!parent) return
+  canvas.width = parent.clientWidth
+  canvas.height = parent.clientHeight
+}
+
+// ライフサイクル
+onMounted(() => {
+  const canvas = canvasRef.value
+  if (!canvas) return
+
+  const width = window.innerWidth
+  if (width < 768) {
+    scaleFactor = 0.6
+  } else if (width < 1024) {
+    scaleFactor = 0.8
+  } else {
+    scaleFactor = 1.0
+  }
+
+  resizeCanvas(canvas)
+
+  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
+  resizeObserver.observe(canvas.parentElement!)
+
+  intersectionObserver = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0]
+      if (!entry) return
+      if (entry.isIntersecting) {
+        resetFlipTimers()
+        startAnimation(canvas)
+      } else {
+        stopAnimation()
+      }
+    },
+    { threshold: 0 },
+  )
+  intersectionObserver.observe(canvas)
+
+  visibilityHandler = () => {
+    if (document.hidden) {
+      stopAnimation()
+    } else {
+      resetFlipTimers()
+      startAnimation(canvas)
+    }
+  }
+  document.addEventListener('visibilitychange', visibilityHandler)
+})
+
+onUnmounted(() => {
+  stopAnimation()
+  resizeObserver?.disconnect()
+  intersectionObserver?.disconnect()
+  if (visibilityHandler) {
+    document.removeEventListener('visibilitychange', visibilityHandler)
+    visibilityHandler = null
+  }
+})
+</script>
+
+<template>
+  <canvas
+    ref="canvasRef"
+    class="confetti-canvas"
+  />
+</template>
+
+<style scoped>
+.confetti-canvas {
+  pointer-events: none;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+}
+</style>
+````
+
+## File: layers/main/app/components/ha/HaFireworks.vue
+````vue
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const canvasRef = ref<HTMLCanvasElement | null>(null)
+
+// アニメーション管理用の変数
+let animationId: number | null = null
+let resizeObserver: ResizeObserver | null = null
+let intersectionObserver: IntersectionObserver | null = null
+let visibilityHandler: (() => void) | null = null
+
+// 花火の発射タイミング管理
+let nextFireworkTime: number = 0
+
+// 画面サイズに応じたスケール係数（起動時に1度だけ決定）
+let scaleFactor: number = 1
+
+// ユーティリティ
+function random(min: number, max: number): number {
+  return Math.random() * (max - min) + min
+}
+
+// パーティクルの型定義
+interface Particle {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  alpha: number
+  hue: number
+}
+
+// パーティクルをstartAnimationの外で管理（再起動時にリセットされないようにする）
+let particles: Particle[] = []
+
+// 次の花火を打ち上げる時刻をセット（1〜2秒のランダムなタイミング）
+function scheduleNextFirework() {
+  nextFireworkTime = performance.now() + random(1000, 2000)
+}
+
+// アニメーションのメイン処理
+function startAnimation(canvas: HTMLCanvasElement) {
+  // 二重起動を防ぐ
+  if (animationId !== null) return
+
+  const ctx = canvas.getContext('2d')!
+
+  // 花火を1発生成
+  function createFirework() {
+    const x = random(100, canvas.width - 100)
+    const y = random(100, canvas.height - 100)
+    const hue = Math.floor(random(0, 360))
+
+    // 固定パーティクル（強: 24度間隔 × 15個、中: 36度間隔 × 10個、弱: 72度間隔 × 5個 = 合計30個）を設けて概形を整える
+    const fixedConfig = [
+      { count: 15, interval: 24, speed: 5 * scaleFactor },
+      { count: 10, interval: 36, speed: 3 * scaleFactor },
+      { count: 5, interval: 72, speed: 1 * scaleFactor },
+    ]
+
+    // 花火1発ごとにランダムな回転オフセット（0〜12度）
+    const rotationOffset = (random(0, 12) * Math.PI) / 180
+
+    fixedConfig.forEach(({ count, interval, speed }) => {
+      Array.from({ length: count }, (_, i) => {
+        const angle = (i * interval * Math.PI) / 180 + rotationOffset
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          alpha: 1,
+          hue,
+        })
+      })
+    })
+
+    // ランダムパーティクル（30個）
+    for (let i = 0; i < 30; i++) {
+      const angle = random(0, Math.PI * 2)
+      const speed = random(1, 5) * scaleFactor
+
+      particles.push({
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        alpha: 1,
+        hue,
+      })
+    }
+
+    scheduleNextFirework()
+  }
+
+  // パーティクルの更新と描画
+  function updateParticles() {
+    // 画面全体をクリア（背景を透過させる）
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    particles = particles.filter((p) => {
+      p.x += p.vx
+      p.y += p.vy
+      p.alpha -= 0.01
+      return p.alpha > 0
+    })
+
+    particles.forEach((p) => {
+      ctx.beginPath()
+      ctx.fillStyle = `hsla(${p.hue}, 100%, 60%, ${p.alpha})`
+      ctx.arc(p.x, p.y, 2 * scaleFactor, 0, Math.PI * 2)
+      ctx.fill()
+    })
+  }
+
+  // アニメーションループ
+  function animate() {
+    animationId = requestAnimationFrame(animate)
+    updateParticles()
+
+    if (performance.now() >= nextFireworkTime) {
+      createFirework()
+    }
+  }
+
+  animate()
+}
+
+// アニメーション停止
+function stopAnimation() {
+  if (animationId !== null) {
+    cancelAnimationFrame(animationId)
+    animationId = null
+  }
+}
+
+// canvasのサイズを親要素に合わせる
+function resizeCanvas(canvas: HTMLCanvasElement) {
+  const parent = canvas.parentElement
+  if (!parent) return
+  canvas.width = parent.clientWidth
+  canvas.height = parent.clientHeight
+}
+
+onMounted(() => {
+  const canvas = canvasRef.value
+  if (!canvas) return
+
+  // 起動時に1度だけ画面幅でscaleFactorを決定
+  const width = window.innerWidth
+  if (width < 768) {
+    scaleFactor = 0.6
+  } else if (width < 1024) {
+    scaleFactor = 0.8
+  } else {
+    scaleFactor = 1.0
+  }
+
+  resizeCanvas(canvas)
+
+  // 親要素のリサイズを監視
+  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
+  resizeObserver.observe(canvas.parentElement!)
+
+  // 要素の表示・非表示を監視（スクロールで画面外に出た場合）
+  intersectionObserver = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0]
+      if (!entry) return
+      if (entry.isIntersecting) {
+        startAnimation(canvas)
+      } else {
+        stopAnimation()
+      }
+    },
+    { threshold: 0 },
+  )
+  intersectionObserver.observe(canvas)
+
+  // タブの表示・非表示を監視
+  visibilityHandler = () => {
+    if (document.hidden) {
+      stopAnimation()
+    } else {
+      startAnimation(canvas)
+    }
+  }
+  document.addEventListener('visibilitychange', visibilityHandler)
+
+  // 初回スケジュール（ここでのみ呼ぶ）
+  scheduleNextFirework()
+})
+
+onUnmounted(() => {
+  stopAnimation()
+  resizeObserver?.disconnect()
+  intersectionObserver?.disconnect()
+  if (visibilityHandler) {
+    document.removeEventListener('visibilitychange', visibilityHandler)
+    visibilityHandler = null
+  }
+})
+</script>
+
+<template>
+  <canvas
+    ref="canvasRef"
+    class="fireworks-canvas"
+  />
+</template>
+
+<style scoped>
+.fireworks-canvas {
+  pointer-events: none;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+}
+</style>
 ````
 
 ## File: layers/main/app/components/ha/HaShimmer.vue
@@ -5219,7 +5404,6 @@ export default defineConfig({
 
 ## File: layers/main/app/components/ha/HaAboutCard.vue
 ````vue
-<!-- components/GlassCard.vue -->
 <script setup lang="ts">
 defineProps<{
   color:
@@ -5335,7 +5519,7 @@ defineProps<{
       {{ desc }}
     </p>
 
-    <button class="glassy-button-3 ticket-card__button">
+    <button class="glassy-button-3 ticket-card__button none-hover-animation">
       チケット購入
     </button>
   </div>
@@ -5373,10 +5557,18 @@ defineProps<{
     font-size: 24px;
     font-weight: bold;
     line-height: 1em;
+
+    @include m.sp {
+      font-size: 16px;
+    }
   }
 
   &__desc {
     font-size: 16px;
+
+    @include m.sp {
+      font-size: 14px;
+    }
   }
 
   &__button {
@@ -6295,6 +6487,10 @@ defineProps<{
     padding: 3px 5px;
     border-radius: 6px;
 
+    @include m.sp {
+      border-radius: 4px;
+    }
+
     &--amber {
       background-color: rgba(v.$vket-amber, 0.6);
     }
@@ -6311,7 +6507,12 @@ defineProps<{
   &__label-text {
     font-size: 14px;
     font-weight: 400;
+    line-height: 1em;
     color: white;
+
+    @include m.sp {
+      font-size: 10px;
+    }
   }
 }
 </style>
@@ -6322,9 +6523,24 @@ defineProps<{
 <template>
   <div class="fv">
     <h2 class="fv__title">
-      <span class="nowrap">リアルとバーチャルの</span>
-      <span class="nowrap">境界を、</span>
-      <span class="fv__title--bold">開拓せよ。</span>
+      <HaTypewriterText
+        class="nowrap"
+        text="リアルとバーチャルの"
+        :speed="80"
+        :delay="500"
+      />
+      <HaTypewriterText
+        class="nowrap"
+        text="境界を、"
+        :speed="80"
+        :delay="1380"
+      />
+      <HaTypewriterText
+        class="fv__title--bold"
+        text="開拓せよ。"
+        :speed="80"
+        :delay="1900"
+      />
     </h2>
   </div>
 </template>
@@ -6398,10 +6614,10 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
 </script>
 
 <template>
-  <div class="info-card glassy-box-2">
+  <div class="info-card glassy-box-2 none-hover-animation">
     <div class="info-card__head">
       <div class="info-card__icon">
-        <ha-info-icon />
+        <HaInfoIcon />
       </div>
       <h4 class="info-card__title">
         イベント概要
@@ -6464,6 +6680,10 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
     display: flex;
     gap: 24px;
     align-items: center;
+
+    @include m.sp {
+      gap: 8px;
+    }
   }
 
   &__icon {
@@ -6477,9 +6697,14 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
 
     background: rgb(30 53 91 / 100%);
 
+    @include m.sp {
+      width: 28px;
+      height: 28px;
+    }
+
     svg {
-      width: 50%;
-      height: 50%;
+      width: 60%;
+      height: 60%;
     }
   }
 
@@ -6507,12 +6732,20 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
     font-size: 16px;
     font-weight: bold;
     color: v.$vket-amber;
+
+    @include m.sp {
+      font-size: 14px;
+    }
   }
 
   &__text {
     font-size: 16px;
     color: white;
     text-align: right;
+
+    @include m.sp {
+      font-size: 14px;
+    }
   }
 }
 </style>
@@ -7821,57 +8054,61 @@ onMounted(() => {
       ref="listRef"
       class="conduct-grid mb-15"
     >
-      <HaConductCard
-        title="互いを尊重しましょう"
-        color="magenta"
-        class="conduct-grid__child"
-      >
-        <template #icon>
-          <HaHeartIcon />
-        </template>
-        <template #text>
-          すべての参加者の多様性を尊重し、<br>ハラスメントや差別的な行為は禁止です。
-        </template>
-      </HaConductCard>
-      <HaConductCard
-        title="撮影マナーを守りましょう"
-        text="descriptiondescriptiondescription"
-        color="cyan"
-        class="conduct-grid__child"
-      >
-        <template #icon>
-          <HaCamera />
-        </template>
-        <template #text>
-          他の参加者を撮影する際は必ず許可を取り、<br>撮影禁止エリアでは撮影をお控えください。
-        </template>
-      </HaConductCard>
-      <HaConductCard
-        title="安全に配慮しましょう"
-        text="descriptiondescriptiondescription"
-        color="amber"
-        class="conduct-grid__child"
-      >
-        <template #icon>
-          <HaDangerIcon />
-        </template>
-        <template #text>
-          会場内では走らない、通路をふさがないなど、<br>安全な行動を心掛けてください。
-        </template>
-      </HaConductCard>
-      <HaConductCard
-        title="スタッフの指示に従いましょう"
-        text="descriptiondescriptiondescription"
-        color="vermilion"
-        class="conduct-grid__child"
-      >
-        <template #icon>
-          <HaShieldIcon />
-        </template>
-        <template #text>
-          スタッフの指示に従い、<br>問題があれば速やかにスタッフにお知らせください。
-        </template>
-      </HaConductCard>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="互いを尊重しましょう"
+          color="magenta"
+        >
+          <template #icon>
+            <HaHeartIcon />
+          </template>
+          <template #text>
+            すべての参加者の多様性を尊重し、<br>ハラスメントや差別的な行為は禁止です。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="撮影マナーを守りましょう"
+          text="descriptiondescriptiondescription"
+          color="cyan"
+        >
+          <template #icon>
+            <HaCamera />
+          </template>
+          <template #text>
+            他の参加者を撮影する際は必ず許可を取り、<br>撮影禁止エリアでは撮影をお控えください。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="安全に配慮しましょう"
+          text="descriptiondescriptiondescription"
+          color="amber"
+        >
+          <template #icon>
+            <HaDangerIcon />
+          </template>
+          <template #text>
+            会場内では走らない、通路をふさがないなど、<br>安全な行動を心掛けてください。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="スタッフの指示に従いましょう"
+          text="descriptiondescriptiondescription"
+          color="vermilion"
+        >
+          <template #icon>
+            <HaShieldIcon />
+          </template>
+          <template #text>
+            スタッフの指示に従い、<br>問題があれば速やかにスタッフにお知らせください。
+          </template>
+        </HaConductCard>
+      </div>
     </div>
     <button class="glassy-button-3 conduct__button">
       詳細を確認
@@ -7968,7 +8205,7 @@ onMounted(() => {
       title="お問い合わせ"
       label="CONTACT"
     />
-    <div class="Contact-grid">
+    <div class="contact-grid">
       <HaContactCard
         title="個人向けお問い合わせ"
         text="一般の方からのお問い合わせはこちら"
@@ -8185,6 +8422,7 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
   isBeginning.value = newIsBeginning
   isEnd.value = newIsEnd
 }
+
 const sectionRef = ref<HTMLElement | null>(null)
 const { fadeInUp } = useGsapFadeIn()
 onMounted(() => {
@@ -8258,21 +8496,24 @@ onMounted(() => {
       ref="listRef"
       class="sponsor-grid"
     >
-      <HaSponsorCard
-        label="企業出展"
-        name="〇〇〇 様"
-        class="sponsor-grid__child"
-      />
-      <HaSponsorCard
-        label="企業出展"
-        name="〇〇〇 様"
-        class="sponsor-grid__child"
-      />
-      <HaSponsorCard
-        label="企業出展"
-        name="〇〇〇 様"
-        class="sponsor-grid__child"
-      />
+      <div class="sponsor-grid__child">
+        <HaSponsorCard
+          label="企業出展"
+          name="〇〇〇 様"
+        />
+      </div>
+      <div class="sponsor-grid__child">
+        <HaSponsorCard
+          label="企業出展"
+          name="〇〇〇 様"
+        />
+      </div>
+      <div class="sponsor-grid__child">
+        <HaSponsorCard
+          label="企業出展"
+          name="〇〇〇 様"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -8332,21 +8573,24 @@ onMounted(() => {
       ref="listRef"
       class="ticket-grid"
     >
-      <HaTicketCard
-        title="チケット①"
-        desc="descriptiondescriptiondescription"
-        class="ticket-grid__item"
-      />
-      <HaTicketCard
-        title="チケット②"
-        desc="descriptiondescriptiondescription"
-        class="ticket-grid__item"
-      />
-      <HaTicketCard
-        title="チケット③"
-        desc="descriptiondescriptiondescription"
-        class="ticket-grid__item ticket-grid__item--full-width"
-      />
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          title="チケット①"
+          desc="descriptiondescriptiondescription"
+        />
+      </div>
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          title="チケット②"
+          desc="descriptiondescriptiondescription"
+        />
+      </div>
+      <div class="ticket-grid__item ticket-grid__item--full-width">
+        <HaTicketCard
+          title="チケット③"
+          desc="descriptiondescriptiondescription"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -8665,11 +8909,11 @@ const toggle = (id: number) => {
 </script>
 
 <template>
-  <div class="accordion glassy-box accordion-glassy-box">
+  <div class="accordion glassy-box accordion-glassy-box none-hover-animation">
     <button
       v-for="item in items"
       :key="item.id"
-      class="accordion-item glassy-box accordion-glassy-box"
+      class="accordion-item glassy-box accordion-glassy-box none-hover-animation"
       :class="{ 'accordion-item--is-open': openId === item.id }"
       @click="toggle(item.id)"
     >
@@ -9150,10 +9394,575 @@ export function useCrowdData() {
 }
 ````
 
+## File: layers/main/app/components/ht/HtAboutSection.vue
+````vue
+<script setup lang="ts">
+import HaCard from '../ha/HaAboutCard.vue'
+import HaCountUpNumber from '../ha/HaCountUpNumber.vue'
+import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
+import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
+import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.gsap-list__child')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="VketReal in 札幌とは"
+      label="about"
+    />
+    <div class="description">
+      世界最大級のメタバースイベント「バーチャルマーケット(Vket)」から派生した、「バーチャルの姿のままリアルに飛び出す！」リアルイベント。<br
+        class="sp-none"
+      >北海道の有志XRクリエイターが主催し、札幌で開催します。
+    </div>
+    <div class="info-flex mb-24">
+      <div class="info-flex__child">
+        <p class="info-flex__number info-flex__number--amber">
+          <HaCountUpNumber
+            :value="500"
+            :duration="2000"
+          />名+
+        </p>
+        <p class="info-flex__label">
+          過去の来場者数
+        </p>
+      </div>
+      <div class="info-flex__child">
+        <p class="info-flex__number info-flex__number--cyan">
+          <HaCountUpNumber
+            :value="50"
+            :duration="2000"
+          />+
+        </p>
+        <p class="info-flex__label">
+          出展サークル数
+        </p>
+      </div>
+      <div class="info-flex__child">
+        <p class="info-flex__number info-flex__number--magenta">
+          <HaCountUpNumber
+            :value="6"
+            :duration="2000"
+          />回
+        </p>
+        <p class="info-flex__label">
+          開催回数
+        </p>
+      </div>
+    </div>
+
+    <div
+      ref="listRef"
+      class="card-flex"
+    >
+      <div class="gsap-list__child">
+        <HaCard
+          class="card-flex__child"
+          color="amber"
+        >
+          <template #icon>
+            <HaStarShineIcon />
+          </template>
+          <template #title>
+            バーチャル姿のまま<br>リアルで体験
+          </template>
+          <template #body>
+            アバターとしての生き方を大切にする人々が<br>
+            リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
+          </template>
+        </HaCard>
+      </div>
+      <div class="gsap-list__child">
+        <HaCard
+          class="card-flex__child"
+          color="cyan"
+        >
+          <template #icon>
+            <HaWorldIcon />
+          </template>
+          <template #title>
+            VRの世界で活躍する<br>クリエイターの出展
+          </template>
+          <template #body>
+            VRとリアルを行き来しながら活躍する<br>クリエイターの作品展示や、新たなXR技術を<br>活用したインタラクティブな企画を展開！
+          </template>
+        </HaCard>
+      </div>
+      <div class="gsap-list__child">
+        <HaCard
+          class="card-flex__child"
+          color="light-magenta"
+        >
+          <template #icon>
+            <HaCommunityIcon />
+          </template>
+          <template #title>
+            遊んで、買って、<br>楽しめる企業ブース
+          </template>
+          <template #body>
+            各企業ブースでは最新XRコンテンツを体験でき、<br>ここでしか手に入らない限定グッズも<br>販売されるかも？
+          </template>
+        </HaCard>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.description {
+  width: 750px;
+  margin: 0 auto 96px;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5em;
+  color: white;
+  text-align: center;
+
+  @include m.tb {
+    width: 555px;
+    font-size: 16px;
+  }
+
+  @include m.sp {
+    width: initial;
+    font-size: 14px;
+  }
+}
+
+.info-flex {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  @include m.tb {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__child {
+    width: 320px;
+  }
+
+  &__number {
+    margin-bottom: 4px;
+
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1em;
+    text-align: center;
+    letter-spacing: normal;
+    white-space: nowrap;
+
+    @include m.sp {
+      margin-bottom: 8px;
+      font-size: 48px;
+    }
+
+    &--cyan {
+      color: v.$vket-cyan;
+    }
+
+    &--amber {
+      color: v.$vket-amber;
+    }
+
+    &--magenta {
+      color: v.$vket-magenta;
+    }
+  }
+
+  &__label {
+    font-size: 16px;
+    font-weight: 400;
+    color: v.$vket-emerald;
+    text-align: center;
+
+    @include m.sp {
+      font-size: 10px;
+    }
+  }
+}
+
+.card-flex {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  @include m.tb {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .gsap-list__child {
+    width: 320px;
+
+    @include m.tb {
+      width: 60%;
+    }
+
+    @include m.sp {
+      width: 100%;
+    }
+  }
+
+  &__child {
+    width: 100%;
+    height: 100%;
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtExhibitionSection.vue
+````vue
+<script setup lang="ts">
+import HaAboutCard from '../ha/HaAboutCard.vue'
+import HaDocumentLink from '../ha/HaDocumentLink.vue'
+import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
+import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
+import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue'
+import HaCircledQuestionIcon from '../ha/icons/HaCircledQuestionIcon.vue'
+import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
+import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const list2Ref = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value || !list2Ref.value) return
+  const items = listRef.value.querySelectorAll('.card-flex__child')
+  const items2 = list2Ref.value.querySelectorAll('.link-list__child')
+  fadeInUpStagger(Array.from(items))
+  fadeInUpStagger(Array.from(items2))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="出展情報"
+      label="exhibition"
+    />
+    <p class="subtitle">
+      出展カテゴリ
+    </p>
+    <div
+      ref="listRef"
+      class="card-flex mb-24"
+    >
+      <div class="card-flex__child">
+        <HaAboutCard color="amber">
+          <template #icon>
+            <HaStarShineIcon />
+          </template>
+          <template #title>
+            サークル出展
+          </template>
+          <template #body>
+            VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
+          </template>
+        </HaAboutCard>
+      </div>
+      <div class="card-flex__child">
+        <HaAboutCard
+          icon-url="/icons/tabler_world.svg"
+          color="light-cyan"
+        >
+          <template #icon>
+            <HaWorldIcon />
+          </template>
+          <template #title>
+            一般展示
+          </template>
+          <template #body>
+            XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
+          </template>
+        </HaAboutCard>
+      </div>
+      <div class="card-flex__child">
+        <HaAboutCard
+          icon-url="/icons/boxicons_community.svg"
+          color="light-magenta"
+        >
+          <template #icon>
+            <HaCommunityIcon />
+          </template>
+          <template #title>
+            企業出展
+          </template>
+          <template #body>
+            企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
+          </template>
+        </HaAboutCard>
+      </div>
+    </div>
+    <p class="subtitle">
+      出展者向けリソース
+    </p>
+    <div
+      ref="list2Ref"
+      class="link-list"
+    >
+      <HaDocumentLink
+        title="出展ガイドライン"
+        label="important"
+        color="green"
+        text="出展に必要なルール・準備事項をまとめた公式ガイド"
+        class="link-list__child"
+      >
+        <template #icon>
+          <HaOpenBookIcon />
+        </template>
+      </HaDocumentLink>
+      <HaDocumentLink
+        title="出展規約"
+        label="required"
+        color="cyan"
+        text="出展者が遵守すべき規約・利用条件"
+        class="link-list__child"
+      >
+        <template #icon>
+          <HaBalanceIcon />
+        </template>
+      </HaDocumentLink>
+      <HaDocumentLink
+        title="出展ガイドライン"
+        label="Q&A"
+        color="magenta"
+        text="出展に必要なルール・準備事項をまとめた公式ガイド"
+        class="link-list__child"
+      >
+        <template #icon>
+          <HaCircledQuestionIcon />
+        </template>
+      </HaDocumentLink>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
+}
+
+.card-flex {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 330px));
+  gap: 32px;
+  justify-content: center;
+
+  max-width: 1080px;
+  margin-right: auto;
+  margin-left: auto;
+
+  @include m.tb {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  &__child {
+    @include m.tb {
+      width: 60%;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    @include m.sp {
+      width: 100%;
+    }
+  }
+}
+
+.link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @include m.tb {
+    align-items: center;
+  }
+
+  &__child {
+    @include m.tb {
+      width: 60%;
+    }
+
+    @include m.sp {
+      width: 100%;
+    }
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtQuickAccessSection.vue
+````vue
+<script setup lang="ts">
+import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
+import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
+import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
+import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
+import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.gsap-list__child')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="参加者向け重要情報"
+      label="quick access"
+    />
+    <div
+      ref="listRef"
+      class="grid2x"
+    >
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="cyan"
+          title="開催日"
+          label="DATE"
+        >
+          <template #icon>
+            <HaCalendarIcon />
+          </template>
+          <template #body>
+            <p />
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="magenta"
+          title="会場"
+          label="LOCATION"
+        >
+          <template #icon>
+            <HaMapPinIcon />
+          </template>
+          <template #body>
+            <p />
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="amber"
+          title="チケット"
+          label="TICKETS"
+        >
+          <template #icon>
+            <HaTicketIcon />
+          </template>
+          <template #body>
+            <p />
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="vermilion"
+          title="スケジュール"
+          label="SCHEDULE"
+          icon-url="/icons/material-symbols_timer-outline.svg"
+        >
+          <template #icon>
+            <HaTimerIcon />
+          </template>
+          <template #body>
+            <p />
+          </template>
+        </HaQuickAccessCard>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
+.grid2x {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 20px;
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  &__child {
+    height: 100%;
+    min-height: 280px;
+  }
+}
+</style>
+````
+
 ## File: layers/main/app/assets/styles/_common.scss
 ````scss
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
+@use 'sass:color';
 
 .nowrap {
   display: block;
@@ -9174,9 +9983,16 @@ export function useCrowdData() {
 
 .glassy-box {
   position: relative;
+
+  width: 100%;
+  height: 100%;
   padding: 22px 36px;
   border-radius: 20px;
+
+  background-color: transparent;
   backdrop-filter: blur(4px);
+
+  transition: 0.15s transform ease, 0.15s background-color ease;
 
   // グラスモーフィズム的な表現のための疑似要素
   &::after {
@@ -9214,7 +10030,36 @@ export function useCrowdData() {
     mask-composite: exclude;
   }
 
+  &:not(.none-hover-animation):hover {
+    transform: scale(1.02);
+
+    &.glassy-box--cyan {
+      background-color: rgba(v.$vket-cyan, 0.2);
+    }
+
+    &.glassy-box--light-cyan {
+      background-color: rgba(v.$vket-cyan, 0.2);
+    }
+
+    &.glassy-box--magenta {
+      background-color: rgba(v.$vket-magenta, 0.2);
+    }
+
+    &.glassy-box--light-magenta {
+      background-color: rgba(v.$vket-magenta, 0.2);
+    }
+
+    &.glassy-box--amber {
+      background-color: rgba(v.$vket-amber, 0.2);
+    }
+
+    &.glassy-box--vermilion {
+      background-color: rgba(v.$vket-vermilion, 0.2);
+    }
+  }
+
   &--cyan {
+    background-color: rgba(color.mix(black, v.$vket-cyan, 60%), 0.05);
     box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
 
     .glassy-box__icon {
@@ -9231,6 +10076,7 @@ export function useCrowdData() {
   }
 
   &--light-cyan {
+    background-color: rgba(color.mix(black, v.$vket-cyan, 60%), 0.05);
     box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
 
     .glassy-box__icon {
@@ -9247,6 +10093,7 @@ export function useCrowdData() {
   }
 
   &--magenta {
+    background-color: rgba(color.mix(black, v.$vket-magenta, 60%), 0.05);
     box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
 
     .glassy-box__icon {
@@ -9263,6 +10110,7 @@ export function useCrowdData() {
   }
 
   &--light-magenta {
+    background-color: rgba(color.mix(black, v.$vket-magenta, 60%), 0.05);
     box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
 
     .glassy-box__icon {
@@ -9279,6 +10127,7 @@ export function useCrowdData() {
   }
 
   &--amber {
+    background-color: rgba(color.mix(black, v.$vket-amber, 60%), 0.05);
     box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
 
     .glassy-box__icon {
@@ -9295,6 +10144,7 @@ export function useCrowdData() {
   }
 
   &--vermilion {
+    background-color: rgba(color.mix(black, v.$vket-vermilion, 60%), 0.05);
     box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
 
     .glassy-box__icon {
@@ -9329,9 +10179,13 @@ export function useCrowdData() {
 
 .glassy-box-2 {
   position: relative;
+
   border-radius: 20px;
+
   backdrop-filter: blur(4px);
   box-shadow: inset rgb(70 132 255 / 35%) 0 0 16px 4px;
+
+  transition: 0.15s transform ease;
 
   &::before {
     pointer-events: none;
@@ -9367,13 +10221,21 @@ export function useCrowdData() {
     -webkit-mask-composite: destination-out;
     mask-composite: exclude;
   }
+
+  &:not(.none-hover-animation):hover {
+    transform: scale(1.02);
+  }
 }
 
 .glassy-box-3 {
   position: relative;
+
   border-radius: 20px;
+
   backdrop-filter: blur(4px);
   box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+
+  transition: 0.15s transform ease;
 
   &::before {
     pointer-events: none;
@@ -9423,13 +10285,21 @@ export function useCrowdData() {
       border-width: 1px;
     }
   }
+
+  &:not(.none-hover-animation):hover {
+    transform: scale(1.02);
+  }
 }
 
 .glassy-box-4 {
   position: relative;
+
   border-radius: 20px;
+
   background-color: rgb(217 217 217 / 20%);
   backdrop-filter: blur(4px);
+
+  transition: 0.15s transform ease;
 
   &::before {
     pointer-events: none;
@@ -9474,6 +10344,10 @@ export function useCrowdData() {
       linear-gradient(#fff 0 0) border-box;
     -webkit-mask-composite: destination-out;
     mask-composite: exclude;
+  }
+
+  &:not(.none-hover-animation):hover {
+    transform: scale(1.02);
   }
 }
 
@@ -9572,6 +10446,10 @@ export function useCrowdData() {
     -webkit-mask-composite: destination-out;
     mask-composite: exclude;
   }
+
+  &:not(.none-hover-animation):hover {
+    transform: scale(1.02);
+  }
 }
 
 .subtitle {
@@ -9666,544 +10544,6 @@ export function useCrowdData() {
     }
   }
 }
-````
-
-## File: layers/main/app/components/ht/HtAboutSection.vue
-````vue
-<script setup lang="ts">
-import HaCard from '../ha/HaAboutCard.vue'
-import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
-import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
-import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.card-flex__child')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="VketReal in 札幌とは"
-      label="about"
-    />
-    <div class="description">
-      世界最大級のメタバースイベント「バーチャルマーケット(Vket)」から派生した、「バーチャルの姿のままリアルに飛び出す！」リアルイベント。<br
-        class="sp-none"
-      >北海道の有志XRクリエイターが主催し、札幌で開催します。
-    </div>
-    <div class="info-flex mb-24">
-      <div class="info-flex__child">
-        <p class="info-flex__number info-flex__number--amber">
-          500名+
-        </p>
-        <p class="info-flex__label">
-          過去の来場者数
-        </p>
-      </div>
-      <div class="info-flex__child">
-        <p class="info-flex__number info-flex__number--cyan">
-          50+
-        </p>
-        <p class="info-flex__label">
-          出展サークル数
-        </p>
-      </div>
-      <div class="info-flex__child">
-        <p class="info-flex__number info-flex__number--magenta">
-          6回
-        </p>
-        <p class="info-flex__label">
-          開催回数
-        </p>
-      </div>
-    </div>
-
-    <div
-      ref="listRef"
-      class="card-flex"
-    >
-      <HaCard
-        class="card-flex__child"
-        color="amber"
-      >
-        <template #icon>
-          <HaStarShineIcon />
-        </template>
-        <template #title>
-          バーチャル姿のまま<br>リアルで体験
-        </template>
-        <template #body>
-          アバターとしての生き方を大切にする人々が<br>
-          リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
-        </template>
-      </HaCard>
-      <HaCard
-        class="card-flex__child"
-        color="cyan"
-      >
-        <template #icon>
-          <HaWorldIcon />
-        </template>
-        <template #title>
-          VRの世界で活躍する<br>クリエイターの出展
-        </template>
-        <template #body>
-          VRとリアルを行き来しながら活躍する<br>クリエイターの作品展示や、新たなXR技術を<br>活用したインタラクティブな企画を展開！
-        </template>
-      </HaCard>
-      <HaCard
-        class="card-flex__child"
-        color="light-magenta"
-      >
-        <template #icon>
-          <HaCommunityIcon />
-        </template>
-        <template #title>
-          遊んで、買って、<br>楽しめる企業ブース
-        </template>
-        <template #body>
-          各企業ブースでは最新XRコンテンツを体験でき、<br>ここでしか手に入らない限定グッズも<br>販売されるかも？
-        </template>
-      </HaCard>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.description {
-  width: 750px;
-  margin: 0 auto 96px;
-
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5em;
-  color: white;
-  text-align: center;
-
-  @include m.tb {
-    width: 555px;
-    font-size: 16px;
-  }
-
-  @include m.sp {
-    width: initial;
-    font-size: 14px;
-  }
-}
-
-.info-flex {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
-
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-
-  @include m.tb {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  &__child {
-    width: 320px;
-  }
-
-  &__number {
-    margin-bottom: 4px;
-
-    font-size: 64px;
-    font-weight: 700;
-    line-height: 1em;
-    text-align: center;
-    letter-spacing: normal;
-    white-space: nowrap;
-
-    @include m.sp {
-      margin-bottom: 8px;
-      font-size: 48px;
-    }
-
-    &--cyan {
-      color: v.$vket-cyan;
-    }
-
-    &--amber {
-      color: v.$vket-amber;
-    }
-
-    &--magenta {
-      color: v.$vket-magenta;
-    }
-  }
-
-  &__label {
-    font-size: 16px;
-    font-weight: 400;
-    color: v.$vket-emerald;
-    text-align: center;
-
-    @include m.sp {
-      font-size: 10px;
-    }
-  }
-}
-
-.card-flex {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
-
-  @include m.tb {
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-  }
-
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-
-  &__child {
-    width: 320px;
-
-    @include m.tb {
-      width: 60%;
-    }
-
-    @include m.sp {
-      width: 100%;
-    }
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtExhibitionSection.vue
-````vue
-<script setup lang="ts">
-import HaAboutCard from '../ha/HaAboutCard.vue'
-import HaDocumentLink from '../ha/HaDocumentLink.vue'
-import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
-import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
-import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue'
-import HaCircledQuestionIcon from '../ha/icons/HaCircledQuestionIcon.vue'
-import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
-import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const list2Ref = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value || !list2Ref.value) return
-  const items = listRef.value.querySelectorAll('.card-flex__child')
-  const items2 = list2Ref.value.querySelectorAll('.link-list__child')
-  fadeInUpStagger(Array.from(items))
-  fadeInUpStagger(Array.from(items2))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="出展情報"
-      label="exhibition"
-    />
-    <p class="subtitle">
-      出展カテゴリ
-    </p>
-    <div
-      ref="listRef"
-      class="card-flex mb-24"
-    >
-      <HaAboutCard
-        class="card-flex__child"
-        color="amber"
-      >
-        <template #icon>
-          <HaStarShineIcon />
-        </template>
-        <template #title>
-          サークル出展
-        </template>
-        <template #body>
-          VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
-        </template>
-      </HaAboutCard>
-      <HaAboutCard
-        class="card-flex__child"
-        icon-url="/icons/tabler_world.svg"
-        color="light-cyan"
-      >
-        <template #icon>
-          <HaWorldIcon />
-        </template>
-        <template #title>
-          一般展示
-        </template>
-        <template #body>
-          XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
-        </template>
-      </HaAboutCard>
-      <HaAboutCard
-        class="card-flex__child"
-        icon-url="/icons/boxicons_community.svg"
-        color="light-magenta"
-      >
-        <template #icon>
-          <HaCommunityIcon />
-        </template>
-        <template #title>
-          企業出展
-        </template>
-        <template #body>
-          企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
-        </template>
-      </HaAboutCard>
-    </div>
-    <p class="subtitle">
-      出展者向けリソース
-    </p>
-    <div
-      ref="list2Ref"
-      class="link-list"
-    >
-      <HaDocumentLink
-        title="出展ガイドライン"
-        label="important"
-        color="green"
-        text="出展に必要なルール・準備事項をまとめた公式ガイド"
-        class="link-list__child"
-      >
-        <template #icon>
-          <HaOpenBookIcon />
-        </template>
-      </HaDocumentLink>
-      <HaDocumentLink
-        title="出展規約"
-        label="required"
-        color="cyan"
-        text="出展者が遵守すべき規約・利用条件"
-        class="link-list__child"
-      >
-        <template #icon>
-          <HaBalanceIcon />
-        </template>
-      </HaDocumentLink>
-      <HaDocumentLink
-        title="出展ガイドライン"
-        label="Q&A"
-        color="magenta"
-        text="出展に必要なルール・準備事項をまとめた公式ガイド"
-        class="link-list__child"
-      >
-        <template #icon>
-          <HaCircledQuestionIcon />
-        </template>
-      </HaDocumentLink>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-
-  @include m.sp {
-    margin-bottom: 48px;
-  }
-}
-
-.card-flex {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
-
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-
-  @include m.tb {
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-  }
-
-  &__child {
-    width: 320px;
-
-    @include m.tb {
-      width: 60%;
-    }
-
-    @include m.sp {
-      width: 100%;
-    }
-  }
-}
-
-.link-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  @include m.tb {
-    align-items: center;
-  }
-
-  &__child {
-    @include m.tb {
-      width: 60%;
-    }
-
-    @include m.sp {
-      width: 100%;
-    }
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtQuickAccessSection.vue
-````vue
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="参加者向け重要情報"
-      label="quick access"
-    />
-    <div
-      ref="listRef"
-      class="grid2x"
-    >
-      <HaQuickAccessCard
-        class="grid2x__child"
-        color="cyan"
-        title="開催日"
-        label="DATE"
-      >
-        <template #icon>
-          <HaCalendarIcon />
-        </template>
-        <template #body>
-          <p />
-        </template>
-      </HaQuickAccessCard>
-      <HaQuickAccessCard
-        class="grid2x__child"
-        color="magenta"
-        title="会場"
-        label="LOCATION"
-      >
-        <template #icon>
-          <HaMapPinIcon />
-        </template>
-        <template #body>
-          <p />
-        </template>
-      </HaQuickAccessCard>
-      <HaQuickAccessCard
-        class="grid2x__child"
-        color="amber"
-        title="チケット"
-        label="TICKETS"
-      >
-        <template #icon>
-          <HaTicketIcon />
-        </template>
-        <template #body>
-          <p />
-        </template>
-      </HaQuickAccessCard>
-      <HaQuickAccessCard
-        class="grid2x__child"
-        color="vermilion"
-        title="スケジュール"
-        label="SCHEDULE"
-        icon-url="/icons/material-symbols_timer-outline.svg"
-      >
-        <template #icon>
-          <HaTimerIcon />
-        </template>
-        <template #body>
-          <p />
-        </template>
-      </HaQuickAccessCard>
-    </div>
-  </div>
-</template>
-
-<script setup lang="ts">
-import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
-import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
-import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
-import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
-import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.grid2x__child')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/mixins' as m;
-
-.grid2x {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px 20px;
-
-  @include m.sp {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-
-  &__child {
-    height: 100%;
-    min-height: 280px;
-  }
-}
-</style>
 ````
 
 ## File: layers/main/app/components/ht/HtNewsSection.vue

@@ -20,11 +20,11 @@ const toggle = (id: number) => {
 </script>
 
 <template>
-  <div class="accordion glassy-box accordion-glassy-box">
+  <div class="accordion glassy-box accordion-glassy-box none-hover-animation">
     <button
       v-for="item in items"
       :key="item.id"
-      class="accordion-item glassy-box accordion-glassy-box"
+      class="accordion-item glassy-box accordion-glassy-box none-hover-animation"
       :class="{ 'accordion-item--is-open': openId === item.id }"
       @click="toggle(item.id)"
     >

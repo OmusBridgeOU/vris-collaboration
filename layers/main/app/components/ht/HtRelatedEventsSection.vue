@@ -16,6 +16,7 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
   isBeginning.value = newIsBeginning
   isEnd.value = newIsEnd
 }
+
 const sectionRef = ref<HTMLElement | null>(null)
 const { fadeInUp } = useGsapFadeIn()
 onMounted(() => {

@@ -1,4 +1,3 @@
-<!-- components/GlassCard.vue -->
 <script setup lang="ts">
 defineProps<{
   color:
