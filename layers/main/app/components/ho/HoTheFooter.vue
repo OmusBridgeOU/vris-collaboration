@@ -19,14 +19,29 @@ en:
           class="footer__logo"
         >
         <nav class="footer__nav">
-          <NuxtLink class="footer__link">利用規約</NuxtLink>
-          <NuxtLink class="footer__link">プライバシー</NuxtLink>
-          <NuxtLink class="footer__link">行動規範</NuxtLink>
-          <NuxtLink class="footer__link">出展ガイドライン</NuxtLink>
-          <NuxtLink class="footer__link">出展規約</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/terms"
+          >利用規約</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/privacy-policy"
+          >プライバシー</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/code-of-conduct"
+          >行動規範</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/exhibition-guidline"
+          >出展ガイドライン</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/exhibition-terms"
+          >出展規約</NuxtLink>
         </nav>
       </div>
-      <div class="footer__right">
+      <div class="footer__x-logo">
         <HaXIcon />
       </div>
     </div>
@@ -40,10 +55,16 @@ en:
 </template>
 
 <style scoped lang="scss">
+@use '@/assets/styles/mixins' as m;
+
 .footer {
   padding: 88px 105px 0;
   border-radius: 40px 40px 0 0;
   background-color: rgb(25 25 25 / 100%);
+
+  @include m.sp {
+    padding: 52px 32px 0;
+  }
 
   &__upper {
     display: flex;
@@ -58,10 +79,10 @@ en:
     background-color: gray;
   }
 
-  &__nav{
+  &__nav {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 22px;
   }
 
   &__link {
@@ -70,12 +91,25 @@ en:
     font-weight: 400;
     color: white;
     text-decoration: underline;
+
+    @include m.tb {
+      font-size: 12px;
+      text-decoration: none;
+    }
   }
 
   &__divider {
     width: 100%;
     height: 1px;
-    background-color:#8f8f8f;
+    background-color: #8f8f8f;
+  }
+
+  &__x-logo {
+    width: 30px;
+
+    @include m.sp {
+      width: 16px;
+    }
   }
 
   &__lower {
@@ -89,6 +123,10 @@ en:
     font-family: Inter, sans-serif;
     font-size: 12px;
     color: white;
+
+    @include m.sp {
+      font-size: 8px;
+    }
   }
 }
 </style>

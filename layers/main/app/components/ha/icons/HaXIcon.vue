@@ -1,7 +1,5 @@
 <template>
   <svg
-    width="29"
-    height="29"
     viewBox="0 0 29 29"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -9,7 +7,7 @@
     <g clip-path="url(#clip0_287_95)">
       <mask
         id="mask0_287_95"
-        style="mask-type:luminance"
+        style="mask-type: luminance"
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"

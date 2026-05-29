@@ -3,11 +3,13 @@ import HmSwiper from '../hm/HmSwiper.vue'
 import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
 import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 
+// Swiper
 import type { Swiper as SwiperType } from 'swiper'
 
-const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
-// 親側でリアクティブな状態として持つ
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
 const isBeginning = ref(true)
 const isEnd = ref(false)
 
@@ -15,65 +17,49 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
   isBeginning.value = newIsBeginning
   isEnd.value = newIsEnd
 }
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
 </script>
 
 <template>
-  <HaSectionTitle
-    title="企画・コンテンツ"
-    label="contents"
-  >
-    <template #controls>
-      <button
-        :disabled="isBeginning"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isBeginning }"
-        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
-      >
-        <HaChevronLeftIcon />
-      </button>
-      <button
-        :disabled="isEnd"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isEnd }"
-        @click="worksSwiperRef?.swiperInstance?.slideNext()"
-      >
-        <HaChevronRightIcon />
-      </button>
-    </template>
-  </HaSectionTitle>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="企画・コンテンツ"
+      label="contents"
+    >
+      <template #controls>
+        <button
+          :disabled="isBeginning"
+          class="custom-swiper-button"
+          :class="{ 'is-disabled': isBeginning }"
+          @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+        >
+          <HaChevronLeftIcon />
+        </button>
+        <button
+          :disabled="isEnd"
+          class="custom-swiper-button"
+          :class="{ 'is-disabled': isEnd }"
+          @click="worksSwiperRef?.swiperInstance?.slideNext()"
+        >
+          <HaChevronRightIcon />
+        </button>
+      </template>
+    </HaSectionTitle>
 
-  <HmSwiper
-    ref="worksSwiperRef"
-    :_slides-per-view="2"
-    class="mb-24"
-    :_breakpoints="{
-      1024: { slidesPerView: 2.8 },
-    }"
-    @slide-change="onSlideChange"
-  />
+    <HmSwiper
+      ref="worksSwiperRef"
+      :_slides-per-view="1"
+      :_breakpoints="{
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 2.8 },
+      }"
+      @slide-change="onSlideChange"
+    />
+  </div>
 </template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.custom-swiper-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 44px;
-  height: 44px;
-  border-radius: 100px;
-
-  background-color: #1e355b;
-
-  &.is-disabled {
-    opacity: 0.6;
-    background-color: transparent;
-  }
-}
-</style>

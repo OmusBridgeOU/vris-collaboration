@@ -1,88 +1,100 @@
 <script setup lang="ts">
 import HaSunIcon from '../ha/icons/HaSunIcon.vue'
 import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
 </script>
 
 <template>
-  <HaSectionTitle
-    title="開催スケジュール"
-    label="schedule"
-  />
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="開催スケジュール"
+      label="schedule"
+    />
 
-  <div class="schedule mb-24">
-    <div class="schedule__left">
-      <div class="schedule__icon-box">
-        <HaSunIcon />
+    <div class="schedule">
+      <div class="schedule__left">
+        <div class="schedule__icon-box">
+          <HaSunIcon />
+        </div>
+        <span class="schedule__line" />
+        <div class="schedule__icon-box">
+          <HaSunsetIcon />
+        </div>
       </div>
-      <span class="schedule__line" />
-      <div class="schedule__icon-box">
-        <HaSunsetIcon />
-      </div>
-    </div>
-    <div class="schedule__right">
-      <div class="schedule__item">
-        <p class="schedule__time">
-          10:00
-        </p>
-        <p class="schedule__content">
-          会場・受付開始
-        </p>
-      </div>
-      <div class="schedule__item">
-        <p class="schedule__time">
-          10:30
-        </p>
-        <p class="schedule__content">
-          オープニングセレモニー
-        </p>
-      </div>
-      <div class="schedule__item">
-        <p class="schedule__time">
-          11:00
-        </p>
-        <p class="schedule__content">
-          展示・即売会開始
-        </p>
-      </div>
-      <div class="schedule__item schedule__item--1h">
-        <p class="schedule__time">
-          12:00
-        </p>
-        <p class="schedule__content">
-          XR体験ブースオープン
-        </p>
-      </div>
-      <div class="schedule__item schedule__item--1h">
-        <p class="schedule__time">
-          13:00
-        </p>
-        <p class="schedule__content">
-          スペシャルトークセッション
-        </p>
-      </div>
-      <div class="schedule__item schedule__item--15h">
-        <p class="schedule__time">
-          14:30
-        </p>
-        <p class="schedule__content">
-          スペシャルトークセッション
-        </p>
-      </div>
-      <div class="schedule__item schedule__item--2h">
-        <p class="schedule__time">
-          16:00
-        </p>
-        <p class="schedule__content">
-          スペシャルライブ
-        </p>
-      </div>
-      <div class="schedule__item schedule__item--1h">
-        <p class="schedule__time">
-          18:00
-        </p>
-        <p class="schedule__content">
-          閉場
-        </p>
+      <div class="schedule__right">
+        <div class="schedule__item">
+          <p class="schedule__time">
+            10:00
+          </p>
+          <p class="schedule__content">
+            会場・受付開始
+          </p>
+        </div>
+        <div class="schedule__item">
+          <p class="schedule__time">
+            10:30
+          </p>
+          <p class="schedule__content">
+            オープニングセレモニー
+          </p>
+        </div>
+        <div class="schedule__item">
+          <p class="schedule__time">
+            11:00
+          </p>
+          <p class="schedule__content">
+            展示・即売会開始
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--1h">
+          <p class="schedule__time">
+            12:00
+          </p>
+          <p class="schedule__content">
+            XR体験ブースオープン
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--1h">
+          <p class="schedule__time">
+            13:00
+          </p>
+          <p class="schedule__content">
+            スペシャルトークセッション
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--15h">
+          <p class="schedule__time">
+            14:30
+          </p>
+          <p class="schedule__content">
+            スペシャルトークセッション
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--2h">
+          <p class="schedule__time">
+            16:00
+          </p>
+          <p class="schedule__content">
+            スペシャルライブ
+          </p>
+        </div>
+        <div class="schedule__item schedule__item--1h">
+          <p class="schedule__time">
+            18:00
+          </p>
+          <p class="schedule__content">
+            閉場
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -91,10 +103,6 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
 
 .schedule {
   display: flex;
@@ -110,6 +118,10 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
     @include m.tb {
       width: 104px;
     }
+
+    @include m.sp {
+      width: 84px;
+    }
   }
 
   &__icon-box {
@@ -120,7 +132,11 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
 
     width: 80px;
     height: 80px;
-    padding: 16px;
+
+    @include m.sp {
+      width: 74px;
+      height: 74px;
+    }
   }
 
   &__icon {
@@ -138,6 +154,10 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
   &__right {
     flex-grow: 1;
     padding: 100px 0;
+
+    @include m.sp {
+      padding: 38px 0;
+    }
   }
 
   &__item {
@@ -149,16 +169,33 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
     height: 100px;
     border-top: 2px solid white;
 
+    @include m.sp {
+      height: 44px;
+      border-width: 1px;
+    }
+
     &:last-of-type {
       border-bottom: 2px solid white;
+
+      @include m.sp {
+        border-width: 1px;
+      }
     }
 
     &--1h {
       height: 150px;
+
+      @include m.sp {
+        height: 62px;
+      }
     }
 
     &--15h {
       height: 200px;
+
+      @include m.sp {
+        height: 74px;
+      }
     }
   }
 
@@ -166,12 +203,20 @@ import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
     font-size: 16px;
     font-weight: 700;
     color: white;
+
+    @include m.sp {
+      font-size: 10px;
+    }
   }
 
   &__content {
     font-size: 20px;
     font-weight: 700;
     color: white;
+
+    @include m.sp {
+      font-size: 12px;
+    }
   }
 }
 </style>

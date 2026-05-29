@@ -80,9 +80,7 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
           as="p"
           class="crowd-level-card__name"
         >
-          {{
-            name
-          }}
+          {{ name }}
         </HaShimmer>
       </div>
       <HaShimmer
@@ -192,11 +190,16 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .crowd-level-card {
   display: flex;
   flex-direction: column;
   padding: 24px 18px 24px 32px;
+
+  @include m.sp {
+    padding: 16px;
+  }
 
   &--emgreen {
     .crowd-level-card__status-box {
@@ -262,17 +265,32 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
     margin-bottom: 8px;
     font-size: 14px;
     font-weight: 700;
+
+    @include m.sp {
+      font-size: 10px;
+    }
   }
 
   &__name {
     font-size: 32px;
     font-weight: 900;
     line-height: 1em;
+
+    @include m.sp {
+      font-size: 18px;
+    }
   }
 
   &__icon-box {
     display: flex;
     flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+
+    @include m.sp {
+      width: 16px;
+      height: 16px;
+    }
   }
 
   &__status-box {
@@ -284,6 +302,10 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
     height: fit-content;
     padding: 10px 18px;
     border-radius: 20px;
+
+    @include m.sp {
+      padding: 6px 12px;
+    }
   }
 
   &__status-text {
@@ -291,6 +313,10 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
     font-weight: 600;
     line-height: 100%;
     text-wrap: nowrap;
+
+    @include m.sp {
+      font-size: 14px;
+    }
   }
 
   &__body {
@@ -347,7 +373,12 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
 
   &__text {
     width: 4em;
+    font-size: 16px;
     line-height: 1em;
+
+    @include m.sp {
+      font-size: 14px;
+    }
   }
 }
 </style>

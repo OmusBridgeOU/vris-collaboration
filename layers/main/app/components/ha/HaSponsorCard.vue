@@ -27,12 +27,17 @@ defineProps<{
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .sponsor-card {
   width: 100%;
   height: 100%;
   margin-bottom: 16px;
   padding: 24px 36px;
+
+  @include m.sp {
+    padding: 16px 24px;
+  }
 
   &__img {
     aspect-ratio: 1/1;
@@ -41,7 +46,7 @@ defineProps<{
     background-color: gray;
 
     img {
-        width: 100%;
+      width: 100%;
     }
   }
 
@@ -57,6 +62,11 @@ defineProps<{
     font-weight: 700;
     line-height: 1em;
     color: white;
+
+    @include m.sp {
+      font-size: 20px;
+      font-weight: normal;
+    }
   }
 }
 </style>

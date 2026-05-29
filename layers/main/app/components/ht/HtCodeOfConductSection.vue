@@ -4,69 +4,97 @@ import HaCamera from '../ha/icons/HaCameraIcon.vue'
 import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 import HaHeartIcon from '../ha/icons/HaHeartIcon.vue'
 import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.conduct-grid__child')
+  fadeInUpStagger(Array.from(items))
+})
 </script>
 
 <template>
-  <HaSectionTitle
-    title="行動規範"
-    label="CODE OF CONDUCT"
-  />
-  <p class="subtitle subtitle--left mb-24">
-    すべての参加者が安全で楽しい時間を過ごせるよう、<br>
-    以下の行動規範を守ってください。
-  </p>
-  <div class="conduct-grid mb-15">
-    <HaConductCard
-      title="互いを尊重しましょう"
-      color="magenta"
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="行動規範"
+      label="CODE OF CONDUCT"
+    />
+    <p class="description description--left">
+      すべての参加者が安全で楽しい時間を過ごせるよう、<br>
+      以下の行動規範を守ってください。
+    </p>
+    <div
+      ref="listRef"
+      class="conduct-grid mb-15"
     >
-      <template #icon>
-        <HaHeartIcon />
-      </template>
-      <template #text>
-        すべての参加者の多様性を尊重し、<br>ハラスメントや差別的な行為は禁止です。
-      </template>
-    </HaConductCard>
-    <HaConductCard
-      title="撮影マナーを守りましょう"
-      text="descriptiondescriptiondescription"
-      color="cyan"
-    >
-      <template #icon>
-        <HaCamera />
-      </template>
-      <template #text>
-        他の参加者を撮影する際は必ず許可を取り、<br>撮影禁止エリアでは撮影をお控えください。
-      </template>
-    </HaConductCard>
-    <HaConductCard
-      title="安全に配慮しましょう"
-      text="descriptiondescriptiondescription"
-      color="amber"
-    >
-      <template #icon>
-        <HaDangerIcon />
-      </template>
-      <template #text>
-        会場内では走らない、通路をふさがないなど、<br>安全な行動を心掛けてください。
-      </template>
-    </HaConductCard>
-    <HaConductCard
-      title="スタッフの指示に従いましょう"
-      text="descriptiondescriptiondescription"
-      color="vermilion"
-    >
-      <template #icon>
-        <HaShieldIcon />
-      </template>
-      <template #text>
-        スタッフの指示に従い、<br>問題があれば速やかにスタッフにお知らせください。
-      </template>
-    </HaConductCard>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="互いを尊重しましょう"
+          color="magenta"
+        >
+          <template #icon>
+            <HaHeartIcon />
+          </template>
+          <template #text>
+            すべての参加者の多様性を尊重し、<br>ハラスメントや差別的な行為は禁止です。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="撮影マナーを守りましょう"
+          text="descriptiondescriptiondescription"
+          color="cyan"
+        >
+          <template #icon>
+            <HaCamera />
+          </template>
+          <template #text>
+            他の参加者を撮影する際は必ず許可を取り、<br>撮影禁止エリアでは撮影をお控えください。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="安全に配慮しましょう"
+          text="descriptiondescriptiondescription"
+          color="amber"
+        >
+          <template #icon>
+            <HaDangerIcon />
+          </template>
+          <template #text>
+            会場内では走らない、通路をふさがないなど、<br>安全な行動を心掛けてください。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="スタッフの指示に従いましょう"
+          text="descriptiondescriptiondescription"
+          color="vermilion"
+        >
+          <template #icon>
+            <HaShieldIcon />
+          </template>
+          <template #text>
+            スタッフの指示に従い、<br>問題があれば速やかにスタッフにお知らせください。
+          </template>
+        </HaConductCard>
+      </div>
+    </div>
+    <button class="glassy-button-3 conduct__button">
+      詳細を確認
+    </button>
   </div>
-  <button class="glassy-button-3 conduct__button">
-    詳細を確認
-  </button>
 </template>
 
 <style lang="scss" scoped>
@@ -79,6 +107,10 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
 
 .mb-15 {
   margin-bottom: 60px;
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
 }
 
 .conduct-grid {
@@ -88,11 +120,15 @@ import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
 
   width: 100%;
   margin-right: auto;
-  margin-left:auto;
+  margin-left: auto;
 
   @include m.tb {
     grid-template-columns: 1fr;
     width: 60%;
+  }
+
+  @include m.sp {
+    width: 100%;
   }
 }
 

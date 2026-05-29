@@ -3,10 +3,10 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
 </script>
 
 <template>
-  <div class="info-card glassy-box-2">
+  <div class="info-card glassy-box-2 none-hover-animation">
     <div class="info-card__head">
       <div class="info-card__icon">
-        <ha-info-icon />
+        <HaInfoIcon />
       </div>
       <h4 class="info-card__title">
         イベント概要
@@ -69,6 +69,10 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
     display: flex;
     gap: 24px;
     align-items: center;
+
+    @include m.sp {
+      gap: 8px;
+    }
   }
 
   &__icon {
@@ -82,9 +86,14 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
 
     background: rgb(30 53 91 / 100%);
 
+    @include m.sp {
+      width: 28px;
+      height: 28px;
+    }
+
     svg {
-      width: 50%;
-      height: 50%;
+      width: 60%;
+      height: 60%;
     }
   }
 
@@ -99,9 +108,7 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
 
   &__item {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-
     padding: 16px 0;
     border-bottom: 1px solid rgb(86 86 86 / 100%);
 
@@ -114,12 +121,20 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
     font-size: 16px;
     font-weight: bold;
     color: v.$vket-amber;
+
+    @include m.sp {
+      font-size: 14px;
+    }
   }
 
   &__text {
     font-size: 16px;
     color: white;
     text-align: right;
+
+    @include m.sp {
+      font-size: 14px;
+    }
   }
 }
 </style>

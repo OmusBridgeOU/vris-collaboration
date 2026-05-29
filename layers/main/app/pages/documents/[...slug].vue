@@ -1,10 +1,11 @@
 <script lang="ts" setup>
+definePageMeta({
+  layout: 'document',
+})
+
 const route = useRoute()
 const { data: page } = await useAsyncData(route.path, () => {
   return queryCollection('content').path(route.path).first()
-})
-definePageMeta({
-  layout: 'top',
 })
 </script>
 
@@ -23,9 +24,14 @@ definePageMeta({
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .md-document {
-  padding: 48px 32px;
+  padding: 88px 32px;
+
+  @include m.sp {
+    padding: 88px 12px;
+  }
 
   &__card {
     position: relative;
@@ -35,6 +41,10 @@ definePageMeta({
 
     background-color: rgb(217 217 217 / 20%);
     box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+
+    @include m.sp {
+      padding: 32px 12px;
+    }
 
     &::before {
       pointer-events: none;
@@ -88,15 +98,26 @@ definePageMeta({
   }
 
   :deep(h1) {
-    font-size: 1.8rem;
+    font-size: 48px;
     color: white;
     text-align: center;
+
+    @include m.sp {
+      margin-bottom: 24px;
+      font-size: 24px;
+    }
   }
 
   :deep(h2) {
-    margin-top: 2rem;
-    font-size: 1.5rem;
+    margin-top: 6px;
+    font-size: 32px;
     color: white;
+
+    @include m.sp {
+      margin-top: 24px;
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
 
     a {
       color: inherit;
@@ -104,7 +125,37 @@ definePageMeta({
   }
 
   :deep(p) {
+    font-size: 16px;
     line-height: 1.8;
+
+    @include m.sp {
+      margin-bottom: 12px;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+  }
+
+  :deep(ol) {
+    margin-bottom: 12px;
+    padding-left: 1em;
+    list-style-type: decimal;
+  }
+
+  :deep(ul) {
+    margin-bottom: 12px;
+    padding-left: 1em;
+    list-style-type: disc;
+  }
+
+  :deep(li) {
+    font-size: 16px;
+    line-height: 1.8;
+
+    @include m.sp {
+      margin-bottom: 4px;
+      font-size: 14px;
+      line-height: 1.2;
+    }
   }
 
   :deep(hr) {

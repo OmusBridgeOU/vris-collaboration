@@ -7,7 +7,7 @@
       {{ desc }}
     </p>
 
-    <button class="glassy-button-3 ticket-card__button">
+    <button class="glassy-button-3 ticket-card__button none-hover-animation">
       チケット購入
     </button>
   </div>
@@ -45,10 +45,18 @@ defineProps<{
     font-size: 24px;
     font-weight: bold;
     line-height: 1em;
+
+    @include m.sp {
+      font-size: 16px;
+    }
   }
 
   &__desc {
     font-size: 16px;
+
+    @include m.sp {
+      font-size: 14px;
+    }
   }
 
   &__button {

@@ -7,6 +7,13 @@ en:
 
 <template>
   <main class="ht-top">
+    <div class="canvas-wrapper">
+      <HaConfetti />
+      <HaFireworks />
+    </div>
+
+    <HtHeroSection />
+
     <HaFirstView />
 
     <section id="cloud-levels">
@@ -49,7 +56,7 @@ en:
       <HtQandASection />
     </section>
 
-    <section id="code-of-conduction">
+    <section id="code-of-conduct">
       <HtCodeOfConductSection />
     </section>
 
@@ -83,6 +90,9 @@ import HtContactSection from './HtContactSection.vue'
 import HtContentsSection from './HtContentsSection.vue'
 import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
 import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
+import HtHeroSection from './HtHeroSection.vue'
+import HaFireworks from '../ha/HaFireworks.vue'
+import HaConfetti from '../ha/HaConfetti.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -90,16 +100,32 @@ import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
 @use '@/assets/styles/mixins' as m;
 
 .ht-top {
+  position: relative;
+  z-index: 0;
+
   width: 100%;
   height: 100%;
+
   background-color: v.$base-background-color;
+}
+
+.canvas-wrapper {
+  pointer-events: none;
+
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
 }
 
 section {
   padding: 0 136px 108px;
 
   @include m.tb {
-    padding: 0 24px 72px;
+    padding: 0 24px 84px;
   }
 }
 </style>
