@@ -1,0 +1,35 @@
+<template>
+  <svg
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+  >
+    <line
+      x1="4"
+      y1="7"
+      x2="20"
+      y2="7"
+      stroke="white"
+      stroke-width="2.2"
+      stroke-linecap="round"
+    />
+    <line
+      x1="4"
+      y1="12"
+      x2="20"
+      y2="12"
+      stroke="white"
+      stroke-width="2.2"
+      stroke-linecap="round"
+    />
+    <line
+      x1="4"
+      y1="17"
+      x2="20"
+      y2="17"
+      stroke="white"
+      stroke-width="2.2"
+      stroke-linecap="round"
+    />
+  </svg>
+</template>

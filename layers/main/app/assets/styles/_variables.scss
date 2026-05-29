@@ -134,6 +134,14 @@ $media-query-width: 769px;
 $side-menu-width: 90px;
 $side-menu-height-sp: 64px;
 
+/*
+  headerの高さはグローバルに定義したい。
+  headerをposition:fixedにすることによりmainにheaderの高さ分padding-topを設けたり
+  アンカーリンクのオフセット調整のために使用する
+*/
+$vket-header-height-pc: 80px;
+$vket-header-height-sp: 80px;
+
 // topページ用に追加
 $pc-content-body-width: 1470px;
 

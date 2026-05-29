@@ -99,6 +99,7 @@ onMounted(() => {
         color="green"
         text="出展に必要なルール・準備事項をまとめた公式ガイド"
         class="link-list__child"
+        href="/documents/exhibition-guidline"
       >
         <template #icon>
           <HaOpenBookIcon />
@@ -110,6 +111,7 @@ onMounted(() => {
         color="cyan"
         text="出展者が遵守すべき規約・利用条件"
         class="link-list__child"
+        href="/documents/exhibition-terms"
       >
         <template #icon>
           <HaBalanceIcon />
@@ -121,6 +123,7 @@ onMounted(() => {
         color="magenta"
         text="出展に必要なルール・準備事項をまとめた公式ガイド"
         class="link-list__child"
+        href="/documents/exhibition-guidline"
       >
         <template #icon>
           <HaCircledQuestionIcon />

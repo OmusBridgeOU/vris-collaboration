@@ -19,11 +19,26 @@ en:
           class="footer__logo"
         >
         <nav class="footer__nav">
-          <NuxtLink class="footer__link">利用規約</NuxtLink>
-          <NuxtLink class="footer__link">プライバシー</NuxtLink>
-          <NuxtLink class="footer__link">行動規範</NuxtLink>
-          <NuxtLink class="footer__link">出展ガイドライン</NuxtLink>
-          <NuxtLink class="footer__link">出展規約</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/terms"
+          >利用規約</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/privacy-policy"
+          >プライバシー</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/code-of-conduct"
+          >行動規範</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/exhibition-guidline"
+          >出展ガイドライン</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/exhibition-terms"
+          >出展規約</NuxtLink>
         </nav>
       </div>
       <div class="footer__x-logo">

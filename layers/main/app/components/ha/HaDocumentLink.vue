@@ -4,6 +4,7 @@ defineProps<{
   title: string
   label: 'important' | 'required' | 'Q&A'
   text: string
+  href: string
 }>()
 </script>
 
@@ -17,7 +18,7 @@ defineProps<{
     <div class="document-link__right">
       <div class="document-link__row">
         <p class="document-link__title">
-          出展ガイドライン
+          {{ title }}
         </p>
         <div
           :class="[
@@ -47,9 +48,12 @@ defineProps<{
         </div>
       </div>
       <p class="document-link__text">
-        出展に必要なルール・準備事項をまとめた公式ガイド
+        {{ text }}
       </p>
-      <NuxtLink class="document-link__link">全文をチェック→</NuxtLink>
+      <NuxtLink
+        class="document-link__link"
+        :to="href"
+      >全文をチェック→</NuxtLink>
     </div>
   </div>
 </template>

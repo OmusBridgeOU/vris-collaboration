@@ -56,7 +56,7 @@ en:
       <HtQandASection />
     </section>
 
-    <section id="code-of-conduction">
+    <section id="code-of-conduct">
       <HtCodeOfConductSection />
     </section>
 
@@ -110,6 +110,8 @@ import HaConfetti from '../ha/HaConfetti.vue'
 }
 
 .canvas-wrapper {
+  pointer-events: none;
+
   position: fixed;
   z-index: -1;
   top: 0;
