@@ -14,7 +14,7 @@ en:
 
     <HtHeroSection />
 
-    <HaFirstView />
+    <!-- <HaFirstView /> -->
 
     <section id="cloud-levels">
       <HtCrowdLevelsSection />
@@ -75,7 +75,7 @@ en:
 </template>
 
 <script setup lang="ts">
-import HaFirstView from '../ha/HaFirstView.vue'
+// import HaFirstView from '../ha/HaFirstView.vue'
 import HtAboutSection from './HtAboutSection.vue'
 import HtQuickAccessSection from './HtQuickAccessSection.vue'
 import HtNewsSection from './HtNewsSection.vue'
@@ -123,6 +123,10 @@ import HaConfetti from '../ha/HaConfetti.vue'
 
 section {
   padding: 0 136px 108px;
+
+  &:first-of-type {
+    padding-top: 24px;
+  }
 
   @include m.tb {
     padding: 0 24px 84px;
