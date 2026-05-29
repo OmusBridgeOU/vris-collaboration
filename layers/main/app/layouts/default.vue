@@ -1,6 +1,6 @@
 <template>
   <div class="layout -default">
-    <HoTheHeader />
+    <HoTheHeader :nav-links="[]"/>
     <slot />
     <HoTheFooter />
   </div>
