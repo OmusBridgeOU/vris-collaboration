@@ -236,491 +236,6 @@ layers/
 
 # Files
 
-## File: layers/main/app/components/ha/icons/HaCloseIcon.vue
-````vue
-<template>
-  <svg
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-  >
-    <line
-      x1="5"
-      y1="5"
-      x2="19"
-      y2="19"
-      stroke="white"
-      stroke-width="2.2"
-      stroke-linecap="round"
-    />
-    <line
-      x1="19"
-      y1="5"
-      x2="5"
-      y2="19"
-      stroke="white"
-      stroke-width="2.2"
-      stroke-linecap="round"
-    />
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/icons/HaHamburgerIcon.vue
-````vue
-<template>
-  <svg
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-  >
-    <line
-      x1="4"
-      y1="7"
-      x2="20"
-      y2="7"
-      stroke="white"
-      stroke-width="2.2"
-      stroke-linecap="round"
-    />
-    <line
-      x1="4"
-      y1="12"
-      x2="20"
-      y2="12"
-      stroke="white"
-      stroke-width="2.2"
-      stroke-linecap="round"
-    />
-    <line
-      x1="4"
-      y1="17"
-      x2="20"
-      y2="17"
-      stroke="white"
-      stroke-width="2.2"
-      stroke-linecap="round"
-    />
-  </svg>
-</template>
-````
-
-## File: layers/main/app/components/ha/HaAnchorLink.vue
-````vue
-<template>
-  <a
-    :href="`#${href}`"
-    class="ha-anchor-link"
-    @click.prevent="handleClick"
-  >
-    {{ text }}
-  </a>
-</template>
-
-<script setup lang="ts">
-const SCROLL_OFFSET = -80
-
-const props = defineProps<{
-  text: string
-  href: string
-}>()
-
-const emit = defineEmits<{
-  clicked: []
-}>()
-
-const handleClick = () => {
-  emit('clicked')
-
-  setTimeout(() => {
-    const target = document.querySelector(`#${props.href}`)
-    if (!target) return
-    const top
-      = target.getBoundingClientRect().top + window.scrollY + SCROLL_OFFSET
-    window.scrollTo({ top, behavior: 'smooth' })
-  }, 350)
-}
-</script>
-````
-
-## File: layers/main/content/documents/code-of-conduct.md
-````markdown
----
-title: '行動規範'
-description: '当該サービスを利用するにあたっての行動規範です。'
----
-
-# 行動規範
-
-制定日: 2026年3月1日
-改定日: 2026年3月2日
-
-本利用規約（以下「本規約」）は、本サービスの提供者（以下「運営者」）が提供するウェブサービス（以下「本サービス」）の利用条件を定めるものです。ユーザーは、本サービスを利用することで、本規約に同意したものとみなされます。
-
-## 第1条（適用）
-
-1. 本規約は、ユーザーと運営者との間の本サービスの利用に関する一切の関係に適用されます。
-2. 運営者は、本サービスに関し、本規約のほか個別の利用条件やガイドラインを定める場合があります。これらは本規約の一部を構成します。
-
-## 第2条（定義）
-
-本規約において使用する用語の定義は以下のとおりとします。
-
-- **ユーザー**：本サービスを利用するすべての個人または法人
-- **コンテンツ**：ユーザーが本サービスを通じて投稿、送信、または表示する情報（テキスト、画像、動画等）
-
-## 第3条（利用登録）
-
-1. 本サービスの一部機能は、利用登録を必要とする場合があります。
-2. ユーザーは、正確かつ最新の情報を登録するものとします。
-3. 運営者は、以下の場合に登録を拒否または取り消すことがあります。
-   - 虚偽の情報を登録した場合
-   - 本規約に違反したことがある場合
-   - その他、運営者が不適切と判断した場合
-
-## 第4条（アカウント管理）
-
-1. ユーザーは、自己の責任においてアカウント情報を管理するものとします。
-2. アカウントの不正使用による損害について、運営者は一切の責任を負いません。
-
-## 第5条（禁止事項）
-
-ユーザーは、本サービスの利用にあたり、以下の行為を行ってはなりません。
-
-- 法令または公序良俗に違反する行為
-- 犯罪行為に関連する行為
-- 他のユーザーまたは第三者の権利を侵害する行為
-- サービスの運営を妨害する行為
-- 不正アクセスまたはそれを試みる行為
-- その他、運営者が不適切と判断する行為
-
-## 第6条（コンテンツの権利）
-
-1. ユーザーが投稿したコンテンツの著作権は、原則としてユーザーに帰属します。
-2. ユーザーは、運営者に対して、本サービスの運営・改善のために必要な範囲でコンテンツを利用する権利を許諾するものとします。
-
-## 第7条（サービス内容の変更）
-
-運営者は、ユーザーへの事前通知なく、本サービスの内容を変更または提供を停止することがあります。
-
-## 第8条（免責事項）
-
-1. 運営者は、本サービスの完全性、正確性、有用性について保証しません。
-2. 本サービスの利用により生じた損害について、運営者は一切の責任を負いません。
-
-## 第9条（利用停止）
-
-運営者は、ユーザーが本規約に違反した場合、事前通知なくアカウント停止または利用制限を行うことができます。
-
-## 第10条（規約の変更）
-
-1. 運営者は、必要と判断した場合、本規約を変更することができます。
-2. 変更後の規約は、本サービス上に掲載した時点で効力を生じます。
-
-## 第11条（準拠法・管轄）
-
-1. 本規約の解釈には日本法を準拠法とします。
-2. 本サービスに関して紛争が生じた場合、運営者の所在地を管轄する裁判所を専属的合意管轄とします。
-
-::div{class="section-a"}
-## お問い合わせ
-
-本規約に関するお問い合わせは、以下までご連絡ください。
-
-- 運営者: サンプル株式会社
-- メール: support@example.com
-::
-````
-
-## File: layers/main/content/documents/exhibition-guidline.md
-````markdown
----
-title: '出展ガイドライン'
-description: '出展に必要なルール・準備事項をまとめた公式ガイド'
----
-
-# 出展ガイドライン
-
-制定日: 2026年3月1日
-改定日: 2026年3月2日
-
-本利用規約（以下「本規約」）は、本サービスの提供者（以下「運営者」）が提供するウェブサービス（以下「本サービス」）の利用条件を定めるものです。ユーザーは、本サービスを利用することで、本規約に同意したものとみなされます。
-
-## 第1条（適用）
-
-1. 本規約は、ユーザーと運営者との間の本サービスの利用に関する一切の関係に適用されます。
-2. 運営者は、本サービスに関し、本規約のほか個別の利用条件やガイドラインを定める場合があります。これらは本規約の一部を構成します。
-
-## 第2条（定義）
-
-本規約において使用する用語の定義は以下のとおりとします。
-
-- **ユーザー**：本サービスを利用するすべての個人または法人
-- **コンテンツ**：ユーザーが本サービスを通じて投稿、送信、または表示する情報（テキスト、画像、動画等）
-
-## 第3条（利用登録）
-
-1. 本サービスの一部機能は、利用登録を必要とする場合があります。
-2. ユーザーは、正確かつ最新の情報を登録するものとします。
-3. 運営者は、以下の場合に登録を拒否または取り消すことがあります。
-   - 虚偽の情報を登録した場合
-   - 本規約に違反したことがある場合
-   - その他、運営者が不適切と判断した場合
-
-## 第4条（アカウント管理）
-
-1. ユーザーは、自己の責任においてアカウント情報を管理するものとします。
-2. アカウントの不正使用による損害について、運営者は一切の責任を負いません。
-
-## 第5条（禁止事項）
-
-ユーザーは、本サービスの利用にあたり、以下の行為を行ってはなりません。
-
-- 法令または公序良俗に違反する行為
-- 犯罪行為に関連する行為
-- 他のユーザーまたは第三者の権利を侵害する行為
-- サービスの運営を妨害する行為
-- 不正アクセスまたはそれを試みる行為
-- その他、運営者が不適切と判断する行為
-
-## 第6条（コンテンツの権利）
-
-1. ユーザーが投稿したコンテンツの著作権は、原則としてユーザーに帰属します。
-2. ユーザーは、運営者に対して、本サービスの運営・改善のために必要な範囲でコンテンツを利用する権利を許諾するものとします。
-
-## 第7条（サービス内容の変更）
-
-運営者は、ユーザーへの事前通知なく、本サービスの内容を変更または提供を停止することがあります。
-
-## 第8条（免責事項）
-
-1. 運営者は、本サービスの完全性、正確性、有用性について保証しません。
-2. 本サービスの利用により生じた損害について、運営者は一切の責任を負いません。
-
-## 第9条（利用停止）
-
-運営者は、ユーザーが本規約に違反した場合、事前通知なくアカウント停止または利用制限を行うことができます。
-
-## 第10条（規約の変更）
-
-1. 運営者は、必要と判断した場合、本規約を変更することができます。
-2. 変更後の規約は、本サービス上に掲載した時点で効力を生じます。
-
-## 第11条（準拠法・管轄）
-
-1. 本規約の解釈には日本法を準拠法とします。
-2. 本サービスに関して紛争が生じた場合、運営者の所在地を管轄する裁判所を専属的合意管轄とします。
-
-::div{class="section-a"}
-## お問い合わせ
-
-本規約に関するお問い合わせは、以下までご連絡ください。
-
-- 運営者: サンプル株式会社
-- メール: support@example.com
-::
-````
-
-## File: layers/main/content/documents/exhibition-terms.md
-````markdown
----
-title: '出展規約'
-description: '出展者が遵守すべき規約・利用条件'
----
-
-# 出展規約
-
-制定日: 2026年3月1日
-改定日: 2026年3月2日
-
-本利用規約（以下「本規約」）は、本サービスの提供者（以下「運営者」）が提供するウェブサービス（以下「本サービス」）の利用条件を定めるものです。ユーザーは、本サービスを利用することで、本規約に同意したものとみなされます。
-
-## 第1条（適用）
-
-1. 本規約は、ユーザーと運営者との間の本サービスの利用に関する一切の関係に適用されます。
-2. 運営者は、本サービスに関し、本規約のほか個別の利用条件やガイドラインを定める場合があります。これらは本規約の一部を構成します。
-
-## 第2条（定義）
-
-本規約において使用する用語の定義は以下のとおりとします。
-
-- **ユーザー**：本サービスを利用するすべての個人または法人
-- **コンテンツ**：ユーザーが本サービスを通じて投稿、送信、または表示する情報（テキスト、画像、動画等）
-
-## 第3条（利用登録）
-
-1. 本サービスの一部機能は、利用登録を必要とする場合があります。
-2. ユーザーは、正確かつ最新の情報を登録するものとします。
-3. 運営者は、以下の場合に登録を拒否または取り消すことがあります。
-   - 虚偽の情報を登録した場合
-   - 本規約に違反したことがある場合
-   - その他、運営者が不適切と判断した場合
-
-## 第4条（アカウント管理）
-
-1. ユーザーは、自己の責任においてアカウント情報を管理するものとします。
-2. アカウントの不正使用による損害について、運営者は一切の責任を負いません。
-
-## 第5条（禁止事項）
-
-ユーザーは、本サービスの利用にあたり、以下の行為を行ってはなりません。
-
-- 法令または公序良俗に違反する行為
-- 犯罪行為に関連する行為
-- 他のユーザーまたは第三者の権利を侵害する行為
-- サービスの運営を妨害する行為
-- 不正アクセスまたはそれを試みる行為
-- その他、運営者が不適切と判断する行為
-
-## 第6条（コンテンツの権利）
-
-1. ユーザーが投稿したコンテンツの著作権は、原則としてユーザーに帰属します。
-2. ユーザーは、運営者に対して、本サービスの運営・改善のために必要な範囲でコンテンツを利用する権利を許諾するものとします。
-
-## 第7条（サービス内容の変更）
-
-運営者は、ユーザーへの事前通知なく、本サービスの内容を変更または提供を停止することがあります。
-
-## 第8条（免責事項）
-
-1. 運営者は、本サービスの完全性、正確性、有用性について保証しません。
-2. 本サービスの利用により生じた損害について、運営者は一切の責任を負いません。
-
-## 第9条（利用停止）
-
-運営者は、ユーザーが本規約に違反した場合、事前通知なくアカウント停止または利用制限を行うことができます。
-
-## 第10条（規約の変更）
-
-1. 運営者は、必要と判断した場合、本規約を変更することができます。
-2. 変更後の規約は、本サービス上に掲載した時点で効力を生じます。
-
-## 第11条（準拠法・管轄）
-
-1. 本規約の解釈には日本法を準拠法とします。
-2. 本サービスに関して紛争が生じた場合、運営者の所在地を管轄する裁判所を専属的合意管轄とします。
-
-::div{class="section-a"}
-## お問い合わせ
-
-本規約に関するお問い合わせは、以下までご連絡ください。
-
-- 運営者: サンプル株式会社
-- メール: support@example.com
-::
-````
-
-## File: layers/main/content/documents/privacy-policy.md
-````markdown
----
-title: 'プライバシーポリシー'
-description: '当該サービスが、ユーザーから取得した個人情報をどのように収集・利用・管理・保護するかを定めた方針'
----
-
-# 利用規約
-
-制定日: 2026年3月1日
-改定日: 2026年3月2日
-
-本利用規約（以下「本規約」）は、本サービスの提供者（以下「運営者」）が提供するウェブサービス（以下「本サービス」）の利用条件を定めるものです。ユーザーは、本サービスを利用することで、本規約に同意したものとみなされます。
-
----
-
-## 第1条（適用）
-
-1. 本規約は、ユーザーと運営者との間の本サービスの利用に関する一切の関係に適用されます。
-2. 運営者は、本サービスに関し、本規約のほか個別の利用条件やガイドラインを定める場合があります。これらは本規約の一部を構成します。
-
----
-
-## 第2条（定義）
-
-本規約において使用する用語の定義は以下のとおりとします。
-
-- **ユーザー**：本サービスを利用するすべての個人または法人
-- **コンテンツ**：ユーザーが本サービスを通じて投稿、送信、または表示する情報（テキスト、画像、動画等）
-
----
-
-## 第3条（利用登録）
-
-1. 本サービスの一部機能は、利用登録を必要とする場合があります。
-2. ユーザーは、正確かつ最新の情報を登録するものとします。
-3. 運営者は、以下の場合に登録を拒否または取り消すことがあります。
-   - 虚偽の情報を登録した場合
-   - 本規約に違反したことがある場合
-   - その他、運営者が不適切と判断した場合
-
----
-
-## 第4条（アカウント管理）
-
-1. ユーザーは、自己の責任においてアカウント情報を管理するものとします。
-2. アカウントの不正使用による損害について、運営者は一切の責任を負いません。
-
----
-
-## 第5条（禁止事項）
-
-ユーザーは、本サービスの利用にあたり、以下の行為を行ってはなりません。
-
-- 法令または公序良俗に違反する行為
-- 犯罪行為に関連する行為
-- 他のユーザーまたは第三者の権利を侵害する行為
-- サービスの運営を妨害する行為
-- 不正アクセスまたはそれを試みる行為
-- その他、運営者が不適切と判断する行為
-
----
-
-## 第6条（コンテンツの権利）
-
-1. ユーザーが投稿したコンテンツの著作権は、原則としてユーザーに帰属します。
-2. ユーザーは、運営者に対して、本サービスの運営・改善のために必要な範囲でコンテンツを利用する権利を許諾するものとします。
-
----
-
-## 第7条（サービス内容の変更）
-
-運営者は、ユーザーへの事前通知なく、本サービスの内容を変更または提供を停止することがあります。
-
----
-
-## 第8条（免責事項）
-
-1. 運営者は、本サービスの完全性、正確性、有用性について保証しません。
-2. 本サービスの利用により生じた損害について、運営者は一切の責任を負いません。
-
----
-
-## 第9条（利用停止）
-
-運営者は、ユーザーが本規約に違反した場合、事前通知なくアカウント停止または利用制限を行うことができます。
-
----
-
-## 第10条（規約の変更）
-
-1. 運営者は、必要と判断した場合、本規約を変更することができます。
-2. 変更後の規約は、本サービス上に掲載した時点で効力を生じます。
-
----
-
-## 第11条（準拠法・管轄）
-
-1. 本規約の解釈には日本法を準拠法とします。
-2. 本サービスに関して紛争が生じた場合、運営者の所在地を管轄する裁判所を専属的合意管轄とします。
-
----
-
-## お問い合わせ
-
-本規約に関するお問い合わせは、以下までご連絡ください。
-
-- 運営者: サンプル株式会社
-- メール: support@example.com
-````
-
 ## File: layers/main/@types/auto-imports.d.ts
 ````typescript
 /* eslint-disable */
@@ -2538,6 +2053,36 @@ img {
 </template>
 ````
 
+## File: layers/main/app/components/ha/icons/HaCloseIcon.vue
+````vue
+<template>
+  <svg
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+  >
+    <line
+      x1="5"
+      y1="5"
+      x2="19"
+      y2="19"
+      stroke="white"
+      stroke-width="2.2"
+      stroke-linecap="round"
+    />
+    <line
+      x1="19"
+      y1="5"
+      x2="5"
+      y2="19"
+      stroke="white"
+      stroke-width="2.2"
+      stroke-linecap="round"
+    />
+  </svg>
+</template>
+````
+
 ## File: layers/main/app/components/ha/icons/HaCommunityIcon.vue
 ````vue
 <template>
@@ -2605,6 +2150,45 @@ img {
     <path
       d="M4 20C3.45 20 2.97933 19.8043 2.588 19.413C2.19667 19.0217 2.00067 18.5507 2 18V6C2 5.45 2.196 4.97933 2.588 4.588C2.98 4.19667 3.45067 4.00067 4 4H20C20.55 4 21.021 4.196 21.413 4.588C21.805 4.98 22.0007 5.45067 22 6V18C22 18.55 21.8043 19.021 21.413 19.413C21.0217 19.805 20.5507 20.0007 20 20H4ZM12 13L4 8V18H20V8L12 13ZM12 11L20 6H4L12 11ZM4 8V6V18V8Z"
       fill="white"
+    />
+  </svg>
+</template>
+````
+
+## File: layers/main/app/components/ha/icons/HaHamburgerIcon.vue
+````vue
+<template>
+  <svg
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+  >
+    <line
+      x1="4"
+      y1="7"
+      x2="20"
+      y2="7"
+      stroke="white"
+      stroke-width="2.2"
+      stroke-linecap="round"
+    />
+    <line
+      x1="4"
+      y1="12"
+      x2="20"
+      y2="12"
+      stroke="white"
+      stroke-width="2.2"
+      stroke-linecap="round"
+    />
+    <line
+      x1="4"
+      y1="17"
+      x2="20"
+      y2="17"
+      stroke="white"
+      stroke-width="2.2"
+      stroke-linecap="round"
     />
   </svg>
 </template>
@@ -2815,6 +2399,44 @@ img {
     />
   </svg>
 </template>
+````
+
+## File: layers/main/app/components/ha/HaAnchorLink.vue
+````vue
+<template>
+  <a
+    :href="`#${href}`"
+    class="ha-anchor-link"
+    @click.prevent="handleClick"
+  >
+    {{ text }}
+  </a>
+</template>
+
+<script setup lang="ts">
+const SCROLL_OFFSET = -80
+
+const props = defineProps<{
+  text: string
+  href: string
+}>()
+
+const emit = defineEmits<{
+  clicked: []
+}>()
+
+const handleClick = () => {
+  emit('clicked')
+
+  setTimeout(() => {
+    const target = document.querySelector(`#${props.href}`)
+    if (!target) return
+    const top
+      = target.getBoundingClientRect().top + window.scrollY + SCROLL_OFFSET
+    window.scrollTo({ top, behavior: 'smooth' })
+  }, 350)
+}
+</script>
 ````
 
 ## File: layers/main/app/components/ha/HaCountUpNumber.vue
@@ -3399,306 +3021,6 @@ defineExpose({ swiperInstance })
 </style>
 ````
 
-## File: layers/main/app/components/ho/HoTheHeader.vue
-````vue
-<i18n lang="yaml">
-ja:
-  mainlogo: ロゴ名サービス名
-en:
-  mainlogo: logo name
-</i18n>
-
-<template>
-  <div class="header__wrapper">
-    <header class="ho-the-header">
-      <div class="ho-the-header__left">
-        <div class="ho-the-header__logo" />
-      </div>
-      <div class="ho-the-header__right">
-        <nav class="ho-the-header__nav">
-          <ul class="ho-the-header__ul">
-            <li class="ho-the-header__li">
-              <a
-                href=""
-                class="ho-the-header__link"
-              />
-            </li>
-            <li class="ho-the-header__li">
-              <a
-                href=""
-                class="ho-the-header__link"
-              />
-            </li>
-            <li class="ho-the-header__li">
-              <a
-                href=""
-                class="ho-the-header__link"
-              />
-            </li>
-            <li class="ho-the-header__li">
-              <a
-                href=""
-                class="ho-the-header__link"
-              />
-            </li>
-          </ul>
-        </nav>
-        <button
-          class="hamburger-icon"
-          aria-label="メニューを開く"
-          @click="isPanelOpen = true"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-          >
-            <HaHamburgerIcon />
-          </svg>
-        </button>
-      </div>
-    </header>
-  </div>
-
-  <div
-    class="side-panel__overlay"
-    :class="{ 'is-open': isPanelOpen }"
-    @click="isPanelOpen = false"
-  />
-
-  <div
-    class="side-panel"
-    :class="{ 'is-open': isPanelOpen }"
-    role="dialog"
-    aria-modal="true"
-  >
-    <button
-      class="side-panel__close"
-      aria-label="メニューを閉じる"
-      @click="isPanelOpen = false"
-    >
-      <HaCloseIcon />
-    </button>
-    <nav class="side-panel__nav">
-      <ul class="side-panel__ul">
-        <li
-          v-for="link in navLinks"
-          :key="link.href"
-          class="side-panel__li"
-        >
-          <a
-            v-if="link.type === 'link'"
-            :href="link.href"
-            class="side-panel__link"
-            @click="isPanelOpen = false"
-          >
-            {{ link.text }}
-          </a>
-          <HaAnchorLink
-            v-else
-            class="side-panel__link"
-            :href="link.href"
-            :text="link.text"
-            @clicked="isPanelOpen = false"
-          />
-        </li>
-      </ul>
-    </nav>
-  </div>
-</template>
-
-<script setup lang="ts">
-import { ref, watch } from 'vue'
-import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
-import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
-import HaAnchorLink from '../ha/HaAnchorLink.vue'
-
-export type NavLink
-  = | { type: 'link', href: string, text: string }
-    | { type: 'anchor', href: string, text: string }
-
-defineProps<{
-  navLinks: NavLink[]
-}>()
-
-const isPanelOpen = ref(false)
-
-watch(isPanelOpen, (val) => {
-  if (typeof document !== 'undefined') {
-    document.body.style.overflow = val ? 'hidden' : ''
-  }
-})
-</script>
-
-<style scoped lang="scss">
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.header__wrapper {
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: v.$vket-header-height-pc;
-  padding: 12px;
-
-  @include m.sp {
-    height: v.$vket-header-height-sp;
-  }
-}
-
-.ho-the-header {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  padding: 8px 10px;
-  border: 1px solid rgb(255 255 255 / 75%);
-  border-radius: 100px;
-
-  background-color: rgb(255 255 255 / 20%);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  box-shadow: inset 0 0 16px rgb(255 255 255 / 60%),
-    0 8px 12px 8px rgb(black, 0.2);
-
-  &__logo {
-    width: 36px;
-    height: 36px;
-    border-radius: 100px;
-  }
-}
-
-.hamburger-icon {
-  cursor: pointer;
-
-  display: none;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border: 1px solid rgb(255 255 255 / 20%);
-  border-radius: 100px;
-
-  background: rgb(188 188 188);
-
-  @include m.sp {
-    display: flex;
-  }
-
-  svg {
-    display: block;
-    width: 22px;
-    height: 22px;
-  }
-}
-
-.side-panel__overlay {
-  pointer-events: none;
-
-  position: fixed;
-  z-index: 200;
-  inset: 0;
-
-  opacity: 0;
-  background: rgb(0 0 0 / 35%);
-
-  transition: opacity 0.3s ease;
-
-  &.is-open {
-    pointer-events: auto;
-    opacity: 1;
-  }
-}
-
-.side-panel {
-  position: fixed;
-  z-index: 300;
-  top: 0;
-  right: 0;
-  transform: translateX(100%);
-
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-
-  box-sizing: border-box;
-  width: 100vw;
-  height: 100dvh;
-  padding: 24px 20px 40px;
-  border-left: 1px solid rgb(255 255 255 / 15%);
-
-  background: rgb(30 30 35 / 72%);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-
-  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-
-  &.is-open {
-    transform: translateX(0);
-  }
-
-  &__close {
-    cursor: pointer;
-
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    align-self: flex-end;
-    justify-content: center;
-
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border: 1px solid rgb(255 255 255 / 25%);
-    border-radius: 100px;
-
-    background: rgb(255 255 255 / 10%);
-
-    svg {
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  &__nav {
-    flex: 1;
-    margin-top: 40px;
-  }
-
-  &__ul {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-  }
-
-  &__li {
-    border-bottom: 1px solid rgb(255 255 255 / 8%);
-  }
-
-  &__link {
-    display: block;
-
-    padding: 6px;
-
-    font-size: 14px;
-    color: white;
-    text-decoration: none;
-  }
-}
-</style>
-````
-
 ## File: layers/main/app/components/ht/HtHeroSection.vue
 ````vue
 <template>
@@ -3834,67 +3156,6 @@ export const useGsapFadeIn = () => {
 
 <style lang="scss" scoped>
 .layout.-default {
-  overflow-x: hidden;
-}
-</style>
-````
-
-## File: layers/main/app/layouts/document.vue
-````vue
-<template>
-  <div class="layout -top">
-    <HoTheHeader :nav-links="navLinks" />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<script setup lang="ts">
-import type { NavLink } from '../components/ho/HoTheHeader.vue'
-
-const navLinks: NavLink[] = [{ type: 'link', href: '/', text: 'TOPページ' }]
-</script>
-
-<style lang="scss" scoped>
-.layout.-top {
-  overflow-x: hidden;
-}
-</style>
-````
-
-## File: layers/main/app/layouts/top.vue
-````vue
-<template>
-  <div class="layout -top">
-    <HoTheHeader :nav-links="navLinks" />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<script setup lang="ts">
-import type { NavLink } from '../components/ho/HoTheHeader.vue'
-
-const navLinks: NavLink[] = [
-  { type: 'link', href: '/', text: 'TOPページ' },
-  { type: 'anchor', href: 'quick-access', text: '参加者向け重要情報' },
-  { type: 'anchor', href: 'about', text: 'VketReal in 札幌とは' },
-  { type: 'anchor', href: 'news', text: 'お知らせ' },
-  { type: 'anchor', href: 'contents', text: '企画・コンテンツ' },
-  { type: 'anchor', href: 'schedule', text: '開催スケジュール' },
-  { type: 'anchor', href: 'exhibition', text: '出展情報' },
-  { type: 'anchor', href: 'access', text: 'アクセス' },
-  { type: 'anchor', href: 'tickets', text: 'チケット' },
-  { type: 'anchor', href: 'qa', text: 'よくある質問' },
-  { type: 'anchor', href: 'code-of-conduct', text: '行動規範' },
-  { type: 'anchor', href: 'related-events', text: '関連イベント' },
-  { type: 'anchor', href: 'sponsors-and-partners', text: 'ご協力' },
-  { type: 'anchor', href: 'contact', text: 'お問い合わせ' },
-]
-</script>
-
-<style lang="scss" scoped>
-.layout.-top {
   overflow-x: hidden;
 }
 </style>
@@ -5094,14 +4355,14 @@ function getProduction(envType: EnvType) {
 }
 ````
 
-## File: layers/main/content/documents/terms.md
+## File: layers/main/content/documents/code-of-conduct.md
 ````markdown
 ---
-title: '利用規約'
-description: '当該サービスを利用するにあたっての規約'
+title: '行動規範'
+description: '当該サービスを利用するにあたっての行動規範です。'
 ---
 
-# 利用規約
+# 行動規範
 
 制定日: 2026年3月1日
 改定日: 2026年3月2日
@@ -5181,6 +4442,295 @@ description: '当該サービスを利用するにあたっての規約'
 - 運営者: サンプル株式会社
 - メール: support@example.com
 ::
+````
+
+## File: layers/main/content/documents/exhibition-guidline.md
+````markdown
+---
+title: '出展ガイドライン'
+description: '出展に必要なルール・準備事項をまとめた公式ガイド'
+---
+
+# 出展ガイドライン
+
+制定日: 2026年3月1日
+改定日: 2026年3月2日
+
+本利用規約（以下「本規約」）は、本サービスの提供者（以下「運営者」）が提供するウェブサービス（以下「本サービス」）の利用条件を定めるものです。ユーザーは、本サービスを利用することで、本規約に同意したものとみなされます。
+
+## 第1条（適用）
+
+1. 本規約は、ユーザーと運営者との間の本サービスの利用に関する一切の関係に適用されます。
+2. 運営者は、本サービスに関し、本規約のほか個別の利用条件やガイドラインを定める場合があります。これらは本規約の一部を構成します。
+
+## 第2条（定義）
+
+本規約において使用する用語の定義は以下のとおりとします。
+
+- **ユーザー**：本サービスを利用するすべての個人または法人
+- **コンテンツ**：ユーザーが本サービスを通じて投稿、送信、または表示する情報（テキスト、画像、動画等）
+
+## 第3条（利用登録）
+
+1. 本サービスの一部機能は、利用登録を必要とする場合があります。
+2. ユーザーは、正確かつ最新の情報を登録するものとします。
+3. 運営者は、以下の場合に登録を拒否または取り消すことがあります。
+   - 虚偽の情報を登録した場合
+   - 本規約に違反したことがある場合
+   - その他、運営者が不適切と判断した場合
+
+## 第4条（アカウント管理）
+
+1. ユーザーは、自己の責任においてアカウント情報を管理するものとします。
+2. アカウントの不正使用による損害について、運営者は一切の責任を負いません。
+
+## 第5条（禁止事項）
+
+ユーザーは、本サービスの利用にあたり、以下の行為を行ってはなりません。
+
+- 法令または公序良俗に違反する行為
+- 犯罪行為に関連する行為
+- 他のユーザーまたは第三者の権利を侵害する行為
+- サービスの運営を妨害する行為
+- 不正アクセスまたはそれを試みる行為
+- その他、運営者が不適切と判断する行為
+
+## 第6条（コンテンツの権利）
+
+1. ユーザーが投稿したコンテンツの著作権は、原則としてユーザーに帰属します。
+2. ユーザーは、運営者に対して、本サービスの運営・改善のために必要な範囲でコンテンツを利用する権利を許諾するものとします。
+
+## 第7条（サービス内容の変更）
+
+運営者は、ユーザーへの事前通知なく、本サービスの内容を変更または提供を停止することがあります。
+
+## 第8条（免責事項）
+
+1. 運営者は、本サービスの完全性、正確性、有用性について保証しません。
+2. 本サービスの利用により生じた損害について、運営者は一切の責任を負いません。
+
+## 第9条（利用停止）
+
+運営者は、ユーザーが本規約に違反した場合、事前通知なくアカウント停止または利用制限を行うことができます。
+
+## 第10条（規約の変更）
+
+1. 運営者は、必要と判断した場合、本規約を変更することができます。
+2. 変更後の規約は、本サービス上に掲載した時点で効力を生じます。
+
+## 第11条（準拠法・管轄）
+
+1. 本規約の解釈には日本法を準拠法とします。
+2. 本サービスに関して紛争が生じた場合、運営者の所在地を管轄する裁判所を専属的合意管轄とします。
+
+::div{class="section-a"}
+## お問い合わせ
+
+本規約に関するお問い合わせは、以下までご連絡ください。
+
+- 運営者: サンプル株式会社
+- メール: support@example.com
+::
+````
+
+## File: layers/main/content/documents/exhibition-terms.md
+````markdown
+---
+title: '出展規約'
+description: '出展者が遵守すべき規約・利用条件'
+---
+
+# 出展規約
+
+制定日: 2026年3月1日
+改定日: 2026年3月2日
+
+本利用規約（以下「本規約」）は、本サービスの提供者（以下「運営者」）が提供するウェブサービス（以下「本サービス」）の利用条件を定めるものです。ユーザーは、本サービスを利用することで、本規約に同意したものとみなされます。
+
+## 第1条（適用）
+
+1. 本規約は、ユーザーと運営者との間の本サービスの利用に関する一切の関係に適用されます。
+2. 運営者は、本サービスに関し、本規約のほか個別の利用条件やガイドラインを定める場合があります。これらは本規約の一部を構成します。
+
+## 第2条（定義）
+
+本規約において使用する用語の定義は以下のとおりとします。
+
+- **ユーザー**：本サービスを利用するすべての個人または法人
+- **コンテンツ**：ユーザーが本サービスを通じて投稿、送信、または表示する情報（テキスト、画像、動画等）
+
+## 第3条（利用登録）
+
+1. 本サービスの一部機能は、利用登録を必要とする場合があります。
+2. ユーザーは、正確かつ最新の情報を登録するものとします。
+3. 運営者は、以下の場合に登録を拒否または取り消すことがあります。
+   - 虚偽の情報を登録した場合
+   - 本規約に違反したことがある場合
+   - その他、運営者が不適切と判断した場合
+
+## 第4条（アカウント管理）
+
+1. ユーザーは、自己の責任においてアカウント情報を管理するものとします。
+2. アカウントの不正使用による損害について、運営者は一切の責任を負いません。
+
+## 第5条（禁止事項）
+
+ユーザーは、本サービスの利用にあたり、以下の行為を行ってはなりません。
+
+- 法令または公序良俗に違反する行為
+- 犯罪行為に関連する行為
+- 他のユーザーまたは第三者の権利を侵害する行為
+- サービスの運営を妨害する行為
+- 不正アクセスまたはそれを試みる行為
+- その他、運営者が不適切と判断する行為
+
+## 第6条（コンテンツの権利）
+
+1. ユーザーが投稿したコンテンツの著作権は、原則としてユーザーに帰属します。
+2. ユーザーは、運営者に対して、本サービスの運営・改善のために必要な範囲でコンテンツを利用する権利を許諾するものとします。
+
+## 第7条（サービス内容の変更）
+
+運営者は、ユーザーへの事前通知なく、本サービスの内容を変更または提供を停止することがあります。
+
+## 第8条（免責事項）
+
+1. 運営者は、本サービスの完全性、正確性、有用性について保証しません。
+2. 本サービスの利用により生じた損害について、運営者は一切の責任を負いません。
+
+## 第9条（利用停止）
+
+運営者は、ユーザーが本規約に違反した場合、事前通知なくアカウント停止または利用制限を行うことができます。
+
+## 第10条（規約の変更）
+
+1. 運営者は、必要と判断した場合、本規約を変更することができます。
+2. 変更後の規約は、本サービス上に掲載した時点で効力を生じます。
+
+## 第11条（準拠法・管轄）
+
+1. 本規約の解釈には日本法を準拠法とします。
+2. 本サービスに関して紛争が生じた場合、運営者の所在地を管轄する裁判所を専属的合意管轄とします。
+
+::div{class="section-a"}
+## お問い合わせ
+
+本規約に関するお問い合わせは、以下までご連絡ください。
+
+- 運営者: サンプル株式会社
+- メール: support@example.com
+::
+````
+
+## File: layers/main/content/documents/privacy-policy.md
+````markdown
+---
+title: 'プライバシーポリシー'
+description: '当該サービスが、ユーザーから取得した個人情報をどのように収集・利用・管理・保護するかを定めた方針'
+---
+
+# 利用規約
+
+制定日: 2026年3月1日
+改定日: 2026年3月2日
+
+本利用規約（以下「本規約」）は、本サービスの提供者（以下「運営者」）が提供するウェブサービス（以下「本サービス」）の利用条件を定めるものです。ユーザーは、本サービスを利用することで、本規約に同意したものとみなされます。
+
+---
+
+## 第1条（適用）
+
+1. 本規約は、ユーザーと運営者との間の本サービスの利用に関する一切の関係に適用されます。
+2. 運営者は、本サービスに関し、本規約のほか個別の利用条件やガイドラインを定める場合があります。これらは本規約の一部を構成します。
+
+---
+
+## 第2条（定義）
+
+本規約において使用する用語の定義は以下のとおりとします。
+
+- **ユーザー**：本サービスを利用するすべての個人または法人
+- **コンテンツ**：ユーザーが本サービスを通じて投稿、送信、または表示する情報（テキスト、画像、動画等）
+
+---
+
+## 第3条（利用登録）
+
+1. 本サービスの一部機能は、利用登録を必要とする場合があります。
+2. ユーザーは、正確かつ最新の情報を登録するものとします。
+3. 運営者は、以下の場合に登録を拒否または取り消すことがあります。
+   - 虚偽の情報を登録した場合
+   - 本規約に違反したことがある場合
+   - その他、運営者が不適切と判断した場合
+
+---
+
+## 第4条（アカウント管理）
+
+1. ユーザーは、自己の責任においてアカウント情報を管理するものとします。
+2. アカウントの不正使用による損害について、運営者は一切の責任を負いません。
+
+---
+
+## 第5条（禁止事項）
+
+ユーザーは、本サービスの利用にあたり、以下の行為を行ってはなりません。
+
+- 法令または公序良俗に違反する行為
+- 犯罪行為に関連する行為
+- 他のユーザーまたは第三者の権利を侵害する行為
+- サービスの運営を妨害する行為
+- 不正アクセスまたはそれを試みる行為
+- その他、運営者が不適切と判断する行為
+
+---
+
+## 第6条（コンテンツの権利）
+
+1. ユーザーが投稿したコンテンツの著作権は、原則としてユーザーに帰属します。
+2. ユーザーは、運営者に対して、本サービスの運営・改善のために必要な範囲でコンテンツを利用する権利を許諾するものとします。
+
+---
+
+## 第7条（サービス内容の変更）
+
+運営者は、ユーザーへの事前通知なく、本サービスの内容を変更または提供を停止することがあります。
+
+---
+
+## 第8条（免責事項）
+
+1. 運営者は、本サービスの完全性、正確性、有用性について保証しません。
+2. 本サービスの利用により生じた損害について、運営者は一切の責任を負いません。
+
+---
+
+## 第9条（利用停止）
+
+運営者は、ユーザーが本規約に違反した場合、事前通知なくアカウント停止または利用制限を行うことができます。
+
+---
+
+## 第10条（規約の変更）
+
+1. 運営者は、必要と判断した場合、本規約を変更することができます。
+2. 変更後の規約は、本サービス上に掲載した時点で効力を生じます。
+
+---
+
+## 第11条（準拠法・管轄）
+
+1. 本規約の解釈には日本法を準拠法とします。
+2. 本サービスに関して紛争が生じた場合、運営者の所在地を管轄する裁判所を専属的合意管轄とします。
+
+---
+
+## お問い合わせ
+
+本規約に関するお問い合わせは、以下までご連絡ください。
+
+- 運営者: サンプル株式会社
+- メール: support@example.com
 ````
 
 ## File: layers/main/i18n/locales/en.json
@@ -6133,6 +5683,306 @@ defineProps<{
 </style>
 ````
 
+## File: layers/main/app/components/ho/HoTheHeader.vue
+````vue
+<i18n lang="yaml">
+ja:
+  mainlogo: ロゴ名サービス名
+en:
+  mainlogo: logo name
+</i18n>
+
+<template>
+  <div class="header__wrapper">
+    <header class="ho-the-header">
+      <div class="ho-the-header__left">
+        <div class="ho-the-header__logo" />
+      </div>
+      <div class="ho-the-header__right">
+        <nav class="ho-the-header__nav">
+          <ul class="ho-the-header__ul">
+            <li class="ho-the-header__li">
+              <a
+                href=""
+                class="ho-the-header__link"
+              />
+            </li>
+            <li class="ho-the-header__li">
+              <a
+                href=""
+                class="ho-the-header__link"
+              />
+            </li>
+            <li class="ho-the-header__li">
+              <a
+                href=""
+                class="ho-the-header__link"
+              />
+            </li>
+            <li class="ho-the-header__li">
+              <a
+                href=""
+                class="ho-the-header__link"
+              />
+            </li>
+          </ul>
+        </nav>
+        <button
+          class="hamburger-icon"
+          aria-label="メニューを開く"
+          @click="isPanelOpen = true"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+          >
+            <HaHamburgerIcon />
+          </svg>
+        </button>
+      </div>
+    </header>
+  </div>
+
+  <div
+    class="side-panel__overlay"
+    :class="{ 'is-open': isPanelOpen }"
+    @click="isPanelOpen = false"
+  />
+
+  <div
+    class="side-panel"
+    :class="{ 'is-open': isPanelOpen }"
+    role="dialog"
+    aria-modal="true"
+  >
+    <button
+      class="side-panel__close"
+      aria-label="メニューを閉じる"
+      @click="isPanelOpen = false"
+    >
+      <HaCloseIcon />
+    </button>
+    <nav class="side-panel__nav">
+      <ul class="side-panel__ul">
+        <li
+          v-for="link in navLinks"
+          :key="link.href"
+          class="side-panel__li"
+        >
+          <a
+            v-if="link.type === 'link'"
+            :href="link.href"
+            class="side-panel__link"
+            @click="isPanelOpen = false"
+          >
+            {{ link.text }}
+          </a>
+          <HaAnchorLink
+            v-else
+            class="side-panel__link"
+            :href="link.href"
+            :text="link.text"
+            @clicked="isPanelOpen = false"
+          />
+        </li>
+      </ul>
+    </nav>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
+import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
+import HaAnchorLink from '../ha/HaAnchorLink.vue'
+
+export type NavLink
+  = | { type: 'link', href: string, text: string }
+    | { type: 'anchor', href: string, text: string }
+
+defineProps<{
+  navLinks: NavLink[]
+}>()
+
+const isPanelOpen = ref(false)
+
+watch(isPanelOpen, (val) => {
+  if (typeof document !== 'undefined') {
+    document.body.style.overflow = val ? 'hidden' : ''
+  }
+})
+</script>
+
+<style scoped lang="scss">
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.header__wrapper {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: v.$vket-header-height-pc;
+  padding: 12px;
+
+  @include m.sp {
+    height: v.$vket-header-height-sp;
+  }
+}
+
+.ho-the-header {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 8px 10px;
+  border: 1px solid rgb(255 255 255 / 75%);
+  border-radius: 100px;
+
+  background-color: rgb(255 255 255 / 20%);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 16px rgb(255 255 255 / 60%),
+    0 8px 12px 8px rgb(black, 0.2);
+
+  &__logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 100px;
+  }
+}
+
+.hamburger-icon {
+  cursor: pointer;
+
+  display: none;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 100px;
+
+  background: rgb(188 188 188);
+
+  @include m.sp {
+    display: flex;
+  }
+
+  svg {
+    display: block;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.side-panel__overlay {
+  pointer-events: none;
+
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+
+  opacity: 0;
+  background: rgb(0 0 0 / 35%);
+
+  transition: opacity 0.3s ease;
+
+  &.is-open {
+    pointer-events: auto;
+    opacity: 1;
+  }
+}
+
+.side-panel {
+  position: fixed;
+  z-index: 300;
+  top: 0;
+  right: 0;
+  transform: translateX(100%);
+
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100dvh;
+  padding: 24px 20px 40px;
+  border-left: 1px solid rgb(255 255 255 / 15%);
+
+  background: rgb(30 30 35 / 72%);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  &.is-open {
+    transform: translateX(0);
+  }
+
+  &__close {
+    cursor: pointer;
+
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    align-self: flex-end;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid rgb(255 255 255 / 25%);
+    border-radius: 100px;
+
+    background: rgb(255 255 255 / 10%);
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__nav {
+    flex: 1;
+    margin-top: 40px;
+  }
+
+  &__ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+  }
+
+  &__li {
+    border-bottom: 1px solid rgb(255 255 255 / 8%);
+  }
+
+  &__link {
+    display: block;
+
+    padding: 6px;
+
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+  }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ht/HtQandASection.vue
 ````vue
 <script setup lang="ts">
@@ -6211,173 +6061,63 @@ onMounted(() => {
 </style>
 ````
 
-## File: layers/main/app/pages/documents/[...slug].vue
+## File: layers/main/app/layouts/document.vue
 ````vue
-<script lang="ts" setup>
-definePageMeta({
-  layout: 'document',
-})
-
-const route = useRoute()
-const { data: page } = await useAsyncData(route.path, () => {
-  return queryCollection('content').path(route.path).first()
-})
-</script>
-
 <template>
-  <div class="md-document">
-    <div class="md-document__card">
-      <div class="md-document__inner">
-        <ContentRenderer
-          v-if="page"
-          :value="page"
-        />
-      </div>
-    </div>
+  <div class="layout -top">
+    <HoTheHeader :nav-links="navLinks" />
+    <slot />
+    <HoTheFooter />
   </div>
 </template>
 
+<script setup lang="ts">
+import type { NavLink } from '../components/ho/HoTheHeader.vue'
+
+const navLinks: NavLink[] = [{ type: 'link', href: '/', text: 'TOPページ' }]
+</script>
+
 <style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
+.layout.-top {
+  overflow-x: hidden;
+}
+</style>
+````
 
-.md-document {
-  padding: 88px 32px;
+## File: layers/main/app/layouts/top.vue
+````vue
+<template>
+  <div class="layout -top">
+    <HoTheHeader :nav-links="navLinks" />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
 
-  @include m.sp {
-    padding: 88px 12px;
-  }
+<script setup lang="ts">
+import type { NavLink } from '../components/ho/HoTheHeader.vue'
 
-  &__card {
-    position: relative;
+const navLinks: NavLink[] = [
+  { type: 'link', href: '/', text: 'TOPページ' },
+  { type: 'anchor', href: 'quick-access', text: '参加者向け重要情報' },
+  { type: 'anchor', href: 'about', text: 'VketReal in 札幌とは' },
+  { type: 'anchor', href: 'news', text: 'お知らせ' },
+  { type: 'anchor', href: 'contents', text: '企画・コンテンツ' },
+  { type: 'anchor', href: 'schedule', text: '開催スケジュール' },
+  { type: 'anchor', href: 'exhibition', text: '出展情報' },
+  { type: 'anchor', href: 'access', text: 'アクセス' },
+  { type: 'anchor', href: 'tickets', text: 'チケット' },
+  { type: 'anchor', href: 'qa', text: 'よくある質問' },
+  { type: 'anchor', href: 'code-of-conduct', text: '行動規範' },
+  { type: 'anchor', href: 'related-events', text: '関連イベント' },
+  { type: 'anchor', href: 'sponsors-and-partners', text: 'ご協力' },
+  { type: 'anchor', href: 'contact', text: 'お問い合わせ' },
+]
+</script>
 
-    padding: 90px 0;
-    border-radius: 20px;
-
-    background-color: rgb(217 217 217 / 20%);
-    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
-
-    @include m.sp {
-      padding: 32px 12px;
-    }
-
-    &::before {
-      pointer-events: none;
-      content: '';
-
-      position: absolute;
-      z-index: 0;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 100%;
-      border: 1px solid transparent;
-      border-radius: inherit;
-
-      background-image: linear-gradient(
-          45deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-        ),
-        linear-gradient(
-          225deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-        ),
-        linear-gradient(
-          135deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 15%) 20px
-        ),
-        linear-gradient(
-          315deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 15%) 20px
-        );
-      background-clip: border-box, border-box, border-box, border-box;
-      background-origin: border-box, border-box, border-box, border-box;
-
-      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
-  }
-
-  &__inner {
-    max-width: 910px;
-    margin: 0 auto;
-  }
-
-  :deep(h1) {
-    font-size: 48px;
-    color: white;
-    text-align: center;
-
-    @include m.sp {
-      margin-bottom: 24px;
-      font-size: 24px;
-    }
-  }
-
-  :deep(h2) {
-    margin-top: 6px;
-    font-size: 32px;
-    color: white;
-
-    @include m.sp {
-      margin-top: 24px;
-      margin-bottom: 12px;
-      font-size: 18px;
-    }
-
-    a {
-      color: inherit;
-    }
-  }
-
-  :deep(p) {
-    font-size: 16px;
-    line-height: 1.8;
-
-    @include m.sp {
-      margin-bottom: 12px;
-      font-size: 14px;
-      line-height: 1.2;
-    }
-  }
-
-  :deep(ol) {
-    margin-bottom: 12px;
-    padding-left: 1em;
-    list-style-type: decimal;
-  }
-
-  :deep(ul) {
-    margin-bottom: 12px;
-    padding-left: 1em;
-    list-style-type: disc;
-  }
-
-  :deep(li) {
-    font-size: 16px;
-    line-height: 1.8;
-
-    @include m.sp {
-      margin-bottom: 4px;
-      font-size: 14px;
-      line-height: 1.2;
-    }
-  }
-
-  :deep(hr) {
-    margin: 2rem 0;
-    border: none;
-    border-top: 1px solid #999;
-  }
+<style lang="scss" scoped>
+.layout.-top {
+  overflow-x: hidden;
 }
 </style>
 ````
@@ -6557,6 +6297,95 @@ describe('リトライ制御', () => {
     expect(fetchMock).toHaveBeenCalledTimes(6)
   })
 })
+````
+
+## File: layers/main/content/documents/terms.md
+````markdown
+---
+title: '利用規約'
+description: '当該サービスを利用するにあたっての規約'
+---
+
+# 利用規約
+
+制定日: 2026年3月1日
+改定日: 2026年3月2日
+
+本利用規約（以下「本規約」）は、本サービスの提供者（以下「運営者」）が提供するウェブサービス（以下「本サービス」）の利用条件を定めるものです。ユーザーは、本サービスを利用することで、本規約に同意したものとみなされます。
+
+## 第1条（適用）
+
+1. 本規約は、ユーザーと運営者との間の本サービスの利用に関する一切の関係に適用されます。
+2. 運営者は、本サービスに関し、本規約のほか個別の利用条件やガイドラインを定める場合があります。これらは本規約の一部を構成します。
+
+## 第2条（定義）
+
+本規約において使用する用語の定義は以下のとおりとします。
+
+- **ユーザー**：本サービスを利用するすべての個人または法人
+- **コンテンツ**：ユーザーが本サービスを通じて投稿、送信、または表示する情報（テキスト、画像、動画等）
+
+## 第3条（利用登録）
+
+1. 本サービスの一部機能は、利用登録を必要とする場合があります。
+2. ユーザーは、正確かつ最新の情報を登録するものとします。
+3. 運営者は、以下の場合に登録を拒否または取り消すことがあります。
+   - 虚偽の情報を登録した場合
+   - 本規約に違反したことがある場合
+   - その他、運営者が不適切と判断した場合
+
+## 第4条（アカウント管理）
+
+1. ユーザーは、自己の責任においてアカウント情報を管理するものとします。
+2. アカウントの不正使用による損害について、運営者は一切の責任を負いません。
+
+## 第5条（禁止事項）
+
+ユーザーは、本サービスの利用にあたり、以下の行為を行ってはなりません。
+
+- 法令または公序良俗に違反する行為
+- 犯罪行為に関連する行為
+- 他のユーザーまたは第三者の権利を侵害する行為
+- サービスの運営を妨害する行為
+- 不正アクセスまたはそれを試みる行為
+- その他、運営者が不適切と判断する行為
+
+## 第6条（コンテンツの権利）
+
+1. ユーザーが投稿したコンテンツの著作権は、原則としてユーザーに帰属します。
+2. ユーザーは、運営者に対して、本サービスの運営・改善のために必要な範囲でコンテンツを利用する権利を許諾するものとします。
+
+## 第7条（サービス内容の変更）
+
+運営者は、ユーザーへの事前通知なく、本サービスの内容を変更または提供を停止することがあります。
+
+## 第8条（免責事項）
+
+1. 運営者は、本サービスの完全性、正確性、有用性について保証しません。
+2. 本サービスの利用により生じた損害について、運営者は一切の責任を負いません。
+
+## 第9条（利用停止）
+
+運営者は、ユーザーが本規約に違反した場合、事前通知なくアカウント停止または利用制限を行うことができます。
+
+## 第10条（規約の変更）
+
+1. 運営者は、必要と判断した場合、本規約を変更することができます。
+2. 変更後の規約は、本サービス上に掲載した時点で効力を生じます。
+
+## 第11条（準拠法・管轄）
+
+1. 本規約の解釈には日本法を準拠法とします。
+2. 本サービスに関して紛争が生じた場合、運営者の所在地を管轄する裁判所を専属的合意管轄とします。
+
+::div{class="section-a"}
+## お問い合わせ
+
+本規約に関するお問い合わせは、以下までご連絡ください。
+
+- 運営者: サンプル株式会社
+- メール: support@example.com
+::
 ````
 
 ## File: layers/main/vitest.config.mts
@@ -7219,142 +7048,6 @@ defineProps<{
 </style>
 ````
 
-## File: layers/main/app/components/ho/HoTheFooter.vue
-````vue
-<script setup lang="ts">
-import HaXIcon from '../ha/icons/HaXIcon.vue'
-</script>
-
-<!-- <i18n lang="yaml">
-ja:
-  mainlogo: ロゴ名サービス名
-en:
-  mainlogo: logo name
-</i18n> -->
-
-<template>
-  <footer class="footer">
-    <div class="footer__upper">
-      <div class="footer__left">
-        <img
-          src=""
-          alt=""
-          class="footer__logo"
-        >
-        <nav class="footer__nav">
-          <NuxtLink
-            class="footer__link"
-            to="/documents/terms"
-          >利用規約</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/privacy-policy"
-          >プライバシー</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/code-of-conduct"
-          >行動規範</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/exhibition-guidline"
-          >出展ガイドライン</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/exhibition-terms"
-          >出展規約</NuxtLink>
-        </nav>
-      </div>
-      <div class="footer__x-logo">
-        <HaXIcon />
-      </div>
-    </div>
-    <div class="footer__divider" />
-    <div class="footer__lower">
-      <p class="footer__copy">
-        🄫 2026 VketReal in 札幌 実行委員会. All rights reserved.
-      </p>
-    </div>
-  </footer>
-</template>
-
-<style scoped lang="scss">
-@use '@/assets/styles/mixins' as m;
-
-.footer {
-  padding: 88px 105px 0;
-  border-radius: 40px 40px 0 0;
-  background-color: rgb(25 25 25 / 100%);
-
-  @include m.sp {
-    padding: 52px 32px 0;
-  }
-
-  &__upper {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 48px;
-  }
-
-  &__logo {
-    width: 120px;
-    height: 90px;
-    margin-bottom: 40px;
-    background-color: gray;
-  }
-
-  &__nav {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-  }
-
-  &__link {
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-    text-decoration: underline;
-
-    @include m.tb {
-      font-size: 12px;
-      text-decoration: none;
-    }
-  }
-
-  &__divider {
-    width: 100%;
-    height: 1px;
-    background-color: #8f8f8f;
-  }
-
-  &__x-logo {
-    width: 30px;
-
-    @include m.sp {
-      width: 16px;
-    }
-  }
-
-  &__lower {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 78px;
-  }
-
-  &__copy {
-    font-family: Inter, sans-serif;
-    font-size: 12px;
-    color: white;
-
-    @include m.sp {
-      font-size: 8px;
-    }
-  }
-}
-</style>
-````
-
 ## File: layers/main/app/composables/useMockCrowdData.ts
 ````typescript
 // 10秒おきにランダムなステータスを表示する（表示更新テスト用）
@@ -7416,6 +7109,177 @@ export function useCrowdData() {
 
   return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
 }
+````
+
+## File: layers/main/app/pages/documents/[...slug].vue
+````vue
+<script lang="ts" setup>
+definePageMeta({
+  layout: 'document',
+})
+
+const route = useRoute()
+const { data: page } = await useAsyncData(route.path, () => {
+  return queryCollection('content').path(route.path).first()
+})
+</script>
+
+<template>
+  <div class="md-document">
+    <div class="md-document__card">
+      <div class="md-document__inner">
+        <ContentRenderer
+          v-if="page"
+          :value="page"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.md-document {
+  padding: 88px 32px;
+
+  @include m.sp {
+    padding: 88px 12px;
+  }
+
+  &__card {
+    position: relative;
+
+    padding: 90px 0;
+    border-radius: 20px;
+
+    background-color: rgb(217 217 217 / 20%);
+    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+
+    @include m.sp {
+      padding: 32px 12px;
+    }
+
+    &::before {
+      pointer-events: none;
+      content: '';
+
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+      border: 1px solid transparent;
+      border-radius: inherit;
+
+      background-image: linear-gradient(
+          45deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+        ),
+        linear-gradient(
+          225deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+        ),
+        linear-gradient(
+          135deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 15%) 20px
+        ),
+        linear-gradient(
+          315deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 15%) 20px
+        );
+      background-clip: border-box, border-box, border-box, border-box;
+      background-origin: border-box, border-box, border-box, border-box;
+
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+  }
+
+  &__inner {
+    max-width: 910px;
+    margin: 0 auto;
+  }
+
+  :deep(h1) {
+    font-size: 48px;
+    color: white;
+    text-align: center;
+
+    @include m.sp {
+      margin-bottom: 24px;
+      font-size: 24px;
+    }
+  }
+
+  :deep(h2) {
+    margin-top: 6px;
+    font-size: 32px;
+    color: white;
+
+    @include m.sp {
+      margin-top: 24px;
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    a {
+      color: inherit;
+    }
+  }
+
+  :deep(p) {
+    font-size: 16px;
+    line-height: 1.8;
+
+    @include m.sp {
+      margin-bottom: 12px;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+  }
+
+  :deep(ol) {
+    margin-bottom: 12px;
+    padding-left: 1em;
+    list-style-type: decimal;
+  }
+
+  :deep(ul) {
+    margin-bottom: 12px;
+    padding-left: 1em;
+    list-style-type: disc;
+  }
+
+  :deep(li) {
+    font-size: 16px;
+    line-height: 1.8;
+
+    @include m.sp {
+      margin-bottom: 4px;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+  }
+
+  :deep(hr) {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid #999;
+  }
+}
+</style>
 ````
 
 ## File: layers/main/app/app.vue
@@ -7719,238 +7583,6 @@ export default defineNuxtConfig({
 })
 ````
 
-## File: layers/main/app/components/ha/HaDocumentLink.vue
-````vue
-<script setup lang="ts">
-defineProps<{
-  color: 'green' | 'cyan' | 'magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
-  title: string
-  label: 'important' | 'required' | 'Q&A'
-  text: string
-  href: string
-}>()
-</script>
-
-<template>
-  <div class="document-link">
-    <div :class="['document-link__left', `document-link__left--${color}`]">
-      <div class="document-link__icon">
-        <slot name="icon" />
-      </div>
-    </div>
-    <div class="document-link__right">
-      <div class="document-link__row">
-        <p class="document-link__title">
-          {{ title }}
-        </p>
-        <div
-          :class="[
-            'document-link__label',
-            `document-link__label--${
-              label == 'important'
-                ? 'amber'
-                : label == 'required'
-                  ? 'vermilion'
-                  : label == 'Q&A'
-                    ? 'magenta'
-                    : ''
-            }`,
-          ]"
-        >
-          <p class="document-link__label-text">
-            {{
-              label == 'important'
-                ? '重要'
-                : label == 'required'
-                  ? '必読'
-                  : label == 'Q&A'
-                    ? 'Q&A'
-                    : ''
-            }}
-          </p>
-        </div>
-      </div>
-      <p class="document-link__text">
-        {{ text }}
-      </p>
-      <NuxtLink
-        class="document-link__link"
-        :to="href"
-      >全文をチェック→</NuxtLink>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.document-link {
-  overflow: hidden;
-  display: flex;
-
-  min-height: 150px;
-  border-radius: 20px;
-
-  background: rgb(217 217 217 / 20%);
-
-  @include m.tb {
-    min-height: 105px;
-  }
-
-  &__left {
-    position: relative;
-
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-
-    width: 286px;
-    height: inherit;
-    border-radius: 20px 0 0 20px;
-
-    @include m.tb {
-      width: 124px;
-    }
-
-    &::before {
-      content: '';
-
-      position: absolute;
-      inset: 0;
-
-      border: 1.5px solid transparent;
-      border-radius: 20px 0 0 20px;
-
-      background-image: linear-gradient(
-          135deg,
-          rgb(255 255 255 / 30%) 20px,
-          rgb(255 255 255 / 0%) 150px
-        ),
-        linear-gradient(to left, rgb(255 255 255 / 10%), rgb(255 255 255 / 10%));
-      background-clip: border-box, border-box;
-      background-origin: border-box, border-box;
-
-      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
-
-    &--green {
-      background-color: rgba(#43ffbd, 0.4);
-    }
-
-    &--cyan {
-      background-color: rgba(v.$vket-cyan, 0.4);
-    }
-
-    &--magenta {
-      background-color: rgba(v.$vket-magenta, 0.4);
-    }
-  }
-
-  &__icon {
-    width: 40px;
-    height: 40px;
-
-    @include m.sp {
-      width: 24px;
-      height: 24px;
-    }
-
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  &__right {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    gap: 8px;
-    justify-content: center;
-
-    width: 100px;
-    height: inherit;
-    padding: 18px 22px;
-  }
-
-  &__row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__title {
-    font-size: 20px;
-    font-weight: 700;
-    color: white;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__text {
-    font-size: 14px;
-    color: white;
-
-    @include m.sp {
-      font-size: 10px;
-    }
-  }
-
-  &__link {
-    font-size: 12px;
-    color: #43ffbd;
-    text-decoration: underline;
-
-    @include m.sp {
-      font-size: 10px;
-    }
-  }
-
-  &__label {
-    width: fit-content;
-    padding: 3px 5px;
-    border-radius: 6px;
-
-    @include m.sp {
-      border-radius: 4px;
-    }
-
-    &--amber {
-      background-color: rgba(v.$vket-amber, 0.6);
-    }
-
-    &--vermilion {
-      background-color: rgba(v.$vket-vermilion, 0.6);
-    }
-
-    &--magenta {
-      background-color: rgba(v.$vket-magenta, 0.6);
-    }
-  }
-
-  &__label-text {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1em;
-    color: white;
-
-    @include m.sp {
-      font-size: 10px;
-    }
-  }
-}
-</style>
-````
-
 ## File: layers/main/app/components/ha/HaFirstView.vue
 ````vue
 <template>
@@ -7958,7 +7590,7 @@ defineProps<{
     <h2 class="fv__title">
       <HaTypewriterText
         class="nowrap"
-        text="リアルとバーチャルの"
+        text="バーチャルとリアルの"
         :speed="80"
         :delay="500"
       />
@@ -8695,89 +8327,138 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
 </style>
 ````
 
-## File: layers/main/app/components/ht/HtAccessSection.vue
+## File: layers/main/app/components/ho/HoTheFooter.vue
 ````vue
 <script setup lang="ts">
-import HaInfoCard from '../ha/HaInfoCard.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
+import HaXIcon from '../ha/icons/HaXIcon.vue'
 </script>
 
+<!-- <i18n lang="yaml">
+ja:
+  mainlogo: ロゴ名サービス名
+en:
+  mainlogo: logo name
+</i18n> -->
+
 <template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="アクセス"
-      label="access"
-    />
-    <div class="access-flex">
-      <div class="access-flex__left map-container">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2914.8284432733867!2d141.3482173!3d43.0660756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5f0b299fc2c5a775%3A0xe3754b24ac5c10e4!2z44Ki44K544OG44KjNDU!5e0!3m2!1sja!2sjp!4v1780036570202!5m2!1sja!2sjp"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        />
+  <footer class="footer">
+    <div class="footer__upper">
+      <div class="footer__left">
+        <img
+          src=""
+          alt=""
+          class="footer__logo"
+        >
+        <nav class="footer__nav">
+          <NuxtLink
+            class="footer__link"
+            to="/documents/terms"
+          >利用規約</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/privacy-policy"
+          >プライバシー</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/code-of-conduct"
+          >行動規範</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/exhibition-guidline"
+          >出展ガイドライン</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/exhibition-terms"
+          >出展規約</NuxtLink>
+        </nav>
       </div>
-      <HaInfoCard class="access-flex__right" />
+      <div class="footer__x-logo">
+        <HaXIcon />
+      </div>
     </div>
-  </div>
+    <div class="footer__divider" />
+    <div class="footer__lower">
+      <p class="footer__copy">
+        🄫 2026 VketReal in 札幌 実行委員会. All rights reserved.
+      </p>
+    </div>
+  </footer>
 </template>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 @use '@/assets/styles/mixins' as m;
 
-.access-flex {
-  display: flex;
-  gap: 40px;
-
-  @include m.tb {
-    flex-direction: column;
-  }
+.footer {
+  padding: 88px 105px 0;
+  border-radius: 40px 40px 0 0;
+  background-color: rgb(25 25 25 / 100%);
 
   @include m.sp {
+    padding: 52px 32px 0;
+  }
+
+  &__upper {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 48px;
+  }
+
+  &__logo {
+    width: 120px;
+    height: 90px;
+    margin-bottom: 40px;
+    background-color: gray;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
     gap: 22px;
   }
 
-  &__left,
-  &__right {
+  &__link {
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    text-decoration: underline;
+
+    @include m.tb {
+      font-size: 12px;
+      text-decoration: none;
+    }
+  }
+
+  &__divider {
     width: 100%;
-  }
-}
-
-.map-container {
-  position: relative;
-  background-color: #ffffff70;
-
-  @include m.tb {
-    min-height: 480px;
+    height: 1px;
+    background-color: #8f8f8f;
   }
 
-  @include m.sp {
-    min-height: 240px;
+  &__x-logo {
+    width: 30px;
+
+    @include m.sp {
+      width: 16px;
+    }
   }
 
-  iframe {
-    position: absolute;
-    inset: 0;
-
-    width: auto;
-    width: 100%;
-    height: auto;
-    height: 100%;
-    border: none;
+  &__lower {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 78px;
   }
-}
 
-.mb-30 {
-  margin-bottom: 120px;
+  &__copy {
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    color: white;
+
+    @include m.sp {
+      font-size: 8px;
+    }
+  }
 }
 </style>
 ````
@@ -8965,227 +8646,323 @@ onMounted(() => {
 }
 ````
 
-## File: layers/main/app/assets/styles/_variables.scss
-````scss
-/* color palette */
-$violet: #b760eb; // Sidebar button
-$blue: #3ff; // button02, tag, link hover, #33FFFF
-$blue-1: #0c98da; // Sidebar button
-$yellow: #ffba00; // button01 hover, text link hover
-$orange: #ff8500; // button01, tag
-$green: #69b756; // Sidebar button
-$green-1: #47c6ae; // Sidebar button
-$green-2: #1b5e68; // form focus
-$red: #c43232; // alert
-$red-1: #46212a; // form error
-$pink: #ff4e8e; // button03, tag
-$pink-1: #f86464; // Sidebar button
-$gray: #737477; // Button disabled BG
-$black: #111827; // Body BG
-$black-1: #020e1c; // Header Footer BG
-$navy: #101e3c; // Sub BG
-$navy-1: #17385d; // Item Card BG
-$navy-2: #19477f; // Line
-$white: #fff;
-$white-1: rgba(#fff, 0.7);
+## File: layers/main/app/components/ha/HaDocumentLink.vue
+````vue
+<script setup lang="ts">
+defineProps<{
+  color: 'green' | 'cyan' | 'magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+  title: string
+  label: 'important' | 'required' | 'Q&A'
+  text: string
+  href: string
+}>()
+</script>
 
-/* vket color palette */
-$vket-dark-navy: #0f1b2e;
-$vket-cyan: #00d9ff;
-$vket-magenta: #ff006e;
-$vket-amber: #ffa500;
-$vket-vermilion: #ff4500;
-$vket-emerald: #43ffbd;
-$vket-white: #fff;
-$vket-gray: #a0a0a0;
-$vket-dark-purple: #2d1b4e; // デザイン要件定義には「薄紫」と記載されている
-$vket-pink: #ff1493;
-$vket-yellow-green: #7fff00;
-$vket-cherry-blossom: #ffb7c5;
-$vket-rich-navy: #001a4d;
-$vket-lime: #0f0;
-$vket-orange: #ff8c00;
-$vket-light-blue: #00bfff;
-$vket-deep-navy: #0a0f1a;
-$vket-light-purple: #dda0dd;
-$vket-ice-blue: #b0e0e6;
-$vket-light-cyan: #6dd3ff;
-$vket-light-magenta: #ff82b8;
-$vket-green: #258966;
-$vket-purple: #9747ff;
-$vket-emgreen: #62d9af;
+<template>
+  <div class="document-link">
+    <div :class="['document-link__left', `document-link__left--${color}`]">
+      <div class="document-link__icon">
+        <slot name="icon" />
+      </div>
+    </div>
+    <div class="document-link__right">
+      <div class="document-link__row">
+        <p class="document-link__title">
+          {{ title }}
+        </p>
+        <div
+          :class="[
+            'document-link__label',
+            `document-link__label--${
+              label == 'important'
+                ? 'amber'
+                : label == 'required'
+                  ? 'vermilion'
+                  : label == 'Q&A'
+                    ? 'magenta'
+                    : ''
+            }`,
+          ]"
+        >
+          <p class="document-link__label-text">
+            {{
+              label == 'important'
+                ? '重要'
+                : label == 'required'
+                  ? '必読'
+                  : label == 'Q&A'
+                    ? 'Q&A'
+                    : ''
+            }}
+          </p>
+        </div>
+      </div>
+      <p class="document-link__text">
+        {{ text }}
+      </p>
+      <NuxtLink
+        class="document-link__link"
+        :to="href"
+      >全文をチェック→</NuxtLink>
+    </div>
+  </div>
+</template>
 
-/* スタイルガイドにないcolor */
-$gray-1: #d1d1d1;
-$gray-2: #505050;
-$gray-3: #ffffff4d; // button
-$green-3: #33ffff80; // button
-$green-4: #228d92; // button
-$green-5: #2bc6ca; // button
-$blue-2: #353e49;
-$black-undercoat: rgb(0 0 0 / 70%);
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
-/* text color */
-$text-body: #fff;
-$text-link: #9a9daa;
-$text-note: #737477;
-$box-shadow: 5px 5px 5px rgba($gray-2, 0.2);
-
-/* SNS Brand Colors */
-$twitter: #1d9bf0;
-$facebook: #1877f2;
-$discord: #5865f2;
-$note: #41c9b4;
-$instagram-gradation: linear-gradient(to right, #febd1c, #f50200, #c10098);
-
-/* color role */
-$primary-color: $orange;
-$primary-hover-color: $yellow;
-$secondary-color: $blue;
-$secondary-hover-color: $pink;
-$base-background-color: #0f1b2e;
-$base-font-color: $vket-white;
-$sub-font-color: $vket-gray;
-$font-color-note: $text-note;
-$font-color-link: $text-link;
-$font-color-headline: $black;
-$font-color-placeholder: $text-link;
-$base-link-color: $text-link;
-$base-link-hover-color: $blue;
-$primary-button-default-color: $orange;
-$primary-button-active-color: $yellow;
-$secondary-button-default-color: $blue;
-$secondary-button-active-color: $pink;
-$button-disabled-color: $gray;
-
-/* early spring */
-$spring-background-color: $vket-dark-navy;
-$spring-accent-color-1: $vket-pink;
-$spring-accent-color-2: $vket-yellow-green;
-$spring-accent-color-3: $vket-cherry-blossom;
-
-/* summer */
-$summer-background-color: $vket-rich-navy;
-$summer-accent-color-1: $vket-lime;
-$summer-accent-color-2: $vket-orange;
-$summer-accent-color-3: $vket-light-blue;
-
-/* autumn */
-$autumn-background-color: $vket-dark-navy;
-$autumn-accent-color-1: $vket-cyan;
-$autumn-accent-color-2: $vket-magenta;
-$autumn-accent-color-3: $vket-vermilion;
-
-/* winter */
-$winter-background-color: $vket-deep-navy;
-$winter-accent-color-1: $vket-white;
-$winter-accent-color-2: $vket-light-purple;
-$winter-accent-color-3: $vket-ice-blue;
-
-/* font-settings */
-// 参考： https://ics.media/entry/200317/
-$base-font-family: 'Noto Sans JP', '游ゴシック', sans-serif;
-$base-font-weight: 400;
-$base-font-size: 16px;
-$h1-font-size: 4rem;
-$h2-font-size: 3rem;
-$h3-font-size: 2rem;
-$body-font-size: 1rem;
-$caption-font-size: 14px; // FIXME: base-font-sizeを10pxとして1.4remとすべきかもしれない。レスポンシブ対応によるbase-font-sizeの変動についてデザイナーに仕様を確認してフォントサイズの管理方法を決める。
-
-/* content width */
-$pc-content-max-width: 1920px;
-$pc-content-medium-width: 1280px;
-$pc-content-min-width: 1080px;
-$sp-query-width: 500px;
-$xs-query-width: 370px;
-$media-query-width: 769px;
-$side-menu-width: 90px;
-$side-menu-height-sp: 64px;
-
-/*
-  headerの高さはグローバルに定義したい。
-  headerをposition:fixedにすることによりmainにheaderの高さ分padding-topを設けたり
-  アンカーリンクのオフセット調整のために使用する
-*/
-$vket-header-height-pc: 80px;
-$vket-header-height-sp: 80px;
-
-// topページ用に追加
-$pc-content-body-width: 1470px;
-
-/* content height */
-$header-height-pc: 80px;
-$header-height-sp: 60px;
-$mypage-header-height-pc: 72px;
-$mypage-header-height-sp: 72px;
-
-/* space-settings */
-$space-base: 16px;
-$space-unit: 4px;
-
-/* vket space settings */
-$margin-between-sections-pc: 80px;
-$margin-between-sections-tablet: 60px;
-$margin-between-sections-sp: 40px;
-$padding-card-pc: 24px;
-$padding-card-sp: 16px;
-
-@function space($value) {
-  @return $value * $space-unit;
-}
-
-/* z-index-settings */
-$zindex-main: 1;
-$zindex-dialog: 100;
-$zindex-mypage-header: 200;
-$zindex-side-menu: $zindex-mypage-header + 1;
-$zindex-footer: $zindex-mypage-header + 2;
-$zindex-header: $zindex-mypage-header + 3;
-$zindex-side-menu-button: $zindex-mypage-header + 4;
-$zindex-toast: 300;
-$zindex-loading: 400;
-
-// todo: extend.scss 作成するか記述場所決める
-
-/* 各ページタイトルのデザイン */
-%title {
+.document-link {
+  overflow: hidden;
   display: flex;
-  font-size: 24px;
 
-  &::before {
-    content: '';
+  min-height: 150px;
+  border-radius: 20px;
 
-    display: block;
+  background: rgb(217 217 217 / 20%);
 
-    width: 5px;
-    margin-right: space(2);
+  @include m.tb {
+    min-height: 105px;
+  }
+
+  &__left {
+    position: relative;
+
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+
+    width: 286px;
+    height: inherit;
+    border-radius: 20px 0 0 20px;
+
+    @include m.tb {
+      width: 124px;
+    }
+
+    &::before {
+      content: '';
+
+      position: absolute;
+      inset: 0;
+
+      border: 1.5px solid transparent;
+      border-radius: 20px 0 0 20px;
+
+      background-image: linear-gradient(
+          135deg,
+          rgb(255 255 255 / 30%) 20px,
+          rgb(255 255 255 / 0%) 150px
+        ),
+        linear-gradient(to left, rgb(255 255 255 / 10%), rgb(255 255 255 / 10%));
+      background-clip: border-box, border-box;
+      background-origin: border-box, border-box;
+
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+
+    &--green {
+      background-color: rgba(#43ffbd, 0.4);
+    }
+
+    &--cyan {
+      background-color: rgba(v.$vket-cyan, 0.4);
+    }
+
+    &--magenta {
+      background-color: rgba(v.$vket-magenta, 0.4);
+    }
+  }
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+
+    @include m.sp {
+      width: 24px;
+      height: 24px;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 8px;
+    justify-content: center;
+
+    width: 100px;
+    height: inherit;
+    padding: 18px 22px;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__text {
+    font-size: 14px;
+    color: white;
+
+    @include m.sp {
+      font-size: 10px;
+    }
+  }
+
+  &__link {
+    font-size: 12px;
+    color: #43ffbd;
+    text-decoration: underline;
+
+    @include m.sp {
+      font-size: 10px;
+    }
+  }
+
+  &__label {
+    width: fit-content;
+    padding: 3px 5px;
     border-radius: 6px;
 
-    background: $orange;
+    @include m.sp {
+      border-radius: 4px;
+    }
+
+    &--amber {
+      background-color: rgba(v.$vket-amber, 0.6);
+    }
+
+    &--vermilion {
+      background-color: rgba(v.$vket-vermilion, 0.6);
+    }
+
+    &--magenta {
+      background-color: rgba(v.$vket-magenta, 0.6);
+    }
+  }
+
+  &__label-text {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1em;
+    color: white;
+
+    @include m.sp {
+      font-size: 10px;
+    }
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ht/HtAccessSection.vue
+````vue
+<script setup lang="ts">
+import HaInfoCard from '../ha/HaInfoCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="アクセス"
+      label="access"
+    />
+    <div class="access-flex">
+      <div class="access-flex__left map-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2914.8284432733867!2d141.3482173!3d43.0660756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5f0b299fc2c5a775%3A0xe3754b24ac5c10e4!2z44Ki44K544OG44KjNDU!5e0!3m2!1sja!2sjp!4v1780036570202!5m2!1sja!2sjp"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        />
+      </div>
+      <HaInfoCard class="access-flex__right" />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
+.access-flex {
+  display: flex;
+  gap: 40px;
+
+  @include m.tb {
+    flex-direction: column;
+  }
+
+  @include m.sp {
+    gap: 22px;
+  }
+
+  &__left,
+  &__right {
+    width: 100%;
   }
 }
 
-/* スクロールバーのデザイン */
-// note: scrollbar-color はソリッドカラーのみ指定可能なので一応旧構文で書いている
-%scroll-bar {
-  // 幅
-  &::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+.map-container {
+  position: relative;
+  background-color: #ffffff70;
+
+  @include m.tb {
+    min-height: 480px;
   }
 
-  // 背景
-  &::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 10px $green-4;
+  @include m.sp {
+    min-height: 240px;
   }
 
-  // ボタン
-  &::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: $green-5;
+  iframe {
+    position: absolute;
+    inset: 0;
+
+    width: auto;
+    width: 100%;
+    height: auto;
+    height: 100%;
+    border: none;
   }
 }
+
+.mb-30 {
+  margin-bottom: 120px;
+}
+</style>
 ````
 
 ## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
@@ -9982,6 +9759,229 @@ export function useCrowdData() {
 }
 ````
 
+## File: layers/main/app/assets/styles/_variables.scss
+````scss
+/* color palette */
+$violet: #b760eb; // Sidebar button
+$blue: #3ff; // button02, tag, link hover, #33FFFF
+$blue-1: #0c98da; // Sidebar button
+$yellow: #ffba00; // button01 hover, text link hover
+$orange: #ff8500; // button01, tag
+$green: #69b756; // Sidebar button
+$green-1: #47c6ae; // Sidebar button
+$green-2: #1b5e68; // form focus
+$red: #c43232; // alert
+$red-1: #46212a; // form error
+$pink: #ff4e8e; // button03, tag
+$pink-1: #f86464; // Sidebar button
+$gray: #737477; // Button disabled BG
+$black: #111827; // Body BG
+$black-1: #020e1c; // Header Footer BG
+$navy: #101e3c; // Sub BG
+$navy-1: #17385d; // Item Card BG
+$navy-2: #19477f; // Line
+$white: #fff;
+$white-1: rgba(#fff, 0.7);
+
+/* vket color palette */
+$vket-dark-navy: #0f1b2e;
+$vket-cyan: #00d9ff;
+$vket-magenta: #ff006e;
+$vket-amber: #ffa500;
+$vket-vermilion: #ff4500;
+$vket-emerald: #43ffbd;
+$vket-white: #fff;
+$vket-gray: #a0a0a0;
+$vket-dark-purple: #2d1b4e; // デザイン要件定義には「薄紫」と記載されている
+$vket-pink: #ff1493;
+$vket-yellow-green: #7fff00;
+$vket-cherry-blossom: #ffb7c5;
+$vket-rich-navy: #001a4d;
+$vket-lime: #0f0;
+$vket-orange: #ff8c00;
+$vket-light-blue: #00bfff;
+$vket-deep-navy: #0a0f1a;
+$vket-light-purple: #dda0dd;
+$vket-ice-blue: #b0e0e6;
+$vket-light-cyan: #6dd3ff;
+$vket-light-magenta: #ff82b8;
+$vket-green: #258966;
+$vket-purple: #9747ff;
+$vket-emgreen: #62d9af;
+
+/* スタイルガイドにないcolor */
+$gray-1: #d1d1d1;
+$gray-2: #505050;
+$gray-3: #ffffff4d; // button
+$green-3: #33ffff80; // button
+$green-4: #228d92; // button
+$green-5: #2bc6ca; // button
+$blue-2: #353e49;
+$black-undercoat: rgb(0 0 0 / 70%);
+
+/* text color */
+$text-body: #fff;
+$text-link: #9a9daa;
+$text-note: #737477;
+$box-shadow: 5px 5px 5px rgba($gray-2, 0.2);
+
+/* SNS Brand Colors */
+$twitter: #1d9bf0;
+$facebook: #1877f2;
+$discord: #5865f2;
+$note: #41c9b4;
+$instagram-gradation: linear-gradient(to right, #febd1c, #f50200, #c10098);
+
+/* color role */
+$primary-color: $orange;
+$primary-hover-color: $yellow;
+$secondary-color: $blue;
+$secondary-hover-color: $pink;
+$base-background-color: #0f1b2e;
+$base-font-color: $vket-white;
+$sub-font-color: $vket-gray;
+$font-color-note: $text-note;
+$font-color-link: $text-link;
+$font-color-headline: $black;
+$font-color-placeholder: $text-link;
+$base-link-color: $text-link;
+$base-link-hover-color: $blue;
+$primary-button-default-color: $orange;
+$primary-button-active-color: $yellow;
+$secondary-button-default-color: $blue;
+$secondary-button-active-color: $pink;
+$button-disabled-color: $gray;
+
+/* early spring */
+$spring-background-color: $vket-dark-navy;
+$spring-accent-color-1: $vket-pink;
+$spring-accent-color-2: $vket-yellow-green;
+$spring-accent-color-3: $vket-cherry-blossom;
+
+/* summer */
+$summer-background-color: $vket-rich-navy;
+$summer-accent-color-1: $vket-lime;
+$summer-accent-color-2: $vket-orange;
+$summer-accent-color-3: $vket-light-blue;
+
+/* autumn */
+$autumn-background-color: $vket-dark-navy;
+$autumn-accent-color-1: $vket-cyan;
+$autumn-accent-color-2: $vket-magenta;
+$autumn-accent-color-3: $vket-vermilion;
+
+/* winter */
+$winter-background-color: $vket-deep-navy;
+$winter-accent-color-1: $vket-white;
+$winter-accent-color-2: $vket-light-purple;
+$winter-accent-color-3: $vket-ice-blue;
+
+/* font-settings */
+// 参考： https://ics.media/entry/200317/
+$base-font-family: 'Noto Sans JP', '游ゴシック', sans-serif;
+$base-font-weight: 400;
+$base-font-size: 16px;
+$h1-font-size: 4rem;
+$h2-font-size: 3rem;
+$h3-font-size: 2rem;
+$body-font-size: 1rem;
+$caption-font-size: 14px; // FIXME: base-font-sizeを10pxとして1.4remとすべきかもしれない。レスポンシブ対応によるbase-font-sizeの変動についてデザイナーに仕様を確認してフォントサイズの管理方法を決める。
+
+/* content width */
+$pc-content-max-width: 1920px;
+$pc-content-medium-width: 1280px;
+$pc-content-min-width: 1080px;
+$sp-query-width: 500px;
+$xs-query-width: 370px;
+$media-query-width: 769px;
+$side-menu-width: 90px;
+$side-menu-height-sp: 64px;
+
+/*
+  headerの高さはグローバルに定義したい。
+  headerをposition:fixedにすることによりmainにheaderの高さ分padding-topを設けたり
+  アンカーリンクのオフセット調整のために使用する
+*/
+$vket-header-height-pc: 80px;
+$vket-header-height-sp: 80px;
+
+// topページ用に追加
+$pc-content-body-width: 1470px;
+
+/* content height */
+$header-height-pc: 80px;
+$header-height-sp: 60px;
+$mypage-header-height-pc: 72px;
+$mypage-header-height-sp: 72px;
+
+/* space-settings */
+$space-base: 16px;
+$space-unit: 4px;
+
+/* vket space settings */
+$margin-between-sections-pc: 80px;
+$margin-between-sections-tablet: 60px;
+$margin-between-sections-sp: 40px;
+$padding-card-pc: 24px;
+$padding-card-sp: 16px;
+
+@function space($value) {
+  @return $value * $space-unit;
+}
+
+/* z-index-settings */
+$zindex-main: 1;
+$zindex-dialog: 100;
+$zindex-mypage-header: 200;
+$zindex-side-menu: $zindex-mypage-header + 1;
+$zindex-footer: $zindex-mypage-header + 2;
+$zindex-header: $zindex-mypage-header + 3;
+$zindex-side-menu-button: $zindex-mypage-header + 4;
+$zindex-toast: 300;
+$zindex-loading: 400;
+
+// todo: extend.scss 作成するか記述場所決める
+
+/* 各ページタイトルのデザイン */
+%title {
+  display: flex;
+  font-size: 24px;
+
+  &::before {
+    content: '';
+
+    display: block;
+
+    width: 5px;
+    margin-right: space(2);
+    border-radius: 6px;
+
+    background: $orange;
+  }
+}
+
+/* スクロールバーのデザイン */
+// note: scrollbar-color はソリッドカラーのみ指定可能なので一応旧構文で書いている
+%scroll-bar {
+  // 幅
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  // 背景
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 10px $green-4;
+  }
+
+  // ボタン
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: $green-5;
+  }
+}
+````
+
 ## File: layers/main/app/components/ha/HaAccordionItem.vue
 ````vue
 <script setup lang="ts">
@@ -10415,205 +10415,6 @@ onMounted(() => {
   &__child {
     width: 100%;
     height: 100%;
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ht/HtExhibitionSection.vue
-````vue
-<script setup lang="ts">
-import HaAboutCard from '../ha/HaAboutCard.vue'
-import HaDocumentLink from '../ha/HaDocumentLink.vue'
-import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
-import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
-import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue'
-import HaCircledQuestionIcon from '../ha/icons/HaCircledQuestionIcon.vue'
-import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
-import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const list2Ref = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value || !list2Ref.value) return
-  const items = listRef.value.querySelectorAll('.card-flex__child')
-  const items2 = list2Ref.value.querySelectorAll('.link-list__child')
-  fadeInUpStagger(Array.from(items))
-  fadeInUpStagger(Array.from(items2))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="出展情報"
-      label="exhibition"
-    />
-    <p class="subtitle">
-      出展カテゴリ
-    </p>
-    <div
-      ref="listRef"
-      class="card-flex mb-24"
-    >
-      <div class="card-flex__child">
-        <HaAboutCard color="amber">
-          <template #icon>
-            <HaStarShineIcon />
-          </template>
-          <template #title>
-            サークル出展
-          </template>
-          <template #body>
-            VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
-          </template>
-        </HaAboutCard>
-      </div>
-      <div class="card-flex__child">
-        <HaAboutCard
-          icon-url="/icons/tabler_world.svg"
-          color="light-cyan"
-        >
-          <template #icon>
-            <HaWorldIcon />
-          </template>
-          <template #title>
-            一般展示
-          </template>
-          <template #body>
-            XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
-          </template>
-        </HaAboutCard>
-      </div>
-      <div class="card-flex__child">
-        <HaAboutCard
-          icon-url="/icons/boxicons_community.svg"
-          color="light-magenta"
-        >
-          <template #icon>
-            <HaCommunityIcon />
-          </template>
-          <template #title>
-            企業出展
-          </template>
-          <template #body>
-            企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
-          </template>
-        </HaAboutCard>
-      </div>
-    </div>
-    <p class="subtitle">
-      出展者向けリソース
-    </p>
-    <div
-      ref="list2Ref"
-      class="link-list"
-    >
-      <HaDocumentLink
-        title="出展ガイドライン"
-        label="important"
-        color="green"
-        text="出展に必要なルール・準備事項をまとめた公式ガイド"
-        class="link-list__child"
-        href="/documents/exhibition-guidline"
-      >
-        <template #icon>
-          <HaOpenBookIcon />
-        </template>
-      </HaDocumentLink>
-      <HaDocumentLink
-        title="出展規約"
-        label="required"
-        color="cyan"
-        text="出展者が遵守すべき規約・利用条件"
-        class="link-list__child"
-        href="/documents/exhibition-terms"
-      >
-        <template #icon>
-          <HaBalanceIcon />
-        </template>
-      </HaDocumentLink>
-      <HaDocumentLink
-        title="出展ガイドライン"
-        label="Q&A"
-        color="magenta"
-        text="出展に必要なルール・準備事項をまとめた公式ガイド"
-        class="link-list__child"
-        href="/documents/exhibition-guidline"
-      >
-        <template #icon>
-          <HaCircledQuestionIcon />
-        </template>
-      </HaDocumentLink>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-
-  @include m.sp {
-    margin-bottom: 48px;
-  }
-}
-
-.card-flex {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 330px));
-  gap: 32px;
-  justify-content: center;
-
-  max-width: 1080px;
-  margin-right: auto;
-  margin-left: auto;
-
-  @include m.tb {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  &__child {
-    @include m.tb {
-      width: 60%;
-      margin-right: auto;
-      margin-left: auto;
-    }
-
-    @include m.sp {
-      width: 100%;
-    }
-  }
-}
-
-.link-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  @include m.tb {
-    align-items: center;
-  }
-
-  &__child {
-    @include m.tb {
-      width: 60%;
-    }
-
-    @include m.sp {
-      width: 100%;
-    }
   }
 }
 </style>
@@ -11391,6 +11192,205 @@ onMounted(() => {
     }
   }
 }
+````
+
+## File: layers/main/app/components/ht/HtExhibitionSection.vue
+````vue
+<script setup lang="ts">
+import HaAboutCard from '../ha/HaAboutCard.vue'
+import HaDocumentLink from '../ha/HaDocumentLink.vue'
+import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
+import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
+import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue'
+import HaCircledQuestionIcon from '../ha/icons/HaCircledQuestionIcon.vue'
+import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
+import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const list2Ref = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value || !list2Ref.value) return
+  const items = listRef.value.querySelectorAll('.card-flex__child')
+  const items2 = list2Ref.value.querySelectorAll('.link-list__child')
+  fadeInUpStagger(Array.from(items))
+  fadeInUpStagger(Array.from(items2))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="出展情報"
+      label="exhibition"
+    />
+    <p class="subtitle">
+      出展カテゴリ
+    </p>
+    <div
+      ref="listRef"
+      class="card-flex mb-24"
+    >
+      <div class="card-flex__child">
+        <HaAboutCard color="amber">
+          <template #icon>
+            <HaStarShineIcon />
+          </template>
+          <template #title>
+            サークル出展
+          </template>
+          <template #body>
+            VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
+          </template>
+        </HaAboutCard>
+      </div>
+      <div class="card-flex__child">
+        <HaAboutCard
+          icon-url="/icons/tabler_world.svg"
+          color="light-cyan"
+        >
+          <template #icon>
+            <HaWorldIcon />
+          </template>
+          <template #title>
+            一般展示
+          </template>
+          <template #body>
+            XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
+          </template>
+        </HaAboutCard>
+      </div>
+      <div class="card-flex__child">
+        <HaAboutCard
+          icon-url="/icons/boxicons_community.svg"
+          color="light-magenta"
+        >
+          <template #icon>
+            <HaCommunityIcon />
+          </template>
+          <template #title>
+            企業出展
+          </template>
+          <template #body>
+            企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
+          </template>
+        </HaAboutCard>
+      </div>
+    </div>
+    <p class="subtitle">
+      出展者向けリソース
+    </p>
+    <div
+      ref="list2Ref"
+      class="link-list"
+    >
+      <HaDocumentLink
+        title="出展ガイドライン"
+        label="important"
+        color="green"
+        text="出展に必要なルール・準備事項をまとめた公式ガイド"
+        class="link-list__child"
+        href="/documents/exhibition-guidline"
+      >
+        <template #icon>
+          <HaOpenBookIcon />
+        </template>
+      </HaDocumentLink>
+      <HaDocumentLink
+        title="出展規約"
+        label="required"
+        color="cyan"
+        text="出展者が遵守すべき規約・利用条件"
+        class="link-list__child"
+        href="/documents/exhibition-terms"
+      >
+        <template #icon>
+          <HaBalanceIcon />
+        </template>
+      </HaDocumentLink>
+      <HaDocumentLink
+        title="出展ガイドライン"
+        label="Q&A"
+        color="magenta"
+        text="出展に必要なルール・準備事項をまとめた公式ガイド"
+        class="link-list__child"
+        href="/documents/exhibition-guidline"
+      >
+        <template #icon>
+          <HaCircledQuestionIcon />
+        </template>
+      </HaDocumentLink>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
+}
+
+.card-flex {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 330px));
+  gap: 32px;
+  justify-content: center;
+
+  max-width: 1080px;
+  margin-right: auto;
+  margin-left: auto;
+
+  @include m.tb {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  &__child {
+    @include m.tb {
+      width: 60%;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    @include m.sp {
+      width: 100%;
+    }
+  }
+}
+
+.link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @include m.tb {
+    align-items: center;
+  }
+
+  &__child {
+    @include m.tb {
+      width: 60%;
+    }
+
+    @include m.sp {
+      width: 100%;
+    }
+  }
+}
+</style>
 ````
 
 ## File: layers/main/app/components/ht/HtTop.vue

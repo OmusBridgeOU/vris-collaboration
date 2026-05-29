@@ -3,7 +3,7 @@
     <h2 class="fv__title">
       <HaTypewriterText
         class="nowrap"
-        text="リアルとバーチャルの"
+        text="バーチャルとリアルの"
         :speed="80"
         :delay="500"
       />
