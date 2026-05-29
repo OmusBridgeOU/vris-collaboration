@@ -222,6 +222,8 @@ layers/
       favicon.ico
       kv.png
     server/
+      middleware/
+        basicAuth.ts
       tsconfig.json
     .nuxtrc
     .stylelintrc.mjs
@@ -235,6 +237,26 @@ layers/
 ```
 
 # Files
+
+## File: layers/main/server/middleware/basicAuth.ts
+````typescript
+export default defineEventHandler((event) => {
+  const header = getRequestHeader(event, 'authorization')
+
+  const isValid = (() => {
+    if (!header?.startsWith('Basic ')) return false
+    const base64 = header.slice(6)
+    const decoded = Buffer.from(base64, 'base64').toString('utf-8')
+    const [user, pass] = decoded.split(':')
+    return user === process.env.BASIC_AUTH_USER && pass === process.env.BASIC_AUTH_PASS
+  })()
+
+  if (!isValid) {
+    setResponseHeader(event, 'WWW-Authenticate', 'Basic realm="Restricted"')
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+  }
+})
+````
 
 ## File: layers/main/@types/auto-imports.d.ts
 ````typescript
@@ -3148,7 +3170,7 @@ export const useGsapFadeIn = () => {
 ````vue
 <template>
   <div class="layout -default">
-    <HoTheHeader />
+    <HoTheHeader :nav-links="[]"/>
     <slot />
     <HoTheFooter />
   </div>
