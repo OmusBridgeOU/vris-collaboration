@@ -221,6 +221,7 @@ layers/
       _robots.txt
       favicon.ico
       kv.png
+      vketreal_in_sapporo_logo_dark.png
     server/
       middleware/
         basicAuth.ts
@@ -241,6 +242,10 @@ layers/
 ## File: layers/main/server/middleware/basicAuth.ts
 ````typescript
 export default defineEventHandler((event) => {
+  // プリレンダリング時の内部リクエストはスキップ
+  const url = getRequestURL(event).pathname
+  if (url.startsWith('/__nuxt') || url.startsWith('/_nuxt')) return
+
   const header = getRequestHeader(event, 'authorization')
 
   const isValid = (() => {
@@ -248,7 +253,7 @@ export default defineEventHandler((event) => {
     const base64 = header.slice(6)
     const decoded = Buffer.from(base64, 'base64').toString('utf-8')
     const [user, pass] = decoded.split(':')
-    return user === process.env.BASIC_AUTH_USER && pass === process.env.BASIC_AUTH_PASS
+    return user === "" && pass === ""
   })()
 
   if (!isValid) {
@@ -3166,23 +3171,6 @@ export const useGsapFadeIn = () => {
 }
 ````
 
-## File: layers/main/app/layouts/default.vue
-````vue
-<template>
-  <div class="layout -default">
-    <HoTheHeader :nav-links="[]"/>
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-.layout.-default {
-  overflow-x: hidden;
-}
-</style>
-````
-
 ## File: layers/main/app/middleware/.gitkeep
 ````
 
@@ -5648,6 +5636,8 @@ onUnmounted(() => {
 
   width: 100%;
   height: 100%;
+
+  opacity: 0.2;
 }
 </style>
 ````
@@ -5718,7 +5708,10 @@ en:
   <div class="header__wrapper">
     <header class="ho-the-header">
       <div class="ho-the-header__left">
-        <div class="ho-the-header__logo" />
+        <img
+          class="ho-the-header__logo"
+          src="/vketreal_in_sapporo_logo_dark.png"
+        >
       </div>
       <div class="ho-the-header__right">
         <nav class="ho-the-header__nav">
@@ -5866,17 +5859,8 @@ watch(isPanelOpen, (val) => {
   width: 100%;
   height: 100%;
   padding: 8px 10px;
-  border: 1px solid rgb(255 255 255 / 75%);
-  border-radius: 100px;
-
-  background-color: rgb(255 255 255 / 20%);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  box-shadow: inset 0 0 16px rgb(255 255 255 / 60%),
-    0 8px 12px 8px rgb(black, 0.2);
 
   &__logo {
-    width: 36px;
     height: 36px;
     border-radius: 100px;
   }
@@ -6079,6 +6063,23 @@ onMounted(() => {
       grid-column: 1 / -1;
     }
   }
+}
+</style>
+````
+
+## File: layers/main/app/layouts/default.vue
+````vue
+<template>
+  <div class="layout -default">
+    <HoTheHeader :nav-links="[]"/>
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.layout.-default {
+  overflow-x: hidden;
 }
 </style>
 ````
@@ -7593,6 +7594,15 @@ export default defineNuxtConfig({
   },
 
   i18n: nuxtI18nOptions,
+
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
+        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
+      },
+    },
+  },
 })
 ````
 
@@ -8535,7 +8545,7 @@ onMounted(() => {
     "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
     "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
     "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
-    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
+    "build": "VITE_OUTPUT_ENV=production nuxt build",
     "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
     "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
     "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",

@@ -9,7 +9,10 @@ en:
   <div class="header__wrapper">
     <header class="ho-the-header">
       <div class="ho-the-header__left">
-        <div class="ho-the-header__logo" />
+        <img
+          class="ho-the-header__logo"
+          src="/vketreal_in_sapporo_logo_dark.png"
+        >
       </div>
       <div class="ho-the-header__right">
         <nav class="ho-the-header__nav">
@@ -157,17 +160,8 @@ watch(isPanelOpen, (val) => {
   width: 100%;
   height: 100%;
   padding: 8px 10px;
-  border: 1px solid rgb(255 255 255 / 75%);
-  border-radius: 100px;
-
-  background-color: rgb(255 255 255 / 20%);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  box-shadow: inset 0 0 16px rgb(255 255 255 / 60%),
-    0 8px 12px 8px rgb(black, 0.2);
 
   &__logo {
-    width: 36px;
     height: 36px;
     border-radius: 100px;
   }
