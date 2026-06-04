@@ -5,7 +5,7 @@
   >
     <div
       class="hero__bg"
-      style="background-image: url("/kv.png")"
+      style="background-image: url('/kv.png')"
     />
     <img
       src="/kv.png"

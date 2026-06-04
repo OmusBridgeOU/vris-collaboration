@@ -254,7 +254,7 @@ export default defineEventHandler((event) => {
     const base64 = header.slice(6)
     const decoded = Buffer.from(base64, 'base64').toString('utf-8')
     const [user, pass] = decoded.split(':')
-    return user === "a" && pass === "b"
+    return user === process.env.BASIC_AUTH_USER && pass === process.env.BASIC_AUTH_PASS
   })()
 
   if (!isValid) {
@@ -3055,68 +3055,6 @@ defineExpose({ swiperInstance })
 </style>
 ````
 
-## File: layers/main/app/components/ht/HtHeroSection.vue
-````vue
-<template>
-  <div
-    id="gsap-fv"
-    class="hero"
-  >
-    <div
-      class="hero__bg"
-      style="background-image: url("/kv.png")"
-    />
-    <img
-      src="/kv.png"
-      alt="Vket Real in 札幌 2026 Autumnのキービジュアル"
-      class="hero__kv"
-    >
-  </div>
-</template>
-
-<style lang="scss" scoped>
-.hero {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100svw;
-  height: 100svh;
-
-  clip-path: inset(0);
-
-  &__bg {
-    position: absolute;
-    z-index: 1;
-    inset: 0;
-    transform: scale(1.2);
-
-    overflow: hidden;
-
-    width: 100%;
-    height: 100%;
-
-    background-position: center;
-    background-size: cover;
-    filter: blur(8px);
-  }
-
-  &__kv {
-    z-index: 2;
-
-    overflow: hidden;
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-  }
-}
-</style>
-````
-
 ## File: layers/main/app/composables/useApi.ts
 ````typescript
 /**
@@ -3147,130 +3085,6 @@ export default function useApi<K extends RepositoryKey>(endpoint: K) {
   const repository = ref(_getRepo(endpoint))
   return {
     repository,
-  }
-}
-````
-
-## File: layers/main/app/composables/useGsapFadeIn.ts
-````typescript
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-export const useGsapFadeIn = () => {
-  const fadeInUp = (
-    target: string | Element | Ref<Element | null>,
-    options?: { delay?: number, duration?: number, distance?: number },
-  ) => {
-    const el = isRef(target) ? target.value : target
-    if (!el) return
-
-    gsap.fromTo(
-      el,
-      {
-        opacity: 0,
-        y: options?.distance ?? 40,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: options?.duration ?? 0.8,
-        delay: options?.delay ?? 0,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: el as Element,
-          start: 'top 75%',
-          once: true,
-        },
-      },
-    )
-  }
-
-  // 複数要素を順番にアニメーション（stagger）
-  const fadeInUpStagger = (
-    targets: string | Element[],
-    options?: { stagger?: number, duration?: number, delay?: number, distance?: number },
-  ) => {
-    gsap.fromTo(
-      targets,
-      { opacity: 0, y: options?.distance ?? 40 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: options?.duration ?? 0.8,
-        delay: options?.delay ?? 0,
-        ease: 'power2.out',
-        stagger: options?.stagger ?? 0.15,
-        scrollTrigger: {
-          trigger: (typeof targets === 'string' ? targets : targets[0]) as Element,
-          start: 'top 85%',
-          once: true,
-        },
-      },
-    )
-  }
-
-  // FirstViewのスクロールに連動してblurをかける
-  const firstViewBlur = (
-    target: string | Element | Ref<Element | null>,
-    options?: { maxBlur?: number },
-  ) => {
-    gsap.registerPlugin(ScrollTrigger)
-
-    const el = isRef(target) ? target.value : target
-    if (!el) return
-
-    gsap.to(el, {
-      filter: `blur(${options?.maxBlur ?? 24}px)`,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: el as Element,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      },
-    })
-  }
-
-  // FirstViewが画面外に出たらヘッダーを出現させる
-  const headerRevealOnScroll = (
-    target: string | Element | Ref<Element | null>,
-    trigger: string | Element | Ref<Element | null>,
-    options?: { duration?: number },
-  ) => {
-    gsap.registerPlugin(ScrollTrigger)
-
-    const targetEl = isRef(target) ? target.value : target
-    const triggerEl = isRef(trigger) ? trigger.value : trigger
-    if (!targetEl || !triggerEl) return
-
-    gsap.fromTo(
-      targetEl,
-      { yPercent: -100, autoAlpha: 0 },
-      {
-        yPercent: 0,
-        autoAlpha: 1,
-        duration: options?.duration ?? 0.4,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: triggerEl as Element,
-          start: 'bottom top',
-          toggleActions: 'play none none reverse',
-        },
-      },
-    )
-  }
-
-  // ScrollTriggerを全て破棄（ページ離脱時に呼ぶ）
-  const destroyScrollTriggers = () => {
-    ScrollTrigger.getAll().forEach(t => t.kill())
-  }
-
-  return {
-    fadeInUp,
-    fadeInUpStagger,
-    firstViewBlur,
-    headerRevealOnScroll,
-    destroyScrollTriggers,
   }
 }
 ````
@@ -5566,6 +5380,68 @@ defineProps<{
 </style>
 ````
 
+## File: layers/main/app/components/ht/HtHeroSection.vue
+````vue
+<template>
+  <div
+    id="gsap-fv"
+    class="hero"
+  >
+    <div
+      class="hero__bg"
+      style="background-image: url('/kv.png')"
+    />
+    <img
+      src="/kv.png"
+      alt="Vket Real in 札幌 2026 Autumnのキービジュアル"
+      class="hero__kv"
+    >
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.hero {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100svw;
+  height: 100svh;
+
+  clip-path: inset(0);
+
+  &__bg {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    transform: scale(1.2);
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    background-position: center;
+    background-size: cover;
+    filter: blur(8px);
+  }
+
+  &__kv {
+    z-index: 2;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+  }
+}
+</style>
+````
+
 ## File: layers/main/app/components/ht/HtQandASection.vue
 ````vue
 <script setup lang="ts">
@@ -5644,6 +5520,130 @@ onMounted(() => {
 </style>
 ````
 
+## File: layers/main/app/composables/useGsapFadeIn.ts
+````typescript
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+export const useGsapFadeIn = () => {
+  const fadeInUp = (
+    target: string | Element | Ref<Element | null>,
+    options?: { delay?: number, duration?: number, distance?: number },
+  ) => {
+    const el = isRef(target) ? target.value : target
+    if (!el) return
+
+    gsap.fromTo(
+      el,
+      {
+        opacity: 0,
+        y: options?.distance ?? 40,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: options?.duration ?? 0.8,
+        delay: options?.delay ?? 0,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: el as Element,
+          start: 'top 75%',
+          once: true,
+        },
+      },
+    )
+  }
+
+  // 複数要素を順番にアニメーション（stagger）
+  const fadeInUpStagger = (
+    targets: string | Element[],
+    options?: { stagger?: number, duration?: number, delay?: number, distance?: number },
+  ) => {
+    gsap.fromTo(
+      targets,
+      { opacity: 0, y: options?.distance ?? 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: options?.duration ?? 0.8,
+        delay: options?.delay ?? 0,
+        ease: 'power2.out',
+        stagger: options?.stagger ?? 0.15,
+        scrollTrigger: {
+          trigger: (typeof targets === 'string' ? targets : targets[0]) as Element,
+          start: 'top 85%',
+          once: true,
+        },
+      },
+    )
+  }
+
+  // FirstViewのスクロールに連動してblurをかける
+  const firstViewBlur = (
+    target: string | Element | Ref<Element | null>,
+    options?: { maxBlur?: number },
+  ) => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    const el = isRef(target) ? target.value : target
+    if (!el) return
+
+    gsap.to(el, {
+      filter: `blur(${options?.maxBlur ?? 24}px)`,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: el as Element,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    })
+  }
+
+  // FirstViewが画面外に出たらヘッダーを出現させる
+  const headerRevealOnScroll = (
+    target: string | Element | Ref<Element | null>,
+    trigger: string | Element | Ref<Element | null>,
+    options?: { duration?: number },
+  ) => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    const targetEl = isRef(target) ? target.value : target
+    const triggerEl = isRef(trigger) ? trigger.value : trigger
+    if (!targetEl || !triggerEl) return
+
+    gsap.fromTo(
+      targetEl,
+      { yPercent: -100, autoAlpha: 0 },
+      {
+        yPercent: 0,
+        autoAlpha: 1,
+        duration: options?.duration ?? 0.4,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: triggerEl as Element,
+          start: 'bottom top',
+          toggleActions: 'play none none reverse',
+        },
+      },
+    )
+  }
+
+  // ScrollTriggerを全て破棄（ページ離脱時に呼ぶ）
+  const destroyScrollTriggers = () => {
+    ScrollTrigger.getAll().forEach(t => t.kill())
+  }
+
+  return {
+    fadeInUp,
+    fadeInUpStagger,
+    firstViewBlur,
+    headerRevealOnScroll,
+    destroyScrollTriggers,
+  }
+}
+````
+
 ## File: layers/main/app/layouts/default.vue
 ````vue
 <template>
@@ -5675,77 +5675,6 @@ onMounted(() => {
 import type { NavLink } from '../components/ho/HoTheHeader.vue'
 
 const navLinks: NavLink[] = [{ type: 'link', href: '/', text: 'TOPページ' }]
-</script>
-
-<style lang="scss" scoped>
-.layout.-top {
-  overflow-x: hidden;
-}
-</style>
-````
-
-## File: layers/main/app/layouts/top.vue
-````vue
-<template>
-  <div class="layout -top">
-    <HoTheHeader :nav-links="navLinks" />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<script setup lang="ts">
-import type { NavLink } from '../components/ho/HoTheHeader.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const navLinks: NavLink[] = [
-  // { type: 'link', href: '/', text: 'TOPページ' },
-  { type: 'anchor', href: 'quick-access', text: '参加者向け重要情報' },
-  { type: 'anchor', href: 'about', text: 'VketReal in 札幌とは' },
-  // { type: 'anchor', href: 'news', text: 'お知らせ' },
-  // { type: 'anchor', href: 'contents', text: '企画・コンテンツ' },
-  // { type: 'anchor', href: 'schedule', text: '開催スケジュール' },
-  { type: 'anchor', href: 'exhibition', text: '出展情報' },
-  // { type: 'anchor', href: 'access', text: 'アクセス' },
-  { type: 'anchor', href: 'tickets', text: 'チケット' },
-  { type: 'anchor', href: 'qa', text: 'よくある質問' },
-  // { type: 'anchor', href: 'code-of-conduct', text: '行動規範' },
-  // { type: 'anchor', href: 'related-events', text: '関連イベント' },
-  // { type: 'anchor', href: 'sponsors-and-partners', text: 'ご協力' },
-  // { type: 'anchor', href: 'contact', text: 'お問い合わせ' },
-]
-
-const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()
-const route = useRoute()
-
-onMounted(() => {
-  initScrollEffects()
-})
-
-// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
-watch(() => route.path, () => {
-  destroyScrollTriggers()
-  nextTick(() => initScrollEffects())
-})
-
-onUnmounted(() => {
-  destroyScrollTriggers()
-})
-
-const initScrollEffects = () => {
-  const firstView = document.querySelector('#gsap-fv')
-  const header = document.querySelector('#gsap-header')
-
-  if (!header) return
-
-  // #first-viewがないページ（トップ以外）では実行しない
-  if (!firstView) return
-
-  firstViewBlur(firstView)
-  headerRevealOnScroll(header, firstView)
-}
 </script>
 
 <style lang="scss" scoped>
@@ -6914,318 +6843,6 @@ defineProps<{
 </style>
 ````
 
-## File: layers/main/app/components/ho/HoTheHeader.vue
-````vue
-<i18n lang="yaml">
-ja:
-  mainlogo: ロゴ名サービス名
-en:
-  mainlogo: logo name
-</i18n>
-
-<template>
-  <div
-    id="gsap-header"
-    class="header__wrapper"
-  >
-    <header class="ho-the-header glassy-box-4">
-      <div class="ho-the-header__left">
-        <a
-          href=""
-          class="ho-the-header__logo-link"
-        >
-          <img
-            class="ho-the-header__logo"
-            src="/vketreal_in_sapporo_logo_dark.png"
-          >
-        </a>
-      </div>
-      <div class="ho-the-header__right">
-        <nav class="ho-the-header__nav">
-          <ul class="ho-the-header__ul">
-            <li
-              v-for="link in navLinks"
-              :key="link.href"
-              class="ho-the-header__li"
-            >
-              <a
-                v-if="link.type === 'link'"
-                :href="link.href"
-                class="ho-the-header__link"
-                @click="isPanelOpen = false"
-              >
-                {{ link.text }}
-              </a>
-              <HaAnchorLink
-                v-else
-                class="ho-the-header__link"
-                :href="link.href"
-                :text="link.text"
-                @clicked="isPanelOpen = false"
-              />
-            </li>
-          </ul>
-        </nav>
-        <button
-          class="hamburger-icon"
-          aria-label="メニューを開く"
-          @click="isPanelOpen = true"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-          >
-            <HaHamburgerIcon />
-          </svg>
-        </button>
-      </div>
-    </header>
-  </div>
-
-  <div
-    class="side-panel__overlay"
-    :class="{ 'is-open': isPanelOpen }"
-    @click="isPanelOpen = false"
-  />
-
-  <div
-    class="side-panel"
-    :class="{ 'is-open': isPanelOpen }"
-    role="dialog"
-    aria-modal="true"
-  >
-    <button
-      class="side-panel__close"
-      aria-label="メニューを閉じる"
-      @click="isPanelOpen = false"
-    >
-      <HaCloseIcon />
-    </button>
-    <nav class="side-panel__nav">
-      <ul class="side-panel__ul">
-        <li
-          v-for="link in navLinks"
-          :key="link.href"
-          class="side-panel__li"
-        >
-          <a
-            v-if="link.type === 'link'"
-            :href="link.href"
-            class="side-panel__link"
-            @click="isPanelOpen = false"
-          >
-            {{ link.text }}
-          </a>
-          <HaAnchorLink
-            v-else
-            class="side-panel__link"
-            :href="link.href"
-            :text="link.text"
-            @clicked="isPanelOpen = false"
-          />
-        </li>
-      </ul>
-    </nav>
-  </div>
-</template>
-
-<script setup lang="ts">
-import { ref, watch } from 'vue'
-import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
-import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
-import HaAnchorLink from '../ha/HaAnchorLink.vue'
-
-export type NavLink
-  = | { type: 'link', href: string, text: string }
-    | { type: 'anchor', href: string, text: string }
-
-defineProps<{
-  navLinks: NavLink[]
-}>()
-
-const isPanelOpen = ref(false)
-
-watch(isPanelOpen, (val) => {
-  if (typeof document !== 'undefined') {
-    document.body.style.overflow = val ? 'hidden' : ''
-  }
-})
-</script>
-
-<style scoped lang="scss">
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.header__wrapper {
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: v.$vket-header-height-pc;
-  padding: 24px;
-
-  @include m.tb {
-    height: v.$vket-header-height-tb;
-  }
-}
-
-.ho-the-header {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  padding: 8px 24px;
-
-  &__logo {
-    height: 36px;
-    border-radius: 100px;
-  }
-
-  &__ul {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-
-    @include m.tb {
-      display: none;
-    }
-  }
-
-  &__link {
-    color: white;
-  }
-}
-
-.glassy-box-4 {
-  border-radius: 20px;
-}
-
-.hamburger-icon {
-  cursor: pointer;
-
-  display: none;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-
-  width: 36px;
-  height: 36px;
-  padding: 0;
-
-  @include m.tb {
-    display: flex;
-  }
-
-  svg {
-    display: block;
-    width: 22px;
-    height: 22px;
-  }
-}
-
-.side-panel__overlay {
-  pointer-events: none;
-
-  position: fixed;
-  z-index: 200;
-  inset: 0;
-
-  opacity: 0;
-  background: rgb(0 0 0 / 35%);
-
-  transition: opacity 0.3s ease;
-
-  &.is-open {
-    pointer-events: auto;
-    opacity: 1;
-  }
-}
-
-.side-panel {
-  position: fixed;
-  z-index: 300;
-  top: 0;
-  right: 0;
-  transform: translateX(100%);
-
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-
-  box-sizing: border-box;
-  width: 100vw;
-  height: 100dvh;
-  padding: 24px 20px 40px;
-  border-left: 1px solid rgb(255 255 255 / 15%);
-
-  background: rgb(30 30 35 / 72%);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-
-  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-
-  &.is-open {
-    transform: translateX(0);
-  }
-
-  &__close {
-    cursor: pointer;
-
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    align-self: flex-end;
-    justify-content: center;
-
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border-radius: 100px;
-
-    background: rgb(255 255 255 / 10%);
-
-    svg {
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  &__nav {
-    flex: 1;
-    margin-top: 40px;
-  }
-
-  &__ul {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-  }
-
-  &__li {
-    border-bottom: 1px solid rgb(255 255 255 / 8%);
-  }
-
-  &__link {
-    display: block;
-
-    padding: 6px;
-
-    font-size: 14px;
-    color: white;
-    text-decoration: none;
-  }
-}
-</style>
-````
-
 ## File: layers/main/app/composables/useMockCrowdData.ts
 ````typescript
 // 10秒おきにランダムなステータスを表示する（表示更新テスト用）
@@ -7287,6 +6904,77 @@ export function useCrowdData() {
 
   return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
 }
+````
+
+## File: layers/main/app/layouts/top.vue
+````vue
+<template>
+  <div class="layout -top">
+    <HoTheHeader :nav-links="navLinks" />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { NavLink } from '../components/ho/HoTheHeader.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const navLinks: NavLink[] = [
+  // { type: 'link', href: '/', text: 'TOPページ' },
+  { type: 'anchor', href: 'quick-access', text: '参加者向け重要情報' },
+  { type: 'anchor', href: 'about', text: 'VketReal in 札幌とは' },
+  // { type: 'anchor', href: 'news', text: 'お知らせ' },
+  // { type: 'anchor', href: 'contents', text: '企画・コンテンツ' },
+  // { type: 'anchor', href: 'schedule', text: '開催スケジュール' },
+  { type: 'anchor', href: 'exhibition', text: '出展情報' },
+  // { type: 'anchor', href: 'access', text: 'アクセス' },
+  { type: 'anchor', href: 'tickets', text: 'チケット' },
+  { type: 'anchor', href: 'qa', text: 'よくある質問' },
+  // { type: 'anchor', href: 'code-of-conduct', text: '行動規範' },
+  // { type: 'anchor', href: 'related-events', text: '関連イベント' },
+  // { type: 'anchor', href: 'sponsors-and-partners', text: 'ご協力' },
+  // { type: 'anchor', href: 'contact', text: 'お問い合わせ' },
+]
+
+const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()
+const route = useRoute()
+
+onMounted(() => {
+  initScrollEffects()
+})
+
+// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
+watch(() => route.path, () => {
+  destroyScrollTriggers()
+  nextTick(() => initScrollEffects())
+})
+
+onUnmounted(() => {
+  destroyScrollTriggers()
+})
+
+const initScrollEffects = () => {
+  const firstView = document.querySelector('#gsap-fv')
+  const header = document.querySelector('#gsap-header')
+
+  if (!header) return
+
+  // #first-viewがないページ（トップ以外）では実行しない
+  if (!firstView) return
+
+  firstViewBlur(firstView)
+  headerRevealOnScroll(header, firstView)
+}
+</script>
+
+<style lang="scss" scoped>
+.layout.-top {
+  overflow-x: hidden;
+}
+</style>
 ````
 
 ## File: layers/main/app/pages/documents/[...slug].vue
@@ -8547,6 +8235,318 @@ en:
     @include m.sp {
       font-size: 8px;
     }
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ho/HoTheHeader.vue
+````vue
+<i18n lang="yaml">
+ja:
+  mainlogo: ロゴ名サービス名
+en:
+  mainlogo: logo name
+</i18n>
+
+<template>
+  <div
+    id="gsap-header"
+    class="header__wrapper"
+  >
+    <header class="ho-the-header glassy-box-4">
+      <div class="ho-the-header__left">
+        <a
+          href=""
+          class="ho-the-header__logo-link"
+        >
+          <img
+            class="ho-the-header__logo"
+            src="/vketreal_in_sapporo_logo_dark.png"
+          >
+        </a>
+      </div>
+      <div class="ho-the-header__right">
+        <nav class="ho-the-header__nav">
+          <ul class="ho-the-header__ul">
+            <li
+              v-for="link in navLinks"
+              :key="link.href"
+              class="ho-the-header__li"
+            >
+              <a
+                v-if="link.type === 'link'"
+                :href="link.href"
+                class="ho-the-header__link"
+                @click="isPanelOpen = false"
+              >
+                {{ link.text }}
+              </a>
+              <HaAnchorLink
+                v-else
+                class="ho-the-header__link"
+                :href="link.href"
+                :text="link.text"
+                @clicked="isPanelOpen = false"
+              />
+            </li>
+          </ul>
+        </nav>
+        <button
+          class="hamburger-icon"
+          aria-label="メニューを開く"
+          @click="isPanelOpen = true"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+          >
+            <HaHamburgerIcon />
+          </svg>
+        </button>
+      </div>
+    </header>
+  </div>
+
+  <div
+    class="side-panel__overlay"
+    :class="{ 'is-open': isPanelOpen }"
+    @click="isPanelOpen = false"
+  />
+
+  <div
+    class="side-panel"
+    :class="{ 'is-open': isPanelOpen }"
+    role="dialog"
+    aria-modal="true"
+  >
+    <button
+      class="side-panel__close"
+      aria-label="メニューを閉じる"
+      @click="isPanelOpen = false"
+    >
+      <HaCloseIcon />
+    </button>
+    <nav class="side-panel__nav">
+      <ul class="side-panel__ul">
+        <li
+          v-for="link in navLinks"
+          :key="link.href"
+          class="side-panel__li"
+        >
+          <a
+            v-if="link.type === 'link'"
+            :href="link.href"
+            class="side-panel__link"
+            @click="isPanelOpen = false"
+          >
+            {{ link.text }}
+          </a>
+          <HaAnchorLink
+            v-else
+            class="side-panel__link"
+            :href="link.href"
+            :text="link.text"
+            @clicked="isPanelOpen = false"
+          />
+        </li>
+      </ul>
+    </nav>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
+import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
+import HaAnchorLink from '../ha/HaAnchorLink.vue'
+
+export type NavLink
+  = | { type: 'link', href: string, text: string }
+    | { type: 'anchor', href: string, text: string }
+
+defineProps<{
+  navLinks: NavLink[]
+}>()
+
+const isPanelOpen = ref(false)
+
+watch(isPanelOpen, (val) => {
+  if (typeof document !== 'undefined') {
+    document.body.style.overflow = val ? 'hidden' : ''
+  }
+})
+</script>
+
+<style scoped lang="scss">
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.header__wrapper {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: v.$vket-header-height-pc;
+  padding: 24px;
+
+  @include m.tb {
+    height: v.$vket-header-height-tb;
+  }
+}
+
+.ho-the-header {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 8px 24px;
+
+  &__logo {
+    height: 36px;
+    border-radius: 100px;
+  }
+
+  &__ul {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+
+    @include m.tb {
+      display: none;
+    }
+  }
+
+  &__link {
+    color: white;
+  }
+}
+
+.glassy-box-4 {
+  border-radius: 20px;
+}
+
+.hamburger-icon {
+  cursor: pointer;
+
+  display: none;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+  padding: 0;
+
+  @include m.tb {
+    display: flex;
+  }
+
+  svg {
+    display: block;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.side-panel__overlay {
+  pointer-events: none;
+
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+
+  opacity: 0;
+  background: rgb(0 0 0 / 35%);
+
+  transition: opacity 0.3s ease;
+
+  &.is-open {
+    pointer-events: auto;
+    opacity: 1;
+  }
+}
+
+.side-panel {
+  position: fixed;
+  z-index: 300;
+  top: 0;
+  right: 0;
+  transform: translateX(100%);
+
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100dvh;
+  padding: 24px 20px 40px;
+  border-left: 1px solid rgb(255 255 255 / 15%);
+
+  background: rgb(30 30 35 / 72%);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  &.is-open {
+    transform: translateX(0);
+  }
+
+  &__close {
+    cursor: pointer;
+
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    align-self: flex-end;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 100px;
+
+    background: rgb(255 255 255 / 10%);
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__nav {
+    flex: 1;
+    margin-top: 40px;
+  }
+
+  &__ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+  }
+
+  &__li {
+    border-bottom: 1px solid rgb(255 255 255 / 8%);
+  }
+
+  &__link {
+    display: block;
+
+    padding: 6px;
+
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
   }
 }
 </style>
@@ -9937,6 +9937,193 @@ export function useCrowdData() {
 }
 ````
 
+## File: layers/main/app/components/ha/HaAccordionItem.vue
+````vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import HaChevronDownIcon from './icons/HaChevronDownIcon.vue'
+
+interface AccordionItem {
+  id: number
+  title: string
+  contents: Array<string>
+}
+
+defineProps<{
+  items: AccordionItem[]
+}>()
+
+const openId = ref<number | null>(null)
+
+const toggle = (id: number) => {
+  openId.value = openId.value === id ? null : id
+}
+</script>
+
+<template>
+  <div class="accordion glassy-box accordion-glassy-box none-hover-animation">
+    <button
+      v-for="item in items"
+      :key="item.id"
+      class="accordion-item glassy-box accordion-glassy-box none-hover-animation"
+      :class="{ 'accordion-item--is-open': openId === item.id }"
+      @click="toggle(item.id)"
+    >
+      <div class="accordion-item__header">
+        <div class="accordion-item__left">
+          <p class="accordion-item__label">
+            Q{{ item.id }}
+          </p>
+          <p class="accordion-item__title">
+            {{ item.title }}
+          </p>
+        </div>
+        <div class="accordion-item__icon">
+          <HaChevronDownIcon />
+        </div>
+      </div>
+
+      <div class="accordion-item__body">
+        <div class="accordion-item__inner">
+          <slot
+            name="content"
+            :item="item"
+          />
+        </div>
+      </div>
+    </button>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  width: 100%;
+  height: fit-content;
+  padding: 70px 48px;
+
+  @include m.tb {
+    padding: 48px 24px;
+    border-radius: 20px;
+  }
+
+  @include m.sp {
+    padding: 32px 16px;
+  }
+}
+
+.accordion-item {
+  width: 100%;
+  padding: 40px;
+
+  background-color: rgb(42 63 99 / 0%);
+  mix-blend-mode: plus-lighter;
+
+  transition: background-color 1s ease;
+
+  @include m.sp {
+    padding: 16px;
+  }
+
+  &__header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__left {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  &__label {
+    font-size: 20px;
+    font-weight: 700;
+    color: #258966;
+    white-space: nowrap;
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    text-align: left;
+
+    @include m.sp {
+      font-size: 12px;
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    transition: transform 0.3s ease;
+
+    @include m.sp {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    padding-top: 0;
+    transition: padding 0.3s ease, grid-template-rows 0.3s ease;
+  }
+
+  &__inner {
+    overflow: hidden;
+
+    padding-left: 44px;
+
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    text-align: left;
+
+    @include m.sp {
+      font-size: 12px;
+      font-weight: normal;
+    }
+  }
+
+  &--is-open {
+    background-color: rgb(42 63 99 / 60%);
+
+    .accordion-item__icon {
+      transform: rotate(180deg);
+    }
+
+    .accordion-item__body {
+      grid-template-rows: 1fr;
+      padding-top: 80px;
+
+      @include m.sp {
+        padding-top: 32px;
+      }
+    }
+  }
+}
+
+.accordion-glassy-box {
+  box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
+}
+</style>
+````
+
 ## File: layers/main/app/assets/styles/_variables.scss
 ````scss
 /* color palette */
@@ -10159,193 +10346,6 @@ $zindex-loading: 400;
     background-color: $green-5;
   }
 }
-````
-
-## File: layers/main/app/components/ha/HaAccordionItem.vue
-````vue
-<script setup lang="ts">
-import { ref } from 'vue'
-import HaChevronDownIcon from './icons/HaChevronDownIcon.vue'
-
-interface AccordionItem {
-  id: number
-  title: string
-  contents: Array<string>
-}
-
-defineProps<{
-  items: AccordionItem[]
-}>()
-
-const openId = ref<number | null>(null)
-
-const toggle = (id: number) => {
-  openId.value = openId.value === id ? null : id
-}
-</script>
-
-<template>
-  <div class="accordion glassy-box accordion-glassy-box none-hover-animation">
-    <button
-      v-for="item in items"
-      :key="item.id"
-      class="accordion-item glassy-box accordion-glassy-box none-hover-animation"
-      :class="{ 'accordion-item--is-open': openId === item.id }"
-      @click="toggle(item.id)"
-    >
-      <div class="accordion-item__header">
-        <div class="accordion-item__left">
-          <p class="accordion-item__label">
-            Q{{ item.id }}
-          </p>
-          <p class="accordion-item__title">
-            {{ item.title }}
-          </p>
-        </div>
-        <div class="accordion-item__icon">
-          <HaChevronDownIcon />
-        </div>
-      </div>
-
-      <div class="accordion-item__body">
-        <div class="accordion-item__inner">
-          <slot
-            name="content"
-            :item="item"
-          />
-        </div>
-      </div>
-    </button>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/mixins' as m;
-
-.accordion {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  width: 100%;
-  height: fit-content;
-  padding: 70px 48px;
-
-  @include m.tb {
-    padding: 48px 24px;
-    border-radius: 20px;
-  }
-
-  @include m.sp {
-    padding: 32px 16px;
-  }
-}
-
-.accordion-item {
-  width: 100%;
-  padding: 40px;
-
-  background-color: rgb(42 63 99 / 0%);
-  mix-blend-mode: plus-lighter;
-
-  transition: background-color 1s ease;
-
-  @include m.sp {
-    padding: 16px;
-  }
-
-  &__header {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__left {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-  }
-
-  &__label {
-    font-size: 20px;
-    font-weight: 700;
-    color: #258966;
-    white-space: nowrap;
-
-    @include m.sp {
-      font-size: 16px;
-    }
-  }
-
-  &__title {
-    font-size: 20px;
-    font-weight: 700;
-    color: white;
-    text-align: left;
-
-    @include m.sp {
-      font-size: 12px;
-    }
-  }
-
-  &__icon {
-    flex-shrink: 0;
-    width: 36px;
-    height: 36px;
-    transition: transform 0.3s ease;
-
-    @include m.sp {
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  &__body {
-    display: grid;
-    grid-template-rows: 0fr;
-    padding-top: 0;
-    transition: padding 0.3s ease, grid-template-rows 0.3s ease;
-  }
-
-  &__inner {
-    overflow: hidden;
-
-    padding-left: 44px;
-
-    font-size: 16px;
-    font-weight: 700;
-    color: white;
-    text-align: left;
-
-    @include m.sp {
-      font-size: 12px;
-      font-weight: normal;
-    }
-  }
-
-  &--is-open {
-    background-color: rgb(42 63 99 / 60%);
-
-    .accordion-item__icon {
-      transform: rotate(180deg);
-    }
-
-    .accordion-item__body {
-      grid-template-rows: 1fr;
-      padding-top: 80px;
-
-      @include m.sp {
-        padding-top: 32px;
-      }
-    }
-  }
-}
-
-.accordion-glassy-box {
-  box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
-}
-</style>
 ````
 
 ## File: layers/main/app/components/ht/HtAboutSection.vue
