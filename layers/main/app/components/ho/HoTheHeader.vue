@@ -6,39 +6,44 @@ en:
 </i18n>
 
 <template>
-  <div class="header__wrapper">
-    <header class="ho-the-header">
+  <div
+    id="gsap-header"
+    class="header__wrapper"
+  >
+    <header class="ho-the-header glassy-box-4">
       <div class="ho-the-header__left">
-        <img
-          class="ho-the-header__logo"
-          src="/vketreal_in_sapporo_logo_dark.png"
+        <a
+          href=""
+          class="ho-the-header__logo-link"
         >
+          <img
+            class="ho-the-header__logo"
+            src="/vketreal_in_sapporo_logo_dark.png"
+          >
+        </a>
       </div>
       <div class="ho-the-header__right">
         <nav class="ho-the-header__nav">
           <ul class="ho-the-header__ul">
-            <li class="ho-the-header__li">
+            <li
+              v-for="link in navLinks"
+              :key="link.href"
+              class="ho-the-header__li"
+            >
               <a
-                href=""
+                v-if="link.type === 'link'"
+                :href="link.href"
                 class="ho-the-header__link"
-              />
-            </li>
-            <li class="ho-the-header__li">
-              <a
-                href=""
+                @click="isPanelOpen = false"
+              >
+                {{ link.text }}
+              </a>
+              <HaAnchorLink
+                v-else
                 class="ho-the-header__link"
-              />
-            </li>
-            <li class="ho-the-header__li">
-              <a
-                href=""
-                class="ho-the-header__link"
-              />
-            </li>
-            <li class="ho-the-header__li">
-              <a
-                href=""
-                class="ho-the-header__link"
+                :href="link.href"
+                :text="link.text"
+                @clicked="isPanelOpen = false"
               />
             </li>
           </ul>
@@ -142,10 +147,10 @@ watch(isPanelOpen, (val) => {
 
   width: 100%;
   height: v.$vket-header-height-pc;
-  padding: 12px;
+  padding: 24px;
 
-  @include m.sp {
-    height: v.$vket-header-height-sp;
+  @include m.tb {
+    height: v.$vket-header-height-tb;
   }
 }
 
@@ -159,12 +164,30 @@ watch(isPanelOpen, (val) => {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding: 8px 10px;
+  padding: 8px 24px;
 
   &__logo {
     height: 36px;
     border-radius: 100px;
   }
+
+  &__ul {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+
+    @include m.tb {
+      display: none;
+    }
+  }
+
+  &__link {
+    color: white;
+  }
+}
+
+.glassy-box-4 {
+  border-radius: 20px;
 }
 
 .hamburger-icon {
@@ -178,12 +201,8 @@ watch(isPanelOpen, (val) => {
   width: 36px;
   height: 36px;
   padding: 0;
-  border: 1px solid rgb(255 255 255 / 20%);
-  border-radius: 100px;
 
-  background: rgb(188 188 188);
-
-  @include m.sp {
+  @include m.tb {
     display: flex;
   }
 
@@ -251,7 +270,6 @@ watch(isPanelOpen, (val) => {
     width: 36px;
     height: 36px;
     padding: 0;
-    border: 1px solid rgb(255 255 255 / 25%);
     border-radius: 100px;
 
     background: rgb(255 255 255 / 10%);

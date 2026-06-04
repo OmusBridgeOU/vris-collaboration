@@ -1,4 +1,5 @@
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export const useGsapFadeIn = () => {
   const fadeInUp = (
@@ -53,5 +54,67 @@ export const useGsapFadeIn = () => {
     )
   }
 
-  return { fadeInUp, fadeInUpStagger }
+  // FirstViewのスクロールに連動してblurをかける
+  const firstViewBlur = (
+    target: string | Element | Ref<Element | null>,
+    options?: { maxBlur?: number },
+  ) => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    const el = isRef(target) ? target.value : target
+    if (!el) return
+
+    gsap.to(el, {
+      filter: `blur(${options?.maxBlur ?? 24}px)`,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: el as Element,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    })
+  }
+
+  // FirstViewが画面外に出たらヘッダーを出現させる
+  const headerRevealOnScroll = (
+    target: string | Element | Ref<Element | null>,
+    trigger: string | Element | Ref<Element | null>,
+    options?: { duration?: number },
+  ) => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    const targetEl = isRef(target) ? target.value : target
+    const triggerEl = isRef(trigger) ? trigger.value : trigger
+    if (!targetEl || !triggerEl) return
+
+    gsap.fromTo(
+      targetEl,
+      { yPercent: -100, autoAlpha: 0 },
+      {
+        yPercent: 0,
+        autoAlpha: 1,
+        duration: options?.duration ?? 0.4,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: triggerEl as Element,
+          start: 'bottom top',
+          toggleActions: 'play none none reverse',
+        },
+      },
+    )
+  }
+
+  // ScrollTriggerを全て破棄（ページ離脱時に呼ぶ）
+  const destroyScrollTriggers = () => {
+    ScrollTrigger.getAll().forEach(t => t.kill())
+  }
+
+  return {
+    fadeInUp,
+    fadeInUpStagger,
+    firstViewBlur,
+    headerRevealOnScroll,
+    destroyScrollTriggers,
+  }
 }

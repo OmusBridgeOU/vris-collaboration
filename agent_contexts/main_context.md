@@ -226,6 +226,7 @@ layers/
       middleware/
         basicAuth.ts
       tsconfig.json
+    .gitignore
     .nuxtrc
     .stylelintrc.mjs
     app.config.ts
@@ -253,7 +254,7 @@ export default defineEventHandler((event) => {
     const base64 = header.slice(6)
     const decoded = Buffer.from(base64, 'base64').toString('utf-8')
     const [user, pass] = decoded.split(':')
-    return user === "" && pass === ""
+    return user === "a" && pass === "b"
   })()
 
   if (!isValid) {
@@ -261,6 +262,12 @@ export default defineEventHandler((event) => {
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
   }
 })
+````
+
+## File: layers/main/.gitignore
+````
+.vercel
+.env*
 ````
 
 ## File: layers/main/@types/auto-imports.d.ts
@@ -3051,7 +3058,14 @@ defineExpose({ swiperInstance })
 ## File: layers/main/app/components/ht/HtHeroSection.vue
 ````vue
 <template>
-  <div class="hero">
+  <div
+    id="gsap-fv"
+    class="hero"
+  >
+    <div
+      class="hero__bg"
+      style="background-image: url("/kv.png")"
+    />
     <img
       src="/kv.png"
       alt="Vket Real in 札幌 2026 Autumnのキービジュアル"
@@ -3062,15 +3076,42 @@ defineExpose({ swiperInstance })
 
 <style lang="scss" scoped>
 .hero {
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
 
-  &__kv {
+  width: 100svw;
+  height: 100svh;
+
+  clip-path: inset(0);
+
+  &__bg {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    transform: scale(1.2);
+
+    overflow: hidden;
+
     width: 100%;
     height: 100%;
-    object-fit: cover;
+
+    background-position: center;
+    background-size: cover;
+    filter: blur(8px);
+  }
+
+  &__kv {
+    z-index: 2;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
   }
 }
 </style>
@@ -3113,6 +3154,7 @@ export default function useApi<K extends RepositoryKey>(endpoint: K) {
 ## File: layers/main/app/composables/useGsapFadeIn.ts
 ````typescript
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export const useGsapFadeIn = () => {
   const fadeInUp = (
@@ -3167,7 +3209,69 @@ export const useGsapFadeIn = () => {
     )
   }
 
-  return { fadeInUp, fadeInUpStagger }
+  // FirstViewのスクロールに連動してblurをかける
+  const firstViewBlur = (
+    target: string | Element | Ref<Element | null>,
+    options?: { maxBlur?: number },
+  ) => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    const el = isRef(target) ? target.value : target
+    if (!el) return
+
+    gsap.to(el, {
+      filter: `blur(${options?.maxBlur ?? 24}px)`,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: el as Element,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    })
+  }
+
+  // FirstViewが画面外に出たらヘッダーを出現させる
+  const headerRevealOnScroll = (
+    target: string | Element | Ref<Element | null>,
+    trigger: string | Element | Ref<Element | null>,
+    options?: { duration?: number },
+  ) => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    const targetEl = isRef(target) ? target.value : target
+    const triggerEl = isRef(trigger) ? trigger.value : trigger
+    if (!targetEl || !triggerEl) return
+
+    gsap.fromTo(
+      targetEl,
+      { yPercent: -100, autoAlpha: 0 },
+      {
+        yPercent: 0,
+        autoAlpha: 1,
+        duration: options?.duration ?? 0.4,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: triggerEl as Element,
+          start: 'bottom top',
+          toggleActions: 'play none none reverse',
+        },
+      },
+    )
+  }
+
+  // ScrollTriggerを全て破棄（ページ離脱時に呼ぶ）
+  const destroyScrollTriggers = () => {
+    ScrollTrigger.getAll().forEach(t => t.kill())
+  }
+
+  return {
+    fadeInUp,
+    fadeInUpStagger,
+    firstViewBlur,
+    headerRevealOnScroll,
+    destroyScrollTriggers,
+  }
 }
 ````
 
@@ -5409,239 +5513,6 @@ export default defineConfig({
 </template>
 ````
 
-## File: layers/main/app/components/ha/HaConfetti.vue
-````vue
-<script setup lang="ts">
-/*
-  canvas最上部のランダムな位置から、ランダムな角度でランダムな色の長方形を一定間隔で収縮させながら落下させている。
-*/
-import { ref, onMounted, onUnmounted } from 'vue'
-
-const canvasRef = ref<HTMLCanvasElement | null>(null)
-
-// 調整可能なパラメータ
-const CONFIG = {
-  particleCount: 80,
-  fallSpeed: 2,
-  maxAngle: 15,
-  maxRotation: 65,
-  width: 12,
-  height: 8,
-  flipInterval: 500,
-} as const
-
-// 型定義
-interface Confetti {
-  x: number
-  y: number
-  vx: number
-  vy: number
-  hue: number
-  scaleY: number
-  scaleDirection: number
-  flipTimer: number
-  rotation: number
-}
-
-// 状態管理
-let animationId: number | null = null
-let resizeObserver: ResizeObserver | null = null
-let intersectionObserver: IntersectionObserver | null = null
-let visibilityHandler: (() => void) | null = null
-let scaleFactor: number = 1
-let confetti: Confetti[] = []
-
-// ユーティリティ
-function random(min: number, max: number): number {
-  return Math.random() * (max - min) + min
-}
-
-// 紙吹雪を1個生成（canvas最上部からスタート）
-function createConfetti(canvasWidth: number): Confetti {
-  const sign = Math.random() < 0.5 ? 1 : -1
-  const angleRad = ((random(0, CONFIG.maxAngle) * Math.PI) / 180) * sign
-  const speed = CONFIG.fallSpeed * scaleFactor
-
-  return {
-    x: random(0, canvasWidth),
-    y: -CONFIG.height,
-    vx: Math.sin(angleRad) * speed,
-    vy: Math.cos(angleRad) * speed,
-    hue: Math.floor(random(0, 360)),
-    scaleY: 1,
-    scaleDirection: -1,
-    flipTimer: performance.now() + CONFIG.flipInterval,
-    rotation:
-      (random(-1 * CONFIG.maxRotation, CONFIG.maxRotation) * Math.PI) / 180,
-  }
-}
-
-// 再開時にflipTimerをばらつかせてリセット（これがないと収縮タイミングが同期してしまう）
-function resetFlipTimers() {
-  const now = performance.now()
-  confetti.forEach((c) => {
-    c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
-  })
-}
-
-// アニメーションのメイン処理
-function startAnimation(canvas: HTMLCanvasElement) {
-  if (animationId !== null) return
-
-  const ctx = canvas.getContext('2d')!
-
-  // 初期状態では、パーティクルを画面内のランダムな高さに配置
-  if (confetti.length === 0) {
-    const now = performance.now()
-    confetti = Array.from({ length: CONFIG.particleCount }, () => {
-      const c = createConfetti(canvas.width)
-      c.y = random(0, canvas.height)
-      c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
-      return c
-    })
-  }
-
-  function updateConfetti() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-    const now = performance.now()
-    const w = CONFIG.width * scaleFactor
-    const h = CONFIG.height * scaleFactor
-
-    confetti.forEach((c) => {
-      c.x += c.vx
-      c.y += c.vy
-
-      // 回転アニメーション（収縮アニメーションによる疑似的なもの）：flipTimerごとに折り返す
-      if (now >= c.flipTimer) {
-        c.scaleDirection *= -1
-        c.flipTimer = now + CONFIG.flipInterval
-      }
-
-      c.scaleY += c.scaleDirection * 0.05
-      c.scaleY = Math.max(0.1, Math.min(1, c.scaleY))
-
-      // 光の反射表現（回転アニメーションに合わせて輝度を変化させることによる疑似的なもの）
-      const lightness = 30 + c.scaleY * 40
-
-      // 画面下に出たら最上部に戻す
-      if (c.y > canvas.height + h) {
-        const next = createConfetti(canvas.width)
-        Object.assign(c, next)
-      }
-
-      ctx.save()
-      ctx.translate(c.x, c.y)
-      ctx.rotate(c.rotation)
-      ctx.scale(1, c.scaleY)
-      ctx.fillStyle = `hsl(${c.hue}, 90%, ${lightness}%)`
-      ctx.fillRect(-w / 2, -h / 2, w, h)
-      ctx.restore()
-    })
-  }
-
-  function animate() {
-    animationId = requestAnimationFrame(animate)
-    updateConfetti()
-  }
-
-  animate()
-}
-
-// 停止・リサイズ
-function stopAnimation() {
-  if (animationId !== null) {
-    cancelAnimationFrame(animationId)
-    animationId = null
-  }
-}
-
-function resizeCanvas(canvas: HTMLCanvasElement) {
-  const parent = canvas.parentElement
-  if (!parent) return
-  canvas.width = parent.clientWidth
-  canvas.height = parent.clientHeight
-}
-
-// ライフサイクル
-onMounted(() => {
-  const canvas = canvasRef.value
-  if (!canvas) return
-
-  const width = window.innerWidth
-  if (width < 768) {
-    scaleFactor = 0.6
-  } else if (width < 1024) {
-    scaleFactor = 0.8
-  } else {
-    scaleFactor = 1.0
-  }
-
-  resizeCanvas(canvas)
-
-  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
-  resizeObserver.observe(canvas.parentElement!)
-
-  intersectionObserver = new IntersectionObserver(
-    (entries) => {
-      const entry = entries[0]
-      if (!entry) return
-      if (entry.isIntersecting) {
-        resetFlipTimers()
-        startAnimation(canvas)
-      } else {
-        stopAnimation()
-      }
-    },
-    { threshold: 0 },
-  )
-  intersectionObserver.observe(canvas)
-
-  visibilityHandler = () => {
-    if (document.hidden) {
-      stopAnimation()
-    } else {
-      resetFlipTimers()
-      startAnimation(canvas)
-    }
-  }
-  document.addEventListener('visibilitychange', visibilityHandler)
-})
-
-onUnmounted(() => {
-  stopAnimation()
-  resizeObserver?.disconnect()
-  intersectionObserver?.disconnect()
-  if (visibilityHandler) {
-    document.removeEventListener('visibilitychange', visibilityHandler)
-    visibilityHandler = null
-  }
-})
-</script>
-
-<template>
-  <canvas
-    ref="canvasRef"
-    class="confetti-canvas"
-  />
-</template>
-
-<style scoped>
-.confetti-canvas {
-  pointer-events: none;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-
-  opacity: 0.2;
-}
-</style>
-````
-
 ## File: layers/main/app/components/ha/HaSwiperCard.vue
 ````vue
 <template>
@@ -5690,300 +5561,6 @@ defineProps<{
     object-fit: cover;
 
     transition: transform 0.2s ease;
-  }
-}
-</style>
-````
-
-## File: layers/main/app/components/ho/HoTheHeader.vue
-````vue
-<i18n lang="yaml">
-ja:
-  mainlogo: ロゴ名サービス名
-en:
-  mainlogo: logo name
-</i18n>
-
-<template>
-  <div class="header__wrapper">
-    <header class="ho-the-header">
-      <div class="ho-the-header__left">
-        <img
-          class="ho-the-header__logo"
-          src="/vketreal_in_sapporo_logo_dark.png"
-        >
-      </div>
-      <div class="ho-the-header__right">
-        <nav class="ho-the-header__nav">
-          <ul class="ho-the-header__ul">
-            <li class="ho-the-header__li">
-              <a
-                href=""
-                class="ho-the-header__link"
-              />
-            </li>
-            <li class="ho-the-header__li">
-              <a
-                href=""
-                class="ho-the-header__link"
-              />
-            </li>
-            <li class="ho-the-header__li">
-              <a
-                href=""
-                class="ho-the-header__link"
-              />
-            </li>
-            <li class="ho-the-header__li">
-              <a
-                href=""
-                class="ho-the-header__link"
-              />
-            </li>
-          </ul>
-        </nav>
-        <button
-          class="hamburger-icon"
-          aria-label="メニューを開く"
-          @click="isPanelOpen = true"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-          >
-            <HaHamburgerIcon />
-          </svg>
-        </button>
-      </div>
-    </header>
-  </div>
-
-  <div
-    class="side-panel__overlay"
-    :class="{ 'is-open': isPanelOpen }"
-    @click="isPanelOpen = false"
-  />
-
-  <div
-    class="side-panel"
-    :class="{ 'is-open': isPanelOpen }"
-    role="dialog"
-    aria-modal="true"
-  >
-    <button
-      class="side-panel__close"
-      aria-label="メニューを閉じる"
-      @click="isPanelOpen = false"
-    >
-      <HaCloseIcon />
-    </button>
-    <nav class="side-panel__nav">
-      <ul class="side-panel__ul">
-        <li
-          v-for="link in navLinks"
-          :key="link.href"
-          class="side-panel__li"
-        >
-          <a
-            v-if="link.type === 'link'"
-            :href="link.href"
-            class="side-panel__link"
-            @click="isPanelOpen = false"
-          >
-            {{ link.text }}
-          </a>
-          <HaAnchorLink
-            v-else
-            class="side-panel__link"
-            :href="link.href"
-            :text="link.text"
-            @clicked="isPanelOpen = false"
-          />
-        </li>
-      </ul>
-    </nav>
-  </div>
-</template>
-
-<script setup lang="ts">
-import { ref, watch } from 'vue'
-import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
-import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
-import HaAnchorLink from '../ha/HaAnchorLink.vue'
-
-export type NavLink
-  = | { type: 'link', href: string, text: string }
-    | { type: 'anchor', href: string, text: string }
-
-defineProps<{
-  navLinks: NavLink[]
-}>()
-
-const isPanelOpen = ref(false)
-
-watch(isPanelOpen, (val) => {
-  if (typeof document !== 'undefined') {
-    document.body.style.overflow = val ? 'hidden' : ''
-  }
-})
-</script>
-
-<style scoped lang="scss">
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.header__wrapper {
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: v.$vket-header-height-pc;
-  padding: 12px;
-
-  @include m.sp {
-    height: v.$vket-header-height-sp;
-  }
-}
-
-.ho-the-header {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  padding: 8px 10px;
-
-  &__logo {
-    height: 36px;
-    border-radius: 100px;
-  }
-}
-
-.hamburger-icon {
-  cursor: pointer;
-
-  display: none;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border: 1px solid rgb(255 255 255 / 20%);
-  border-radius: 100px;
-
-  background: rgb(188 188 188);
-
-  @include m.sp {
-    display: flex;
-  }
-
-  svg {
-    display: block;
-    width: 22px;
-    height: 22px;
-  }
-}
-
-.side-panel__overlay {
-  pointer-events: none;
-
-  position: fixed;
-  z-index: 200;
-  inset: 0;
-
-  opacity: 0;
-  background: rgb(0 0 0 / 35%);
-
-  transition: opacity 0.3s ease;
-
-  &.is-open {
-    pointer-events: auto;
-    opacity: 1;
-  }
-}
-
-.side-panel {
-  position: fixed;
-  z-index: 300;
-  top: 0;
-  right: 0;
-  transform: translateX(100%);
-
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-
-  box-sizing: border-box;
-  width: 100vw;
-  height: 100dvh;
-  padding: 24px 20px 40px;
-  border-left: 1px solid rgb(255 255 255 / 15%);
-
-  background: rgb(30 30 35 / 72%);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-
-  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-
-  &.is-open {
-    transform: translateX(0);
-  }
-
-  &__close {
-    cursor: pointer;
-
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    align-self: flex-end;
-    justify-content: center;
-
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border: 1px solid rgb(255 255 255 / 25%);
-    border-radius: 100px;
-
-    background: rgb(255 255 255 / 10%);
-
-    svg {
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  &__nav {
-    flex: 1;
-    margin-top: 40px;
-  }
-
-  &__ul {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-  }
-
-  &__li {
-    border-bottom: 1px solid rgb(255 255 255 / 8%);
-  }
-
-  &__link {
-    display: block;
-
-    padding: 6px;
-
-    font-size: 14px;
-    color: white;
-    text-decoration: none;
   }
 }
 </style>
@@ -6120,22 +5697,55 @@ const navLinks: NavLink[] = [{ type: 'link', href: '/', text: 'TOPページ' }]
 <script setup lang="ts">
 import type { NavLink } from '../components/ho/HoTheHeader.vue'
 
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
 const navLinks: NavLink[] = [
-  { type: 'link', href: '/', text: 'TOPページ' },
+  // { type: 'link', href: '/', text: 'TOPページ' },
   { type: 'anchor', href: 'quick-access', text: '参加者向け重要情報' },
   { type: 'anchor', href: 'about', text: 'VketReal in 札幌とは' },
-  { type: 'anchor', href: 'news', text: 'お知らせ' },
-  { type: 'anchor', href: 'contents', text: '企画・コンテンツ' },
-  { type: 'anchor', href: 'schedule', text: '開催スケジュール' },
+  // { type: 'anchor', href: 'news', text: 'お知らせ' },
+  // { type: 'anchor', href: 'contents', text: '企画・コンテンツ' },
+  // { type: 'anchor', href: 'schedule', text: '開催スケジュール' },
   { type: 'anchor', href: 'exhibition', text: '出展情報' },
-  { type: 'anchor', href: 'access', text: 'アクセス' },
+  // { type: 'anchor', href: 'access', text: 'アクセス' },
   { type: 'anchor', href: 'tickets', text: 'チケット' },
   { type: 'anchor', href: 'qa', text: 'よくある質問' },
-  { type: 'anchor', href: 'code-of-conduct', text: '行動規範' },
-  { type: 'anchor', href: 'related-events', text: '関連イベント' },
-  { type: 'anchor', href: 'sponsors-and-partners', text: 'ご協力' },
-  { type: 'anchor', href: 'contact', text: 'お問い合わせ' },
+  // { type: 'anchor', href: 'code-of-conduct', text: '行動規範' },
+  // { type: 'anchor', href: 'related-events', text: '関連イベント' },
+  // { type: 'anchor', href: 'sponsors-and-partners', text: 'ご協力' },
+  // { type: 'anchor', href: 'contact', text: 'お問い合わせ' },
 ]
+
+const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()
+const route = useRoute()
+
+onMounted(() => {
+  initScrollEffects()
+})
+
+// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
+watch(() => route.path, () => {
+  destroyScrollTriggers()
+  nextTick(() => initScrollEffects())
+})
+
+onUnmounted(() => {
+  destroyScrollTriggers()
+})
+
+const initScrollEffects = () => {
+  const firstView = document.querySelector('#gsap-fv')
+  const header = document.querySelector('#gsap-header')
+
+  if (!header) return
+
+  // #first-viewがないページ（トップ以外）では実行しない
+  if (!firstView) return
+
+  firstViewBlur(firstView)
+  headerRevealOnScroll(header, firstView)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -6646,6 +6256,239 @@ defineProps({
 </style>
 ````
 
+## File: layers/main/app/components/ha/HaConfetti.vue
+````vue
+<script setup lang="ts">
+/*
+  canvas最上部のランダムな位置から、ランダムな角度でランダムな色の長方形を一定間隔で収縮させながら落下させている。
+*/
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const canvasRef = ref<HTMLCanvasElement | null>(null)
+
+// 調整可能なパラメータ
+const CONFIG = {
+  particleCount: 80,
+  fallSpeed: 2,
+  maxAngle: 15,
+  maxRotation: 65,
+  width: 12,
+  height: 8,
+  flipInterval: 500,
+} as const
+
+// 型定義
+interface Confetti {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  hue: number
+  scaleY: number
+  scaleDirection: number
+  flipTimer: number
+  rotation: number
+}
+
+// 状態管理
+let animationId: number | null = null
+let resizeObserver: ResizeObserver | null = null
+let intersectionObserver: IntersectionObserver | null = null
+let visibilityHandler: (() => void) | null = null
+let scaleFactor: number = 1
+let confetti: Confetti[] = []
+
+// ユーティリティ
+function random(min: number, max: number): number {
+  return Math.random() * (max - min) + min
+}
+
+// 紙吹雪を1個生成（canvas最上部からスタート）
+function createConfetti(canvasWidth: number): Confetti {
+  const sign = Math.random() < 0.5 ? 1 : -1
+  const angleRad = ((random(0, CONFIG.maxAngle) * Math.PI) / 180) * sign
+  const speed = CONFIG.fallSpeed * scaleFactor
+
+  return {
+    x: random(0, canvasWidth),
+    y: -CONFIG.height,
+    vx: Math.sin(angleRad) * speed,
+    vy: Math.cos(angleRad) * speed,
+    hue: Math.floor(random(0, 360)),
+    scaleY: 1,
+    scaleDirection: -1,
+    flipTimer: performance.now() + CONFIG.flipInterval,
+    rotation:
+      (random(-1 * CONFIG.maxRotation, CONFIG.maxRotation) * Math.PI) / 180,
+  }
+}
+
+// 再開時にflipTimerをばらつかせてリセット（これがないと収縮タイミングが同期してしまう）
+function resetFlipTimers() {
+  const now = performance.now()
+  confetti.forEach((c) => {
+    c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
+  })
+}
+
+// アニメーションのメイン処理
+function startAnimation(canvas: HTMLCanvasElement) {
+  if (animationId !== null) return
+
+  const ctx = canvas.getContext('2d')!
+
+  // 初期状態では、パーティクルを画面内のランダムな高さに配置
+  if (confetti.length === 0) {
+    const now = performance.now()
+    confetti = Array.from({ length: CONFIG.particleCount }, () => {
+      const c = createConfetti(canvas.width)
+      c.y = random(0, canvas.height)
+      c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
+      return c
+    })
+  }
+
+  function updateConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    const now = performance.now()
+    const w = CONFIG.width * scaleFactor
+    const h = CONFIG.height * scaleFactor
+
+    confetti.forEach((c) => {
+      c.x += c.vx
+      c.y += c.vy
+
+      // 回転アニメーション（収縮アニメーションによる疑似的なもの）：flipTimerごとに折り返す
+      if (now >= c.flipTimer) {
+        c.scaleDirection *= -1
+        c.flipTimer = now + CONFIG.flipInterval
+      }
+
+      c.scaleY += c.scaleDirection * 0.05
+      c.scaleY = Math.max(0.1, Math.min(1, c.scaleY))
+
+      // 光の反射表現（回転アニメーションに合わせて輝度を変化させることによる疑似的なもの）
+      const lightness = 30 + c.scaleY * 40
+
+      // 画面下に出たら最上部に戻す
+      if (c.y > canvas.height + h) {
+        const next = createConfetti(canvas.width)
+        Object.assign(c, next)
+      }
+
+      ctx.save()
+      ctx.translate(c.x, c.y)
+      ctx.rotate(c.rotation)
+      ctx.scale(1, c.scaleY)
+      ctx.fillStyle = `hsl(${c.hue}, 90%, ${lightness}%)`
+      ctx.fillRect(-w / 2, -h / 2, w, h)
+      ctx.restore()
+    })
+  }
+
+  function animate() {
+    animationId = requestAnimationFrame(animate)
+    updateConfetti()
+  }
+
+  animate()
+}
+
+// 停止・リサイズ
+function stopAnimation() {
+  if (animationId !== null) {
+    cancelAnimationFrame(animationId)
+    animationId = null
+  }
+}
+
+function resizeCanvas(canvas: HTMLCanvasElement) {
+  const parent = canvas.parentElement
+  if (!parent) return
+  canvas.width = parent.clientWidth
+  canvas.height = parent.clientHeight
+}
+
+// ライフサイクル
+onMounted(() => {
+  const canvas = canvasRef.value
+  if (!canvas) return
+
+  const width = window.innerWidth
+  if (width < 768) {
+    scaleFactor = 0.6
+  } else if (width < 1024) {
+    scaleFactor = 0.8
+  } else {
+    scaleFactor = 1.0
+  }
+
+  resizeCanvas(canvas)
+
+  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
+  resizeObserver.observe(canvas.parentElement!)
+
+  intersectionObserver = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0]
+      if (!entry) return
+      if (entry.isIntersecting) {
+        resetFlipTimers()
+        startAnimation(canvas)
+      } else {
+        stopAnimation()
+      }
+    },
+    { threshold: 0 },
+  )
+  intersectionObserver.observe(canvas)
+
+  visibilityHandler = () => {
+    if (document.hidden) {
+      stopAnimation()
+    } else {
+      resetFlipTimers()
+      startAnimation(canvas)
+    }
+  }
+  document.addEventListener('visibilitychange', visibilityHandler)
+})
+
+onUnmounted(() => {
+  stopAnimation()
+  resizeObserver?.disconnect()
+  intersectionObserver?.disconnect()
+  if (visibilityHandler) {
+    document.removeEventListener('visibilitychange', visibilityHandler)
+    visibilityHandler = null
+  }
+})
+</script>
+
+<template>
+  <canvas
+    ref="canvasRef"
+    class="confetti-canvas"
+  />
+</template>
+
+<style scoped>
+.confetti-canvas {
+  pointer-events: none;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0.2;
+}
+</style>
+````
+
 ## File: layers/main/app/components/ha/HaContactCard.vue
 ````vue
 <template>
@@ -7066,6 +6909,318 @@ defineProps<{
     font-size: 14px;
     font-weight: 400;
     color: white;
+  }
+}
+</style>
+````
+
+## File: layers/main/app/components/ho/HoTheHeader.vue
+````vue
+<i18n lang="yaml">
+ja:
+  mainlogo: ロゴ名サービス名
+en:
+  mainlogo: logo name
+</i18n>
+
+<template>
+  <div
+    id="gsap-header"
+    class="header__wrapper"
+  >
+    <header class="ho-the-header glassy-box-4">
+      <div class="ho-the-header__left">
+        <a
+          href=""
+          class="ho-the-header__logo-link"
+        >
+          <img
+            class="ho-the-header__logo"
+            src="/vketreal_in_sapporo_logo_dark.png"
+          >
+        </a>
+      </div>
+      <div class="ho-the-header__right">
+        <nav class="ho-the-header__nav">
+          <ul class="ho-the-header__ul">
+            <li
+              v-for="link in navLinks"
+              :key="link.href"
+              class="ho-the-header__li"
+            >
+              <a
+                v-if="link.type === 'link'"
+                :href="link.href"
+                class="ho-the-header__link"
+                @click="isPanelOpen = false"
+              >
+                {{ link.text }}
+              </a>
+              <HaAnchorLink
+                v-else
+                class="ho-the-header__link"
+                :href="link.href"
+                :text="link.text"
+                @clicked="isPanelOpen = false"
+              />
+            </li>
+          </ul>
+        </nav>
+        <button
+          class="hamburger-icon"
+          aria-label="メニューを開く"
+          @click="isPanelOpen = true"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+          >
+            <HaHamburgerIcon />
+          </svg>
+        </button>
+      </div>
+    </header>
+  </div>
+
+  <div
+    class="side-panel__overlay"
+    :class="{ 'is-open': isPanelOpen }"
+    @click="isPanelOpen = false"
+  />
+
+  <div
+    class="side-panel"
+    :class="{ 'is-open': isPanelOpen }"
+    role="dialog"
+    aria-modal="true"
+  >
+    <button
+      class="side-panel__close"
+      aria-label="メニューを閉じる"
+      @click="isPanelOpen = false"
+    >
+      <HaCloseIcon />
+    </button>
+    <nav class="side-panel__nav">
+      <ul class="side-panel__ul">
+        <li
+          v-for="link in navLinks"
+          :key="link.href"
+          class="side-panel__li"
+        >
+          <a
+            v-if="link.type === 'link'"
+            :href="link.href"
+            class="side-panel__link"
+            @click="isPanelOpen = false"
+          >
+            {{ link.text }}
+          </a>
+          <HaAnchorLink
+            v-else
+            class="side-panel__link"
+            :href="link.href"
+            :text="link.text"
+            @clicked="isPanelOpen = false"
+          />
+        </li>
+      </ul>
+    </nav>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
+import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
+import HaAnchorLink from '../ha/HaAnchorLink.vue'
+
+export type NavLink
+  = | { type: 'link', href: string, text: string }
+    | { type: 'anchor', href: string, text: string }
+
+defineProps<{
+  navLinks: NavLink[]
+}>()
+
+const isPanelOpen = ref(false)
+
+watch(isPanelOpen, (val) => {
+  if (typeof document !== 'undefined') {
+    document.body.style.overflow = val ? 'hidden' : ''
+  }
+})
+</script>
+
+<style scoped lang="scss">
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.header__wrapper {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: v.$vket-header-height-pc;
+  padding: 24px;
+
+  @include m.tb {
+    height: v.$vket-header-height-tb;
+  }
+}
+
+.ho-the-header {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 8px 24px;
+
+  &__logo {
+    height: 36px;
+    border-radius: 100px;
+  }
+
+  &__ul {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+
+    @include m.tb {
+      display: none;
+    }
+  }
+
+  &__link {
+    color: white;
+  }
+}
+
+.glassy-box-4 {
+  border-radius: 20px;
+}
+
+.hamburger-icon {
+  cursor: pointer;
+
+  display: none;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+  padding: 0;
+
+  @include m.tb {
+    display: flex;
+  }
+
+  svg {
+    display: block;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.side-panel__overlay {
+  pointer-events: none;
+
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+
+  opacity: 0;
+  background: rgb(0 0 0 / 35%);
+
+  transition: opacity 0.3s ease;
+
+  &.is-open {
+    pointer-events: auto;
+    opacity: 1;
+  }
+}
+
+.side-panel {
+  position: fixed;
+  z-index: 300;
+  top: 0;
+  right: 0;
+  transform: translateX(100%);
+
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100dvh;
+  padding: 24px 20px 40px;
+  border-left: 1px solid rgb(255 255 255 / 15%);
+
+  background: rgb(30 30 35 / 72%);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  &.is-open {
+    transform: translateX(0);
+  }
+
+  &__close {
+    cursor: pointer;
+
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    align-self: flex-end;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 100px;
+
+    background: rgb(255 255 255 / 10%);
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__nav {
+    flex: 1;
+    margin-top: 40px;
+  }
+
+  &__ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+  }
+
+  &__li {
+    border-bottom: 1px solid rgb(255 255 255 / 8%);
+  }
+
+  &__link {
+    display: block;
+
+    padding: 6px;
+
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
   }
 }
 </style>
@@ -9925,8 +10080,9 @@ $side-menu-height-sp: 64px;
   headerをposition:fixedにすることによりmainにheaderの高さ分padding-topを設けたり
   アンカーリンクのオフセット調整のために使用する
 */
-$vket-header-height-pc: 80px;
-$vket-header-height-sp: 80px;
+$vket-header-height-pc: 128px;
+$vket-header-height-tb: 112px;
+$vket-header-height-sp: 112px;
 
 // topページ用に追加
 $pc-content-body-width: 1470px;
