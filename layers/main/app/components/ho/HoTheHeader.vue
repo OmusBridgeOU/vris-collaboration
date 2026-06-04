@@ -18,7 +18,7 @@ en:
         >
           <img
             class="ho-the-header__logo"
-            src="/vketreal_in_sapporo_logo_dark.png"
+            src="/vketreal_in_sapporo_logo_light.png"
           >
         </a>
       </div>
