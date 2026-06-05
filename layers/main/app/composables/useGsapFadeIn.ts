@@ -65,7 +65,7 @@ export const useGsapFadeIn = () => {
     if (!el) return
 
     gsap.to(el, {
-      filter: `blur(${options?.maxBlur ?? 24}px)`,
+      filter: `blur(${options?.maxBlur ?? 14}px)`,
       ease: 'none',
       scrollTrigger: {
         trigger: el as Element,

@@ -62,6 +62,6 @@ const initScrollEffects = () => {
 
 <style lang="scss" scoped>
 .layout.-top {
-  overflow-x: hidden;
+  overflow: visible;
 }
 </style>

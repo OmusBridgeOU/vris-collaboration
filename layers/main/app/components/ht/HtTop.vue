@@ -6,76 +6,79 @@ en:
 </i18n>
 
 <template>
-  <main class="ht-top">
-    <div class="canvas-wrapper">
-      <HaConfetti />
-      <HaFireworks />
+  <main class="ht-top content-wrapper">
+    <div class="content-wrapper__sticky">
+      <HtHeroSection />
     </div>
 
-    <HtHeroSection />
+    <div class="content-wrapper__bg content-wrapper__scroll">
+      <div class="canvas-wrapper">
+        <HaConfetti />
+        <HaFireworks />
+      </div>
 
-    <!-- <HaFirstView /> -->
+      <div class="content-wrapper__front">
+        <section id="cloud-levels">
+          <HtCrowdLevelsSection />
+        </section>
 
-    <section id="cloud-levels">
-      <HtCrowdLevelsSection />
-    </section>
+        <section id="quick-access">
+          <HtQuickAccessSection />
+        </section>
 
-    <section id="quick-access">
-      <HtQuickAccessSection />
-    </section>
+        <section id="about">
+          <HtAboutSection />
+        </section>
 
-    <section id="about">
-      <HtAboutSection />
-    </section>
+        <section id="news">
+          <HtNewsSection />
+        </section>
 
-    <section id="news">
-      <HtNewsSection />
-    </section>
+        <section id="contents">
+          <HtContentsSection />
+        </section>
 
-    <section id="contents">
-      <HtContentsSection />
-    </section>
+        <section id="schedule">
+          <HtScheduleSection />
+        </section>
 
-    <section id="schedule">
-      <HtScheduleSection />
-    </section>
+        <section id="exhibition">
+          <HtExhibitionSection />
+        </section>
 
-    <section id="exhibition">
-      <HtExhibitionSection />
-    </section>
+        <section id="access">
+          <HtAccessSection />
+        </section>
 
-    <section id="access">
-      <HtAccessSection />
-    </section>
+        <section id="ticket">
+          <HtTicketSection />
+        </section>
 
-    <section id="ticket">
-      <HtTicketSection />
-    </section>
+        <section id="qa">
+          <HtQandASection />
+        </section>
 
-    <section id="qa">
-      <HtQandASection />
-    </section>
+        <section id="code-of-conduct">
+          <HtCodeOfConductSection />
+        </section>
 
-    <section id="code-of-conduct">
-      <HtCodeOfConductSection />
-    </section>
+        <section id="related-events">
+          <HtRelatedEventsSection />
+        </section>
 
-    <section id="related-events">
-      <HtRelatedEventsSection />
-    </section>
+        <section id="sponsors-and-partners">
+          <HtSponsorsAndPartnersSection />
+        </section>
 
-    <section id="sponsors-and-partners">
-      <HtSponsorsAndPartnersSection />
-    </section>
-
-    <section id="contact">
-      <HtContactSection />
-    </section>
+        <section id="contact">
+          <HtContactSection />
+        </section>
+      </div>
+    </div>
   </main>
 </template>
 
 <script setup lang="ts">
-// import HaFirstView from '../ha/HaFirstView.vue'
 import HtAboutSection from './HtAboutSection.vue'
 import HtQuickAccessSection from './HtQuickAccessSection.vue'
 import HtNewsSection from './HtNewsSection.vue'
@@ -109,16 +112,42 @@ import HaConfetti from '../ha/HaConfetti.vue'
   background-color: v.$base-background-color;
 }
 
+.content-wrapper {
+  position: relative;
+
+  &__sticky {
+    position: sticky;
+    z-index: -1;
+    top: 0;
+  }
+
+  &__bg {
+    padding-top: 124px;
+    border-radius: 36px 36px 0 0;
+    background-color: rgba(#0b1e4f, 0.9);
+
+    @include m.sp {
+      padding-top: 64px;
+    }
+  }
+
+  &__front {
+    position: relative;
+    z-index: 2;
+  }
+}
+
 .canvas-wrapper {
   pointer-events: none;
 
-  position: fixed;
-  z-index: -1;
+  position: sticky;
+  z-index: 1;
   top: 0;
   left: 0;
 
   width: 100%;
-  height: 100%;
+  height: 100svh;
+  margin-bottom: -100svh;
 }
 
 section {

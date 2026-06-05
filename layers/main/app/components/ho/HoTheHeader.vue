@@ -10,7 +10,7 @@ en:
     id="gsap-header"
     class="header__wrapper"
   >
-    <header class="ho-the-header glassy-box-4">
+    <header class="ho-the-header glassy-box-4 none-hover-animation">
       <div class="ho-the-header__left">
         <a
           href=""
