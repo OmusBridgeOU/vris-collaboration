@@ -45,6 +45,7 @@ vi.mock('vue', async (importOriginal) => {
 // HTMLDialogElement mock for jsdom
 if (!global.HTMLDialogElement) {
   global.HTMLDialogElement = class HTMLDialogElement extends HTMLElement {
+    closedBy = ''
     open = false
     returnValue = ''
 

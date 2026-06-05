@@ -8,6 +8,7 @@
     "target": "esnext",
     "moduleResolution": "bundler",
     "moduleDetection": "force",
+    "ignoreDeprecations": "6.0",
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "composite": true,
