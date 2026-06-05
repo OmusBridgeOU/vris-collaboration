@@ -28,7 +28,7 @@ The content is organized as follows:
 ## Notes
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
-- Only files matching these patterns are included: layers/showcases/app/plugins/**/*, layers/showcases/app/middleware/**/*, layers/showcases/app/app.vue
+- Only files matching these patterns are included: layers/main/app/plugins/**/*, layers/main/app/middleware/**/*, layers/main/app/app.vue
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Files are sorted by Git change count (files with more changes are at the bottom)
@@ -36,9 +36,10 @@ The content is organized as follows:
 # Directory Structure
 ```
 layers/
-  showcases/
+  main/
     app/
       plugins/
+        gsap.client.ts
         gtm.client.ts
         runtimeConfig.ts
       app.vue
@@ -46,7 +47,25 @@ layers/
 
 # Files
 
-## File: layers/showcases/app/plugins/gtm.client.ts
+## File: layers/main/app/plugins/gsap.client.ts
+```typescript
+// plugins/gsap.client.ts
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+export default defineNuxtPlugin(() => {
+  return {
+    provide: {
+      gsap,
+      ScrollTrigger,
+    },
+  }
+})
+```
+
+## File: layers/main/app/plugins/gtm.client.ts
 ```typescript
 import { createGtm } from '@gtm-support/vue-gtm'
 import { defineNuxtPlugin } from 'nuxt/app'
@@ -57,7 +76,7 @@ export default defineNuxtPlugin(() => {
 })
 ```
 
-## File: layers/showcases/app/plugins/runtimeConfig.ts
+## File: layers/main/app/plugins/runtimeConfig.ts
 ```typescript
 import { defineNuxtPlugin } from 'nuxt/app'
 import type { RuntimeConfig } from 'nuxt/schema'
@@ -70,7 +89,7 @@ let runtimeConfig: RuntimeConfig | undefined
 
 export default defineNuxtPlugin(({ $config }) => {
   if ($config === undefined) {
-    throw new TypeError('#showcases/app/plugins/runtimeConfig failed.')
+    throw new TypeError('@/plugins/runtimeConfig failed.')
   }
   runtimeConfig = $config
 })
@@ -92,11 +111,11 @@ export const requireRuntimeConfig: () => ProcessEnv | RuntimeConfig = () => {
     return process.env
   }
 
-  throw new TypeError('#showcases/app/plugins/runtimeConfig: Not satisfied.')
+  throw new TypeError('@/plugins/runtimeConfig: Not satisfied.')
 }
 ```
 
-## File: layers/showcases/app/app.vue
+## File: layers/main/app/app.vue
 ```vue
 <i18n lang="yaml">
   ja:
@@ -141,11 +160,11 @@ export const requireRuntimeConfig: () => ProcessEnv | RuntimeConfig = () => {
       />
     </template>
   </Head>
-  <div class="app">
+  <Body class="app">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-  </div>
+  </Body>
 </template>
 
 <script lang="ts" setup>

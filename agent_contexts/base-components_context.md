@@ -88,10 +88,6 @@ layers/
           HmSocialShareLink.vue
           HmTab.vue
           HmTsx.vue
-        ho/
-          .gitkeep
-        ht/
-          .gitkeep
       layouts/
         default.vue
 ```
@@ -5874,16 +5870,6 @@ const slots = useSlots()
 
 const DefaultSlot = () => h(Fragment, {}, slots.default?.())
 </script>
-```
-
-## File: layers/base/app/components/ho/.gitkeep
-```
-
-```
-
-## File: layers/base/app/components/ht/.gitkeep
-```
-
 ```
 
 ## File: layers/base/app/layouts/default.vue

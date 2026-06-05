@@ -30,8 +30,15 @@ AGENTS=(
     ["showcases-tests"]="layers/showcases/app/test/**/*"
     ["showcases-config"]="layers/showcases/@types/**/*,layers/showcases/config/**/*,layers/showcases/i18n/**/*,layers/showcases/*.ts,layers/showcases/*.json,layers/showcases/server/**/*"
 
+    # mainレイヤーの分割
+    ["main-pages"]="layers/main/app/layouts/**/*,layers/main/app/pages/**/*"
+    ["main-components"]="layers/main/app/components/**/*"
+    ["main-logic"]="layers/main/app/utils/**/*,layers/main/app/composables/**/*,layers/main/app/models/**/*,layers/main/app/repositories/**/*"
+    ["main-infrastructure"]="layers/main/app/plugins/**/*,layers/main/app/middleware/**/*,layers/main/app/app.vue"
+    ["main-tests"]="layers/main/app/test/**/*"
+    ["main-config"]="layers/main/@types/**/*,layers/main/config/**/*,layers/main/i18n/**/*,layers/main/*.ts,layers/main/*.json,layers/main/server/**/*"
+
     # その他のレイヤー
-    ["main"]="layers/main/**/*"
     ["open-api"]="layers/open-api/**/*"
 )
 

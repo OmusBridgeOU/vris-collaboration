@@ -474,7 +474,7 @@ if (process.argv[1] === import.meta.url) {
 ```
 
 ## File: layers/open-api/scripts/template.hbs
-```handlebars
+```
 {{!-- OpenAPI から Zod スキーマ生成用テンプレート --}}
 import { z } from 'zod/v3'
 
@@ -550,7 +550,7 @@ export const {{toCamelCase operationId}} = async (
 ```
 
 ## File: layers/open-api/eslint.config.mjs
-```javascript
+```
 import eslint from '@eslint/js'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
