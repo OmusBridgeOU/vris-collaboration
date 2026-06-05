@@ -322,11 +322,11 @@ const normalSections = computed(() => {
  * ========================================
  */
 
-const mainScrollArea = ref<HTMLElement | null>(null)
-const fixedSections = ref<HTMLElement | null>(null)
-const normalScrollArea = ref<HTMLElement | null>(null)
-const hybridScrollArea = ref<HTMLElement | null>(null)
-const hybridParallaxSections = ref<HTMLElement | null>(null)
+const mainScrollArea = shallowRef<HTMLElement | null>(null)
+const fixedSections = shallowRef<HTMLElement | null>(null)
+const normalScrollArea = shallowRef<HTMLElement | null>(null)
+const hybridScrollArea = shallowRef<HTMLElement | null>(null)
+const hybridParallaxSections = shallowRef<HTMLElement | null>(null)
 
 // ランダム化された背景色を管理
 const randomizedSections = ref<SectionConfig[]>([])

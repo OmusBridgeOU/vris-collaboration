@@ -2,10 +2,10 @@ import { gsap } from 'gsap'
 
 export const useGsapFadeIn = () => {
   const fadeInUp = (
-    target: string | Element | Ref<Element | null>,
+    target: string | Element | Ref<unknown>,
     options?: { delay?: number, duration?: number, distance?: number },
   ) => {
-    const el = isRef(target) ? target.value : target
+    const el = isRef(target) ? target.value as Element | null : target
     if (!el) return
 
     gsap.fromTo(

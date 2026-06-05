@@ -4,6 +4,9 @@ export default defineVitestConfig({
   test: {
     globals: true,
     environment: 'nuxt',
+    hookTimeout: 60000,
+    testTimeout: 30000,
+    exclude: ['**/node_modules/**', '**/dist/**', '**/e2e/**', '**/.nuxt/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
@@ -18,6 +21,6 @@ export default defineVitestConfig({
         'test/**',
       ],
     },
-    setupFiles: ['test/setup.ts'],
+    setupFiles: ['app/test/setup.ts'],
   },
 })

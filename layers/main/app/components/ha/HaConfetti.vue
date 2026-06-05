@@ -2,9 +2,9 @@
 /*
   canvas最上部のランダムな位置から、ランダムな角度でランダムな色の長方形を一定間隔で収縮させながら落下させている。
 */
-import { ref, onMounted, onUnmounted } from 'vue'
+import { shallowRef, onMounted, onUnmounted } from 'vue'
 
-const canvasRef = ref<HTMLCanvasElement | null>(null)
+const canvasRef = shallowRef<HTMLCanvasElement | null>(null)
 
 // 調整可能なパラメータ
 const CONFIG = {
@@ -152,8 +152,10 @@ function resizeCanvas(canvas: HTMLCanvasElement) {
 
 // ライフサイクル
 onMounted(() => {
-  const canvas = canvasRef.value
+  const canvas = canvasRef.value as HTMLCanvasElement | null
   if (!canvas) return
+  const parent = canvas.parentElement
+  if (!parent) return
 
   const width = window.innerWidth
   if (width < 768) {
@@ -167,7 +169,7 @@ onMounted(() => {
   resizeCanvas(canvas)
 
   resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
-  resizeObserver.observe(canvas.parentElement!)
+  resizeObserver.observe(parent)
 
   intersectionObserver = new IntersectionObserver(
     (entries) => {

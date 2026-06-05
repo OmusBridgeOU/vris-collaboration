@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { shallowRef, onMounted, onUnmounted } from 'vue'
 
-const canvasRef = ref<HTMLCanvasElement | null>(null)
+const canvasRef = shallowRef<HTMLCanvasElement | null>(null)
 
 // アニメーション管理用の変数
 let animationId: number | null = null
@@ -143,8 +143,10 @@ function resizeCanvas(canvas: HTMLCanvasElement) {
 }
 
 onMounted(() => {
-  const canvas = canvasRef.value
+  const canvas = canvasRef.value as HTMLCanvasElement | null
   if (!canvas) return
+  const parent = canvas.parentElement
+  if (!parent) return
 
   // 起動時に1度だけ画面幅でscaleFactorを決定
   const width = window.innerWidth
@@ -160,7 +162,7 @@ onMounted(() => {
 
   // 親要素のリサイズを監視
   resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
-  resizeObserver.observe(canvas.parentElement!)
+  resizeObserver.observe(parent)
 
   // 要素の表示・非表示を監視（スクロールで画面外に出た場合）
   intersectionObserver = new IntersectionObserver(

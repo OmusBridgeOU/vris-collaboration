@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, shallowRef, onMounted, onUnmounted } from 'vue'
 
 // props
 const props = withDefaults(
@@ -15,7 +15,7 @@ const props = withDefaults(
 )
 
 // 状態管理
-const spanRef = ref<HTMLSpanElement | null>(null)
+const spanRef = shallowRef<HTMLSpanElement | null>(null)
 const displayValue = ref(0)
 let animationId: number | null = null
 let timeoutId: ReturnType<typeof setTimeout> | null = null

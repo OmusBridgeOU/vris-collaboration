@@ -5,7 +5,13 @@ import { FetchOptions } from 'ofetch'
 
 vi.mock('#app', () => ({
   // NOTE:  defineNuxtPluginでエラーが出るので設置
-  defineNuxtPlugin: vi.fn(),
+  defineNuxtPlugin: vi.fn((plugin) => plugin),
+  defineNuxtRouteMiddleware: vi.fn((fn) => fn),
+  useNuxtApp: vi.fn(() => ({
+    $i18n: {
+      locale: { value: 'ja' },
+    },
+  })),
   // NOTE: 本テストにおいて実際にAPI叩くわけではなく、useFetchをすげ替えたいのでダミーとなるmock作成
   useFetch: vi.fn((path: string, options: UseFetchOptions<FetchOptions>) => {
     return { path, options }
