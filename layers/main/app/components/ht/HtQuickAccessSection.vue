@@ -1,3 +1,52 @@
+<i18n lang="yaml">
+ja:
+  section:
+    title: 参加者向け重要情報
+    label: quick access
+  cards:
+    date:
+      title: 開催日
+      label: DATE
+      body: 2026年9月26日(土)
+    location:
+      title: 会場
+      label: LOCATION
+      body:
+        line1: アスティーホール
+        line2: 札幌市中央区 北4条西5丁目1 4F
+    tickets:
+      title: チケット
+      label: TICKETS
+      body: 販売開始に向けて準備中です。
+    schedule:
+      title: スケジュール
+      label: SCHEDULE
+      body: 詳細タイムテーブルは順次公開予定です。
+en:
+  section:
+    title: Key Information for Visitors
+    label: quick access
+  cards:
+    date:
+      title: Date
+      label: DATE
+      body: Sat, September 26, 2026
+    location:
+      title: Venue
+      label: LOCATION
+      body:
+        line1: ASTY Hall
+        line2: Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, 4F
+    tickets:
+      title: Tickets
+      label: TICKETS
+      body: Ticket sales are being prepared.
+    schedule:
+      title: Schedule
+      label: SCHEDULE
+      body: The detailed timetable will be announced later.
+</i18n>
+
 <script setup lang="ts">
 import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
 import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
@@ -8,6 +57,7 @@ import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
+const { t } = useI18n()
 const sectionRef = ref<HTMLElement | null>(null)
 const listRef = ref<HTMLElement | null>(null)
 const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
@@ -24,8 +74,8 @@ onMounted(() => {
 <template>
   <div ref="sectionRef">
     <HaSectionTitle
-      title="参加者向け重要情報"
-      label="quick access"
+      :title="t('section.title')"
+      :label="t('section.label')"
     />
     <div
       ref="listRef"
@@ -34,57 +84,60 @@ onMounted(() => {
       <div class="gsap-list__child grid2x__child">
         <HaQuickAccessCard
           color="cyan"
-          title="開催日"
-          label="DATE"
+          :title="t('cards.date.title')"
+          :label="t('cards.date.label')"
         >
           <template #icon>
             <HaCalendarIcon />
           </template>
           <template #body>
-            <p />
+            <p>{{ t('cards.date.body') }}</p>
           </template>
         </HaQuickAccessCard>
       </div>
       <div class="gsap-list__child grid2x__child">
         <HaQuickAccessCard
           color="magenta"
-          title="会場"
-          label="LOCATION"
+          :title="t('cards.location.title')"
+          :label="t('cards.location.label')"
         >
           <template #icon>
             <HaMapPinIcon />
           </template>
           <template #body>
-            <p />
+            <p>
+              {{ t('cards.location.body.line1') }}<br>
+              {{ t('cards.location.body.line2') }}
+            </p>
           </template>
         </HaQuickAccessCard>
       </div>
       <div class="gsap-list__child grid2x__child">
         <HaQuickAccessCard
           color="amber"
-          title="チケット"
-          label="TICKETS"
+          :title="t('cards.tickets.title')"
+          :label="t('cards.tickets.label')"
         >
           <template #icon>
             <HaTicketIcon />
           </template>
           <template #body>
-            <p />
+            <p>{{ t('cards.tickets.body') }}</p>
           </template>
         </HaQuickAccessCard>
       </div>
       <div class="gsap-list__child grid2x__child">
         <HaQuickAccessCard
           color="vermilion"
-          title="スケジュール"
-          label="SCHEDULE"
+          :title="t('cards.schedule.title')"
+          :label="t('cards.schedule.label')"
           icon-url="/icons/material-symbols_timer-outline.svg"
         >
           <template #icon>
             <HaTimerIcon />
           </template>
           <template #body>
-            <p />
+            <p>{{ t('cards.schedule.body') }}</p>
           </template>
         </HaQuickAccessCard>
       </div>
