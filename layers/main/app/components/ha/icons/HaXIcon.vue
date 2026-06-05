@@ -7,7 +7,7 @@
     <g clip-path="url(#clip0_287_95)">
       <mask
         id="mask0_287_95"
-        style="mask-type: luminance"
+        mask-type="luminance"
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
