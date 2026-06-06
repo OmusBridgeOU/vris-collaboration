@@ -710,6 +710,19 @@ export default defineNuxtConfig({
 })
 ````
 
+## File: layers/showcases/tsconfig.json
+````json
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": [
+    "./.nuxt/tsconfig.server.json",
+    "./.nuxt/tsconfig.json",
+    "../base/tsconfig.shared.json"
+  ],
+  "exclude": ["../base/**/*", "../main/**/*"]
+}
+````
+
 ## File: layers/showcases/package.json
 ````json
 {
@@ -717,7 +730,7 @@ export default defineNuxtConfig({
   "private": true,
   "type": "module",
   "version": "1.0.1",
-  "packageManager": "bun@1.3.9",
+  "packageManager": "bun@1.3.13",
   "scripts": {
     "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
     "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
@@ -748,18 +761,5 @@ export default defineNuxtConfig({
   "dependencies": {
     "vket-boilerplate-nuxt-base": "workspace:*"
   }
-}
-````
-
-## File: layers/showcases/tsconfig.json
-````json
-{
-  // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": [
-    "./.nuxt/tsconfig.server.json",
-    "./.nuxt/tsconfig.json",
-    "../base/tsconfig.shared.json"
-  ],
-  "exclude": ["../base/**/*", "../main/**/*"]
 }
 ````

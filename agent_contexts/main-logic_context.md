@@ -46,6 +46,8 @@ layers/
       models/
         json.ts
         todo.ts
+      repositories/
+        .gitkeep
       utils/
         api.ts
         factory.ts
@@ -121,6 +123,11 @@ export const todoSchema = z.object({
 })
 
 export type Todo = z.infer<typeof todoSchema>
+````
+
+## File: layers/main/app/repositories/.gitkeep
+````
+
 ````
 
 ## File: layers/main/app/utils/api.ts
@@ -345,7 +352,7 @@ let isFetching = false // Fetch実行中フラグ（開発者ツールを用い�
 let retryCount = 0
 
 // 開催日時を指定
-const EVENT_START = new Date('2026-06-15T00:00:00+09:00')
+const EVENT_START = new Date('2026-09-26T10:00:00+09:00')
 
 export function isBeforeEvent(): boolean {
   return new Date() < EVENT_START

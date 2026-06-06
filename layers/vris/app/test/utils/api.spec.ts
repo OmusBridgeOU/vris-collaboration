@@ -4,8 +4,8 @@ import type { NitroFetchRequest } from 'nitropack'
 // NOTE: mockを使う際に必要な記述
 vi.mock('#app', () => ({
   // NOTE:  defineNuxtPluginでエラーが出るので設置
-  defineNuxtPlugin: vi.fn((plugin) => plugin),
-  defineNuxtRouteMiddleware: vi.fn((fn) => fn),
+  defineNuxtPlugin: vi.fn(plugin => plugin),
+  defineNuxtRouteMiddleware: vi.fn(fn => fn),
   useNuxtApp: vi.fn(() => ({
     $i18n: {
       locale: { value: 'ja' },

@@ -105,6 +105,41 @@ const navLinks: NavLink[] = [{ type: 'link', href: '/', text: 'TOPページ' }]
 
 ## File: layers/main/app/layouts/top.vue
 ```vue
+<i18n lang="yaml">
+ja:
+  nav:
+    top: TOPページ
+    quickAccess: 参加者向け重要情報
+    about: VketReal in 札幌とは
+    news: お知らせ
+    contents: 企画・コンテンツ
+    schedule: 開催スケジュール
+    exhibition: 出展情報
+    access: アクセス
+    ticket: チケット
+    qa: よくある質問
+    codeOfConduct: 行動規範
+    relatedEvents: 関連イベント
+    sponsorsAndPartners: ご協力
+    contact: お問い合わせ
+en:
+  nav:
+    top: Top
+    quickAccess: Key Information
+    about: About VketReal in SAPPORO
+    news: News
+    contents: Contents
+    schedule: Schedule
+    exhibition: Exhibition
+    access: Access
+    ticket: Tickets
+    qa: FAQ
+    codeOfConduct: Code of Conduct
+    relatedEvents: Related Events
+    sponsorsAndPartners: Partners
+    contact: Contact
+</i18n>
+
 <template>
   <div class="layout -top">
     <HoTheHeader :nav-links="navLinks" />
@@ -116,22 +151,24 @@ const navLinks: NavLink[] = [{ type: 'link', href: '/', text: 'TOPページ' }]
 <script setup lang="ts">
 import type { NavLink } from '../components/ho/HoTheHeader.vue'
 
-const navLinks: NavLink[] = [
-  { type: 'link', href: '/', text: 'TOPページ' },
-  { type: 'anchor', href: 'quick-access', text: '参加者向け重要情報' },
-  { type: 'anchor', href: 'about', text: 'VketReal in 札幌とは' },
-  { type: 'anchor', href: 'news', text: 'お知らせ' },
-  { type: 'anchor', href: 'contents', text: '企画・コンテンツ' },
-  { type: 'anchor', href: 'schedule', text: '開催スケジュール' },
-  { type: 'anchor', href: 'exhibition', text: '出展情報' },
-  { type: 'anchor', href: 'access', text: 'アクセス' },
-  { type: 'anchor', href: 'tickets', text: 'チケット' },
-  { type: 'anchor', href: 'qa', text: 'よくある質問' },
-  { type: 'anchor', href: 'code-of-conduct', text: '行動規範' },
-  { type: 'anchor', href: 'related-events', text: '関連イベント' },
-  { type: 'anchor', href: 'sponsors-and-partners', text: 'ご協力' },
-  { type: 'anchor', href: 'contact', text: 'お問い合わせ' },
-]
+const { t } = useI18n()
+
+const navLinks = computed<NavLink[]>(() => [
+  { type: 'link', href: '/', text: t('nav.top') },
+  { type: 'anchor', href: 'quick-access', text: t('nav.quickAccess') },
+  { type: 'anchor', href: 'about', text: t('nav.about') },
+  { type: 'anchor', href: 'news', text: t('nav.news') },
+  { type: 'anchor', href: 'contents', text: t('nav.contents') },
+  { type: 'anchor', href: 'schedule', text: t('nav.schedule') },
+  { type: 'anchor', href: 'exhibition', text: t('nav.exhibition') },
+  { type: 'anchor', href: 'access', text: t('nav.access') },
+  { type: 'anchor', href: 'ticket', text: t('nav.ticket') },
+  { type: 'anchor', href: 'qa', text: t('nav.qa') },
+  { type: 'anchor', href: 'code-of-conduct', text: t('nav.codeOfConduct') },
+  { type: 'anchor', href: 'related-events', text: t('nav.relatedEvents') },
+  { type: 'anchor', href: 'sponsors-and-partners', text: t('nav.sponsorsAndPartners') },
+  { type: 'anchor', href: 'contact', text: t('nav.contact') },
+])
 </script>
 
 <style lang="scss" scoped>

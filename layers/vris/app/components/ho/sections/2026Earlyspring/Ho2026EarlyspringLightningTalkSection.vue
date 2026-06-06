@@ -91,7 +91,7 @@ interface MetaItem {
 }
 
 const i18n = useI18n()
-const translate = (key: string) => i18n.t(key as never)
+const translate = (key: string) => i18n.t(key)
 const t = translate
 
 const points = computed(() =>

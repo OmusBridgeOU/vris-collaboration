@@ -1877,96 +1877,6 @@ withDefaults(
 </style>
 ```
 
-## File: layers/main/app/components/hm/HmSwiper.vue
-```vue
-<script setup lang="ts">
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import HaSwiperCard from '../ha/HaSwiperCard.vue'
-import type { Swiper as SwiperType } from 'swiper'
-
-// ブレークポイントごとのSlidesPerViewの型
-type BreakpointSlidesPerView = {
-  [width: number]: {
-    slidesPerView: number | 'auto'
-  }
-}
-
-defineProps<{
-  _slidesPerView?: number | 'auto' // デフォルトのslidesPerView
-  _breakpoints?: BreakpointSlidesPerView // ブレークポイントごとの設定
-}>()
-
-const modules = [Autoplay, Navigation, Pagination]
-
-const items = [
-  { id: 1, title: '', href: '', imgSrc: '' },
-  { id: 2, title: '', href: '', imgSrc: '' },
-  { id: 3, title: '', href: '', imgSrc: '' },
-]
-
-const emit = defineEmits<{
-  slideChange: [isBeginning: boolean, isEnd: boolean]
-}>()
-
-const swiperInstance = ref<SwiperType | null>(null)
-
-const updateState = (swiper: SwiperType) => {
-  emit('slideChange', swiper.isBeginning, swiper.isEnd)
-}
-
-const onSwiper = (swiper: SwiperType) => {
-  swiperInstance.value = swiper
-  updateState(swiper)
-}
-
-const onSlideChange = (swiper: SwiperType) => {
-  updateState(swiper)
-}
-
-defineExpose({ swiperInstance })
-</script>
-
-<template>
-  <div class="works-swiper mb-25">
-    <Swiper
-      :slides-per-view="_slidesPerView ?? 'auto'"
-      :breakpoints="_breakpoints"
-      :speed="1000"
-      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
-      :modules="modules"
-      :centered-slides="false"
-      :space-between="28"
-      :navigation="{
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      }"
-      :pagination="{
-        el: '.custom-swiper-pagination',
-        clickable: true,
-      }"
-      @swiper="onSwiper"
-      @slide-change="onSlideChange"
-    >
-      <SwiperSlide
-        v-for="item in items"
-        :key="item.id"
-      >
-        <HaSwiperCard :item="item" />
-      </SwiperSlide>
-    </Swiper>
-    <div class="custom-swiper-pagination" />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-:deep(.swiper) {
-  overflow: visible;
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtHeroSection.vue
 ```vue
 <template>
@@ -2427,49 +2337,6 @@ defineExpose({ swiperInstance })
         <rect
           width="22.0335"
           height="22.0335"
-          fill="white"
-        />
-      </clipPath>
-    </defs>
-  </svg>
-</template>
-```
-
-## File: layers/main/app/components/ha/icons/HaXIcon.vue
-```vue
-<template>
-  <svg
-    viewBox="0 0 29 29"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g clip-path="url(#clip0_287_95)">
-      <mask
-        id="mask0_287_95"
-        style="mask-type: luminance"
-        maskUnits="userSpaceOnUse"
-        x="0"
-        y="0"
-        width="29"
-        height="29"
-      >
-        <path
-          d="M0 0H28.9863V28.9863H0V0Z"
-          fill="white"
-        />
-      </mask>
-      <g mask="url(#mask0_287_95)">
-        <path
-          d="M22.8267 1.3584H27.272L17.5616 12.485L28.9863 27.6283H20.042L13.0314 18.4458L5.01877 27.6283H0.569374L10.9547 15.7232L0 1.36047H9.17209L15.4994 9.752L22.8267 1.3584ZM21.2635 24.9615H23.7274L7.8263 3.88642H5.1844L21.2635 24.9615Z"
-          fill="white"
-        />
-      </g>
-    </g>
-    <defs>
-      <clipPath id="clip0_287_95">
-        <rect
-          width="28.9863"
-          height="28.9863"
           fill="white"
         />
       </clipPath>
@@ -2942,6 +2809,121 @@ onUnmounted(() => {
 </template>
 ```
 
+## File: layers/main/app/components/hm/HmSwiper.vue
+```vue
+<i18n lang="yaml">
+ja:
+  items:
+    earlySpring:
+      title: VketReal mini in 札幌 2026 Early Spring
+    summer:
+      title: VketReal in 札幌 2025 Summer
+en:
+  items:
+    earlySpring:
+      title: VketReal mini in SAPPORO 2026 Early Spring
+    summer:
+      title: VketReal in SAPPORO 2025 Summer
+</i18n>
+
+<script setup lang="ts">
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import HaSwiperCard from '../ha/HaSwiperCard.vue'
+import type { Swiper as SwiperType } from 'swiper'
+
+// ブレークポイントごとのSlidesPerViewの型
+type BreakpointSlidesPerView = {
+  [width: number]: {
+    slidesPerView: number | 'auto'
+  }
+}
+
+defineProps<{
+  _slidesPerView?: number | 'auto' // デフォルトのslidesPerView
+  _breakpoints?: BreakpointSlidesPerView // ブレークポイントごとの設定
+}>()
+
+const modules = [Autoplay, Navigation, Pagination]
+const { t } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: t('items.earlySpring.title'),
+    href: 'https://archived.vris.jp/',
+    imgSrc: 'https://archived.vris.jp/images/2026EarlySpring/2026EarlySpring-kv.png',
+  },
+  {
+    id: 2,
+    title: t('items.summer.title'),
+    href: 'https://archived.vris.jp/2025Summer',
+    imgSrc: 'https://archived.vris.jp/images/2025Summer/kv.png',
+  },
+])
+
+const emit = defineEmits<{
+  slideChange: [isBeginning: boolean, isEnd: boolean]
+}>()
+
+const swiperInstance = ref<SwiperType | null>(null)
+
+const updateState = (swiper: SwiperType) => {
+  emit('slideChange', swiper.isBeginning, swiper.isEnd)
+}
+
+const onSwiper = (swiper: SwiperType) => {
+  swiperInstance.value = swiper
+  updateState(swiper)
+}
+
+const onSlideChange = (swiper: SwiperType) => {
+  updateState(swiper)
+}
+
+defineExpose({ swiperInstance })
+</script>
+
+<template>
+  <div class="works-swiper mb-25">
+    <Swiper
+      :slides-per-view="_slidesPerView ?? 'auto'"
+      :breakpoints="_breakpoints"
+      :speed="1000"
+      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
+      :modules="modules"
+      :centered-slides="false"
+      :space-between="28"
+      :navigation="{
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      }"
+      :pagination="{
+        el: '.custom-swiper-pagination',
+        clickable: true,
+      }"
+      @swiper="onSwiper"
+      @slide-change="onSlideChange"
+    >
+      <SwiperSlide
+        v-for="item in items"
+        :key="item.id"
+      >
+        <HaSwiperCard :item="item" />
+      </SwiperSlide>
+    </Swiper>
+    <div class="custom-swiper-pagination" />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+:deep(.swiper) {
+  overflow: visible;
+}
+</style>
+```
+
 ## File: layers/main/app/components/ho/HoTheHeader.vue
 ```vue
 <i18n lang="yaml">
@@ -3318,6 +3300,49 @@ onMounted(() => {
   }
 }
 </style>
+```
+
+## File: layers/main/app/components/ha/icons/HaXIcon.vue
+```vue
+<template>
+  <svg
+    viewBox="0 0 29 29"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_287_95)">
+      <mask
+        id="mask0_287_95"
+        mask-type="luminance"
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
+        width="29"
+        height="29"
+      >
+        <path
+          d="M0 0H28.9863V28.9863H0V0Z"
+          fill="white"
+        />
+      </mask>
+      <g mask="url(#mask0_287_95)">
+        <path
+          d="M22.8267 1.3584H27.272L17.5616 12.485L28.9863 27.6283H20.042L13.0314 18.4458L5.01877 27.6283H0.569374L10.9547 15.7232L0 1.36047H9.17209L15.4994 9.752L22.8267 1.3584ZM21.2635 24.9615H23.7274L7.8263 3.88642H5.1844L21.2635 24.9615Z"
+          fill="white"
+        />
+      </g>
+    </g>
+    <defs>
+      <clipPath id="clip0_287_95">
+        <rect
+          width="28.9863"
+          height="28.9863"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+</template>
 ```
 
 ## File: layers/main/app/components/ha/HaAboutCard.vue
@@ -4095,86 +4120,6 @@ defineProps<{
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaTicketCard.vue
-```vue
-<template>
-  <div class="ticket-card glassy-box-3">
-    <p class="ticket-card__title">
-      {{ title }}
-    </p>
-    <p class="ticket-card_desc">
-      {{ desc }}
-    </p>
-
-    <button class="glassy-button-3 ticket-card__button none-hover-animation">
-      チケット購入
-    </button>
-  </div>
-</template>
-
-<script setup lang="ts">
-defineProps<{
-  title: string
-  desc: string
-}>()
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.ticket-card {
-  display: flex;
-  flex-direction: column;
-  gap: 44px;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 100%;
-
-  background: rgb(49 35 96 / 40%);
-  mix-blend-mode: plus-lighter;
-
-  @include m.tb {
-    gap: 16px;
-  }
-
-  &__title {
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 1em;
-
-    @include m.sp {
-      font-size: 16px;
-    }
-  }
-
-  &__desc {
-    font-size: 16px;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 130px;
-    height: 40px;
-
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/HaInfoCard.vue
 ```vue
 <script setup lang="ts">
@@ -4437,6 +4382,119 @@ defineProps<{
     display: flex;
     gap: 4px;
     align-items: center;
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaTicketCard.vue
+```vue
+<i18n lang="yaml">
+ja:
+  cta:
+    purchase: チケット購入
+    pending: 準備中
+en:
+  cta:
+    purchase: Buy Tickets
+    pending: Coming soon
+</i18n>
+
+<template>
+  <div class="ticket-card glassy-box-3">
+    <p class="ticket-card__title">
+      {{ title }}
+    </p>
+    <p class="ticket-card_desc">
+      {{ desc }}
+    </p>
+
+    <NuxtLink
+      v-if="href"
+      class="glassy-button-3 ticket-card__button none-hover-animation"
+      :to="href"
+      target="_blank"
+      rel="noopener"
+    >
+      {{ ctaLabel ?? t('cta.purchase') }}
+    </NuxtLink>
+    <span
+      v-else
+      class="glassy-button-3 ticket-card__button ticket-card__button--disabled none-hover-animation"
+    >
+      {{ ctaLabel ?? t('cta.pending') }}
+    </span>
+  </div>
+</template>
+
+<script setup lang="ts">
+const { t } = useI18n()
+
+defineProps<{
+  title: string
+  desc: string
+  href?: string
+  ctaLabel?: string
+}>()
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ticket-card {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgb(49 35 96 / 40%);
+  mix-blend-mode: plus-lighter;
+
+  @include m.tb {
+    gap: 16px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1em;
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__desc {
+    font-size: 16px;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 130px;
+    height: 40px;
+
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    text-decoration: none;
+
+    &--disabled {
+      cursor: not-allowed;
+      opacity: 0.68;
+    }
   }
 }
 </style>
@@ -6122,92 +6180,6 @@ onMounted(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtTicketSection.vue
-```vue
-<script setup lang="ts">
-import HaTicketCard from '../ha/HaTicketCard.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.ticket-grid__item')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="チケット"
-      label="tickets"
-    />
-    <p class="description description--left">
-      持続可能なイベント開催のため、<br>
-      チケット制でのご参加にご協力をお願いいたします。<br>
-      チケットは複数種類を用意予定です。
-    </p>
-    <div
-      ref="listRef"
-      class="ticket-grid"
-    >
-      <div class="ticket-grid__item">
-        <HaTicketCard
-          title="チケット①"
-          desc="descriptiondescriptiondescription"
-        />
-      </div>
-      <div class="ticket-grid__item">
-        <HaTicketCard
-          title="チケット②"
-          desc="descriptiondescriptiondescription"
-        />
-      </div>
-      <div class="ticket-grid__item ticket-grid__item--full-width">
-        <HaTicketCard
-          title="チケット③"
-          desc="descriptiondescriptiondescription"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.ticket-grid {
-  display: grid;
-  grid-auto-rows: 275px;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 24px;
-
-  @include m.tb {
-    grid-auto-rows: 166px;
-    gap: 12px 16px;
-  }
-
-  @include m.sp {
-    grid-template-columns: 1fr;
-  }
-
-  &__item {
-    &--full-width {
-      grid-column: 1 / -1;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/HaAccordionItem.vue
 ```vue
 <script setup lang="ts">
@@ -6391,6 +6363,142 @@ const toggle = (id: number) => {
 
 .accordion-glassy-box {
   box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtTicketSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  section:
+    title: チケット
+    label: tickets
+  description:
+    line1: 持続可能なイベント開催のため、
+    line2: チケット制でのご参加にご協力をお願いいたします。
+    line3: チケットは複数種類を用意予定です。
+  cards:
+    general:
+      title: 一般参加チケット
+      desc: 販売開始に向けて準備中です。
+      cta: 準備中
+    exhibitor:
+      title: 出展者向け案内
+      desc: 募集要項・申込方法は順次公開予定です。
+      cta: 近日公開
+    updates:
+      title: 最新情報
+      desc: 公式Xで販売開始や追加情報をお知らせします。
+      cta: 公式Xを見る
+en:
+  section:
+    title: Tickets
+    label: tickets
+  description:
+    line1: To support a sustainable event,
+    line2: we kindly ask for your cooperation with ticketed admission.
+    line3: Multiple ticket types are planned.
+  cards:
+    general:
+      title: General Admission
+      desc: Ticket sales are being prepared.
+      cta: Coming soon
+    exhibitor:
+      title: Exhibitor Information
+      desc: Application guidelines and details will be announced later.
+      cta: Coming soon
+    updates:
+      title: Latest Updates
+      desc: Sales launches and additional information will be announced on official X.
+      cta: Official X
+</i18n>
+
+<script setup lang="ts">
+import HaTicketCard from '../ha/HaTicketCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+const sectionRef = ref<Element | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.ticket-grid__item')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="t('section.title')"
+      :label="t('section.label')"
+    />
+    <p class="description description--left">
+      {{ t('description.line1') }}<br>
+      {{ t('description.line2') }}<br>
+      {{ t('description.line3') }}
+    </p>
+    <div
+      ref="listRef"
+      class="ticket-grid"
+    >
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          :title="t('cards.general.title')"
+          :desc="t('cards.general.desc')"
+          :cta-label="t('cards.general.cta')"
+        />
+      </div>
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          :title="t('cards.exhibitor.title')"
+          :desc="t('cards.exhibitor.desc')"
+          :cta-label="t('cards.exhibitor.cta')"
+        />
+      </div>
+      <div class="ticket-grid__item ticket-grid__item--full-width">
+        <HaTicketCard
+          :title="t('cards.updates.title')"
+          :desc="t('cards.updates.desc')"
+          href="https://x.com/vketreal_vris"
+          :cta-label="t('cards.updates.cta')"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ticket-grid {
+  display: grid;
+  grid-auto-rows: 275px;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+
+  @include m.tb {
+    grid-auto-rows: 166px;
+    gap: 12px 16px;
+  }
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+  }
+
+  &__item {
+    &--full-width {
+      grid-column: 1 / -1;
+    }
+  }
 }
 </style>
 ```
@@ -6715,123 +6823,6 @@ onMounted(() => {
 </template>
 ```
 
-## File: layers/main/app/components/ht/HtQuickAccessSection.vue
-```vue
-<script setup lang="ts">
-import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
-import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
-import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
-import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
-import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.gsap-list__child')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="参加者向け重要情報"
-      label="quick access"
-    />
-    <div
-      ref="listRef"
-      class="grid2x"
-    >
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="cyan"
-          title="開催日"
-          label="DATE"
-        >
-          <template #icon>
-            <HaCalendarIcon />
-          </template>
-          <template #body>
-            <p />
-          </template>
-        </HaQuickAccessCard>
-      </div>
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="magenta"
-          title="会場"
-          label="LOCATION"
-        >
-          <template #icon>
-            <HaMapPinIcon />
-          </template>
-          <template #body>
-            <p />
-          </template>
-        </HaQuickAccessCard>
-      </div>
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="amber"
-          title="チケット"
-          label="TICKETS"
-        >
-          <template #icon>
-            <HaTicketIcon />
-          </template>
-          <template #body>
-            <p />
-          </template>
-        </HaQuickAccessCard>
-      </div>
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="vermilion"
-          title="スケジュール"
-          label="SCHEDULE"
-          icon-url="/icons/material-symbols_timer-outline.svg"
-        >
-          <template #icon>
-            <HaTimerIcon />
-          </template>
-          <template #body>
-            <p />
-          </template>
-        </HaQuickAccessCard>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/mixins' as m;
-
-.grid2x {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px 20px;
-
-  @include m.sp {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-
-  &__child {
-    height: 100%;
-    min-height: 280px;
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtExhibitionSection.vue
 ```vue
 <script setup lang="ts">
@@ -7026,6 +7017,176 @@ onMounted(() => {
     @include m.sp {
       width: 100%;
     }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtQuickAccessSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  section:
+    title: 参加者向け重要情報
+    label: quick access
+  cards:
+    date:
+      title: 開催日
+      label: DATE
+      body: 2026年9月26日(土)
+    location:
+      title: 会場
+      label: LOCATION
+      body:
+        line1: アスティーホール
+        line2: 札幌市中央区 北4条西5丁目1 4F
+    tickets:
+      title: チケット
+      label: TICKETS
+      body: 販売開始に向けて準備中です。
+    schedule:
+      title: スケジュール
+      label: SCHEDULE
+      body: 詳細タイムテーブルは順次公開予定です。
+en:
+  section:
+    title: Key Information for Visitors
+    label: quick access
+  cards:
+    date:
+      title: Date
+      label: DATE
+      body: Sat, September 26, 2026
+    location:
+      title: Venue
+      label: LOCATION
+      body:
+        line1: ASTY Hall
+        line2: Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, 4F
+    tickets:
+      title: Tickets
+      label: TICKETS
+      body: Ticket sales are being prepared.
+    schedule:
+      title: Schedule
+      label: SCHEDULE
+      body: The detailed timetable will be announced later.
+</i18n>
+
+<script setup lang="ts">
+import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
+import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
+import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
+import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
+import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.gsap-list__child')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="t('section.title')"
+      :label="t('section.label')"
+    />
+    <div
+      ref="listRef"
+      class="grid2x"
+    >
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="cyan"
+          :title="t('cards.date.title')"
+          :label="t('cards.date.label')"
+        >
+          <template #icon>
+            <HaCalendarIcon />
+          </template>
+          <template #body>
+            <p>{{ t('cards.date.body') }}</p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="magenta"
+          :title="t('cards.location.title')"
+          :label="t('cards.location.label')"
+        >
+          <template #icon>
+            <HaMapPinIcon />
+          </template>
+          <template #body>
+            <p>
+              {{ t('cards.location.body.line1') }}<br>
+              {{ t('cards.location.body.line2') }}
+            </p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="amber"
+          :title="t('cards.tickets.title')"
+          :label="t('cards.tickets.label')"
+        >
+          <template #icon>
+            <HaTicketIcon />
+          </template>
+          <template #body>
+            <p>{{ t('cards.tickets.body') }}</p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="vermilion"
+          :title="t('cards.schedule.title')"
+          :label="t('cards.schedule.label')"
+          icon-url="/icons/material-symbols_timer-outline.svg"
+        >
+          <template #icon>
+            <HaTimerIcon />
+          </template>
+          <template #body>
+            <p>{{ t('cards.schedule.body') }}</p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
+.grid2x {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 20px;
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  &__child {
+    height: 100%;
+    min-height: 280px;
   }
 }
 </style>

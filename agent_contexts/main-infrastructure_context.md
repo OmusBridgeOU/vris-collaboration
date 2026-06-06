@@ -38,6 +38,8 @@ The content is organized as follows:
 layers/
   main/
     app/
+      middleware/
+        .gitkeep
       plugins/
         gsap.client.ts
         gtm.client.ts
@@ -46,6 +48,11 @@ layers/
 ```
 
 # Files
+
+## File: layers/main/app/middleware/.gitkeep
+```
+
+```
 
 ## File: layers/main/app/plugins/gsap.client.ts
 ```typescript
@@ -120,14 +127,20 @@ export const requireRuntimeConfig: () => ProcessEnv | RuntimeConfig = () => {
 <i18n lang="yaml">
   ja:
     site:
-      title: Vket Boilerplate Nuxt
-      title_template: "{title} - HIKKY Web Frontend"
-      description: Vketのサイト開発で活用しているボイラープレート
+      title: VketReal in 札幌 2026 Autumn
+      title_template: "{title} - VketReal in 札幌"
+      description: VRSNSユーザーとXRクリエイターが札幌に集うリアルイベント、VketReal in 札幌 2026 Autumn。2026年9月26日(土)、アスティーホールで開催予定です。
+      keywords: VketReal,札幌,2026 Autumn,VR,SNS,XR,メタバース,イベント,北海道
+      author: VketReal in 札幌 実行委員会
+      og_locale: ja_JP
   en:
     site:
-      title: Vket Boilerplate Nuxt
-      title_template: "{title} - HIKKY Web Frontend"
-      description: A boilerplate used for Vket site development
+      title: VketReal in SAPPORO 2026 Autumn
+      title_template: "{title} - VketReal in SAPPORO"
+      description: VketReal in SAPPORO 2026 Autumn is a real-world event for VRSNS users and XR creators in Sapporo, scheduled for September 26, 2026 at ASTY Hall.
+      keywords: VketReal,Sapporo,2026 Autumn,VR,SNS,XR,metaverse,event,Hokkaido
+      author: VketReal in SAPPORO Executive Committee
+      og_locale: en_US
 </i18n>
 
 <template>
@@ -170,16 +183,20 @@ export const requireRuntimeConfig: () => ProcessEnv | RuntimeConfig = () => {
 <script lang="ts" setup>
 const route = useRoute()
 const i18n = useI18n()
-const currentFullPath = ref(`${useRuntimeConfig().public.url}${route.fullPath}`)
+const runtimeConfig = useRuntimeConfig()
 const currentLang = ref(i18n.locale.value)
+
+const currentFullPath = computed(() => `${runtimeConfig.public.url}${route.fullPath}`)
+const title = computed(() => i18n.t('site.title'))
+const description = computed(() => i18n.t('site.description'))
+const ogImageUrl = computed(() => `${runtimeConfig.public.url}/kv.png`)
 
 const currentJaFullPath = computed(() => {
   if (currentLang.value === 'ja') {
     return currentFullPath.value
   } else {
-    return currentFullPath.value
-      .replace(/\/en(\/|$)/, '/')
-      .replace(/\/{2,}/, '/')
+    const path = route.fullPath.replace(/^\/en(?=\/|$)/, '') || '/'
+    return `${runtimeConfig.public.url}${path}`
   }
 })
 
@@ -190,7 +207,7 @@ const currentEnFullPath = computed(() => {
     const path = route.fullPath.endsWith('/')
       ? route.fullPath
       : `${route.fullPath}/`
-    return `${useRuntimeConfig().public.url}/en${path}`
+    return `${runtimeConfig.public.url}/en${path}`
   }
 })
 
@@ -198,23 +215,60 @@ useHeadSafe({
   htmlAttrs: {
     lang: currentLang.value,
   },
+  title: title.value,
   titleTemplate: (titleChunk) => {
     return titleChunk
       ? i18n.t('site.title_template', { title: titleChunk })
-      : i18n.t('site.title')
+      : title.value
   },
   meta: [
     {
       name: 'description',
-      content: i18n.t('site.description'),
+      content: description.value,
+    },
+    {
+      property: 'og:title',
+      content: title.value,
     },
     {
       property: 'og:description',
-      content: i18n.t('site.description'),
+      content: description.value,
     },
     {
       property: 'og:site_name',
-      content: i18n.t('site.title'),
+      content: title.value,
+    },
+    {
+      property: 'og:url',
+      content: currentFullPath.value,
+    },
+    {
+      property: 'og:image',
+      content: ogImageUrl.value,
+    },
+    {
+      property: 'og:locale',
+      content: i18n.t('site.og_locale'),
+    },
+    {
+      name: 'twitter:title',
+      content: title.value,
+    },
+    {
+      name: 'twitter:description',
+      content: description.value,
+    },
+    {
+      name: 'twitter:image',
+      content: ogImageUrl.value,
+    },
+    {
+      name: 'keywords',
+      content: i18n.t('site.keywords'),
+    },
+    {
+      name: 'author',
+      content: i18n.t('site.author'),
     },
   ],
 })
