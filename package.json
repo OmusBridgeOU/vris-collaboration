@@ -38,6 +38,7 @@
     "typecheck": "bun run --recursive --filter './layers/*' --filter '!**/node_modules/**' --if-present typecheck",
     "test:ut": "bun run --recursive --filter './layers/*' --filter '!**/node_modules/**' --if-present test:ut",
     "fix": "bun run --recursive --filter './layers/*' --filter '!**/node_modules/**' --if-present fix",
+    "build": "target=production bun --filter vris-collaboration build",
     "build:local": "bun run --recursive --filter './layers/*' --filter '!**/node_modules/**' --if-present build:local"
   },
   "devDependencies": {

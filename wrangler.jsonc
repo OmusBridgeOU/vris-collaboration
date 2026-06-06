@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "vris-collaboration",
+  "compatibility_date": "2026-06-01",
+  "pages_build_output_dir": "layers/main/dist",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "vris-collaboration-content",
+      "database_id": "d209d16e-aaf5-4fc2-9f4b-686b4590b6d1"
+    }
+  ]
+}

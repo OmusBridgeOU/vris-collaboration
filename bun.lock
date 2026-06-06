@@ -123,7 +123,7 @@
       },
     },
     "layers/main": {
-      "name": "vket-boilerplate-nuxt-main",
+      "name": "vris-collaboration",
       "version": "1.0.1",
       "dependencies": {
         "@nuxt/content": "^3.12.0",
@@ -163,6 +163,10 @@
         "remark-gh-alerts": "^0.0.3",
         "vket-boilerplate-nuxt-base": "workspace:*",
       },
+    },
+    "layers/vris-26autumn-access-manager": {
+      "name": "vris-26autumn-access-manager",
+      "version": "0.1.0",
     },
   },
   "packages": {
@@ -2840,11 +2844,13 @@
 
     "vket-boilerplate-nuxt-derived-main": ["vket-boilerplate-nuxt-derived-main@workspace:layers/derived-main"],
 
-    "vket-boilerplate-nuxt-main": ["vket-boilerplate-nuxt-main@workspace:layers/main"],
-
     "vket-boilerplate-nuxt-open-api": ["vket-boilerplate-nuxt-open-api@workspace:layers/open-api"],
 
     "vket-boilerplate-nuxt-showcases": ["vket-boilerplate-nuxt-showcases@workspace:layers/showcases"],
+
+    "vris-26autumn-access-manager": ["vris-26autumn-access-manager@workspace:layers/vris-26autumn-access-manager"],
+
+    "vris-collaboration": ["vris-collaboration@workspace:layers/main"],
 
     "vris-monorepo": ["vris-monorepo@workspace:layers/vris"],
 
