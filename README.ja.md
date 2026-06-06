@@ -99,7 +99,7 @@
 ```bash
 # 特定レイヤーでの作業
 bun --filter vket-boilerplate-nuxt-base dev
-bun --filter vket-boilerplate-nuxt-main build
+bun --filter vris-collaboration build
 bun --filter vket-boilerplate-nuxt-showcases test:ut
 ```
 

@@ -29,7 +29,7 @@ Use this file to understand existing patterns before creating new components or 
 
 ### Layer Architecture Commands
 - `bun --filter vket-boilerplate-nuxt-base dev` - Start base layer dev server
-- `bun --filter vket-boilerplate-nuxt-main dev` - Start main layer dev server
+- `bun --filter vris-collaboration dev` - Start main layer dev server
 - `bun --filter vket-boilerplate-nuxt-showcases dev` - Start showcases dev server
 - `bun --filter vket-boilerplate-nuxt-open-api generate` - Generate OpenAPI models
 
@@ -65,7 +65,7 @@ Use this file to understand existing patterns before creating new components or 
 - `bun --filter <layer-name> typecheck` - Check TypeScript types (must be 0 errors)
 - `bun --filter <layer-name> lint` - Run ESLint and Stylelint (must be 0 errors)
 - `bun --filter <layer-name> fix` - Auto-fix linting issues
-- `bun --filter vket-boilerplate-nuxt-main fix-openapi-models` - Fix generated OpenAPI models
+- `bun --filter vris-collaboration fix-openapi-models` - Fix generated OpenAPI models
 
 ## PR Instructions
 
