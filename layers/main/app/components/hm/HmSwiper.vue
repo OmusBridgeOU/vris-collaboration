@@ -1,3 +1,18 @@
+<i18n lang="yaml">
+ja:
+  items:
+    earlySpring:
+      title: VketReal mini in 札幌 2026 Early Spring
+    summer:
+      title: VketReal in 札幌 2025 Summer
+en:
+  items:
+    earlySpring:
+      title: VketReal mini in SAPPORO 2026 Early Spring
+    summer:
+      title: VketReal in SAPPORO 2025 Summer
+</i18n>
+
 <script setup lang="ts">
 import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
@@ -18,12 +33,22 @@ defineProps<{
 }>()
 
 const modules = [Autoplay, Navigation, Pagination]
+const { t } = useI18n()
 
-const items = [
-  { id: 1, title: '', href: '', imgSrc: '' },
-  { id: 2, title: '', href: '', imgSrc: '' },
-  { id: 3, title: '', href: '', imgSrc: '' },
-]
+const items = computed(() => [
+  {
+    id: 1,
+    title: t('items.earlySpring.title'),
+    href: 'https://archived.vris.jp/',
+    imgSrc: 'https://archived.vris.jp/images/2026EarlySpring/2026EarlySpring-kv.png',
+  },
+  {
+    id: 2,
+    title: t('items.summer.title'),
+    href: 'https://archived.vris.jp/2025Summer',
+    imgSrc: 'https://archived.vris.jp/images/2025Summer/kv.png',
+  },
+])
 
 const emit = defineEmits<{
   slideChange: [isBeginning: boolean, isEnd: boolean]

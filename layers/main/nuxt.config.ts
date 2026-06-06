@@ -5,12 +5,8 @@ import { getRuntimeConfigOfEnvType } from './config/runtimeConfig'
 import { nuxtI18nOptions } from './i18n/i18n.config'
 
 type MetaInfo = {
-  title: string
-  description: string
   robots: string
-  siteName: string
   ogImageUrl: string
-  ogUrl: string
   twitterSite: string
   twitterCreator: string
 }
@@ -26,14 +22,10 @@ const needSourcemap = NUXT_ENV_OUTPUT_ENV !== 'production'
 const enableDebug = NUXT_ENV_OUTPUT_ENV === 'local'
 
 const meta: MetaInfo = {
-  title: '',
-  description: '',
   robots: NUXT_ENV_OUTPUT_ENV === 'production' ? 'all' : 'none',
-  siteName: '',
-  ogImageUrl: `${runtimeConfig.public.url}/images/ogp.jpg`,
-  ogUrl: runtimeConfig.public.url,
-  twitterSite: 'https://x.com/',
-  twitterCreator: 'https://x.com/',
+  ogImageUrl: `${runtimeConfig.public.url}/kv.png`,
+  twitterSite: 'https://x.com/vketreal_vris',
+  twitterCreator: 'https://x.com/vketreal_vris',
 }
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -55,26 +47,6 @@ export default defineNuxtConfig({
       meta: [
         { name: 'robots', content: meta.robots },
         {
-          name: 'description',
-          content: meta.description,
-        },
-        {
-          property: 'og:site_name',
-          content: meta.siteName,
-        },
-        {
-          property: 'og:url',
-          content: meta.ogUrl,
-        },
-        {
-          property: 'og:title',
-          content: meta.title,
-        },
-        {
-          property: 'og:description',
-          content: meta.description,
-        },
-        {
           property: 'og:image',
           content: meta.ogImageUrl,
         },
@@ -85,6 +57,18 @@ export default defineNuxtConfig({
         {
           name: 'twitter:creator',
           content: meta.twitterCreator,
+        },
+        {
+          property: 'og:type',
+          content: 'website',
+        },
+        {
+          name: 'twitter:card',
+          content: 'summary_large_image',
+        },
+        {
+          name: 'twitter:image',
+          content: meta.ogImageUrl,
         },
       ],
       link: [

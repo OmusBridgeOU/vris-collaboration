@@ -1,3 +1,14 @@
+<i18n lang="yaml">
+ja:
+  cta:
+    purchase: チケット購入
+    pending: 準備中
+en:
+  cta:
+    purchase: Buy Tickets
+    pending: Coming soon
+</i18n>
+
 <template>
   <div class="ticket-card glassy-box-3">
     <p class="ticket-card__title">
@@ -7,16 +18,32 @@
       {{ desc }}
     </p>
 
-    <button class="glassy-button-3 ticket-card__button none-hover-animation">
-      チケット購入
-    </button>
+    <NuxtLink
+      v-if="href"
+      class="glassy-button-3 ticket-card__button none-hover-animation"
+      :to="href"
+      target="_blank"
+      rel="noopener"
+    >
+      {{ ctaLabel ?? t('cta.purchase') }}
+    </NuxtLink>
+    <span
+      v-else
+      class="glassy-button-3 ticket-card__button ticket-card__button--disabled none-hover-animation"
+    >
+      {{ ctaLabel ?? t('cta.pending') }}
+    </span>
   </div>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n()
+
 defineProps<{
   title: string
   desc: string
+  href?: string
+  ctaLabel?: string
 }>()
 </script>
 
@@ -71,6 +98,12 @@ defineProps<{
     font-size: 14px;
     font-weight: 400;
     color: white;
+    text-decoration: none;
+
+    &--disabled {
+      cursor: not-allowed;
+      opacity: 0.68;
+    }
   }
 }
 </style>

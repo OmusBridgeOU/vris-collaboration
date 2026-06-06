@@ -24,6 +24,7 @@ const commonPrivate = {} as const
 const commonPublic = {
   gtmId: 'GTM-XXXXXXX',
   apiPrefix: process.env.NUXT_API_PREFIX ?? '/api/v1',
+  archivedUrl: 'https://archived.vris.jp',
 } as const
 
 function getLocal(envType: EnvType) {
@@ -74,8 +75,8 @@ function getProduction(envType: EnvType) {
       ...commonPublic,
       gtmId: 'GTM-XXXXXXX',
       outputEnv: envType,
-      url: '',
-      baseUrl: '',
+      url: 'https://vris.jp',
+      baseUrl: 'https://vris.jp',
     },
   } as const
 }
