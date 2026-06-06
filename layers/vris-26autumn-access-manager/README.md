@@ -1,75 +1,81 @@
 # vris-26autumn-access-manager D1
 
-This layer owns the Cloudflare D1 schema migrations for the VRIS 2026 autumn
-access manager.
+このレイヤーは、VRIS 2026 Autumn access manager 用の Cloudflare D1
+スキーママイグレーションを管理します。
 
-Application developers should normally work against a local D1 database and
-submit migration files by pull request. Remote D1 changes are applied by GitHub
-Actions after merge.
+通常の開発者は Cloudflare の管理画面や API トークンを使わず、ローカル D1
+でDB開発を行い、マイグレーションファイルを Pull Request で提出します。
+remote D1 への反映は、`main` へのマージ後に GitHub Actions から実行します。
 
-## Database
+English summary: application developers work against local D1 and submit
+migrations by pull request. Remote D1 migrations are applied by GitHub Actions
+after merge.
 
-| Item | Value |
+## 対象DB
+
+| 項目 | 値 |
 | --- | --- |
 | D1 database name | `vris-26autumn-access-manager` |
 | D1 database ID | `7dd96a71-ddea-44b3-bc4d-4989bee2c35b` |
 | Wrangler binding | `DB` |
 | Migration directory | `migrations/` |
 
-The binding is defined in `wrangler.toml`.
+binding は `wrangler.toml` に定義されています。
 
-## Access Model
+## 権限方針
 
-Developers do not need a personal Cloudflare account, Wrangler login, or
-Cloudflare API token for ordinary schema development.
+通常のDB開発だけであれば、開発者個人には以下は不要です。
 
-Use local D1 for:
+- Cloudflare アカウントへの招待
+- `wrangler login`
+- Cloudflare API token
+- Cloudflare の Global API Key
 
-- creating migration files
-- applying migrations locally
-- testing SQL and application code locally
-- opening pull requests
+開発者が行うこと:
 
-Only CI or maintainers should apply migrations to the remote D1 database.
+- マイグレーションファイルを作る
+- ローカル D1 にマイグレーションを適用する
+- SQL とアプリケーションコードをローカルで確認する
+- Pull Request を出す
 
-Do not share:
+remote D1 に反映するのは CI またはメンテナだけです。
 
-- personal Cloudflare API tokens
-- Wrangler OAuth credentials
-- Cloudflare Global API Keys
-- decrypted `.env` files or secrets
+共有してはいけないもの:
 
-## Setup
+- 個人の Cloudflare API token
+- Wrangler の OAuth 認証情報
+- Cloudflare Global API Key
+- 復号済みの `.env` や secret
 
-From the repository root:
+## 初回セットアップ
+
+リポジトリルートで依存関係を入れます。
 
 ```sh
 bun install
 ```
 
-Then move into this layer:
+このレイヤーへ移動します。
 
 ```sh
 cd layers/vris-26autumn-access-manager
 ```
 
-## Create a Migration
+## マイグレーションを作る
 
-Create a new migration file with a short snake_case description:
+短い `snake_case` の説明名でマイグレーションを作ります。
 
 ```sh
 bun run d1:create-migration -- create_access_tables
 ```
 
-Wrangler creates a numbered SQL file under `migrations/`, for example:
+Wrangler が `migrations/` 配下に番号付きSQLファイルを作ります。
 
 ```text
 migrations/0001_create_access_tables.sql
 ```
 
-Edit that file and write normal SQLite-compatible DDL/DML.
-
-Example:
+作成されたSQLファイルを編集し、SQLite互換のDDL/DMLを書きます。
 
 ```sql
 CREATE TABLE access_tokens (
@@ -79,38 +85,39 @@ CREATE TABLE access_tokens (
 );
 ```
 
-## Validate Locally
+## ローカルで確認する
 
-Apply unapplied migrations to your local D1 database:
+未適用のマイグレーションをローカル D1 に適用します。
 
 ```sh
 bun run d1:migrate:local
 ```
 
-List unapplied local migrations:
+ローカルで未適用のマイグレーションを確認します。
 
 ```sh
 bun run d1:list:local
 ```
 
-Local D1 state is stored under `.wrangler/` and is intentionally ignored by git.
+ローカル D1 の状態は `.wrangler/` に保存されます。このディレクトリは git
+管理しません。
 
-## Pull Request Flow
+## Pull Request の出し方
 
-Include these files in your PR:
+PRには必要に応じて以下を含めます。
 
-- new or edited files under `migrations/`
-- any application code that depends on the schema
-- tests or local verification notes when relevant
+- `migrations/` 配下の新規または編集されたSQLファイル
+- そのスキーマに依存するアプリケーションコード
+- テストやローカル確認結果のメモ
 
-PRs that touch this layer run a migration validation workflow. That workflow
-checks local migration configuration only. It does not modify the remote D1
-database.
+このレイヤーに触れるPRでは、マイグレーション検証用の GitHub Actions
+が走ります。この検証はローカル設定の確認だけを行い、remote D1
+は変更しません。
 
-## Remote Apply
+## remote D1 への反映
 
-Remote migrations are applied by GitHub Actions after changes are merged to
-`main`, or by manually running the workflow.
+remote D1 へのマイグレーション適用は、変更が `main` にマージされた後、
+またはワークフローを手動実行したときに GitHub Actions から行います。
 
 Workflow:
 
@@ -118,18 +125,18 @@ Workflow:
 .github/workflows/vris-26autumn-access-manager-d1-migrations.yml
 ```
 
-Required GitHub Actions secret:
+必要な GitHub Actions secret:
 
 ```text
 CLOUDFLARE_API_TOKEN
 ```
 
-The token should be a CI-only Cloudflare API token with D1 edit access for the
-target Cloudflare account. Do not put this token in source code, `.env`, issue
-comments, or pull request comments.
+この token は CI 専用の Cloudflare API token にしてください。対象
+Cloudflare account の D1 edit 権限だけを持たせ、ソースコード、`.env`、Issue、
+Pull Request コメントには書かないでください。
 
-Maintainers can register the token from a terminal. Paste the token when
-prompted:
+メンテナはターミナルから secret を登録できます。実行後、token を貼り付けて
+Enter を押します。
 
 ```sh
 printf 'Paste CLOUDFLARE_API_TOKEN: '
@@ -143,46 +150,47 @@ unset CLOUDFLARE_API_TOKEN
 gh -R OmusBridgeOU/vris-collaboration secret list
 ```
 
-Maintainers can manually apply remote migrations when necessary:
+メンテナが必要に応じて手元から remote D1 に反映する場合は、以下を使います。
 
 ```sh
 bun run d1:migrate:remote
 ```
 
-This command requires Cloudflare authentication and should not be part of the
-ordinary developer workflow.
+このコマンドには Cloudflare 認証が必要です。通常の開発者フローでは使いません。
 
-## Useful Commands
+## よく使うコマンド
 
 ```sh
-# Create a new migration file
+# 新しいマイグレーションファイルを作る
 bun run d1:create-migration -- <migration_name>
 
-# Apply local migrations
+# ローカル D1 にマイグレーションを適用する
 bun run d1:migrate:local
 
-# List unapplied local migrations
+# ローカル D1 の未適用マイグレーションを見る
 bun run d1:list:local
 
-# List unapplied remote migrations, maintainers only
+# remote D1 の未適用マイグレーションを見る。メンテナ向け
 bun run d1:list:remote
 
-# Apply remote migrations, maintainers/CI only
+# remote D1 にマイグレーションを適用する。CIまたはメンテナ向け
 bun run d1:migrate:remote
 ```
 
-## Troubleshooting
+## トラブルシュート
 
-If `bun run d1:migrate:local` reports no migrations, confirm that your SQL file
-is inside `migrations/` and has not already been applied to your local D1 state.
+`bun run d1:migrate:local` でマイグレーションがないと表示される場合は、
+SQLファイルが `migrations/` 配下にあるか、すでにローカル D1
+へ適用済みではないかを確認してください。
 
-If local state gets confusing, remove the local D1 state and reapply:
+ローカル D1 の状態が分からなくなった場合は、ローカル状態を削除してから
+再適用できます。
 
 ```sh
 rm -rf .wrangler
 bun run d1:migrate:local
 ```
 
-If CI fails with an authentication error during remote apply, ask a maintainer
-to verify that the repository has the `CLOUDFLARE_API_TOKEN` GitHub Actions
-secret configured.
+remote apply のCIが認証エラーで失敗する場合は、メンテナに
+`CLOUDFLARE_API_TOKEN` GitHub Actions secret が設定されているか確認して
+もらってください。
