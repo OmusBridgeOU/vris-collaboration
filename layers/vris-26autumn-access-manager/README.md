@@ -110,7 +110,7 @@ database.
 ## Remote Apply
 
 Remote migrations are applied by GitHub Actions after changes are merged to
-`develop`, or by manually running the workflow.
+`main`, or by manually running the workflow.
 
 Workflow:
 
