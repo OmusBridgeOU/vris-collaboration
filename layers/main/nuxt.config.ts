@@ -15,7 +15,7 @@ const NUXT_ENV_OUTPUT_ENV = readEnvType(process.env)
 const runtimeConfig = getRuntimeConfigOfEnvType(NUXT_ENV_OUTPUT_ENV)
 const cssUrls = [`@/assets/styles/style.scss`]
 const srcDir = 'app'
-const isSsr = false
+const isSsr = true
 const checkTypeCheckOnBuild = true
 const needAnalyze = NUXT_ENV_OUTPUT_ENV === 'local'
 const needSourcemap = NUXT_ENV_OUTPUT_ENV !== 'production'
@@ -84,6 +84,10 @@ export default defineNuxtConfig({
   css: cssUrls,
 
   content: {
+    database: {
+      type: 'd1',
+      bindingName: 'DB',
+    },
     watch: {
       enabled: true,
     },
@@ -139,6 +143,10 @@ export default defineNuxtConfig({
     '/external/**': {
       proxy: 'https://d1-api-test-project.solarkamimura.workers.dev/api/**',
     },
+  },
+
+  nitro: {
+    preset: 'cloudflare_pages',
   },
 
   sourcemap: {

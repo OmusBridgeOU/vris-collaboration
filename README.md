@@ -100,7 +100,7 @@ The `AGENTS.md` file contains:
 ```bash
 # Work with specific layers
 bun --filter vket-boilerplate-nuxt-base dev
-bun --filter vket-boilerplate-nuxt-main build
+bun --filter vris-collaboration build
 bun --filter vket-boilerplate-nuxt-showcases test:ut
 ```
 
@@ -228,4 +228,3 @@ Examples:
 ## 📄 License
 
 MIT License - see the [LICENSE](LICENSE) file for details.
-
