@@ -130,7 +130,7 @@ interface DetailSection {
 }
 
 const i18n = useI18n()
-const translate = (key: string) => i18n.t(key as never)
+const translate = (key: string) => i18n.t(key)
 const message = (key: string) => i18n.tm(key as never)
 const t = translate
 

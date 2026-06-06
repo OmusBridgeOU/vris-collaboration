@@ -43,6 +43,11 @@ layers/
           useApi.spec.ts
           useCrowdData.spec.ts
         e2e/
+          snapshots/
+            visual/
+              nuxtContent.spec.ts-snapshots/
+                policy-linux.png
+                terms-linux.png
           visual/
             nuxtContent.spec.ts
         utils/
@@ -556,6 +561,7 @@ vi.mock('vue', async (importOriginal) => {
 // HTMLDialogElement mock for jsdom
 if (!global.HTMLDialogElement) {
   global.HTMLDialogElement = class HTMLDialogElement extends HTMLElement {
+    closedBy = ''
     open = false
     returnValue = ''
 
@@ -585,7 +591,7 @@ if (!global.HTMLDialogElement) {
 // app/test/composables/useCrowdData.spec.ts
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
 
-const EVENT_START = new Date('2026-06-15T00:00:00+09:00') // 本番コードと同じ開催日時
+const EVENT_START = new Date('2026-09-26T10:00:00+09:00') // 本番コードと同じ開催日時
 
 // EVENT_STARTを基準に前後の日時を生成
 const BEFORE_EVENT = new Date(EVENT_START.getTime() - 1000) // 1秒前

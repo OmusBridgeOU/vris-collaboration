@@ -70,9 +70,9 @@ en:
                 class="map-frame"
               >
                 <iframe
+                  class="map-iframe"
                   :height="mapFramePixel.height ? mapFramePixel.height : isSp ? 300 : 600"
                   :width="mapFramePixel.width ? mapFramePixel.width : isSp ? 200 : 400"
-                  style="border:0"
                   load="lazy"
                   allowfullscreen
                   src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJjWSHX50pC18RMSAiw3gaBOI&key=AIzaSyCkXG_mnC4wqK9mcgZjh6VQoSRg2g-gsX8"
@@ -254,6 +254,10 @@ defineExpose({
     background: #f5f5f5;
   }
 
+  .map-iframe {
+    border: 0;
+  }
+
   .map-placeholder {
     display: flex;
     align-items: center;
@@ -307,7 +311,7 @@ defineExpose({
 
   .info-list {
     gap: 0.5rem;
-      margin-bottom: 2rem;
+    margin-bottom: 2rem;
   }
 
   .info-item {
@@ -343,7 +347,6 @@ defineExpose({
     .map-address {
       font-size: 0.75rem;
       line-height: 1.3;
-
     }
   }
 }

@@ -356,91 +356,6 @@ function getProduction() {
 }
 ````
 
-## File: layers/main/config/runtimeConfig.ts
-````typescript
-/**
- * nuxt.config.tsのためのモジュール。
- *
- * @packageDocumentation
- */
-
-import type { EnvType } from './models/EnvType'
-
-export function getRuntimeConfigOfEnvType(envType: EnvType) {
-  switch (envType) {
-    case 'local':
-      return getLocal(envType)
-    case 'development':
-      return getDevelopment(envType)
-    case 'staging':
-      return getStaging(envType)
-    case 'production':
-      return getProduction(envType)
-  }
-}
-
-const commonPrivate = {} as const
-
-const commonPublic = {
-  gtmId: 'GTM-XXXXXXX',
-  apiPrefix: process.env.NUXT_API_PREFIX ?? '/api/v1',
-} as const
-
-function getLocal(envType: EnvType) {
-  return {
-    ...commonPrivate,
-
-    public: {
-      ...commonPublic,
-      outputEnv: envType,
-      url: 'http://localhost:3000',
-      baseUrl: 'http://localhost:3000',
-      httpBinUrl: 'http://localhost:3003',
-    },
-  } as const
-}
-
-function getDevelopment(envType: EnvType) {
-  return {
-    ...commonPrivate,
-
-    public: {
-      ...commonPublic,
-      outputEnv: envType,
-      url: 'http://localhost:3000',
-      baseUrl: 'http://localhost:3000',
-    },
-  } as const
-}
-
-function getStaging(envType: EnvType) {
-  return {
-    ...commonPrivate,
-
-    public: {
-      ...commonPublic,
-      outputEnv: envType,
-      url: '',
-      baseUrl: '',
-    },
-  } as const
-}
-
-function getProduction(envType: EnvType) {
-  return {
-    ...commonPrivate,
-
-    public: {
-      ...commonPublic,
-      gtmId: 'GTM-XXXXXXX',
-      outputEnv: envType,
-      url: '',
-      baseUrl: '',
-    },
-  } as const
-}
-````
-
 ## File: layers/main/i18n/locales/en.json
 ````json
 {
@@ -582,6 +497,92 @@ export default defineConfig({
 }
 ````
 
+## File: layers/main/config/runtimeConfig.ts
+````typescript
+/**
+ * nuxt.config.tsのためのモジュール。
+ *
+ * @packageDocumentation
+ */
+
+import type { EnvType } from './models/EnvType'
+
+export function getRuntimeConfigOfEnvType(envType: EnvType) {
+  switch (envType) {
+    case 'local':
+      return getLocal(envType)
+    case 'development':
+      return getDevelopment(envType)
+    case 'staging':
+      return getStaging(envType)
+    case 'production':
+      return getProduction(envType)
+  }
+}
+
+const commonPrivate = {} as const
+
+const commonPublic = {
+  gtmId: 'GTM-XXXXXXX',
+  apiPrefix: process.env.NUXT_API_PREFIX ?? '/api/v1',
+  archivedUrl: 'https://archived.vris.jp',
+} as const
+
+function getLocal(envType: EnvType) {
+  return {
+    ...commonPrivate,
+
+    public: {
+      ...commonPublic,
+      outputEnv: envType,
+      url: 'http://localhost:3000',
+      baseUrl: 'http://localhost:3000',
+      httpBinUrl: 'http://localhost:3003',
+    },
+  } as const
+}
+
+function getDevelopment(envType: EnvType) {
+  return {
+    ...commonPrivate,
+
+    public: {
+      ...commonPublic,
+      outputEnv: envType,
+      url: 'http://localhost:3000',
+      baseUrl: 'http://localhost:3000',
+    },
+  } as const
+}
+
+function getStaging(envType: EnvType) {
+  return {
+    ...commonPrivate,
+
+    public: {
+      ...commonPublic,
+      outputEnv: envType,
+      url: '',
+      baseUrl: '',
+    },
+  } as const
+}
+
+function getProduction(envType: EnvType) {
+  return {
+    ...commonPrivate,
+
+    public: {
+      ...commonPublic,
+      gtmId: 'GTM-XXXXXXX',
+      outputEnv: envType,
+      url: 'https://vris.jp',
+      baseUrl: 'https://vris.jp',
+    },
+  } as const
+}
+````
+
 ## File: layers/main/nuxt.config.ts
 ````typescript
 import { defineNuxtConfig } from 'nuxt/config'
@@ -591,12 +592,8 @@ import { getRuntimeConfigOfEnvType } from './config/runtimeConfig'
 import { nuxtI18nOptions } from './i18n/i18n.config'
 
 type MetaInfo = {
-  title: string
-  description: string
   robots: string
-  siteName: string
   ogImageUrl: string
-  ogUrl: string
   twitterSite: string
   twitterCreator: string
 }
@@ -612,14 +609,10 @@ const needSourcemap = NUXT_ENV_OUTPUT_ENV !== 'production'
 const enableDebug = NUXT_ENV_OUTPUT_ENV === 'local'
 
 const meta: MetaInfo = {
-  title: '',
-  description: '',
   robots: NUXT_ENV_OUTPUT_ENV === 'production' ? 'all' : 'none',
-  siteName: '',
-  ogImageUrl: `${runtimeConfig.public.url}/images/ogp.jpg`,
-  ogUrl: runtimeConfig.public.url,
-  twitterSite: 'https://x.com/',
-  twitterCreator: 'https://x.com/',
+  ogImageUrl: `${runtimeConfig.public.url}/kv.png`,
+  twitterSite: 'https://x.com/vketreal_vris',
+  twitterCreator: 'https://x.com/vketreal_vris',
 }
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -641,26 +634,6 @@ export default defineNuxtConfig({
       meta: [
         { name: 'robots', content: meta.robots },
         {
-          name: 'description',
-          content: meta.description,
-        },
-        {
-          property: 'og:site_name',
-          content: meta.siteName,
-        },
-        {
-          property: 'og:url',
-          content: meta.ogUrl,
-        },
-        {
-          property: 'og:title',
-          content: meta.title,
-        },
-        {
-          property: 'og:description',
-          content: meta.description,
-        },
-        {
           property: 'og:image',
           content: meta.ogImageUrl,
         },
@@ -671,6 +644,18 @@ export default defineNuxtConfig({
         {
           name: 'twitter:creator',
           content: meta.twitterCreator,
+        },
+        {
+          property: 'og:type',
+          content: 'website',
+        },
+        {
+          name: 'twitter:card',
+          content: 'summary_large_image',
+        },
+        {
+          name: 'twitter:image',
+          content: meta.ogImageUrl,
         },
       ],
       link: [
@@ -775,7 +760,7 @@ export default defineNuxtConfig({
   "private": true,
   "type": "module",
   "version": "1.0.1",
-  "packageManager": "bun@1.3.9",
+  "packageManager": "bun@1.3.13",
   "scripts": {
     "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
     "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
