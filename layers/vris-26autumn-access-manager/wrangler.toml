@@ -1,0 +1,8 @@
+name = "vris-26autumn-access-manager"
+compatibility_date = "2026-06-05"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "vris-26autumn-access-manager"
+database_id = "7dd96a71-ddea-44b3-bc4d-4989bee2c35b"
+migrations_dir = "migrations"

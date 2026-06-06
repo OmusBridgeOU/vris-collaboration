@@ -1,0 +1,52 @@
+name: <VRIS 26 Autumn Access Manager> Apply D1 migrations
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+    branches: ['main']
+    paths:
+      - 'layers/vris-26autumn-access-manager/**'
+      - '.github/workflows/vris-26autumn-access-manager-d1-migrations.yml'
+  push:
+    branches: ['main']
+    paths:
+      - 'layers/vris-26autumn-access-manager/**'
+      - '.github/workflows/vris-26autumn-access-manager-d1-migrations.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    name: Validate D1 migrations
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: List local migrations
+        working-directory: layers/vris-26autumn-access-manager
+        run: bun run d1:list:local
+
+  d1-migrate:
+    needs: validate
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    name: Apply remote D1 migrations
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Apply remote migrations
+        working-directory: layers/vris-26autumn-access-manager
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: bun run d1:migrate:remote

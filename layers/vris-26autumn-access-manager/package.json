@@ -1,0 +1,14 @@
+{
+  "name": "vris-26autumn-access-manager",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "d1:create-migration": "bunx wrangler@4.98.0 d1 migrations create DB --config wrangler.toml",
+    "d1:list:local": "bunx wrangler@4.98.0 d1 migrations list DB --local --config wrangler.toml",
+    "d1:list:remote": "bunx wrangler@4.98.0 d1 migrations list DB --remote --config wrangler.toml",
+    "d1:migrate:local": "bunx wrangler@4.98.0 d1 migrations apply DB --local --config wrangler.toml",
+    "d1:migrate:remote": "bunx wrangler@4.98.0 d1 migrations apply DB --remote --config wrangler.toml",
+    "d1:info": "bunx wrangler@4.98.0 d1 info vris-26autumn-access-manager --config wrangler.toml"
+  }
+}
