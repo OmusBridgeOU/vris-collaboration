@@ -1,23 +1,29 @@
 <script setup lang="ts">
-import HaSunIcon from '../ha/icons/HaSunIcon.vue'
-import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
+import HaCommingSoon from '../ha/HaCommingSoon.vue'
+// import HaSunIcon from '../ha/icons/HaSunIcon.vue'
+// import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
 
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+// // GSAP
+// import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
+// const sectionRef = ref<HTMLElement | null>(null)
+// const { fadeInUp } = useGsapFadeIn()
 
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
+// onMounted(() => {
+//   fadeInUp(sectionRef)
+// })
 </script>
 
 <template>
-  <div ref="sectionRef">
+  <HaSectionTitle
+    title="開催スケジュール"
+    label="SCHEDULE"
+  />
+  <HaCommingSoon />
+  <!-- <div ref="sectionRef">
     <HaSectionTitle
       title="開催スケジュール"
-      label="schedule"
+      label="SCHEDULE"
     />
 
     <div class="schedule">
@@ -97,7 +103,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <style lang="scss" scoped>

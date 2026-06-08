@@ -15,8 +15,8 @@ onMounted(() => {
 <template>
   <div ref="sectionRef">
     <HaSectionTitle
-      title="アクセス"
-      label="access"
+      title="会場情報"
+      label="location info"
     />
     <div class="access-flex">
       <div class="access-flex__left map-container">

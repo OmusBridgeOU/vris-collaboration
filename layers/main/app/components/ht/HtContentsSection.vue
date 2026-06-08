@@ -30,7 +30,7 @@ onMounted(() => {
   <div ref="sectionRef">
     <HaSectionTitle
       title="企画・コンテンツ"
-      label="contents"
+      label="CONTENTS"
     >
       <template #controls>
         <button

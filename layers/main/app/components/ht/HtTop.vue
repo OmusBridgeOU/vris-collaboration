@@ -18,16 +18,40 @@ en:
       </div>
 
       <div class="content-wrapper__front">
-        <section id="cloud-levels">
+        <!-- <section id="cloud-levels">
           <HtCrowdLevelsSection />
-        </section>
+        </section> -->
 
-        <section id="quick-access">
+        <!-- <section id="quick-access">
           <HtQuickAccessSection />
-        </section>
+        </section> -->
+
+        <!-- <section id="exhibition">
+          <HtExhibitionSection />
+        </section> -->
+
+        <!-- <section id="code-of-conduct">
+          <HtCodeOfConductSection />
+        </section> -->
+
+        <!-- <section id="related-events">
+          <HtRelatedEventsSection />
+        </section> -->
+
+        <!-- <section id="ticket">
+          <HtTicketSection />
+        </section> -->
 
         <section id="about">
           <HtAboutSection />
+        </section>
+
+        <section id="exhibitor-info">
+          <HtExhibitorInfoSection />
+        </section>
+
+        <section id="participation-guide">
+          <HtParticipationGuide />
         </section>
 
         <section id="news">
@@ -42,32 +66,16 @@ en:
           <HtScheduleSection />
         </section>
 
-        <section id="exhibition">
-          <HtExhibitionSection />
-        </section>
-
-        <section id="access">
+        <section id="location-info">
           <HtAccessSection />
-        </section>
-
-        <section id="ticket">
-          <HtTicketSection />
-        </section>
-
-        <section id="qa">
-          <HtQandASection />
-        </section>
-
-        <section id="code-of-conduct">
-          <HtCodeOfConductSection />
-        </section>
-
-        <section id="related-events">
-          <HtRelatedEventsSection />
         </section>
 
         <section id="sponsors-and-partners">
           <HtSponsorsAndPartnersSection />
+        </section>
+
+        <section id="qa">
+          <HtQandASection />
         </section>
 
         <section id="contact">
@@ -79,23 +87,26 @@ en:
 </template>
 
 <script setup lang="ts">
-import HtAboutSection from './HtAboutSection.vue'
-import HtQuickAccessSection from './HtQuickAccessSection.vue'
-import HtNewsSection from './HtNewsSection.vue'
-import HtScheduleSection from './HtScheduleSection.vue'
-import HtExhibitionSection from './HtExhibitionSection.vue'
-import HtAccessSection from './HtAccessSection.vue'
-import HtTicketSection from './HtTicketSection.vue'
-import HtQandASection from './HtQandASection.vue'
-import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
-import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
-import HtContactSection from './HtContactSection.vue'
-import HtContentsSection from './HtContentsSection.vue'
-import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
-import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
+// import HtQuickAccessSection from './HtQuickAccessSection.vue'
+// import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
+// import HtExhibitionSection from './HtExhibitionSection.vue'
+// import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
+// import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
+// import HtTicketSection from './HtTicketSection.vue'
 import HtHeroSection from './HtHeroSection.vue'
+import HtAboutSection from './HtAboutSection.vue'
+import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
+import HtNewsSection from './HtNewsSection.vue'
+import HtContentsSection from './HtContentsSection.vue'
+import HtAccessSection from './HtAccessSection.vue'
+import HtScheduleSection from './HtScheduleSection.vue'
+import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
+import HtQandASection from './HtQandASection.vue'
+import HtContactSection from './HtContactSection.vue'
+
 import HaFireworks from '../ha/HaFireworks.vue'
 import HaConfetti from '../ha/HaConfetti.vue'
+import HtParticipationGuide from './HtParticipationGuide.vue'
 </script>
 
 <style lang="scss" scoped>

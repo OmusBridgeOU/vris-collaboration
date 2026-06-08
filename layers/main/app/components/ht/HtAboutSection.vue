@@ -25,12 +25,17 @@ onMounted(() => {
   <div ref="sectionRef">
     <HaSectionTitle
       title="VketReal in 札幌とは"
-      label="about"
+      label="ABOUT"
     />
+    <div class="description description--space">
+      「VketReal in 札幌」は、<br class="sp-none">
+      世界最大級のメタバースイベント「バーチャルマーケット」から派生した<br class="sp-none">
+      リアルイベントです。
+    </div>
     <div class="description">
-      世界最大級のメタバースイベント「バーチャルマーケット(Vket)」から派生した、「バーチャルの姿のままリアルに飛び出す！」リアルイベント。<br
-        class="sp-none"
-      >北海道の有志XRクリエイターが主催し、札幌で開催します。
+      VRSNS上で活躍する北海道ゆかりのクリエイターたちが、
+      リアルの場に飛び出す場所をつくりたい―――<br class="sp-none">
+      そんな想いから生まれた、有志主催のイベントです。北海道の有志XRクリエイターが主催し、札幌で開催します。
     </div>
     <div class="info-flex mb-24">
       <div class="info-flex__child">
@@ -131,26 +136,9 @@ onMounted(() => {
 
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.description {
-  width: 750px;
-  margin: 0 auto 96px;
-
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5em;
-  color: white;
-  text-align: center;
 
   @include m.tb {
-    width: 555px;
-    font-size: 16px;
-  }
-
-  @include m.sp {
-    width: initial;
-    font-size: 14px;
+    margin-bottom: 64px;
   }
 }
 

@@ -19,6 +19,14 @@
   }
 }
 
+.tb-only {
+  display: none;
+
+  @include m.tb {
+    display: block;
+  }
+}
+
 .glassy-box {
   position: relative;
 
@@ -500,7 +508,7 @@
 
 .subtitle {
   width: fit-content;
-  margin: 0 auto 42px;
+  margin: 20px auto 42px;
 
   font-size: 32px;
   font-weight: 700;
@@ -509,11 +517,8 @@
   text-align: center;
 
   @include m.tb {
+    margin: 12px auto 24px;
     font-size: 20px;
-  }
-
-  @include m.sp {
-    margin-bottom: 40px;
   }
 }
 
@@ -527,13 +532,17 @@
   color: white;
   text-align: center;
 
+  &--space {
+    margin-bottom: 16px;
+  }
+
   @include m.tb {
     font-size: 16px;
   }
 
   @include m.sp {
     margin-bottom: 40px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
   }
 
