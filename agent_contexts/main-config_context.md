@@ -54,6 +54,8 @@ layers/
         ja.json
       i18n.config.ts
     server/
+      middleware/
+        basicAuth.ts
       tsconfig.json
     app.config.ts
     nuxt.config.ts
@@ -63,6 +65,30 @@ layers/
 ```
 
 # Files
+
+## File: layers/main/server/middleware/basicAuth.ts
+````typescript
+export default defineEventHandler((event) => {
+  // プリレンダリング時の内部リクエストはスキップ
+  const url = getRequestURL(event).pathname
+  if (url.startsWith('/__nuxt') || url.startsWith('/_nuxt')) return
+
+  const header = getRequestHeader(event, 'authorization')
+
+  const isValid = (() => {
+    if (!header?.startsWith('Basic ')) return false
+    const base64 = header.slice(6)
+    const decoded = Buffer.from(base64, 'base64').toString('utf-8')
+    const [user, pass] = decoded.split(':')
+    return user === "a" && pass === "b"
+  })()
+
+  if (!isValid) {
+    setResponseHeader(event, 'WWW-Authenticate', 'Basic realm="Restricted"')
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+  }
+})
+````
 
 ## File: layers/main/@types/auto-imports.d.ts
 ````typescript
@@ -602,7 +628,7 @@ const NUXT_ENV_OUTPUT_ENV = readEnvType(process.env)
 const runtimeConfig = getRuntimeConfigOfEnvType(NUXT_ENV_OUTPUT_ENV)
 const cssUrls = [`@/assets/styles/style.scss`]
 const srcDir = 'app'
-const isSsr = false
+const isSsr = true
 const checkTypeCheckOnBuild = true
 const needAnalyze = NUXT_ENV_OUTPUT_ENV === 'local'
 const needSourcemap = NUXT_ENV_OUTPUT_ENV !== 'production'
@@ -671,6 +697,10 @@ export default defineNuxtConfig({
   css: cssUrls,
 
   content: {
+    database: {
+      type: 'd1',
+      bindingName: 'DB',
+    },
     watch: {
       enabled: true,
     },
@@ -728,6 +758,10 @@ export default defineNuxtConfig({
     },
   },
 
+  nitro: {
+    preset: 'cloudflare_pages',
+  },
+
   sourcemap: {
     server: needSourcemap,
     client: needSourcemap,
@@ -750,13 +784,22 @@ export default defineNuxtConfig({
   },
 
   i18n: nuxtI18nOptions,
+
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
+        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
+      },
+    },
+  },
 })
 ````
 
 ## File: layers/main/package.json
 ````json
 {
-  "name": "vket-boilerplate-nuxt-main",
+  "name": "vris-collaboration",
   "private": true,
   "type": "module",
   "version": "1.0.1",

@@ -384,6 +384,10 @@
     mask-composite: exclude;
   }
 
+  &--radius-full {
+    border-radius: 100px;
+  }
+
   &:not(.none-hover-animation):hover {
     transform: scale(1.02);
   }
@@ -494,7 +498,7 @@
   width: fit-content;
   margin: 0 auto 42px;
 
-  font-size: 20px;
+  font-size: 32px;
   font-weight: 700;
   line-height: 1.5em;
   color: white;

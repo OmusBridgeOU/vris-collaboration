@@ -1880,26 +1880,61 @@ withDefaults(
 ## File: layers/main/app/components/ht/HtHeroSection.vue
 ```vue
 <template>
-  <div class="hero">
+  <div
+    id="gsap-fv"
+    class="hero"
+  >
+    <div
+      class="hero__bg"
+      :style="{ backgroundImage: `url('/kv.png')` }"
+    />
     <img
       src="/kv.png"
       alt="Vket Real in 札幌 2026 Autumnのキービジュアル"
       class="hero__kv"
-    >
+    />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .hero {
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
 
-  &__kv {
+  width: 100svw;
+  height: 100svh;
+
+  clip-path: inset(0);
+
+  &__bg {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    transform: scale(1.2);
+
+    overflow: hidden;
+
     width: 100%;
     height: 100%;
-    object-fit: cover;
+
+    background-position: center;
+    background-size: cover;
+    filter: blur(8px);
+  }
+
+  &__kv {
+    position: relative;
+    z-index: 2;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
   }
 }
 </style>
@@ -2928,42 +2963,51 @@ defineExpose({ swiperInstance })
 ```vue
 <i18n lang="yaml">
 ja:
-  mainlogo: ロゴ名サービス名
+  mainlogo: VketReal in 札幌 2026 Autumn
 en:
-  mainlogo: logo name
+  mainlogo: VketReal in Sapporo 2026 Autumn
 </i18n>
 
 <template>
-  <div class="header__wrapper">
+  <div
+    id="gsap-header"
+    class="header__wrapper"
+  >
     <header class="ho-the-header">
-      <div class="ho-the-header__left">
-        <div class="ho-the-header__logo" />
+      <div class="ho-the-header__left glassy-box-4 glassy-box-4--radius-full none-hover-animation">
+        <a
+          href=""
+          class="ho-the-header__logo-link"
+        >
+          <img
+            class="ho-the-header__logo"
+            src="/vketreal_in_sapporo_logo_light.png"
+            :alt="t('mainlogo')"
+          >
+        </a>
       </div>
-      <div class="ho-the-header__right">
+      <div class="ho-the-header__right glassy-box-4 glassy-box-4--radius-full none-hover-animation">
         <nav class="ho-the-header__nav">
           <ul class="ho-the-header__ul">
-            <li class="ho-the-header__li">
+            <li
+              v-for="link in navLinks"
+              :key="link.href"
+              class="ho-the-header__li"
+            >
               <a
-                href=""
+                v-if="link.type === 'link'"
+                :href="link.href"
                 class="ho-the-header__link"
-              />
-            </li>
-            <li class="ho-the-header__li">
-              <a
-                href=""
+                @click="isPanelOpen = false"
+              >
+                {{ link.text }}
+              </a>
+              <HaAnchorLink
+                v-else
                 class="ho-the-header__link"
-              />
-            </li>
-            <li class="ho-the-header__li">
-              <a
-                href=""
-                class="ho-the-header__link"
-              />
-            </li>
-            <li class="ho-the-header__li">
-              <a
-                href=""
-                class="ho-the-header__link"
+                :href="link.href"
+                :text="link.text"
+                @clicked="isPanelOpen = false"
               />
             </li>
           </ul>
@@ -3038,6 +3082,8 @@ import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
 import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
 import HaAnchorLink from '../ha/HaAnchorLink.vue'
 
+const { t } = useI18n()
+
 export type NavLink
   = | { type: 'link', href: string, text: string }
     | { type: 'anchor', href: string, text: string }
@@ -3067,10 +3113,10 @@ watch(isPanelOpen, (val) => {
 
   width: 100%;
   height: v.$vket-header-height-pc;
-  padding: 12px;
+  padding: 24px;
 
-  @include m.sp {
-    height: v.$vket-header-height-sp;
+  @include m.tb {
+    height: v.$vket-header-height-tb;
   }
 }
 
@@ -3084,21 +3130,37 @@ watch(isPanelOpen, (val) => {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding: 8px 10px;
-  border: 1px solid rgb(255 255 255 / 75%);
-  border-radius: 100px;
 
-  background-color: rgb(255 255 255 / 20%);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  box-shadow: inset 0 0 16px rgb(255 255 255 / 60%),
-    0 8px 12px 8px rgb(black, 0.2);
+  &__left, &__right {
+    display: flex;
+    align-items: center;
+
+    height: 100%;
+    padding-right: 24px;
+    padding-left: 24px;
+  }
 
   &__logo {
-    width: 36px;
     height: 36px;
-    border-radius: 100px;
   }
+
+  &__ul {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+
+    @include m.tb {
+      display: none;
+    }
+  }
+
+  &__link {
+    color: white;
+  }
+}
+
+.glassy-box-4 {
+  border-radius: 20px;
 }
 
 .hamburger-icon {
@@ -3112,12 +3174,8 @@ watch(isPanelOpen, (val) => {
   width: 36px;
   height: 36px;
   padding: 0;
-  border: 1px solid rgb(255 255 255 / 20%);
-  border-radius: 100px;
 
-  background: rgb(188 188 188);
-
-  @include m.sp {
+  @include m.tb {
     display: flex;
   }
 
@@ -3185,7 +3243,6 @@ watch(isPanelOpen, (val) => {
     width: 36px;
     height: 36px;
     padding: 0;
-    border: 1px solid rgb(255 255 255 / 25%);
     border-radius: 100px;
 
     background: rgb(255 255 255 / 10%);
@@ -7202,76 +7259,79 @@ en:
 </i18n>
 
 <template>
-  <main class="ht-top">
-    <div class="canvas-wrapper">
-      <HaConfetti />
-      <HaFireworks />
+  <main class="ht-top content-wrapper">
+    <div class="content-wrapper__sticky">
+      <HtHeroSection />
     </div>
 
-    <HtHeroSection />
+    <div class="content-wrapper__bg content-wrapper__scroll">
+      <div class="canvas-wrapper">
+        <HaConfetti />
+        <HaFireworks />
+      </div>
 
-    <!-- <HaFirstView /> -->
+      <div class="content-wrapper__front">
+        <section id="cloud-levels">
+          <HtCrowdLevelsSection />
+        </section>
 
-    <section id="cloud-levels">
-      <HtCrowdLevelsSection />
-    </section>
+        <section id="quick-access">
+          <HtQuickAccessSection />
+        </section>
 
-    <section id="quick-access">
-      <HtQuickAccessSection />
-    </section>
+        <section id="about">
+          <HtAboutSection />
+        </section>
 
-    <section id="about">
-      <HtAboutSection />
-    </section>
+        <section id="news">
+          <HtNewsSection />
+        </section>
 
-    <section id="news">
-      <HtNewsSection />
-    </section>
+        <section id="contents">
+          <HtContentsSection />
+        </section>
 
-    <section id="contents">
-      <HtContentsSection />
-    </section>
+        <section id="schedule">
+          <HtScheduleSection />
+        </section>
 
-    <section id="schedule">
-      <HtScheduleSection />
-    </section>
+        <section id="exhibition">
+          <HtExhibitionSection />
+        </section>
 
-    <section id="exhibition">
-      <HtExhibitionSection />
-    </section>
+        <section id="access">
+          <HtAccessSection />
+        </section>
 
-    <section id="access">
-      <HtAccessSection />
-    </section>
+        <section id="ticket">
+          <HtTicketSection />
+        </section>
 
-    <section id="ticket">
-      <HtTicketSection />
-    </section>
+        <section id="qa">
+          <HtQandASection />
+        </section>
 
-    <section id="qa">
-      <HtQandASection />
-    </section>
+        <section id="code-of-conduct">
+          <HtCodeOfConductSection />
+        </section>
 
-    <section id="code-of-conduct">
-      <HtCodeOfConductSection />
-    </section>
+        <section id="related-events">
+          <HtRelatedEventsSection />
+        </section>
 
-    <section id="related-events">
-      <HtRelatedEventsSection />
-    </section>
+        <section id="sponsors-and-partners">
+          <HtSponsorsAndPartnersSection />
+        </section>
 
-    <section id="sponsors-and-partners">
-      <HtSponsorsAndPartnersSection />
-    </section>
-
-    <section id="contact">
-      <HtContactSection />
-    </section>
+        <section id="contact">
+          <HtContactSection />
+        </section>
+      </div>
+    </div>
   </main>
 </template>
 
 <script setup lang="ts">
-// import HaFirstView from '../ha/HaFirstView.vue'
 import HtAboutSection from './HtAboutSection.vue'
 import HtQuickAccessSection from './HtQuickAccessSection.vue'
 import HtNewsSection from './HtNewsSection.vue'
@@ -7305,16 +7365,42 @@ import HaConfetti from '../ha/HaConfetti.vue'
   background-color: v.$base-background-color;
 }
 
+.content-wrapper {
+  position: relative;
+
+  &__sticky {
+    position: sticky;
+    z-index: -1;
+    top: 0;
+  }
+
+  &__bg {
+    padding-top: 124px;
+    border-radius: 36px 36px 0 0;
+    background-color: rgba(#0b1e4f, 0.9);
+
+    @include m.sp {
+      padding-top: 64px;
+    }
+  }
+
+  &__front {
+    position: relative;
+    z-index: 2;
+  }
+}
+
 .canvas-wrapper {
   pointer-events: none;
 
-  position: fixed;
-  z-index: -1;
+  position: sticky;
+  z-index: 1;
   top: 0;
   left: 0;
 
   width: 100%;
-  height: 100%;
+  height: 100svh;
+  margin-bottom: -100svh;
 }
 
 section {

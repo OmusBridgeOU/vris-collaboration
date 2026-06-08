@@ -151,6 +151,9 @@ en:
 <script setup lang="ts">
 import type { NavLink } from '../components/ho/HoTheHeader.vue'
 
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
 const { t } = useI18n()
 
 const navLinks = computed<NavLink[]>(() => [
@@ -169,11 +172,41 @@ const navLinks = computed<NavLink[]>(() => [
   { type: 'anchor', href: 'sponsors-and-partners', text: t('nav.sponsorsAndPartners') },
   { type: 'anchor', href: 'contact', text: t('nav.contact') },
 ])
+
+const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()
+const route = useRoute()
+
+onMounted(() => {
+  initScrollEffects()
+})
+
+// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
+watch(() => route.path, () => {
+  destroyScrollTriggers()
+  nextTick(() => initScrollEffects())
+})
+
+onUnmounted(() => {
+  destroyScrollTriggers()
+})
+
+const initScrollEffects = () => {
+  const firstView = document.querySelector('#gsap-fv')
+  const header = document.querySelector('#gsap-header')
+
+  if (!header) return
+
+  // #first-viewがないページ（トップ以外）では実行しない
+  if (!firstView) return
+
+  firstViewBlur(firstView)
+  headerRevealOnScroll(header, firstView)
+}
 </script>
 
 <style lang="scss" scoped>
 .layout.-top {
-  overflow-x: hidden;
+  overflow: visible;
 }
 </style>
 ```
