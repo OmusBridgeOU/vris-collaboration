@@ -1,36 +1,42 @@
 <i18n lang="yaml">
 ja:
   nav:
-    top: TOPページ
-    quickAccess: 参加者向け重要情報
-    about: VketReal in 札幌とは
-    news: お知らせ
-    contents: 企画・コンテンツ
-    schedule: 開催スケジュール
-    exhibition: 出展情報
-    access: アクセス
-    ticket: チケット
+    about: イベントについて
+    individualParticipant: 一般参加
+    clubParticipant: サークル参加
+    listOfClubs: サークル一覧
     qa: よくある質問
-    codeOfConduct: 行動規範
-    relatedEvents: 関連イベント
-    sponsorsAndPartners: ご協力
-    contact: お問い合わせ
+    # top: TOPページ
+    # quickAccess: 参加者向け重要情報
+    # news: お知らせ
+    # contents: 企画・コンテンツ
+    # schedule: 開催スケジュール
+    # exhibition: 出展情報
+    # access: アクセス
+    # ticket: チケット
+    # codeOfConduct: 行動規範
+    # relatedEvents: 関連イベント
+    # sponsorsAndPartners: ご協力
+    # contact: お問い合わせ
 en:
   nav:
-    top: Top
-    quickAccess: Key Information
     about: About VketReal in SAPPORO
-    news: News
-    contents: Contents
-    schedule: Schedule
-    exhibition: Exhibition
-    access: Access
-    ticket: Tickets
+    individualParticipant: Individual Participant
+    clubParticipant: Club Participant
+    listOfClubs: List of Clubs
     qa: FAQ
-    codeOfConduct: Code of Conduct
-    relatedEvents: Related Events
-    sponsorsAndPartners: Partners
-    contact: Contact
+    # top: Top
+    # quickAccess: Key Information
+    # news: News
+    # contents: Contents
+    # schedule: Schedule
+    # exhibition: Exhibition
+    # access: Access
+    # ticket: Tickets
+    # codeOfConduct: Code of Conduct
+    # relatedEvents: Related Events
+    # sponsorsAndPartners: Partners
+    # contact: Contact
 </i18n>
 
 <template>
@@ -50,20 +56,23 @@ import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 const { t } = useI18n()
 
 const navLinks = computed<NavLink[]>(() => [
-  { type: 'link', href: '/', text: t('nav.top') },
-  { type: 'anchor', href: 'quick-access', text: t('nav.quickAccess') },
   { type: 'anchor', href: 'about', text: t('nav.about') },
-  { type: 'anchor', href: 'news', text: t('nav.news') },
-  { type: 'anchor', href: 'contents', text: t('nav.contents') },
-  { type: 'anchor', href: 'schedule', text: t('nav.schedule') },
-  { type: 'anchor', href: 'exhibition', text: t('nav.exhibition') },
-  { type: 'anchor', href: 'access', text: t('nav.access') },
-  { type: 'anchor', href: 'ticket', text: t('nav.ticket') },
+  { type: 'anchor', href: 'individual-participant', text: t('nav.individualParticipant') },
+  { type: 'anchor', href: 'club-participant', text: t('nav.clubParticipant') },
+  { type: 'anchor', href: 'list-of-clubs', text: t('nav.listOfClubs') },
   { type: 'anchor', href: 'qa', text: t('nav.qa') },
-  { type: 'anchor', href: 'code-of-conduct', text: t('nav.codeOfConduct') },
-  { type: 'anchor', href: 'related-events', text: t('nav.relatedEvents') },
-  { type: 'anchor', href: 'sponsors-and-partners', text: t('nav.sponsorsAndPartners') },
-  { type: 'anchor', href: 'contact', text: t('nav.contact') },
+  // { type: 'link', href: '/', text: t('nav.top') },
+  // { type: 'anchor', href: 'quick-access', text: t('nav.quickAccess') },
+  // { type: 'anchor', href: 'news', text: t('nav.news') },
+  // { type: 'anchor', href: 'contents', text: t('nav.contents') },
+  // { type: 'anchor', href: 'schedule', text: t('nav.schedule') },
+  // { type: 'anchor', href: 'exhibition', text: t('nav.exhibition') },
+  // { type: 'anchor', href: 'access', text: t('nav.access') },
+  // { type: 'anchor', href: 'ticket', text: t('nav.ticket') },
+  // { type: 'anchor', href: 'code-of-conduct', text: t('nav.codeOfConduct') },
+  // { type: 'anchor', href: 'related-events', text: t('nav.relatedEvents') },
+  // { type: 'anchor', href: 'sponsors-and-partners', text: t('nav.sponsorsAndPartners') },
+  // { type: 'anchor', href: 'contact', text: t('nav.contact') },
 ])
 
 const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()

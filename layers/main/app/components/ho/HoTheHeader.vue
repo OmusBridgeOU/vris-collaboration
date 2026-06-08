@@ -23,7 +23,62 @@ en:
           >
         </a>
       </div>
-      <div class="ho-the-header__right glassy-box-4 glassy-box-4--radius-full none-hover-animation">
+
+      <div class="ho-the-header__accordion-wrapper--inner">
+        <div class="ho-the-header__accordion-wrapper">
+          <div
+            class="ho-the-header__right glassy-box-4 none-hover-animation ho-the-header__accordion"
+            :class="{ 'is-open': isPanelOpen }"
+          >
+            <div class="ho-the-header__accordion-body">
+              <nav class="ho-the-header__accordion-nav">
+                <ul class="ho-the-header__accordion-ul">
+                  <li
+                    v-for="link in navLinks"
+                    :key="link.href"
+                    class="ho-the-header__accordion-li"
+                  >
+                    <a
+                      v-if="link.type === 'link'"
+                      :href="link.href"
+                      class="ho-the-header__accordion-link"
+                      @click="isPanelOpen = false"
+                    >{{ link.text }}</a>
+                    <HaAnchorLink
+                      v-else
+                      class="ho-the-header__accordion-link"
+                      :href="link.href"
+                      :text="link.text"
+                      @clicked="isPanelOpen = false"
+                    />
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="ho-the-header__hamburger-wrapper">
+              <button
+                class="ho-the-header__hamburger"
+                :aria-label="isPanelOpen ? 'メニューを閉じる' : 'メニューを開く'"
+                :aria-expanded="isPanelOpen"
+                @click="isPanelOpen = !isPanelOpen"
+              >
+                <HaHamburgerIcon
+                  v-show="!isPanelOpen"
+                  class="ho-the-header__hamburger-icon"
+                  :class="{ 'is-open': isPanelOpen }"
+                />
+                <HaCloseIcon
+                  v-show="isPanelOpen"
+                  class="ho-the-header__hamburger-icon"
+                  :class="{ 'is-open': isPanelOpen }"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ho-the-header__right ho-the-header__right--pc-only glassy-box-4 glassy-box-4--radius-full none-hover-animation">
         <nav class="ho-the-header__nav">
           <ul class="ho-the-header__ul">
             <li
@@ -35,89 +90,26 @@ en:
                 v-if="link.type === 'link'"
                 :href="link.href"
                 class="ho-the-header__link"
-                @click="isPanelOpen = false"
-              >
-                {{ link.text }}
-              </a>
+              >{{ link.text }}</a>
               <HaAnchorLink
                 v-else
                 class="ho-the-header__link"
                 :href="link.href"
                 :text="link.text"
-                @clicked="isPanelOpen = false"
               />
             </li>
           </ul>
         </nav>
-        <button
-          class="hamburger-icon"
-          aria-label="メニューを開く"
-          @click="isPanelOpen = true"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-          >
-            <HaHamburgerIcon />
-          </svg>
-        </button>
       </div>
     </header>
-  </div>
-
-  <div
-    class="side-panel__overlay"
-    :class="{ 'is-open': isPanelOpen }"
-    @click="isPanelOpen = false"
-  />
-
-  <div
-    class="side-panel"
-    :class="{ 'is-open': isPanelOpen }"
-    role="dialog"
-    aria-modal="true"
-  >
-    <button
-      class="side-panel__close"
-      aria-label="メニューを閉じる"
-      @click="isPanelOpen = false"
-    >
-      <HaCloseIcon />
-    </button>
-    <nav class="side-panel__nav">
-      <ul class="side-panel__ul">
-        <li
-          v-for="link in navLinks"
-          :key="link.href"
-          class="side-panel__li"
-        >
-          <a
-            v-if="link.type === 'link'"
-            :href="link.href"
-            class="side-panel__link"
-            @click="isPanelOpen = false"
-          >
-            {{ link.text }}
-          </a>
-          <HaAnchorLink
-            v-else
-            class="side-panel__link"
-            :href="link.href"
-            :text="link.text"
-            @clicked="isPanelOpen = false"
-          />
-        </li>
-      </ul>
-    </nav>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
-import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
 import HaAnchorLink from '../ha/HaAnchorLink.vue'
+import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
 
 const { t } = useI18n()
 
@@ -150,7 +142,7 @@ watch(isPanelOpen, (val) => {
 
   width: 100%;
   height: v.$vket-header-height-pc;
-  padding: 24px;
+  padding: 16px;
 
   @include m.tb {
     height: v.$vket-header-height-tb;
@@ -161,158 +153,168 @@ watch(isPanelOpen, (val) => {
   position: relative;
 
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 
   box-sizing: border-box;
   width: 100%;
   height: 100%;
 
-  &__left, &__right {
+  &__left {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+
+    height: 100%;
+    padding-right: 32px;
+    padding-left: 32px;
+
+    @include m.tb {
+      padding-right: 24px;
+    padding-left: 24px;
+    }
+  }
+
+  &__right {
     display: flex;
     align-items: center;
 
     height: 100%;
-    padding-right: 24px;
-    padding-left: 24px;
+    padding-right: 40px;
+    padding-left: 40px;
+
+    @include m.tb {
+      padding-right: 24px;
+      padding-left: 24px;
+    }
+
+    &--pc-only {
+      @include m.sp {
+        display: none;
+      }
+    }
+
+    &--pc-none {
+      display: none;
+
+      @include m.sp {
+        display: flex;
+      }
+    }
   }
 
   &__logo {
-    height: 36px;
+    height: 50px;
+
+    @include m.tb {
+      height: 36px;
+    }
+  }
+
+  // PC用ナビ
+  &__nav {
+    @include m.tb {
+      display: none;
+    }
   }
 
   &__ul {
     display: flex;
     gap: 24px;
     align-items: center;
-
-    @include m.tb {
-      display: none;
-    }
+    list-style: none;
   }
 
   &__link {
+    font-weight: 700;
     color: white;
-  }
-}
-
-.glassy-box-4 {
-  border-radius: 20px;
-}
-
-.hamburger-icon {
-  cursor: pointer;
-
-  display: none;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-
-  width: 36px;
-  height: 36px;
-  padding: 0;
-
-  @include m.tb {
-    display: flex;
+    text-decoration: none;
   }
 
-  svg {
-    display: block;
-    width: 22px;
-    height: 22px;
-  }
-}
-
-.side-panel__overlay {
-  pointer-events: none;
-
-  position: fixed;
-  z-index: 200;
-  inset: 0;
-
-  opacity: 0;
-  background: rgb(0 0 0 / 35%);
-
-  transition: opacity 0.3s ease;
-
-  &.is-open {
-    pointer-events: auto;
-    opacity: 1;
-  }
-}
-
-.side-panel {
-  position: fixed;
-  z-index: 300;
-  top: 0;
-  right: 0;
-  transform: translateX(100%);
-
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-
-  box-sizing: border-box;
-  width: 100vw;
-  height: 100dvh;
-  padding: 24px 20px 40px;
-  border-left: 1px solid rgb(255 255 255 / 15%);
-
-  background: rgb(30 30 35 / 72%);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-
-  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-
-  &.is-open {
-    transform: translateX(0);
+  &__accordion-wrapper {
+    position: relative;
   }
 
-  &__close {
+  &__accordion-wrapper--inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  &__accordion {
+    display: none;
+    align-items: start;
+
+    width: fit-content;
+    height: fit-content;
+    min-height: 50px;
+    padding: 0;
+    border-radius: 25px;
+
+    @include m.tb {
+      display: flex;
+    }
+
+    &-body {
+      display: grid;
+      grid-template-columns: 0fr;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease, grid-template-columns 0.3s ease;
+
+      > nav {
+        overflow: hidden;
+      }
+    }
+
+    &.is-open &-body {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+    }
+
+    &-ul {
+      display: flex;
+      flex-direction: column;
+
+      margin: 0;
+      padding: 36px 0 14px;
+
+      list-style: none;
+    }
+
+    &-link {
+      display: block;
+
+      padding: 12px 24px;
+
+      font-size: 15px;
+      color: white;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+  }
+
+  &__hamburger-wrapper {
+    padding: 7px;
+  }
+
+  // ハンバーガーボタン
+  &__hamburger {
     cursor: pointer;
 
     display: flex;
-    flex-shrink: 0;
     align-items: center;
-    align-self: flex-end;
     justify-content: center;
 
     width: 36px;
     height: 36px;
     padding: 0;
-    border-radius: 100px;
 
-    background: rgb(255 255 255 / 10%);
-
-    svg {
-      width: 20px;
-      height: 20px;
+    &-icon {
+      display: block;
+      width: 22px;
+      height: 22px;
+      color: white;
     }
-  }
-
-  &__nav {
-    flex: 1;
-    margin-top: 40px;
-  }
-
-  &__ul {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-  }
-
-  &__li {
-    border-bottom: 1px solid rgb(255 255 255 / 8%);
-  }
-
-  &__link {
-    display: block;
-
-    padding: 6px;
-
-    font-size: 14px;
-    color: white;
-    text-decoration: none;
   }
 }
 </style>

@@ -388,6 +388,10 @@
     border-radius: 100px;
   }
 
+  &--radius-full {
+    border-radius: 100px;
+  }
+
   &:not(.none-hover-animation):hover {
     transform: scale(1.02);
   }

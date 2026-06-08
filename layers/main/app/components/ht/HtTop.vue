@@ -158,7 +158,7 @@ section {
   }
 
   @include m.tb {
-    padding: 0 24px 84px;
+    padding: 0 16px 84px;
   }
 }
 </style>

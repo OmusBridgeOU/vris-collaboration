@@ -792,6 +792,27 @@ export default defineNuxtConfig({
         interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
       },
     },
+
+    plugins: [
+      {
+        name: 'watch-external-scss',
+        configureServer(server) {
+          // 監視したいSCSSのパスを列挙（globも使用可）
+          const targets = [
+            path.resolve(__dirname, './app/assets/styles/**/*.scss'),
+          ]
+          targets.forEach((target) => {
+            server.watcher.add(target)
+          })
+          server.watcher.on('change', (filePath) => {
+            if (filePath.endsWith('.scss')) {
+              // HMRを強制発火
+              server.hot.send({ type: 'full-reload' })
+            }
+          })
+        },
+      },
+    ],
   },
 })
 ````
