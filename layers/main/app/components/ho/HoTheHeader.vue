@@ -13,7 +13,7 @@ en:
     <header class="ho-the-header">
       <div class="ho-the-header__left glassy-box-4 glassy-box-4--radius-full none-hover-animation">
         <a
-          href=""
+          href="/"
           class="ho-the-header__logo-link"
         >
           <img

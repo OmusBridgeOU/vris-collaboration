@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HmSwiper from '../hm/HmSwiper.vue'
+import HmSwiper from '../hm/HmNewsSwiper.vue/index.js'
 import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
 import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 
