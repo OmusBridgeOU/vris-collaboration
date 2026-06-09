@@ -138,412 +138,6 @@ layers/
 
 # Files
 
-## File: layers/main/app/components/ha/HaCommingSoonCard.vue
-```vue
-<template>
-  <div
-    class="comming-soon-card glassy-box-2"
-  >
-    <p class="comming-soon-card__en">
-      comming soon
-    </p>
-    <p class="comming-soon-card__jp">
-      続報をお待ちください...
-    </p>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.comming-soon-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  min-height: 460px;
-
-  background-color: rgb(18 33 59);
-
-  @include m.tb {
-    min-height: 380px;
-  }
-
-  @include m.sp {
-    min-height: 340px;
-  }
-
-  &__en {
-    font-size: 32px;
-    font-weight: 700;
-    text-align: center;
-}
-
-&__jp {
-    font-size: 14px;
-    font-weight: 400;
-    text-align: center;
-}
-}
-</style>
-```
-
-## File: layers/main/app/components/ha/HaContentCard.vue
-```vue
-<template>
-  <NuxtLink
-    :to="item.href"
-    class="content-card glassy-box-2"
-  >
-    <p class="content-card__title">{{ item.title }}</p>
-    <p class="content-card__text">{{ item.text }}</p>
-  </NuxtLink>
-</template>
-
-<script setup lang="ts">
-defineProps<{
-  item: { title: string, href: string, text: string }
-}>()
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.content-card {
-  cursor: pointer;
-
-  display: block;
-
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  min-height: 460px;
-  padding: 32px 24px;
-
-  background-color: rgb(18 33 59);
-
-  @include m.tb {
-    min-height: 380px;
-  }
-
-  @include m.sp {
-    min-height: 340px;
-  }
-
-  &__title {
-    margin-bottom: 16px;
-    font-size: 20px;
-    line-height: 1.2em;
-    color: v.$vket-amber;
-
-    @include m.sp {
-      margin-bottom: 12px;
-      font-size: 16px;
-    }
-  }
-
-  &__text {
-    margin-bottom: 6px;
-    color: white;
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ha/HaPageTitle.vue
-```vue
-<script setup lang="ts">
-defineProps<{
-  label: string
-  title: string
-}>()
-</script>
-
-<template>
-  <div class="page-title">
-    <div class="page-title__flex">
-      <div class="page-title__text-box">
-        <p class="page-title__label">
-          {{ label }}
-        </p>
-        <h2 class="page-title__text">
-          {{ title }}
-        </h2>
-      </div>
-      <div class="page-title__controls">
-        <slot name="controls" />
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.page-title {
-  position: relative;
-  margin-bottom: 48px;
-
-  @include m.tb {
-    margin-bottom: 32px;
-  }
-
-  &__line {
-    position: relative;
-
-    overflow: hidden;
-
-    width: 100%;
-    height: 2px;
-    margin-bottom: 4px;
-
-  }
-
-  &__flex {
-    display: flex;
-    justify-content: space-between;
-    height: 130px;
-    border-bottom: 1px solid white;
-
-    @include m.sp {
-        height: 85px;
-    }
-  }
-
-  &__label {
-    font-size: 12px;
-    color: v.$vket-amber;
-    letter-spacing: 0.1em;
-
-    @include m.tb {
-      font-size: 10px;
-    }
-  }
-
-  &__text {
-    font-size: 48px;
-    font-weight: 700;
-    line-height: 1em;
-    color: #fff;
-
-    @include m.tb {
-      font-size: 40px;
-    }
-
-    @include m.sp {
-      font-size: 32px;
-    }
-  }
-
-  &__controls {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/hm/HmContentsSwiper.vue
-```vue
-<script setup lang="ts">
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import type { Swiper as SwiperType } from 'swiper'
-import HaContentCard from '../ha/HaContentCard.vue'
-import HaCommingSoonCard from '../ha/HaCommingSoonCard.vue'
-
-// スライドの型
-type SlideItem = {
-  id: number
-  title: string
-  href: string
-  text: string
-}
-
-// ブレークポイントごとのSlidesPerViewの型
-type BreakpointSlidesPerView = {
-  [width: number]: {
-    slidesPerView: number | 'auto'
-  }
-}
-
-defineProps<{
-  items?: SlideItem[]
-  _slidesPerView?: number | 'auto'
-  _breakpoints?: BreakpointSlidesPerView
-}>()
-
-const modules = [Autoplay, Navigation, Pagination]
-
-const emit = defineEmits<{
-  slideChange: [isBeginning: boolean, isEnd: boolean]
-}>()
-
-const swiperInstance = ref<SwiperType | null>(null)
-
-const updateState = (swiper: SwiperType) => {
-  emit('slideChange', swiper.isBeginning, swiper.isEnd)
-}
-
-const onSwiper = (swiper: SwiperType) => {
-  swiperInstance.value = swiper
-  updateState(swiper)
-}
-
-const onSlideChange = (swiper: SwiperType) => {
-  updateState(swiper)
-}
-
-defineExpose({ swiperInstance })
-</script>
-
-<template>
-  <div class="works-swiper mb-25">
-    <Swiper
-      :slides-per-view="_slidesPerView ?? 'auto'"
-      :breakpoints="_breakpoints"
-      :speed="1000"
-      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
-      :modules="modules"
-      :centered-slides="false"
-      :space-between="28"
-      :navigation="{
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      }"
-      :pagination="{
-        el: '.custom-swiper-pagination',
-        clickable: true,
-      }"
-      @swiper="onSwiper"
-      @slide-change="onSlideChange"
-    >
-      <SwiperSlide
-        v-for="item in items"
-        :key="item.id"
-      >
-        <HaContentCard :item="item" />
-      </SwiperSlide>
-      <SwiperSlide
-        key="comming-soon"
-      >
-        <HaCommingSoonCard />
-      </SwiperSlide>
-    </Swiper>
-    <div class="custom-swiper-pagination" />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-:deep(.swiper) {
-  overflow: visible;
-}
-</style>
-```
-
-## File: layers/main/app/components/hm/HmNewsSwiper.vue
-```vue
-<script setup lang="ts">
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import HaSwiperCard from '../ha/HaSwiperCard.vue'
-import type { Swiper as SwiperType } from 'swiper'
-
-// スライドの型
-type SlideItem = {
-  id: number
-  title: string
-  href: string
-  imgSrc: string
-  timestamp: string
-}
-
-// ブレークポイントごとのSlidesPerViewの型
-type BreakpointSlidesPerView = {
-  [width: number]: {
-    slidesPerView: number | 'auto'
-  }
-}
-
-defineProps<{
-  items?: SlideItem[]
-  _slidesPerView?: number | 'auto'
-  _breakpoints?: BreakpointSlidesPerView
-}>()
-
-const modules = [Autoplay, Navigation, Pagination]
-
-const emit = defineEmits<{
-  slideChange: [isBeginning: boolean, isEnd: boolean]
-}>()
-
-const swiperInstance = ref<SwiperType | null>(null)
-
-const updateState = (swiper: SwiperType) => {
-  emit('slideChange', swiper.isBeginning, swiper.isEnd)
-}
-
-const onSwiper = (swiper: SwiperType) => {
-  swiperInstance.value = swiper
-  updateState(swiper)
-}
-
-const onSlideChange = (swiper: SwiperType) => {
-  updateState(swiper)
-}
-
-defineExpose({ swiperInstance })
-</script>
-
-<template>
-  <div class="works-swiper mb-25">
-    <Swiper
-      :slides-per-view="_slidesPerView ?? 'auto'"
-      :breakpoints="_breakpoints"
-      :speed="1000"
-      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
-      :modules="modules"
-      :centered-slides="false"
-      :space-between="28"
-      :navigation="{
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      }"
-      :pagination="{
-        el: '.custom-swiper-pagination',
-        clickable: true,
-      }"
-      @swiper="onSwiper"
-      @slide-change="onSlideChange"
-    >
-      <SwiperSlide
-        v-for="item in items"
-        :key="item.id"
-      >
-        <HaSwiperCard :item="item" />
-      </SwiperSlide>
-    </Swiper>
-    <div class="custom-swiper-pagination" />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-:deep(.swiper) {
-  overflow: visible;
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/buildings/HaAstyError.vue
 ```vue
 <template>
@@ -2256,6 +1850,221 @@ const handleClick = () => {
 </style>
 ```
 
+## File: layers/main/app/components/ha/HaCommingSoonCard.vue
+```vue
+<template>
+  <div
+    class="comming-soon-card glassy-box-2"
+  >
+    <p class="comming-soon-card__en">
+      comming soon
+    </p>
+    <p class="comming-soon-card__jp">
+      続報をお待ちください...
+    </p>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.comming-soon-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 460px;
+
+  background-color: rgb(18 33 59);
+
+  @include m.tb {
+    min-height: 380px;
+  }
+
+  @include m.sp {
+    min-height: 340px;
+  }
+
+  &__en {
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+}
+
+&__jp {
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+}
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaContentCard.vue
+```vue
+<template>
+  <a
+    :href="item.href"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="content-card glassy-box-2"
+  >
+    <p class="content-card__title">{{ item.title }}</p>
+    <p class="content-card__text">{{ item.text }}</p>
+  </a>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  item: { title: string, href: string, text: string }
+}>()
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.content-card {
+  cursor: pointer;
+
+  display: block;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 460px;
+  padding: 32px 24px;
+
+  background-color: rgb(18 33 59 / 60%);
+
+  @include m.tb {
+    min-height: 380px;
+  }
+
+  @include m.sp {
+    min-height: 340px;
+  }
+
+  &__title {
+    margin-bottom: 16px;
+    font-size: 20px;
+    line-height: 1.2em;
+    color: v.$vket-amber;
+
+    @include m.sp {
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+  }
+
+  &__text {
+    margin-bottom: 6px;
+    color: white;
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaPageTitle.vue
+```vue
+<script setup lang="ts">
+defineProps<{
+  label: string
+  title: string
+}>()
+</script>
+
+<template>
+  <div class="page-title">
+    <div class="page-title__flex">
+      <div class="page-title__text-box">
+        <p class="page-title__label">
+          {{ label }}
+        </p>
+        <h2 class="page-title__text">
+          {{ title }}
+        </h2>
+      </div>
+      <div class="page-title__controls">
+        <slot name="controls" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.page-title {
+  position: relative;
+  margin-bottom: 48px;
+
+  @include m.tb {
+    margin-bottom: 32px;
+  }
+
+  &__line {
+    position: relative;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 2px;
+    margin-bottom: 4px;
+
+  }
+
+  &__flex {
+    display: flex;
+    justify-content: space-between;
+    height: 130px;
+    border-bottom: 1px solid white;
+
+    @include m.sp {
+        height: 85px;
+    }
+  }
+
+  &__label {
+    font-size: 12px;
+    color: v.$vket-amber;
+    letter-spacing: 0.1em;
+
+    @include m.tb {
+      font-size: 10px;
+    }
+  }
+
+  &__text {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1em;
+    color: #fff;
+
+    @include m.tb {
+      font-size: 40px;
+    }
+
+    @include m.sp {
+      font-size: 32px;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ha/HaShimmer.vue
 ```vue
 <template>
@@ -2335,6 +2144,199 @@ withDefaults(
   100% {
     background-position: -200% 0;
   }
+}
+</style>
+```
+
+## File: layers/main/app/components/hm/HmContentsSwiper.vue
+```vue
+<script setup lang="ts">
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import type { Swiper as SwiperType } from 'swiper'
+import HaContentCard from '../ha/HaContentCard.vue'
+import HaCommingSoonCard from '../ha/HaCommingSoonCard.vue'
+
+// スライドの型
+type SlideItem = {
+  id: number
+  title: string
+  href: string
+  text: string
+}
+
+// ブレークポイントごとのSlidesPerViewの型
+type BreakpointSlidesPerView = {
+  [width: number]: {
+    slidesPerView: number | 'auto'
+  }
+}
+
+defineProps<{
+  items?: SlideItem[]
+  _slidesPerView?: number | 'auto'
+  _breakpoints?: BreakpointSlidesPerView
+}>()
+
+const modules = [Autoplay, Navigation, Pagination]
+
+const emit = defineEmits<{
+  slideChange: [isBeginning: boolean, isEnd: boolean]
+}>()
+
+const swiperInstance = ref<SwiperType | null>(null)
+
+const updateState = (swiper: SwiperType) => {
+  emit('slideChange', swiper.isBeginning, swiper.isEnd)
+}
+
+const onSwiper = (swiper: SwiperType) => {
+  swiperInstance.value = swiper
+  updateState(swiper)
+}
+
+const onSlideChange = (swiper: SwiperType) => {
+  updateState(swiper)
+}
+
+defineExpose({ swiperInstance })
+</script>
+
+<template>
+  <div class="works-swiper mb-25">
+    <Swiper
+      :slides-per-view="_slidesPerView ?? 'auto'"
+      :breakpoints="_breakpoints"
+      :speed="1000"
+      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
+      :modules="modules"
+      :centered-slides="false"
+      :space-between="28"
+      :navigation="{
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      }"
+      :pagination="{
+        el: '.custom-swiper-pagination',
+        clickable: true,
+      }"
+      @swiper="onSwiper"
+      @slide-change="onSlideChange"
+    >
+      <SwiperSlide
+        v-for="item in items"
+        :key="item.id"
+      >
+        <HaContentCard :item="item" />
+      </SwiperSlide>
+      <SwiperSlide
+        key="comming-soon"
+      >
+        <HaCommingSoonCard />
+      </SwiperSlide>
+    </Swiper>
+    <div class="custom-swiper-pagination" />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+:deep(.swiper) {
+  overflow: visible;
+}
+</style>
+```
+
+## File: layers/main/app/components/hm/HmNewsSwiper.vue
+```vue
+<script setup lang="ts">
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import HaSwiperCard from '../ha/HaSwiperCard.vue'
+import type { Swiper as SwiperType } from 'swiper'
+
+// スライドの型
+type SlideItem = {
+  id: number
+  title: string
+  href: string
+  imgSrc: string
+  timestamp: string
+}
+
+// ブレークポイントごとのSlidesPerViewの型
+type BreakpointSlidesPerView = {
+  [width: number]: {
+    slidesPerView: number | 'auto'
+  }
+}
+
+defineProps<{
+  items?: SlideItem[]
+  _slidesPerView?: number | 'auto'
+  _breakpoints?: BreakpointSlidesPerView
+}>()
+
+const modules = [Autoplay, Navigation, Pagination]
+
+const emit = defineEmits<{
+  slideChange: [isBeginning: boolean, isEnd: boolean]
+}>()
+
+const swiperInstance = ref<SwiperType | null>(null)
+
+const updateState = (swiper: SwiperType) => {
+  emit('slideChange', swiper.isBeginning, swiper.isEnd)
+}
+
+const onSwiper = (swiper: SwiperType) => {
+  swiperInstance.value = swiper
+  updateState(swiper)
+}
+
+const onSlideChange = (swiper: SwiperType) => {
+  updateState(swiper)
+}
+
+defineExpose({ swiperInstance })
+</script>
+
+<template>
+  <div class="works-swiper mb-25">
+    <Swiper
+      :slides-per-view="_slidesPerView ?? 'auto'"
+      :breakpoints="_breakpoints"
+      :speed="1000"
+      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
+      :modules="modules"
+      :centered-slides="false"
+      :space-between="28"
+      :navigation="{
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      }"
+      :pagination="{
+        el: '.custom-swiper-pagination',
+        clickable: true,
+      }"
+      @swiper="onSwiper"
+      @slide-change="onSlideChange"
+    >
+      <SwiperSlide
+        v-for="item in items"
+        :key="item.id"
+      >
+        <HaSwiperCard :item="item" />
+      </SwiperSlide>
+    </Swiper>
+    <div class="custom-swiper-pagination" />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+:deep(.swiper) {
+  overflow: visible;
 }
 </style>
 ```
@@ -3327,84 +3329,6 @@ onUnmounted(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaSwiperCard.vue
-```vue
-<template>
-  <NuxtLink
-    :to="item.href"
-    class="swiper-card glassy-box-2"
-  >
-    <img
-      :src="item.imgSrc"
-      :alt="item.title"
-      class="swiper-card__img"
-      loading="lazy"
-    >
-    <p class="swiper-card__timestamp">{{ item.timestamp }}</p>
-    <p class="swiper-card__title">{{ item.title }}</p>
-  </NuxtLink>
-</template>
-
-<script setup lang="ts">
-defineProps<{
-  item: { id: number, title: string, href: string, imgSrc: string, timestamp: string }
-}>()
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.swiper-card {
-  cursor: pointer;
-
-  display: block;
-
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  min-height: 460px;
-  padding: 24px;
-
-  background-color: rgb(18 33 59);
-
-  @include m.tb {
-    min-height: 380px;
-  }
-
-  @include m.sp {
-    min-height: 340px;
-  }
-
-  &__img {
-    display: block;
-
-    width: 100%;
-    margin-bottom: 6px;
-
-    object-fit: cover;
-
-    transition: transform 0.2s ease;
-  }
-
-  &__timestamp {
-    margin-bottom: 6px;
-    color: v.$vket-amber;
-  }
-
-  &__title {
-    font-size: 20px;
-    line-height: 1.2em;
-    color: white;
-
-    @include m.sp {
-      font-size: 16px;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/HaTypewriterText.vue
 ```vue
 <script setup lang="ts">
@@ -4039,13 +3963,18 @@ onUnmounted(() => {
     <p class="contact-card__title">
       {{ title }}
     </p>
-    <NuxtLink class="jump-to-form">
+    <a
+      class="jump-to-form"
+      :href="href"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <p class="jump-to-form__text">{{ text }}<br></p>
       <div class="jump-to-form__flex">
         <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
         <HaJumpToPageIcon class="jump-to-form__icon" />
       </div>
-    </NuxtLink>
+    </a>
   </div>
 </template>
 
@@ -4058,6 +3987,10 @@ defineProps({
     required: true,
   },
   text: {
+    type: String,
+    required: true,
+  },
+  href: {
     type: String,
     required: true,
   },
@@ -4083,6 +4016,8 @@ defineProps({
   width: 100%;
   height: 100%;
   padding: 24px 0;
+
+  background-color: rgb(18 33 59 / 60%);
 
   &__icon {
     display: flex;
@@ -4371,6 +4306,86 @@ defineProps<{
 </style>
 ```
 
+## File: layers/main/app/components/ha/HaSwiperCard.vue
+```vue
+<template>
+  <a
+    :href="item.href"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="swiper-card glassy-box-2"
+  >
+    <img
+      :src="item.imgSrc"
+      :alt="item.title"
+      class="swiper-card__img"
+      loading="lazy"
+    >
+    <p class="swiper-card__timestamp">{{ item.timestamp }}</p>
+    <p class="swiper-card__title">{{ item.title }}</p>
+  </a>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  item: { id: number, title: string, href: string, imgSrc: string, timestamp: string }
+}>()
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.swiper-card {
+  cursor: pointer;
+
+  display: block;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 460px;
+  padding: 24px;
+
+  background-color: rgb(18 33 59 / 60%);
+
+  @include m.tb {
+    min-height: 380px;
+  }
+
+  @include m.sp {
+    min-height: 340px;
+  }
+
+  &__img {
+    display: block;
+
+    width: 100%;
+    margin-bottom: 6px;
+
+    object-fit: cover;
+
+    transition: transform 0.2s ease;
+  }
+
+  &__timestamp {
+    margin-bottom: 6px;
+    color: v.$vket-amber;
+  }
+
+  &__title {
+    font-size: 20px;
+    line-height: 1.2em;
+    color: white;
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtQandASection.vue
 ```vue
 <script setup lang="ts">
@@ -4522,6 +4537,8 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
   height: 100%;
   min-height: 340px;
   padding: 24px;
+
+  background-color: rgb(18 33 59 / 60%);
 
   &__head {
     display: flex;
@@ -5226,24 +5243,31 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
 ```vue
 <script setup lang="ts">
 import HaXIcon from '../ha/icons/HaXIcon.vue'
+
+const { t } = useI18n()
 </script>
 
-<!-- <i18n lang="yaml">
+<i18n lang="yaml">
 ja:
-  mainlogo: ロゴ名サービス名
+  mainlogo: VketReal in 札幌 2026 Autumn
 en:
-  mainlogo: logo name
-</i18n> -->
+  mainlogo: VketReal in Sapporo 2026 Autumn
+</i18n>
 
 <template>
   <footer class="footer">
     <div class="footer__upper">
       <div class="footer__left">
-        <img
-          src=""
-          alt=""
-          class="footer__logo"
+        <a
+          href="/"
+          class="footer__logo-link"
         >
+          <img
+            class="footer__logo"
+            src="/vketreal_in_sapporo_logo_light.png"
+            :alt="t('mainlogo')"
+          >
+        </a>
         <nav class="footer__nav">
           <NuxtLink
             class="footer__link"
@@ -5284,8 +5308,12 @@ en:
 @use '@/assets/styles/mixins' as m;
 
 .footer {
+  position: relative;
+  z-index: 1;
+
   padding: 88px 105px 0;
   border-radius: 40px 40px 0 0;
+
   background-color: rgb(25 25 25 / 100%);
 
   @include m.sp {
@@ -5298,11 +5326,22 @@ en:
     padding-bottom: 48px;
   }
 
-  &__logo {
-    width: 120px;
-    height: 90px;
+  &__logo-link {
+    display: block;
+    height: 92px;
     margin-bottom: 40px;
-    background-color: gray;
+
+    @include m.tb {
+      height: 72px;
+    }
+
+    @include m.sp {
+      height: 46px;
+    }
+  }
+
+  &__logo {
+    height: 100%;
   }
 
   &__nav {
@@ -5352,330 +5391,6 @@ en:
 
     @include m.sp {
       font-size: 8px;
-    }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ho/HoTheHeader.vue
-```vue
-<i18n lang="yaml">
-ja:
-  mainlogo: VketReal in 札幌 2026 Autumn
-en:
-  mainlogo: VketReal in Sapporo 2026 Autumn
-</i18n>
-
-<template>
-  <div
-    id="gsap-header"
-    class="header__wrapper"
-  >
-    <header class="ho-the-header">
-      <div class="ho-the-header__left glassy-box-4 glassy-box-4--radius-full none-hover-animation">
-        <a
-          href="/"
-          class="ho-the-header__logo-link"
-        >
-          <img
-            class="ho-the-header__logo"
-            src="/vketreal_in_sapporo_logo_light.png"
-            :alt="t('mainlogo')"
-          >
-        </a>
-      </div>
-
-      <div class="ho-the-header__accordion-wrapper--inner">
-        <div class="ho-the-header__accordion-wrapper">
-          <div
-            class="ho-the-header__right glassy-box-4 none-hover-animation ho-the-header__accordion"
-            :class="{ 'is-open': isPanelOpen }"
-          >
-            <div class="ho-the-header__accordion-body">
-              <nav class="ho-the-header__accordion-nav">
-                <ul class="ho-the-header__accordion-ul">
-                  <li
-                    v-for="link in navLinks"
-                    :key="link.href"
-                    class="ho-the-header__accordion-li"
-                  >
-                    <a
-                      v-if="link.type === 'link'"
-                      :href="link.href"
-                      class="ho-the-header__accordion-link"
-                      @click="isPanelOpen = false"
-                    >{{ link.text }}</a>
-                    <HaAnchorLink
-                      v-else
-                      class="ho-the-header__accordion-link"
-                      :href="link.href"
-                      :text="link.text"
-                      @clicked="isPanelOpen = false"
-                    />
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <div class="ho-the-header__hamburger-wrapper">
-              <button
-                class="ho-the-header__hamburger"
-                :aria-label="isPanelOpen ? 'メニューを閉じる' : 'メニューを開く'"
-                :aria-expanded="isPanelOpen"
-                @click="isPanelOpen = !isPanelOpen"
-              >
-                <HaHamburgerIcon
-                  v-show="!isPanelOpen"
-                  class="ho-the-header__hamburger-icon"
-                  :class="{ 'is-open': isPanelOpen }"
-                />
-                <HaCloseIcon
-                  v-show="isPanelOpen"
-                  class="ho-the-header__hamburger-icon"
-                  :class="{ 'is-open': isPanelOpen }"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ho-the-header__right ho-the-header__right--pc-only glassy-box-4 glassy-box-4--radius-full none-hover-animation">
-        <nav class="ho-the-header__nav">
-          <ul class="ho-the-header__ul">
-            <li
-              v-for="link in navLinks"
-              :key="link.href"
-              class="ho-the-header__li"
-            >
-              <a
-                v-if="link.type === 'link'"
-                :href="link.href"
-                class="ho-the-header__link"
-              >{{ link.text }}</a>
-              <HaAnchorLink
-                v-else
-                class="ho-the-header__link"
-                :href="link.href"
-                :text="link.text"
-              />
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-  </div>
-</template>
-
-<script setup lang="ts">
-import { ref, watch } from 'vue'
-import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
-import HaAnchorLink from '../ha/HaAnchorLink.vue'
-import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
-
-const { t } = useI18n()
-
-export type NavLink
-  = | { type: 'link', href: string, text: string }
-    | { type: 'anchor', href: string, text: string }
-
-defineProps<{
-  navLinks: NavLink[]
-}>()
-
-const isPanelOpen = ref(false)
-
-watch(isPanelOpen, (val) => {
-  if (typeof document !== 'undefined') {
-    document.body.style.overflow = val ? 'hidden' : ''
-  }
-})
-</script>
-
-<style scoped lang="scss">
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.header__wrapper {
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: v.$vket-header-height-pc;
-  padding: 16px;
-
-  @include m.tb {
-    height: v.$vket-header-height-tb;
-  }
-}
-
-.ho-the-header {
-  position: relative;
-
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-
-  &__left {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-
-    height: 100%;
-    padding-right: 32px;
-    padding-left: 32px;
-
-    @include m.tb {
-      padding-right: 24px;
-    padding-left: 24px;
-    }
-  }
-
-  &__right {
-    display: flex;
-    align-items: center;
-
-    height: 100%;
-    padding-right: 40px;
-    padding-left: 40px;
-
-    @include m.tb {
-      padding-right: 24px;
-      padding-left: 24px;
-    }
-
-    &--pc-only {
-      @include m.sp {
-        display: none;
-      }
-    }
-
-    &--pc-none {
-      display: none;
-
-      @include m.sp {
-        display: flex;
-      }
-    }
-  }
-
-  &__logo {
-    height: 50px;
-
-    @include m.tb {
-      height: 36px;
-    }
-  }
-
-  // PC用ナビ
-  &__nav {
-    @include m.tb {
-      display: none;
-    }
-  }
-
-  &__ul {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-    list-style: none;
-  }
-
-  &__link {
-    font-weight: 700;
-    color: white;
-    text-decoration: none;
-  }
-
-  &__accordion-wrapper {
-    position: relative;
-  }
-
-  &__accordion-wrapper--inner {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-
-  &__accordion {
-    display: none;
-    align-items: start;
-
-    width: fit-content;
-    height: fit-content;
-    min-height: 50px;
-    padding: 0;
-    border-radius: 25px;
-
-    @include m.tb {
-      display: flex;
-    }
-
-    &-body {
-      display: grid;
-      grid-template-columns: 0fr;
-      grid-template-rows: 0fr;
-      transition: grid-template-rows 0.3s ease, grid-template-columns 0.3s ease;
-
-      > nav {
-        overflow: hidden;
-      }
-    }
-
-    &.is-open &-body {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr;
-    }
-
-    &-ul {
-      display: flex;
-      flex-direction: column;
-
-      margin: 0;
-      padding: 36px 0 14px;
-
-      list-style: none;
-    }
-
-    &-link {
-      display: block;
-
-      padding: 12px 24px;
-
-      font-size: 15px;
-      color: white;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-  }
-
-  &__hamburger-wrapper {
-    padding: 7px;
-  }
-
-  // ハンバーガーボタン
-  &__hamburger {
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 36px;
-    height: 36px;
-    padding: 0;
-
-    &-icon {
-      display: block;
-      width: 22px;
-      height: 22px;
-      color: white;
     }
   }
 }
@@ -6070,6 +5785,330 @@ defineProps<{
 </style>
 ```
 
+## File: layers/main/app/components/ho/HoTheHeader.vue
+```vue
+<i18n lang="yaml">
+ja:
+  mainlogo: VketReal in 札幌 2026 Autumn
+en:
+  mainlogo: VketReal in Sapporo 2026 Autumn
+</i18n>
+
+<template>
+  <div
+    id="gsap-header"
+    class="header__wrapper"
+  >
+    <header class="ho-the-header">
+      <div class="ho-the-header__left glassy-box-4 glassy-box-4--radius-full none-hover-animation">
+        <a
+          href="/"
+          class="ho-the-header__logo-link"
+        >
+          <img
+            class="ho-the-header__logo"
+            src="/vketreal_in_sapporo_logo_light.png"
+            :alt="t('mainlogo')"
+          >
+        </a>
+      </div>
+
+      <div class="ho-the-header__accordion-wrapper--inner">
+        <div class="ho-the-header__accordion-wrapper">
+          <div
+            class="ho-the-header__right glassy-box-4 none-hover-animation ho-the-header__accordion"
+            :class="{ 'is-open': isPanelOpen }"
+          >
+            <div class="ho-the-header__accordion-body">
+              <nav class="ho-the-header__accordion-nav">
+                <ul class="ho-the-header__accordion-ul">
+                  <li
+                    v-for="link in navLinks"
+                    :key="link.href"
+                    class="ho-the-header__accordion-li"
+                  >
+                    <a
+                      v-if="link.type === 'link'"
+                      :href="link.href"
+                      class="ho-the-header__accordion-link"
+                      @click="isPanelOpen = false"
+                    >{{ link.text }}</a>
+                    <HaAnchorLink
+                      v-else
+                      class="ho-the-header__accordion-link"
+                      :href="link.href"
+                      :text="link.text"
+                      @clicked="isPanelOpen = false"
+                    />
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="ho-the-header__hamburger-wrapper">
+              <button
+                class="ho-the-header__hamburger"
+                :aria-label="isPanelOpen ? 'メニューを閉じる' : 'メニューを開く'"
+                :aria-expanded="isPanelOpen"
+                @click="isPanelOpen = !isPanelOpen"
+              >
+                <HaHamburgerIcon
+                  v-show="!isPanelOpen"
+                  class="ho-the-header__hamburger-icon"
+                  :class="{ 'is-open': isPanelOpen }"
+                />
+                <HaCloseIcon
+                  v-show="isPanelOpen"
+                  class="ho-the-header__hamburger-icon"
+                  :class="{ 'is-open': isPanelOpen }"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ho-the-header__right ho-the-header__right--pc-only glassy-box-4 glassy-box-4--radius-full none-hover-animation">
+        <nav class="ho-the-header__nav">
+          <ul class="ho-the-header__ul">
+            <li
+              v-for="link in navLinks"
+              :key="link.href"
+              class="ho-the-header__li"
+            >
+              <a
+                v-if="link.type === 'link'"
+                :href="link.href"
+                class="ho-the-header__link"
+              >{{ link.text }}</a>
+              <HaAnchorLink
+                v-else
+                class="ho-the-header__link"
+                :href="link.href"
+                :text="link.text"
+              />
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
+import HaAnchorLink from '../ha/HaAnchorLink.vue'
+import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
+
+const { t } = useI18n()
+
+export type NavLink
+  = | { type: 'link', href: string, text: string }
+    | { type: 'anchor', href: string, text: string }
+
+defineProps<{
+  navLinks: NavLink[]
+}>()
+
+const isPanelOpen = ref(false)
+
+watch(isPanelOpen, (val) => {
+  if (typeof document !== 'undefined') {
+    document.body.style.overflow = val ? 'hidden' : ''
+  }
+})
+</script>
+
+<style scoped lang="scss">
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.header__wrapper {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: v.$vket-header-height-pc;
+  padding: 16px;
+
+  @include m.tb {
+    height: v.$vket-header-height-tb;
+  }
+}
+
+.ho-the-header {
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+
+  &__left {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+
+    height: 100%;
+    padding-right: 32px;
+    padding-left: 32px;
+
+    @include m.tb {
+      padding-right: 24px;
+    padding-left: 24px;
+    }
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+
+    height: 100%;
+    padding-right: 40px;
+    padding-left: 40px;
+
+    @include m.tb {
+      padding-right: 24px;
+      padding-left: 24px;
+    }
+
+    &--pc-only {
+      @include m.sp {
+        display: none;
+      }
+    }
+
+    &--pc-none {
+      display: none;
+
+      @include m.sp {
+        display: flex;
+      }
+    }
+  }
+
+  &__logo {
+    height: 50px;
+
+    @include m.tb {
+      height: 36px;
+    }
+  }
+
+  // PC用ナビ
+  &__nav {
+    @include m.tb {
+      display: none;
+    }
+  }
+
+  &__ul {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    list-style: none;
+  }
+
+  &__link {
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+  }
+
+  &__accordion-wrapper {
+    position: relative;
+  }
+
+  &__accordion-wrapper--inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  &__accordion {
+    display: none;
+    align-items: start;
+
+    width: fit-content;
+    height: fit-content;
+    min-height: 50px;
+    padding: 0;
+    border-radius: 25px;
+
+    @include m.tb {
+      display: flex;
+    }
+
+    &-body {
+      display: grid;
+      grid-template-columns: 0fr;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease, grid-template-columns 0.3s ease;
+
+      > nav {
+        overflow: hidden;
+      }
+    }
+
+    &.is-open &-body {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+    }
+
+    &-ul {
+      display: flex;
+      flex-direction: column;
+
+      margin: 0;
+      padding: 36px 0 14px;
+
+      list-style: none;
+    }
+
+    &-link {
+      display: block;
+
+      padding: 12px 24px;
+
+      font-size: 15px;
+      color: white;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+  }
+
+  &__hamburger-wrapper {
+    padding: 7px;
+  }
+
+  // ハンバーガーボタン
+  &__hamburger {
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+
+    &-icon {
+      display: block;
+      width: 22px;
+      height: 22px;
+      color: white;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
 ```vue
 <script setup lang="ts">
@@ -6264,6 +6303,7 @@ onMounted(() => {
       <HaContactCard
         title="個人向けお問い合わせ"
         text="一般の方からのお問い合わせはこちら"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSchGlf0h1eszxPupo5aWycU_s3CAOmkP1LJP38Niiwi95KNwQ/viewform"
         color="amber"
         class="contact-grid__child"
       >
@@ -6274,6 +6314,7 @@ onMounted(() => {
       <HaContactCard
         title="法人向けお問い合わせ"
         text="企業・法人の方からのお問い合わせはこちら"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSeEevGm1q7byQWd7RhGWTGYClcGthQEbWufSviyiFbcYzsd6A/viewform"
         color="cyan"
         class="contact-grid__child"
       >
@@ -6284,6 +6325,7 @@ onMounted(() => {
       <HaContactCard
         title="広報向けお問い合わせ"
         text="メディア・広報関連のお問い合わせはこちら"
+        href="https://docs.google.com/forms/d/e/1FAIpQLScmYNjxOyf1GtHVSqsRe7pFDoyfUhiSSDqJh5Q0WD40b-1LOg/viewform"
         color="magenta"
         class="contact-grid__child contact-grid__child--full-width"
       >
@@ -6319,208 +6361,6 @@ onMounted(() => {
   }
 }
 </style>
-```
-
-## File: layers/main/app/components/ht/HtContentsSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  items:
-    paraRealCreatorInSapporo:
-      title: パラリアルクリエイター in SAPPORO
-      text: VRクリエイターによるグッズ展示・即売コーナー
-en:
-  items:
-    paraRealCreatorInSapporo:
-      title: ParaRealCreator in SAPPORO
-      text: Goods Exhibition & Sale by VR Creators
-</i18n>
-
-<script setup lang="ts">
-import HmContentsSwiper from '../hm/HmContentsSwiper.vue'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-// Swiper
-import type { Swiper as SwiperType } from 'swiper'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
-
-const isBeginning = ref(true)
-const isEnd = ref(false)
-
-const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
-  isBeginning.value = newIsBeginning
-  isEnd.value = newIsEnd
-}
-
-const { t } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    title: t('items.paraRealCreatorInSapporo.title'),
-    href: 'https://archived.vris.jp/',
-    text: t('items.paraRealCreatorInSapporo.text'),
-  },
-])
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <HaSectionTitle
-    title="企画・コンテンツ"
-    label="CONTENTS"
-  >
-    <template #controls>
-      <button
-        :disabled="isBeginning"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isBeginning }"
-        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
-      >
-        <HaChevronLeftIcon />
-      </button>
-      <button
-        :disabled="isEnd"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isEnd }"
-        @click="worksSwiperRef?.swiperInstance?.slideNext()"
-      >
-        <HaChevronRightIcon />
-      </button>
-    </template>
-  </HaSectionTitle>
-  <div ref="sectionRef">
-    <HmContentsSwiper
-      ref="worksSwiperRef"
-      class="contents__swiper"
-      :items="items"
-      :_slides-per-view="1"
-      :_breakpoints="{
-        1024: { slidesPerView: 3 },
-        768: { slidesPerView: 2 },
-      }"
-      @slide-change="onSlideChange"
-    />
-    <NuxtLink
-      class="glassy-button-3 contents__button"
-      to="/contents"
-    >
-      すべて見る
-    </NuxtLink>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.contents {
-  &__swiper {
-    margin-bottom: 36px;
-
-    @include m.tb {
-      margin-bottom: 24px;
-    }
-  }
-
-  &__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 185px;
-    height: 57px;
-    margin: 0 auto;
-
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-
-    background-color: #e5b5ff3b;
-
-    @include m.tb {
-      width: 130px;
-      height: 40px;
-    }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtRelatedEventsSection.vue
-```vue
-<script setup lang="ts">
-import HmSwiper from '../hm/HmNewsSwiper.vue/index.js'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-// Swiper
-import type { Swiper as SwiperType } from 'swiper'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
-const isBeginning = ref(true)
-const isEnd = ref(false)
-const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
-  isBeginning.value = newIsBeginning
-  isEnd.value = newIsEnd
-}
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="関連イベント"
-      label="RELATED EVENTS"
-    >
-      <template #controls>
-        <button
-          :disabled="isBeginning"
-          class="custom-swiper-button"
-          :class="{ 'is-disabled': isBeginning }"
-          @click="worksSwiperRef?.swiperInstance?.slidePrev()"
-        >
-          <HaChevronLeftIcon />
-        </button>
-        <button
-          :disabled="isEnd"
-          class="custom-swiper-button"
-          :class="{ 'is-disabled': isEnd }"
-          @click="worksSwiperRef?.swiperInstance?.slideNext()"
-        >
-          <HaChevronRightIcon />
-        </button>
-      </template>
-    </HaSectionTitle>
-    <HmSwiper
-      :_slides-per-view="1"
-      :_breakpoints="{
-        768: { slidesPerView: 1.4 },
-      }"
-      @slide-change="onSlideChange"
-    />
-  </div>
-</template>
 ```
 
 ## File: layers/main/app/components/ha/HaAccordionItem.vue
@@ -6592,6 +6432,8 @@ const toggle = (id: number) => {
   width: 100%;
   height: fit-content;
   padding: 70px 48px;
+
+  background-color: rgb(18 33 59 / 60%);
 
   @include m.tb {
     padding: 48px 24px;
@@ -6795,6 +6637,208 @@ onMounted(() => {
   margin-bottom: 120px;
 }
 </style>
+```
+
+## File: layers/main/app/components/ht/HtContentsSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  items:
+    paraRealCreatorInSapporo:
+      title: パラリアルクリエイター in SAPPORO
+      text: VRクリエイターによるグッズ展示・即売コーナー
+en:
+  items:
+    paraRealCreatorInSapporo:
+      title: ParaRealCreator in SAPPORO
+      text: Goods Exhibition & Sale by VR Creators
+</i18n>
+
+<script setup lang="ts">
+import HmContentsSwiper from '../hm/HmContentsSwiper.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+// Swiper
+import type { Swiper as SwiperType } from 'swiper'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
+
+const isBeginning = ref(true)
+const isEnd = ref(false)
+
+const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
+  isBeginning.value = newIsBeginning
+  isEnd.value = newIsEnd
+}
+
+const { t } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: t('items.paraRealCreatorInSapporo.title'),
+    href: 'https://archived.vris.jp/',
+    text: t('items.paraRealCreatorInSapporo.text'),
+  },
+])
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <HaSectionTitle
+    title="企画・コンテンツ"
+    label="CONTENTS"
+  >
+    <template #controls>
+      <button
+        :disabled="isBeginning"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isBeginning }"
+        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+      >
+        <HaChevronLeftIcon />
+      </button>
+      <button
+        :disabled="isEnd"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isEnd }"
+        @click="worksSwiperRef?.swiperInstance?.slideNext()"
+      >
+        <HaChevronRightIcon />
+      </button>
+    </template>
+  </HaSectionTitle>
+  <div ref="sectionRef">
+    <HmContentsSwiper
+      ref="worksSwiperRef"
+      class="contents__swiper"
+      :items="items"
+      :_slides-per-view="1"
+      :_breakpoints="{
+        1024: { slidesPerView: 3 },
+        768: { slidesPerView: 2 },
+      }"
+      @slide-change="onSlideChange"
+    />
+    <NuxtLink
+      class="glassy-button-3 contents__button"
+      to="/contents"
+    >
+      すべて見る
+    </NuxtLink>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.contents {
+  &__swiper {
+    margin-bottom: 36px;
+
+    @include m.tb {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 185px;
+    height: 57px;
+    margin: 0 auto;
+
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+
+    background-color: #e5b5ff3b;
+
+    @include m.tb {
+      width: 130px;
+      height: 40px;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtRelatedEventsSection.vue
+```vue
+<script setup lang="ts">
+import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+// Swiper
+import type { Swiper as SwiperType } from 'swiper'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
+const isBeginning = ref(true)
+const isEnd = ref(false)
+const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
+  isBeginning.value = newIsBeginning
+  isEnd.value = newIsEnd
+}
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="関連イベント"
+      label="RELATED EVENTS"
+    >
+      <template #controls>
+        <button
+          :disabled="isBeginning"
+          class="custom-swiper-button"
+          :class="{ 'is-disabled': isBeginning }"
+          @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+        >
+          <HaChevronLeftIcon />
+        </button>
+        <button
+          :disabled="isEnd"
+          class="custom-swiper-button"
+          :class="{ 'is-disabled': isEnd }"
+          @click="worksSwiperRef?.swiperInstance?.slideNext()"
+        >
+          <HaChevronRightIcon />
+        </button>
+      </template>
+    </HaSectionTitle>
+    <HmNewsSwiper
+      :_slides-per-view="1"
+      :_breakpoints="{
+        768: { slidesPerView: 1.4 },
+      }"
+      @slide-change="onSlideChange"
+    />
+  </div>
+</template>
 ```
 
 ## File: layers/main/app/components/ht/HtScheduleSection.vue
@@ -7682,154 +7726,6 @@ onMounted(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtNewsSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  items:
-    earlySpring:
-      title: VketReal mini in 札幌 2026 Early Spring
-    summer:
-      title: VketReal in 札幌 2025 Summer
-en:
-  items:
-    earlySpring:
-      title: VketReal mini in SAPPORO 2026 Early Spring
-    summer:
-      title: VketReal in SAPPORO 2025 Summer
-</i18n>
-
-<script setup lang="ts">
-import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-// Swiper
-import type { Swiper as SwiperType } from 'swiper'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
-
-const isBeginning = ref(true)
-const isEnd = ref(false)
-
-const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
-  isBeginning.value = newIsBeginning
-  isEnd.value = newIsEnd
-}
-
-const { t } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    title: t('items.earlySpring.title'),
-    href: 'https://archived.vris.jp/',
-    imgSrc: 'https://archived.vris.jp/images/2026EarlySpring/2026EarlySpring-kv.png',
-    timestamp: '2026-06-04',
-  },
-  {
-    id: 2,
-    title: t('items.summer.title'),
-    href: 'https://archived.vris.jp/2025Summer',
-    imgSrc: 'https://archived.vris.jp/images/2025Summer/kv.png',
-    timestamp: '2026-06-04',
-  },
-])
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <HaSectionTitle
-    title="お知らせ"
-    label="NEWS"
-  >
-    <template #controls>
-      <button
-        :disabled="isBeginning"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isBeginning }"
-        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
-      >
-        <HaChevronLeftIcon />
-      </button>
-      <button
-        :disabled="isEnd"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isEnd }"
-        @click="worksSwiperRef?.swiperInstance?.slideNext()"
-      >
-        <HaChevronRightIcon />
-      </button>
-    </template>
-  </HaSectionTitle>
-  <div ref="sectionRef">
-    <HmNewsSwiper
-      ref="worksSwiperRef"
-      class="news__swiper"
-      :items="items"
-      :_slides-per-view="1"
-      :_breakpoints="{
-        1024: { slidesPerView: 3 },
-        768: { slidesPerView: 2 },
-      }"
-      @slide-change="onSlideChange"
-    />
-    <NuxtLink
-      class="glassy-button-3 news__button"
-      to="/news"
-    >
-      すべて見る
-    </NuxtLink>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.news {
-  &__swiper {
-    margin-bottom: 36px;
-
-    @include m.tb {
-      margin-bottom: 24px;
-    }
-  }
-
-  &__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 185px;
-    height: 57px;
-    margin: 0 auto;
-
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-
-    background-color: #e5b5ff3b;
-
-    @include m.tb {
-      width: 130px;
-      height: 40px;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtQuickAccessSection.vue
 ```vue
 <i18n lang="yaml">
@@ -8000,6 +7896,154 @@ onMounted(() => {
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtNewsSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  items:
+    news1:
+      title: ロゴマークを公開しました！
+    news2:
+      title: キービジュアルを公開しました！
+en:
+  items:
+    news1:
+      title: We have published our logo!
+    news2:
+      title: We have published our key visual!
+</i18n>
+
+<script setup lang="ts">
+import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+// Swiper
+import type { Swiper as SwiperType } from 'swiper'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
+
+const isBeginning = ref(true)
+const isEnd = ref(false)
+
+const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
+  isBeginning.value = newIsBeginning
+  isEnd.value = newIsEnd
+}
+
+const { t } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: t('items.news1.title'),
+    href: 'https://archived.vris.jp/',
+    imgSrc: '/news1_thumbnail.png',
+    timestamp: '2026-06-06',
+  },
+  {
+    id: 2,
+    title: t('items.news2.title'),
+    href: 'https://archived.vris.jp/',
+    imgSrc: '/news2_thumbnail.png',
+    timestamp: '2026-06-01',
+  },
+])
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <HaSectionTitle
+    title="お知らせ"
+    label="NEWS"
+  >
+    <template #controls>
+      <button
+        :disabled="isBeginning"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isBeginning }"
+        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+      >
+        <HaChevronLeftIcon />
+      </button>
+      <button
+        :disabled="isEnd"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isEnd }"
+        @click="worksSwiperRef?.swiperInstance?.slideNext()"
+      >
+        <HaChevronRightIcon />
+      </button>
+    </template>
+  </HaSectionTitle>
+  <div ref="sectionRef">
+    <HmNewsSwiper
+      ref="worksSwiperRef"
+      class="news__swiper"
+      :items="items"
+      :_slides-per-view="1"
+      :_breakpoints="{
+        1024: { slidesPerView: 3 },
+        768: { slidesPerView: 2 },
+      }"
+      @slide-change="onSlideChange"
+    />
+    <NuxtLink
+      class="glassy-button-3 news__button"
+      to="/news"
+    >
+      すべて見る
+    </NuxtLink>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.news {
+  &__swiper {
+    margin-bottom: 36px;
+
+    @include m.tb {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 185px;
+    height: 57px;
+    margin: 0 auto;
+
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+
+    background-color: #e5b5ff3b;
+
+    @include m.tb {
+      width: 130px;
+      height: 40px;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtTop.vue
 ```vue
 <i18n lang="yaml">
@@ -8123,6 +8167,7 @@ import HtParticipationGuide from './HtParticipationGuide.vue'
 
   width: 100%;
   height: 100%;
+  margin-bottom: -40px;
 
   background-color: v.$base-background-color;
 }

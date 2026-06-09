@@ -105,7 +105,7 @@
   }
 
   &--cyan {
-    background-color: rgba(color.mix(black, v.$vket-cyan, 60%), 0.05);
+    background-color: rgba(color.mix(black, v.$vket-cyan, 60%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
 
     .glassy-box__icon {
@@ -122,7 +122,7 @@
   }
 
   &--light-cyan {
-    background-color: rgba(color.mix(black, v.$vket-cyan, 60%), 0.05);
+    background-color: rgba(color.mix(black, v.$vket-cyan, 60%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
 
     .glassy-box__icon {
@@ -139,7 +139,7 @@
   }
 
   &--magenta {
-    background-color: rgba(color.mix(black, v.$vket-magenta, 60%), 0.05);
+    background-color: rgba(color.mix(black, v.$vket-magenta, 60%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
 
     .glassy-box__icon {
@@ -156,7 +156,7 @@
   }
 
   &--light-magenta {
-    background-color: rgba(color.mix(black, v.$vket-magenta, 60%), 0.05);
+    background-color: rgba(color.mix(black, v.$vket-magenta, 60%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
 
     .glassy-box__icon {
@@ -173,7 +173,7 @@
   }
 
   &--amber {
-    background-color: rgba(color.mix(black, v.$vket-amber, 60%), 0.05);
+    background-color: rgba(color.mix(black, v.$vket-amber, 60%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
 
     .glassy-box__icon {
@@ -190,7 +190,7 @@
   }
 
   &--vermilion {
-    background-color: rgba(color.mix(black, v.$vket-vermilion, 60%), 0.05);
+    background-color: rgba(color.mix(black, v.$vket-vermilion, 60%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
 
     .glassy-box__icon {

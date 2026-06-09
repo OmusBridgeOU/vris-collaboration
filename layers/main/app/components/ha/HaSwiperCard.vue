@@ -1,6 +1,8 @@
 <template>
-  <NuxtLink
-    :to="item.href"
+  <a
+    :href="item.href"
+    target="_blank"
+    rel="noopener noreferrer"
     class="swiper-card glassy-box-2"
   >
     <img
@@ -11,7 +13,7 @@
     >
     <p class="swiper-card__timestamp">{{ item.timestamp }}</p>
     <p class="swiper-card__title">{{ item.title }}</p>
-  </NuxtLink>
+  </a>
 </template>
 
 <script setup lang="ts">
@@ -35,7 +37,7 @@ defineProps<{
   min-height: 460px;
   padding: 24px;
 
-  background-color: rgb(18 33 59);
+  background-color: rgb(18 33 59 / 60%);
 
   @include m.tb {
     min-height: 380px;

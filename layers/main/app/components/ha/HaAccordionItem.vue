@@ -66,6 +66,8 @@ const toggle = (id: number) => {
   height: fit-content;
   padding: 70px 48px;
 
+  background-color: rgb(18 33 59 / 60%);
+
   @include m.tb {
     padding: 48px 24px;
     border-radius: 20px;

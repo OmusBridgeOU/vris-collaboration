@@ -119,6 +119,7 @@ import HtParticipationGuide from './HtParticipationGuide.vue'
 
   width: 100%;
   height: 100%;
+  margin-bottom: -40px;
 
   background-color: v.$base-background-color;
 }

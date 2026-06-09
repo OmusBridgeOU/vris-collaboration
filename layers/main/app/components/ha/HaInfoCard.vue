@@ -65,6 +65,8 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
   min-height: 340px;
   padding: 24px;
 
+  background-color: rgb(18 33 59 / 60%);
+
   &__head {
     display: flex;
     gap: 24px;

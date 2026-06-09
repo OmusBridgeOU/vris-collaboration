@@ -1,16 +1,14 @@
 <i18n lang="yaml">
 ja:
   items:
-    earlySpring:
-      title: VketReal mini in 札幌 2026 Early Spring
-    summer:
-      title: VketReal in 札幌 2025 Summer
+    paraRealCreatorInSapporo:
+      title: パラリアルクリエイター in SAPPORO
+      text: VRクリエイターによるグッズ展示・即売コーナー
 en:
   items:
-    earlySpring:
-      title: VketReal mini in SAPPORO 2026 Early Spring
-    summer:
-      title: VketReal in SAPPORO 2025 Summer
+    paraRealCreatorInSapporo:
+      title: ParaRealCreator in SAPPORO
+      text: Goods Exhibition & Sale by VR Creators
 </i18n>
 
 <script lang="ts" setup>

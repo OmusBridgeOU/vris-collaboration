@@ -1,16 +1,16 @@
 <i18n lang="yaml">
 ja:
   items:
-    earlySpring:
-      title: VketReal mini in 札幌 2026 Early Spring
-    summer:
-      title: VketReal in 札幌 2025 Summer
+    news1:
+      title: ロゴマークを公開しました！
+    news2:
+      title: キービジュアルを公開しました！
 en:
   items:
-    earlySpring:
-      title: VketReal mini in SAPPORO 2026 Early Spring
-    summer:
-      title: VketReal in SAPPORO 2025 Summer
+    news1:
+      title: We have published our logo!
+    news2:
+      title: We have published our key visual!
 </i18n>
 
 <script setup lang="ts">
@@ -39,17 +39,17 @@ const { t } = useI18n()
 const items = computed(() => [
   {
     id: 1,
-    title: t('items.earlySpring.title'),
+    title: t('items.news1.title'),
     href: 'https://archived.vris.jp/',
-    imgSrc: 'https://archived.vris.jp/images/2026EarlySpring/2026EarlySpring-kv.png',
-    timestamp: '2026-06-04',
+    imgSrc: '/news1_thumbnail.png',
+    timestamp: '2026-06-06',
   },
   {
     id: 2,
-    title: t('items.summer.title'),
-    href: 'https://archived.vris.jp/2025Summer',
-    imgSrc: 'https://archived.vris.jp/images/2025Summer/kv.png',
-    timestamp: '2026-06-04',
+    title: t('items.news2.title'),
+    href: 'https://archived.vris.jp/',
+    imgSrc: '/news2_thumbnail.png',
+    timestamp: '2026-06-01',
   },
 ])
 

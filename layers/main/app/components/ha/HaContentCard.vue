@@ -1,11 +1,13 @@
 <template>
-  <NuxtLink
-    :to="item.href"
+  <a
+    :href="item.href"
+    target="_blank"
+    rel="noopener noreferrer"
     class="content-card glassy-box-2"
   >
     <p class="content-card__title">{{ item.title }}</p>
     <p class="content-card__text">{{ item.text }}</p>
-  </NuxtLink>
+  </a>
 </template>
 
 <script setup lang="ts">
@@ -29,7 +31,7 @@ defineProps<{
   min-height: 460px;
   padding: 32px 24px;
 
-  background-color: rgb(18 33 59);
+  background-color: rgb(18 33 59 / 60%);
 
   @include m.tb {
     min-height: 380px;
