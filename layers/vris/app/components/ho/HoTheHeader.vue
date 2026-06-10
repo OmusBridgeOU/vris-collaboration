@@ -20,7 +20,6 @@ ja:
     check_announcement: イベントに一般参加される方は、一般参加者向けVketReal in 札幌 2025 Summer ガイドをチェック！
     2025summer_closed: "VketReal in 札幌 2025 Summerは大盛況のなか、閉幕いたしました。ご参加いただきありがとうございました！"
     2026Evennt_guide:  VketReal mini in 札幌 2026 Early Springイベントガイドはこちら
-    maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 en:
   nav:
     top: Top
@@ -42,7 +41,6 @@ en:
     check_announcement: If you are participating in the event as a general attendee, please check the VketReal in Sapporo 2025 Summer Guide for General Attendees!
     2025summer_closed: "VketReal in Sapporo 2025 Summer has concluded successfully. Thank you for your participation!"
     2026Evennt_guide: Here is the event guide for VketReal mini in Sapporo 2026 Early Spring
-    maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 </i18n>
 
 <template>
@@ -124,7 +122,6 @@ en:
     <template v-if="isShowGuideBar">
       <HaLink
         class="guide"
-        :class="{ 'guide--maintenance': isMaintenanceBar }"
         :to="guidePath"
       >
         <HmButton class="button">
@@ -186,31 +183,15 @@ const toggleLanguage = async () => {
   }
 }
 
-const isRootPage = computed(() => {
-  return ['/', `/${locale.value}`, `/${locale.value}/`].includes(route.path)
-})
-
 const isShowGuideBar = computed(() => {
-  return route.path.includes('/2025Summer') || isRootPage.value
-})
-
-const isMaintenanceBar = computed(() => {
-  return isRootPage.value
+  return route.path.includes('/2025Summer') || route.path === '/'
 })
 
 const guideBarText = computed(() => {
-  if (isMaintenanceBar.value) {
-    return t('message.maintenance')
-  }
-
   return route.path.includes('/2025Summer') ? t('message.2025summer_closed') : t('message.2026Evennt_guide')
 })
 
 const guidePath = computed(() => {
-  if (isMaintenanceBar.value) {
-    return '/'
-  }
-
   return route.path.includes('/2025Summer') ? '/' : '/docs/2026early-spring/event-notification'
 })
 </script>
@@ -484,11 +465,6 @@ const guidePath = computed(() => {
         padding-right: 50px; // テキスト間のスペース
       }
     }
-  }
-
-  &--maintenance > .button {
-    color: #fff;
-    background: #e6002d;
   }
 }
 

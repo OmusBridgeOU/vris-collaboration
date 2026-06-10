@@ -1,8 +1,10 @@
 <i18n lang="yaml">
 ja:
   mainlogo: ロゴ名サービス名
+  maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 en:
   mainlogo: logo name
+  maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 </i18n>
 
 <template>
@@ -55,6 +57,16 @@ en:
         </button>
       </div>
     </header>
+    <div
+      class="maintenance-banner"
+      role="status"
+      aria-live="polite"
+    >
+      <span class="maintenance-banner__track">
+        <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
+        <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
+      </span>
+    </div>
   </div>
 
   <div
@@ -110,6 +122,8 @@ import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
 import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
 import HaAnchorLink from '../ha/HaAnchorLink.vue'
 
+const { t } = useI18n()
+
 export type NavLink
   = | { type: 'link', href: string, text: string }
     | { type: 'anchor', href: string, text: string }
@@ -143,6 +157,45 @@ watch(isPanelOpen, (val) => {
 
   @include m.sp {
     height: v.$vket-header-height-sp;
+  }
+}
+
+.maintenance-banner {
+  position: fixed;
+  top: v.$vket-header-height-pc;
+  left: 0;
+
+  overflow: hidden;
+
+  width: 100vw;
+  height: 32px;
+
+  color: white;
+
+  background: #e6002d;
+
+  @include m.sp {
+    top: v.$vket-header-height-sp;
+  }
+
+  &__track {
+    will-change: transform;
+
+    display: inline-block;
+
+    padding-left: 100%;
+
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 32px;
+    white-space: nowrap;
+
+    animation: maintenance-marquee 20s linear infinite;
+  }
+
+  &__text {
+    display: inline-block;
+    padding-right: 56px;
   }
 }
 
@@ -291,6 +344,23 @@ watch(isPanelOpen, (val) => {
     font-size: 14px;
     color: white;
     text-decoration: none;
+  }
+}
+
+@keyframes maintenance-marquee {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(-100%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .maintenance-banner__track {
+    padding-left: 0;
+    animation: none;
   }
 }
 </style>
