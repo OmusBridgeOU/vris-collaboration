@@ -49,7 +49,7 @@ en:
         </nav>
       </div>
       <a
-        href="https://x.com/Virtual_Market_"
+        href="https://x.com/vketreal_vris"
         target="blank"
         rel="noopener noreferrer"
         class="footer__x-logo"

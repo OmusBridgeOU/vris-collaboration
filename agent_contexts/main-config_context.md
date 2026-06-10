@@ -759,7 +759,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'cloudflare_pages',
+    preset: 'vercel',
   },
 
   sourcemap: {
