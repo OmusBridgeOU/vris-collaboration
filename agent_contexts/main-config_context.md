@@ -602,7 +602,7 @@ const NUXT_ENV_OUTPUT_ENV = readEnvType(process.env)
 const runtimeConfig = getRuntimeConfigOfEnvType(NUXT_ENV_OUTPUT_ENV)
 const cssUrls = [`@/assets/styles/style.scss`]
 const srcDir = 'app'
-const isSsr = false
+const isSsr = true
 const checkTypeCheckOnBuild = true
 const needAnalyze = NUXT_ENV_OUTPUT_ENV === 'local'
 const needSourcemap = NUXT_ENV_OUTPUT_ENV !== 'production'
@@ -671,6 +671,10 @@ export default defineNuxtConfig({
   css: cssUrls,
 
   content: {
+    database: {
+      type: 'd1',
+      bindingName: 'DB',
+    },
     watch: {
       enabled: true,
     },
@@ -728,6 +732,10 @@ export default defineNuxtConfig({
     },
   },
 
+  nitro: {
+    preset: 'cloudflare_pages',
+  },
+
   sourcemap: {
     server: needSourcemap,
     client: needSourcemap,
@@ -756,7 +764,7 @@ export default defineNuxtConfig({
 ## File: layers/main/package.json
 ````json
 {
-  "name": "vket-boilerplate-nuxt-main",
+  "name": "vris-collaboration",
   "private": true,
   "type": "module",
   "version": "1.0.1",
