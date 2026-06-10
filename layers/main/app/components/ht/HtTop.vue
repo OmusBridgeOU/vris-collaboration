@@ -17,31 +17,7 @@ en:
         <HaFireworks />
       </div>
 
-      <div class="content-wrapper__front">
-        <!-- <section id="cloud-levels">
-          <HtCrowdLevelsSection />
-        </section> -->
-
-        <!-- <section id="quick-access">
-          <HtQuickAccessSection />
-        </section> -->
-
-        <!-- <section id="exhibition">
-          <HtExhibitionSection />
-        </section> -->
-
-        <!-- <section id="code-of-conduct">
-          <HtCodeOfConductSection />
-        </section> -->
-
-        <!-- <section id="related-events">
-          <HtRelatedEventsSection />
-        </section> -->
-
-        <!-- <section id="ticket">
-          <HtTicketSection />
-        </section> -->
-
+      <div class="content-wrapper__main">
         <section id="about">
           <HtAboutSection />
         </section>
@@ -143,9 +119,11 @@ import HtParticipationGuide from './HtParticipationGuide.vue'
     }
   }
 
-  &__front {
+  &__main {
     position: relative;
     z-index: 2;
+    max-width: 1600px;
+    margin: 0 auto;
   }
 }
 

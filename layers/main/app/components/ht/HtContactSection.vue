@@ -75,6 +75,9 @@ onMounted(() => {
   grid-template-columns: 1fr 1fr;
   gap: 12px 24px;
 
+  max-width: 760px;
+  margin: 0 auto;
+
   @include m.sp {
     grid-template-columns: 1fr;
   }

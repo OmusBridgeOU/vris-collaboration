@@ -29,7 +29,7 @@ defineProps<{
   width: 100%;
   height: 100%;
   min-height: 460px;
-  padding: 32px 24px;
+  padding: 44px 28px;
 
   background-color: rgb(18 33 59 / 60%);
 
@@ -42,7 +42,7 @@ defineProps<{
   }
 
   &__title {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     font-size: 20px;
     line-height: 1.2em;
     color: v.$vket-amber;

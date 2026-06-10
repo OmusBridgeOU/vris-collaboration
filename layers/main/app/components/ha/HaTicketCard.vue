@@ -20,7 +20,7 @@ en:
 
     <NuxtLink
       v-if="href"
-      class="glassy-button-3 ticket-card__button none-hover-animation"
+      class="glassy-button ticket-card__button none-hover-animation"
       :to="href"
       target="_blank"
       rel="noopener"
@@ -29,7 +29,7 @@ en:
     </NuxtLink>
     <span
       v-else
-      class="glassy-button-3 ticket-card__button ticket-card__button--disabled none-hover-animation"
+      class="glassy-button ticket-card__button ticket-card__button--disabled none-hover-animation"
     >
       {{ ctaLabel ?? t('cta.pending') }}
     </span>

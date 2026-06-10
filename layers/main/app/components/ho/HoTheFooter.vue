@@ -48,9 +48,14 @@ en:
           >出展規約</NuxtLink>
         </nav>
       </div>
-      <div class="footer__x-logo">
+      <a
+        href="https://x.com/Virtual_Market_"
+        target="blank"
+        rel="noopener noreferrer"
+        class="footer__x-logo"
+      >
         <HaXIcon />
-      </div>
+      </a>
     </div>
     <div class="footer__divider" />
     <div class="footer__lower">

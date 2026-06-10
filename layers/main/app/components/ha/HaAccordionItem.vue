@@ -63,8 +63,10 @@ const toggle = (id: number) => {
   gap: 12px;
 
   width: 100%;
+  max-width: 760px;
   height: fit-content;
-  padding: 70px 48px;
+  margin: 0 auto;
+  padding: 70px 36px;
 
   background-color: rgb(18 33 59 / 60%);
 
@@ -162,7 +164,7 @@ const toggle = (id: number) => {
   }
 
   &--is-open {
-    background-color: rgb(42 63 99 / 60%);
+    background-color: rgb(42 63 99 / 80%);
 
     .accordion-item__icon {
       transform: rotate(180deg);

@@ -88,7 +88,7 @@ onMounted(() => {
       @slide-change="onSlideChange"
     />
     <NuxtLink
-      class="glassy-button-3 contents__button"
+      class="glassy-button contents__button"
       to="/contents"
     >
       すべて見る
@@ -114,8 +114,8 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
 
-    width: 185px;
-    height: 57px;
+    width: 218px;
+    height: 74px;
     margin: 0 auto;
 
     font-family: Inter, sans-serif;
@@ -126,8 +126,8 @@ onMounted(() => {
     background-color: #e5b5ff3b;
 
     @include m.tb {
-      width: 130px;
-      height: 40px;
+      width: 198px;
+      height: 64px;
     }
   }
 }

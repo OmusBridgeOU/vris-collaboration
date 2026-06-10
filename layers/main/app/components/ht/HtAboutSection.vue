@@ -34,7 +34,7 @@ onMounted(() => {
     </div>
     <div class="description">
       VRSNS上で活躍する北海道ゆかりのクリエイターたちが、
-      リアルの場に飛び出す場所をつくりたい―――<br class="sp-none">
+      リアルの場に飛び出す場所をつくりたい―――<br>
       そんな想いから生まれた、有志主催のイベントです。北海道の有志XRクリエイターが主催し、札幌で開催します。
     </div>
     <div class="info-flex mb-24">

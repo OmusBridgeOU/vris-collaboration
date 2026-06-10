@@ -49,6 +49,7 @@ onMounted(() => {
         <p
           v-for="(content, index) in item.contents"
           :key="`${item.id}-${index}`"
+          class="content__text"
         >
           {{ content }}
         </p>
@@ -64,16 +65,7 @@ onMounted(() => {
   margin-bottom: 96px;
 }
 
-.ticket-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 275px 275px;
-  gap: 12px 24px;
-
-  &__item {
-    &--full-width {
-      grid-column: 1 / -1;
-    }
-  }
+.content__text {
+  margin-bottom: 14px;
 }
 </style>

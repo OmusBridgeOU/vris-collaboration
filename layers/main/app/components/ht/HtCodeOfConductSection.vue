@@ -91,7 +91,7 @@ onMounted(() => {
         </HaConductCard>
       </div>
     </div>
-    <button class="glassy-button-3 conduct__button">
+    <button class="glassy-button conduct__button">
       詳細を確認
     </button>
   </div>

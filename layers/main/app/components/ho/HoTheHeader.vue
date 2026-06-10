@@ -158,7 +158,9 @@ watch(isPanelOpen, (val) => {
 
   box-sizing: border-box;
   width: 100%;
+  max-width: calc(1600px - 136px * 2); // FIXME: 1600px(メインコンテンツのmax-width) - 136*2(メインコンテンツのpadding-x)をハードコーディングしてしまっている
   height: 100%;
+  margin: 0 auto;
 
   &__left {
     display: flex;

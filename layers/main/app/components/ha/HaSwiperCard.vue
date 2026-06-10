@@ -51,11 +51,19 @@ defineProps<{
     display: block;
 
     width: 100%;
-    margin-bottom: 6px;
+    margin-bottom: 14px;
 
     object-fit: cover;
 
     transition: transform 0.2s ease;
+
+    @include m.sp {
+      margin-bottom: 10px;
+    }
+
+    @include m.sp {
+      margin-bottom: 6px;
+    }
   }
 
   &__timestamp {

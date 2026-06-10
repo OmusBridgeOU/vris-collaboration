@@ -53,7 +53,7 @@ onMounted(() => {
       募集スケジュール
     </p>
 
-    <p class="exhibitor-info__description mb-15">
+    <p class="exhibitor-info__description mb-24">
       また、今回のサークル募集は二回に分けて行います。<br>
       二次申し込みについては一次申し込みの結果、<br class="tb-only">出展枠に余裕がある場合のみ開催します。<br>
       確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。
@@ -129,7 +129,7 @@ onMounted(() => {
 
 .exhibitor-info {
   &__table-title {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 
     font-size: 24px;
     font-weight: bold;
@@ -142,7 +142,6 @@ onMounted(() => {
     }
 
     @include m.sp {
-      margin-bottom: 8px;
       font-size: 16px;
     }
   }
