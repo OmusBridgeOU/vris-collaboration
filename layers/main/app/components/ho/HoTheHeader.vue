@@ -125,7 +125,7 @@ const isPanelOpen = ref(false)
 
 watch(isPanelOpen, (val) => {
   if (typeof document !== 'undefined') {
-    document.body.style.overflow = val ? 'hidden' : ''
+    document.body.style.overflowX = val ? 'hidden' : ''
   }
 })
 </script>

@@ -80,7 +80,7 @@ export default defineEventHandler((event) => {
     const base64 = header.slice(6)
     const decoded = Buffer.from(base64, 'base64').toString('utf-8')
     const [user, pass] = decoded.split(':')
-    return user === "a" && pass === "a"
+    return user === process.env.BASIC_AUTH_USER && pass === process.env.BASIC_AUTH_PASS
   })()
 
   if (!isValid) {
@@ -759,7 +759,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'vercel',
+    preset: 'cloudflare_pages',
   },
 
   sourcemap: {
@@ -784,36 +784,6 @@ export default defineNuxtConfig({
   },
 
   i18n: nuxtI18nOptions,
-
-  vite: {
-    server: {
-      watch: {
-        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
-        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
-      },
-    },
-
-    plugins: [
-      {
-        name: 'watch-external-scss',
-        configureServer(server) {
-          // 監視したいSCSSのパスを列挙（globも使用可）
-          const targets = [
-            path.resolve(__dirname, './app/assets/styles/**/*.scss'),
-          ]
-          targets.forEach((target) => {
-            server.watcher.add(target)
-          })
-          server.watcher.on('change', (filePath) => {
-            if (filePath.endsWith('.scss')) {
-              // HMRを強制発火
-              server.hot.send({ type: 'full-reload' })
-            }
-          })
-        },
-      },
-    ],
-  },
 })
 ````
 
@@ -829,7 +799,7 @@ export default defineNuxtConfig({
     "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
     "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
     "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
-    "build": "VITE_OUTPUT_ENV=production nuxt build",
+    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
     "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
     "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
     "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",
