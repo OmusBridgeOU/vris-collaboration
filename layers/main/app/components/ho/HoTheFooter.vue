@@ -25,7 +25,7 @@ en:
             :alt="t('mainlogo')"
           >
         </a>
-        <nav class="footer__nav">
+        <!-- <nav class="footer__nav">
           <NuxtLink
             class="footer__link"
             to="/documents/terms"
@@ -46,7 +46,7 @@ en:
             class="footer__link"
             to="/documents/exhibition-terms"
           >出展規約</NuxtLink>
-        </nav>
+        </nav> -->
       </div>
       <a
         href="https://x.com/vketreal_vris"
@@ -85,16 +85,16 @@ en:
   &__upper {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 48px;
   }
 
   &__logo-link {
     display: block;
     height: 92px;
-    margin-bottom: 40px;
+    margin-bottom: 64px;
 
     @include m.tb {
       height: 72px;
+      margin-bottom: 40px;
     }
 
     @include m.sp {
@@ -110,6 +110,7 @@ en:
     display: flex;
     flex-direction: column;
     gap: 22px;
+    padding-bottom: 48px;
   }
 
   &__link {

@@ -3,9 +3,6 @@
     class="contact-card glassy-box-2"
     :class="`contact-card--${color}`"
   >
-    <div class="contact-card__icon">
-      <slot name="icon" />
-    </div>
     <p class="contact-card__title">
       {{ title }}
     </p>

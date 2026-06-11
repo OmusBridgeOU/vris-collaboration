@@ -142,10 +142,15 @@ watch(isPanelOpen, (val) => {
 
   width: 100%;
   height: v.$vket-header-height-pc;
-  padding: 16px;
+  padding: 40px 16px;
 
   @include m.tb {
     height: v.$vket-header-height-tb;
+    padding: 28px 16px;
+  }
+
+  @include m.sp {
+    height: v.$vket-header-height-sp;
   }
 }
 

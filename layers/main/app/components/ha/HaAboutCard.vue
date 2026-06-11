@@ -12,9 +12,6 @@ defineProps<{
 
 <template>
   <div :class="['glassy-box about-card', `glassy-box--${color ?? 'cyan'}`]">
-    <div class="about-card__icon glassy-box__icon">
-      <slot name="icon" />
-    </div>
     <h3 class="title about-card__title">
       <slot name="title" />
     </h3>

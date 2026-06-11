@@ -119,7 +119,7 @@ onMounted(() => {
     margin: 0 auto;
 
     font-family: Inter, sans-serif;
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 400;
     color: white;
 

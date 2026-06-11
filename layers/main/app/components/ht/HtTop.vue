@@ -96,8 +96,6 @@ import HtParticipationGuide from './HtParticipationGuide.vue'
   width: 100%;
   height: 100%;
   margin-bottom: -40px;
-
-  background-color: v.$base-background-color;
 }
 
 .content-wrapper {
@@ -112,7 +110,7 @@ import HtParticipationGuide from './HtParticipationGuide.vue'
   &__bg {
     padding-top: 124px;
     border-radius: 36px 36px 0 0;
-    background-color: rgba(#0b1e4f, 0.9);
+    background-color: v.$base-background-color;
 
     @include m.sp {
       padding-top: 64px;
@@ -149,6 +147,18 @@ section {
 
   @include m.tb {
     padding: 0 16px 84px;
+  }
+}
+
+#contact {
+  padding-bottom: 220px;
+
+  @include m.tb {
+    padding-bottom: 180px;
+  }
+
+  @include m.sp {
+    padding-bottom: 124px;
   }
 }
 </style>

@@ -75,7 +75,18 @@ en:
 </i18n>
 
 <template>
-  <div class="layout -top">
+  <div class="layout">
+    <div class="layout-bg">
+      <div
+        class="layout-bg__bg-img"
+        :style="{ backgroundImage: `url('/kv.png')` }"
+      />
+      <img
+        src="/kv.png"
+        alt="Vket Real in 札幌 2026 Autumnのキービジュアル"
+        class="layout-bg__img"
+      >
+    </div>
     <HoTheHeader :nav-links="navLinks" />
     <slot />
     <HoTheFooter />
@@ -92,9 +103,9 @@ const { t } = useI18n()
 
 const navLinks = computed<NavLink[]>(() => [
   { type: 'link', href: '/#about', text: t('nav.about') },
-  { type: 'link', href: '/#individual-participant', text: t('nav.individualParticipant') },
-  { type: 'link', href: '/#club-participant', text: t('nav.clubParticipant') },
-  { type: 'link', href: '/#list-of-clubs', text: t('nav.listOfClubs') },
+  // { type: 'link', href: '/#individual-participant', text: t('nav.individualParticipant') },
+  { type: 'link', href: '/#participation-guide', text: t('nav.clubParticipant') },
+  { type: 'link', href: '/#participation-guide', text: t('nav.listOfClubs') },
   { type: 'link', href: '/#qa', text: t('nav.qa') },
 ])
 
@@ -130,8 +141,51 @@ const initScrollEffects = () => {
 </script>
 
 <style lang="scss" scoped>
-.layout.-top {
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.layout{
+  position: relative;
   overflow: visible;
+  background-color: v.$base-background-color;
+}
+
+.layout-bg {
+  position: fixed;
+  z-index: -1;
+
+  width: 100svw;
+  height: 100svh;
+
+  filter: blur(14px);
+
+  &__bg-img {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    transform: scale(1.2);
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    background-position: center;
+    background-size: cover;
+    filter: blur(8px);
+  }
+
+  &__img {
+    position: relative;
+    z-index: 2;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+  }
 }
 </style>
 ```
@@ -253,10 +307,14 @@ const items = computed(() => [
 @use '@/assets/styles/mixins' as m;
 
 .contents-list {
-  padding: 88px 32px;
+  padding: v.$vket-header-height-pc 32px;
+
+  @include m.tb {
+    padding: v.$vket-header-height-tb 12px;
+  }
 
   @include m.sp {
-    padding: 88px 12px;
+    padding: v.$vket-header-height-sp 12px;
   }
 
   &__card {
@@ -413,10 +471,14 @@ const items = computed(() => [
 @use '@/assets/styles/mixins' as m;
 
 .news-list {
-  padding: 88px 32px;
+  padding: v.$vket-header-height-pc 32px;
+
+  @include m.tb {
+    padding: v.$vket-header-height-tb 12px;
+  }
 
   @include m.sp {
-    padding: 88px 12px;
+    padding: v.$vket-header-height-sp 12px;
   }
 
   &__card {
@@ -728,6 +790,7 @@ en:
 
 <script setup lang="ts">
 import type { NavLink } from '../components/ho/HoTheHeader.vue'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
@@ -736,29 +799,16 @@ const { t } = useI18n()
 
 const navLinks = computed<NavLink[]>(() => [
   { type: 'anchor', href: 'about', text: t('nav.about') },
-  { type: 'anchor', href: 'individual-participant', text: t('nav.individualParticipant') },
-  { type: 'anchor', href: 'club-participant', text: t('nav.clubParticipant') },
-  { type: 'anchor', href: 'list-of-clubs', text: t('nav.listOfClubs') },
+  { type: 'anchor', href: 'participation-guide', text: t('nav.individualParticipant') },
+  { type: 'anchor', href: 'participation-guide', text: t('nav.clubParticipant') },
   { type: 'anchor', href: 'qa', text: t('nav.qa') },
-  // { type: 'link', href: '/', text: t('nav.top') },
-  // { type: 'anchor', href: 'quick-access', text: t('nav.quickAccess') },
-  // { type: 'anchor', href: 'news', text: t('nav.news') },
-  // { type: 'anchor', href: 'contents', text: t('nav.contents') },
-  // { type: 'anchor', href: 'schedule', text: t('nav.schedule') },
-  // { type: 'anchor', href: 'exhibition', text: t('nav.exhibition') },
-  // { type: 'anchor', href: 'access', text: t('nav.access') },
-  // { type: 'anchor', href: 'ticket', text: t('nav.ticket') },
-  // { type: 'anchor', href: 'code-of-conduct', text: t('nav.codeOfConduct') },
-  // { type: 'anchor', href: 'related-events', text: t('nav.relatedEvents') },
-  // { type: 'anchor', href: 'sponsors-and-partners', text: t('nav.sponsorsAndPartners') },
-  // { type: 'anchor', href: 'contact', text: t('nav.contact') },
 ])
 
 const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()
 const route = useRoute()
 
-onMounted(() => {
-  initScrollEffects()
+onMounted(async () => {
+  await initScrollEffects()
 })
 
 // ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
@@ -771,7 +821,7 @@ onUnmounted(() => {
   destroyScrollTriggers()
 })
 
-const initScrollEffects = () => {
+const initScrollEffects = async () => {
   const firstView = document.querySelector('#gsap-fv')
   const header = document.querySelector('#gsap-header')
 
@@ -782,6 +832,15 @@ const initScrollEffects = () => {
 
   firstViewBlur(firstView)
   headerRevealOnScroll(header, firstView)
+
+  // DOM更新が完了したタイミングでレイアウトを再計算
+  await nextTick()
+  ScrollTrigger.refresh()
+
+  // 画像・フォント等の読み込み完了後にも念のため再計算
+  window.addEventListener('load', () => {
+    ScrollTrigger.refresh()
+  }, { once: true })
 }
 </script>
 

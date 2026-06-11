@@ -65,10 +65,14 @@ const items = computed(() => [
 @use '@/assets/styles/mixins' as m;
 
 .news-list {
-  padding: 88px 32px;
+  padding: v.$vket-header-height-pc 32px;
+
+  @include m.tb {
+    padding: v.$vket-header-height-tb 12px;
+  }
 
   @include m.sp {
-    padding: 88px 12px;
+    padding: v.$vket-header-height-sp 12px;
   }
 
   &__card {

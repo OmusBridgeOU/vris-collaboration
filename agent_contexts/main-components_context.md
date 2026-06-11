@@ -1776,8 +1776,6 @@ layers/
 </template>
 
 <script setup lang="ts">
-const SCROLL_OFFSET = -80
-
 const props = defineProps<{
   text: string
   href: string
@@ -1787,14 +1785,25 @@ const emit = defineEmits<{
   clicked: []
 }>()
 
+// ブレークポイントに応じたスクロールオフセットを取得
+const getScrollOffset = () => {
+  const width = window.innerWidth
+
+  // 各値はapp/assets/styles/_variables.scssの`vket-header-height-{devices}`の値と揃える
+  if (width >= 1024) return -106 // PC
+  if (width >= 768) return -106 // タブレット
+  return -106 // スマホ
+}
+
 const handleClick = () => {
   emit('clicked')
 
   setTimeout(() => {
     const target = document.querySelector(`#${props.href}`)
     if (!target) return
+
     const top
-      = target.getBoundingClientRect().top + window.scrollY + SCROLL_OFFSET
+      = target.getBoundingClientRect().top + window.scrollY + getScrollOffset()
     window.scrollTo({ top, behavior: 'smooth' })
   }, 350)
 }
@@ -1880,7 +1889,7 @@ const handleClick = () => {
   height: 100%;
   min-height: 460px;
 
-  background-color: rgb(18 33 59);
+  background-color: rgb(18 33 59 / 60%);
 
   @include m.tb {
     min-height: 380px;
@@ -3363,9 +3372,49 @@ onMounted(() => {
       src="/kv.png"
       alt="Vket Real in 札幌 2026 Autumnのキービジュアル"
       class="hero__kv"
-    />
+    >
+    <div
+      id="scroll-indicator"
+      class="scroll-indicator"
+    >
+      <span class="scroll-indicator__text">scroll</span>
+      <div class="scroll-indicator__line-outer">
+        <div class="scroll-indicator__line-inner" />
+      </div>
+    </div>
   </div>
 </template>
+
+<script lang="ts" setup>
+const { fadeOutOnScroll, destroyScrollTriggers } = useGsapFadeIn()
+const route = useRoute()
+
+onMounted(() => {
+  initScrollEffects()
+})
+
+// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
+watch(() => route.path, () => {
+  destroyScrollTriggers()
+  nextTick(() => initScrollEffects())
+})
+
+onUnmounted(() => {
+  destroyScrollTriggers()
+})
+
+const initScrollEffects = () => {
+  const firstView = document.querySelector('#gsap-fv')
+  const scrollIndicator = document.querySelector('#scroll-indicator')
+
+  if (!scrollIndicator) return
+
+  // #first-viewがないページ（トップ以外）では実行しない
+  if (!firstView) return
+
+  fadeOutOnScroll(scrollIndicator, firstView)
+}
+</script>
 
 <style lang="scss" scoped>
 .hero {
@@ -3406,6 +3455,65 @@ onMounted(() => {
     height: 100%;
 
     object-fit: contain;
+  }
+}
+
+.scroll-indicator {
+  pointer-events: none;
+
+  position: absolute;
+  z-index: 2;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+
+  transition: opacity 0.12s linear;
+
+  &__text {
+    font-size: 14px;
+    color: white;
+    text-shadow: 1px 1px 2px rgb(black, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+
+  &__line-outer {
+    position: relative;
+
+    overflow: hidden;
+
+    width: 2px;
+    height: 48px;
+
+    background: rgb(255 255 255 / 30%);
+  }
+
+  &__line-inner {
+    position: absolute;
+    top: -50%;
+    left: 0;
+
+    width: 100%;
+    height: 50%;
+
+    background: #fff;
+
+    animation: line-run 1.8s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+  }
+}
+
+@keyframes line-run {
+  0% {
+    top: -50%;
+  }
+
+  100% {
+    top: 100%;
   }
 }
 </style>
@@ -3470,9 +3578,6 @@ defineProps<{
 
 <template>
   <div :class="['glassy-box about-card', `glassy-box--${color ?? 'cyan'}`]">
-    <div class="about-card__icon glassy-box__icon">
-      <slot name="icon" />
-    </div>
     <h3 class="title about-card__title">
       <slot name="title" />
     </h3>
@@ -3880,6 +3985,8 @@ onUnmounted(() => {
 
   width: 100%;
   height: 100%;
+
+  opacity: 0.2;
 }
 </style>
 ```
@@ -4156,9 +4263,6 @@ defineProps<{
     class="contact-card glassy-box-2"
     :class="`contact-card--${color}`"
   >
-    <div class="contact-card__icon">
-      <slot name="icon" />
-    </div>
     <p class="contact-card__title">
       {{ title }}
     </p>
@@ -5630,169 +5734,6 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
 </style>
 ```
 
-## File: layers/main/app/components/ho/HoTheFooter.vue
-```vue
-<script setup lang="ts">
-import HaXIcon from '../ha/icons/HaXIcon.vue'
-
-const { t } = useI18n()
-</script>
-
-<i18n lang="yaml">
-ja:
-  mainlogo: VketReal in 札幌 2026 Autumn
-en:
-  mainlogo: VketReal in Sapporo 2026 Autumn
-</i18n>
-
-<template>
-  <footer class="footer">
-    <div class="footer__upper">
-      <div class="footer__left">
-        <a
-          href="/"
-          class="footer__logo-link"
-        >
-          <img
-            class="footer__logo"
-            src="/vketreal_in_sapporo_logo_light.png"
-            :alt="t('mainlogo')"
-          >
-        </a>
-        <nav class="footer__nav">
-          <NuxtLink
-            class="footer__link"
-            to="/documents/terms"
-          >利用規約</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/privacy-policy"
-          >プライバシー</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/code-of-conduct"
-          >行動規範</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/exhibition-guidline"
-          >出展ガイドライン</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/exhibition-terms"
-          >出展規約</NuxtLink>
-        </nav>
-      </div>
-      <a
-        href="https://x.com/vketreal_vris"
-        target="blank"
-        rel="noopener noreferrer"
-        class="footer__x-logo"
-      >
-        <HaXIcon />
-      </a>
-    </div>
-    <div class="footer__divider" />
-    <div class="footer__lower">
-      <p class="footer__copy">
-        🄫 2026 VketReal in 札幌 実行委員会. All rights reserved.
-      </p>
-    </div>
-  </footer>
-</template>
-
-<style scoped lang="scss">
-@use '@/assets/styles/mixins' as m;
-
-.footer {
-  position: relative;
-  z-index: 1;
-
-  padding: 88px 105px 0;
-  border-radius: 40px 40px 0 0;
-
-  background-color: rgb(25 25 25 / 100%);
-
-  @include m.sp {
-    padding: 52px 32px 0;
-  }
-
-  &__upper {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 48px;
-  }
-
-  &__logo-link {
-    display: block;
-    height: 92px;
-    margin-bottom: 40px;
-
-    @include m.tb {
-      height: 72px;
-    }
-
-    @include m.sp {
-      height: 46px;
-    }
-  }
-
-  &__logo {
-    height: 100%;
-  }
-
-  &__nav {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-  }
-
-  &__link {
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-    text-decoration: underline;
-
-    @include m.tb {
-      font-size: 12px;
-      text-decoration: none;
-    }
-  }
-
-  &__divider {
-    width: 100%;
-    height: 1px;
-    background-color: #8f8f8f;
-  }
-
-  &__x-logo {
-    width: 30px;
-
-    @include m.sp {
-      width: 16px;
-    }
-  }
-
-  &__lower {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 78px;
-  }
-
-  &__copy {
-    font-family: Inter, sans-serif;
-    font-size: 12px;
-    color: white;
-
-    @include m.sp {
-      font-size: 8px;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ho/HoTheHeader.vue
 ```vue
 <i18n lang="yaml">
@@ -5939,10 +5880,15 @@ watch(isPanelOpen, (val) => {
 
   width: 100%;
   height: v.$vket-header-height-pc;
-  padding: 16px;
+  padding: 40px 16px;
 
   @include m.tb {
     height: v.$vket-header-height-tb;
+    padding: 28px 16px;
+  }
+
+  @include m.sp {
+    height: v.$vket-header-height-sp;
   }
 }
 
@@ -6815,11 +6761,175 @@ onMounted(() => {
 </style>
 ```
 
+## File: layers/main/app/components/ho/HoTheFooter.vue
+```vue
+<script setup lang="ts">
+import HaXIcon from '../ha/icons/HaXIcon.vue'
+
+const { t } = useI18n()
+</script>
+
+<i18n lang="yaml">
+ja:
+  mainlogo: VketReal in 札幌 2026 Autumn
+en:
+  mainlogo: VketReal in Sapporo 2026 Autumn
+</i18n>
+
+<template>
+  <footer class="footer">
+    <div class="footer__upper">
+      <div class="footer__left">
+        <a
+          href="/"
+          class="footer__logo-link"
+        >
+          <img
+            class="footer__logo"
+            src="/vketreal_in_sapporo_logo_light.png"
+            :alt="t('mainlogo')"
+          >
+        </a>
+        <!-- <nav class="footer__nav">
+          <NuxtLink
+            class="footer__link"
+            to="/documents/terms"
+          >利用規約</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/privacy-policy"
+          >プライバシー</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/code-of-conduct"
+          >行動規範</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/exhibition-guidline"
+          >出展ガイドライン</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/exhibition-terms"
+          >出展規約</NuxtLink>
+        </nav> -->
+      </div>
+      <a
+        href="https://x.com/vketreal_vris"
+        target="blank"
+        rel="noopener noreferrer"
+        class="footer__x-logo"
+      >
+        <HaXIcon />
+      </a>
+    </div>
+    <div class="footer__divider" />
+    <div class="footer__lower">
+      <p class="footer__copy">
+        🄫 2026 VketReal in 札幌 実行委員会. All rights reserved.
+      </p>
+    </div>
+  </footer>
+</template>
+
+<style scoped lang="scss">
+@use '@/assets/styles/mixins' as m;
+
+.footer {
+  position: relative;
+  z-index: 1;
+
+  padding: 88px 105px 0;
+  border-radius: 40px 40px 0 0;
+
+  background-color: rgb(25 25 25 / 100%);
+
+  @include m.sp {
+    padding: 52px 32px 0;
+  }
+
+  &__upper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__logo-link {
+    display: block;
+    height: 92px;
+    margin-bottom: 64px;
+
+    @include m.tb {
+      height: 72px;
+      margin-bottom: 40px;
+    }
+
+    @include m.sp {
+      height: 46px;
+    }
+  }
+
+  &__logo {
+    height: 100%;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding-bottom: 48px;
+  }
+
+  &__link {
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    text-decoration: underline;
+
+    @include m.tb {
+      font-size: 12px;
+      text-decoration: none;
+    }
+  }
+
+  &__divider {
+    width: 100%;
+    height: 1px;
+    background-color: #8f8f8f;
+  }
+
+  &__x-logo {
+    width: 30px;
+
+    @include m.sp {
+      width: 16px;
+    }
+  }
+
+  &__lower {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 78px;
+  }
+
+  &__copy {
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    color: white;
+
+    @include m.sp {
+      font-size: 8px;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtContactSection.vue
 ```vue
 <script setup lang="ts">
 import HaContactCard from '../ha/HaContactCard.vue'
-import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
+// import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
@@ -6850,33 +6960,21 @@ onMounted(() => {
         href="https://docs.google.com/forms/d/e/1FAIpQLSchGlf0h1eszxPupo5aWycU_s3CAOmkP1LJP38Niiwi95KNwQ/viewform"
         color="amber"
         class="contact-grid__child"
-      >
-        <template #icon>
-          <HaDangerIcon />
-        </template>
-      </HaContactCard>
+      />
       <HaContactCard
         title="法人向けお問い合わせ"
         text="企業・法人の方からのお問い合わせはこちら"
         href="https://docs.google.com/forms/d/e/1FAIpQLSeEevGm1q7byQWd7RhGWTGYClcGthQEbWufSviyiFbcYzsd6A/viewform"
         color="cyan"
         class="contact-grid__child"
-      >
-        <template #icon>
-          <HaDangerIcon />
-        </template>
-      </HaContactCard>
+      />
       <HaContactCard
         title="広報向けお問い合わせ"
         text="メディア・広報関連のお問い合わせはこちら"
         href="https://docs.google.com/forms/d/e/1FAIpQLScmYNjxOyf1GtHVSqsRe7pFDoyfUhiSSDqJh5Q0WD40b-1LOg/viewform"
         color="magenta"
         class="contact-grid__child contact-grid__child--full-width"
-      >
-        <template #icon>
-          <HaDangerIcon />
-        </template>
-      </HaContactCard>
+      />
     </div>
   </div>
 </template>
@@ -7033,7 +7131,7 @@ onMounted(() => {
     margin: 0 auto;
 
     font-family: Inter, sans-serif;
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 400;
     color: white;
 
@@ -7674,12 +7772,46 @@ onMounted(() => {
 
 ## File: layers/main/app/components/ht/HtAboutSection.vue
 ```vue
+<i18n lang="yaml">
+ja:
+  desc1: '「VketReal in Sapporo」は、{br1}世界最大級のメタバースイベント「バーチャルマーケット」から派生した{br2}リアルイベントです。'
+  desc2: 'VRSNS上で活躍する北海道ゆかりのクリエイターたちが、リアルの場に飛び出す場所をつくりたい―――{br}そんな想いから生まれた、有志主催のイベントです。北海道の有志XRクリエイターが主催し、札幌で開催します。'
+  stat1Label: '過去の来場者数'
+  stat1Unit: '名+'
+  stat2Label: '出展サークル数'
+  stat2Unit: '+'
+  stat3Label: '開催回数'
+  stat3Unit: '回'
+  feature1Title: 'バーチャル姿のまま{br}リアルで体験'
+  feature1Desc: 'アバターとしての生き方を大切にする人々が{br}リアルの場で集い、交流し、共に{br}クリエイティブな未来を気付く場です。'
+  feature2Title: 'VRの世界で活躍する{br}クリエイターの出展'
+  feature2Desc: 'VRとリアルを行き来しながら活躍する{br}クリエイターの作品展示や、新たなXR技術を{br}活用したインタラクティブな企画を展開！'
+  feature3Title: '遊んで、買って、{br}楽しめる企業ブース'
+  feature3Desc: '各企業ブースでは最新XRコンテンツを体験でき、{br}ここでしか手に入らない限定グッズも{br}販売されるかも？'
+en:
+  desc1: '"VketReal in Sapporo" is an in-person event inspired by "Virtual Market", one of the world''s largest events in the metaverse.'
+  desc2: 'This is a community-run event, born from a simple idea: give creators from the Hokkaido VR/SNS scene a place to step into the real world. Organized by volunteer XR creators based in Hokkaido, and held in Sapporo.'
+  stat1Label: 'Total Attendees'
+  stat1Unit: '+'
+  stat2Label: 'Exhibiting Circles'
+  stat2Unit: '+'
+  stat3Label: 'Events Held'
+  stat3Unit: ''
+  feature1Title: 'Experience the Event as Your Virtual Avatar'
+  feature1Desc: 'A space where people who live as their avatars come together in the real world — to connect, create, and build a creative future.'
+  feature2Title: 'Creators from the VR World, Exhibiting Live'
+  feature2Desc: 'Discover works by creators who move between VR and the real world, alongside interactive experiences powered by the latest XR technology.'
+  feature3Title: 'Explore, Purchase, and Have Fun at Sponsor Booths'
+  feature3Desc: 'Try out the latest XR content at each booth. You might even find limited-edition merchandise you can only get here.'
+</i18n>
 <script setup lang="ts">
 import HaCard from '../ha/HaAboutCard.vue'
 import HaCountUpNumber from '../ha/HaCountUpNumber.vue'
 import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
 import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
 import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
+
+const { t } = useI18n()
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
@@ -7703,26 +7835,29 @@ onMounted(() => {
       title="VketReal in 札幌とは"
       label="ABOUT"
     />
-    <div class="description description--space">
-      「VketReal in 札幌」は、<br class="sp-none">
-      世界最大級のメタバースイベント「バーチャルマーケット」から派生した<br class="sp-none">
-      リアルイベントです。
-    </div>
-    <div class="description">
-      VRSNS上で活躍する北海道ゆかりのクリエイターたちが、
-      リアルの場に飛び出す場所をつくりたい―――<br>
-      そんな想いから生まれた、有志主催のイベントです。北海道の有志XRクリエイターが主催し、札幌で開催します。
-    </div>
+    <i18n-t keypath="desc1" tag="div" class="description description--space" scope="parent">
+      <template #br1>
+        <br class="sp-none" />
+      </template>
+      <template #br2>
+        <br class="sp-none" />
+      </template>
+    </i18n-t>
+    <i18n-t keypath="desc2" tag="div" class="description" scope="parent">
+      <template #br>
+        <br />
+      </template>
+    </i18n-t>
     <div class="info-flex mb-24">
       <div class="info-flex__child">
         <p class="info-flex__number info-flex__number--amber">
           <HaCountUpNumber
             :value="500"
             :duration="2000"
-          />名+
+          />{{ t('stat1Unit') }}
         </p>
         <p class="info-flex__label">
-          過去の来場者数
+          {{ t('stat1Label') }}
         </p>
       </div>
       <div class="info-flex__child">
@@ -7730,10 +7865,10 @@ onMounted(() => {
           <HaCountUpNumber
             :value="50"
             :duration="2000"
-          />+
+          />{{ t('stat2Unit') }}
         </p>
         <p class="info-flex__label">
-          出展サークル数
+          {{ t('stat2Label') }}
         </p>
       </div>
       <div class="info-flex__child">
@@ -7741,10 +7876,10 @@ onMounted(() => {
           <HaCountUpNumber
             :value="6"
             :duration="2000"
-          />回
+          />{{ t('stat3Unit') }}
         </p>
         <p class="info-flex__label">
-          開催回数
+          {{ t('stat3Label') }}
         </p>
       </div>
     </div>
@@ -7758,15 +7893,19 @@ onMounted(() => {
           class="card-flex__child"
           color="amber"
         >
-          <template #icon>
-            <HaStarShineIcon />
-          </template>
           <template #title>
-            バーチャル姿のまま<br>リアルで体験
+            <i18n-t keypath="feature1Title" scope="parent">
+              <template #br>
+                <br />
+              </template>
+            </i18n-t>
           </template>
           <template #body>
-            アバターとしての生き方を大切にする人々が<br>
-            リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
+            <i18n-t keypath="feature1Desc" scope="parent">
+              <template #br>
+                <br />
+              </template>
+            </i18n-t>
           </template>
         </HaCard>
       </div>
@@ -7775,14 +7914,19 @@ onMounted(() => {
           class="card-flex__child"
           color="cyan"
         >
-          <template #icon>
-            <HaWorldIcon />
-          </template>
           <template #title>
-            VRの世界で活躍する<br>クリエイターの出展
+            <i18n-t keypath="feature2Title" scope="parent">
+              <template #br>
+                <br />
+              </template>
+            </i18n-t>
           </template>
           <template #body>
-            VRとリアルを行き来しながら活躍する<br>クリエイターの作品展示や、新たなXR技術を<br>活用したインタラクティブな企画を展開！
+            <i18n-t keypath="feature2Desc" scope="parent">
+              <template #br>
+                <br />
+              </template>
+            </i18n-t>
           </template>
         </HaCard>
       </div>
@@ -7791,14 +7935,19 @@ onMounted(() => {
           class="card-flex__child"
           color="light-magenta"
         >
-          <template #icon>
-            <HaCommunityIcon />
-          </template>
           <template #title>
-            遊んで、買って、<br>楽しめる企業ブース
+            <i18n-t keypath="feature3Title" scope="parent">
+              <template #br>
+                <br />
+              </template>
+            </i18n-t>
           </template>
           <template #body>
-            各企業ブースでは最新XRコンテンツを体験でき、<br>ここでしか手に入らない限定グッズも<br>販売されるかも？
+            <i18n-t keypath="feature3Desc" scope="parent">
+              <template #br>
+                <br />
+              </template>
+            </i18n-t>
           </template>
         </HaCard>
       </div>
@@ -8044,7 +8193,7 @@ onMounted(() => {
     margin: 0 auto;
 
     font-family: Inter, sans-serif;
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 400;
     color: white;
 
@@ -8159,8 +8308,6 @@ import HtParticipationGuide from './HtParticipationGuide.vue'
   width: 100%;
   height: 100%;
   margin-bottom: -40px;
-
-  background-color: v.$base-background-color;
 }
 
 .content-wrapper {
@@ -8175,7 +8322,7 @@ import HtParticipationGuide from './HtParticipationGuide.vue'
   &__bg {
     padding-top: 124px;
     border-radius: 36px 36px 0 0;
-    background-color: rgba(#0b1e4f, 0.9);
+    background-color: v.$base-background-color;
 
     @include m.sp {
       padding-top: 64px;
@@ -8212,6 +8359,18 @@ section {
 
   @include m.tb {
     padding: 0 16px 84px;
+  }
+}
+
+#contact {
+  padding-bottom: 220px;
+
+  @include m.tb {
+    padding-bottom: 180px;
+  }
+
+  @include m.sp {
+    padding-bottom: 124px;
   }
 }
 </style>

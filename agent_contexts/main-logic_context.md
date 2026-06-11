@@ -315,8 +315,37 @@ export const useGsapFadeIn = () => {
         ease: 'power2.out',
         scrollTrigger: {
           trigger: triggerEl as Element,
-          start: 'bottom top',
+          start: '20% top',
           toggleActions: 'play none none reverse',
+        },
+      },
+    )
+  }
+
+  // FirstViewが100px〜200pxスクロールされる間に対象要素をフェードアウトさせる
+  const fadeOutOnScroll = (
+    target: string | Element | Ref<Element | null>,
+    trigger: string | Element | Ref<Element | null>,
+  ) => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    const targetEl = isRef(target) ? target.value : target
+    const triggerEl = isRef(trigger) ? trigger.value : trigger
+    if (!targetEl || !triggerEl) return
+
+    gsap.fromTo(
+      targetEl,
+      { autoAlpha: 1 },
+      {
+        autoAlpha: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: triggerEl as Element,
+          start: `top top-=100`,
+          end: `top top-=150`,
+          scrub: true,
+          onLeave: () => gsap.set(targetEl, { display: 'none' }),
+          onEnterBack: () => gsap.set(targetEl, { display: '' }),
         },
       },
     )
@@ -332,6 +361,7 @@ export const useGsapFadeIn = () => {
     fadeInUpStagger,
     firstViewBlur,
     headerRevealOnScroll,
+    fadeOutOnScroll,
     destroyScrollTriggers,
   }
 }

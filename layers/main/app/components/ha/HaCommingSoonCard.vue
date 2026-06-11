@@ -26,7 +26,7 @@
   height: 100%;
   min-height: 460px;
 
-  background-color: rgb(18 33 59);
+  background-color: rgb(18 33 59 / 60%);
 
   @include m.tb {
     min-height: 380px;
