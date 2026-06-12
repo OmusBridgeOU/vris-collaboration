@@ -4,6 +4,8 @@ import HaSectionTitle from '../ha/HaSectionTitle.vue'
 
 // import HaSponsorCard from '../ha/HaSponsorCard.vue'
 
+const { t: tGlobal } = useI18n()
+
 // // GSAP
 // import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
@@ -21,7 +23,7 @@ import HaSectionTitle from '../ha/HaSectionTitle.vue'
 
 <template>
   <HaSectionTitle
-    title="ご協力"
+    :title="tGlobal('sectionTitle.sponsorsAndPartners')"
     label="SPONSORS & PARTNERS"
   />
   <HaCommingSoon />

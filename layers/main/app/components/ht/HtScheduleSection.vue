@@ -3,6 +3,8 @@ import HaCommingSoon from '../ha/HaCommingSoon.vue'
 // import HaSunIcon from '../ha/icons/HaSunIcon.vue'
 // import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
 
+const { t: tGlobal } = useI18n()
+
 // // GSAP
 // import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
@@ -16,7 +18,7 @@ import HaCommingSoon from '../ha/HaCommingSoon.vue'
 
 <template>
   <HaSectionTitle
-    title="開催スケジュール"
+    :title="tGlobal('sectionTitle.schedule')"
     label="SCHEDULE"
   />
   <HaCommingSoon />

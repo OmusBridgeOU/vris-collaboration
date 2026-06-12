@@ -1,34 +1,75 @@
+<i18n lang="yaml">
+ja:
+  items:
+    item1:
+      title: 'VketReal in 札幌 とはどのようなイベントですか？'
+      contents:
+        - 'VRSNSで活躍するクリエイターが集まるリアルイベントです。'
+        - 'HIKKYが主催するVketRealから派生した有志主催イベントです。'
+    item2:
+      title: 'チケットはどこで買えますか？'
+      contents:
+        - 'オンラインにて事前販売予定しております。'
+    item3:
+      title: '入場制限等はありますか？'
+      contents:
+        - 'チケットの枚数の制限等はありません。'
+    item4:
+      title: '当日券はありますか？'
+      contents:
+        - '用意する予定です。'
+en:
+  items:
+    item1:
+      title: 'What kind of event is VketReal in Sapporo?'
+      contents:
+        - 'An in-person event that brings together creators active in the VR/SNS scene.'
+        - 'A community-run event derived from VketReal, organized by HIKKY.'
+    item2:
+      title: 'Where can I purchase tickets?'
+      contents:
+        - 'Tickets are planned to be sold online in advance.'
+    item3:
+      title: 'Is there a limit on the number of attendees?'
+      contents:
+        - 'There is no limit on the number of tickets available.'
+    item4:
+      title: 'Will tickets be available at the door?'
+      contents:
+        - 'Yes, we plan to offer tickets at the door.'
+</i18n>
+
 <script setup lang="ts">
 import HaAccordionItem from '../ha/HaAccordionItem.vue'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
-const items = [
+const { t, tm, rt } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
   {
     id: 1,
-    title: 'Vket Real in 札幌とはどのようなイベントですか？',
-    contents: [
-      'VRSNSで活躍するクリエイターが集まるリアルイベントです。',
-      'HIKKYが主催するVketRealから派生した有志主催イベントです。',
-    ],
+    title: t('items.item1.title'),
+    contents: (tm('items.item1.contents') as string[]).map(c => rt(c)),
   },
   {
     id: 2,
-    title: 'チケットはどこで買えますか？',
-    contents: ['オンラインにて事前販売予定しております。'],
+    title: t('items.item2.title'),
+    contents: (tm('items.item2.contents') as string[]).map(c => rt(c)),
   },
   {
     id: 3,
-    title: '入場制限等はありますか？',
-    contents: ['チケットの枚数の制限等はありません。'],
+    title: t('items.item3.title'),
+    contents: (tm('items.item3.contents') as string[]).map(c => rt(c)),
   },
   {
     id: 4,
-    title: '当日券はありますか？',
-    contents: ['用意する予定です。'],
+    title: t('items.item4.title'),
+    contents: (tm('items.item4.contents') as string[]).map(c => rt(c)),
   },
-]
+])
 
 const sectionRef = ref<HTMLElement | null>(null)
 const { fadeInUp } = useGsapFadeIn()
@@ -41,7 +82,7 @@ onMounted(() => {
 <template>
   <div ref="sectionRef">
     <HaSectionTitle
-      title="よくある質問"
+      :title="tGlobal('sectionTitle.qa')"
       label="Q&A"
     />
     <HaAccordionItem :items="items">
@@ -57,15 +98,3 @@ onMounted(() => {
     </HaAccordionItem>
   </div>
 </template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px;
-}
-
-.content__text {
-  margin-bottom: 14px;
-}
-</style>

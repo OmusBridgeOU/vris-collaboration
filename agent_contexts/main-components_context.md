@@ -2187,12 +2187,14 @@ defineExpose({ swiperInstance })
 ```vue
 <script setup lang="ts">
 import HaCommingSoon from '../ha/HaCommingSoon.vue'
+
+const { t: tGlobal } = useI18n()
 </script>
 
 <template>
   <HaSectionTitle
     label="PARTICIPATION GUIDE"
-    title="参加案内"
+    :title="tGlobal('sectionTitle.participationGuide')"
   />
   <HaCommingSoon />
 </template>
@@ -3153,11 +3155,57 @@ onUnmounted(() => {
 
 ## File: layers/main/app/components/ht/HtExhibitorInfoSection.vue
 ```vue
+<i18n lang="yaml">
+ja:
+  subtitle1: '出展概要'
+  subtitle2: '募集スケジュール'
+  overviewRow1Label: '出展費用'
+  overviewRow1Value: '1スペース 3,000円'
+  overviewRow2Label: '参加可能人数'
+  overviewRow2Value: '1スペースにつき2名'
+  overviewRow3Label: '出展内容'
+  overviewRow3Value: 'グッズ・書籍頒布・作品展示など'
+  description: 'また、今回のサークル募集は二回に分けて行います。{br1}二次申し込みについては一次申し込みの結果、{br2}出展枠に余裕がある場合のみ開催します。{br3}確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。'
+  primaryTitle: '一次申し込み{br}（先着順）'
+  primaryRow1Label: '募集期間'
+  primaryRow1Value: '6月1日(月) ～ 6月18日(木)'
+  primaryRow2Label: '当落発表'
+  primaryRow2Value: '6月26日(金)'
+  secondaryTitle: '二次申し込み{br}（抽選）'
+  secondaryRow1Label: '募集期間'
+  secondaryRow1Value: '7月13日(月) ～ 7月30日(木)'
+  secondaryRow2Label: '当落発表'
+  secondaryRow2Value: '8月7日(金)'
+en:
+  subtitle1: 'Exhibition Overview'
+  subtitle2: 'Application Schedule'
+  overviewRow1Label: 'Booth Fee'
+  overviewRow1Value: '3,000 JPY per space'
+  overviewRow2Label: 'Number of Participants'
+  overviewRow2Value: '2 people per space'
+  overviewRow3Label: 'Exhibition Content'
+  overviewRow3Value: 'Goods, books, artwork display, etc.'
+  description: 'This time, circle applications will be accepted in two rounds.{br1}The second round will only be held if there are remaining spaces{br2}after the results of the first round.{br3}If you would like to secure a spot, we recommend applying during the first round.'
+  primaryTitle: 'First Round{br}(First-Come, First-Served)'
+  primaryRow1Label: 'Application Period'
+  primaryRow1Value: 'Mon, June 1 - Thu, June 18'
+  primaryRow2Label: 'Results Announcement'
+  primaryRow2Value: 'Fri, June 26'
+  secondaryTitle: 'Second Round{br}(Lottery)'
+  secondaryRow1Label: 'Application Period'
+  secondaryRow1Value: 'Mon, July 13 - Thu, July 30'
+  secondaryRow2Label: 'Results Announcement'
+  secondaryRow2Value: 'Fri, August 7'
+</i18n>
+
 <script setup lang="ts">
 import HaSectionTitle from '../ha/HaSectionTitle.vue'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
 
 const sectionRef = ref<HTMLElement | null>(null)
 const { fadeInUp } = useGsapFadeIn()
@@ -3170,92 +3218,120 @@ onMounted(() => {
 <template>
   <div ref="sectionRef">
     <HaSectionTitle
-      title="出展者案内"
+      :title="tGlobal('sectionTitle.exhibitorInfo')"
       label="EXHIBITOR INFO"
     />
 
     <p class="subtitle">
-      出展概要
+      {{ t('subtitle1') }}
     </p>
     <div class="exhibitor-info__table mb-15">
       <div class="exhibitor-info__table-item">
         <p class="exhibitor-info__label">
-          出展費用
+          {{ t('overviewRow1Label') }}
         </p>
         <p class="exhibitor-info__label">
-          1スペース 3,000円
-        </p>
-      </div>
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          参加可能人数
-        </p>
-        <p class="exhibitor-info__label">
-          1スペースにつき2名
+          {{ t('overviewRow1Value') }}
         </p>
       </div>
       <div class="exhibitor-info__table-item">
         <p class="exhibitor-info__label">
-          出展内容
+          {{ t('overviewRow2Label') }}
         </p>
         <p class="exhibitor-info__label">
-          グッズ・書籍頒布・作品展示など
+          {{ t('overviewRow2Value') }}
+        </p>
+      </div>
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow3Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow3Value') }}
         </p>
       </div>
     </div>
 
     <p class="subtitle">
-      募集スケジュール
+      {{ t('subtitle2') }}
     </p>
 
     <p class="exhibitor-info__description mb-24">
-      また、今回のサークル募集は二回に分けて行います。<br>
-      二次申し込みについては一次申し込みの結果、<br class="tb-only">出展枠に余裕がある場合のみ開催します。<br>
-      確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。
+      <i18n-t
+        keypath="description"
+        tag="span"
+        scope="parent"
+      >
+        <template #br1>
+          <br>
+        </template>
+        <template #br2>
+          <br class="tb-only">
+        </template>
+        <template #br3>
+          <br>
+        </template>
+      </i18n-t>
     </p>
 
     <p class="exhibitor-info__table-title">
-      一次申し込み<br class="tb-only">（先着順）
+      <i18n-t
+        keypath="primaryTitle"
+        tag="span"
+        scope="parent"
+      >
+        <template #br>
+          <br class="tb-only">
+        </template>
+      </i18n-t>
     </p>
 
     <div class="exhibitor-info__table mb-24">
       <div class="exhibitor-info__table-item">
         <p class="exhibitor-info__label">
-          募集期間
+          {{ t('primaryRow1Label') }}
         </p>
         <p class="exhibitor-info__label">
-          6月1日(月) ～ 6月18日(木)
+          {{ t('primaryRow1Value') }}
         </p>
       </div>
       <div class="exhibitor-info__table-item">
         <p class="exhibitor-info__label">
-          当落発表
+          {{ t('primaryRow2Label') }}
         </p>
         <p class="exhibitor-info__label">
-          6月26日(金)
+          {{ t('primaryRow2Value') }}
         </p>
       </div>
     </div>
 
     <p class="exhibitor-info__table-title">
-      二次申し込み<br class="tb-only">（抽選）
+      <i18n-t
+        keypath="secondaryTitle"
+        tag="span"
+        scope="parent"
+      >
+        <template #br>
+          <br class="tb-only">
+        </template>
+      </i18n-t>
     </p>
 
     <div class="exhibitor-info__table">
       <div class="exhibitor-info__table-item">
         <p class="exhibitor-info__label">
-          募集期間
+          {{ t('secondaryRow1Label') }}
         </p>
         <p class="exhibitor-info__label">
-          7月13日(月) ～ 7月30日(木)
+          {{ t('secondaryRow1Value') }}
         </p>
       </div>
       <div class="exhibitor-info__table-item">
         <p class="exhibitor-info__label">
-          当落発表
+          {{ t('secondaryRow2Label') }}
         </p>
         <p class="exhibitor-info__label">
-          8月7日(金)
+          {{ t('secondaryRow2Value') }}
         </p>
       </div>
     </div>
@@ -4713,37 +4789,78 @@ onMounted(() => {
 
 ## File: layers/main/app/components/ht/HtQandASection.vue
 ```vue
+<i18n lang="yaml">
+ja:
+  items:
+    item1:
+      title: 'VketReal in 札幌 とはどのようなイベントですか？'
+      contents:
+        - 'VRSNSで活躍するクリエイターが集まるリアルイベントです。'
+        - 'HIKKYが主催するVketRealから派生した有志主催イベントです。'
+    item2:
+      title: 'チケットはどこで買えますか？'
+      contents:
+        - 'オンラインにて事前販売予定しております。'
+    item3:
+      title: '入場制限等はありますか？'
+      contents:
+        - 'チケットの枚数の制限等はありません。'
+    item4:
+      title: '当日券はありますか？'
+      contents:
+        - '用意する予定です。'
+en:
+  items:
+    item1:
+      title: 'What kind of event is VketReal in Sapporo?'
+      contents:
+        - 'An in-person event that brings together creators active in the VR/SNS scene.'
+        - 'A community-run event derived from VketReal, organized by HIKKY.'
+    item2:
+      title: 'Where can I purchase tickets?'
+      contents:
+        - 'Tickets are planned to be sold online in advance.'
+    item3:
+      title: 'Is there a limit on the number of attendees?'
+      contents:
+        - 'There is no limit on the number of tickets available.'
+    item4:
+      title: 'Will tickets be available at the door?'
+      contents:
+        - 'Yes, we plan to offer tickets at the door.'
+</i18n>
+
 <script setup lang="ts">
 import HaAccordionItem from '../ha/HaAccordionItem.vue'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
-const items = [
+const { t, tm, rt } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
   {
     id: 1,
-    title: 'Vket Real in 札幌とはどのようなイベントですか？',
-    contents: [
-      'VRSNSで活躍するクリエイターが集まるリアルイベントです。',
-      'HIKKYが主催するVketRealから派生した有志主催イベントです。',
-    ],
+    title: t('items.item1.title'),
+    contents: (tm('items.item1.contents') as string[]).map(c => rt(c)),
   },
   {
     id: 2,
-    title: 'チケットはどこで買えますか？',
-    contents: ['オンラインにて事前販売予定しております。'],
+    title: t('items.item2.title'),
+    contents: (tm('items.item2.contents') as string[]).map(c => rt(c)),
   },
   {
     id: 3,
-    title: '入場制限等はありますか？',
-    contents: ['チケットの枚数の制限等はありません。'],
+    title: t('items.item3.title'),
+    contents: (tm('items.item3.contents') as string[]).map(c => rt(c)),
   },
   {
     id: 4,
-    title: '当日券はありますか？',
-    contents: ['用意する予定です。'],
+    title: t('items.item4.title'),
+    contents: (tm('items.item4.contents') as string[]).map(c => rt(c)),
   },
-]
+])
 
 const sectionRef = ref<HTMLElement | null>(null)
 const { fadeInUp } = useGsapFadeIn()
@@ -4756,7 +4873,7 @@ onMounted(() => {
 <template>
   <div ref="sectionRef">
     <HaSectionTitle
-      title="よくある質問"
+      :title="tGlobal('sectionTitle.qa')"
       label="Q&A"
     />
     <HaAccordionItem :items="items">
@@ -4772,18 +4889,6 @@ onMounted(() => {
     </HaAccordionItem>
   </div>
 </template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-
-.mb-24 {
-  margin-bottom: 96px;
-}
-
-.content__text {
-  margin-bottom: 14px;
-}
-</style>
 ```
 
 ## File: layers/main/app/components/ha/HaContactCard.vue
@@ -5592,6 +5697,21 @@ defineProps<{
 ```vue
 <script setup lang="ts">
 import HaInfoIcon from './icons/HaInfoIcon.vue'
+
+const { t } = useI18n()
+
+const brSlots = ['br', 'br1', 'br2', 'br3']
+
+interface InfoItem {
+  labelKey: string
+  textKey: string
+  brClass?: string
+}
+
+defineProps<{
+  titleKey: string
+  items: InfoItem[]
+}>()
 </script>
 
 <template>
@@ -5601,34 +5721,33 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
         <HaInfoIcon />
       </div>
       <h4 class="info-card__title">
-        会場概要
+        {{ t(titleKey) }}
       </h4>
     </div>
     <div class="info-card__body">
       <div class="info-card__items">
-        <div class="info-card__item">
+        <div
+          v-for="item in items"
+          :key="item.labelKey"
+          class="info-card__item"
+        >
           <p class="info-card__label">
-            会場名
+            {{ t(item.labelKey) }}
           </p>
           <p class="info-card__text">
-            アスティ45 4F アスティホール
-          </p>
-        </div>
-        <div class="info-card__item">
-          <p class="info-card__label">
-            住所
-          </p>
-          <p class="info-card__text">
-            〒060-0004 <br class="tb-only">北海道札幌市中央区北4条西5丁目1
-          </p>
-        </div>
-        <div class="info-card__item">
-          <p class="info-card__label">
-            アクセス
-          </p>
-          <p class="info-card__text">
-            地下鉄さっぽろ駅より地下鉄直結・徒歩3分
-            <br>JR札幌駅南口より徒歩5分
+            <i18n-t
+              :keypath="item.textKey"
+              tag="span"
+              scope="global"
+            >
+              <template
+                v-for="slot in brSlots"
+                #[slot]=""
+                :key="slot"
+              >
+                <br :class="item.brClass">
+              </template>
+            </i18n-t>
           </p>
         </div>
       </div>
@@ -5742,6 +5861,24 @@ import HaInfoCard from '../ha/HaInfoCard.vue'
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
+const accessInfoItems = [
+  {
+    labelKey: 'infoCard.venue.items.venueName.label',
+    textKey: 'infoCard.venue.items.venueName.text',
+  },
+  {
+    labelKey: 'infoCard.venue.items.address.label',
+    textKey: 'infoCard.venue.items.address.text',
+    brClass: 'tb-only',
+  },
+  {
+    labelKey: 'infoCard.venue.items.access.label',
+    textKey: 'infoCard.venue.items.access.text',
+  },
+]
+
+const { t: tGlobal } = useI18n()
+
 const sectionRef = ref<HTMLElement | null>(null)
 const { fadeInUp } = useGsapFadeIn()
 
@@ -5753,8 +5890,8 @@ onMounted(() => {
 <template>
   <div ref="sectionRef">
     <HaSectionTitle
-      title="会場情報"
-      label="location info"
+      :title="tGlobal('sectionTitle.locationInfo')"
+      label="LOCATION INFO"
     />
     <div class="access-flex">
       <div class="access-flex__left map-container">
@@ -5765,7 +5902,11 @@ onMounted(() => {
           referrerpolicy="no-referrer-when-downgrade"
         />
       </div>
-      <HaInfoCard class="access-flex__right" />
+      <HaInfoCard
+        class="access-flex__right"
+        title-key="infoCard.venue.title"
+        :items="accessInfoItems"
+      />
     </div>
   </div>
 </template>
@@ -5990,6 +6131,8 @@ import HaCommingSoon from '../ha/HaCommingSoon.vue'
 // import HaSunIcon from '../ha/icons/HaSunIcon.vue'
 // import HaSunsetIcon from '../ha/icons/HaSunsetIcon.vue'
 
+const { t: tGlobal } = useI18n()
+
 // // GSAP
 // import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
@@ -6003,7 +6146,7 @@ import HaCommingSoon from '../ha/HaCommingSoon.vue'
 
 <template>
   <HaSectionTitle
-    title="開催スケジュール"
+    :title="tGlobal('sectionTitle.schedule')"
     label="SCHEDULE"
   />
   <HaCommingSoon />
@@ -6223,6 +6366,8 @@ import HaSectionTitle from '../ha/HaSectionTitle.vue'
 
 // import HaSponsorCard from '../ha/HaSponsorCard.vue'
 
+const { t: tGlobal } = useI18n()
+
 // // GSAP
 // import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
@@ -6240,7 +6385,7 @@ import HaSectionTitle from '../ha/HaSectionTitle.vue'
 
 <template>
   <HaSectionTitle
-    title="ご協力"
+    :title="tGlobal('sectionTitle.sponsorsAndPartners')"
     label="SPONSORS & PARTNERS"
   />
   <HaCommingSoon />
@@ -6424,337 +6569,6 @@ onMounted(() => {
   &__item {
     &--full-width {
       grid-column: 1 / -1;
-    }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ho/HoTheHeader.vue
-```vue
-<i18n lang="yaml">
-ja:
-  mainlogo: VketReal in 札幌 2026 Autumn
-en:
-  mainlogo: VketReal in Sapporo 2026 Autumn
-</i18n>
-
-<template>
-  <div
-    id="gsap-header"
-    class="header__wrapper"
-  >
-    <header class="ho-the-header">
-      <div class="ho-the-header__left glassy-box-4 glassy-box-4--radius-full none-hover-animation">
-        <a
-          href="/"
-          class="ho-the-header__logo-link"
-        >
-          <img
-            class="ho-the-header__logo"
-            src="/vketreal_in_sapporo_logo_light.png"
-            :alt="t('mainlogo')"
-          >
-        </a>
-      </div>
-
-      <div class="ho-the-header__accordion-wrapper--inner">
-        <div class="ho-the-header__accordion-wrapper">
-          <div
-            class="ho-the-header__right glassy-box-4 none-hover-animation ho-the-header__accordion"
-            :class="{ 'is-open': isPanelOpen }"
-          >
-            <div class="ho-the-header__accordion-body">
-              <nav class="ho-the-header__accordion-nav">
-                <ul class="ho-the-header__accordion-ul">
-                  <li
-                    v-for="link in navLinks"
-                    :key="link.href"
-                    class="ho-the-header__accordion-li"
-                  >
-                    <a
-                      v-if="link.type === 'link'"
-                      :href="link.href"
-                      class="ho-the-header__accordion-link"
-                      @click="isPanelOpen = false"
-                    >{{ link.text }}</a>
-                    <HaAnchorLink
-                      v-else
-                      class="ho-the-header__accordion-link"
-                      :href="link.href"
-                      :text="link.text"
-                      @clicked="isPanelOpen = false"
-                    />
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <div class="ho-the-header__hamburger-wrapper">
-              <button
-                class="ho-the-header__hamburger"
-                :aria-label="isPanelOpen ? 'メニューを閉じる' : 'メニューを開く'"
-                :aria-expanded="isPanelOpen"
-                @click="isPanelOpen = !isPanelOpen"
-              >
-                <HaHamburgerIcon
-                  v-show="!isPanelOpen"
-                  class="ho-the-header__hamburger-icon"
-                  :class="{ 'is-open': isPanelOpen }"
-                />
-                <HaCloseIcon
-                  v-show="isPanelOpen"
-                  class="ho-the-header__hamburger-icon"
-                  :class="{ 'is-open': isPanelOpen }"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ho-the-header__right ho-the-header__right--pc-only glassy-box-4 glassy-box-4--radius-full none-hover-animation">
-        <nav class="ho-the-header__nav">
-          <ul class="ho-the-header__ul">
-            <li
-              v-for="link in navLinks"
-              :key="link.href"
-              class="ho-the-header__li"
-            >
-              <a
-                v-if="link.type === 'link'"
-                :href="link.href"
-                class="ho-the-header__link"
-              >{{ link.text }}</a>
-              <HaAnchorLink
-                v-else
-                class="ho-the-header__link"
-                :href="link.href"
-                :text="link.text"
-              />
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-  </div>
-</template>
-
-<script setup lang="ts">
-import { ref, watch } from 'vue'
-import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
-import HaAnchorLink from '../ha/HaAnchorLink.vue'
-import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
-
-const { t } = useI18n()
-
-export type NavLink
-  = | { type: 'link', href: string, text: string }
-    | { type: 'anchor', href: string, text: string }
-
-defineProps<{
-  navLinks: NavLink[]
-}>()
-
-const isPanelOpen = ref(false)
-
-watch(isPanelOpen, (val) => {
-  if (typeof document !== 'undefined') {
-    document.body.style.overflowX = val ? 'hidden' : ''
-  }
-})
-</script>
-
-<style scoped lang="scss">
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.header__wrapper {
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: v.$vket-header-height-pc;
-  padding: 40px 16px;
-
-  @include m.tb {
-    height: v.$vket-header-height-tb;
-    padding: 28px 16px;
-  }
-
-  @include m.sp {
-    height: v.$vket-header-height-sp;
-  }
-}
-
-.ho-the-header {
-  position: relative;
-
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  box-sizing: border-box;
-  width: 100%;
-  max-width: calc(1600px - 136px * 2); // FIXME: 1600px(メインコンテンツのmax-width) - 136*2(メインコンテンツのpadding-x)をハードコーディングしてしまっている
-  height: 100%;
-  margin: 0 auto;
-
-  &__left {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-
-    height: 100%;
-    padding-right: 32px;
-    padding-left: 32px;
-
-    @include m.tb {
-      padding-right: 24px;
-    padding-left: 24px;
-    }
-  }
-
-  &__right {
-    display: flex;
-    align-items: center;
-
-    height: 100%;
-    padding-right: 40px;
-    padding-left: 40px;
-
-    @include m.tb {
-      padding-right: 24px;
-      padding-left: 24px;
-    }
-
-    &--pc-only {
-      @include m.sp {
-        display: none;
-      }
-    }
-
-    &--pc-none {
-      display: none;
-
-      @include m.sp {
-        display: flex;
-      }
-    }
-  }
-
-  &__logo {
-    height: 50px;
-
-    @include m.tb {
-      height: 36px;
-    }
-  }
-
-  // PC用ナビ
-  &__nav {
-    @include m.tb {
-      display: none;
-    }
-  }
-
-  &__ul {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-    list-style: none;
-  }
-
-  &__link {
-    font-weight: 700;
-    color: white;
-    text-decoration: none;
-  }
-
-  &__accordion-wrapper {
-    position: relative;
-  }
-
-  &__accordion-wrapper--inner {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-
-  &__accordion {
-    display: none;
-    align-items: start;
-
-    width: fit-content;
-    height: fit-content;
-    min-height: 50px;
-    padding: 0;
-    border-radius: 25px;
-
-    @include m.tb {
-      display: flex;
-    }
-
-    &-body {
-      display: grid;
-      grid-template-columns: 0fr;
-      grid-template-rows: 0fr;
-      transition: grid-template-rows 0.3s ease, grid-template-columns 0.3s ease;
-
-      > nav {
-        overflow: hidden;
-      }
-    }
-
-    &.is-open &-body {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr;
-    }
-
-    &-ul {
-      display: flex;
-      flex-direction: column;
-
-      margin: 0;
-      padding: 36px 0 14px;
-
-      list-style: none;
-    }
-
-    &-link {
-      display: block;
-
-      padding: 12px 24px;
-
-      font-size: 15px;
-      color: white;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-  }
-
-  &__hamburger-wrapper {
-    padding: 7px;
-  }
-
-  // ハンバーガーボタン
-  &__hamburger {
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 36px;
-    height: 36px;
-    padding: 0;
-
-    &-icon {
-      display: block;
-      width: 22px;
-      height: 22px;
-      color: white;
     }
   }
 }
@@ -7180,14 +6994,371 @@ en:
 </style>
 ```
 
+## File: layers/main/app/components/ho/HoTheHeader.vue
+```vue
+<i18n lang="yaml">
+ja:
+  mainlogo: VketReal in 札幌 2026 Autumn
+en:
+  mainlogo: VketReal in Sapporo 2026 Autumn
+</i18n>
+
+<template>
+  <div
+    id="gsap-header"
+    class="header__wrapper"
+  >
+    <header class="ho-the-header">
+      <div class="ho-the-header__left glassy-box-4 glassy-box-4--radius-full none-hover-animation">
+        <a
+          href="/"
+          class="ho-the-header__logo-link"
+        >
+          <img
+            class="ho-the-header__logo"
+            src="/vketreal_in_sapporo_logo_light.png"
+            :alt="t('mainlogo')"
+          >
+        </a>
+      </div>
+
+      <div class="ho-the-header__accordion-wrapper--inner">
+        <div class="ho-the-header__accordion-wrapper">
+          <div
+            class="ho-the-header__right glassy-box-4 none-hover-animation ho-the-header__accordion"
+            :class="{ 'is-open': isPanelOpen }"
+          >
+            <div class="ho-the-header__accordion-body">
+              <nav class="ho-the-header__accordion-nav">
+                <ul class="ho-the-header__accordion-ul">
+                  <li
+                    v-for="link in navLinks"
+                    :key="link.href"
+                    class="ho-the-header__accordion-li"
+                  >
+                    <a
+                      v-if="link.type === 'link'"
+                      :href="link.href"
+                      class="ho-the-header__accordion-link"
+                      @click="isPanelOpen = false"
+                    >{{ link.text }}</a>
+                    <HaAnchorLink
+                      v-else
+                      class="ho-the-header__accordion-link"
+                      :href="link.href"
+                      :text="link.text"
+                      @clicked="isPanelOpen = false"
+                    />
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="ho-the-header__hamburger-wrapper">
+              <button
+                class="ho-the-header__hamburger"
+                :aria-label="isPanelOpen ? 'メニューを閉じる' : 'メニューを開く'"
+                :aria-expanded="isPanelOpen"
+                @click="isPanelOpen = !isPanelOpen"
+              >
+                <HaHamburgerIcon
+                  v-show="!isPanelOpen"
+                  class="ho-the-header__hamburger-icon"
+                  :class="{ 'is-open': isPanelOpen }"
+                />
+                <HaCloseIcon
+                  v-show="isPanelOpen"
+                  class="ho-the-header__hamburger-icon"
+                  :class="{ 'is-open': isPanelOpen }"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ho-the-header__right ho-the-header__right--pc-only glassy-box-4 glassy-box-4--radius-full none-hover-animation">
+        <nav class="ho-the-header__nav">
+          <ul class="ho-the-header__ul">
+            <li
+              v-for="link in navLinks"
+              :key="link.href"
+              class="ho-the-header__li"
+            >
+              <a
+                v-if="link.type === 'link'"
+                :href="link.href"
+                class="ho-the-header__link"
+              >{{ link.text }}</a>
+              <HaAnchorLink
+                v-else
+                class="ho-the-header__link"
+                :href="link.href"
+                :text="link.text"
+              />
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
+import HaAnchorLink from '../ha/HaAnchorLink.vue'
+import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
+
+const { t } = useI18n()
+
+export type NavLink
+  = | { type: 'link', href: string, text: string }
+    | { type: 'anchor', href: string, text: string }
+
+defineProps<{
+  navLinks: NavLink[]
+}>()
+
+const isPanelOpen = ref(false)
+
+watch(isPanelOpen, (val) => {
+  if (typeof document !== 'undefined') {
+    document.body.style.overflowX = val ? 'hidden' : ''
+  }
+})
+</script>
+
+<style scoped lang="scss">
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.header__wrapper {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: v.$vket-header-height-pc;
+  padding: 40px 16px;
+
+  @include m.tb {
+    height: v.$vket-header-height-tb;
+    padding: 28px 16px;
+  }
+
+  @include m.sp {
+    height: v.$vket-header-height-sp;
+  }
+}
+
+.ho-the-header {
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(1600px - 136px * 2); // FIXME: 1600px(メインコンテンツのmax-width) - 136*2(メインコンテンツのpadding-x)をハードコーディングしてしまっている
+  height: 100%;
+  margin: 0 auto;
+
+  &__left {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+
+    height: 100%;
+    padding-right: 32px;
+    padding-left: 32px;
+
+    @include m.tb {
+      padding-right: 24px;
+    padding-left: 24px;
+    }
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+
+    height: 100%;
+    padding-right: 40px;
+    padding-left: 40px;
+
+    @include m.tb {
+      padding-right: 24px;
+      padding-left: 24px;
+    }
+
+    &--pc-only {
+      @include m.sp {
+        display: none;
+      }
+    }
+
+    &--pc-none {
+      display: none;
+
+      @include m.sp {
+        display: flex;
+      }
+    }
+  }
+
+  &__logo {
+    height: 50px;
+
+    @include m.tb {
+      height: 36px;
+    }
+  }
+
+  // PC用ナビ
+  &__nav {
+    @include m.tb {
+      display: none;
+    }
+  }
+
+  &__ul {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    list-style: none;
+  }
+
+  &__link {
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+  }
+
+  &__accordion-wrapper {
+    position: relative;
+  }
+
+  &__accordion-wrapper--inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  &__accordion {
+    display: none;
+    align-items: start;
+
+    width: fit-content;
+    height: fit-content;
+    min-height: 50px;
+    padding: 0;
+    border-radius: 25px;
+
+    @include m.tb {
+      display: flex;
+    }
+
+    &-body {
+      display: grid;
+      grid-template-columns: 0fr;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease, grid-template-columns 0.3s ease;
+
+      > nav {
+        overflow: hidden;
+      }
+    }
+
+    &.is-open &-body {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+    }
+
+    &-ul {
+      display: flex;
+      flex-direction: column;
+
+      margin: 0;
+      padding: 36px 0 14px;
+
+      list-style: none;
+    }
+
+    &-link {
+      display: block;
+
+      padding: 12px 24px;
+
+      font-size: 15px;
+      color: white;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+  }
+
+  &__hamburger-wrapper {
+    padding: 7px;
+  }
+
+  // ハンバーガーボタン
+  &__hamburger {
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    padding: 0;
+
+    &-icon {
+      display: block;
+      width: 22px;
+      height: 22px;
+      color: white;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtContactSection.vue
 ```vue
+<i18n lang="yaml">
+ja:
+  personal:
+    title: '個人向けお問い合わせ'
+    text: '一般の方からのお問い合わせはこちら'
+  corporate:
+    title: '法人向けお問い合わせ'
+    text: '企業・法人の方からのお問い合わせはこちら'
+  press:
+    title: '広報向けお問い合わせ'
+    text: 'メディア・広報関連のお問い合わせはこちら'
+en:
+  personal:
+    title: 'For General Inquiries'
+    text: 'For inquiries from individuals'
+  corporate:
+    title: 'For Business Inquiries'
+    text: 'For inquiries from companies and organizations'
+  press:
+    title: 'For Press Inquiries'
+    text: 'For media and press-related inquiries'
+</i18n>
+
 <script setup lang="ts">
 import HaContactCard from '../ha/HaContactCard.vue'
-// import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+// import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
 
 const sectionRef = ref<HTMLElement | null>(null)
 const listRef = ref<HTMLElement | null>(null)
@@ -7205,27 +7376,27 @@ onMounted(() => {
 <template>
   <div ref="sectionRef">
     <HaSectionTitle
-      title="お問い合わせ"
+      :title="tGlobal('sectionTitle.contact')"
       label="CONTACT"
     />
     <div class="contact-grid">
       <HaContactCard
-        title="個人向けお問い合わせ"
-        text="一般の方からのお問い合わせはこちら"
+        :title="t('personal.title')"
+        :text="t('personal.text')"
         href="https://docs.google.com/forms/d/e/1FAIpQLSchGlf0h1eszxPupo5aWycU_s3CAOmkP1LJP38Niiwi95KNwQ/viewform"
         color="amber"
         class="contact-grid__child"
       />
       <HaContactCard
-        title="法人向けお問い合わせ"
-        text="企業・法人の方からのお問い合わせはこちら"
+        :title="t('corporate.title')"
+        :text="t('corporate.text')"
         href="https://docs.google.com/forms/d/e/1FAIpQLSeEevGm1q7byQWd7RhGWTGYClcGthQEbWufSviyiFbcYzsd6A/viewform"
         color="cyan"
         class="contact-grid__child"
       />
       <HaContactCard
-        title="広報向けお問い合わせ"
-        text="メディア・広報関連のお問い合わせはこちら"
+        :title="t('press.title')"
+        :text="t('press.text')"
         href="https://docs.google.com/forms/d/e/1FAIpQLScmYNjxOyf1GtHVSqsRe7pFDoyfUhiSSDqJh5Q0WD40b-1LOg/viewform"
         color="magenta"
         class="contact-grid__child contact-grid__child--full-width"
@@ -7265,19 +7436,6 @@ onMounted(() => {
 
 ## File: layers/main/app/components/ht/HtContentsSection.vue
 ```vue
-<i18n lang="yaml">
-ja:
-  items:
-    paraRealCreatorInSapporo:
-      title: パラリアルクリエイター in SAPPORO
-      text: VRクリエイターによるグッズ展示・即売コーナー
-en:
-  items:
-    paraRealCreatorInSapporo:
-      title: ParaRealCreator in SAPPORO
-      text: Goods Exhibition & Sale by VR Creators
-</i18n>
-
 <script setup lang="ts">
 import HmContentsSwiper from '../hm/HmContentsSwiper.vue'
 import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
@@ -7299,14 +7457,15 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
   isEnd.value = newIsEnd
 }
 
-const { t } = useI18n()
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
   {
     id: 1,
-    title: t('items.paraRealCreatorInSapporo.title'),
+    title: t('contents.1.title'),
     href: 'https://archived.vris.jp/',
-    text: t('items.paraRealCreatorInSapporo.text'),
+    text: t('contents.1.text'),
   },
 ])
 
@@ -7320,7 +7479,7 @@ onMounted(() => {
 
 <template>
   <HaSectionTitle
-    title="企画・コンテンツ"
+    :title="tGlobal('sectionTitle.contents')"
     label="CONTENTS"
   >
     <template #controls>
@@ -7358,7 +7517,7 @@ onMounted(() => {
       class="glassy-button contents__button"
       to="/contents"
     >
-      すべて見る
+      {{ tGlobal("viewAll") }}
     </NuxtLink>
   </div>
 </template>
@@ -7772,6 +7931,39 @@ onMounted(() => {
 
 ## File: layers/main/app/components/ht/HtAboutSection.vue
 ```vue
+<i18n lang="yaml">
+ja:
+  desc1: '「VketReal in 札幌」は、{br1}世界最大級のメタバースイベント「バーチャルマーケット」から派生した{br2}リアルイベントです。'
+  desc2: 'VRSNS上で活躍する北海道ゆかりのクリエイターたちが、リアルの場に飛び出す場所をつくりたい―――{br}そんな想いから生まれた、有志主催のイベントです。北海道の有志XRクリエイターが主催し、札幌で開催します。'
+  stat1Label: '過去の来場者数'
+  stat1Unit: '名+'
+  stat2Label: '出展サークル数'
+  stat2Unit: '+'
+  stat3Label: '開催回数'
+  stat3Unit: '回'
+  feature1Title: 'バーチャル姿のまま、{br}リアルで体験'
+  feature1Desc: 'アバターとしての生き方を大切にする人々が{br}リアルの場で集い、交流し、共に{br}クリエイティブな未来を築く場です。'
+  feature2Title: 'VRの世界で活躍する{br}クリエイターの出展'
+  feature2Desc: 'VRとリアルを行き来しながら活躍する{br}クリエイターの作品展示や、新たなXR技術を{br}活用したインタラクティブな企画を展開！'
+  feature3Title: '遊んで、買って、{br}楽しめる企業ブース'
+  feature3Desc: '各企業ブースでは最新XRコンテンツを体験でき、{br}ここでしか手に入らない限定グッズも{br}販売されるかも？'
+en:
+  desc1: '"VketReal in Sapporo" is an in-person event inspired by "VirtualMarket (Vket)", one of the world''s largest events in the metaverse.'
+  desc2: 'This is a community-run event, born from a simple idea: give creators from the Hokkaido VR/SNS scene a place to step into the real world. Organized by volunteer XR creators based in Hokkaido, and held in Sapporo.'
+  stat1Label: 'Total Attendees'
+  stat1Unit: '+'
+  stat2Label: 'Exhibiting Circles'
+  stat2Unit: '+'
+  stat3Label: 'Events Held'
+  stat3Unit: ''
+  feature1Title: 'Experience the Event as Your Virtual Avatar'
+  feature1Desc: 'A space where people who live as their avatars come together in the real world — to connect, create, and build a creative future.'
+  feature2Title: 'Creators from the VR World, Exhibiting Live'
+  feature2Desc: 'Discover works by creators who move between VR and the real world, alongside interactive experiences powered by the latest XR technology.'
+  feature3Title: 'Explore, Shop, and Have Fun at Sponsor Booths'
+  feature3Desc: 'Try out the latest XR content at each booth. You might even find limited-edition merchandise you can only get here.'
+</i18n>
+
 <script setup lang="ts">
 import HaCard from '../ha/HaAboutCard.vue'
 import HaCountUpNumber from '../ha/HaCountUpNumber.vue'
@@ -7781,6 +7973,9 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
 
 const sectionRef = ref<HTMLElement | null>(null)
 const listRef = ref<HTMLElement | null>(null)
@@ -7798,29 +7993,42 @@ onMounted(() => {
 <template>
   <div ref="sectionRef">
     <HaSectionTitle
-      title="VketReal in 札幌とは"
+      :title="tGlobal('sectionTitle.about')"
       label="ABOUT"
     />
-    <div class="description description--space">
-      「VketReal in 札幌」は、<br class="sp-none">
-      世界最大級のメタバースイベント「バーチャルマーケット」から派生した<br class="sp-none">
-      リアルイベントです。
-    </div>
-    <div class="description">
-      VRSNS上で活躍する北海道ゆかりのクリエイターたちが、
-      リアルの場に飛び出す場所をつくりたい―――<br>
-      そんな想いから生まれた、有志主催のイベントです。北海道の有志XRクリエイターが主催し、札幌で開催します。
-    </div>
+    <i18n-t
+      keypath="desc1"
+      tag="div"
+      class="description description--space"
+      scope="parent"
+    >
+      <template #br1>
+        <br class="sp-none">
+      </template>
+      <template #br2>
+        <br class="sp-none">
+      </template>
+    </i18n-t>
+    <i18n-t
+      keypath="desc2"
+      tag="div"
+      class="description"
+      scope="parent"
+    >
+      <template #br>
+        <br class="sp-none">
+      </template>
+    </i18n-t>
     <div class="info-flex mb-24">
       <div class="info-flex__child">
         <p class="info-flex__number info-flex__number--amber">
           <HaCountUpNumber
             :value="500"
             :duration="2000"
-          />名+
+          />{{ t('stat1Unit') }}
         </p>
         <p class="info-flex__label">
-          過去の来場者数
+          {{ t('stat1Label') }}
         </p>
       </div>
       <div class="info-flex__child">
@@ -7828,10 +8036,10 @@ onMounted(() => {
           <HaCountUpNumber
             :value="50"
             :duration="2000"
-          />+
+          />{{ t('stat2Unit') }}
         </p>
         <p class="info-flex__label">
-          出展サークル数
+          {{ t('stat2Label') }}
         </p>
       </div>
       <div class="info-flex__child">
@@ -7839,10 +8047,10 @@ onMounted(() => {
           <HaCountUpNumber
             :value="6"
             :duration="2000"
-          />回
+          />{{ t('stat3Unit') }}
         </p>
         <p class="info-flex__label">
-          開催回数
+          {{ t('stat3Label') }}
         </p>
       </div>
     </div>
@@ -7860,11 +8068,24 @@ onMounted(() => {
             <HaStarShineIcon />
           </template>
           <template #title>
-            バーチャル姿のまま<br>リアルで体験
+            <i18n-t
+              keypath="feature1Title"
+              scope="parent"
+            >
+              <template #br>
+                <br>
+              </template>
+            </i18n-t>
           </template>
           <template #body>
-            アバターとしての生き方を大切にする人々が<br>
-            リアルの場で集い、交流し、共に<br>クリエイティブな未来を気付く場です。
+            <i18n-t
+              keypath="feature1Desc"
+              scope="parent"
+            >
+              <template #br>
+                <br>
+              </template>
+            </i18n-t>
           </template>
         </HaCard>
       </div>
@@ -7877,10 +8098,24 @@ onMounted(() => {
             <HaWorldIcon />
           </template>
           <template #title>
-            VRの世界で活躍する<br>クリエイターの出展
+            <i18n-t
+              keypath="feature2Title"
+              scope="parent"
+            >
+              <template #br>
+                <br>
+              </template>
+            </i18n-t>
           </template>
           <template #body>
-            VRとリアルを行き来しながら活躍する<br>クリエイターの作品展示や、新たなXR技術を<br>活用したインタラクティブな企画を展開！
+            <i18n-t
+              keypath="feature2Desc"
+              scope="parent"
+            >
+              <template #br>
+                <br>
+              </template>
+            </i18n-t>
           </template>
         </HaCard>
       </div>
@@ -7893,10 +8128,24 @@ onMounted(() => {
             <HaCommunityIcon />
           </template>
           <template #title>
-            遊んで、買って、<br>楽しめる企業ブース
+            <i18n-t
+              keypath="feature3Title"
+              scope="parent"
+            >
+              <template #br>
+                <br>
+              </template>
+            </i18n-t>
           </template>
           <template #body>
-            各企業ブースでは最新XRコンテンツを体験でき、<br>ここでしか手に入らない限定グッズも<br>販売されるかも？
+            <i18n-t
+              keypath="feature3Desc"
+              scope="parent"
+            >
+              <template #br>
+                <br>
+              </template>
+            </i18n-t>
           </template>
         </HaCard>
       </div>
@@ -8011,21 +8260,6 @@ onMounted(() => {
 
 ## File: layers/main/app/components/ht/HtNewsSection.vue
 ```vue
-<i18n lang="yaml">
-ja:
-  items:
-    news1:
-      title: ロゴマークを公開しました！
-    news2:
-      title: キービジュアルを公開しました！
-en:
-  items:
-    news1:
-      title: We have published our logo!
-    news2:
-      title: We have published our key visual!
-</i18n>
-
 <script setup lang="ts">
 import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
 import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
@@ -8047,19 +8281,19 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
   isEnd.value = newIsEnd
 }
 
-const { t } = useI18n()
+const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
   {
     id: 1,
-    title: t('items.news1.title'),
+    title: tGlobal('news.2.title'),
     href: 'https://archived.vris.jp/',
     imgSrc: '/news1_thumbnail.png',
     timestamp: '2026-06-06',
   },
   {
     id: 2,
-    title: t('items.news2.title'),
+    title: tGlobal('news.2.title'),
     href: 'https://archived.vris.jp/',
     imgSrc: '/news2_thumbnail.png',
     timestamp: '2026-06-01',
@@ -8076,7 +8310,7 @@ onMounted(() => {
 
 <template>
   <HaSectionTitle
-    title="お知らせ"
+    :title="tGlobal('sectionTitle.news')"
     label="NEWS"
   >
     <template #controls>
@@ -8114,7 +8348,7 @@ onMounted(() => {
       class="glassy-button news__button"
       to="/news"
     >
-      すべて見る
+      {{ tGlobal("viewAll") }}
     </NuxtLink>
   </div>
 </template>

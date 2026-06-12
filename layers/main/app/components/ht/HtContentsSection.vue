@@ -1,16 +1,3 @@
-<i18n lang="yaml">
-ja:
-  items:
-    paraRealCreatorInSapporo:
-      title: パラリアルクリエイター in SAPPORO
-      text: VRクリエイターによるグッズ展示・即売コーナー
-en:
-  items:
-    paraRealCreatorInSapporo:
-      title: ParaRealCreator in SAPPORO
-      text: Goods Exhibition & Sale by VR Creators
-</i18n>
-
 <script setup lang="ts">
 import HmContentsSwiper from '../hm/HmContentsSwiper.vue'
 import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
@@ -32,14 +19,15 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
   isEnd.value = newIsEnd
 }
 
-const { t } = useI18n()
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
   {
     id: 1,
-    title: t('items.paraRealCreatorInSapporo.title'),
+    title: t('contents.1.title'),
     href: 'https://archived.vris.jp/',
-    text: t('items.paraRealCreatorInSapporo.text'),
+    text: t('contents.1.text'),
   },
 ])
 
@@ -53,7 +41,7 @@ onMounted(() => {
 
 <template>
   <HaSectionTitle
-    title="企画・コンテンツ"
+    :title="tGlobal('sectionTitle.contents')"
     label="CONTENTS"
   >
     <template #controls>
@@ -91,7 +79,7 @@ onMounted(() => {
       class="glassy-button contents__button"
       to="/contents"
     >
-      すべて見る
+      {{ tGlobal("viewAll") }}
     </NuxtLink>
   </div>
 </template>

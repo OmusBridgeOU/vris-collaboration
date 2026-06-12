@@ -1,18 +1,3 @@
-<i18n lang="yaml">
-ja:
-  items:
-    news1:
-      title: ロゴマークを公開しました！
-    news2:
-      title: キービジュアルを公開しました！
-en:
-  items:
-    news1:
-      title: We have published our logo!
-    news2:
-      title: We have published our key visual!
-</i18n>
-
 <script setup lang="ts">
 import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
 import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
@@ -34,19 +19,19 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
   isEnd.value = newIsEnd
 }
 
-const { t } = useI18n()
+const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
   {
     id: 1,
-    title: t('items.news1.title'),
+    title: tGlobal('news.2.title'),
     href: 'https://archived.vris.jp/',
     imgSrc: '/news1_thumbnail.png',
     timestamp: '2026-06-06',
   },
   {
     id: 2,
-    title: t('items.news2.title'),
+    title: tGlobal('news.2.title'),
     href: 'https://archived.vris.jp/',
     imgSrc: '/news2_thumbnail.png',
     timestamp: '2026-06-01',
@@ -63,7 +48,7 @@ onMounted(() => {
 
 <template>
   <HaSectionTitle
-    title="お知らせ"
+    :title="tGlobal('sectionTitle.news')"
     label="NEWS"
   >
     <template #controls>
@@ -101,7 +86,7 @@ onMounted(() => {
       class="glassy-button news__button"
       to="/news"
     >
-      すべて見る
+      {{ tGlobal("viewAll") }}
     </NuxtLink>
   </div>
 </template>

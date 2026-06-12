@@ -1,5 +1,20 @@
 <script setup lang="ts">
 import HaInfoIcon from './icons/HaInfoIcon.vue'
+
+const { t } = useI18n()
+
+const brSlots = ['br', 'br1', 'br2', 'br3']
+
+interface InfoItem {
+  labelKey: string
+  textKey: string
+  brClass?: string
+}
+
+defineProps<{
+  titleKey: string
+  items: InfoItem[]
+}>()
 </script>
 
 <template>
@@ -9,34 +24,33 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
         <HaInfoIcon />
       </div>
       <h4 class="info-card__title">
-        会場概要
+        {{ t(titleKey) }}
       </h4>
     </div>
     <div class="info-card__body">
       <div class="info-card__items">
-        <div class="info-card__item">
+        <div
+          v-for="item in items"
+          :key="item.labelKey"
+          class="info-card__item"
+        >
           <p class="info-card__label">
-            会場名
+            {{ t(item.labelKey) }}
           </p>
           <p class="info-card__text">
-            アスティ45 4F アスティホール
-          </p>
-        </div>
-        <div class="info-card__item">
-          <p class="info-card__label">
-            住所
-          </p>
-          <p class="info-card__text">
-            〒060-0004 <br class="tb-only">北海道札幌市中央区北4条西5丁目1
-          </p>
-        </div>
-        <div class="info-card__item">
-          <p class="info-card__label">
-            アクセス
-          </p>
-          <p class="info-card__text">
-            地下鉄さっぽろ駅より地下鉄直結・徒歩3分
-            <br>JR札幌駅南口より徒歩5分
+            <i18n-t
+              :keypath="item.textKey"
+              tag="span"
+              scope="global"
+            >
+              <template
+                v-for="slot in brSlots"
+                #[slot]=""
+                :key="slot"
+              >
+                <br :class="item.brClass">
+              </template>
+            </i18n-t>
           </p>
         </div>
       </div>
