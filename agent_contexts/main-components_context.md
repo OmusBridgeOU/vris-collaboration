@@ -2183,23 +2183,6 @@ defineExpose({ swiperInstance })
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtParticipationGuide.vue
-```vue
-<script setup lang="ts">
-import HaCommingSoon from '../ha/HaCommingSoon.vue'
-
-const { t: tGlobal } = useI18n()
-</script>
-
-<template>
-  <HaSectionTitle
-    label="PARTICIPATION GUIDE"
-    :title="tGlobal('sectionTitle.participationGuide')"
-  />
-  <HaCommingSoon />
-</template>
-```
-
 ## File: layers/main/app/components/ha/buildings/HaAstyLoading.vue
 ```vue
 <template>
@@ -3153,284 +3136,21 @@ onUnmounted(() => {
 </template>
 ```
 
-## File: layers/main/app/components/ht/HtExhibitorInfoSection.vue
+## File: layers/main/app/components/ht/HtParticipationGuide.vue
 ```vue
-<i18n lang="yaml">
-ja:
-  subtitle1: '出展概要'
-  subtitle2: '募集スケジュール'
-  overviewRow1Label: '出展費用'
-  overviewRow1Value: '1スペース 3,000円'
-  overviewRow2Label: '参加可能人数'
-  overviewRow2Value: '1スペースにつき2名'
-  overviewRow3Label: '出展内容'
-  overviewRow3Value: 'グッズ・書籍頒布・作品展示など'
-  description: 'また、今回のサークル募集は二回に分けて行います。{br1}二次申し込みについては一次申し込みの結果、{br2}出展枠に余裕がある場合のみ開催します。{br3}確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。'
-  primaryTitle: '一次申し込み{br}（先着順）'
-  primaryRow1Label: '募集期間'
-  primaryRow1Value: '6月1日(月) ～ 6月18日(木)'
-  primaryRow2Label: '当落発表'
-  primaryRow2Value: '6月26日(金)'
-  secondaryTitle: '二次申し込み{br}（抽選）'
-  secondaryRow1Label: '募集期間'
-  secondaryRow1Value: '7月13日(月) ～ 7月30日(木)'
-  secondaryRow2Label: '当落発表'
-  secondaryRow2Value: '8月7日(金)'
-en:
-  subtitle1: 'Exhibition Overview'
-  subtitle2: 'Application Schedule'
-  overviewRow1Label: 'Booth Fee'
-  overviewRow1Value: '3,000 JPY per space'
-  overviewRow2Label: 'Number of Participants'
-  overviewRow2Value: '2 people per space'
-  overviewRow3Label: 'Exhibition Content'
-  overviewRow3Value: 'Goods, books, artwork display, etc.'
-  description: 'This time, circle applications will be accepted in two rounds.{br1}The second round will only be held if there are remaining spaces{br2}after the results of the first round.{br3}If you would like to secure a spot, we recommend applying during the first round.'
-  primaryTitle: 'First Round{br}(First-Come, First-Served)'
-  primaryRow1Label: 'Application Period'
-  primaryRow1Value: 'Mon, June 1 - Thu, June 18'
-  primaryRow2Label: 'Results Announcement'
-  primaryRow2Value: 'Fri, June 26'
-  secondaryTitle: 'Second Round{br}(Lottery)'
-  secondaryRow1Label: 'Application Period'
-  secondaryRow1Value: 'Mon, July 13 - Thu, July 30'
-  secondaryRow2Label: 'Results Announcement'
-  secondaryRow2Value: 'Fri, August 7'
-</i18n>
-
 <script setup lang="ts">
-import HaSectionTitle from '../ha/HaSectionTitle.vue'
+import HaCommingSoon from '../ha/HaCommingSoon.vue'
 
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n({ useScope: 'local' })
 const { t: tGlobal } = useI18n()
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
 </script>
 
 <template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.exhibitorInfo')"
-      label="EXHIBITOR INFO"
-    />
-
-    <p class="subtitle">
-      {{ t('subtitle1') }}
-    </p>
-    <div class="exhibitor-info__table mb-15">
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('overviewRow1Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('overviewRow1Value') }}
-        </p>
-      </div>
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('overviewRow2Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('overviewRow2Value') }}
-        </p>
-      </div>
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('overviewRow3Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('overviewRow3Value') }}
-        </p>
-      </div>
-    </div>
-
-    <p class="subtitle">
-      {{ t('subtitle2') }}
-    </p>
-
-    <p class="exhibitor-info__description mb-24">
-      <i18n-t
-        keypath="description"
-        tag="span"
-        scope="parent"
-      >
-        <template #br1>
-          <br>
-        </template>
-        <template #br2>
-          <br class="tb-only">
-        </template>
-        <template #br3>
-          <br>
-        </template>
-      </i18n-t>
-    </p>
-
-    <p class="exhibitor-info__table-title">
-      <i18n-t
-        keypath="primaryTitle"
-        tag="span"
-        scope="parent"
-      >
-        <template #br>
-          <br class="tb-only">
-        </template>
-      </i18n-t>
-    </p>
-
-    <div class="exhibitor-info__table mb-24">
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('primaryRow1Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('primaryRow1Value') }}
-        </p>
-      </div>
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('primaryRow2Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('primaryRow2Value') }}
-        </p>
-      </div>
-    </div>
-
-    <p class="exhibitor-info__table-title">
-      <i18n-t
-        keypath="secondaryTitle"
-        tag="span"
-        scope="parent"
-      >
-        <template #br>
-          <br class="tb-only">
-        </template>
-      </i18n-t>
-    </p>
-
-    <div class="exhibitor-info__table">
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('secondaryRow1Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('secondaryRow1Value') }}
-        </p>
-      </div>
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('secondaryRow2Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('secondaryRow2Value') }}
-        </p>
-      </div>
-    </div>
-  </div>
+  <HaSectionTitle
+    label="PARTICIPATION GUIDE"
+    :title="tGlobal('sectionTitle.participationGuide')"
+  />
+  <HaCommingSoon />
 </template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-
-  @include m.tb {
-    margin-bottom: 64px;
-  }
-}
-
-.mb-15 {
-  margin-bottom: 60px;
-
-  @include m.sp {
-    margin-bottom: 48px;
-  }
-}
-
-.exhibitor-info {
-  &__table-title {
-    margin-bottom: 24px;
-
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 1.2em;
-    color: white;
-    text-align: center;
-
-    @include m.tb {
-      font-size: 22px;
-    }
-
-    @include m.sp {
-      font-size: 16px;
-    }
-  }
-
-  &__table-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 38px 0;
-    border-bottom: 1px solid white;
-
-    @include m.tb {
-      padding: 24px 0;
-    }
-
-    &:last-of-type {
-      border: none;
-    }
-  }
-
-  &__label {
-    font-size: 20px;
-    color: white;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__text {
-    font-size: 20px;
-    color: white;
-    text-align: right;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__description {
-    width: fit-content;
-    margin-right: auto;
-    margin-left: auto;
-
-    font-size: 20px;
-    line-height: 1.2em;
-    color: white;
-
-    @include m.tb {
-      font-size: 16px;
-      text-align: center;
-    }
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-}
-</style>
 ```
 
 ## File: layers/main/app/components/ha/icons/HaXIcon.vue
@@ -3879,6 +3599,286 @@ defineProps<{
     @include m.sp {
       font-size: 20px;
       font-weight: normal;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtExhibitorInfoSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  subtitle1: '出展概要'
+  subtitle2: '募集スケジュール'
+  overviewRow1Label: '出展費用'
+  overviewRow1Value: '1スペース 3,000円'
+  overviewRow2Label: '参加可能人数'
+  overviewRow2Value: '1スペースにつき2名'
+  overviewRow3Label: '出展内容'
+  overviewRow3Value: 'グッズ・書籍頒布・作品展示など'
+  description: 'また、今回のサークル募集は二回に分けて行います。{br1}二次申し込みについては一次申し込みの結果、{br2}出展枠に余裕がある場合のみ開催します。{br3}確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。'
+  primaryTitle: '一次申し込み{br}（先着順）'
+  primaryRow1Label: '募集期間'
+  primaryRow1Value: '6月1日(月) ～ 6月18日(木)'
+  primaryRow2Label: '当落発表'
+  primaryRow2Value: '6月26日(金)'
+  secondaryTitle: '二次申し込み{br}（抽選）'
+  secondaryRow1Label: '募集期間'
+  secondaryRow1Value: '7月13日(月) ～ 7月30日(木)'
+  secondaryRow2Label: '当落発表'
+  secondaryRow2Value: '8月7日(金)'
+en:
+  subtitle1: 'Exhibition Overview'
+  subtitle2: 'Application Schedule'
+  overviewRow1Label: 'Booth Fee'
+  overviewRow1Value: '3,000 JPY per space'
+  overviewRow2Label: 'Number of Participants'
+  overviewRow2Value: '2 people per space'
+  overviewRow3Label: 'Exhibition Content'
+  overviewRow3Value: 'Goods, books, artwork display, etc.'
+  description: 'This time, circle applications will be accepted in two rounds.{br1}The second round will only be held if there are remaining spaces{br2}after the results of the first round.{br3}If you would like to secure a spot, we recommend applying during the first round.'
+  primaryTitle: 'First Round{br}(First-Come, First-Served)'
+  primaryRow1Label: 'Application Period'
+  primaryRow1Value: 'Mon, June 1 - Thu, June 18'
+  primaryRow2Label: 'Results Announcement'
+  primaryRow2Value: 'Fri, June 26'
+  secondaryTitle: 'Second Round{br}(Lottery)'
+  secondaryRow1Label: 'Application Period'
+  secondaryRow1Value: 'Mon, July 13 - Thu, July 30'
+  secondaryRow2Label: 'Results Announcement'
+  secondaryRow2Value: 'Fri, August 7'
+</i18n>
+
+<script setup lang="ts">
+import HaSectionTitle from '../ha/HaSectionTitle.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.exhibitorInfo')"
+      label="EXHIBITOR INFO"
+    />
+
+    <p class="subtitle">
+      {{ t('subtitle1') }}
+    </p>
+    <div class="exhibitor-info__table mb-15">
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow1Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow1Value') }}
+        </p>
+      </div>
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow2Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow2Value') }}
+        </p>
+      </div>
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow3Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow3Value') }}
+        </p>
+      </div>
+    </div>
+
+    <p class="subtitle">
+      {{ t('subtitle2') }}
+    </p>
+
+    <p class="exhibitor-info__description mb-24">
+      <i18n-t
+        keypath="description"
+        tag="span"
+        scope="parent"
+      >
+        <template #br1>
+          <br>
+        </template>
+        <template #br2>
+          <br class="tb-only">
+        </template>
+        <template #br3>
+          <br>
+        </template>
+      </i18n-t>
+    </p>
+
+    <p class="exhibitor-info__table-title">
+      <i18n-t
+        keypath="primaryTitle"
+        tag="span"
+        scope="parent"
+      >
+        <template #br>
+          <br class="tb-only">
+        </template>
+      </i18n-t>
+    </p>
+
+    <div class="exhibitor-info__table mb-24">
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('primaryRow1Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('primaryRow1Value') }}
+        </p>
+      </div>
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('primaryRow2Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('primaryRow2Value') }}
+        </p>
+      </div>
+    </div>
+
+    <p class="exhibitor-info__table-title">
+      <i18n-t
+        keypath="secondaryTitle"
+        tag="span"
+        scope="parent"
+      >
+        <template #br>
+          <br class="tb-only">
+        </template>
+      </i18n-t>
+    </p>
+
+    <div class="exhibitor-info__table">
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('secondaryRow1Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('secondaryRow1Value') }}
+        </p>
+      </div>
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('secondaryRow2Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('secondaryRow2Value') }}
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+
+  @include m.tb {
+    margin-bottom: 64px;
+  }
+}
+
+.mb-15 {
+  margin-bottom: 60px;
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
+}
+
+.exhibitor-info {
+  &__table-title {
+    margin-bottom: 24px;
+
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.2em;
+    color: white;
+    text-align: center;
+
+    @include m.tb {
+      font-size: 22px;
+    }
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__table-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 38px 0;
+    border-bottom: 1px solid white;
+
+    @include m.tb {
+      padding: 24px 0;
+    }
+
+    &:last-of-type {
+      border: none;
+    }
+  }
+
+  &__label {
+    font-size: 20px;
+    color: white;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__text {
+    font-size: 20px;
+    color: white;
+    text-align: right;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__description {
+    width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+
+    font-size: 20px;
+    line-height: 1.2em;
+    color: white;
+
+    @include m.tb {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    @include m.sp {
+      font-size: 14px;
     }
   }
 }
@@ -4787,110 +4787,6 @@ onMounted(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtQandASection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  items:
-    item1:
-      title: 'VketReal in 札幌 とはどのようなイベントですか？'
-      contents:
-        - 'VRSNSで活躍するクリエイターが集まるリアルイベントです。'
-        - 'HIKKYが主催するVketRealから派生した有志主催イベントです。'
-    item2:
-      title: 'チケットはどこで買えますか？'
-      contents:
-        - 'オンラインにて事前販売予定しております。'
-    item3:
-      title: '入場制限等はありますか？'
-      contents:
-        - 'チケットの枚数の制限等はありません。'
-    item4:
-      title: '当日券はありますか？'
-      contents:
-        - '用意する予定です。'
-en:
-  items:
-    item1:
-      title: 'What kind of event is VketReal in Sapporo?'
-      contents:
-        - 'An in-person event that brings together creators active in the VR/SNS scene.'
-        - 'A community-run event derived from VketReal, organized by HIKKY.'
-    item2:
-      title: 'Where can I purchase tickets?'
-      contents:
-        - 'Tickets are planned to be sold online in advance.'
-    item3:
-      title: 'Is there a limit on the number of attendees?'
-      contents:
-        - 'There is no limit on the number of tickets available.'
-    item4:
-      title: 'Will tickets be available at the door?'
-      contents:
-        - 'Yes, we plan to offer tickets at the door.'
-</i18n>
-
-<script setup lang="ts">
-import HaAccordionItem from '../ha/HaAccordionItem.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t, tm, rt } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    title: t('items.item1.title'),
-    contents: (tm('items.item1.contents') as string[]).map(c => rt(c)),
-  },
-  {
-    id: 2,
-    title: t('items.item2.title'),
-    contents: (tm('items.item2.contents') as string[]).map(c => rt(c)),
-  },
-  {
-    id: 3,
-    title: t('items.item3.title'),
-    contents: (tm('items.item3.contents') as string[]).map(c => rt(c)),
-  },
-  {
-    id: 4,
-    title: t('items.item4.title'),
-    contents: (tm('items.item4.contents') as string[]).map(c => rt(c)),
-  },
-])
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.qa')"
-      label="Q&A"
-    />
-    <HaAccordionItem :items="items">
-      <template #content="{ item }">
-        <p
-          v-for="(content, index) in item.contents"
-          :key="`${item.id}-${index}`"
-          class="content__text"
-        >
-          {{ content }}
-        </p>
-      </template>
-    </HaAccordionItem>
-  </div>
-</template>
-```
-
 ## File: layers/main/app/components/ha/HaContactCard.vue
 ```vue
 <template>
@@ -5693,6 +5589,408 @@ defineProps<{
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtQandASection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  items:
+    item1:
+      title: 'VketReal in 札幌 とはどのようなイベントですか？'
+      contents:
+        - 'VRSNSで活躍するクリエイターが集まるリアルイベントです。'
+        - 'HIKKYが主催するVketRealから派生した有志主催イベントです。'
+    item2:
+      title: 'チケットはどこで買えますか？'
+      contents:
+        - 'オンラインにて事前販売予定しております。'
+    item3:
+      title: '入場制限等はありますか？'
+      contents:
+        - 'チケットの枚数の制限等はありません。'
+    item4:
+      title: '当日券はありますか？'
+      contents:
+        - '用意する予定です。'
+en:
+  items:
+    item1:
+      title: 'What kind of event is VketReal in Sapporo?'
+      contents:
+        - 'An in-person event that brings together creators active in the VR/SNS scene.'
+        - 'A community-run event derived from VketReal, organized by HIKKY.'
+    item2:
+      title: 'Where can I purchase tickets?'
+      contents:
+        - 'Tickets are planned to be sold online in advance.'
+    item3:
+      title: 'Is there a limit on the number of attendees?'
+      contents:
+        - 'There is no limit on the number of tickets available.'
+    item4:
+      title: 'Will tickets be available at the door?'
+      contents:
+        - 'Yes, we plan to offer tickets at the door.'
+</i18n>
+
+<script setup lang="ts">
+import HaAccordionItem from '../ha/HaAccordionItem.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t, tm, rt } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: t('items.item1.title'),
+    contents: (tm('items.item1.contents') as string[]).map(c => rt(c)),
+  },
+  {
+    id: 2,
+    title: t('items.item2.title'),
+    contents: (tm('items.item2.contents') as string[]).map(c => rt(c)),
+  },
+  {
+    id: 3,
+    title: t('items.item3.title'),
+    contents: (tm('items.item3.contents') as string[]).map(c => rt(c)),
+  },
+  {
+    id: 4,
+    title: t('items.item4.title'),
+    contents: (tm('items.item4.contents') as string[]).map(c => rt(c)),
+  },
+])
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.qa')"
+      label="Q&A"
+    />
+    <HaAccordionItem :items="items">
+      <template #content="{ item }">
+        <p
+          v-for="(content, index) in item.contents"
+          :key="`${item.id}-${index}`"
+          class="content__text"
+        >
+          {{ content }}
+        </p>
+      </template>
+    </HaAccordionItem>
+  </div>
+</template>
+```
+
+## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
+```vue
+<script setup lang="ts">
+import HaConductCard from '../ha/HaConductCard.vue'
+import HaCamera from '../ha/icons/HaCameraIcon.vue'
+import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
+import HaHeartIcon from '../ha/icons/HaHeartIcon.vue'
+import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.conduct-grid__child')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="行動規範"
+      label="CODE OF CONDUCT"
+    />
+    <p class="description description--left">
+      すべての参加者が安全で楽しい時間を過ごせるよう、<br>
+      以下の行動規範を守ってください。
+    </p>
+    <div
+      ref="listRef"
+      class="conduct-grid mb-15"
+    >
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="互いを尊重しましょう"
+          color="magenta"
+        >
+          <template #icon>
+            <HaHeartIcon />
+          </template>
+          <template #text>
+            すべての参加者の多様性を尊重し、<br>ハラスメントや差別的な行為は禁止です。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="撮影マナーを守りましょう"
+          text="descriptiondescriptiondescription"
+          color="cyan"
+        >
+          <template #icon>
+            <HaCamera />
+          </template>
+          <template #text>
+            他の参加者を撮影する際は必ず許可を取り、<br>撮影禁止エリアでは撮影をお控えください。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="安全に配慮しましょう"
+          text="descriptiondescriptiondescription"
+          color="amber"
+        >
+          <template #icon>
+            <HaDangerIcon />
+          </template>
+          <template #text>
+            会場内では走らない、通路をふさがないなど、<br>安全な行動を心掛けてください。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="スタッフの指示に従いましょう"
+          text="descriptiondescriptiondescription"
+          color="vermilion"
+        >
+          <template #icon>
+            <HaShieldIcon />
+          </template>
+          <template #text>
+            スタッフの指示に従い、<br>問題があれば速やかにスタッフにお知らせください。
+          </template>
+        </HaConductCard>
+      </div>
+    </div>
+    <button class="glassy-button conduct__button">
+      詳細を確認
+    </button>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.mb-15 {
+  margin-bottom: 60px;
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
+}
+
+.conduct-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  @include m.tb {
+    grid-template-columns: 1fr;
+    width: 60%;
+  }
+
+  @include m.sp {
+    width: 100%;
+  }
+}
+
+.conduct {
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 185px;
+    height: 57px;
+    margin: 0 auto;
+
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+
+    background-color: #e5b5ff3b;
+
+    @include m.tb {
+      width: 130px;
+      height: 40px;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtTicketSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  section:
+    title: チケット
+    label: tickets
+  description:
+    line1: 持続可能なイベント開催のため、
+    line2: チケット制でのご参加にご協力をお願いいたします。
+    line3: チケットは複数種類を用意予定です。
+  cards:
+    general:
+      title: 一般参加チケット
+      desc: 販売開始に向けて準備中です。
+      cta: 準備中
+    exhibitor:
+      title: 出展者向け案内
+      desc: 募集要項・申込方法は順次公開予定です。
+      cta: 近日公開
+    updates:
+      title: 最新情報
+      desc: 公式Xで販売開始や追加情報をお知らせします。
+      cta: 公式Xを見る
+en:
+  section:
+    title: Tickets
+    label: tickets
+  description:
+    line1: To support a sustainable event,
+    line2: we kindly ask for your cooperation with ticketed admission.
+    line3: Multiple ticket types are planned.
+  cards:
+    general:
+      title: General Admission
+      desc: Ticket sales are being prepared.
+      cta: Coming soon
+    exhibitor:
+      title: Exhibitor Information
+      desc: Application guidelines and details will be announced later.
+      cta: Coming soon
+    updates:
+      title: Latest Updates
+      desc: Sales launches and additional information will be announced on official X.
+      cta: Official X
+</i18n>
+
+<script setup lang="ts">
+import HaTicketCard from '../ha/HaTicketCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+const sectionRef = ref<Element | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.ticket-grid__item')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="t('section.title')"
+      :label="t('section.label')"
+    />
+    <p class="description description--left">
+      {{ t('description.line1') }}<br>
+      {{ t('description.line2') }}<br>
+      {{ t('description.line3') }}
+    </p>
+    <div
+      ref="listRef"
+      class="ticket-grid"
+    >
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          :title="t('cards.general.title')"
+          :desc="t('cards.general.desc')"
+          :cta-label="t('cards.general.cta')"
+        />
+      </div>
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          :title="t('cards.exhibitor.title')"
+          :desc="t('cards.exhibitor.desc')"
+          :cta-label="t('cards.exhibitor.cta')"
+        />
+      </div>
+      <div class="ticket-grid__item ticket-grid__item--full-width">
+        <HaTicketCard
+          :title="t('cards.updates.title')"
+          :desc="t('cards.updates.desc')"
+          href="https://x.com/vketreal_vris"
+          :cta-label="t('cards.updates.cta')"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ticket-grid {
+  display: grid;
+  grid-auto-rows: 275px;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+
+  @include m.tb {
+    grid-auto-rows: 166px;
+    gap: 12px 16px;
+  }
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+  }
+
+  &__item {
+    &--full-width {
+      grid-column: 1 / -1;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ha/HaInfoCard.vue
 ```vue
 <script setup lang="ts">
@@ -5962,166 +6260,68 @@ onMounted(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
+## File: layers/main/app/components/ht/HtRelatedEventsSection.vue
 ```vue
 <script setup lang="ts">
-import HaConductCard from '../ha/HaConductCard.vue'
-import HaCamera from '../ha/icons/HaCameraIcon.vue'
-import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
-import HaHeartIcon from '../ha/icons/HaHeartIcon.vue'
-import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
+import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+// Swiper
+import type { Swiper as SwiperType } from 'swiper'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
+const isBeginning = ref(true)
+const isEnd = ref(false)
+const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
+  isBeginning.value = newIsBeginning
+  isEnd.value = newIsEnd
+}
 
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
 onMounted(() => {
   fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.conduct-grid__child')
-  fadeInUpStagger(Array.from(items))
 })
 </script>
 
 <template>
   <div ref="sectionRef">
     <HaSectionTitle
-      title="行動規範"
-      label="CODE OF CONDUCT"
-    />
-    <p class="description description--left">
-      すべての参加者が安全で楽しい時間を過ごせるよう、<br>
-      以下の行動規範を守ってください。
-    </p>
-    <div
-      ref="listRef"
-      class="conduct-grid mb-15"
+      title="関連イベント"
+      label="RELATED EVENTS"
     >
-      <div class="conduct-grid__child">
-        <HaConductCard
-          title="互いを尊重しましょう"
-          color="magenta"
+      <template #controls>
+        <button
+          :disabled="isBeginning"
+          class="custom-swiper-button"
+          :class="{ 'is-disabled': isBeginning }"
+          @click="worksSwiperRef?.swiperInstance?.slidePrev()"
         >
-          <template #icon>
-            <HaHeartIcon />
-          </template>
-          <template #text>
-            すべての参加者の多様性を尊重し、<br>ハラスメントや差別的な行為は禁止です。
-          </template>
-        </HaConductCard>
-      </div>
-      <div class="conduct-grid__child">
-        <HaConductCard
-          title="撮影マナーを守りましょう"
-          text="descriptiondescriptiondescription"
-          color="cyan"
+          <HaChevronLeftIcon />
+        </button>
+        <button
+          :disabled="isEnd"
+          class="custom-swiper-button"
+          :class="{ 'is-disabled': isEnd }"
+          @click="worksSwiperRef?.swiperInstance?.slideNext()"
         >
-          <template #icon>
-            <HaCamera />
-          </template>
-          <template #text>
-            他の参加者を撮影する際は必ず許可を取り、<br>撮影禁止エリアでは撮影をお控えください。
-          </template>
-        </HaConductCard>
-      </div>
-      <div class="conduct-grid__child">
-        <HaConductCard
-          title="安全に配慮しましょう"
-          text="descriptiondescriptiondescription"
-          color="amber"
-        >
-          <template #icon>
-            <HaDangerIcon />
-          </template>
-          <template #text>
-            会場内では走らない、通路をふさがないなど、<br>安全な行動を心掛けてください。
-          </template>
-        </HaConductCard>
-      </div>
-      <div class="conduct-grid__child">
-        <HaConductCard
-          title="スタッフの指示に従いましょう"
-          text="descriptiondescriptiondescription"
-          color="vermilion"
-        >
-          <template #icon>
-            <HaShieldIcon />
-          </template>
-          <template #text>
-            スタッフの指示に従い、<br>問題があれば速やかにスタッフにお知らせください。
-          </template>
-        </HaConductCard>
-      </div>
-    </div>
-    <button class="glassy-button conduct__button">
-      詳細を確認
-    </button>
+          <HaChevronRightIcon />
+        </button>
+      </template>
+    </HaSectionTitle>
+    <HmNewsSwiper
+      :_slides-per-view="1"
+      :_breakpoints="{
+        768: { slidesPerView: 1.4 },
+      }"
+      @slide-change="onSlideChange"
+    />
   </div>
 </template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.mb-15 {
-  margin-bottom: 60px;
-
-  @include m.sp {
-    margin-bottom: 48px;
-  }
-}
-
-.conduct-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-
-  @include m.tb {
-    grid-template-columns: 1fr;
-    width: 60%;
-  }
-
-  @include m.sp {
-    width: 100%;
-  }
-}
-
-.conduct {
-  &__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 185px;
-    height: 57px;
-    margin: 0 auto;
-
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-
-    background-color: #e5b5ff3b;
-
-    @include m.tb {
-      width: 130px;
-      height: 40px;
-    }
-  }
-}
-</style>
 ```
 
 ## File: layers/main/app/components/ht/HtScheduleSection.vue
@@ -6437,206 +6637,6 @@ const { t: tGlobal } = useI18n()
   }
 }
 </style>
-```
-
-## File: layers/main/app/components/ht/HtTicketSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  section:
-    title: チケット
-    label: tickets
-  description:
-    line1: 持続可能なイベント開催のため、
-    line2: チケット制でのご参加にご協力をお願いいたします。
-    line3: チケットは複数種類を用意予定です。
-  cards:
-    general:
-      title: 一般参加チケット
-      desc: 販売開始に向けて準備中です。
-      cta: 準備中
-    exhibitor:
-      title: 出展者向け案内
-      desc: 募集要項・申込方法は順次公開予定です。
-      cta: 近日公開
-    updates:
-      title: 最新情報
-      desc: 公式Xで販売開始や追加情報をお知らせします。
-      cta: 公式Xを見る
-en:
-  section:
-    title: Tickets
-    label: tickets
-  description:
-    line1: To support a sustainable event,
-    line2: we kindly ask for your cooperation with ticketed admission.
-    line3: Multiple ticket types are planned.
-  cards:
-    general:
-      title: General Admission
-      desc: Ticket sales are being prepared.
-      cta: Coming soon
-    exhibitor:
-      title: Exhibitor Information
-      desc: Application guidelines and details will be announced later.
-      cta: Coming soon
-    updates:
-      title: Latest Updates
-      desc: Sales launches and additional information will be announced on official X.
-      cta: Official X
-</i18n>
-
-<script setup lang="ts">
-import HaTicketCard from '../ha/HaTicketCard.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n()
-const sectionRef = ref<Element | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.ticket-grid__item')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="t('section.title')"
-      :label="t('section.label')"
-    />
-    <p class="description description--left">
-      {{ t('description.line1') }}<br>
-      {{ t('description.line2') }}<br>
-      {{ t('description.line3') }}
-    </p>
-    <div
-      ref="listRef"
-      class="ticket-grid"
-    >
-      <div class="ticket-grid__item">
-        <HaTicketCard
-          :title="t('cards.general.title')"
-          :desc="t('cards.general.desc')"
-          :cta-label="t('cards.general.cta')"
-        />
-      </div>
-      <div class="ticket-grid__item">
-        <HaTicketCard
-          :title="t('cards.exhibitor.title')"
-          :desc="t('cards.exhibitor.desc')"
-          :cta-label="t('cards.exhibitor.cta')"
-        />
-      </div>
-      <div class="ticket-grid__item ticket-grid__item--full-width">
-        <HaTicketCard
-          :title="t('cards.updates.title')"
-          :desc="t('cards.updates.desc')"
-          href="https://x.com/vketreal_vris"
-          :cta-label="t('cards.updates.cta')"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.ticket-grid {
-  display: grid;
-  grid-auto-rows: 275px;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 24px;
-
-  @include m.tb {
-    grid-auto-rows: 166px;
-    gap: 12px 16px;
-  }
-
-  @include m.sp {
-    grid-template-columns: 1fr;
-  }
-
-  &__item {
-    &--full-width {
-      grid-column: 1 / -1;
-    }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtRelatedEventsSection.vue
-```vue
-<script setup lang="ts">
-import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-// Swiper
-import type { Swiper as SwiperType } from 'swiper'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
-const isBeginning = ref(true)
-const isEnd = ref(false)
-const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
-  isBeginning.value = newIsBeginning
-  isEnd.value = newIsEnd
-}
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="関連イベント"
-      label="RELATED EVENTS"
-    >
-      <template #controls>
-        <button
-          :disabled="isBeginning"
-          class="custom-swiper-button"
-          :class="{ 'is-disabled': isBeginning }"
-          @click="worksSwiperRef?.swiperInstance?.slidePrev()"
-        >
-          <HaChevronLeftIcon />
-        </button>
-        <button
-          :disabled="isEnd"
-          class="custom-swiper-button"
-          :class="{ 'is-disabled': isEnd }"
-          @click="worksSwiperRef?.swiperInstance?.slideNext()"
-        >
-          <HaChevronRightIcon />
-        </button>
-      </template>
-    </HaSectionTitle>
-    <HmNewsSwiper
-      :_slides-per-view="1"
-      :_breakpoints="{
-        768: { slidesPerView: 1.4 },
-      }"
-      @slide-change="onSlideChange"
-    />
-  </div>
-</template>
 ```
 
 ## File: layers/main/app/components/ha/HaAccordionItem.vue
@@ -6999,8 +6999,10 @@ en:
 <i18n lang="yaml">
 ja:
   mainlogo: VketReal in 札幌 2026 Autumn
+  maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 en:
   mainlogo: VketReal in Sapporo 2026 Autumn
+  maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 </i18n>
 
 <template>
@@ -7100,6 +7102,16 @@ en:
         </nav>
       </div>
     </header>
+    <div
+      class="maintenance-banner"
+      role="status"
+      aria-live="polite"
+    >
+      <span class="maintenance-banner__track">
+        <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
+        <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -7152,6 +7164,45 @@ watch(isPanelOpen, (val) => {
   }
 }
 
+.maintenance-banner {
+  position: fixed;
+  top: v.$vket-header-height-pc;
+  left: 0;
+
+  overflow: hidden;
+
+  width: 100vw;
+  height: 32px;
+
+  color: white;
+
+  background: #e6002d;
+
+  @include m.sp {
+    top: v.$vket-header-height-sp;
+  }
+
+  &__track {
+    will-change: transform;
+
+    display: inline-block;
+
+    padding-left: 100%;
+
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 32px;
+    white-space: nowrap;
+
+    animation: maintenance-marquee 20s linear infinite;
+  }
+
+  &__text {
+    display: inline-block;
+    padding-right: 56px;
+  }
+}
+
 .ho-the-header {
   position: relative;
 
@@ -7176,7 +7227,7 @@ watch(isPanelOpen, (val) => {
 
     @include m.tb {
       padding-right: 24px;
-    padding-left: 24px;
+      padding-left: 24px;
     }
   }
 
@@ -7322,239 +7373,21 @@ watch(isPanelOpen, (val) => {
     }
   }
 }
-</style>
-```
 
-## File: layers/main/app/components/ht/HtContactSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  personal:
-    title: '個人向けお問い合わせ'
-    text: '一般の方からのお問い合わせはこちら'
-  corporate:
-    title: '法人向けお問い合わせ'
-    text: '企業・法人の方からのお問い合わせはこちら'
-  press:
-    title: '広報向けお問い合わせ'
-    text: 'メディア・広報関連のお問い合わせはこちら'
-en:
-  personal:
-    title: 'For General Inquiries'
-    text: 'For inquiries from individuals'
-  corporate:
-    title: 'For Business Inquiries'
-    text: 'For inquiries from companies and organizations'
-  press:
-    title: 'For Press Inquiries'
-    text: 'For media and press-related inquiries'
-</i18n>
-
-<script setup lang="ts">
-import HaContactCard from '../ha/HaContactCard.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-// import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.contact-grid__child')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.contact')"
-      label="CONTACT"
-    />
-    <div class="contact-grid">
-      <HaContactCard
-        :title="t('personal.title')"
-        :text="t('personal.text')"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSchGlf0h1eszxPupo5aWycU_s3CAOmkP1LJP38Niiwi95KNwQ/viewform"
-        color="amber"
-        class="contact-grid__child"
-      />
-      <HaContactCard
-        :title="t('corporate.title')"
-        :text="t('corporate.text')"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSeEevGm1q7byQWd7RhGWTGYClcGthQEbWufSviyiFbcYzsd6A/viewform"
-        color="cyan"
-        class="contact-grid__child"
-      />
-      <HaContactCard
-        :title="t('press.title')"
-        :text="t('press.text')"
-        href="https://docs.google.com/forms/d/e/1FAIpQLScmYNjxOyf1GtHVSqsRe7pFDoyfUhiSSDqJh5Q0WD40b-1LOg/viewform"
-        color="magenta"
-        class="contact-grid__child contact-grid__child--full-width"
-      />
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 24px;
-
-  max-width: 760px;
-  margin: 0 auto;
-
-  @include m.sp {
-    grid-template-columns: 1fr;
+@keyframes maintenance-marquee {
+  0% {
+    transform: translate(0, 0);
   }
 
-  &__child {
-    &--full-width {
-      grid-column: 1 / -1;
-    }
+  100% {
+    transform: translate(-100%, 0);
   }
 }
-</style>
-```
 
-## File: layers/main/app/components/ht/HtContentsSection.vue
-```vue
-<script setup lang="ts">
-import HmContentsSwiper from '../hm/HmContentsSwiper.vue'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-// Swiper
-import type { Swiper as SwiperType } from 'swiper'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
-
-const isBeginning = ref(true)
-const isEnd = ref(false)
-
-const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
-  isBeginning.value = newIsBeginning
-  isEnd.value = newIsEnd
-}
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    title: t('contents.1.title'),
-    href: 'https://archived.vris.jp/',
-    text: t('contents.1.text'),
-  },
-])
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <HaSectionTitle
-    :title="tGlobal('sectionTitle.contents')"
-    label="CONTENTS"
-  >
-    <template #controls>
-      <button
-        :disabled="isBeginning"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isBeginning }"
-        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
-      >
-        <HaChevronLeftIcon />
-      </button>
-      <button
-        :disabled="isEnd"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isEnd }"
-        @click="worksSwiperRef?.swiperInstance?.slideNext()"
-      >
-        <HaChevronRightIcon />
-      </button>
-    </template>
-  </HaSectionTitle>
-  <div ref="sectionRef">
-    <HmContentsSwiper
-      ref="worksSwiperRef"
-      class="contents__swiper"
-      :items="items"
-      :_slides-per-view="1"
-      :_breakpoints="{
-        1024: { slidesPerView: 3 },
-        768: { slidesPerView: 2 },
-      }"
-      @slide-change="onSlideChange"
-    />
-    <NuxtLink
-      class="glassy-button contents__button"
-      to="/contents"
-    >
-      {{ tGlobal("viewAll") }}
-    </NuxtLink>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.contents {
-  &__swiper {
-    margin-bottom: 36px;
-
-    @include m.tb {
-      margin-bottom: 24px;
-    }
-  }
-
-  &__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 218px;
-    height: 74px;
-    margin: 0 auto;
-
-    font-family: Inter, sans-serif;
-    font-size: 20px;
-    font-weight: 400;
-    color: white;
-
-    background-color: #e5b5ff3b;
-
-    @include m.tb {
-      width: 198px;
-      height: 64px;
-    }
+@media (prefers-reduced-motion: reduce) {
+  .maintenance-banner__track {
+    padding-left: 0;
+    animation: none;
   }
 }
 </style>
@@ -7924,6 +7757,241 @@ onMounted(() => {
   &__child {
     height: 100%;
     min-height: 280px;
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtContactSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  personal:
+    title: '個人向けお問い合わせ'
+    text: '一般の方からのお問い合わせはこちら'
+  corporate:
+    title: '法人向けお問い合わせ'
+    text: '企業・法人の方からのお問い合わせはこちら'
+  press:
+    title: '広報向けお問い合わせ'
+    text: 'メディア・広報関連のお問い合わせはこちら'
+en:
+  personal:
+    title: 'For General Inquiries'
+    text: 'For inquiries from individuals'
+  corporate:
+    title: 'For Business Inquiries'
+    text: 'For inquiries from companies and organizations'
+  press:
+    title: 'For Press Inquiries'
+    text: 'For media and press-related inquiries'
+</i18n>
+
+<script setup lang="ts">
+import HaContactCard from '../ha/HaContactCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+// import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.contact-grid__child')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.contact')"
+      label="CONTACT"
+    />
+    <div class="contact-grid">
+      <HaContactCard
+        :title="t('personal.title')"
+        :text="t('personal.text')"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSchGlf0h1eszxPupo5aWycU_s3CAOmkP1LJP38Niiwi95KNwQ/viewform"
+        color="amber"
+        class="contact-grid__child"
+      />
+      <HaContactCard
+        :title="t('corporate.title')"
+        :text="t('corporate.text')"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSeEevGm1q7byQWd7RhGWTGYClcGthQEbWufSviyiFbcYzsd6A/viewform"
+        color="cyan"
+        class="contact-grid__child"
+      />
+      <HaContactCard
+        :title="t('press.title')"
+        :text="t('press.text')"
+        href="https://docs.google.com/forms/d/e/1FAIpQLScmYNjxOyf1GtHVSqsRe7pFDoyfUhiSSDqJh5Q0WD40b-1LOg/viewform"
+        color="magenta"
+        class="contact-grid__child contact-grid__child--full-width"
+      />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+
+  max-width: 760px;
+  margin: 0 auto;
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+  }
+
+  &__child {
+    &--full-width {
+      grid-column: 1 / -1;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtContentsSection.vue
+```vue
+<script setup lang="ts">
+import HmContentsSwiper from '../hm/HmContentsSwiper.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+// Swiper
+import type { Swiper as SwiperType } from 'swiper'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
+
+const isBeginning = ref(true)
+const isEnd = ref(false)
+
+const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
+  isBeginning.value = newIsBeginning
+  isEnd.value = newIsEnd
+}
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: t('contents.1.title'),
+    href: 'https://archived.vris.jp/',
+    text: t('contents.1.text'),
+  },
+])
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <HaSectionTitle
+    :title="tGlobal('sectionTitle.contents')"
+    label="CONTENTS"
+  >
+    <template #controls>
+      <button
+        :disabled="isBeginning"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isBeginning }"
+        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+      >
+        <HaChevronLeftIcon />
+      </button>
+      <button
+        :disabled="isEnd"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isEnd }"
+        @click="worksSwiperRef?.swiperInstance?.slideNext()"
+      >
+        <HaChevronRightIcon />
+      </button>
+    </template>
+  </HaSectionTitle>
+  <div ref="sectionRef">
+    <HmContentsSwiper
+      ref="worksSwiperRef"
+      class="contents__swiper"
+      :items="items"
+      :_slides-per-view="1"
+      :_breakpoints="{
+        1024: { slidesPerView: 3 },
+        768: { slidesPerView: 2 },
+      }"
+      @slide-change="onSlideChange"
+    />
+    <NuxtLink
+      class="glassy-button contents__button"
+      to="/contents"
+    >
+      {{ tGlobal("viewAll") }}
+    </NuxtLink>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.contents {
+  &__swiper {
+    margin-bottom: 36px;
+
+    @include m.tb {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 218px;
+    height: 74px;
+    margin: 0 auto;
+
+    font-family: Inter, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: white;
+
+    background-color: #e5b5ff3b;
+
+    @include m.tb {
+      width: 198px;
+      height: 64px;
+    }
   }
 }
 </style>

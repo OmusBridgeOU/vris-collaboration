@@ -1,8 +1,10 @@
 <i18n lang="yaml">
 ja:
   mainlogo: VketReal in 札幌 2026 Autumn
+  maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 en:
   mainlogo: VketReal in Sapporo 2026 Autumn
+  maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 </i18n>
 
 <template>
@@ -102,6 +104,16 @@ en:
         </nav>
       </div>
     </header>
+    <div
+      class="maintenance-banner"
+      role="status"
+      aria-live="polite"
+    >
+      <span class="maintenance-banner__track">
+        <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
+        <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -154,6 +166,45 @@ watch(isPanelOpen, (val) => {
   }
 }
 
+.maintenance-banner {
+  position: fixed;
+  top: v.$vket-header-height-pc;
+  left: 0;
+
+  overflow: hidden;
+
+  width: 100vw;
+  height: 32px;
+
+  color: white;
+
+  background: #e6002d;
+
+  @include m.sp {
+    top: v.$vket-header-height-sp;
+  }
+
+  &__track {
+    will-change: transform;
+
+    display: inline-block;
+
+    padding-left: 100%;
+
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 32px;
+    white-space: nowrap;
+
+    animation: maintenance-marquee 20s linear infinite;
+  }
+
+  &__text {
+    display: inline-block;
+    padding-right: 56px;
+  }
+}
+
 .ho-the-header {
   position: relative;
 
@@ -178,7 +229,7 @@ watch(isPanelOpen, (val) => {
 
     @include m.tb {
       padding-right: 24px;
-    padding-left: 24px;
+      padding-left: 24px;
     }
   }
 
@@ -322,6 +373,23 @@ watch(isPanelOpen, (val) => {
       height: 22px;
       color: white;
     }
+  }
+}
+
+@keyframes maintenance-marquee {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(-100%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .maintenance-banner__track {
+    padding-left: 0;
+    animation: none;
   }
 }
 </style>
