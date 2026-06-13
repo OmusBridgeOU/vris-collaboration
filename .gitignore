@@ -47,6 +47,7 @@ sw.*
 # playwright
 .playwright-cli/
 playwright/.cache/
+output/playwright/
 playwright-report
 playwright-output
 test-results
