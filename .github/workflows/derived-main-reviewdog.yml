@@ -6,6 +6,10 @@ permissions:
 
 on: [pull_request]
 
+concurrency:
+  group: reviewdog-pr-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
 jobs:
   eslint:
     name: runner / eslint
