@@ -74,7 +74,7 @@ $primary-color: $orange;
 $primary-hover-color: $yellow;
 $secondary-color: $blue;
 $secondary-hover-color: $pink;
-$base-background-color: #0f1b2e;
+$base-background-color: rgba(#0b1e4f, 0.9);
 $base-font-color: $vket-white;
 $sub-font-color: $vket-gray;
 $font-color-note: $text-note;
@@ -139,8 +139,9 @@ $side-menu-height-sp: 64px;
   headerをposition:fixedにすることによりmainにheaderの高さ分padding-topを設けたり
   アンカーリンクのオフセット調整のために使用する
 */
-$vket-header-height-pc: 80px;
-$vket-header-height-sp: 80px;
+$vket-header-height-pc: 160px;
+$vket-header-height-tb: 106px;
+$vket-header-height-sp: 106px;
 
 // topページ用に追加
 $pc-content-body-width: 1470px;

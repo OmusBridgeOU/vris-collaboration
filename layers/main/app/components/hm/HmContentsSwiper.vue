@@ -1,24 +1,18 @@
-<i18n lang="yaml">
-ja:
-  items:
-    earlySpring:
-      title: VketReal mini in 札幌 2026 Early Spring
-    summer:
-      title: VketReal in 札幌 2025 Summer
-en:
-  items:
-    earlySpring:
-      title: VketReal mini in SAPPORO 2026 Early Spring
-    summer:
-      title: VketReal in SAPPORO 2025 Summer
-</i18n>
-
 <script setup lang="ts">
 import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import HaSwiperCard from '../ha/HaSwiperCard.vue'
 import type { Swiper as SwiperType } from 'swiper'
+import HaContentCard from '../ha/HaContentCard.vue'
+import HaCommingSoonCard from '../ha/HaCommingSoonCard.vue'
+
+// スライドの型
+type SlideItem = {
+  id: number
+  title: string
+  href: string
+  text: string
+}
 
 // ブレークポイントごとのSlidesPerViewの型
 type BreakpointSlidesPerView = {
@@ -28,27 +22,12 @@ type BreakpointSlidesPerView = {
 }
 
 defineProps<{
-  _slidesPerView?: number | 'auto' // デフォルトのslidesPerView
-  _breakpoints?: BreakpointSlidesPerView // ブレークポイントごとの設定
+  items?: SlideItem[]
+  _slidesPerView?: number | 'auto'
+  _breakpoints?: BreakpointSlidesPerView
 }>()
 
 const modules = [Autoplay, Navigation, Pagination]
-const { t } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    title: t('items.earlySpring.title'),
-    href: 'https://archived.vris.jp/',
-    imgSrc: 'https://archived.vris.jp/images/2026EarlySpring/2026EarlySpring-kv.png',
-  },
-  {
-    id: 2,
-    title: t('items.summer.title'),
-    href: 'https://archived.vris.jp/2025Summer',
-    imgSrc: 'https://archived.vris.jp/images/2025Summer/kv.png',
-  },
-])
 
 const emit = defineEmits<{
   slideChange: [isBeginning: boolean, isEnd: boolean]
@@ -97,7 +76,12 @@ defineExpose({ swiperInstance })
         v-for="item in items"
         :key="item.id"
       >
-        <HaSwiperCard :item="item" />
+        <HaContentCard :item="item" />
+      </SwiperSlide>
+      <SwiperSlide
+        key="comming-soon"
+      >
+        <HaCommingSoonCard />
       </SwiperSlide>
     </Swiper>
     <div class="custom-swiper-pagination" />

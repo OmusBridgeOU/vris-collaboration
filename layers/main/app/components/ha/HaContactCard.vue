@@ -3,19 +3,21 @@
     class="contact-card glassy-box-2"
     :class="`contact-card--${color}`"
   >
-    <div class="contact-card__icon">
-      <slot name="icon" />
-    </div>
     <p class="contact-card__title">
       {{ title }}
     </p>
-    <NuxtLink class="jump-to-form">
+    <a
+      class="jump-to-form"
+      :href="href"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <p class="jump-to-form__text">{{ text }}<br></p>
       <div class="jump-to-form__flex">
         <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
         <HaJumpToPageIcon class="jump-to-form__icon" />
       </div>
-    </NuxtLink>
+    </a>
   </div>
 </template>
 
@@ -28,6 +30,10 @@ defineProps({
     required: true,
   },
   text: {
+    type: String,
+    required: true,
+  },
+  href: {
     type: String,
     required: true,
   },
@@ -53,6 +59,8 @@ defineProps({
   width: 100%;
   height: 100%;
   padding: 24px 0;
+
+  background-color: rgb(18 33 59 / 60%);
 
   &__icon {
     display: flex;

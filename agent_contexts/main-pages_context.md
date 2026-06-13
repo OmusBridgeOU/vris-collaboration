@@ -41,144 +41,21 @@ layers/
       layouts/
         default.vue
         document.vue
+        list.vue
         top.vue
       pages/
-        documents/
+        _documents/
           [...slug].vue
+        contents/
+          index.vue
+        news/
+          index.vue
         index.vue
 ```
 
 # Files
 
-## File: layers/main/app/pages/index.vue
-```vue
-<template>
-  <HtTop />
-</template>
-
-<script setup lang="ts">
-definePageMeta({
-  layout: 'top',
-})
-</script>
-```
-
-## File: layers/main/app/layouts/default.vue
-```vue
-<template>
-  <div class="layout -default">
-    <HoTheHeader :nav-links="[]"/>
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-.layout.-default {
-  overflow-x: hidden;
-}
-</style>
-```
-
-## File: layers/main/app/layouts/document.vue
-```vue
-<template>
-  <div class="layout -top">
-    <HoTheHeader :nav-links="navLinks" />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<script setup lang="ts">
-import type { NavLink } from '../components/ho/HoTheHeader.vue'
-
-const navLinks: NavLink[] = [{ type: 'link', href: '/', text: 'TOPページ' }]
-</script>
-
-<style lang="scss" scoped>
-.layout.-top {
-  overflow-x: hidden;
-}
-</style>
-```
-
-## File: layers/main/app/layouts/top.vue
-```vue
-<i18n lang="yaml">
-ja:
-  nav:
-    top: TOPページ
-    quickAccess: 参加者向け重要情報
-    about: VketReal in 札幌とは
-    news: お知らせ
-    contents: 企画・コンテンツ
-    schedule: 開催スケジュール
-    exhibition: 出展情報
-    access: アクセス
-    ticket: チケット
-    qa: よくある質問
-    codeOfConduct: 行動規範
-    relatedEvents: 関連イベント
-    sponsorsAndPartners: ご協力
-    contact: お問い合わせ
-en:
-  nav:
-    top: Top
-    quickAccess: Key Information
-    about: About VketReal in SAPPORO
-    news: News
-    contents: Contents
-    schedule: Schedule
-    exhibition: Exhibition
-    access: Access
-    ticket: Tickets
-    qa: FAQ
-    codeOfConduct: Code of Conduct
-    relatedEvents: Related Events
-    sponsorsAndPartners: Partners
-    contact: Contact
-</i18n>
-
-<template>
-  <div class="layout -top">
-    <HoTheHeader :nav-links="navLinks" />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<script setup lang="ts">
-import type { NavLink } from '../components/ho/HoTheHeader.vue'
-
-const { t } = useI18n()
-
-const navLinks = computed<NavLink[]>(() => [
-  { type: 'link', href: '/', text: t('nav.top') },
-  { type: 'anchor', href: 'quick-access', text: t('nav.quickAccess') },
-  { type: 'anchor', href: 'about', text: t('nav.about') },
-  { type: 'anchor', href: 'news', text: t('nav.news') },
-  { type: 'anchor', href: 'contents', text: t('nav.contents') },
-  { type: 'anchor', href: 'schedule', text: t('nav.schedule') },
-  { type: 'anchor', href: 'exhibition', text: t('nav.exhibition') },
-  { type: 'anchor', href: 'access', text: t('nav.access') },
-  { type: 'anchor', href: 'ticket', text: t('nav.ticket') },
-  { type: 'anchor', href: 'qa', text: t('nav.qa') },
-  { type: 'anchor', href: 'code-of-conduct', text: t('nav.codeOfConduct') },
-  { type: 'anchor', href: 'related-events', text: t('nav.relatedEvents') },
-  { type: 'anchor', href: 'sponsors-and-partners', text: t('nav.sponsorsAndPartners') },
-  { type: 'anchor', href: 'contact', text: t('nav.contact') },
-])
-</script>
-
-<style lang="scss" scoped>
-.layout.-top {
-  overflow-x: hidden;
-}
-</style>
-```
-
-## File: layers/main/app/pages/documents/[...slug].vue
+## File: layers/main/app/pages/_documents/[...slug].vue
 ```vue
 <script lang="ts" setup>
 definePageMeta({
@@ -345,6 +222,631 @@ const { data: page } = await useAsyncData(route.path, () => {
     border: none;
     border-top: 1px solid #999;
   }
+}
+</style>
+```
+
+## File: layers/main/app/pages/index.vue
+```vue
+<template>
+  <HtTop />
+</template>
+
+<script setup lang="ts">
+definePageMeta({
+  layout: 'top',
+})
+</script>
+```
+
+## File: layers/main/app/layouts/default.vue
+```vue
+<template>
+  <div class="layout -default">
+    <HoTheHeader :nav-links="[]"/>
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.layout.-default {
+  overflow-x: hidden;
+}
+</style>
+```
+
+## File: layers/main/app/layouts/document.vue
+```vue
+<template>
+  <div class="layout -top">
+    <HoTheHeader :nav-links="navLinks" />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { NavLink } from '../components/ho/HoTheHeader.vue'
+
+const navLinks: NavLink[] = [{ type: 'link', href: '/', text: 'TOPページ' }]
+</script>
+
+<style lang="scss" scoped>
+.layout.-top {
+  overflow-x: hidden;
+}
+</style>
+```
+
+## File: layers/main/app/layouts/list.vue
+```vue
+<i18n lang="yaml">
+ja:
+  nav:
+    about: イベントについて
+    individualParticipant: 一般参加
+    clubParticipant: サークル参加
+    listOfClubs: サークル一覧
+    qa: よくある質問
+en:
+  nav:
+    about: About VketReal in SAPPORO
+    individualParticipant: Individual Participant
+    clubParticipant: Club Participant
+    listOfClubs: List of Clubs
+    qa: FAQ
+</i18n>
+
+<template>
+  <div class="layout">
+    <div class="layout-bg">
+      <div
+        class="layout-bg__bg-img"
+        :style="{ backgroundImage: `url('/kv.png')` }"
+      />
+      <img
+        src="/kv.png"
+        alt="Vket Real in 札幌 2026 Autumnのキービジュアル"
+        class="layout-bg__img"
+      >
+    </div>
+    <HoTheHeader :nav-links="navLinks" />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { NavLink } from '../components/ho/HoTheHeader.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+
+const navLinks = computed<NavLink[]>(() => [
+  { type: 'link', href: '/#about', text: t('nav.about') },
+  // { type: 'link', href: '/#individual-participant', text: t('nav.individualParticipant') },
+  { type: 'link', href: '/#participation-guide', text: t('nav.clubParticipant') },
+  { type: 'link', href: '/#participation-guide', text: t('nav.listOfClubs') },
+  { type: 'link', href: '/#qa', text: t('nav.qa') },
+])
+
+const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()
+const route = useRoute()
+
+onMounted(() => {
+  initScrollEffects()
+})
+
+// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
+watch(() => route.path, () => {
+  destroyScrollTriggers()
+  nextTick(() => initScrollEffects())
+})
+
+onUnmounted(() => {
+  destroyScrollTriggers()
+})
+
+const initScrollEffects = () => {
+  const firstView = document.querySelector('#gsap-fv')
+  const header = document.querySelector('#gsap-header')
+
+  if (!header) return
+
+  // #first-viewがないページ（トップ以外）では実行しない
+  if (!firstView) return
+
+  firstViewBlur(firstView)
+  headerRevealOnScroll(header, firstView)
+}
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.layout{
+  position: relative;
+  overflow: visible;
+  background-color: v.$base-background-color;
+}
+
+.layout-bg {
+  position: fixed;
+  z-index: -1;
+
+  width: 100svw;
+  height: 100svh;
+
+  filter: blur(14px);
+
+  &__bg-img {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    transform: scale(1.2);
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    background-position: center;
+    background-size: cover;
+    filter: blur(8px);
+  }
+
+  &__img {
+    position: relative;
+    z-index: 2;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+  }
+}
+</style>
+```
+
+## File: layers/main/app/pages/contents/index.vue
+```vue
+<i18n lang="yaml">
+ja:
+  items:
+    paraRealCreatorInSapporo:
+      title: パラリアルクリエイター in SAPPORO
+      text: VRクリエイターによるグッズ展示・即売コーナー
+en:
+  items:
+    paraRealCreatorInSapporo:
+      title: ParaRealCreator in SAPPORO
+      text: Goods Exhibition & Sale by VR Creators
+</i18n>
+
+<script lang="ts" setup>
+import HaContentCard from '~/components/ha/HaContentCard.vue'
+import HaPageTitle from '~/components/ha/HaPageTitle.vue'
+
+definePageMeta({
+  layout: 'list',
+})
+
+const { t } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: t('items.paraRealCreatorInSapporo.title'),
+    href: 'https://archived.vris.jp/',
+    text: t('items.paraRealCreatorInSapporo.text'),
+  },
+])
+</script>
+
+<template>
+  <div class="contents-list">
+    <div class="contents-list__card">
+      <div class="contents-list__inner">
+        <HaPageTitle
+          label="contents"
+          title="企画・コンテンツ"
+          class="contents-list__item--full-width"
+        />
+        <HaContentCard
+          v-for="item in items"
+          :key="item.id"
+          :item="item"
+        />
+        <SwiperSlide
+          key="comming-soon"
+        >
+          <HaCommingSoonCard />
+        </SwiperSlide>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.contents-list {
+  padding: v.$vket-header-height-pc 32px;
+
+  @include m.tb {
+    padding: v.$vket-header-height-tb 12px;
+  }
+
+  @include m.sp {
+    padding: v.$vket-header-height-sp 12px;
+  }
+
+  &__card {
+    position: relative;
+
+    padding: 64px 24px 90px;
+    border-radius: 50px;
+
+    background-color: rgb(217 217 217 / 20%);
+    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+
+    @include m.sp {
+      padding: 50px 12px;
+    }
+
+    &::before {
+      pointer-events: none;
+      content: '';
+
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+      border: 1px solid transparent;
+      border-radius: inherit;
+
+      background-image: linear-gradient(
+          45deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+        ),
+        linear-gradient(
+          225deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+        ),
+        linear-gradient(
+          135deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 15%) 20px
+        ),
+        linear-gradient(
+          315deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 15%) 20px
+        );
+      background-clip: border-box, border-box, border-box, border-box;
+      background-origin: border-box, border-box, border-box, border-box;
+
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+  }
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+
+    max-width: 1080px;
+    margin: 0 auto;
+
+    @include m.tb {
+      grid-template-columns: 1fr 1fr;
+      max-width: 520px;
+    }
+
+    @include m.sp {
+      grid-template-columns: 1fr;
+      max-width: none;
+    }
+  }
+
+  &__item--full-width {
+    grid-column: 1 / -1;
+  }
+}
+</style>
+```
+
+## File: layers/main/app/pages/news/index.vue
+```vue
+<i18n lang="yaml">
+ja:
+  items:
+    news1:
+      title: ロゴマークを公開しました！
+    news2:
+      title: キービジュアルを公開しました！
+en:
+  items:
+    news1:
+      title: We have published our logo!
+    news2:
+      title: We have published our key visual!
+</i18n>
+
+<script lang="ts" setup>
+import HaPageTitle from '~/components/ha/HaPageTitle.vue'
+import HaSwiperCard from '~/components/ha/HaSwiperCard.vue'
+
+definePageMeta({
+  layout: 'list',
+})
+
+const { t } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: t('items.news1.title'),
+    href: 'https://archived.vris.jp/',
+    imgSrc: '/news1_thumbnail.png',
+    timestamp: '2026-06-06',
+  },
+  {
+    id: 2,
+    title: t('items.news2.title'),
+    href: 'https://archived.vris.jp/',
+    imgSrc: '/news2_thumbnail.png',
+    timestamp: '2026-06-01',
+  },
+])
+</script>
+
+<template>
+  <div class="news-list">
+    <div class="news-list__card">
+      <div class="news-list__inner">
+        <HaPageTitle
+          label="news"
+          title="お知らせ"
+          class="news-list__item--full-width"
+        />
+        <HaSwiperCard
+          v-for="item in items"
+          :key="item.id"
+          :item="item"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.news-list {
+  padding: v.$vket-header-height-pc 32px;
+
+  @include m.tb {
+    padding: v.$vket-header-height-tb 12px;
+  }
+
+  @include m.sp {
+    padding: v.$vket-header-height-sp 12px;
+  }
+
+  &__card {
+    position: relative;
+
+    padding: 64px 24px 90px;
+    border-radius: 50px;
+
+    background-color: rgb(217 217 217 / 20%);
+    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+
+    @include m.sp {
+      padding: 50px 12px;
+    }
+
+    &::before {
+      pointer-events: none;
+      content: '';
+
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+      border: 1px solid transparent;
+      border-radius: inherit;
+
+      background-image: linear-gradient(
+          45deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+        ),
+        linear-gradient(
+          225deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+        ),
+        linear-gradient(
+          135deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 15%) 20px
+        ),
+        linear-gradient(
+          315deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 15%) 20px
+        );
+      background-clip: border-box, border-box, border-box, border-box;
+      background-origin: border-box, border-box, border-box, border-box;
+
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+  }
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+
+    max-width: 1080px;
+    margin: 0 auto;
+
+    @include m.tb {
+      grid-template-columns: 1fr 1fr;
+      max-width: 520px;
+    }
+
+    @include m.sp {
+      grid-template-columns: 1fr;
+      max-width: none;
+    }
+  }
+
+  &__item--full-width {
+    grid-column: 1 / -1;
+  }
+}
+</style>
+```
+
+## File: layers/main/app/layouts/top.vue
+```vue
+<i18n lang="yaml">
+ja:
+  nav:
+    about: イベントについて
+    individualParticipant: 一般参加
+    clubParticipant: サークル参加
+    listOfClubs: サークル一覧
+    qa: よくある質問
+    # top: TOPページ
+    # quickAccess: 参加者向け重要情報
+    # news: お知らせ
+    # contents: 企画・コンテンツ
+    # schedule: 開催スケジュール
+    # exhibition: 出展情報
+    # access: アクセス
+    # ticket: チケット
+    # codeOfConduct: 行動規範
+    # relatedEvents: 関連イベント
+    # sponsorsAndPartners: ご協力
+    # contact: お問い合わせ
+en:
+  nav:
+    about: About VketReal in SAPPORO
+    individualParticipant: Individual Participant
+    clubParticipant: Club Participant
+    listOfClubs: List of Clubs
+    qa: FAQ
+    # top: Top
+    # quickAccess: Key Information
+    # news: News
+    # contents: Contents
+    # schedule: Schedule
+    # exhibition: Exhibition
+    # access: Access
+    # ticket: Tickets
+    # codeOfConduct: Code of Conduct
+    # relatedEvents: Related Events
+    # sponsorsAndPartners: Partners
+    # contact: Contact
+</i18n>
+
+<template>
+  <div class="layout -top">
+    <HoTheHeader :nav-links="navLinks" />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { NavLink } from '../components/ho/HoTheHeader.vue'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+
+const navLinks = computed<NavLink[]>(() => [
+  { type: 'anchor', href: 'about', text: t('nav.about') },
+  { type: 'anchor', href: 'participation-guide', text: t('nav.individualParticipant') },
+  { type: 'anchor', href: 'participation-guide', text: t('nav.clubParticipant') },
+  { type: 'anchor', href: 'qa', text: t('nav.qa') },
+])
+
+const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()
+const route = useRoute()
+
+onMounted(async () => {
+  await initScrollEffects()
+})
+
+// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
+watch(() => route.path, () => {
+  destroyScrollTriggers()
+  nextTick(() => initScrollEffects())
+})
+
+onUnmounted(() => {
+  destroyScrollTriggers()
+})
+
+const initScrollEffects = async () => {
+  const firstView = document.querySelector('#gsap-fv')
+  const header = document.querySelector('#gsap-header')
+
+  if (!header) return
+
+  // #first-viewがないページ（トップ以外）では実行しない
+  if (!firstView) return
+
+  firstViewBlur(firstView)
+  headerRevealOnScroll(header, firstView)
+
+  // DOM更新が完了したタイミングでレイアウトを再計算
+  await nextTick()
+  ScrollTrigger.refresh()
+
+  // 画像・フォント等の読み込み完了後にも念のため再計算
+  window.addEventListener('load', () => {
+    ScrollTrigger.refresh()
+  }, { once: true })
+}
+</script>
+
+<style lang="scss" scoped>
+.layout.-top {
+  overflow: visible;
 }
 </style>
 ```

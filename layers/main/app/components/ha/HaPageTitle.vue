@@ -6,18 +6,17 @@ defineProps<{
 </script>
 
 <template>
-  <div class="section-title">
-    <div class="section-title__line" />
-    <div class="section-title__flex">
-      <div class="section-title__text-box">
-        <p class="section-title__label">
+  <div class="page-title">
+    <div class="page-title__flex">
+      <div class="page-title__text-box">
+        <p class="page-title__label">
           {{ label }}
         </p>
-        <h2 class="section-title__text">
+        <h2 class="page-title__text">
           {{ title }}
         </h2>
       </div>
-      <div class="section-title__controls">
+      <div class="page-title__controls">
         <slot name="controls" />
       </div>
     </div>
@@ -28,16 +27,11 @@ defineProps<{
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.section-title {
+.page-title {
   position: relative;
-  margin-bottom: 112px;
-  padding-top: 16px;
+  margin-bottom: 48px;
 
-  @include m.sp {
-    margin-bottom: 64px;
-  }
-
-  @include m.sp {
+  @include m.tb {
     margin-bottom: 32px;
   }
 
@@ -50,43 +44,17 @@ defineProps<{
     height: 2px;
     margin-bottom: 4px;
 
-    // 点
-    &::before {
-      content: '';
-
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: 2px;
-      height: 2px;
-
-      background: v.$vket-amber;
-    }
-
-    &::after {
-      content: '';
-
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 2px;
-      margin-left: 12px;
-
-      background: linear-gradient(
-        to right,
-        v.$vket-amber 0%,
-        v.$vket-vermilion 100%
-      );
-    }
   }
 
   &__flex {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    height: 130px;
+    border-bottom: 1px solid white;
+
+    @include m.sp {
+        height: 85px;
+    }
   }
 
   &__label {
@@ -106,11 +74,11 @@ defineProps<{
     color: #fff;
 
     @include m.tb {
-      font-size: 32px;
+      font-size: 40px;
     }
 
     @include m.sp {
-      font-size: 24px;
+      font-size: 32px;
     }
   }
 

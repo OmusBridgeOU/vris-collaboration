@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HmSwiper from '../hm/HmSwiper.vue'
+import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
 import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
 import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 
@@ -19,6 +19,25 @@ const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
   isEnd.value = newIsEnd
 }
 
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: tGlobal('news.2.title'),
+    href: 'https://archived.vris.jp/',
+    imgSrc: '/news1_thumbnail.png',
+    timestamp: '2026-06-06',
+  },
+  {
+    id: 2,
+    title: tGlobal('news.2.title'),
+    href: 'https://archived.vris.jp/',
+    imgSrc: '/news2_thumbnail.png',
+    timestamp: '2026-06-01',
+  },
+])
+
 const sectionRef = ref<HTMLElement | null>(null)
 const { fadeInUp } = useGsapFadeIn()
 
@@ -28,38 +47,83 @@ onMounted(() => {
 </script>
 
 <template>
+  <HaSectionTitle
+    :title="tGlobal('sectionTitle.news')"
+    label="NEWS"
+  >
+    <template #controls>
+      <button
+        :disabled="isBeginning"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isBeginning }"
+        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+      >
+        <HaChevronLeftIcon />
+      </button>
+      <button
+        :disabled="isEnd"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isEnd }"
+        @click="worksSwiperRef?.swiperInstance?.slideNext()"
+      >
+        <HaChevronRightIcon />
+      </button>
+    </template>
+  </HaSectionTitle>
   <div ref="sectionRef">
-    <HaSectionTitle
-      title="お知らせ"
-      label="news"
-    >
-      <template #controls>
-        <button
-          :disabled="isBeginning"
-          class="custom-swiper-button"
-          :class="{ 'is-disabled': isBeginning }"
-          @click="worksSwiperRef?.swiperInstance?.slidePrev()"
-        >
-          <HaChevronLeftIcon />
-        </button>
-        <button
-          :disabled="isEnd"
-          class="custom-swiper-button"
-          :class="{ 'is-disabled': isEnd }"
-          @click="worksSwiperRef?.swiperInstance?.slideNext()"
-        >
-          <HaChevronRightIcon />
-        </button>
-      </template>
-    </HaSectionTitle>
-
-    <HmSwiper
+    <HmNewsSwiper
       ref="worksSwiperRef"
+      class="news__swiper"
+      :items="items"
       :_slides-per-view="1"
       :_breakpoints="{
-        768: { slidesPerView: 1.4 },
+        1024: { slidesPerView: 3 },
+        768: { slidesPerView: 2 },
       }"
       @slide-change="onSlideChange"
     />
+    <NuxtLink
+      class="glassy-button news__button"
+      to="/news"
+    >
+      {{ tGlobal("viewAll") }}
+    </NuxtLink>
   </div>
 </template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.news {
+  &__swiper {
+    margin-bottom: 36px;
+
+    @include m.tb {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 218px;
+    height: 74px;
+    margin: 0 auto;
+
+    font-family: Inter, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: white;
+
+    background-color: #e5b5ff3b;
+
+    @include m.tb {
+      width: 198px;
+      height: 64px;
+    }
+  }
+}
+</style>

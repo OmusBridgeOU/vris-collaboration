@@ -1,23 +1,33 @@
 <script setup lang="ts">
-import HaSponsorCard from '../ha/HaSponsorCard.vue'
+import HaCommingSoon from '../ha/HaCommingSoon.vue'
+import HaSectionTitle from '../ha/HaSectionTitle.vue'
 
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+// import HaSponsorCard from '../ha/HaSponsorCard.vue'
 
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+const { t: tGlobal } = useI18n()
 
-onMounted(() => {
-  fadeInUp(sectionRef)
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.sponsor-grid__child')
-  fadeInUpStagger(Array.from(items))
-})
+// // GSAP
+// import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+// const sectionRef = ref<HTMLElement | null>(null)
+// const listRef = ref<HTMLElement | null>(null)
+// const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+// onMounted(() => {
+//   fadeInUp(sectionRef)
+//   if (!listRef.value) return
+//   const items = listRef.value.querySelectorAll('.sponsor-grid__child')
+//   fadeInUpStagger(Array.from(items))
+// })
 </script>
 
 <template>
-  <div ref="sectionRef">
+  <HaSectionTitle
+    :title="tGlobal('sectionTitle.sponsorsAndPartners')"
+    label="SPONSORS & PARTNERS"
+  />
+  <HaCommingSoon />
+  <!-- <div ref="sectionRef">
     <HaSectionTitle
       title="ご協力"
       label="SPONSORS & PARTNERS"
@@ -45,7 +55,7 @@ onMounted(() => {
         />
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <style lang="scss" scoped>

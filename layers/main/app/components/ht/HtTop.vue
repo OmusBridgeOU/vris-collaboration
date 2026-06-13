@@ -6,93 +6,83 @@ en:
 </i18n>
 
 <template>
-  <main class="ht-top">
-    <div class="canvas-wrapper">
-      <HaConfetti />
-      <HaFireworks />
+  <main class="ht-top content-wrapper">
+    <div class="content-wrapper__sticky">
+      <HtHeroSection />
     </div>
 
-    <HtHeroSection />
+    <div class="content-wrapper__bg content-wrapper__scroll">
+      <div class="canvas-wrapper">
+        <HaConfetti />
+        <HaFireworks />
+      </div>
 
-    <!-- <HaFirstView /> -->
+      <div class="content-wrapper__main">
+        <section id="about">
+          <HtAboutSection />
+        </section>
 
-    <section id="cloud-levels">
-      <HtCrowdLevelsSection />
-    </section>
+        <section id="exhibitor-info">
+          <HtExhibitorInfoSection />
+        </section>
 
-    <section id="quick-access">
-      <HtQuickAccessSection />
-    </section>
+        <section id="participation-guide">
+          <HtParticipationGuide />
+        </section>
 
-    <section id="about">
-      <HtAboutSection />
-    </section>
+        <section id="news">
+          <HtNewsSection />
+        </section>
 
-    <section id="news">
-      <HtNewsSection />
-    </section>
+        <section id="contents">
+          <HtContentsSection />
+        </section>
 
-    <section id="contents">
-      <HtContentsSection />
-    </section>
+        <section id="schedule">
+          <HtScheduleSection />
+        </section>
 
-    <section id="schedule">
-      <HtScheduleSection />
-    </section>
+        <section id="location-info">
+          <HtAccessSection />
+        </section>
 
-    <section id="exhibition">
-      <HtExhibitionSection />
-    </section>
+        <section id="sponsors-and-partners">
+          <HtSponsorsAndPartnersSection />
+        </section>
 
-    <section id="access">
-      <HtAccessSection />
-    </section>
+        <section id="qa">
+          <HtQandASection />
+        </section>
 
-    <section id="ticket">
-      <HtTicketSection />
-    </section>
-
-    <section id="qa">
-      <HtQandASection />
-    </section>
-
-    <section id="code-of-conduct">
-      <HtCodeOfConductSection />
-    </section>
-
-    <section id="related-events">
-      <HtRelatedEventsSection />
-    </section>
-
-    <section id="sponsors-and-partners">
-      <HtSponsorsAndPartnersSection />
-    </section>
-
-    <section id="contact">
-      <HtContactSection />
-    </section>
+        <section id="contact">
+          <HtContactSection />
+        </section>
+      </div>
+    </div>
   </main>
 </template>
 
 <script setup lang="ts">
-// import HaFirstView from '../ha/HaFirstView.vue'
-import HtAboutSection from './HtAboutSection.vue'
-import HtQuickAccessSection from './HtQuickAccessSection.vue'
-import HtNewsSection from './HtNewsSection.vue'
-import HtScheduleSection from './HtScheduleSection.vue'
-import HtExhibitionSection from './HtExhibitionSection.vue'
-import HtAccessSection from './HtAccessSection.vue'
-import HtTicketSection from './HtTicketSection.vue'
-import HtQandASection from './HtQandASection.vue'
-import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
-import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
-import HtContactSection from './HtContactSection.vue'
-import HtContentsSection from './HtContentsSection.vue'
-import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
-import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
+// import HtQuickAccessSection from './HtQuickAccessSection.vue'
+// import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
+// import HtExhibitionSection from './HtExhibitionSection.vue'
+// import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
+// import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
+// import HtTicketSection from './HtTicketSection.vue'
 import HtHeroSection from './HtHeroSection.vue'
+import HtAboutSection from './HtAboutSection.vue'
+import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
+import HtNewsSection from './HtNewsSection.vue'
+import HtContentsSection from './HtContentsSection.vue'
+import HtAccessSection from './HtAccessSection.vue'
+import HtScheduleSection from './HtScheduleSection.vue'
+import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
+import HtQandASection from './HtQandASection.vue'
+import HtContactSection from './HtContactSection.vue'
+
 import HaFireworks from '../ha/HaFireworks.vue'
 import HaConfetti from '../ha/HaConfetti.vue'
+import HtParticipationGuide from './HtParticipationGuide.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -105,20 +95,47 @@ import HaConfetti from '../ha/HaConfetti.vue'
 
   width: 100%;
   height: 100%;
+  margin-bottom: -40px;
+}
 
-  background-color: v.$base-background-color;
+.content-wrapper {
+  position: relative;
+
+  &__sticky {
+    position: sticky;
+    z-index: -1;
+    top: 0;
+  }
+
+  &__bg {
+    padding-top: 124px;
+    border-radius: 36px 36px 0 0;
+    background-color: v.$base-background-color;
+
+    @include m.sp {
+      padding-top: 64px;
+    }
+  }
+
+  &__main {
+    position: relative;
+    z-index: 2;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
 }
 
 .canvas-wrapper {
   pointer-events: none;
 
-  position: fixed;
-  z-index: -1;
+  position: sticky;
+  z-index: 1;
   top: 0;
   left: 0;
 
   width: 100%;
-  height: 100%;
+  height: 100svh;
+  margin-bottom: -100svh;
 }
 
 section {
@@ -129,7 +146,19 @@ section {
   }
 
   @include m.tb {
-    padding: 0 24px 84px;
+    padding: 0 16px 84px;
+  }
+}
+
+#contact {
+  padding-bottom: 220px;
+
+  @include m.tb {
+    padding-bottom: 180px;
+  }
+
+  @include m.sp {
+    padding-bottom: 124px;
   }
 }
 </style>

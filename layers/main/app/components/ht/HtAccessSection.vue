@@ -4,6 +4,24 @@ import HaInfoCard from '../ha/HaInfoCard.vue'
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
+const accessInfoItems = [
+  {
+    labelKey: 'infoCard.venue.items.venueName.label',
+    textKey: 'infoCard.venue.items.venueName.text',
+  },
+  {
+    labelKey: 'infoCard.venue.items.address.label',
+    textKey: 'infoCard.venue.items.address.text',
+    brClass: 'tb-only',
+  },
+  {
+    labelKey: 'infoCard.venue.items.access.label',
+    textKey: 'infoCard.venue.items.access.text',
+  },
+]
+
+const { t: tGlobal } = useI18n()
+
 const sectionRef = ref<HTMLElement | null>(null)
 const { fadeInUp } = useGsapFadeIn()
 
@@ -15,8 +33,8 @@ onMounted(() => {
 <template>
   <div ref="sectionRef">
     <HaSectionTitle
-      title="アクセス"
-      label="access"
+      :title="tGlobal('sectionTitle.locationInfo')"
+      label="LOCATION INFO"
     />
     <div class="access-flex">
       <div class="access-flex__left map-container">
@@ -27,7 +45,11 @@ onMounted(() => {
           referrerpolicy="no-referrer-when-downgrade"
         />
       </div>
-      <HaInfoCard class="access-flex__right" />
+      <HaInfoCard
+        class="access-flex__right"
+        title-key="infoCard.venue.title"
+        :items="accessInfoItems"
+      />
     </div>
   </div>
 </template>

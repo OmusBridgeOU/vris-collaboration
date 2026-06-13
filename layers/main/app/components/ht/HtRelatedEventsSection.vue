@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HmSwiper from '../hm/HmSwiper.vue'
+import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
 import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
 import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 
@@ -49,7 +49,7 @@ onMounted(() => {
         </button>
       </template>
     </HaSectionTitle>
-    <HmSwiper
+    <HmNewsSwiper
       :_slides-per-view="1"
       :_breakpoints="{
         768: { slidesPerView: 1.4 },

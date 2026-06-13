@@ -1,5 +1,20 @@
 <script setup lang="ts">
 import HaInfoIcon from './icons/HaInfoIcon.vue'
+
+const { t } = useI18n()
+
+const brSlots = ['br', 'br1', 'br2', 'br3']
+
+interface InfoItem {
+  labelKey: string
+  textKey: string
+  brClass?: string
+}
+
+defineProps<{
+  titleKey: string
+  items: InfoItem[]
+}>()
 </script>
 
 <template>
@@ -9,41 +24,33 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
         <HaInfoIcon />
       </div>
       <h4 class="info-card__title">
-        イベント概要
+        {{ t(titleKey) }}
       </h4>
     </div>
     <div class="info-card__body">
       <div class="info-card__items">
-        <div class="info-card__item">
+        <div
+          v-for="item in items"
+          :key="item.labelKey"
+          class="info-card__item"
+        >
           <p class="info-card__label">
-            開催日時
+            {{ t(item.labelKey) }}
           </p>
           <p class="info-card__text">
-            2026年 9月26日(土)
-          </p>
-        </div>
-        <div class="info-card__item">
-          <p class="info-card__label">
-            会場
-          </p>
-          <p class="info-card__text">
-            札幌市中央区 アスティーホール<br>(北4条西5丁目1 4F)
-          </p>
-        </div>
-        <div class="info-card__item">
-          <p class="info-card__label">
-            参加費
-          </p>
-          <p class="info-card__text">
-            チケット
-          </p>
-        </div>
-        <div class="info-card__item">
-          <p class="info-card__label">
-            主催
-          </p>
-          <p class="info-card__text">
-            VketReal in 札幌 実行委員会
+            <i18n-t
+              :keypath="item.textKey"
+              tag="span"
+              scope="global"
+            >
+              <template
+                v-for="slot in brSlots"
+                #[slot]=""
+                :key="slot"
+              >
+                <br :class="item.brClass">
+              </template>
+            </i18n-t>
           </p>
         </div>
       </div>
@@ -63,7 +70,13 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
   width: 100%;
   height: 100%;
   min-height: 340px;
-  padding: 24px;
+  padding: 32px;
+
+  background-color: rgb(18 33 59 / 60%);
+
+  @include m.tb {
+    padding: 24px;
+  }
 
   &__head {
     display: flex;
@@ -118,9 +131,12 @@ import HaInfoIcon from './icons/HaInfoIcon.vue'
   }
 
   &__label {
+    padding-right: 16px;
+
     font-size: 16px;
     font-weight: bold;
     color: v.$vket-amber;
+    white-space: nowrap;
 
     @include m.sp {
       font-size: 14px;

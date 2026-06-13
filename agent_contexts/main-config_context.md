@@ -356,22 +356,6 @@ function getProduction() {
 }
 ````
 
-## File: layers/main/i18n/locales/en.json
-````json
-{
-  "hello": "Hello!",
-  "language": "language"
-}
-````
-
-## File: layers/main/i18n/locales/ja.json
-````json
-{
-  "hello": "こんにちは！",
-  "language": "言語"
-}
-````
-
 ## File: layers/main/i18n/i18n.config.ts
 ````typescript
 /*
@@ -580,6 +564,110 @@ function getProduction(envType: EnvType) {
       baseUrl: 'https://vris.jp',
     },
   } as const
+}
+````
+
+## File: layers/main/i18n/locales/en.json
+````json
+{
+  "viewAll" : "view all",
+  "sectionTitle": {
+    "about": "What is VketReal in Sapporo?",
+    "exhibitorInfo": "Exhibitor Information",
+    "participationGuide" : "Participation Guide",
+    "news" : "News",
+    "contents" : "Programs & Contents",
+    "schedule" : "Event Schedule",
+    "locationInfo" : "Venue Information",
+    "sponsorsAndPartners" : "Sponsors & Partners",
+    "qa" : "FAQ",
+    "contact" : "Contact Us"
+  },
+  "infoCard": {
+    "venue": {
+      "title": "Venue",
+      "items": {
+        "venueName": {
+          "label": "Venue Name",
+          "text": "Asty45 4F Asty Hall"
+        },
+        "address": {
+          "label": "Address",
+          "text": "060-0004 {br}Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, Hokkaido"
+        },
+        "access": {
+          "label": "Access",
+          "text": "3 min walk from Sapporo Subway Station (direct underground access){br}5 min walk from JR Sapporo Station South Exit"
+        }
+      }
+    }
+  },
+  "contents": {
+    "1": {
+      "title": "ParaRealCreator in SAPPORO",
+      "text": "Goods Exhibition & Sale by VR Creators"
+    }
+  },
+  "news": {
+    "1": {
+      "title": "We have published our logo!"
+    },
+    "2": {
+      "title": "We have published our key visual!"
+    }
+  }
+}
+````
+
+## File: layers/main/i18n/locales/ja.json
+````json
+{
+  "viewAll" : "すべて見る",
+  "sectionTitle": {
+    "about": "VketReal in 札幌とは",
+    "exhibitorInfo": "出展者案内",
+    "participationGuide" : "参加案内",
+    "news" : "お知らせ",
+    "contents" : "企画・コンテンツ",
+    "schedule" : "開催スケジュール",
+    "locationInfo" : "会場情報",
+    "sponsorsAndPartners" : "ご協力",
+    "qa" : "よくある質問",
+    "contact" : "お問い合わせ"
+  },
+  "infoCard": {
+    "venue": {
+      "title": "会場概要",
+      "items": {
+        "venueName": {
+          "label": "会場名",
+          "text": "アスティ45 4F アスティホール"
+        },
+        "address": {
+          "label": "住所",
+          "text": "〒060-0004 {br}北海道札幌市中央区北4条西5丁目1"
+        },
+        "access": {
+          "label": "アクセス",
+          "text": "地下鉄さっぽろ駅より地下鉄直結・徒歩3分{br}JR札幌駅南口より徒歩5分"
+        }
+      }
+    }
+  },
+  "contents": {
+    "1": {
+      "title": "パラリアルクリエイター in SAPPORO",
+      "text": "VRクリエイターによるグッズ展示・即売コーナー"
+    }
+  },
+  "news": {
+    "1": {
+      "title": "ロゴマークを公開しました！"
+    },
+    "2": {
+      "title": "キービジュアルを公開しました！"
+    }
+  }
 }
 ````
 

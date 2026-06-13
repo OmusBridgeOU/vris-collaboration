@@ -1,6 +1,8 @@
 <template>
-  <NuxtLink
-    :to="item.href"
+  <a
+    :href="item.href"
+    target="_blank"
+    rel="noopener noreferrer"
     class="swiper-card glassy-box-2"
   >
     <img
@@ -9,16 +11,19 @@
       class="swiper-card__img"
       loading="lazy"
     >
-  </NuxtLink>
+    <p class="swiper-card__timestamp">{{ item.timestamp }}</p>
+    <p class="swiper-card__title">{{ item.title }}</p>
+  </a>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  item: { id: number, title: string, href: string, imgSrc: string }
+  item: { id: number, title: string, href: string, imgSrc: string, timestamp: string }
 }>()
 </script>
 
 <style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
 .swiper-card {
@@ -29,21 +34,51 @@ defineProps<{
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  min-height: 500px;
+  min-height: 460px;
+  padding: 24px;
+
+  background-color: rgb(18 33 59 / 60%);
 
   @include m.tb {
     min-height: 380px;
+  }
+
+  @include m.sp {
+    min-height: 340px;
   }
 
   &__img {
     display: block;
 
     width: 100%;
-    height: 100%;
+    margin-bottom: 14px;
 
     object-fit: cover;
 
     transition: transform 0.2s ease;
+
+    @include m.sp {
+      margin-bottom: 10px;
+    }
+
+    @include m.sp {
+      margin-bottom: 6px;
+    }
+  }
+
+  &__timestamp {
+    margin-bottom: 6px;
+    color: v.$vket-amber;
+  }
+
+  &__title {
+    font-size: 20px;
+    line-height: 1.2em;
+    color: white;
+
+    @include m.sp {
+      font-size: 16px;
+    }
   }
 }
 </style>

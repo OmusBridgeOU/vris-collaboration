@@ -1,24 +1,31 @@
 <script setup lang="ts">
 import HaXIcon from '../ha/icons/HaXIcon.vue'
+
+const { t } = useI18n()
 </script>
 
-<!-- <i18n lang="yaml">
+<i18n lang="yaml">
 ja:
-  mainlogo: ロゴ名サービス名
+  mainlogo: VketReal in 札幌 2026 Autumn
 en:
-  mainlogo: logo name
-</i18n> -->
+  mainlogo: VketReal in Sapporo 2026 Autumn
+</i18n>
 
 <template>
   <footer class="footer">
     <div class="footer__upper">
       <div class="footer__left">
-        <img
-          src=""
-          alt=""
-          class="footer__logo"
+        <a
+          href="/"
+          class="footer__logo-link"
         >
-        <nav class="footer__nav">
+          <img
+            class="footer__logo"
+            src="/vketreal_in_sapporo_logo_light.png"
+            :alt="t('mainlogo')"
+          >
+        </a>
+        <!-- <nav class="footer__nav">
           <NuxtLink
             class="footer__link"
             to="/documents/terms"
@@ -39,11 +46,16 @@ en:
             class="footer__link"
             to="/documents/exhibition-terms"
           >出展規約</NuxtLink>
-        </nav>
+        </nav> -->
       </div>
-      <div class="footer__x-logo">
+      <a
+        href="https://x.com/vketreal_vris"
+        target="blank"
+        rel="noopener noreferrer"
+        class="footer__x-logo"
+      >
         <HaXIcon />
-      </div>
+      </a>
     </div>
     <div class="footer__divider" />
     <div class="footer__lower">
@@ -58,8 +70,12 @@ en:
 @use '@/assets/styles/mixins' as m;
 
 .footer {
+  position: relative;
+  z-index: 1;
+
   padding: 88px 105px 0;
   border-radius: 40px 40px 0 0;
+
   background-color: rgb(25 25 25 / 100%);
 
   @include m.sp {
@@ -69,20 +85,32 @@ en:
   &__upper {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 48px;
+  }
+
+  &__logo-link {
+    display: block;
+    height: 92px;
+    margin-bottom: 64px;
+
+    @include m.tb {
+      height: 72px;
+      margin-bottom: 40px;
+    }
+
+    @include m.sp {
+      height: 46px;
+    }
   }
 
   &__logo {
-    width: 120px;
-    height: 90px;
-    margin-bottom: 40px;
-    background-color: gray;
+    height: 100%;
   }
 
   &__nav {
     display: flex;
     flex-direction: column;
     gap: 22px;
+    padding-bottom: 48px;
   }
 
   &__link {

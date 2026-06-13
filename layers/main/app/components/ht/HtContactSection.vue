@@ -1,9 +1,35 @@
+<i18n lang="yaml">
+ja:
+  personal:
+    title: '個人向けお問い合わせ'
+    text: '一般の方からのお問い合わせはこちら'
+  corporate:
+    title: '法人向けお問い合わせ'
+    text: '企業・法人の方からのお問い合わせはこちら'
+  press:
+    title: '広報向けお問い合わせ'
+    text: 'メディア・広報関連のお問い合わせはこちら'
+en:
+  personal:
+    title: 'For General Inquiries'
+    text: 'For inquiries from individuals'
+  corporate:
+    title: 'For Business Inquiries'
+    text: 'For inquiries from companies and organizations'
+  press:
+    title: 'For Press Inquiries'
+    text: 'For media and press-related inquiries'
+</i18n>
+
 <script setup lang="ts">
 import HaContactCard from '../ha/HaContactCard.vue'
-import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+// import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
 
 const sectionRef = ref<HTMLElement | null>(null)
 const listRef = ref<HTMLElement | null>(null)
@@ -21,40 +47,31 @@ onMounted(() => {
 <template>
   <div ref="sectionRef">
     <HaSectionTitle
-      title="お問い合わせ"
+      :title="tGlobal('sectionTitle.contact')"
       label="CONTACT"
     />
     <div class="contact-grid">
       <HaContactCard
-        title="個人向けお問い合わせ"
-        text="一般の方からのお問い合わせはこちら"
+        :title="t('personal.title')"
+        :text="t('personal.text')"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSchGlf0h1eszxPupo5aWycU_s3CAOmkP1LJP38Niiwi95KNwQ/viewform"
         color="amber"
         class="contact-grid__child"
-      >
-        <template #icon>
-          <HaDangerIcon />
-        </template>
-      </HaContactCard>
+      />
       <HaContactCard
-        title="法人向けお問い合わせ"
-        text="企業・法人の方からのお問い合わせはこちら"
+        :title="t('corporate.title')"
+        :text="t('corporate.text')"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSeEevGm1q7byQWd7RhGWTGYClcGthQEbWufSviyiFbcYzsd6A/viewform"
         color="cyan"
         class="contact-grid__child"
-      >
-        <template #icon>
-          <HaDangerIcon />
-        </template>
-      </HaContactCard>
+      />
       <HaContactCard
-        title="広報向けお問い合わせ"
-        text="メディア・広報関連のお問い合わせはこちら"
+        :title="t('press.title')"
+        :text="t('press.text')"
+        href="https://docs.google.com/forms/d/e/1FAIpQLScmYNjxOyf1GtHVSqsRe7pFDoyfUhiSSDqJh5Q0WD40b-1LOg/viewform"
         color="magenta"
         class="contact-grid__child contact-grid__child--full-width"
-      >
-        <template #icon>
-          <HaDangerIcon />
-        </template>
-      </HaContactCard>
+      />
     </div>
   </div>
 </template>
@@ -71,6 +88,9 @@ onMounted(() => {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px 24px;
+
+  max-width: 760px;
+  margin: 0 auto;
 
   @include m.sp {
     grid-template-columns: 1fr;
