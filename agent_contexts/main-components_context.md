@@ -6994,6 +6994,375 @@ en:
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtExhibitionSection.vue
+```vue
+<script setup lang="ts">
+import HaAboutCard from '../ha/HaAboutCard.vue'
+import HaDocumentLink from '../ha/HaDocumentLink.vue'
+import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
+import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
+import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue'
+import HaCircledQuestionIcon from '../ha/icons/HaCircledQuestionIcon.vue'
+import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
+import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const list2Ref = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value || !list2Ref.value) return
+  const items = listRef.value.querySelectorAll('.card-flex__child')
+  const items2 = list2Ref.value.querySelectorAll('.link-list__child')
+  fadeInUpStagger(Array.from(items))
+  fadeInUpStagger(Array.from(items2))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="出展情報"
+      label="exhibition"
+    />
+    <p class="subtitle">
+      出展カテゴリ
+    </p>
+    <div
+      ref="listRef"
+      class="card-flex mb-24"
+    >
+      <div class="card-flex__child">
+        <HaAboutCard color="amber">
+          <template #icon>
+            <HaStarShineIcon />
+          </template>
+          <template #title>
+            サークル出展
+          </template>
+          <template #body>
+            VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
+          </template>
+        </HaAboutCard>
+      </div>
+      <div class="card-flex__child">
+        <HaAboutCard
+          icon-url="/icons/tabler_world.svg"
+          color="light-cyan"
+        >
+          <template #icon>
+            <HaWorldIcon />
+          </template>
+          <template #title>
+            一般展示
+          </template>
+          <template #body>
+            XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
+          </template>
+        </HaAboutCard>
+      </div>
+      <div class="card-flex__child">
+        <HaAboutCard
+          icon-url="/icons/boxicons_community.svg"
+          color="light-magenta"
+        >
+          <template #icon>
+            <HaCommunityIcon />
+          </template>
+          <template #title>
+            企業出展
+          </template>
+          <template #body>
+            企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
+          </template>
+        </HaAboutCard>
+      </div>
+    </div>
+    <p class="subtitle">
+      出展者向けリソース
+    </p>
+    <div
+      ref="list2Ref"
+      class="link-list"
+    >
+      <HaDocumentLink
+        title="出展ガイドライン"
+        label="important"
+        color="green"
+        text="出展に必要なルール・準備事項をまとめた公式ガイド"
+        class="link-list__child"
+        href="/documents/exhibition-guidline"
+      >
+        <template #icon>
+          <HaOpenBookIcon />
+        </template>
+      </HaDocumentLink>
+      <HaDocumentLink
+        title="出展規約"
+        label="required"
+        color="cyan"
+        text="出展者が遵守すべき規約・利用条件"
+        class="link-list__child"
+        href="/documents/exhibition-terms"
+      >
+        <template #icon>
+          <HaBalanceIcon />
+        </template>
+      </HaDocumentLink>
+      <HaDocumentLink
+        title="出展ガイドライン"
+        label="Q&A"
+        color="magenta"
+        text="出展に必要なルール・準備事項をまとめた公式ガイド"
+        class="link-list__child"
+        href="/documents/exhibition-guidline"
+      >
+        <template #icon>
+          <HaCircledQuestionIcon />
+        </template>
+      </HaDocumentLink>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
+}
+
+.card-flex {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 330px));
+  gap: 32px;
+  justify-content: center;
+
+  max-width: 1080px;
+  margin-right: auto;
+  margin-left: auto;
+
+  @include m.tb {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  &__child {
+    @include m.tb {
+      width: 60%;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    @include m.sp {
+      width: 100%;
+    }
+  }
+}
+
+.link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @include m.tb {
+    align-items: center;
+  }
+
+  &__child {
+    @include m.tb {
+      width: 60%;
+    }
+
+    @include m.sp {
+      width: 100%;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtQuickAccessSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  section:
+    title: 参加者向け重要情報
+    label: quick access
+  cards:
+    date:
+      title: 開催日
+      label: DATE
+      body: 2026年9月26日(土)
+    location:
+      title: 会場
+      label: LOCATION
+      body:
+        line1: アスティーホール
+        line2: 札幌市中央区 北4条西5丁目1 4F
+    tickets:
+      title: チケット
+      label: TICKETS
+      body: 販売開始に向けて準備中です。
+    schedule:
+      title: スケジュール
+      label: SCHEDULE
+      body: 詳細タイムテーブルは順次公開予定です。
+en:
+  section:
+    title: Key Information for Visitors
+    label: quick access
+  cards:
+    date:
+      title: Date
+      label: DATE
+      body: Sat, September 26, 2026
+    location:
+      title: Venue
+      label: LOCATION
+      body:
+        line1: ASTY Hall
+        line2: Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, 4F
+    tickets:
+      title: Tickets
+      label: TICKETS
+      body: Ticket sales are being prepared.
+    schedule:
+      title: Schedule
+      label: SCHEDULE
+      body: The detailed timetable will be announced later.
+</i18n>
+
+<script setup lang="ts">
+import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
+import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
+import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
+import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
+import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.gsap-list__child')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="t('section.title')"
+      :label="t('section.label')"
+    />
+    <div
+      ref="listRef"
+      class="grid2x"
+    >
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="cyan"
+          :title="t('cards.date.title')"
+          :label="t('cards.date.label')"
+        >
+          <template #icon>
+            <HaCalendarIcon />
+          </template>
+          <template #body>
+            <p>{{ t('cards.date.body') }}</p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="magenta"
+          :title="t('cards.location.title')"
+          :label="t('cards.location.label')"
+        >
+          <template #icon>
+            <HaMapPinIcon />
+          </template>
+          <template #body>
+            <p>
+              {{ t('cards.location.body.line1') }}<br>
+              {{ t('cards.location.body.line2') }}
+            </p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="amber"
+          :title="t('cards.tickets.title')"
+          :label="t('cards.tickets.label')"
+        >
+          <template #icon>
+            <HaTicketIcon />
+          </template>
+          <template #body>
+            <p>{{ t('cards.tickets.body') }}</p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="vermilion"
+          :title="t('cards.schedule.title')"
+          :label="t('cards.schedule.label')"
+          icon-url="/icons/material-symbols_timer-outline.svg"
+        >
+          <template #icon>
+            <HaTimerIcon />
+          </template>
+          <template #body>
+            <p>{{ t('cards.schedule.body') }}</p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
+.grid2x {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 20px;
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  &__child {
+    height: 100%;
+    min-height: 280px;
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ho/HoTheHeader.vue
 ```vue
 <i18n lang="yaml">
@@ -7388,375 +7757,6 @@ watch(isPanelOpen, (val) => {
   .maintenance-banner__track {
     padding-left: 0;
     animation: none;
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtExhibitionSection.vue
-```vue
-<script setup lang="ts">
-import HaAboutCard from '../ha/HaAboutCard.vue'
-import HaDocumentLink from '../ha/HaDocumentLink.vue'
-import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
-import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
-import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue'
-import HaCircledQuestionIcon from '../ha/icons/HaCircledQuestionIcon.vue'
-import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
-import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const list2Ref = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value || !list2Ref.value) return
-  const items = listRef.value.querySelectorAll('.card-flex__child')
-  const items2 = list2Ref.value.querySelectorAll('.link-list__child')
-  fadeInUpStagger(Array.from(items))
-  fadeInUpStagger(Array.from(items2))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="出展情報"
-      label="exhibition"
-    />
-    <p class="subtitle">
-      出展カテゴリ
-    </p>
-    <div
-      ref="listRef"
-      class="card-flex mb-24"
-    >
-      <div class="card-flex__child">
-        <HaAboutCard color="amber">
-          <template #icon>
-            <HaStarShineIcon />
-          </template>
-          <template #title>
-            サークル出展
-          </template>
-          <template #body>
-            VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
-          </template>
-        </HaAboutCard>
-      </div>
-      <div class="card-flex__child">
-        <HaAboutCard
-          icon-url="/icons/tabler_world.svg"
-          color="light-cyan"
-        >
-          <template #icon>
-            <HaWorldIcon />
-          </template>
-          <template #title>
-            一般展示
-          </template>
-          <template #body>
-            XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
-          </template>
-        </HaAboutCard>
-      </div>
-      <div class="card-flex__child">
-        <HaAboutCard
-          icon-url="/icons/boxicons_community.svg"
-          color="light-magenta"
-        >
-          <template #icon>
-            <HaCommunityIcon />
-          </template>
-          <template #title>
-            企業出展
-          </template>
-          <template #body>
-            企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
-          </template>
-        </HaAboutCard>
-      </div>
-    </div>
-    <p class="subtitle">
-      出展者向けリソース
-    </p>
-    <div
-      ref="list2Ref"
-      class="link-list"
-    >
-      <HaDocumentLink
-        title="出展ガイドライン"
-        label="important"
-        color="green"
-        text="出展に必要なルール・準備事項をまとめた公式ガイド"
-        class="link-list__child"
-        href="/documents/exhibition-guidline"
-      >
-        <template #icon>
-          <HaOpenBookIcon />
-        </template>
-      </HaDocumentLink>
-      <HaDocumentLink
-        title="出展規約"
-        label="required"
-        color="cyan"
-        text="出展者が遵守すべき規約・利用条件"
-        class="link-list__child"
-        href="/documents/exhibition-terms"
-      >
-        <template #icon>
-          <HaBalanceIcon />
-        </template>
-      </HaDocumentLink>
-      <HaDocumentLink
-        title="出展ガイドライン"
-        label="Q&A"
-        color="magenta"
-        text="出展に必要なルール・準備事項をまとめた公式ガイド"
-        class="link-list__child"
-        href="/documents/exhibition-guidline"
-      >
-        <template #icon>
-          <HaCircledQuestionIcon />
-        </template>
-      </HaDocumentLink>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-
-  @include m.sp {
-    margin-bottom: 48px;
-  }
-}
-
-.card-flex {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 330px));
-  gap: 32px;
-  justify-content: center;
-
-  max-width: 1080px;
-  margin-right: auto;
-  margin-left: auto;
-
-  @include m.tb {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  &__child {
-    @include m.tb {
-      width: 60%;
-      margin-right: auto;
-      margin-left: auto;
-    }
-
-    @include m.sp {
-      width: 100%;
-    }
-  }
-}
-
-.link-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  @include m.tb {
-    align-items: center;
-  }
-
-  &__child {
-    @include m.tb {
-      width: 60%;
-    }
-
-    @include m.sp {
-      width: 100%;
-    }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtQuickAccessSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  section:
-    title: 参加者向け重要情報
-    label: quick access
-  cards:
-    date:
-      title: 開催日
-      label: DATE
-      body: 2026年9月26日(土)
-    location:
-      title: 会場
-      label: LOCATION
-      body:
-        line1: アスティーホール
-        line2: 札幌市中央区 北4条西5丁目1 4F
-    tickets:
-      title: チケット
-      label: TICKETS
-      body: 販売開始に向けて準備中です。
-    schedule:
-      title: スケジュール
-      label: SCHEDULE
-      body: 詳細タイムテーブルは順次公開予定です。
-en:
-  section:
-    title: Key Information for Visitors
-    label: quick access
-  cards:
-    date:
-      title: Date
-      label: DATE
-      body: Sat, September 26, 2026
-    location:
-      title: Venue
-      label: LOCATION
-      body:
-        line1: ASTY Hall
-        line2: Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, 4F
-    tickets:
-      title: Tickets
-      label: TICKETS
-      body: Ticket sales are being prepared.
-    schedule:
-      title: Schedule
-      label: SCHEDULE
-      body: The detailed timetable will be announced later.
-</i18n>
-
-<script setup lang="ts">
-import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
-import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
-import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
-import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
-import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n()
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.gsap-list__child')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="t('section.title')"
-      :label="t('section.label')"
-    />
-    <div
-      ref="listRef"
-      class="grid2x"
-    >
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="cyan"
-          :title="t('cards.date.title')"
-          :label="t('cards.date.label')"
-        >
-          <template #icon>
-            <HaCalendarIcon />
-          </template>
-          <template #body>
-            <p>{{ t('cards.date.body') }}</p>
-          </template>
-        </HaQuickAccessCard>
-      </div>
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="magenta"
-          :title="t('cards.location.title')"
-          :label="t('cards.location.label')"
-        >
-          <template #icon>
-            <HaMapPinIcon />
-          </template>
-          <template #body>
-            <p>
-              {{ t('cards.location.body.line1') }}<br>
-              {{ t('cards.location.body.line2') }}
-            </p>
-          </template>
-        </HaQuickAccessCard>
-      </div>
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="amber"
-          :title="t('cards.tickets.title')"
-          :label="t('cards.tickets.label')"
-        >
-          <template #icon>
-            <HaTicketIcon />
-          </template>
-          <template #body>
-            <p>{{ t('cards.tickets.body') }}</p>
-          </template>
-        </HaQuickAccessCard>
-      </div>
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="vermilion"
-          :title="t('cards.schedule.title')"
-          :label="t('cards.schedule.label')"
-          icon-url="/icons/material-symbols_timer-outline.svg"
-        >
-          <template #icon>
-            <HaTimerIcon />
-          </template>
-          <template #body>
-            <p>{{ t('cards.schedule.body') }}</p>
-          </template>
-        </HaQuickAccessCard>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/mixins' as m;
-
-.grid2x {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px 20px;
-
-  @include m.sp {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-
-  &__child {
-    height: 100%;
-    min-height: 280px;
   }
 }
 </style>

@@ -65,6 +65,36 @@ const title = computed(() => i18n.t('site.title'))
 const description = computed(() => i18n.t('site.description'))
 const ogImageUrl = computed(() => `${runtimeConfig.public.url}/kv.png`)
 
+const hasDebugQuery = () => {
+  const debugQuery = route.query.debug
+
+  if (Array.isArray(debugQuery)) {
+    return debugQuery.includes('1')
+  }
+
+  return debugQuery === '1'
+}
+
+const redirectToArchivedSite = () => {
+  const archivedUrl = new URL(runtimeConfig.public.archivedUrl)
+
+  if (hasDebugQuery() || window.location.origin === archivedUrl.origin) {
+    return
+  }
+
+  window.location.replace(archivedUrl.href)
+}
+
+if (import.meta.client) {
+  watch(
+    () => route.fullPath,
+    () => {
+      redirectToArchivedSite()
+    },
+    { immediate: true },
+  )
+}
+
 const currentJaFullPath = computed(() => {
   if (currentLang.value === 'ja') {
     return currentFullPath.value
