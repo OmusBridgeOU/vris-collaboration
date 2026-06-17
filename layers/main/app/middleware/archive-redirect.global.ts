@@ -1,7 +1,7 @@
 export default defineNuxtRouteMiddleware((to) => {
   const runtimeConfig = useRuntimeConfig()
 
-  if (runtimeConfig.public.outputEnv !== 'production') {
+  if (process.env.VITEST === 'true') {
     return
   }
 
