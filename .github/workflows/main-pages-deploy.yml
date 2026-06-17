@@ -22,6 +22,7 @@ jobs:
     permissions:
       contents: read
       deployments: write
+    # Keep this workflow in the repo so main pushes use the reviewed Pages output.
     steps:
       - uses: actions/checkout@v4
 
