@@ -1,0 +1,23 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "vris-26autumn-access-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-06-10",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "vars": {
+    "ALLOWED_ORIGINS": "https://vris.jp,https://archived.vris.jp",
+    "TABLE_CONFIG": "{\"access_tokens\":{\"primaryKey\":\"id\",\"columns\":[\"id\",\"label\",\"created_at\"],\"writableColumns\":[\"id\",\"label\"]}}"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "vris-26autumn-access-manager",
+      "database_id": "7dd96a71-ddea-44b3-bc4d-4989bee2c35b",
+      "migrations_dir": "../vris-26autumn-access-manager/migrations"
+    }
+  ]
+}

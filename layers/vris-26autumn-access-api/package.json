@@ -1,0 +1,19 @@
+{
+  "name": "vris-26autumn-access-api",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "bunx wrangler@4.98.0 dev --config wrangler.jsonc",
+    "deploy": "bunx wrangler@4.98.0 deploy --config wrangler.jsonc",
+    "d1:list:local": "bunx wrangler@4.98.0 d1 migrations list DB --local --config wrangler.jsonc",
+    "d1:migrate:local": "bunx wrangler@4.98.0 d1 migrations apply DB --local --config wrangler.jsonc",
+    "types": "bunx wrangler@4.98.0 types --config wrangler.jsonc",
+    "typecheck": "tsc --noEmit",
+    "check": "bun run types && bun run typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2",
+    "wrangler": "4.98.0"
+  }
+}
