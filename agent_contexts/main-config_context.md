@@ -54,8 +54,6 @@ layers/
         ja.json
       i18n.config.ts
     server/
-      middleware/
-        basicAuth.ts
       tsconfig.json
     app.config.ts
     nuxt.config.ts
@@ -65,30 +63,6 @@ layers/
 ```
 
 # Files
-
-## File: layers/main/server/middleware/basicAuth.ts
-````typescript
-export default defineEventHandler((event) => {
-  // プリレンダリング時の内部リクエストはスキップ
-  const url = getRequestURL(event).pathname
-  if (url.startsWith('/__nuxt') || url.startsWith('/_nuxt')) return
-
-  const header = getRequestHeader(event, 'authorization')
-
-  const isValid = (() => {
-    if (!header?.startsWith('Basic ')) return false
-    const base64 = header.slice(6)
-    const decoded = Buffer.from(base64, 'base64').toString('utf-8')
-    const [user, pass] = decoded.split(':')
-    return user === "process.env.BASIC_AUTH_USER" && pass === process.env.BASIC_AUTH_PASS
-  })()
-
-  if (!isValid) {
-    setResponseHeader(event, 'WWW-Authenticate', 'Basic realm="Restricted"')
-    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
-  }
-})
-````
 
 ## File: layers/main/@types/auto-imports.d.ts
 ````typescript
@@ -847,7 +821,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'vercel',
+    preset: 'cloudflare_pages',
   },
 
   sourcemap: {
@@ -872,15 +846,6 @@ export default defineNuxtConfig({
   },
 
   i18n: nuxtI18nOptions,
-
-  vite: {
-    server: {
-      watch: {
-        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
-        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
-      },
-    },
-  },
 })
 ````
 
@@ -896,7 +861,7 @@ export default defineNuxtConfig({
     "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
     "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
     "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
-    "build": "VITE_OUTPUT_ENV=production nuxt build",
+    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
     "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
     "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
     "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",
