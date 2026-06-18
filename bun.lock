@@ -164,17 +164,13 @@
         "vket-boilerplate-nuxt-base": "workspace:*",
       },
     },
-    "layers/vris-26autumn-access-api": {
-      "name": "vris-26autumn-access-api",
+    "layers/vris-26autumn-access-manager": {
+      "name": "vris-26autumn-access-manager",
       "version": "0.1.0",
       "devDependencies": {
         "typescript": "^5.9.2",
         "wrangler": "4.98.0",
       },
-    },
-    "layers/vris-26autumn-access-manager": {
-      "name": "vris-26autumn-access-manager",
-      "version": "0.1.0",
     },
   },
   "packages": {
@@ -2936,8 +2932,6 @@
 
     "vket-boilerplate-nuxt-showcases": ["vket-boilerplate-nuxt-showcases@workspace:layers/showcases"],
 
-    "vris-26autumn-access-api": ["vris-26autumn-access-api@workspace:layers/vris-26autumn-access-api"],
-
     "vris-26autumn-access-manager": ["vris-26autumn-access-manager@workspace:layers/vris-26autumn-access-manager"],
 
     "vris-collaboration": ["vris-collaboration@workspace:layers/main"],
@@ -3706,7 +3700,7 @@
 
     "vitest/tinyglobby": ["tinyglobby@0.2.17", "", { "dependencies": { "fdir": "^6.5.0", "picomatch": "^4.0.4" } }, "sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g=="],
 
-    "vris-26autumn-access-api/typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
+    "vris-26autumn-access-manager/typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
 
     "vue-bundle-renderer/ufo": ["ufo@1.6.3", "", {}, "sha512-yDJTmhydvl5lJzBmy/hyOAA0d+aqCBuwl818haVdYCRrWV84o7YyeVm4QlVHStqNrrJSTb6jKuFAVqAFsr+K3Q=="],
 

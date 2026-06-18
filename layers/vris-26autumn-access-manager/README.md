@@ -1,17 +1,16 @@
-# vris-26autumn-access-manager D1
+# vris-26autumn-access-manager
 
-このレイヤーは、VRIS 2026 Autumn access manager 用の Cloudflare D1
-スキーママイグレーションを管理します。
+VRIS 2026 Autumn access manager 用の Cloudflare D1 と、そのD1を操作する
+Cloudflare Worker APIを管理するレイヤーです。
 
-通常の開発者は Cloudflare の管理画面や API トークンを使わず、ローカル D1
-でDB開発を行い、マイグレーションファイルを Pull Request で提出します。
-remote D1 への反映は、`main` へのマージ後に GitHub Actions から実行します。
+このレイヤーに以下をまとめています。
 
-English summary: application developers work against local D1 and submit
-migrations by pull request. Remote D1 migrations are applied by GitHub Actions
-after merge.
+- D1 schema migrations
+- D1 binding付きWorker API
+- API key / admin API key based access control
+- GitHub Actionsによるremote D1 migrationとWorker deploy
 
-## 対象DB
+## 対象リソース
 
 | 項目 | 値 |
 | --- | --- |
@@ -19,105 +18,162 @@ after merge.
 | D1 database ID | `7dd96a71-ddea-44b3-bc4d-4989bee2c35b` |
 | Wrangler binding | `DB` |
 | Migration directory | `migrations/` |
+| Worker name | `vris-26autumn-access-api` |
+| Worker URL | `https://vris-26autumn-access-api.skmt3p.workers.dev` |
 
-binding は `wrangler.toml` に定義されています。
+binding と Worker 設定は `wrangler.jsonc` に定義されています。レイヤー名は
+`access-manager` ですが、既存URLを維持するためWorker名は
+`vris-26autumn-access-api` のままです。
 
-## 権限方針
+## Security Model
 
-通常のDB開発だけであれば、開発者個人には以下は不要です。
+- Browser requests must come from `ALLOWED_ORIGINS`.
+- Every `/v1/*` request must include `x-api-key: <key>` or
+  `Authorization: Bearer <key>`.
+- Row CRUD and table reads require `API_KEYS` or `ADMIN_API_KEYS`.
+- Table create/drop requires `ADMIN_API_KEYS`.
+- Raw SQL is not exposed.
+- SQLite/Cloudflare internal tables such as `sqlite_*`, `_cf_*`, and
+  `d1_migrations` are rejected.
 
-- Cloudflare アカウントへの招待
-- `wrangler login`
-- Cloudflare API token
-- Cloudflare の Global API Key
+Origin checks are useful for browsers, but they are not authentication. Keep the
+API key requirement enabled for every CRUD request.
 
-開発者が行うこと:
+Allowed browser origins are configured as a comma-separated list:
 
-- マイグレーションファイルを作る
-- ローカル D1 にマイグレーションを適用する
-- SQL とアプリケーションコードをローカルで確認する
-- Pull Request を出す
+```jsonc
+{
+  "ALLOWED_ORIGINS": "https://vris.jp,https://archived.vris.jp,https://example.com"
+}
+```
 
-remote D1 に反映するのは CI またはメンテナだけです。
+Use exact origins including the scheme. Do not use bare domains such as
+`vris.jp`.
 
-共有してはいけないもの:
-
-- 個人の Cloudflare API token
-- Wrangler の OAuth 認証情報
-- Cloudflare Global API Key
-- 復号済みの `.env` や secret
-
-## 初回セットアップ
-
-リポジトリルートで依存関係を入れます。
+## Initial Setup
 
 ```sh
 bun install
-```
-
-このレイヤーへ移動します。
-
-```sh
 cd layers/vris-26autumn-access-manager
 ```
 
-## マイグレーションを作る
+For local Worker testing, create `.dev.vars` without committing it:
 
-短い `snake_case` の説明名でマイグレーションを作ります。
+```text
+API_KEYS=local-development-key
+ADMIN_API_KEYS=local-admin-development-key
+```
+
+The deployed Worker secrets are:
+
+```text
+API_KEYS
+ADMIN_API_KEYS
+```
+
+Do not commit API keys, OAuth tokens, Cloudflare API tokens, or decrypted env
+files.
+
+## D1 Migrations
+
+Create a migration:
 
 ```sh
 bun run d1:create-migration -- create_access_tables
 ```
 
-Wrangler が `migrations/` 配下に番号付きSQLファイルを作ります。
-
-```text
-migrations/0001_create_access_tables.sql
-```
-
-作成されたSQLファイルを編集し、SQLite互換のDDL/DMLを書きます。
-
-```sql
-CREATE TABLE access_tokens (
-  id TEXT PRIMARY KEY,
-  label TEXT NOT NULL,
-  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-## ローカルで確認する
-
-未適用のマイグレーションをローカル D1 に適用します。
+Apply migrations locally:
 
 ```sh
 bun run d1:migrate:local
 ```
 
-ローカルで未適用のマイグレーションを確認します。
+List local migrations:
 
 ```sh
 bun run d1:list:local
 ```
 
-ローカル D1 の状態は `.wrangler/` に保存されます。このディレクトリは git
-管理しません。
+Apply remote migrations only from CI or by a maintainer:
 
-## Pull Request の出し方
+```sh
+bun run d1:migrate:remote
+```
 
-PRには必要に応じて以下を含めます。
+Local D1 state is stored in `.wrangler/`, which is not committed.
 
-- `migrations/` 配下の新規または編集されたSQLファイル
-- そのスキーマに依存するアプリケーションコード
-- テストやローカル確認結果のメモ
+## Worker API
 
-このレイヤーに触れるPRでは、マイグレーション検証用の GitHub Actions
-が走ります。この検証はローカル設定の確認だけを行い、remote D1
-は変更しません。
+```text
+GET    /health
+GET    /v1/tables
+GET    /v1/tables/:table
+POST   /v1/tables
+DELETE /v1/tables/:table?confirm=:table
+GET    /v1/:table
+POST   /v1/:table
+GET    /v1/:table/:id
+PATCH  /v1/:table/:id
+DELETE /v1/:table/:id
+```
 
-## remote D1 への反映
+List query params:
 
-remote D1 へのマイグレーション適用は、変更が `main` にマージされた後、
-またはワークフローを手動実行したときに GitHub Actions から行います。
+- `limit`: default `50`, max `200`
+- `offset`: default `0`
+- `orderBy`: table column, default primary key
+- `orderDirection`: `asc` or `desc`
+
+Create and update row bodies must be JSON objects with primitive values.
+Unknown or non-writable fields are ignored.
+
+Create table body:
+
+```json
+{
+  "name": "engineer_notes",
+  "columns": [
+    { "name": "id", "type": "TEXT", "primaryKey": true },
+    { "name": "title", "type": "TEXT", "notNull": true },
+    { "name": "body", "type": "TEXT" },
+    { "name": "status", "type": "TEXT", "default": "draft" }
+  ]
+}
+```
+
+Allowed column types:
+
+```text
+TEXT, INTEGER, REAL, NUMERIC, BLOB
+```
+
+Table and column names must match `[A-Za-z_][A-Za-z0-9_]*`.
+
+Deleting a table requires `confirm` to match the table name:
+
+```sh
+curl -X DELETE \
+  -H 'x-api-key: <admin-key>' \
+  'https://vris-26autumn-access-api.skmt3p.workers.dev/v1/tables/engineer_notes?confirm=engineer_notes'
+```
+
+## Local Worker Development
+
+```sh
+bun run types
+bun run typecheck
+bun run d1:migrate:local
+bun run dev
+```
+
+Example request:
+
+```sh
+curl -H 'x-api-key: local-development-key' \
+  'http://127.0.0.1:8787/v1/access_tokens?limit=20'
+```
+
+## CI and Deploy
 
 Workflow:
 
@@ -125,72 +181,42 @@ Workflow:
 .github/workflows/vris-26autumn-access-manager-d1-migrations.yml
 ```
 
-必要な GitHub Actions secret:
+On pull requests, CI runs:
+
+```sh
+bun run check
+```
+
+On `main` pushes or manual dispatch, CI runs in this order:
+
+1. Validate Worker and D1 config
+2. Apply remote D1 migrations
+3. Deploy Worker
+
+Required GitHub Actions secret:
 
 ```text
 CLOUDFLARE_API_TOKEN
 ```
 
-この token は CI 専用の Cloudflare API token にしてください。対象
-Cloudflare account の D1 edit 権限だけを持たせ、ソースコード、`.env`、Issue、
-Pull Request コメントには書かないでください。
-
-メンテナはターミナルから secret を登録できます。実行後、token を貼り付けて
-Enter を押します。
+Required Worker secrets:
 
 ```sh
-printf 'Paste CLOUDFLARE_API_TOKEN: '
-stty -echo
-IFS= read -r CLOUDFLARE_API_TOKEN
-stty echo
-printf '\n'
-printf '%s' "$CLOUDFLARE_API_TOKEN" \
-  | gh -R OmusBridgeOU/vris-collaboration secret set CLOUDFLARE_API_TOKEN
-unset CLOUDFLARE_API_TOKEN
-gh -R OmusBridgeOU/vris-collaboration secret list
+bunx wrangler@4.98.0 secret put API_KEYS --config wrangler.jsonc
+bunx wrangler@4.98.0 secret put ADMIN_API_KEYS --config wrangler.jsonc
 ```
 
-メンテナが必要に応じて手元から remote D1 に反映する場合は、以下を使います。
+## Troubleshooting
 
-```sh
-bun run d1:migrate:remote
-```
+If `bun run d1:migrate:local` reports no migrations, check whether SQL files are
+under `migrations/` or already applied locally.
 
-このコマンドには Cloudflare 認証が必要です。通常の開発者フローでは使いません。
-
-## よく使うコマンド
-
-```sh
-# 新しいマイグレーションファイルを作る
-bun run d1:create-migration -- <migration_name>
-
-# ローカル D1 にマイグレーションを適用する
-bun run d1:migrate:local
-
-# ローカル D1 の未適用マイグレーションを見る
-bun run d1:list:local
-
-# remote D1 の未適用マイグレーションを見る。メンテナ向け
-bun run d1:list:remote
-
-# remote D1 にマイグレーションを適用する。CIまたはメンテナ向け
-bun run d1:migrate:remote
-```
-
-## トラブルシュート
-
-`bun run d1:migrate:local` でマイグレーションがないと表示される場合は、
-SQLファイルが `migrations/` 配下にあるか、すでにローカル D1
-へ適用済みではないかを確認してください。
-
-ローカル D1 の状態が分からなくなった場合は、ローカル状態を削除してから
-再適用できます。
+If local D1 state is unclear:
 
 ```sh
 rm -rf .wrangler
 bun run d1:migrate:local
 ```
 
-remote apply のCIが認証エラーで失敗する場合は、メンテナに
-`CLOUDFLARE_API_TOKEN` GitHub Actions secret が設定されているか確認して
-もらってください。
+If remote migration or deploy CI fails with an authentication error, check
+`CLOUDFLARE_API_TOKEN` and its D1/Workers permissions.

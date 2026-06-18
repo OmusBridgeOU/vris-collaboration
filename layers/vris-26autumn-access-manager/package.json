@@ -4,11 +4,20 @@
   "type": "module",
   "version": "0.1.0",
   "scripts": {
-    "d1:create-migration": "bunx wrangler@4.98.0 d1 migrations create DB --config wrangler.toml",
-    "d1:list:local": "bunx wrangler@4.98.0 d1 migrations list DB --local --config wrangler.toml",
-    "d1:list:remote": "bunx wrangler@4.98.0 d1 migrations list DB --remote --config wrangler.toml",
-    "d1:migrate:local": "bunx wrangler@4.98.0 d1 migrations apply DB --local --config wrangler.toml",
-    "d1:migrate:remote": "bunx wrangler@4.98.0 d1 migrations apply DB --remote --config wrangler.toml",
-    "d1:info": "bunx wrangler@4.98.0 d1 info vris-26autumn-access-manager --config wrangler.toml"
+    "dev": "bunx wrangler@4.98.0 dev --config wrangler.jsonc",
+    "deploy": "bunx wrangler@4.98.0 deploy --config wrangler.jsonc",
+    "d1:create-migration": "bunx wrangler@4.98.0 d1 migrations create DB --config wrangler.jsonc",
+    "d1:list:local": "bunx wrangler@4.98.0 d1 migrations list DB --local --config wrangler.jsonc",
+    "d1:list:remote": "bunx wrangler@4.98.0 d1 migrations list DB --remote --config wrangler.jsonc",
+    "d1:migrate:local": "bunx wrangler@4.98.0 d1 migrations apply DB --local --config wrangler.jsonc",
+    "d1:migrate:remote": "bunx wrangler@4.98.0 d1 migrations apply DB --remote --config wrangler.jsonc",
+    "d1:info": "bunx wrangler@4.98.0 d1 info vris-26autumn-access-manager --config wrangler.jsonc",
+    "types": "bunx wrangler@4.98.0 types --config wrangler.jsonc",
+    "typecheck": "tsc --noEmit",
+    "check": "bun run types && bun run typecheck && bun run d1:list:local"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2",
+    "wrangler": "4.98.0"
   }
 }
