@@ -13,6 +13,12 @@ on:
       - 'layers/vris-26autumn-access-manager/**'
       - '.github/workflows/vris-26autumn-access-manager-d1-migrations.yml'
   workflow_dispatch:
+    inputs:
+      deploy_remote:
+        description: Apply remote D1 migrations and deploy the Worker
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   validate:
@@ -36,7 +42,7 @@ jobs:
 
   d1-migrate:
     needs: validate
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy_remote
     runs-on: ubuntu-latest
     name: Apply remote D1 migrations
     permissions:
@@ -57,7 +63,7 @@ jobs:
 
   deploy-worker:
     needs: d1-migrate
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy_remote
     runs-on: ubuntu-latest
     name: Deploy Worker
     permissions:

@@ -8,7 +8,7 @@ Cloudflare Worker APIを管理するレイヤーです。
 - D1 schema migrations
 - D1 binding付きWorker API
 - API key / admin API key based access control
-- GitHub Actionsによるremote D1 migrationとWorker deploy
+- GitHub Actionsによる検証と、手動dispatchでのremote D1 migration / Worker deploy
 
 ## 対象リソース
 
@@ -187,15 +187,22 @@ On pull requests, CI runs:
 bun run check
 ```
 
-On `main` pushes or manual dispatch, CI runs in this order:
+On `main` pushes, CI runs the same validation only:
+
+```sh
+bun run check
+```
+
+On manual dispatch with `deploy_remote=true`, CI runs in this order:
 
 1. Validate Worker and D1 config
 2. Apply remote D1 migrations
 3. Deploy Worker
 
-Required GitHub Actions secret:
+Required GitHub Actions secrets:
 
 ```text
+CLOUDFLARE_ACCOUNT_ID
 CLOUDFLARE_API_TOKEN
 ```
 
