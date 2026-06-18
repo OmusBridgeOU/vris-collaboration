@@ -151,8 +151,10 @@ onMounted(() => {
   // 起動時に1度だけ画面幅でscaleFactorを決定
   const width = window.innerWidth
   if (width < 768) {
+    // スマホ: app/assets/styles/_variables.scss v.$media-query-width
     scaleFactor = 0.6
-  } else if (width < 1024) {
+  } else if (width < 1080) {
+    // タブレット: app/assets/styles/_variables.scss v.$pc-content-min-width
     scaleFactor = 0.8
   } else {
     scaleFactor = 1.0
