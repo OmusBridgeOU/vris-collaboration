@@ -118,7 +118,7 @@ en:
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
 import HaAnchorLink from '../ha/HaAnchorLink.vue'
 import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
@@ -134,12 +134,6 @@ defineProps<{
 }>()
 
 const isPanelOpen = ref(false)
-
-watch(isPanelOpen, (val) => {
-  if (typeof document !== 'undefined') {
-    document.body.style.overflowX = val ? 'hidden' : ''
-  }
-})
 </script>
 
 <style scoped lang="scss">
@@ -247,7 +241,7 @@ watch(isPanelOpen, (val) => {
     }
 
     &--pc-only {
-      @include m.sp {
+      @include m.tb {
         display: none;
       }
     }
@@ -255,7 +249,7 @@ watch(isPanelOpen, (val) => {
     &--pc-none {
       display: none;
 
-      @include m.sp {
+      @include m.tb {
         display: flex;
       }
     }
@@ -295,6 +289,7 @@ watch(isPanelOpen, (val) => {
 
   &__accordion-wrapper--inner {
     position: absolute;
+    z-index: 1;
     top: 0;
     right: 0;
   }

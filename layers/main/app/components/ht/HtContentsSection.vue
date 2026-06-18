@@ -70,8 +70,8 @@ onMounted(() => {
       :items="items"
       :_slides-per-view="1"
       :_breakpoints="{
-        1024: { slidesPerView: 3 },
-        768: { slidesPerView: 2 },
+        1080: { slidesPerView: 3 }, // タブレット: app/assets/styles/_variables.scss v.$pc-content-min-width
+        768: { slidesPerView: 2 }, // スマホ: app/assets/styles/_variables.scss v.$media-query-width
       }"
       @slide-change="onSlideChange"
     />
