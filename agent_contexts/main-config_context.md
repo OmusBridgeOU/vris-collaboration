@@ -592,6 +592,7 @@ function getProduction(envType: EnvType) {
     "schedule" : "Event Schedule",
     "locationInfo" : "Venue Information",
     "sponsorsAndPartners" : "Sponsors & Partners",
+    "members" : "members",
     "qa" : "FAQ",
     "contact" : "Contact Us"
   },
@@ -644,6 +645,7 @@ function getProduction(envType: EnvType) {
     "schedule" : "開催スケジュール",
     "locationInfo" : "会場情報",
     "sponsorsAndPartners" : "ご協力",
+    "members" : "有志メンバー",
     "qa" : "よくある質問",
     "contact" : "お問い合わせ"
   },

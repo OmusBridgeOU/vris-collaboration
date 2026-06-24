@@ -50,6 +50,10 @@ en:
           <HtSponsorsAndPartnersSection />
         </section>
 
+        <section id="members">
+          <HtMemberSection />
+        </section>
+
         <section id="qa">
           <HtQandASection />
         </section>
@@ -83,6 +87,7 @@ import HtContactSection from './HtContactSection.vue'
 import HaFireworks from '../ha/HaFireworks.vue'
 import HaConfetti from '../ha/HaConfetti.vue'
 import HtParticipationGuide from './HtParticipationGuide.vue'
+import HtMemberSection from './HtMemberSection.vue'
 </script>
 
 <style lang="scss" scoped>
