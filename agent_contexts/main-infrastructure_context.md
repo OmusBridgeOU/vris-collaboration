@@ -55,24 +55,6 @@ layers/
 
 ```
 
-## File: layers/main/app/plugins/gsap.client.ts
-```typescript
-// plugins/gsap.client.ts
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
-
-export default defineNuxtPlugin(() => {
-  return {
-    provide: {
-      gsap,
-      ScrollTrigger,
-    },
-  }
-})
-```
-
 ## File: layers/main/app/plugins/gtm.client.ts
 ```typescript
 import { createGtm } from '@gtm-support/vue-gtm'
@@ -121,6 +103,24 @@ export const requireRuntimeConfig: () => ProcessEnv | RuntimeConfig = () => {
 
   throw new TypeError('@/plugins/runtimeConfig: Not satisfied.')
 }
+```
+
+## File: layers/main/app/plugins/gsap.client.ts
+```typescript
+// plugins/gsap.client.ts
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+export default defineNuxtPlugin(() => {
+  return {
+    provide: {
+      gsap,
+      ScrollTrigger,
+    },
+  }
+})
 ```
 
 ## File: layers/main/app/middleware/archive-redirect.global.ts

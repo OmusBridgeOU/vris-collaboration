@@ -54,6 +54,8 @@ layers/
         ja.json
       i18n.config.ts
     server/
+      middleware/
+        basicAuth.ts
       tsconfig.json
     app.config.ts
     nuxt.config.ts
@@ -434,6 +436,30 @@ export default {
 }
 ````
 
+## File: layers/main/server/middleware/basicAuth.ts
+````typescript
+export default defineEventHandler((event) => {
+  // プリレンダリング時の内部リクエストはスキップ
+  const url = getRequestURL(event).pathname
+  if (url.startsWith('/__nuxt') || url.startsWith('/_nuxt')) return
+
+  const header = getRequestHeader(event, 'authorization')
+
+  const isValid = (() => {
+    if (!header?.startsWith('Basic ')) return false
+    const base64 = header.slice(6)
+    const decoded = Buffer.from(base64, 'base64').toString('utf-8')
+    const [user, pass] = decoded.split(':')
+    return user === process.env.BASIC_AUTH_USER && pass === process.env.BASIC_AUTH_PASS
+  })()
+
+  if (!isValid) {
+    setResponseHeader(event, 'WWW-Authenticate', 'Basic realm="Restricted"')
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+  }
+})
+````
+
 ## File: layers/main/server/tsconfig.json
 ````json
 {
@@ -452,20 +478,6 @@ import { getAppConfigOfEnvType } from './config/appConfig'
 export default defineAppConfig(
   getAppConfigOfEnvType(readEnvType(process.env)),
 )
-````
-
-## File: layers/main/playwright.config.ts
-````typescript
-// playwright.config.ts（nuxt.config.ts と同じ階層に置く）
-import { defineConfig } from '@playwright/test'
-
-export default defineConfig({
-  testDir: './app/test/e2e',
-  snapshotDir: './app/test/e2e/snapshots',
-  use: {
-    baseURL: 'http://localhost:3000',
-  },
-})
 ````
 
 ## File: layers/main/tsconfig.json
@@ -671,6 +683,20 @@ function getProduction(envType: EnvType) {
 }
 ````
 
+## File: layers/main/playwright.config.ts
+````typescript
+// playwright.config.ts（nuxt.config.ts と同じ階層に置く）
+import { defineConfig } from '@playwright/test'
+
+export default defineConfig({
+  testDir: './app/test/e2e',
+  snapshotDir: './app/test/e2e/snapshots',
+  use: {
+    baseURL: 'http://localhost:3000',
+  },
+})
+````
+
 ## File: layers/main/nuxt.config.ts
 ````typescript
 import { defineNuxtConfig } from 'nuxt/config'
@@ -821,7 +847,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'cloudflare_pages',
+    preset: 'vercel',
   },
 
   sourcemap: {
@@ -846,6 +872,15 @@ export default defineNuxtConfig({
   },
 
   i18n: nuxtI18nOptions,
+
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
+        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
+      },
+    },
+  },
 })
 ````
 
@@ -861,7 +896,7 @@ export default defineNuxtConfig({
     "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
     "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
     "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
-    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
+    "build": "VITE_OUTPUT_ENV=production nuxt build",
     "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
     "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
     "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import HaNoteIcon from '../ha/icons/HaNoteIcon.vue'
 import HaXIcon from '../ha/icons/HaXIcon.vue'
 
 const { t } = useI18n()
@@ -48,14 +49,25 @@ en:
           >出展規約</NuxtLink>
         </nav> -->
       </div>
-      <a
-        href="https://x.com/vketreal_vris"
-        target="blank"
-        rel="noopener noreferrer"
-        class="footer__x-logo"
-      >
-        <HaXIcon />
-      </a>
+      <div class="footer__right">
+        <a
+          href="https://x.com/vketreal_vris"
+          target="blank"
+          rel="noopener noreferrer"
+          class="footer__sns-logo"
+        >
+          <HaXIcon />
+        </a>
+        <div class="footer__logo-divider" />
+        <a
+          href="https://note.com/vris"
+          target="blank"
+          rel="noopener noreferrer"
+          class="footer__sns-logo"
+        >
+          <HaNoteIcon class="footer__scaled-logo" />
+        </a>
+      </div>
     </div>
     <div class="footer__divider" />
     <div class="footer__lower">
@@ -132,12 +144,35 @@ en:
     background-color: #8f8f8f;
   }
 
-  &__x-logo {
-    width: 30px;
+  &__right {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    height: 32px;
 
     @include m.sp {
-      width: 16px;
+      gap: 16px;
+      height: 24px;
     }
+  }
+
+  &__logo-divider {
+    width: 1px;
+    height: 100%;
+    background-color: white;
+  }
+
+  &__sns-logo {
+    height: 100%;
+
+    svg {
+      height: 100%;
+    }
+  }
+
+  &__scaled-logo {
+    pointer-events: none;
+    transform:scale(1.8);
   }
 
   &__lower {
