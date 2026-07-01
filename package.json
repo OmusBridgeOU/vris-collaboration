@@ -15,7 +15,7 @@
     "dayjs": "^1.11.21",
     "nuxt": "^4.4.7",
     "ress": "^5.0.2",
-    "swiper": "^12.2.0",
+    "swiper": "^14.0.1",
     "universal-cookie": "^8.1.2",
     "unplugin-icons": "^23.0.1",
     "unplugin-vue-components": "^32.1.0",
