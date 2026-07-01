@@ -42,7 +42,7 @@
     "@nuxtjs/mdc": "^0.22.0",
     "better-sqlite3": "^12.4.1",
     "remark-gfm": "^4.0.1",
-    "remark-gh-alerts": "^0.0.3",
+    "remark-gh-alerts": "^1.0.1",
     "vket-boilerplate-nuxt-base": "workspace:*"
   }
 }
