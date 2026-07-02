@@ -23,7 +23,7 @@ onMounted(() => {
     <div class="crowd-levels__grid">
       <HmCrowdLevelCard
         label="メイン会場"
-        name="アスティーホール"
+        name="アスティホール"
         :building="1"
         :is-error="isError"
         :is-loading="isLoading"
@@ -31,7 +31,7 @@ onMounted(() => {
       />
       <HmCrowdLevelCard
         label="サブ会場"
-        name="Deep-tech CORE SAPPORO"
+        name="Deep-Tech CORE SAPPORO"
         :building="2"
         :is-error="isError"
         :is-loading="isLoading"

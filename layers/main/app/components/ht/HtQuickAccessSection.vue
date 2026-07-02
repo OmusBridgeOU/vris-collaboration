@@ -12,7 +12,7 @@ ja:
       title: 会場
       label: LOCATION
       body:
-        line1: アスティーホール
+        line1: アスティホール
         line2: 札幌市中央区 北4条西5丁目1 4F
     tickets:
       title: チケット

@@ -3,7 +3,7 @@
     site:
       title: VketReal in 札幌 2026 Autumn
       title_template: "{title} - VketReal in 札幌"
-      description: VRSNSユーザーとXRクリエイターが札幌に集うリアルイベント、VketReal in 札幌 2026 Autumn。2026年9月26日(土)、アスティーホールで開催予定です。
+      description: VRSNSユーザーとXRクリエイターが札幌に集うリアルイベント、VketReal in 札幌 2026 Autumn。2026年9月26日(土)、アスティホールで開催予定です。
       keywords: VketReal,札幌,2026 Autumn,VR,SNS,XR,メタバース,イベント,北海道
       author: VketReal in 札幌 実行委員会
       og_locale: ja_JP
