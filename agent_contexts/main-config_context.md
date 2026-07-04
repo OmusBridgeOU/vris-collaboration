@@ -454,20 +454,6 @@ export default defineAppConfig(
 )
 ````
 
-## File: layers/main/playwright.config.ts
-````typescript
-// playwright.config.ts（nuxt.config.ts と同じ階層に置く）
-import { defineConfig } from '@playwright/test'
-
-export default defineConfig({
-  testDir: './app/test/e2e',
-  snapshotDir: './app/test/e2e/snapshots',
-  use: {
-    baseURL: 'http://localhost:3000',
-  },
-})
-````
-
 ## File: layers/main/tsconfig.json
 ````json
 {
@@ -671,6 +657,20 @@ function getProduction(envType: EnvType) {
 }
 ````
 
+## File: layers/main/playwright.config.ts
+````typescript
+// playwright.config.ts（nuxt.config.ts と同じ階層に置く）
+import { defineConfig } from '@playwright/test'
+
+export default defineConfig({
+  testDir: './app/test/e2e',
+  snapshotDir: './app/test/e2e/snapshots',
+  use: {
+    baseURL: 'http://localhost:3000',
+  },
+})
+````
+
 ## File: layers/main/nuxt.config.ts
 ````typescript
 import { defineNuxtConfig } from 'nuxt/config'
@@ -856,7 +856,7 @@ export default defineNuxtConfig({
   "private": true,
   "type": "module",
   "version": "1.0.1",
-  "packageManager": "bun@1.3.13",
+  "packageManager": "bun@1.3.14",
   "scripts": {
     "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
     "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
@@ -889,7 +889,7 @@ export default defineNuxtConfig({
     "allclean-install": "bun run ../../scripts/clean_install.js all"
   },
   "dependencies": {
-    "@nuxt/content": "^3.12.0",
+    "@nuxt/content": "^3.15.0",
     "gsap": "^3.15.0",
     "vket-boilerplate-nuxt-base": "workspace:*"
   }

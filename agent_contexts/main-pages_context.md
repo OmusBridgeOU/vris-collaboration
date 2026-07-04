@@ -55,6 +55,36 @@ layers/
 
 # Files
 
+## File: layers/main/app/pages/index.vue
+```vue
+<template>
+  <HtTop />
+</template>
+
+<script setup lang="ts">
+definePageMeta({
+  layout: 'top',
+})
+</script>
+```
+
+## File: layers/main/app/layouts/default.vue
+```vue
+<template>
+  <div class="layout -default">
+    <HoTheHeader :nav-links="[]"/>
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.layout.-default {
+  overflow-x: hidden;
+}
+</style>
+```
+
 ## File: layers/main/app/pages/_documents/[...slug].vue
 ```vue
 <script lang="ts" setup>
@@ -222,36 +252,6 @@ const { data: page } = await useAsyncData(route.path, () => {
     border: none;
     border-top: 1px solid #999;
   }
-}
-</style>
-```
-
-## File: layers/main/app/pages/index.vue
-```vue
-<template>
-  <HtTop />
-</template>
-
-<script setup lang="ts">
-definePageMeta({
-  layout: 'top',
-})
-</script>
-```
-
-## File: layers/main/app/layouts/default.vue
-```vue
-<template>
-  <div class="layout -default">
-    <HoTheHeader :nav-links="[]"/>
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-.layout.-default {
-  overflow-x: hidden;
 }
 </style>
 ```
