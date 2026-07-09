@@ -72,7 +72,7 @@ en:
     <div class="footer__divider" />
     <div class="footer__lower">
       <p class="footer__copy">
-        🄫 2026 VketReal in 札幌 実行委員会. All rights reserved.
+        &copy; 2026 VketReal in 札幌 実行委員会. All rights reserved.
       </p>
     </div>
   </footer>

@@ -142,270 +142,6 @@ layers/
 
 # Files
 
-## File: layers/main/app/components/ha/icons/HaInstagramIcon.vue
-```vue
-<template>
-  <svg
-    viewBox="0 0 14 14"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M4.06 0H9.94C12.18 0 14 1.82 14 4.06V9.94C14 11.0168 13.5723 12.0495 12.8109 12.8109C12.0495 13.5723 11.0168 14 9.94 14H4.06C1.82 14 0 12.18 0 9.94V4.06C0 2.98322 0.427749 1.95054 1.18915 1.18915C1.95054 0.427749 2.98322 0 4.06 0ZM3.92 1.4C3.25165 1.4 2.61068 1.6655 2.13809 2.13809C1.6655 2.61068 1.4 3.25165 1.4 3.92V10.08C1.4 11.473 2.527 12.6 3.92 12.6H10.08C10.7483 12.6 11.3893 12.3345 11.8619 11.8619C12.3345 11.3893 12.6 10.7483 12.6 10.08V3.92C12.6 2.527 11.473 1.4 10.08 1.4H3.92ZM10.675 2.45C10.9071 2.45 11.1296 2.54219 11.2937 2.70628C11.4578 2.87038 11.55 3.09294 11.55 3.325C11.55 3.55706 11.4578 3.77962 11.2937 3.94372C11.1296 4.10781 10.9071 4.2 10.675 4.2C10.4429 4.2 10.2204 4.10781 10.0563 3.94372C9.89219 3.77962 9.8 3.55706 9.8 3.325C9.8 3.09294 9.89219 2.87038 10.0563 2.70628C10.2204 2.54219 10.4429 2.45 10.675 2.45ZM7 3.5C7.92826 3.5 8.8185 3.86875 9.47487 4.52513C10.1313 5.1815 10.5 6.07174 10.5 7C10.5 7.92826 10.1313 8.8185 9.47487 9.47487C8.8185 10.1313 7.92826 10.5 7 10.5C6.07174 10.5 5.1815 10.1313 4.52513 9.47487C3.86875 8.8185 3.5 7.92826 3.5 7C3.5 6.07174 3.86875 5.1815 4.52513 4.52513C5.1815 3.86875 6.07174 3.5 7 3.5ZM7 4.9C6.44305 4.9 5.9089 5.12125 5.51508 5.51508C5.12125 5.9089 4.9 6.44305 4.9 7C4.9 7.55695 5.12125 8.0911 5.51508 8.48492C5.9089 8.87875 6.44305 9.1 7 9.1C7.55695 9.1 8.0911 8.87875 8.48492 8.48492C8.87875 8.0911 9.1 7.55695 9.1 7C9.1 6.44305 8.87875 5.9089 8.48492 5.51508C8.0911 5.12125 7.55695 4.9 7 4.9Z"
-      fill="white"
-    />
-  </svg>
-</template>
-```
-
-## File: layers/main/app/components/ha/HaMemberCard.vue
-```vue
-<script lang="ts" setup>
-import HaInstagramIcon from './icons/HaInstagramIcon.vue'
-import HaXIcon from './icons/HaXIcon.vue'
-
-const props = defineProps<{
-  id: number
-  name: string
-  iconUrl: string
-  role: string
-  xLink: string | null
-  instagramLink: string | null
-}>()
-</script>
-
-<template>
-  <div class="glassy-box-4 glassy-box-4--radius-min member-card none-hover-animation">
-    <div class="member-card__icon">
-      <img
-        :src="props.iconUrl"
-        :alt="props.iconUrl"
-      >
-    </div>
-    <div class="member-card__right">
-      <p class="member-card__name">
-        {{ props.name }}
-      </p>
-      <p class="member-card__role">
-        {{ props.role }}
-      </p>
-      <div class="member-card__logo-link-flex">
-        <a
-          class="member-card__logo-link"
-          :href="props.xLink"
-          target="blank"
-          rel="noopener noreferrer"
-        >
-          <HaXIcon />
-        </a>
-        <a
-          class="member-card__logo-link"
-          :href="props.instagramLink"
-          target="blank"
-          rel="noopener noreferrer"
-        >
-          <HaInstagramIcon />
-        </a>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.member-card{
-    display: flex;
-    gap: 14px;
-    align-items: center;
-
-    height: fit-content;
-    padding: 20px;
-
-    &__icon {
-        overflow: hidden;
-        width: 80px;
-        height: 80px;
-        border-radius: 100%;
-
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    }
-
-    &__right {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        justify-content: space-between;
-
-        min-height: 80px;
-
-        svg {
-            display: block;
-        }
-    }
-
-    &__name {
-        font-size: 20px;
-        font-weight: 500;
-        line-height: 1em;
-        color: white;
-    }
-
-    &__role {
-        font-size: 14px;
-        line-height: 1em;
-        color: v.$vket-amber;
-    }
-
-    &__logo-link-flex {
-        display: flex;
-        gap: 12px;
-    }
-
-    &__logo-link {
-        width: 14px;
-        height: 14px;
-    }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtMemberSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  roles:
-    role1: '役割'
-en:
-  roles:
-    role1: 'role1'
-</i18n>
-
-<script setup lang="ts">
-import HaMemberCard from '@/components/ha/HaMemberCard.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.member-section__grid-item')
-  fadeInUpStagger(Array.from(items))
-})
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    name: '名前',
-    iconUrl: '/kv.png',
-    role: t('roles.role1'),
-    xLink: '',
-    instagramLink: '',
-  },
-  {
-    id: 2,
-    name: '名前',
-    iconUrl: '/kv.png',
-    role: t('roles.role1'),
-    xLink: '',
-    instagramLink: '',
-  },
-  {
-    id: 3,
-    name: '名前',
-    iconUrl: '/kv.png',
-    role: t('roles.role1'),
-    xLink: '',
-    instagramLink: '',
-  },
-  {
-    id: 4,
-    name: '名前',
-    iconUrl: '/kv.png',
-    role: t('roles.role1'),
-    xLink: '',
-    instagramLink: '',
-  },
-  {
-    id: 5,
-    name: '名前',
-    iconUrl: '/kv.png',
-    role: t('roles.role1'),
-    xLink: '',
-    instagramLink: '',
-  },
-  {
-    id: 6,
-    name: '名前',
-    iconUrl: '/kv.png',
-    role: t('roles.role1'),
-    xLink: '',
-    instagramLink: '',
-  },
-])
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.members')"
-      label="MEMBERS"
-    />
-    <div
-      ref="listRef"
-      class="member-section__grid"
-    >
-      <HaMemberCard
-        v-for="item in items"
-        :key="item.id"
-        class="member-section__grid-item"
-        v-bind="item"
-      />
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.member-section{
-  &__grid {
-    display: grid;
-    gap: 14px 28px;
-    grid-template-columns: 1fr 1fr 1fr;
-
-    max-width: 1080px;
-    margin: 0 auto;
-
-    @include m.tb {
-      grid-template-columns: 1fr 1fr;
-      max-width: 720px;
-    }
-
-    @include m.sp {
-      grid-template-columns: 1fr;
-      max-width: 360px;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/buildings/HaAstyError.vue
 ```vue
 <template>
@@ -1842,6 +1578,22 @@ const items = computed(() => [
 </template>
 ```
 
+## File: layers/main/app/components/ha/icons/HaInstagramIcon.vue
+```vue
+<template>
+  <svg
+    viewBox="0 0 14 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M4.06 0H9.94C12.18 0 14 1.82 14 4.06V9.94C14 11.0168 13.5723 12.0495 12.8109 12.8109C12.0495 13.5723 11.0168 14 9.94 14H4.06C1.82 14 0 12.18 0 9.94V4.06C0 2.98322 0.427749 1.95054 1.18915 1.18915C1.95054 0.427749 2.98322 0 4.06 0ZM3.92 1.4C3.25165 1.4 2.61068 1.6655 2.13809 2.13809C1.6655 2.61068 1.4 3.25165 1.4 3.92V10.08C1.4 11.473 2.527 12.6 3.92 12.6H10.08C10.7483 12.6 11.3893 12.3345 11.8619 11.8619C12.3345 11.3893 12.6 10.7483 12.6 10.08V3.92C12.6 2.527 11.473 1.4 10.08 1.4H3.92ZM10.675 2.45C10.9071 2.45 11.1296 2.54219 11.2937 2.70628C11.4578 2.87038 11.55 3.09294 11.55 3.325C11.55 3.55706 11.4578 3.77962 11.2937 3.94372C11.1296 4.10781 10.9071 4.2 10.675 4.2C10.4429 4.2 10.2204 4.10781 10.0563 3.94372C9.89219 3.77962 9.8 3.55706 9.8 3.325C9.8 3.09294 9.89219 2.87038 10.0563 2.70628C10.2204 2.54219 10.4429 2.45 10.675 2.45ZM7 3.5C7.92826 3.5 8.8185 3.86875 9.47487 4.52513C10.1313 5.1815 10.5 6.07174 10.5 7C10.5 7.92826 10.1313 8.8185 9.47487 9.47487C8.8185 10.1313 7.92826 10.5 7 10.5C6.07174 10.5 5.1815 10.1313 4.52513 9.47487C3.86875 8.8185 3.5 7.92826 3.5 7C3.5 6.07174 3.86875 5.1815 4.52513 4.52513C5.1815 3.86875 6.07174 3.5 7 3.5ZM7 4.9C6.44305 4.9 5.9089 5.12125 5.51508 5.51508C5.12125 5.9089 4.9 6.44305 4.9 7C4.9 7.55695 5.12125 8.0911 5.51508 8.48492C5.9089 8.87875 6.44305 9.1 7 9.1C7.55695 9.1 8.0911 8.87875 8.48492 8.48492C8.87875 8.0911 9.1 7.55695 9.1 7C9.1 6.44305 8.87875 5.9089 8.48492 5.51508C8.0911 5.12125 7.55695 4.9 7 4.9Z"
+      fill="white"
+    />
+  </svg>
+</template>
+```
+
 ## File: layers/main/app/components/ha/icons/HaJumpToPageIcon.vue
 ```vue
 <template>
@@ -2092,6 +1844,123 @@ const items = computed(() => [
         font-size: 14px;
         font-weight: 400;
         text-align: center;
+    }
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaMemberCard.vue
+```vue
+<script lang="ts" setup>
+import HaInstagramIcon from './icons/HaInstagramIcon.vue'
+import HaXIcon from './icons/HaXIcon.vue'
+
+const props = defineProps<{
+  id: number
+  name: string
+  iconUrl: string
+  role: string
+  xLink: string | null
+  instagramLink: string | null
+}>()
+</script>
+
+<template>
+  <div class="glassy-box-4 glassy-box-4--radius-min member-card none-hover-animation">
+    <div class="member-card__icon">
+      <img
+        :src="props.iconUrl"
+        :alt="props.iconUrl"
+      >
+    </div>
+    <div class="member-card__right">
+      <p class="member-card__name">
+        {{ props.name }}
+      </p>
+      <p class="member-card__role">
+        {{ props.role }}
+      </p>
+      <div class="member-card__logo-link-flex">
+        <a
+          class="member-card__logo-link"
+          :href="props.xLink"
+          target="blank"
+          rel="noopener noreferrer"
+        >
+          <HaXIcon />
+        </a>
+        <a
+          class="member-card__logo-link"
+          :href="props.instagramLink"
+          target="blank"
+          rel="noopener noreferrer"
+        >
+          <HaInstagramIcon />
+        </a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.member-card{
+    display: flex;
+    gap: 14px;
+    align-items: center;
+
+    height: fit-content;
+    padding: 20px;
+
+    &__icon {
+        overflow: hidden;
+        width: 80px;
+        height: 80px;
+        border-radius: 100%;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__right {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        justify-content: space-between;
+
+        min-height: 80px;
+
+        svg {
+            display: block;
+        }
+    }
+
+    &__name {
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 1em;
+        color: white;
+    }
+
+    &__role {
+        font-size: 14px;
+        line-height: 1em;
+        color: v.$vket-amber;
+    }
+
+    &__logo-link-flex {
+        display: flex;
+        gap: 12px;
+    }
+
+    &__logo-link {
+        width: 14px;
+        height: 14px;
     }
 }
 </style>
@@ -2464,6 +2333,137 @@ defineExpose({ swiperInstance })
 <style lang="scss" scoped>
 :deep(.swiper) {
   overflow: visible;
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtMemberSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  roles:
+    role1: '役割'
+en:
+  roles:
+    role1: 'role1'
+</i18n>
+
+<script setup lang="ts">
+import HaMemberCard from '@/components/ha/HaMemberCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.member-section__grid-item')
+  fadeInUpStagger(Array.from(items))
+})
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    name: '名前',
+    iconUrl: '/kv.png',
+    role: t('roles.role1'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 2,
+    name: '名前',
+    iconUrl: '/kv.png',
+    role: t('roles.role1'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 3,
+    name: '名前',
+    iconUrl: '/kv.png',
+    role: t('roles.role1'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 4,
+    name: '名前',
+    iconUrl: '/kv.png',
+    role: t('roles.role1'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 5,
+    name: '名前',
+    iconUrl: '/kv.png',
+    role: t('roles.role1'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 6,
+    name: '名前',
+    iconUrl: '/kv.png',
+    role: t('roles.role1'),
+    xLink: '',
+    instagramLink: '',
+  },
+])
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.members')"
+      label="MEMBERS"
+    />
+    <div
+      ref="listRef"
+      class="member-section__grid"
+    >
+      <HaMemberCard
+        v-for="item in items"
+        :key="item.id"
+        class="member-section__grid-item"
+        v-bind="item"
+      />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.member-section{
+  &__grid {
+    display: grid;
+    gap: 14px 28px;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    max-width: 1080px;
+    margin: 0 auto;
+
+    @include m.tb {
+      grid-template-columns: 1fr 1fr;
+      max-width: 720px;
+    }
+
+    @include m.sp {
+      grid-template-columns: 1fr;
+      max-width: 360px;
+    }
+  }
 }
 </style>
 ```
@@ -7195,7 +7195,7 @@ en:
     <div class="footer__divider" />
     <div class="footer__lower">
       <p class="footer__copy">
-        🄫 2026 VketReal in 札幌 実行委員会. All rights reserved.
+        &copy; 2026 VketReal in 札幌 実行委員会. All rights reserved.
       </p>
     </div>
   </footer>

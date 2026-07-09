@@ -579,6 +579,20 @@ function getProduction(envType: EnvType) {
 }
 ````
 
+## File: layers/main/playwright.config.ts
+````typescript
+// playwright.config.ts（nuxt.config.ts と同じ階層に置く）
+import { defineConfig } from '@playwright/test'
+
+export default defineConfig({
+  testDir: './app/test/e2e',
+  snapshotDir: './app/test/e2e/snapshots',
+  use: {
+    baseURL: 'http://localhost:3000',
+  },
+})
+````
+
 ## File: layers/main/i18n/locales/en.json
 ````json
 {
@@ -683,20 +697,6 @@ function getProduction(envType: EnvType) {
     }
   }
 }
-````
-
-## File: layers/main/playwright.config.ts
-````typescript
-// playwright.config.ts（nuxt.config.ts と同じ階層に置く）
-import { defineConfig } from '@playwright/test'
-
-export default defineConfig({
-  testDir: './app/test/e2e',
-  snapshotDir: './app/test/e2e/snapshots',
-  use: {
-    baseURL: 'http://localhost:3000',
-  },
-})
 ````
 
 ## File: layers/main/nuxt.config.ts
