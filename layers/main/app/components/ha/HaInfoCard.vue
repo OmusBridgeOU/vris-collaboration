@@ -131,7 +131,7 @@ defineProps<{
   }
 
   &__label {
-    padding-right: 16px;
+    margin-right: 16px;
 
     font-size: 16px;
     font-weight: bold;

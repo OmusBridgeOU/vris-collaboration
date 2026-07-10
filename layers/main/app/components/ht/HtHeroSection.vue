@@ -72,7 +72,7 @@ const initScrollEffects = () => {
     position: absolute;
     z-index: 1;
     inset: 0;
-    transform: scale(1.2);
+    transform: scale(1.1);
 
     overflow: hidden;
 

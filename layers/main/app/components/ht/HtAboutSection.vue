@@ -2,12 +2,12 @@
 ja:
   desc1: '「VketReal in 札幌」は、{br1}世界最大級のメタバースイベント「バーチャルマーケット」から派生した{br2}リアルイベントです。'
   desc2: 'VRSNS上で活躍する北海道ゆかりのクリエイターたちが、リアルの場に飛び出す場所をつくりたい―――{br}そんな想いから生まれた、有志主催のイベントです。北海道の有志XRクリエイターが主催し、札幌で開催します。'
-  stat1Label: '過去の来場者数'
-  stat1Unit: '名+'
-  stat2Label: '出展サークル数'
-  stat2Unit: '+'
-  stat3Label: '開催回数'
-  stat3Unit: '回'
+  # stat1Label: '過去の来場者数'
+  # stat1Unit: '名+'
+  # stat2Label: '出展サークル数'
+  # stat2Unit: '+'
+  # stat3Label: '開催回数'
+  # stat3Unit: '回'
   feature1Title: 'バーチャル姿のまま、{br}リアルで体験'
   feature1Desc: 'アバターとしての生き方を大切にする人々が{br}リアルの場で集い、交流し、共に{br}クリエイティブな未来を築く場です。'
   feature2Title: 'VRの世界で活躍する{br}クリエイターの出展'
@@ -17,12 +17,12 @@ ja:
 en:
   desc1: '"VketReal in Sapporo" is an in-person event inspired by "VirtualMarket (Vket)", one of the world''s largest events in the metaverse.'
   desc2: 'This is a community-run event, born from a simple idea: give creators from the Hokkaido VR/SNS scene a place to step into the real world. Organized by volunteer XR creators based in Hokkaido, and held in Sapporo.'
-  stat1Label: 'Total Attendees'
-  stat1Unit: '+'
-  stat2Label: 'Exhibiting Circles'
-  stat2Unit: '+'
-  stat3Label: 'Events Held'
-  stat3Unit: ''
+  # stat1Label: 'Total Attendees'
+  # stat1Unit: '+'
+  # stat2Label: 'Exhibiting Circles'
+  # stat2Unit: '+'
+  # stat3Label: 'Events Held'
+  # stat3Unit: ''
   feature1Title: 'Experience the Event as Your Virtual Avatar'
   feature1Desc: 'A space where people who live as their avatars come together in the real world — to connect, create, and build a creative future.'
   feature2Title: 'Creators from the VR World, Exhibiting Live'
@@ -33,7 +33,7 @@ en:
 
 <script setup lang="ts">
 import HaCard from '../ha/HaAboutCard.vue'
-import HaCountUpNumber from '../ha/HaCountUpNumber.vue'
+// import HaCountUpNumber from '../ha/HaCountUpNumber.vue'
 import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
 import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
 import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
@@ -41,7 +41,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
-const { t } = useI18n({ useScope: 'local' })
+// const { t } = useI18n({ useScope: 'local' })
 const { t: tGlobal } = useI18n()
 
 const sectionRef = ref<HTMLElement | null>(null)
@@ -86,7 +86,7 @@ onMounted(() => {
         <br class="sp-none">
       </template>
     </i18n-t>
-    <div class="info-flex mb-24">
+    <!-- <div class="info-flex">
       <div class="info-flex__child">
         <p class="info-flex__number info-flex__number--amber">
           <HaCountUpNumber
@@ -120,7 +120,7 @@ onMounted(() => {
           {{ t('stat3Label') }}
         </p>
       </div>
-    </div>
+    </div> -->
 
     <div
       ref="listRef"
@@ -224,6 +224,11 @@ onMounted(() => {
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
+// 連続する3列レイアウト（info-flex, card-flex）の縦横は揃えたいので、css変数を参照させている。
+// 3列2行のgridレイアウトの方が記述量は少ないが、info-flexとcard-flexは互いに無関係の情報なのでhtmlの構造上も並列にしたいため上記の方法を採用している。
+$three-items-flex--template-column-width: 320px;
+$three-items-flex--template-column-gap: 32px;
+
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
 
@@ -234,12 +239,11 @@ onMounted(() => {
 
 .info-flex {
   display: flex;
-  gap: 32px;
+  gap: $three-items-flex--template-column-gap;
   justify-content: center;
 
   width: 100%;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 0 auto 96px;
 
   @include m.tb {
     flex-direction: column;
@@ -247,7 +251,7 @@ onMounted(() => {
   }
 
   &__child {
-    width: 320px;
+    width: $three-items-flex--template-column-width;
   }
 
   &__number {
@@ -292,12 +296,11 @@ onMounted(() => {
 
 .card-flex {
   display: flex;
-  gap: 32px;
+  gap: $three-items-flex--template-column-gap;
   justify-content: center;
 
   width: 100%;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 0 auto;
 
   @include m.tb {
     flex-direction: column;
@@ -306,7 +309,7 @@ onMounted(() => {
   }
 
   .gsap-list__child {
-    width: 320px;
+    width: $three-items-flex--template-column-width;
 
     @include m.tb {
       width: 60%;

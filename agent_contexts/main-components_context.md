@@ -1819,16 +1819,8 @@ layers/
     align-items: center;
     justify-content: center;
 
-    height: 480px;
+    height: 160px;
     margin: 0 auto;
-
-    @include m.tb {
-        height: 240px;
-    }
-
-    @include m.sp {
-        height: 160px;
-    }
 
     &__en {
         font-size: 48px;
@@ -3232,8 +3224,8 @@ const getScrollOffset = () => {
   const width = window.innerWidth
 
   // 各値はapp/assets/styles/_variables.scssの`vket-header-height-{devices}`の値と揃える
-  if (width >= 1080) return -106 // タブレット: app/assets/styles/_variables.scss v.$pc-content-min-width
-  if (width >= 768) return -106 // スマホ: app/assets/styles/_variables.scss v.$media-query-width
+  if (width >= 1080) return -160 // PC: app/assets/styles/_variables.scss v.$pc-content-min-width
+  if (width >= 768) return -106 // タブレット: app/assets/styles/_variables.scss v.$media-query-width
   return -106 // スマホ
 }
 
@@ -3968,7 +3960,7 @@ const initScrollEffects = () => {
     position: absolute;
     z-index: 1;
     inset: 0;
-    transform: scale(1.2);
+    transform: scale(1.1);
 
     overflow: hidden;
 
@@ -5585,7 +5577,6 @@ defineProps<{
 .section-title {
   position: relative;
   margin-bottom: 112px;
-  padding-top: 16px;
 
   @include m.sp {
     margin-bottom: 64px;
@@ -6415,7 +6406,7 @@ defineProps<{
   }
 
   &__label {
-    padding-right: 16px;
+    margin-right: 16px;
 
     font-size: 16px;
     font-weight: bold;
@@ -7104,10 +7095,10 @@ const toggle = (id: number) => {
 
     .accordion-item__body {
       grid-template-rows: 1fr;
-      padding-top: 80px;
+      padding-top: 24px;
 
       @include m.sp {
-        padding-top: 32px;
+        padding-top: 16px;
       }
     }
   }
@@ -7115,205 +7106,6 @@ const toggle = (id: number) => {
 
 .accordion-glassy-box {
   box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
-}
-</style>
-```
-
-## File: layers/main/app/components/ho/HoTheFooter.vue
-```vue
-<script setup lang="ts">
-import HaNoteIcon from '../ha/icons/HaNoteIcon.vue'
-import HaXIcon from '../ha/icons/HaXIcon.vue'
-
-const { t } = useI18n()
-</script>
-
-<i18n lang="yaml">
-ja:
-  mainlogo: VketReal in 札幌 2026 Autumn
-en:
-  mainlogo: VketReal in Sapporo 2026 Autumn
-</i18n>
-
-<template>
-  <footer class="footer">
-    <div class="footer__upper">
-      <div class="footer__left">
-        <a
-          href="/"
-          class="footer__logo-link"
-        >
-          <img
-            class="footer__logo"
-            src="/vketreal_in_sapporo_logo_light.png"
-            :alt="t('mainlogo')"
-          >
-        </a>
-        <!-- <nav class="footer__nav">
-          <NuxtLink
-            class="footer__link"
-            to="/documents/terms"
-          >利用規約</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/privacy-policy"
-          >プライバシー</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/code-of-conduct"
-          >行動規範</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/exhibition-guidline"
-          >出展ガイドライン</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/exhibition-terms"
-          >出展規約</NuxtLink>
-        </nav> -->
-      </div>
-      <div class="footer__right">
-        <a
-          href="https://x.com/vketreal_vris"
-          target="blank"
-          rel="noopener noreferrer"
-          class="footer__sns-logo"
-        >
-          <HaXIcon />
-        </a>
-        <div class="footer__logo-divider" />
-        <a
-          href="https://note.com/vris"
-          target="blank"
-          rel="noopener noreferrer"
-          class="footer__sns-logo"
-        >
-          <HaNoteIcon class="footer__scaled-logo" />
-        </a>
-      </div>
-    </div>
-    <div class="footer__divider" />
-    <div class="footer__lower">
-      <p class="footer__copy">
-        &copy; 2026 VketReal in 札幌 実行委員会. All rights reserved.
-      </p>
-    </div>
-  </footer>
-</template>
-
-<style scoped lang="scss">
-@use '@/assets/styles/mixins' as m;
-
-.footer {
-  position: relative;
-  z-index: 1;
-
-  padding: 88px 105px 0;
-  border-radius: 40px 40px 0 0;
-
-  background-color: rgb(25 25 25 / 100%);
-
-  @include m.sp {
-    padding: 52px 32px 0;
-  }
-
-  &__upper {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &__logo-link {
-    display: block;
-    height: 92px;
-    margin-bottom: 64px;
-
-    @include m.tb {
-      height: 72px;
-      margin-bottom: 40px;
-    }
-
-    @include m.sp {
-      height: 46px;
-    }
-  }
-
-  &__logo {
-    height: 100%;
-  }
-
-  &__nav {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    padding-bottom: 48px;
-  }
-
-  &__link {
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-    text-decoration: underline;
-
-    @include m.tb {
-      font-size: 12px;
-      text-decoration: none;
-    }
-  }
-
-  &__divider {
-    width: 100%;
-    height: 1px;
-    background-color: #8f8f8f;
-  }
-
-  &__right {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-    height: 32px;
-
-    @include m.sp {
-      gap: 16px;
-      height: 24px;
-    }
-  }
-
-  &__logo-divider {
-    width: 1px;
-    height: 100%;
-    background-color: white;
-  }
-
-  &__sns-logo {
-    height: 100%;
-
-    svg {
-      height: 100%;
-    }
-  }
-
-  &__scaled-logo {
-    pointer-events: none;
-    transform:scale(1.8);
-  }
-
-  &__lower {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 78px;
-  }
-
-  &__copy {
-    font-family: Inter, sans-serif;
-    font-size: 12px;
-    color: white;
-
-    @include m.sp {
-      font-size: 8px;
-    }
-  }
 }
 </style>
 ```
@@ -7687,6 +7479,199 @@ onMounted(() => {
 </style>
 ```
 
+## File: layers/main/app/components/ho/HoTheFooter.vue
+```vue
+<script setup lang="ts">
+import HaNoteIcon from '../ha/icons/HaNoteIcon.vue'
+import HaXIcon from '../ha/icons/HaXIcon.vue'
+
+const { t } = useI18n()
+</script>
+
+<i18n lang="yaml">
+ja:
+  mainlogo: VketReal in 札幌 2026 Autumn
+en:
+  mainlogo: VketReal in Sapporo 2026 Autumn
+</i18n>
+
+<template>
+  <footer class="footer">
+    <div class="footer__upper">
+      <div class="footer__left">
+        <a
+          href="/"
+          class="footer__logo-link"
+        >
+          <img
+            class="footer__logo"
+            src="/vketreal_in_sapporo_logo_light.png"
+            :alt="t('mainlogo')"
+          >
+        </a>
+        <!-- <nav class="footer__nav">
+          <NuxtLink
+            class="footer__link"
+            to="/documents/terms"
+          >利用規約</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/privacy-policy"
+          >プライバシー</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/code-of-conduct"
+          >行動規範</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/exhibition-guidline"
+          >出展ガイドライン</NuxtLink>
+          <NuxtLink
+            class="footer__link"
+            to="/documents/exhibition-terms"
+          >出展規約</NuxtLink>
+        </nav> -->
+      </div>
+      <div class="footer__right">
+        <a
+          href="https://x.com/vketreal_vris"
+          target="blank"
+          rel="noopener noreferrer"
+          class="footer__sns-logo"
+        >
+          <HaXIcon />
+        </a>
+        <div class="footer__logo-divider" />
+        <a
+          href="https://note.com/vris"
+          target="blank"
+          rel="noopener noreferrer"
+          class="footer__sns-logo"
+        >
+          <HaNoteIcon class="footer__scaled-logo" />
+        </a>
+      </div>
+    </div>
+    <div class="footer__divider" />
+    <p class="footer__copy">
+      &copy; 2026 VketReal in 札幌 実行委員会. All rights reserved.
+    </p>
+  </footer>
+</template>
+
+<style scoped lang="scss">
+@use '@/assets/styles/mixins' as m;
+
+.footer {
+  position: relative;
+  z-index: 1;
+
+  padding: 88px 105px 0;
+  border-radius: 40px 40px 0 0;
+
+  background-color: rgb(25 25 25 / 100%);
+
+  @include m.sp {
+    padding: 52px 32px 0;
+  }
+
+  &__upper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__logo-link {
+    display: block;
+    height: 92px;
+    margin-bottom: 64px;
+
+    @include m.tb {
+      height: 72px;
+      margin-bottom: 40px;
+    }
+
+    @include m.sp {
+      height: 46px;
+    }
+  }
+
+  &__logo {
+    height: 100%;
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding-bottom: 48px;
+  }
+
+  &__link {
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    text-decoration: underline;
+
+    @include m.tb {
+      font-size: 12px;
+      text-decoration: none;
+    }
+  }
+
+  &__divider {
+    width: 100%;
+    height: 1px;
+    background-color: #8f8f8f;
+  }
+
+  &__right {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    height: 32px;
+
+    @include m.sp {
+      gap: 16px;
+      height: 24px;
+    }
+  }
+
+  &__logo-divider {
+    width: 1px;
+    height: 100%;
+    background-color: white;
+  }
+
+  &__sns-logo {
+    height: 100%;
+
+    svg {
+      height: 100%;
+    }
+  }
+
+  &__scaled-logo {
+    pointer-events: none;
+    transform:scale(1.8);
+  }
+
+  &__copy {
+    padding: 32px 0;
+
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    color: white;
+    text-align: center;
+
+    @include m.sp {
+      font-size: 8px;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ho/HoTheHeader.vue
 ```vue
 <i18n lang="yaml">
@@ -7699,11 +7684,11 @@ en:
 </i18n>
 
 <template>
-  <div
+  <header
     id="gsap-header"
-    class="header__wrapper"
+    class="ho-the-header"
   >
-    <header class="ho-the-header">
+    <div class="ho-the-header__inner">
       <div class="ho-the-header__left glassy-box-4 glassy-box-4--radius-full none-hover-animation">
         <a
           href="/"
@@ -7794,17 +7779,17 @@ en:
           </ul>
         </nav>
       </div>
-    </header>
-    <div
-      class="maintenance-banner"
-      role="status"
-      aria-live="polite"
-    >
-      <span class="maintenance-banner__track">
-        <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
-        <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
-      </span>
     </div>
+  </header>
+  <div
+    class="maintenance-banner"
+    role="status"
+    aria-live="polite"
+  >
+    <span class="maintenance-banner__track">
+      <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
+      <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
+    </span>
   </div>
 </template>
 
@@ -7831,25 +7816,9 @@ const isPanelOpen = ref(false)
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.header__wrapper {
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: v.$vket-header-height-pc;
-  padding: 40px 16px;
-
-  @include m.tb {
-    height: v.$vket-header-height-tb;
-    padding: 28px 16px;
-  }
-
-  @include m.sp {
-    height: v.$vket-header-height-sp;
-  }
-}
+$vket-header-height-pc--real: v.$vket-header-height-pc - v.$vket-header-vertical-padding-pc * 2;
+$vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical-padding-tb * 2;
+$vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical-padding-sp * 2;
 
 .maintenance-banner {
   position: fixed;
@@ -7891,17 +7860,44 @@ const isPanelOpen = ref(false)
 }
 
 .ho-the-header {
-  position: relative;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
 
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: center;
 
   box-sizing: border-box;
-  width: 100%;
-  max-width: calc(1600px - 136px * 2); // FIXME: 1600px(メインコンテンツのmax-width) - 136*2(メインコンテンツのpadding-x)をハードコーディングしてしまっている
-  height: 100%;
-  margin: 0 auto;
+  width: 100svw;
+  height: fit-content;
+  margin: v.$vket-header-vertical-padding-pc auto 0;
+  padding: 0 16px;
+
+  @include m.tb {
+    margin-top: v.$vket-header-vertical-padding-tb;
+  }
+
+  &__inner {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    width: 100%;
+    max-width: v.$pc-content-medium-width;
+    height: $vket-header-height-pc--real;
+
+    @include m.tb {
+      height: $vket-header-height-tb--real;
+    }
+
+    @include m.sp {
+      height: $vket-header-height-sp--real;
+    }
+  }
 
   &__left {
     display: flex;
@@ -8062,6 +8058,13 @@ const isPanelOpen = ref(false)
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .maintenance-banner__track {
+    padding-left: 0;
+    animation: none;
+  }
+}
+
 @keyframes maintenance-marquee {
   0% {
     transform: translate(0, 0);
@@ -8069,13 +8072,6 @@ const isPanelOpen = ref(false)
 
   100% {
     transform: translate(-100%, 0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .maintenance-banner__track {
-    padding-left: 0;
-    animation: none;
   }
 }
 </style>
@@ -8196,12 +8192,12 @@ onMounted(() => {
 ja:
   desc1: '「VketReal in 札幌」は、{br1}世界最大級のメタバースイベント「バーチャルマーケット」から派生した{br2}リアルイベントです。'
   desc2: 'VRSNS上で活躍する北海道ゆかりのクリエイターたちが、リアルの場に飛び出す場所をつくりたい―――{br}そんな想いから生まれた、有志主催のイベントです。北海道の有志XRクリエイターが主催し、札幌で開催します。'
-  stat1Label: '過去の来場者数'
-  stat1Unit: '名+'
-  stat2Label: '出展サークル数'
-  stat2Unit: '+'
-  stat3Label: '開催回数'
-  stat3Unit: '回'
+  # stat1Label: '過去の来場者数'
+  # stat1Unit: '名+'
+  # stat2Label: '出展サークル数'
+  # stat2Unit: '+'
+  # stat3Label: '開催回数'
+  # stat3Unit: '回'
   feature1Title: 'バーチャル姿のまま、{br}リアルで体験'
   feature1Desc: 'アバターとしての生き方を大切にする人々が{br}リアルの場で集い、交流し、共に{br}クリエイティブな未来を築く場です。'
   feature2Title: 'VRの世界で活躍する{br}クリエイターの出展'
@@ -8211,12 +8207,12 @@ ja:
 en:
   desc1: '"VketReal in Sapporo" is an in-person event inspired by "VirtualMarket (Vket)", one of the world''s largest events in the metaverse.'
   desc2: 'This is a community-run event, born from a simple idea: give creators from the Hokkaido VR/SNS scene a place to step into the real world. Organized by volunteer XR creators based in Hokkaido, and held in Sapporo.'
-  stat1Label: 'Total Attendees'
-  stat1Unit: '+'
-  stat2Label: 'Exhibiting Circles'
-  stat2Unit: '+'
-  stat3Label: 'Events Held'
-  stat3Unit: ''
+  # stat1Label: 'Total Attendees'
+  # stat1Unit: '+'
+  # stat2Label: 'Exhibiting Circles'
+  # stat2Unit: '+'
+  # stat3Label: 'Events Held'
+  # stat3Unit: ''
   feature1Title: 'Experience the Event as Your Virtual Avatar'
   feature1Desc: 'A space where people who live as their avatars come together in the real world — to connect, create, and build a creative future.'
   feature2Title: 'Creators from the VR World, Exhibiting Live'
@@ -8227,7 +8223,7 @@ en:
 
 <script setup lang="ts">
 import HaCard from '../ha/HaAboutCard.vue'
-import HaCountUpNumber from '../ha/HaCountUpNumber.vue'
+// import HaCountUpNumber from '../ha/HaCountUpNumber.vue'
 import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
 import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
 import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
@@ -8235,7 +8231,7 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
-const { t } = useI18n({ useScope: 'local' })
+// const { t } = useI18n({ useScope: 'local' })
 const { t: tGlobal } = useI18n()
 
 const sectionRef = ref<HTMLElement | null>(null)
@@ -8280,7 +8276,7 @@ onMounted(() => {
         <br class="sp-none">
       </template>
     </i18n-t>
-    <div class="info-flex mb-24">
+    <!-- <div class="info-flex">
       <div class="info-flex__child">
         <p class="info-flex__number info-flex__number--amber">
           <HaCountUpNumber
@@ -8314,7 +8310,7 @@ onMounted(() => {
           {{ t('stat3Label') }}
         </p>
       </div>
-    </div>
+    </div> -->
 
     <div
       ref="listRef"
@@ -8418,6 +8414,11 @@ onMounted(() => {
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
+// 連続する3列レイアウト（info-flex, card-flex）の縦横は揃えたいので、css変数を参照させている。
+// 3列2行のgridレイアウトの方が記述量は少ないが、info-flexとcard-flexは互いに無関係の情報なのでhtmlの構造上も並列にしたいため上記の方法を採用している。
+$three-items-flex--template-column-width: 320px;
+$three-items-flex--template-column-gap: 32px;
+
 .mb-24 {
   margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
 
@@ -8428,12 +8429,11 @@ onMounted(() => {
 
 .info-flex {
   display: flex;
-  gap: 32px;
+  gap: $three-items-flex--template-column-gap;
   justify-content: center;
 
   width: 100%;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 0 auto 96px;
 
   @include m.tb {
     flex-direction: column;
@@ -8441,7 +8441,7 @@ onMounted(() => {
   }
 
   &__child {
-    width: 320px;
+    width: $three-items-flex--template-column-width;
   }
 
   &__number {
@@ -8486,12 +8486,11 @@ onMounted(() => {
 
 .card-flex {
   display: flex;
-  gap: 32px;
+  gap: $three-items-flex--template-column-gap;
   justify-content: center;
 
   width: 100%;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 0 auto;
 
   @include m.tb {
     flex-direction: column;
@@ -8500,7 +8499,7 @@ onMounted(() => {
   }
 
   .gsap-list__child {
-    width: 320px;
+    width: $three-items-flex--template-column-width;
 
     @include m.tb {
       width: 60%;
@@ -8895,12 +8894,12 @@ import HtMemberSection from './HtMemberSection.vue'
   }
 
   &__bg {
-    padding-top: 124px;
+    padding: 168px 0 80px;
     border-radius: 36px 36px 0 0;
     background-color: v.$base-background-color;
 
-    @include m.sp {
-      padding-top: 64px;
+    @include m.tb {
+      padding: 168px 0 64px;
     }
   }
 
@@ -8926,26 +8925,12 @@ import HtMemberSection from './HtMemberSection.vue'
 }
 
 section {
-  padding: 0 136px 108px;
-
-  &:first-of-type {
-    padding-top: 24px;
-  }
+  margin-bottom: 124px;
+  padding: 0 136px;
 
   @include m.tb {
-    padding: 0 16px 84px;
-  }
-}
-
-#contact {
-  padding-bottom: 220px;
-
-  @include m.tb {
-    padding-bottom: 180px;
-  }
-
-  @include m.sp {
-    padding-bottom: 124px;
+    margin-bottom: 100px;
+    padding: 0 16px;
   }
 }
 </style>

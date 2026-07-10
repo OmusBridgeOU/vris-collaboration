@@ -113,12 +113,12 @@ import HtMemberSection from './HtMemberSection.vue'
   }
 
   &__bg {
-    padding-top: 124px;
+    padding: 168px 0 80px;
     border-radius: 36px 36px 0 0;
     background-color: v.$base-background-color;
 
-    @include m.sp {
-      padding-top: 64px;
+    @include m.tb {
+      padding: 168px 0 64px;
     }
   }
 
@@ -144,26 +144,12 @@ import HtMemberSection from './HtMemberSection.vue'
 }
 
 section {
-  padding: 0 136px 108px;
-
-  &:first-of-type {
-    padding-top: 24px;
-  }
+  margin-bottom: 124px;
+  padding: 0 136px;
 
   @include m.tb {
-    padding: 0 16px 84px;
-  }
-}
-
-#contact {
-  padding-bottom: 220px;
-
-  @include m.tb {
-    padding-bottom: 180px;
-  }
-
-  @include m.sp {
-    padding-bottom: 124px;
+    margin-bottom: 100px;
+    padding: 0 16px;
   }
 }
 </style>

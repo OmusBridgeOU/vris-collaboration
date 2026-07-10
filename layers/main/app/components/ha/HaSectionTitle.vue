@@ -31,7 +31,6 @@ defineProps<{
 .section-title {
   position: relative;
   margin-bottom: 112px;
-  padding-top: 16px;
 
   @include m.sp {
     margin-bottom: 64px;

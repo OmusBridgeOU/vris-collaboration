@@ -70,11 +70,9 @@ en:
       </div>
     </div>
     <div class="footer__divider" />
-    <div class="footer__lower">
-      <p class="footer__copy">
-        &copy; 2026 VketReal in 札幌 実行委員会. All rights reserved.
-      </p>
-    </div>
+    <p class="footer__copy">
+      &copy; 2026 VketReal in 札幌 実行委員会. All rights reserved.
+    </p>
   </footer>
 </template>
 
@@ -175,17 +173,13 @@ en:
     transform:scale(1.8);
   }
 
-  &__lower {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 78px;
-  }
-
   &__copy {
+    padding: 32px 0;
+
     font-family: Inter, sans-serif;
     font-size: 12px;
     color: white;
+    text-align: center;
 
     @include m.sp {
       font-size: 8px;
