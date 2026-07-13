@@ -24,6 +24,36 @@
   }
 }
 
+// 表示or非表示切替用 ※ `{mixin名}の条件で表示`という命名法則で統一しています
+
+// PC以上で表示
+@mixin over-pc {
+  @media screen and (min-width: #{v.$pc-content-min-width + 1px}) {
+    display: none;
+  }
+}
+
+// タブレット以上で表示
+@mixin over-tb {
+  @media screen and (min-width: #{v.$media-query-width + 1px}) {
+    display: none;
+  }
+}
+
+// タブレット以下で表示
+@mixin under-tb {
+  @media screen and (max-width: v.$pc-content-min-width) {
+    display: none;
+  }
+}
+
+// スマホ以下で表示
+@mixin under-sp {
+  @media screen and (max-width: v.$media-query-width) {
+    display: none;
+  }
+}
+
 @mixin splandscape {
   @media screen and (max-width: v.$pc-content-min-width) and (max-height: v.$sp-query-width) and (orientation: landscape) {
     @content;

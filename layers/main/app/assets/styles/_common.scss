@@ -3,7 +3,7 @@
 @use 'sass:color';
 
 .nowrap {
-  display: block;
+  display: inline;
 
   font-size: inherit;
   line-height: inherit;
@@ -12,19 +12,26 @@
   white-space: nowrap;
 }
 
-/* 画面幅によって表示or非表示 */
-@include m.sp {
-  .sp-none {
-    display: none;
-  }
+// 表示or非表示切替用 ※ `{クラス名}の条件で表示`という命名法則で統一しています
+
+// PC以上で表示
+.over-pc {
+  @include m.over-pc;
 }
 
-.tb-only {
-  display: none;
+// タブレット以上で表示
+.over-tb {
+  @include m.over-tb;
+}
 
-  @include m.tb {
-    display: block;
-  }
+// タブレット以下で表示
+.under-tb {
+  @include m.under-tb;
+}
+
+// スマホ以下で表示
+.under-sp {
+  @include m.under-sp;
 }
 
 .glassy-box {

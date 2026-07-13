@@ -109,7 +109,7 @@ onMounted(() => {
           <br>
         </template>
         <template #br2>
-          <br class="tb-only">
+          <br class="under-tb">
         </template>
         <template #br3>
           <br>
@@ -124,7 +124,7 @@ onMounted(() => {
         scope="parent"
       >
         <template #br>
-          <br class="tb-only">
+          <br class="under-tb">
         </template>
       </i18n-t>
     </p>
@@ -155,7 +155,7 @@ onMounted(() => {
         scope="parent"
       >
         <template #br>
-          <br class="tb-only">
+          <br class="under-tb">
         </template>
       </i18n-t>
     </p>

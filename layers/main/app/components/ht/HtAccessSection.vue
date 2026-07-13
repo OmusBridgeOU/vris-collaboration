@@ -12,7 +12,7 @@ const accessInfoItems = [
   {
     labelKey: 'infoCard.venue.items.address.label',
     textKey: 'infoCard.venue.items.address.text',
-    brClass: 'tb-only',
+    brClass: 'under-tb',
   },
   {
     labelKey: 'infoCard.venue.items.access.label',

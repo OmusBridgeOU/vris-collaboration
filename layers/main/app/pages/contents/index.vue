@@ -1,16 +1,3 @@
-<i18n lang="yaml">
-ja:
-  items:
-    paraRealCreatorInSapporo:
-      title: パラリアルクリエイター in SAPPORO
-      text: VRクリエイターによるグッズ展示・即売コーナー
-en:
-  items:
-    paraRealCreatorInSapporo:
-      title: ParaRealCreator in SAPPORO
-      text: Goods Exhibition & Sale by VR Creators
-</i18n>
-
 <script lang="ts" setup>
 import HaContentCard from '~/components/ha/HaContentCard.vue'
 import HaPageTitle from '~/components/ha/HaPageTitle.vue'
@@ -19,14 +6,14 @@ definePageMeta({
   layout: 'list',
 })
 
-const { t } = useI18n()
+const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
   {
     id: 1,
-    title: t('items.paraRealCreatorInSapporo.title'),
+    title: tGlobal('contents.1.title'),
     href: 'https://archived.vris.jp/',
-    text: t('items.paraRealCreatorInSapporo.text'),
+    text: tGlobal('contents.1.text'),
   },
 ])
 </script>

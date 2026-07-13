@@ -24,7 +24,7 @@ const { t: tGlobal } = useI18n()
 const items = computed(() => [
   {
     id: 1,
-    title: tGlobal('news.2.title'),
+    title: tGlobal('news.1.title'),
     href: 'https://archived.vris.jp/',
     imgSrc: '/news1_thumbnail.png',
     timestamp: '2026-06-06',

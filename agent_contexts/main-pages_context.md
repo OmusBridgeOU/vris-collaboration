@@ -416,19 +416,6 @@ const initScrollEffects = () => {
 
 ## File: layers/main/app/pages/contents/index.vue
 ```vue
-<i18n lang="yaml">
-ja:
-  items:
-    paraRealCreatorInSapporo:
-      title: パラリアルクリエイター in SAPPORO
-      text: VRクリエイターによるグッズ展示・即売コーナー
-en:
-  items:
-    paraRealCreatorInSapporo:
-      title: ParaRealCreator in SAPPORO
-      text: Goods Exhibition & Sale by VR Creators
-</i18n>
-
 <script lang="ts" setup>
 import HaContentCard from '~/components/ha/HaContentCard.vue'
 import HaPageTitle from '~/components/ha/HaPageTitle.vue'
@@ -437,14 +424,14 @@ definePageMeta({
   layout: 'list',
 })
 
-const { t } = useI18n()
+const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
   {
     id: 1,
-    title: t('items.paraRealCreatorInSapporo.title'),
+    title: tGlobal('contents.1.title'),
     href: 'https://archived.vris.jp/',
-    text: t('items.paraRealCreatorInSapporo.text'),
+    text: tGlobal('contents.1.text'),
   },
 ])
 </script>
@@ -575,21 +562,6 @@ const items = computed(() => [
 
 ## File: layers/main/app/pages/news/index.vue
 ```vue
-<i18n lang="yaml">
-ja:
-  items:
-    news1:
-      title: ロゴマークを公開しました！
-    news2:
-      title: キービジュアルを公開しました！
-en:
-  items:
-    news1:
-      title: We have published our logo!
-    news2:
-      title: We have published our key visual!
-</i18n>
-
 <script lang="ts" setup>
 import HaPageTitle from '~/components/ha/HaPageTitle.vue'
 import HaSwiperCard from '~/components/ha/HaSwiperCard.vue'
@@ -598,19 +570,19 @@ definePageMeta({
   layout: 'list',
 })
 
-const { t } = useI18n()
+const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
   {
     id: 1,
-    title: t('items.news1.title'),
+    title: tGlobal('news.1.title'),
     href: 'https://archived.vris.jp/',
     imgSrc: '/news1_thumbnail.png',
     timestamp: '2026-06-06',
   },
   {
     id: 2,
-    title: t('items.news2.title'),
+    title: tGlobal('news.2.title'),
     href: 'https://archived.vris.jp/',
     imgSrc: '/news2_thumbnail.png',
     timestamp: '2026-06-01',

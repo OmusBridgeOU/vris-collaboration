@@ -143,8 +143,8 @@ const toggle = (id: number) => {
   &__body {
     display: grid;
     grid-template-rows: 0fr;
-    padding-top: 0;
-    transition: padding 0.3s ease, grid-template-rows 0.3s ease;
+    margin-top: 0;
+    transition: margin 0.3s ease, grid-template-rows 0.3s ease;
   }
 
   &__inner {
@@ -172,10 +172,10 @@ const toggle = (id: number) => {
 
     .accordion-item__body {
       grid-template-rows: 1fr;
-      padding-top: 24px;
+      margin-top: 24px;
 
       @include m.sp {
-        padding-top: 16px;
+        margin-top: 16px;
       }
     }
   }

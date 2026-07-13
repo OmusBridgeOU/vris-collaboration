@@ -690,7 +690,7 @@ export default defineConfig({
   },
   "news": {
     "1": {
-      "title": "ロゴマークを公開しました！"
+      "title": "新ロゴマークを公開しました！"
     },
     "2": {
       "title": "キービジュアルを公開しました！"
