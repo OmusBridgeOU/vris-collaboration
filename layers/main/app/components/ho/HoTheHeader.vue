@@ -197,10 +197,15 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
   width: 100svw;
   height: fit-content;
   margin: v.$vket-header-vertical-padding-pc auto 0;
-  padding: 0 16px;
+  padding: 0 v.$pc-content-body-padding;
 
   @include m.tb {
     margin-top: v.$vket-header-vertical-padding-tb;
+    padding: 0 24px;
+  }
+
+  @include m.sp {
+    padding: 0 16px;
   }
 
   &__inner {
@@ -211,7 +216,7 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
     justify-content: space-between;
 
     width: 100%;
-    max-width: v.$pc-content-medium-width;
+    max-width: v.$pc-content-body-width - v.$pc-content-body-padding * 2;
     height: $vket-header-height-pc--real;
 
     @include m.tb {

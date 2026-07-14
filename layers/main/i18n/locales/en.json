@@ -1,5 +1,8 @@
 {
   "viewAll" : "view all",
+  "page": {
+    "top": "TOP"
+  },
   "sectionTitle": {
     "about": "What is VketReal in Sapporo?",
     "exhibitorInfo": "Exhibitor Information",

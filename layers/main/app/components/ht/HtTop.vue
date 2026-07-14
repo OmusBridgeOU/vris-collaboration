@@ -125,7 +125,7 @@ import HtMemberSection from './HtMemberSection.vue'
   &__main {
     position: relative;
     z-index: 2;
-    max-width: 1600px;
+    max-width: v.$pc-content-body-width;
     margin: 0 auto;
   }
 }
@@ -145,9 +145,14 @@ import HtMemberSection from './HtMemberSection.vue'
 
 section {
   margin-bottom: 124px;
-  padding: 0 136px;
+  padding: 0 v.$pc-content-body-padding;
 
   @include m.tb {
+    margin-bottom: 100px;
+    padding: 0 24px;
+  }
+
+  @include m.sp {
     margin-bottom: 100px;
     padding: 0 16px;
   }

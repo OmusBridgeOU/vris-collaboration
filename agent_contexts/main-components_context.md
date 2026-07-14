@@ -143,41 +143,6 @@ layers/
 
 # Files
 
-## File: layers/main/app/components/ha/HaI18nNowrapText.vue
-```vue
-<script setup>
-// 日本語表示時に形態素内で改行が行われるのを出来るだけ防ぐための、プレーンテキストを返すコンポーネント。配列で渡すと、その要素内では改行がされなくなる
-// 管理の複雑化と改行の綺麗さを天秤にかけてもtoo matchである。
-
-const props = defineProps({
-  content: { type: [String, Array], required: true },
-})
-
-const isUnits = computed(() => Array.isArray(props.content))
-</script>
-
-<template>
-  <template v-if="isUnits">
-    <template
-      v-for="(unit, index) in content"
-      :key="index"
-    >
-      <br
-        v-if="unit === '__br__'"
-        class="sp-none"
-      >
-      <span
-        v-else
-        class="nowrap"
-      >{{ unit }}</span>
-    </template>
-  </template>
-  <template v-else>
-    {{ content }}
-  </template>
-</template>
-```
-
 ## File: layers/main/app/components/ha/buildings/HaAstyError.vue
 ```vue
 <template>
@@ -1836,6 +1801,41 @@ const isUnits = computed(() => Array.isArray(props.content))
 </template>
 ```
 
+## File: layers/main/app/components/ha/HaI18nNowrapText.vue
+```vue
+<script setup>
+// 日本語表示時に形態素内で改行が行われるのを出来るだけ防ぐための、プレーンテキストを返すコンポーネント。配列で渡すと、その要素内では改行がされなくなる
+// 管理の複雑化と改行の綺麗さを天秤にかけてもtoo matchである。
+
+const props = defineProps({
+  content: { type: [String, Array], required: true },
+})
+
+const isUnits = computed(() => Array.isArray(props.content))
+</script>
+
+<template>
+  <template v-if="isUnits">
+    <template
+      v-for="(unit, index) in content"
+      :key="index"
+    >
+      <br
+        v-if="unit === '__br__'"
+        class="sp-none"
+      >
+      <span
+        v-else
+        class="nowrap"
+      >{{ unit }}</span>
+    </template>
+  </template>
+  <template v-else>
+    {{ content }}
+  </template>
+</template>
+```
+
 ## File: layers/main/app/components/ha/HaMemberCard.vue
 ```vue
 <script lang="ts" setup>
@@ -1854,11 +1854,18 @@ const props = defineProps<{
 
 <template>
   <div class="glassy-box-4 glassy-box-4--radius-min member-card none-hover-animation">
-    <div class="member-card__icon">
+    <div class="member-card__icon-wrapper">
       <img
+        v-if="props.iconUrl"
         :src="props.iconUrl"
         :alt="props.iconUrl"
+        class="member-card__icon"
       >
+      <div v-else class="member-card__icon member-card__icon--default">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#ceeaff">
+          <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Z"/>
+        </svg>
+      </div>
     </div>
     <div class="member-card__right">
       <p class="member-card__name">
@@ -1869,6 +1876,7 @@ const props = defineProps<{
       </p>
       <div class="member-card__logo-link-flex">
         <a
+          v-if="props.xLink"
           class="member-card__logo-link"
           :href="props.xLink"
           target="blank"
@@ -1877,6 +1885,7 @@ const props = defineProps<{
           <HaXIcon />
         </a>
         <a
+          v-if="props.instagramLink"
           class="member-card__logo-link"
           :href="props.instagramLink"
           target="blank"
@@ -1894,61 +1903,74 @@ const props = defineProps<{
 @use '@/assets/styles/mixins' as m;
 
 .member-card{
+  display: flex;
+  gap: 14px;
+  align-items: center;
+
+  height: 100%;
+  padding: 20px;
+
+  &__icon-wrapper {
+    overflow: hidden;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    flex-shrink: 0;
+  }
+
+  &__icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    &--default {
+      background-color: hsl(206, 30%, 50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      svg {
+        width: 80%;
+      }
+    }
+  }
+
+  &__right {
     display: flex;
-    gap: 14px;
-    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: space-between;
 
-    height: fit-content;
-    padding: 20px;
+    min-height: 80px;
 
-    &__icon {
-        overflow: hidden;
-        width: 80px;
-        height: 80px;
-        border-radius: 100%;
-
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    svg {
+        display: block;
     }
+  }
 
-    &__right {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        justify-content: space-between;
+  &__name {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1em;
+    color: white;
+  }
 
-        min-height: 80px;
+  &__role {
+    font-size: 14px;
+    line-height: 1em;
+    color: v.$vket-amber;
+  }
 
-        svg {
-            display: block;
-        }
-    }
+  &__logo-link-flex {
+    display: flex;
+    height: 14px;
+    gap: 12px;
+  }
 
-    &__name {
-        font-size: 20px;
-        font-weight: 500;
-        line-height: 1em;
-        color: white;
-    }
-
-    &__role {
-        font-size: 14px;
-        line-height: 1em;
-        color: v.$vket-amber;
-    }
-
-    &__logo-link-flex {
-        display: flex;
-        gap: 12px;
-    }
-
-    &__logo-link {
-        width: 14px;
-        height: 14px;
-    }
+  &__logo-link {
+    width: 14px;
+    height: 14px;
+  }
 }
 </style>
 ```
@@ -2329,10 +2351,30 @@ defineExpose({ swiperInstance })
 <i18n lang="yaml">
 ja:
   roles:
-    role1: '役割'
+    role1: '広報・ステージイベント企画'
+    role2: '実行委員長'
+    role3: 'PM'
+    role4: 'SNS運用'
+    role5: '企画・エンジニアリング'
+    role6: '裏方雑務'
+    role7: '当日運営'
+    role8: 'デザイン制作'
+    role9: '広報'
+    role10: 'グッズ企画・運用'
+    role11: 'webアプリ開発'
 en:
   roles:
     role1: 'role1'
+    role2: 'role2'
+    role3: 'role3'
+    role4: 'role4'
+    role5: 'role5'
+    role6: 'role6'
+    role7: 'role7'
+    role8: 'role8'
+    role9: 'role9'
+    role10: 'role10'
+    role11: 'role11'
 </i18n>
 
 <script setup lang="ts">
@@ -2359,49 +2401,89 @@ const { t: tGlobal } = useI18n()
 const items = computed(() => [
   {
     id: 1,
-    name: '名前',
-    iconUrl: '/kv.png',
+    name: 'Milia',
+    iconUrl: '/member-icons/milia.webp',
     role: t('roles.role1'),
-    xLink: '',
+    xLink: 'https://x.com/xmiliax',
     instagramLink: '',
   },
   {
     id: 2,
-    name: '名前',
-    iconUrl: '/kv.png',
-    role: t('roles.role1'),
-    xLink: '',
+    name: 'A-kun',
+    iconUrl: '/member-icons/a-kun.webp',
+    role: t('roles.role2'),
+    xLink: 'https://x.com/A919515',
     instagramLink: '',
   },
   {
     id: 3,
-    name: '名前',
-    iconUrl: '/kv.png',
-    role: t('roles.role1'),
-    xLink: '',
+    name: 'R.D.Sakamoto',
+    iconUrl: '/member-icons/skmt3p.webp',
+    role: t('roles.role3'),
+    xLink: 'https://x.com/skmt3p',
     instagramLink: '',
   },
   {
     id: 4,
-    name: '名前',
-    iconUrl: '/kv.png',
-    role: t('roles.role1'),
-    xLink: '',
+    name: 'ふららん',
+    iconUrl: '/member-icons/furarann.webp',
+    role: t('roles.role4'),
+    xLink: 'https://x.com/furarann_VR37',
     instagramLink: '',
   },
   {
     id: 5,
-    name: '名前',
-    iconUrl: '/kv.png',
-    role: t('roles.role1'),
-    xLink: '',
+    name: 'luft',
+    iconUrl: '/member-icons/luft.webp',
+    role: t('roles.role5'),
+    xLink: 'https://x.com/luft256',
     instagramLink: '',
   },
   {
     id: 6,
-    name: '名前',
-    iconUrl: '/kv.png',
-    role: t('roles.role1'),
+    name: 'ハチヤ',
+    iconUrl: '/member-icons/hatiya.webp',
+    role: t('roles.role6'),
+    xLink: 'https://x.com/h4tiyA',
+    instagramLink: '',
+  },
+  {
+    id: 7,
+    name: 'Tsubaki',
+    iconUrl: '/member-icons/tsubaki.webp',
+    role: t('roles.role7'),
+    xLink: 'https://x.com/Tsubaki_HIUVR',
+    instagramLink: '',
+  },
+  {
+    id: 8,
+    name: 'おのでらりな',
+    iconUrl: '/member-icons/rina-onodera.webp',
+    role: t('roles.role8'),
+    xLink: 'https://x.com/studiococoon_',
+    instagramLink: '',
+  },
+  {
+    id: 9,
+    name: '七草睦月',
+    iconUrl: '/member-icons/nanakusa-mutsuki.webp',
+    role: t('roles.role9'),
+    xLink: 'https://x.com/nanakusamutsuki',
+    instagramLink: '',
+  },
+  {
+    id: 10,
+    name: 'youyou',
+    iconUrl: '',
+    role: t('roles.role10'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 11,
+    name: 'samy',
+    iconUrl: '',
+    role: t('roles.role11'),
     xLink: '',
     instagramLink: '',
   },
@@ -2435,10 +2517,8 @@ const items = computed(() => [
 .member-section{
   &__grid {
     display: grid;
-    gap: 14px 28px;
+    gap: 20px 30px;
     grid-template-columns: 1fr 1fr 1fr;
-
-    max-width: 1080px;
     margin: 0 auto;
 
     @include m.tb {
@@ -2916,6 +2996,10 @@ const items = computed(() => [
 
     height: 160px;
     margin: 0 auto;
+
+    @include m.sp {
+        height: 120px;
+    }
 
     &__en {
         font-size: 48px;
@@ -4425,286 +4509,6 @@ onMounted(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtExhibitorInfoSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  subtitle1: '出展概要'
-  subtitle2: '募集スケジュール'
-  overviewRow1Label: '出展費用'
-  overviewRow1Value: '1スペース 3,000円'
-  overviewRow2Label: '参加可能人数'
-  overviewRow2Value: '1スペースにつき2名'
-  overviewRow3Label: '出展内容'
-  overviewRow3Value: 'グッズ・書籍頒布・作品展示など'
-  description: 'また、今回のサークル募集は二回に分けて行います。{br1}二次申し込みについては一次申し込みの結果、{br2}出展枠に余裕がある場合のみ開催します。{br3}確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。'
-  primaryTitle: '一次申し込み{br}（先着順）'
-  primaryRow1Label: '募集期間'
-  primaryRow1Value: '6月1日(月) ～ 6月18日(木)'
-  primaryRow2Label: '当選発表'
-  primaryRow2Value: '6月26日(金)'
-  secondaryTitle: '二次申し込み{br}（抽選）'
-  secondaryRow1Label: '募集期間'
-  secondaryRow1Value: '7月13日(月) ～ 7月30日(木)'
-  secondaryRow2Label: '当選発表'
-  secondaryRow2Value: '8月7日(金)'
-en:
-  subtitle1: 'Exhibition Overview'
-  subtitle2: 'Application Schedule'
-  overviewRow1Label: 'Booth Fee'
-  overviewRow1Value: '3,000 JPY per space'
-  overviewRow2Label: 'Number of Participants'
-  overviewRow2Value: '2 people per space'
-  overviewRow3Label: 'Exhibition Content'
-  overviewRow3Value: 'Goods, books, artwork display, etc.'
-  description: 'This time, circle applications will be accepted in two rounds.{br1}The second round will only be held if there are remaining spaces{br2}after the results of the first round.{br3}If you would like to secure a spot, we recommend applying during the first round.'
-  primaryTitle: 'First Round{br}(First-Come, First-Served)'
-  primaryRow1Label: 'Application Period'
-  primaryRow1Value: 'Mon, June 1 - Thu, June 18'
-  primaryRow2Label: 'Results Announcement'
-  primaryRow2Value: 'Fri, June 26'
-  secondaryTitle: 'Second Round{br}(Lottery)'
-  secondaryRow1Label: 'Application Period'
-  secondaryRow1Value: 'Mon, July 13 - Thu, July 30'
-  secondaryRow2Label: 'Results Announcement'
-  secondaryRow2Value: 'Fri, August 7'
-</i18n>
-
-<script setup lang="ts">
-import HaSectionTitle from '../ha/HaSectionTitle.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.exhibitorInfo')"
-      label="EXHIBITOR INFO"
-    />
-
-    <p class="subtitle">
-      {{ t('subtitle1') }}
-    </p>
-    <div class="exhibitor-info__table mb-15">
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('overviewRow1Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('overviewRow1Value') }}
-        </p>
-      </div>
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('overviewRow2Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('overviewRow2Value') }}
-        </p>
-      </div>
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('overviewRow3Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('overviewRow3Value') }}
-        </p>
-      </div>
-    </div>
-
-    <p class="subtitle">
-      {{ t('subtitle2') }}
-    </p>
-
-    <p class="exhibitor-info__description mb-24">
-      <i18n-t
-        keypath="description"
-        tag="span"
-        scope="parent"
-      >
-        <template #br1>
-          <br>
-        </template>
-        <template #br2>
-          <br class="under-tb">
-        </template>
-        <template #br3>
-          <br>
-        </template>
-      </i18n-t>
-    </p>
-
-    <p class="exhibitor-info__table-title">
-      <i18n-t
-        keypath="primaryTitle"
-        tag="span"
-        scope="parent"
-      >
-        <template #br>
-          <br class="under-tb">
-        </template>
-      </i18n-t>
-    </p>
-
-    <div class="exhibitor-info__table mb-24">
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('primaryRow1Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('primaryRow1Value') }}
-        </p>
-      </div>
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('primaryRow2Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('primaryRow2Value') }}
-        </p>
-      </div>
-    </div>
-
-    <p class="exhibitor-info__table-title">
-      <i18n-t
-        keypath="secondaryTitle"
-        tag="span"
-        scope="parent"
-      >
-        <template #br>
-          <br class="under-tb">
-        </template>
-      </i18n-t>
-    </p>
-
-    <div class="exhibitor-info__table">
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('secondaryRow1Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('secondaryRow1Value') }}
-        </p>
-      </div>
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('secondaryRow2Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('secondaryRow2Value') }}
-        </p>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-
-  @include m.tb {
-    margin-bottom: 64px;
-  }
-}
-
-.mb-15 {
-  margin-bottom: 60px;
-
-  @include m.sp {
-    margin-bottom: 48px;
-  }
-}
-
-.exhibitor-info {
-  &__table-title {
-    margin-bottom: 24px;
-
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 1.2em;
-    color: white;
-    text-align: center;
-
-    @include m.tb {
-      font-size: 22px;
-    }
-
-    @include m.sp {
-      font-size: 16px;
-    }
-  }
-
-  &__table-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 38px 0;
-    border-bottom: 1px solid white;
-
-    @include m.tb {
-      padding: 24px 0;
-    }
-
-    &:last-of-type {
-      border: none;
-    }
-  }
-
-  &__label {
-    font-size: 20px;
-    color: white;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__text {
-    font-size: 20px;
-    color: white;
-    text-align: right;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__description {
-    width: fit-content;
-    margin-right: auto;
-    margin-left: auto;
-
-    font-size: 20px;
-    line-height: 1.2em;
-    color: white;
-
-    @include m.tb {
-      font-size: 16px;
-      text-align: center;
-    }
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtHeroSection.vue
 ```vue
 <template>
@@ -5779,6 +5583,286 @@ defineProps<{
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtExhibitorInfoSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  subtitle1: '出展概要'
+  subtitle2: '募集スケジュール'
+  overviewRow1Label: '出展費用'
+  overviewRow1Value: '1スペース 3,000円'
+  overviewRow2Label: '参加可能人数'
+  overviewRow2Value: '1スペースにつき2名'
+  overviewRow3Label: '出展内容'
+  overviewRow3Value: 'グッズ・書籍頒布・作品展示など'
+  description: 'また、今回のサークル募集は二回に分けて行います。{br1}二次申し込みについては一次申し込みの結果、{br2}出展枠に余裕がある場合のみ開催します。{br3}確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。'
+  primaryTitle: '一次申し込み{br}（先着順）'
+  primaryRow1Label: '募集期間'
+  primaryRow1Value: '6月1日(月) ～ 6月18日(木)'
+  primaryRow2Label: '当選発表'
+  primaryRow2Value: '6月26日(金)'
+  secondaryTitle: '二次申し込み{br}（抽選）'
+  secondaryRow1Label: '募集期間'
+  secondaryRow1Value: '7月13日(月) ～ 7月30日(木)'
+  secondaryRow2Label: '当選発表'
+  secondaryRow2Value: '8月7日(金)'
+en:
+  subtitle1: 'Exhibition Overview'
+  subtitle2: 'Application Schedule'
+  overviewRow1Label: 'Booth Fee'
+  overviewRow1Value: '3,000 JPY per space'
+  overviewRow2Label: 'Number of Participants'
+  overviewRow2Value: '2 people per space'
+  overviewRow3Label: 'Exhibition Content'
+  overviewRow3Value: 'Goods, books, artwork display, etc.'
+  description: 'This time, circle applications will be accepted in two rounds.{br1}The second round will only be held if there are remaining spaces{br2}after the results of the first round.{br3}If you would like to secure a spot, we recommend applying during the first round.'
+  primaryTitle: 'First Round{br}(First-Come, First-Served)'
+  primaryRow1Label: 'Application Period'
+  primaryRow1Value: 'Mon, June 1 - Thu, June 18'
+  primaryRow2Label: 'Results Announcement'
+  primaryRow2Value: 'Fri, June 26'
+  secondaryTitle: 'Second Round{br}(Lottery)'
+  secondaryRow1Label: 'Application Period'
+  secondaryRow1Value: 'Mon, July 13 - Thu, July 30'
+  secondaryRow2Label: 'Results Announcement'
+  secondaryRow2Value: 'Fri, August 7'
+</i18n>
+
+<script setup lang="ts">
+import HaSectionTitle from '../ha/HaSectionTitle.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.exhibitorInfo')"
+      label="EXHIBITOR INFO"
+    />
+
+    <p class="subtitle">
+      {{ t('subtitle1') }}
+    </p>
+    <div class="exhibitor-info__table mb-15">
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow1Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow1Value') }}
+        </p>
+      </div>
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow2Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow2Value') }}
+        </p>
+      </div>
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow3Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('overviewRow3Value') }}
+        </p>
+      </div>
+    </div>
+
+    <p class="subtitle">
+      {{ t('subtitle2') }}
+    </p>
+
+    <p class="exhibitor-info__description mb-24">
+      <i18n-t
+        keypath="description"
+        tag="span"
+        scope="parent"
+      >
+        <template #br1>
+          <br>
+        </template>
+        <template #br2>
+          <br class="under-tb">
+        </template>
+        <template #br3>
+          <br>
+        </template>
+      </i18n-t>
+    </p>
+
+    <p class="exhibitor-info__table-title">
+      <i18n-t
+        keypath="primaryTitle"
+        tag="span"
+        scope="parent"
+      >
+        <template #br>
+          <br class="under-tb">
+        </template>
+      </i18n-t>
+    </p>
+
+    <div class="exhibitor-info__table mb-24">
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('primaryRow1Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('primaryRow1Value') }}
+        </p>
+      </div>
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('primaryRow2Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('primaryRow2Value') }}
+        </p>
+      </div>
+    </div>
+
+    <p class="exhibitor-info__table-title">
+      <i18n-t
+        keypath="secondaryTitle"
+        tag="span"
+        scope="parent"
+      >
+        <template #br>
+          <br class="under-tb">
+        </template>
+      </i18n-t>
+    </p>
+
+    <div class="exhibitor-info__table">
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('secondaryRow1Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('secondaryRow1Value') }}
+        </p>
+      </div>
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label">
+          {{ t('secondaryRow2Label') }}
+        </p>
+        <p class="exhibitor-info__label">
+          {{ t('secondaryRow2Value') }}
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+
+  @include m.tb {
+    margin-bottom: 64px;
+  }
+}
+
+.mb-15 {
+  margin-bottom: 60px;
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
+}
+
+.exhibitor-info {
+  &__table-title {
+    margin-bottom: 24px;
+
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.2em;
+    color: white;
+    text-align: center;
+
+    @include m.tb {
+      font-size: 22px;
+    }
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__table-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 38px 0;
+    border-bottom: 1px solid white;
+
+    @include m.tb {
+      padding: 24px 0;
+    }
+
+    &:last-of-type {
+      border: none;
+    }
+  }
+
+  &__label {
+    font-size: 20px;
+    color: white;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__text {
+    font-size: 20px;
+    color: white;
+    text-align: right;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__description {
+    width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+
+    font-size: 20px;
+    line-height: 1.2em;
+    color: white;
+
+    @include m.tb {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtQandASection.vue
 ```vue
 <i18n lang="yaml">
@@ -6303,115 +6387,6 @@ onMounted(() => {
       grid-column: 1 / -1;
     }
   }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtAccessSection.vue
-```vue
-<script setup lang="ts">
-import HaInfoCard from '../ha/HaInfoCard.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const accessInfoItems = [
-  {
-    labelKey: 'infoCard.venue.items.venueName.label',
-    textKey: 'infoCard.venue.items.venueName.text',
-  },
-  {
-    labelKey: 'infoCard.venue.items.address.label',
-    textKey: 'infoCard.venue.items.address.text',
-    brClass: 'under-tb',
-  },
-  {
-    labelKey: 'infoCard.venue.items.access.label',
-    textKey: 'infoCard.venue.items.access.text',
-  },
-]
-
-const { t: tGlobal } = useI18n()
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.locationInfo')"
-      label="LOCATION INFO"
-    />
-    <div class="access-flex">
-      <div class="access-flex__left map-container">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2914.8284432733867!2d141.3482173!3d43.0660756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5f0b299fc2c5a775%3A0xe3754b24ac5c10e4!2z44Ki44K544OG44KjNDU!5e0!3m2!1sja!2sjp!4v1780036570202!5m2!1sja!2sjp"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        />
-      </div>
-      <HaInfoCard
-        class="access-flex__right"
-        title-key="infoCard.venue.title"
-        :items="accessInfoItems"
-      />
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/mixins' as m;
-
-.access-flex {
-  display: flex;
-  gap: 40px;
-
-  @include m.tb {
-    flex-direction: column;
-  }
-
-  @include m.sp {
-    gap: 22px;
-  }
-
-  &__left,
-  &__right {
-    width: 100%;
-  }
-}
-
-.map-container {
-  position: relative;
-  background-color: #ffffff70;
-
-  @include m.tb {
-    min-height: 480px;
-  }
-
-  @include m.sp {
-    min-height: 240px;
-  }
-
-  iframe {
-    position: absolute;
-    inset: 0;
-
-    width: auto;
-    width: 100%;
-    height: auto;
-    height: 100%;
-    border: none;
-  }
-}
-
-.mb-30 {
-  margin-bottom: 120px;
 }
 </style>
 ```
@@ -6955,6 +6930,115 @@ defineProps<{
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtAccessSection.vue
+```vue
+<script setup lang="ts">
+import HaInfoCard from '../ha/HaInfoCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const accessInfoItems = [
+  {
+    labelKey: 'infoCard.venue.items.venueName.label',
+    textKey: 'infoCard.venue.items.venueName.text',
+  },
+  {
+    labelKey: 'infoCard.venue.items.address.label',
+    textKey: 'infoCard.venue.items.address.text',
+    brClass: 'under-tb',
+  },
+  {
+    labelKey: 'infoCard.venue.items.access.label',
+    textKey: 'infoCard.venue.items.access.text',
+  },
+]
+
+const { t: tGlobal } = useI18n()
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.locationInfo')"
+      label="LOCATION INFO"
+    />
+    <div class="access-flex">
+      <div class="access-flex__left map-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2914.8284432733867!2d141.3482173!3d43.0660756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5f0b299fc2c5a775%3A0xe3754b24ac5c10e4!2z44Ki44K544OG44KjNDU!5e0!3m2!1sja!2sjp!4v1780036570202!5m2!1sja!2sjp"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        />
+      </div>
+      <HaInfoCard
+        class="access-flex__right"
+        title-key="infoCard.venue.title"
+        :items="accessInfoItems"
+      />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
+.access-flex {
+  display: flex;
+  gap: 40px;
+
+  @include m.tb {
+    flex-direction: column;
+  }
+
+  @include m.sp {
+    gap: 22px;
+  }
+
+  &__left,
+  &__right {
+    width: 100%;
+  }
+}
+
+.map-container {
+  position: relative;
+  background-color: #ffffff70;
+
+  @include m.tb {
+    min-height: 480px;
+  }
+
+  @include m.sp {
+    min-height: 240px;
+  }
+
+  iframe {
+    position: absolute;
+    inset: 0;
+
+    width: auto;
+    width: 100%;
+    height: auto;
+    height: 100%;
+    border: none;
+  }
+}
+
+.mb-30 {
+  margin-bottom: 120px;
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtExhibitionSection.vue
 ```vue
 <script setup lang="ts">
@@ -7324,6 +7408,115 @@ onMounted(() => {
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtContactSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  personal:
+    title: '個人向けお問い合わせ'
+    text: '一般の方からのお問い合わせはこちら'
+  corporate:
+    title: '法人向けお問い合わせ'
+    text: '企業・法人の方からのお問い合わせはこちら'
+  press:
+    title: '広報向けお問い合わせ'
+    text: 'メディア・広報関連のお問い合わせはこちら'
+en:
+  personal:
+    title: 'For General Inquiries'
+    text: 'For inquiries from individuals'
+  corporate:
+    title: 'For Business Inquiries'
+    text: 'For inquiries from companies and organizations'
+  press:
+    title: 'For Press Inquiries'
+    text: 'For media and press-related inquiries'
+</i18n>
+
+<script setup lang="ts">
+import HaContactCard from '../ha/HaContactCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+// import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.contact-grid__child')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.contact')"
+      label="CONTACT"
+    />
+    <div class="contact-grid">
+      <HaContactCard
+        :title="t('personal.title')"
+        :text="t('personal.text')"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSchGlf0h1eszxPupo5aWycU_s3CAOmkP1LJP38Niiwi95KNwQ/viewform"
+        color="amber"
+        class="contact-grid__child"
+      />
+      <HaContactCard
+        :title="t('corporate.title')"
+        :text="t('corporate.text')"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSeEevGm1q7byQWd7RhGWTGYClcGthQEbWufSviyiFbcYzsd6A/viewform"
+        color="cyan"
+        class="contact-grid__child"
+      />
+      <HaContactCard
+        :title="t('press.title')"
+        :text="t('press.text')"
+        href="https://docs.google.com/forms/d/e/1FAIpQLScmYNjxOyf1GtHVSqsRe7pFDoyfUhiSSDqJh5Q0WD40b-1LOg/viewform"
+        color="magenta"
+        class="contact-grid__child contact-grid__child--full-width"
+      />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+
+  max-width: 760px;
+  margin: 0 auto;
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+  }
+
+  &__child {
+    &--full-width {
+      grid-column: 1 / -1;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ha/HaAccordionItem.vue
 ```vue
 <script setup lang="ts">
@@ -7511,115 +7704,6 @@ const toggle = (id: number) => {
 
 .accordion-glassy-box {
   box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtContactSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  personal:
-    title: '個人向けお問い合わせ'
-    text: '一般の方からのお問い合わせはこちら'
-  corporate:
-    title: '法人向けお問い合わせ'
-    text: '企業・法人の方からのお問い合わせはこちら'
-  press:
-    title: '広報向けお問い合わせ'
-    text: 'メディア・広報関連のお問い合わせはこちら'
-en:
-  personal:
-    title: 'For General Inquiries'
-    text: 'For inquiries from individuals'
-  corporate:
-    title: 'For Business Inquiries'
-    text: 'For inquiries from companies and organizations'
-  press:
-    title: 'For Press Inquiries'
-    text: 'For media and press-related inquiries'
-</i18n>
-
-<script setup lang="ts">
-import HaContactCard from '../ha/HaContactCard.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-// import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.contact-grid__child')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.contact')"
-      label="CONTACT"
-    />
-    <div class="contact-grid">
-      <HaContactCard
-        :title="t('personal.title')"
-        :text="t('personal.text')"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSchGlf0h1eszxPupo5aWycU_s3CAOmkP1LJP38Niiwi95KNwQ/viewform"
-        color="amber"
-        class="contact-grid__child"
-      />
-      <HaContactCard
-        :title="t('corporate.title')"
-        :text="t('corporate.text')"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSeEevGm1q7byQWd7RhGWTGYClcGthQEbWufSviyiFbcYzsd6A/viewform"
-        color="cyan"
-        class="contact-grid__child"
-      />
-      <HaContactCard
-        :title="t('press.title')"
-        :text="t('press.text')"
-        href="https://docs.google.com/forms/d/e/1FAIpQLScmYNjxOyf1GtHVSqsRe7pFDoyfUhiSSDqJh5Q0WD40b-1LOg/viewform"
-        color="magenta"
-        class="contact-grid__child contact-grid__child--full-width"
-      />
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 24px;
-
-  max-width: 760px;
-  margin: 0 auto;
-
-  @include m.sp {
-    grid-template-columns: 1fr;
-  }
-
-  &__child {
-    &--full-width {
-      grid-column: 1 / -1;
-    }
-  }
 }
 </style>
 ```
@@ -8018,10 +8102,15 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
   width: 100svw;
   height: fit-content;
   margin: v.$vket-header-vertical-padding-pc auto 0;
-  padding: 0 16px;
+  padding: 0 v.$pc-content-body-padding;
 
   @include m.tb {
     margin-top: v.$vket-header-vertical-padding-tb;
+    padding: 0 24px;
+  }
+
+  @include m.sp {
+    padding: 0 16px;
   }
 
   &__inner {
@@ -8032,7 +8121,7 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
     justify-content: space-between;
 
     width: 100%;
-    max-width: v.$pc-content-medium-width;
+    max-width: v.$pc-content-body-width - v.$pc-content-body-padding * 2;
     height: $vket-header-height-pc--real;
 
     @include m.tb {
@@ -8907,7 +8996,7 @@ import HtMemberSection from './HtMemberSection.vue'
   &__main {
     position: relative;
     z-index: 2;
-    max-width: 1600px;
+    max-width: v.$pc-content-body-width;
     margin: 0 auto;
   }
 }
@@ -8927,9 +9016,14 @@ import HtMemberSection from './HtMemberSection.vue'
 
 section {
   margin-bottom: 124px;
-  padding: 0 136px;
+  padding: 0 v.$pc-content-body-padding;
 
   @include m.tb {
+    margin-bottom: 100px;
+    padding: 0 24px;
+  }
+
+  @include m.sp {
     margin-bottom: 100px;
     padding: 0 16px;
   }

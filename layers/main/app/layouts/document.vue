@@ -9,7 +9,11 @@
 <script setup lang="ts">
 import type { NavLink } from '../components/ho/HoTheHeader.vue'
 
-const navLinks: NavLink[] = [{ type: 'link', href: '/', text: 'TOPページ' }]
+const { t } = useI18n()
+
+const navLinks = computed<NavLink[]>(() => [
+  { type: 'link', href: '/', text: t('page.top') },
+])
 </script>
 
 <style lang="scss" scoped>

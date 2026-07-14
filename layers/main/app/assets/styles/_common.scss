@@ -486,6 +486,8 @@
   backdrop-filter: blur(4px);
   box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
 
+  transition: 0.15s transform ease;
+
   &::before {
     pointer-events: none;
     content: '';

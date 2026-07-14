@@ -597,6 +597,9 @@ export default defineConfig({
 ````json
 {
   "viewAll" : "view all",
+  "page": {
+    "top": "TOP"
+  },
   "sectionTitle": {
     "about": "What is VketReal in Sapporo?",
     "exhibitorInfo": "Exhibitor Information",
@@ -650,6 +653,9 @@ export default defineConfig({
 ````json
 {
   "viewAll" : "すべて見る",
+  "page": {
+    "top": "TOPページ"
+  },
   "sectionTitle": {
     "about": "VketReal in 札幌とは",
     "exhibitorInfo": "出展者案内",

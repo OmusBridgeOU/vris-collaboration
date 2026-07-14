@@ -1,5 +1,8 @@
 {
   "viewAll" : "すべて見る",
+  "page": {
+    "top": "TOPページ"
+  },
   "sectionTitle": {
     "about": "VketReal in 札幌とは",
     "exhibitorInfo": "出展者案内",

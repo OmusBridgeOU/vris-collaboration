@@ -18,6 +18,10 @@
     height: 160px;
     margin: 0 auto;
 
+    @include m.sp {
+        height: 120px;
+    }
+
     &__en {
         font-size: 48px;
         font-weight: 700;
