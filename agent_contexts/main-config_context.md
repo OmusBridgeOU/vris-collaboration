@@ -649,62 +649,6 @@ export default defineConfig({
 }
 ````
 
-## File: layers/main/i18n/locales/ja.json
-````json
-{
-  "viewAll" : "すべて見る",
-  "page": {
-    "top": "TOPページ"
-  },
-  "sectionTitle": {
-    "about": "VketReal in 札幌とは",
-    "exhibitorInfo": "出展者案内",
-    "participationGuide" : "参加案内",
-    "news" : "お知らせ",
-    "contents" : "企画・コンテンツ",
-    "schedule" : "開催スケジュール",
-    "locationInfo" : "会場情報",
-    "sponsorsAndPartners" : "ご協力",
-    "members" : "有志メンバー",
-    "qa" : "よくある質問",
-    "contact" : "お問い合わせ"
-  },
-  "infoCard": {
-    "venue": {
-      "title": "会場概要",
-      "items": {
-        "venueName": {
-          "label": "会場名",
-          "text": "アスティ45 4F アスティホール"
-        },
-        "address": {
-          "label": "住所",
-          "text": "〒060-0004 {br}北海道札幌市中央区北4条西5丁目1"
-        },
-        "access": {
-          "label": "アクセス",
-          "text": "地下鉄さっぽろ駅より地下鉄直結・徒歩3分{br}JR札幌駅南口より徒歩5分"
-        }
-      }
-    }
-  },
-  "contents": {
-    "1": {
-      "title": "パラリアルクリエイター in SAPPORO",
-      "text": "VRクリエイターによるグッズ展示・即売コーナー"
-    }
-  },
-  "news": {
-    "1": {
-      "title": "新ロゴマークを公開しました！"
-    },
-    "2": {
-      "title": "キービジュアルを公開しました！"
-    }
-  }
-}
-````
-
 ## File: layers/main/nuxt.config.ts
 ````typescript
 import { defineNuxtConfig } from 'nuxt/config'
@@ -890,6 +834,62 @@ export default defineNuxtConfig({
     },
   },
 })
+````
+
+## File: layers/main/i18n/locales/ja.json
+````json
+{
+  "viewAll" : "すべて見る",
+  "page": {
+    "top": "TOPページ"
+  },
+  "sectionTitle": {
+    "about": "VketReal in 札幌とは",
+    "exhibitorInfo": "出展者案内",
+    "participationGuide" : "参加案内",
+    "news" : "お知らせ",
+    "contents" : "企画・コンテンツ",
+    "schedule" : "開催スケジュール",
+    "locationInfo" : "会場情報",
+    "sponsorsAndPartners" : "ご協力",
+    "members" : "有志メンバー",
+    "qa" : "よくある質問",
+    "contact" : "お問い合わせ"
+  },
+  "infoCard": {
+    "venue": {
+      "title": "会場概要",
+      "items": {
+        "venueName": {
+          "label": "会場名",
+          "text": "アスティ45 4F アスティホール"
+        },
+        "address": {
+          "label": "住所",
+          "text": "〒060-0004 {br}北海道札幌市中央区北4条西5丁目1"
+        },
+        "access": {
+          "label": "アクセス",
+          "text": "地下鉄さっぽろ駅より地下鉄直結・徒歩3分{br}JR札幌駅南口より徒歩5分"
+        }
+      }
+    }
+  },
+  "contents": {
+    "1": {
+      "title": "パラリアルクリエイター in SAPPORO",
+      "text": "VRクリエイターによるグッズ展示・即売コーナー"
+    }
+  },
+  "news": {
+    "1": {
+      "title": "新ロゴマークを公開しました！"
+    },
+    "2": {
+      "title": "キービジュアルを公開しました！"
+    }
+  }
+}
 ````
 
 ## File: layers/main/package.json

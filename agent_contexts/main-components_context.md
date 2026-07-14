@@ -1861,9 +1861,16 @@ const props = defineProps<{
         :alt="props.iconUrl"
         class="member-card__icon"
       >
-      <div v-else class="member-card__icon member-card__icon--default">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#ceeaff">
-          <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Z"/>
+      <div
+        v-else
+        class="member-card__icon member-card__icon--default"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+          fill="#ceeaff"
+        >
+          <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Z" />
         </svg>
       </div>
     </div>
@@ -1912,10 +1919,11 @@ const props = defineProps<{
 
   &__icon-wrapper {
     overflow: hidden;
+    flex-shrink: 0;
+
     width: 80px;
     height: 80px;
     border-radius: 100%;
-    flex-shrink: 0;
   }
 
   &__icon {
@@ -1924,11 +1932,11 @@ const props = defineProps<{
     object-fit: cover;
 
     &--default {
-      background-color: hsl(206, 30%, 50%);
       display: flex;
       align-items: center;
       justify-content: center;
-      
+      background-color: hsl(206deg 30% 50%);
+
       svg {
         width: 80%;
       }
@@ -1963,8 +1971,8 @@ const props = defineProps<{
 
   &__logo-link-flex {
     display: flex;
-    height: 14px;
     gap: 12px;
+    height: 14px;
   }
 
   &__logo-link {
@@ -2517,8 +2525,8 @@ const items = computed(() => [
 .member-section{
   &__grid {
     display: grid;
-    gap: 20px 30px;
     grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px 30px;
     margin: 0 auto;
 
     @include m.tb {
@@ -2975,51 +2983,6 @@ const items = computed(() => [
 </template>
 ```
 
-## File: layers/main/app/components/ha/HaCommingSoon.vue
-```vue
-<template>
-  <div class="comming-soon">
-    <span class="comming-soon__en">comming soon</span>
-    <span class="comming-soon__jp">続報をお待ちください...</span>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.comming-soon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    height: 160px;
-    margin: 0 auto;
-
-    @include m.sp {
-        height: 120px;
-    }
-
-    &__en {
-        font-size: 48px;
-        font-weight: 700;
-        text-align: center;
-
-        @include m.sp {
-            font-size: 32px;
-        }
-    }
-
-    &__jp {
-        font-size: 14px;
-        font-weight: 400;
-        text-align: center;
-    }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/HaCommingSoonCard.vue
 ```vue
 <template>
@@ -3315,6 +3278,51 @@ const { t: tGlobal } = useI18n()
     </defs>
   </svg>
 </template>
+```
+
+## File: layers/main/app/components/ha/HaCommingSoon.vue
+```vue
+<template>
+  <div class="comming-soon">
+    <span class="comming-soon__en">comming soon</span>
+    <span class="comming-soon__jp">続報をお待ちください...</span>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.comming-soon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 160px;
+    margin: 0 auto;
+
+    @include m.sp {
+        height: 120px;
+    }
+
+    &__en {
+        font-size: 48px;
+        font-weight: 700;
+        text-align: center;
+
+        @include m.sp {
+            font-size: 32px;
+        }
+    }
+
+    &__jp {
+        font-size: 14px;
+        font-weight: 400;
+        text-align: center;
+    }
+}
+</style>
 ```
 
 ## File: layers/main/app/components/ha/HaConductCard.vue
@@ -4052,6 +4060,95 @@ const handleClick = () => {
   }, 350)
 }
 </script>
+```
+
+## File: layers/main/app/components/ha/HaFirstView.vue
+```vue
+<template>
+  <div class="fv">
+    <h2 class="fv__title">
+      <HaTypewriterText
+        class="nowrap"
+        text="バーチャルとリアルの"
+        :speed="80"
+        :delay="500"
+      />
+      <HaTypewriterText
+        class="nowrap"
+        text="境界を、"
+        :speed="80"
+        :delay="1380"
+      />
+      <HaTypewriterText
+        class="fv__title--bold"
+        text="開拓せよ。"
+        :speed="80"
+        :delay="1900"
+      />
+    </h2>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.fv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100svw;
+  height: 1100px;
+
+  @include m.sp {
+    height: 100svw;
+  }
+
+  &__title {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.2em;
+    color: v.$vket-vermilion;
+    text-align: center;
+
+    @include m.tb {
+      font-size: 36px;
+    }
+
+    @include m.sp {
+      max-width: 76%;
+      font-size: 24px;
+    }
+
+    span {
+      display: inline-block;
+
+      @include m.tb {
+        display: block;
+      }
+    }
+
+    &--bold {
+      display: block;
+
+      font-size: 128px;
+      font-weight: inherit;
+      line-height: 100%;
+      color: white;
+      text-shadow: 0 5px 20px v.$vket-amber;
+
+      @include m.tb {
+        font-size: 96px;
+      }
+
+      @include m.sp {
+        font-size: 48px;
+      }
+    }
+  }
+}
+</style>
 ```
 
 ## File: layers/main/app/components/hm/HmCrowdLevelCard.vue
@@ -5293,30 +5390,31 @@ defineProps<{
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaFirstView.vue
+## File: layers/main/app/components/ha/HaSectionTitle.vue
 ```vue
+<script setup lang="ts">
+defineProps<{
+  label: string
+  title: string
+}>()
+</script>
+
 <template>
-  <div class="fv">
-    <h2 class="fv__title">
-      <HaTypewriterText
-        class="nowrap"
-        text="バーチャルとリアルの"
-        :speed="80"
-        :delay="500"
-      />
-      <HaTypewriterText
-        class="nowrap"
-        text="境界を、"
-        :speed="80"
-        :delay="1380"
-      />
-      <HaTypewriterText
-        class="fv__title--bold"
-        text="開拓せよ。"
-        :speed="80"
-        :delay="1900"
-      />
-    </h2>
+  <div class="section-title">
+    <div class="section-title__line" />
+    <div class="section-title__flex">
+      <div class="section-title__text-box">
+        <p class="section-title__label">
+          {{ label }}
+        </p>
+        <h2 class="section-title__text">
+          {{ title }}
+        </h2>
+      </div>
+      <div class="section-title__controls">
+        <slot name="controls" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -5324,59 +5422,95 @@ defineProps<{
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.fv {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100svw;
-  height: 1100px;
+.section-title {
+  position: relative;
+  margin-bottom: 112px;
 
   @include m.sp {
-    height: 100svw;
+    margin-bottom: 64px;
   }
 
-  &__title {
-    font-size: 64px;
-    font-weight: 700;
-    line-height: 1.2em;
-    color: v.$vket-vermilion;
-    text-align: center;
+  @include m.sp {
+    margin-bottom: 32px;
+  }
+
+  &__line {
+    position: relative;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 2px;
+    margin-bottom: 4px;
+
+    // 点
+    &::before {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 2px;
+      height: 2px;
+
+      background: v.$vket-amber;
+    }
+
+    &::after {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 2px;
+      margin-left: 12px;
+
+      background: linear-gradient(
+        to right,
+        v.$vket-amber 0%,
+        v.$vket-vermilion 100%
+      );
+    }
+  }
+
+  &__flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__label {
+    font-size: 12px;
+    color: v.$vket-amber;
+    letter-spacing: 0.1em;
 
     @include m.tb {
-      font-size: 36px;
+      font-size: 10px;
+    }
+  }
+
+  &__text {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1em;
+    color: #fff;
+
+    @include m.tb {
+      font-size: 32px;
     }
 
     @include m.sp {
-      max-width: 76%;
       font-size: 24px;
     }
+  }
 
-    span {
-      display: inline-block;
-
-      @include m.tb {
-        display: block;
-      }
-    }
-
-    &--bold {
-      display: block;
-
-      font-size: 128px;
-      font-weight: inherit;
-      line-height: 100%;
-      color: white;
-      text-shadow: 0 5px 20px v.$vket-amber;
-
-      @include m.tb {
-        font-size: 96px;
-      }
-
-      @include m.sp {
-        font-size: 48px;
-      }
-    }
+  &__controls {
+    display: flex;
+    gap: 4px;
+    align-items: center;
   }
 }
 </style>
@@ -5967,132 +6101,6 @@ onMounted(() => {
 </template>
 ```
 
-## File: layers/main/app/components/ha/HaSectionTitle.vue
-```vue
-<script setup lang="ts">
-defineProps<{
-  label: string
-  title: string
-}>()
-</script>
-
-<template>
-  <div class="section-title">
-    <div class="section-title__line" />
-    <div class="section-title__flex">
-      <div class="section-title__text-box">
-        <p class="section-title__label">
-          {{ label }}
-        </p>
-        <h2 class="section-title__text">
-          {{ title }}
-        </h2>
-      </div>
-      <div class="section-title__controls">
-        <slot name="controls" />
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.section-title {
-  position: relative;
-  margin-bottom: 112px;
-
-  @include m.sp {
-    margin-bottom: 64px;
-  }
-
-  @include m.sp {
-    margin-bottom: 32px;
-  }
-
-  &__line {
-    position: relative;
-
-    overflow: hidden;
-
-    width: 100%;
-    height: 2px;
-    margin-bottom: 4px;
-
-    // 点
-    &::before {
-      content: '';
-
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: 2px;
-      height: 2px;
-
-      background: v.$vket-amber;
-    }
-
-    &::after {
-      content: '';
-
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 2px;
-      margin-left: 12px;
-
-      background: linear-gradient(
-        to right,
-        v.$vket-amber 0%,
-        v.$vket-vermilion 100%
-      );
-    }
-  }
-
-  &__flex {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__label {
-    font-size: 12px;
-    color: v.$vket-amber;
-    letter-spacing: 0.1em;
-
-    @include m.tb {
-      font-size: 10px;
-    }
-  }
-
-  &__text {
-    font-size: 48px;
-    font-weight: 700;
-    line-height: 1em;
-    color: #fff;
-
-    @include m.tb {
-      font-size: 32px;
-    }
-
-    @include m.sp {
-      font-size: 24px;
-    }
-  }
-
-  &__controls {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
 ```vue
 <script setup lang="ts">
@@ -6386,6 +6394,176 @@ onMounted(() => {
     &--full-width {
       grid-column: 1 / -1;
     }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtQuickAccessSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  section:
+    title: 参加者向け重要情報
+    label: quick access
+  cards:
+    date:
+      title: 開催日
+      label: DATE
+      body: 2026年9月26日(土)
+    location:
+      title: 会場
+      label: LOCATION
+      body:
+        line1: アスティーホール
+        line2: 札幌市中央区 北4条西5丁目1 4F
+    tickets:
+      title: チケット
+      label: TICKETS
+      body: 販売開始に向けて準備中です。
+    schedule:
+      title: スケジュール
+      label: SCHEDULE
+      body: 詳細タイムテーブルは順次公開予定です。
+en:
+  section:
+    title: Key Information for Visitors
+    label: quick access
+  cards:
+    date:
+      title: Date
+      label: DATE
+      body: Sat, September 26, 2026
+    location:
+      title: Venue
+      label: LOCATION
+      body:
+        line1: ASTY Hall
+        line2: Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, 4F
+    tickets:
+      title: Tickets
+      label: TICKETS
+      body: Ticket sales are being prepared.
+    schedule:
+      title: Schedule
+      label: SCHEDULE
+      body: The detailed timetable will be announced later.
+</i18n>
+
+<script setup lang="ts">
+import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
+import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
+import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
+import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
+import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.gsap-list__child')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="t('section.title')"
+      :label="t('section.label')"
+    />
+    <div
+      ref="listRef"
+      class="grid2x"
+    >
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="cyan"
+          :title="t('cards.date.title')"
+          :label="t('cards.date.label')"
+        >
+          <template #icon>
+            <HaCalendarIcon />
+          </template>
+          <template #body>
+            <p>{{ t('cards.date.body') }}</p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="magenta"
+          :title="t('cards.location.title')"
+          :label="t('cards.location.label')"
+        >
+          <template #icon>
+            <HaMapPinIcon />
+          </template>
+          <template #body>
+            <p>
+              {{ t('cards.location.body.line1') }}<br>
+              {{ t('cards.location.body.line2') }}
+            </p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="amber"
+          :title="t('cards.tickets.title')"
+          :label="t('cards.tickets.label')"
+        >
+          <template #icon>
+            <HaTicketIcon />
+          </template>
+          <template #body>
+            <p>{{ t('cards.tickets.body') }}</p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="vermilion"
+          :title="t('cards.schedule.title')"
+          :label="t('cards.schedule.label')"
+          icon-url="/icons/material-symbols_timer-outline.svg"
+        >
+          <template #icon>
+            <HaTimerIcon />
+          </template>
+          <template #body>
+            <p>{{ t('cards.schedule.body') }}</p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
+.grid2x {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 20px;
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  &__child {
+    height: 100%;
+    min-height: 280px;
   }
 }
 </style>
@@ -7238,176 +7416,6 @@ onMounted(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtQuickAccessSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  section:
-    title: 参加者向け重要情報
-    label: quick access
-  cards:
-    date:
-      title: 開催日
-      label: DATE
-      body: 2026年9月26日(土)
-    location:
-      title: 会場
-      label: LOCATION
-      body:
-        line1: アスティーホール
-        line2: 札幌市中央区 北4条西5丁目1 4F
-    tickets:
-      title: チケット
-      label: TICKETS
-      body: 販売開始に向けて準備中です。
-    schedule:
-      title: スケジュール
-      label: SCHEDULE
-      body: 詳細タイムテーブルは順次公開予定です。
-en:
-  section:
-    title: Key Information for Visitors
-    label: quick access
-  cards:
-    date:
-      title: Date
-      label: DATE
-      body: Sat, September 26, 2026
-    location:
-      title: Venue
-      label: LOCATION
-      body:
-        line1: ASTY Hall
-        line2: Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, 4F
-    tickets:
-      title: Tickets
-      label: TICKETS
-      body: Ticket sales are being prepared.
-    schedule:
-      title: Schedule
-      label: SCHEDULE
-      body: The detailed timetable will be announced later.
-</i18n>
-
-<script setup lang="ts">
-import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
-import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
-import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
-import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
-import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n()
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.gsap-list__child')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="t('section.title')"
-      :label="t('section.label')"
-    />
-    <div
-      ref="listRef"
-      class="grid2x"
-    >
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="cyan"
-          :title="t('cards.date.title')"
-          :label="t('cards.date.label')"
-        >
-          <template #icon>
-            <HaCalendarIcon />
-          </template>
-          <template #body>
-            <p>{{ t('cards.date.body') }}</p>
-          </template>
-        </HaQuickAccessCard>
-      </div>
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="magenta"
-          :title="t('cards.location.title')"
-          :label="t('cards.location.label')"
-        >
-          <template #icon>
-            <HaMapPinIcon />
-          </template>
-          <template #body>
-            <p>
-              {{ t('cards.location.body.line1') }}<br>
-              {{ t('cards.location.body.line2') }}
-            </p>
-          </template>
-        </HaQuickAccessCard>
-      </div>
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="amber"
-          :title="t('cards.tickets.title')"
-          :label="t('cards.tickets.label')"
-        >
-          <template #icon>
-            <HaTicketIcon />
-          </template>
-          <template #body>
-            <p>{{ t('cards.tickets.body') }}</p>
-          </template>
-        </HaQuickAccessCard>
-      </div>
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="vermilion"
-          :title="t('cards.schedule.title')"
-          :label="t('cards.schedule.label')"
-          icon-url="/icons/material-symbols_timer-outline.svg"
-        >
-          <template #icon>
-            <HaTimerIcon />
-          </template>
-          <template #body>
-            <p>{{ t('cards.schedule.body') }}</p>
-          </template>
-        </HaQuickAccessCard>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/mixins' as m;
-
-.grid2x {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px 20px;
-
-  @include m.sp {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-
-  &__child {
-    height: 100%;
-    min-height: 280px;
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtContactSection.vue
 ```vue
 <i18n lang="yaml">
@@ -7901,6 +7909,132 @@ en:
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtContentsSection.vue
+```vue
+<script setup lang="ts">
+import HmContentsSwiper from '../hm/HmContentsSwiper.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+// Swiper
+import type { Swiper as SwiperType } from 'swiper'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
+
+const isBeginning = ref(true)
+const isEnd = ref(false)
+
+const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
+  isBeginning.value = newIsBeginning
+  isEnd.value = newIsEnd
+}
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: t('contents.1.title'),
+    href: 'https://archived.vris.jp/',
+    text: t('contents.1.text'),
+  },
+])
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <HaSectionTitle
+    :title="tGlobal('sectionTitle.contents')"
+    label="CONTENTS"
+  >
+    <template #controls>
+      <button
+        :disabled="isBeginning"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isBeginning }"
+        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+      >
+        <HaChevronLeftIcon />
+      </button>
+      <button
+        :disabled="isEnd"
+        class="custom-swiper-button"
+        :class="{ 'is-disabled': isEnd }"
+        @click="worksSwiperRef?.swiperInstance?.slideNext()"
+      >
+        <HaChevronRightIcon />
+      </button>
+    </template>
+  </HaSectionTitle>
+  <div ref="sectionRef">
+    <HmContentsSwiper
+      ref="worksSwiperRef"
+      class="contents__swiper"
+      :items="items"
+      :_slides-per-view="1"
+      :_breakpoints="{
+        1080: { slidesPerView: 3 }, // タブレット: app/assets/styles/_variables.scss v.$pc-content-min-width
+        768: { slidesPerView: 2 }, // スマホ: app/assets/styles/_variables.scss v.$media-query-width
+      }"
+      @slide-change="onSlideChange"
+    />
+    <NuxtLink
+      class="glassy-button contents__button"
+      to="/contents"
+    >
+      {{ tGlobal("viewAll") }}
+    </NuxtLink>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.contents {
+  &__swiper {
+    margin-bottom: 36px;
+
+    @include m.tb {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 218px;
+    height: 74px;
+    margin: 0 auto;
+
+    font-family: Inter, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: white;
+
+    background-color: #e5b5ff3b;
+
+    @include m.tb {
+      width: 198px;
+      height: 64px;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ho/HoTheHeader.vue
 ```vue
 <i18n lang="yaml">
@@ -8306,132 +8440,6 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
 
   100% {
     transform: translate(-100%, 0);
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtContentsSection.vue
-```vue
-<script setup lang="ts">
-import HmContentsSwiper from '../hm/HmContentsSwiper.vue'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-// Swiper
-import type { Swiper as SwiperType } from 'swiper'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
-
-const isBeginning = ref(true)
-const isEnd = ref(false)
-
-const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
-  isBeginning.value = newIsBeginning
-  isEnd.value = newIsEnd
-}
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    title: t('contents.1.title'),
-    href: 'https://archived.vris.jp/',
-    text: t('contents.1.text'),
-  },
-])
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <HaSectionTitle
-    :title="tGlobal('sectionTitle.contents')"
-    label="CONTENTS"
-  >
-    <template #controls>
-      <button
-        :disabled="isBeginning"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isBeginning }"
-        @click="worksSwiperRef?.swiperInstance?.slidePrev()"
-      >
-        <HaChevronLeftIcon />
-      </button>
-      <button
-        :disabled="isEnd"
-        class="custom-swiper-button"
-        :class="{ 'is-disabled': isEnd }"
-        @click="worksSwiperRef?.swiperInstance?.slideNext()"
-      >
-        <HaChevronRightIcon />
-      </button>
-    </template>
-  </HaSectionTitle>
-  <div ref="sectionRef">
-    <HmContentsSwiper
-      ref="worksSwiperRef"
-      class="contents__swiper"
-      :items="items"
-      :_slides-per-view="1"
-      :_breakpoints="{
-        1080: { slidesPerView: 3 }, // タブレット: app/assets/styles/_variables.scss v.$pc-content-min-width
-        768: { slidesPerView: 2 }, // スマホ: app/assets/styles/_variables.scss v.$media-query-width
-      }"
-      @slide-change="onSlideChange"
-    />
-    <NuxtLink
-      class="glassy-button contents__button"
-      to="/contents"
-    >
-      {{ tGlobal("viewAll") }}
-    </NuxtLink>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.contents {
-  &__swiper {
-    margin-bottom: 36px;
-
-    @include m.tb {
-      margin-bottom: 24px;
-    }
-  }
-
-  &__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 218px;
-    height: 74px;
-    margin: 0 auto;
-
-    font-family: Inter, sans-serif;
-    font-size: 20px;
-    font-weight: 400;
-    color: white;
-
-    background-color: #e5b5ff3b;
-
-    @include m.tb {
-      width: 198px;
-      height: 64px;
-    }
   }
 }
 </style>
