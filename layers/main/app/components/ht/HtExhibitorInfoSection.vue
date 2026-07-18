@@ -257,7 +257,7 @@ onMounted(() => {
     margin-left: auto;
 
     font-size: 20px;
-    line-height: 1.2em;
+    line-height: 1.8em;
     color: white;
 
     @include m.tb {
@@ -362,25 +362,6 @@ onMounted(() => {
     font-size: 20px;
     color: white;
     text-align: right;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__description {
-    width: fit-content;
-    margin-right: auto;
-    margin-left: auto;
-
-    font-size: 20px;
-    line-height: 1.2em;
-    color: white;
-
-    @include m.tb {
-      font-size: 16px;
-      text-align: center;
-    }
 
     @include m.sp {
       font-size: 14px;

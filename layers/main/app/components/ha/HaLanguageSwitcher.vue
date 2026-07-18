@@ -26,8 +26,8 @@ const closeMenu = () => {
 
 // 言語選択時の処理
 
-// 本来i18nが想定するのは下記のような処理だが、フルリロードを挟まないためGSAPのScrollTriggerがリセットされない。
-// 言語切替の頻度は高くないと予想するため、window.location.hrefを用いてフルリロードを挟むようにしている。
+// 本来i18nが想定するのは下記のような処理だが、これはページのフルリロードを行わないため、GSAPのScrollTriggerがリセットされない。
+// 言語切替の頻度は高くないと考え、window.location.hrefを用いてフルリロードを挟むようにしている。
 // const selectLocale = (code: Locale) => {
 //   const path = switchLocalePath(code)
 //   if (path) {
@@ -68,30 +68,34 @@ onBeforeUnmount(() => {
     <span class="language-switcher__current-language">{{ currentLocaleLabel }}</span>
     <HaPullDown class="language-switcher__pulldown" />
 
-    <ul
-      v-if="isOpen"
-      role="listbox"
-      class="language-switcher__list glassy-box-2 none-hover-animation"
-      @click.stop
+    <Transition
+      name="fade-language-menu"
     >
-      <li
-        v-for="l in availableLocales"
-        :key="l.code"
-        role="option"
-        :aria-selected="l.code === locale"
-        class="language-switcher__list-item"
+      <ul
+        v-if="isOpen"
+        role="listbox"
+        class="language-switcher__list glassy-box-2 none-hover-animation"
+        @click.stop
       >
-        <button
-          type="button"
-          class="language-switcher__list-item-button none-hover-animation"
-          :class="{ 'is-selected': l.code === locale }"
-          @click="selectLocale(l.code)"
+        <li
+          v-for="l in availableLocales"
+          :key="l.code"
+          role="option"
+          :aria-selected="l.code === locale"
+          class="language-switcher__list-item"
         >
-          <span class="language-switcher__language">{{ l.name }}</span>
-          <span class="language-switcher__language language-switcher__language--min">{{ l.code.toUpperCase() }}</span>
-        </button>
-      </li>
-    </ul>
+          <button
+            type="button"
+            class="language-switcher__list-item-button none-hover-animation"
+            :class="{ 'is-selected': l.code === locale }"
+            @click="selectLocale(l.code)"
+          >
+            <span class="language-switcher__language">{{ l.name }}</span>
+            <span class="language-switcher__language language-switcher__language--min">{{ l.code.toUpperCase() }}</span>
+          </button>
+        </li>
+      </ul>
+    </Transition>
   </div>
 </template>
 
@@ -216,5 +220,15 @@ onBeforeUnmount(() => {
             margin-right: 0;
         }
     }
+}
+
+.fade-language-menu-enter-active,
+.fade-language-menu-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-language-menu-enter-from,
+.fade-language-menu-leave-to {
+  opacity: 0;
 }
 </style>

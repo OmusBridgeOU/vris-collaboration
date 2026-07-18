@@ -208,6 +208,10 @@ $three-items-flex--template-column-gap: 32px;
   @include m.tb {
     margin-bottom: 48px;
   }
+
+  @include m.sp {
+    margin-bottom: 24px;
+  }
 }
 
 .info-flex {

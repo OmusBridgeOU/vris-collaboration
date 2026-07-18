@@ -145,7 +145,9 @@ onMounted(() => {
     }
 
     @include m.sp {
+      margin-top: 10px;
       border-radius: 0;
+
       background-color: transparent;
       backdrop-filter: none;
       box-shadow: none;

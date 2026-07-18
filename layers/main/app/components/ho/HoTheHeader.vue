@@ -260,6 +260,7 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
     box-shadow: inset rgb(22 0 120 / 20%) 0 0 12px 0;
 
     @include m.tb {
+      gap: 0;
       padding-right: 24px;
       padding-left: 24px;
     }

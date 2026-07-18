@@ -23,6 +23,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
 
 .about-card {
   padding: 20px;
@@ -40,7 +41,11 @@ defineProps<{
 
   &__body {
     font-size: 13px;
-    line-height: 1.2em;
+    line-height: 1.5em;
+
+    @include m.sp {
+      line-height: 1.8em;
+    }
   }
 }
 </style>
