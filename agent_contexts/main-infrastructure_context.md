@@ -137,7 +137,7 @@ export default defineNuxtRouteMiddleware((to) => {
     ? debugQuery.includes('1')
     : debugQuery === '1'
 
-  if (isDebug) {
+  if (true) {
     return
   }
 

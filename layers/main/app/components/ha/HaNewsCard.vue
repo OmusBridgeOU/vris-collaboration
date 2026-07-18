@@ -49,6 +49,20 @@ defineProps<{
   padding-top: 16px;
   border-top: 1px solid white;
 
+  transition: border-color 0.2s ease;
+
+  @include m.sp {
+    padding-top: 0;
+  }
+
+  &:hover {
+    border-color: v.$vket-magenta;
+
+    @include m.sp {
+      border: none;
+    }
+  }
+
   &__img {
     display: block;
 
@@ -95,18 +109,6 @@ defineProps<{
     @include m.sp {
       width: 16px;
     }
-  }
-
-  @include m.sp {
-    padding-top: 0;
-  }
-}
-
-.swiper-slide-active .news-card {
-  border-color: v.$vket-magenta;
-
-  @include m.sp {
-    border: none;
   }
 }
 </style>

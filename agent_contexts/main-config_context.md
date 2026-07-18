@@ -358,86 +358,6 @@ function getProduction() {
 }
 ````
 
-## File: layers/main/i18n/i18n.config.ts
-````typescript
-/*
- * note: i18n by nuxt-i18n i18nの不具合があればこのファイルから参照する
- * ref: https://v8.i18n.nuxtjs.org/
- */
-import type { NuxtI18nOptions } from '@nuxtjs/i18n'
-import Cookies from 'universal-cookie'
-import en from './locales/en.json'
-import ja from './locales/ja.json'
-
-const cookie = new Cookies()
-const jaLanguage = 'ja'
-const enLanguage = 'en'
-const cookieKey = 'VUEI18N_MANUAL_LOCALE'
-const isBrowserLanguageJa = import.meta.client
-  ? navigator?.language?.startsWith(jaLanguage)
-  : false
-const isBrowserLanguageEn = import.meta.client
-  ? navigator?.language?.startsWith(enLanguage)
-  : false
-const defaultLanguageFromCookie = import.meta.client
-  ? cookie.get(cookieKey) ?? null
-  : ''
-const defaultLanguage
-  = defaultLanguageFromCookie === jaLanguage
-    ? jaLanguage
-    : defaultLanguageFromCookie === enLanguage
-      ? enLanguage
-      : isBrowserLanguageJa
-        ? jaLanguage
-        : isBrowserLanguageEn
-          ? enLanguage
-          : jaLanguage
-
-// settings for nuxt-i18n v9~
-export const nuxtI18nOptions: NuxtI18nOptions = {
-  strategy: 'prefix_and_default',
-  locales: [
-    {
-      code: jaLanguage,
-      name: '日本語',
-      language: 'ja-JP',
-      file: 'ja.json',
-      isCatchallLocale: true,
-    },
-    {
-      code: enLanguage,
-      name: 'English',
-      language: 'en-US',
-      file: 'en.json',
-    },
-  ],
-  defaultLocale: defaultLanguage,
-  customRoutes: 'config',
-  pages: {
-    api: false,
-    server: false,
-  },
-  detectBrowserLanguage: {
-    useCookie: true,
-    cookieKey: 'i18n_redirected',
-    redirectOn: 'root', // recommended
-    alwaysRedirect: true,
-    cookieCrossOrigin: true,
-    fallbackLocale: defaultLanguage,
-  },
-  vueI18n: '#main/i18n/i18n.config.ts',
-}
-
-export default {
-  legacy: false,
-  locale: defaultLanguage,
-  messages: {
-    ja,
-    en,
-  },
-}
-````
-
 ## File: layers/main/server/middleware/basicAuth.ts
 ````typescript
 export default defineEventHandler((event) => {
@@ -581,6 +501,86 @@ function getProduction(envType: EnvType) {
 }
 ````
 
+## File: layers/main/i18n/i18n.config.ts
+````typescript
+/*
+ * note: i18n by nuxt-i18n i18nの不具合があればこのファイルから参照する
+ * ref: https://v8.i18n.nuxtjs.org/
+ */
+import type { NuxtI18nOptions } from '@nuxtjs/i18n'
+import Cookies from 'universal-cookie'
+import en from './locales/en.json'
+import ja from './locales/ja.json'
+
+const cookie = new Cookies()
+const jaLanguage = 'ja'
+const enLanguage = 'en'
+const cookieKey = 'VUEI18N_MANUAL_LOCALE'
+const isBrowserLanguageJa = import.meta.client
+  ? navigator?.language?.startsWith(jaLanguage)
+  : false
+const isBrowserLanguageEn = import.meta.client
+  ? navigator?.language?.startsWith(enLanguage)
+  : false
+const defaultLanguageFromCookie = import.meta.client
+  ? cookie.get(cookieKey) ?? null
+  : ''
+const defaultLanguage
+  = defaultLanguageFromCookie === jaLanguage
+    ? jaLanguage
+    : defaultLanguageFromCookie === enLanguage
+      ? enLanguage
+      : isBrowserLanguageJa
+        ? jaLanguage
+        : isBrowserLanguageEn
+          ? enLanguage
+          : jaLanguage
+
+// settings for nuxt-i18n v9~
+export const nuxtI18nOptions: NuxtI18nOptions = {
+  strategy: 'prefix_and_default',
+  locales: [
+    {
+      code: jaLanguage,
+      name: '日本語',
+      language: 'ja-JP',
+      file: 'ja.json',
+      isCatchallLocale: true,
+    },
+    {
+      code: enLanguage,
+      name: 'English',
+      language: 'en-US',
+      file: 'en.json',
+    },
+  ],
+  defaultLocale: defaultLanguage,
+  customRoutes: 'config',
+  pages: {
+    api: false,
+    server: false,
+  },
+  detectBrowserLanguage: {
+    useCookie: true,
+    cookieKey: 'i18n_redirected',
+    redirectOn: 'root', // recommended
+    alwaysRedirect: true,
+    cookieCrossOrigin: true,
+    fallbackLocale: defaultLanguage,
+  },
+  vueI18n: '#main/i18n/i18n.config.ts',
+}
+
+export default {
+  legacy: false,
+  locale: defaultLanguage,
+  messages: {
+    ja,
+    en,
+  },
+}
+````
+
 ## File: layers/main/playwright.config.ts
 ````typescript
 // playwright.config.ts（nuxt.config.ts と同じ階層に置く）
@@ -593,63 +593,6 @@ export default defineConfig({
     baseURL: 'http://localhost:3000',
   },
 })
-````
-
-## File: layers/main/i18n/locales/en.json
-````json
-{
-  "viewAll" : "view all",
-  "page": {
-    "top": "TOP"
-  },
-  "sectionTitle": {
-    "about": "What is VketReal in Sapporo?",
-    "exhibitorInfo": "Exhibitor Information",
-    "participationGuide" : "Participation Guide",
-    "news" : "News",
-    "contents" : "Programs & Contents",
-    "schedule" : "Event Schedule",
-    "locationInfo" : "Venue Information",
-    "sponsorsAndPartners" : "Sponsors & Partners",
-    "members" : "members",
-    "qa" : "FAQ",
-    "qa--min" : "FAQ",
-    "contact" : "Contact Us"
-  },
-  "infoCard": {
-    "venue": {
-      "title": "Venue",
-      "items": {
-        "venueName": {
-          "label": "Venue Name",
-          "text": "Asty45 4F Asty Hall"
-        },
-        "address": {
-          "label": "Address",
-          "text": "060-0004 {br}Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, Hokkaido"
-        },
-        "access": {
-          "label": "Access",
-          "text": "3 min walk from Sapporo Subway Station (direct underground access){br}5 min walk from JR Sapporo Station South Exit"
-        }
-      }
-    }
-  },
-  "contents": {
-    "1": {
-      "title": "ParaRealCreator in SAPPORO",
-      "text": "Goods Exhibition & Sale by VR Creators"
-    }
-  },
-  "news": {
-    "1": {
-      "title": "We have published our logo!"
-    },
-    "2": {
-      "title": "We have published our key visual!"
-    }
-  }
-}
 ````
 
 ## File: layers/main/nuxt.config.ts
@@ -837,6 +780,63 @@ export default defineNuxtConfig({
     },
   },
 })
+````
+
+## File: layers/main/i18n/locales/en.json
+````json
+{
+  "viewAll" : "view all",
+  "page": {
+    "top": "TOP"
+  },
+  "sectionTitle": {
+    "about": "What is VketReal in Sapporo?",
+    "exhibitorInfo": "Exhibitor Information",
+    "participationGuide" : "Participation Guide",
+    "news" : "News",
+    "contents" : "Programs & Contents",
+    "schedule" : "Event Schedule",
+    "locationInfo" : "Venue Information",
+    "sponsorsAndPartners" : "Sponsors & Partners",
+    "members" : "members",
+    "qa" : "FAQ",
+    "qa--min" : "FAQ",
+    "contact" : "Contact Us"
+  },
+  "infoCard": {
+    "venue": {
+      "title": "Venue",
+      "items": {
+        "venueName": {
+          "label": "Venue Name",
+          "text": "Asty45 4F Asty Hall"
+        },
+        "address": {
+          "label": "Address",
+          "text": "060-0004 {br}Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, Hokkaido"
+        },
+        "access": {
+          "label": "Access",
+          "text": "3 min walk from Sapporo Subway Station (direct underground access){br}5 min walk from JR Sapporo Station South Exit"
+        }
+      }
+    }
+  },
+  "contents": {
+    "1": {
+      "title": "ParaRealCreator in SAPPORO",
+      "text": "Goods Exhibition & Sale by VR Creators"
+    }
+  },
+  "news": {
+    "1": {
+      "title": "We have published our logo!"
+    },
+    "2": {
+      "title": "We have published our key visual!"
+    }
+  }
+}
 ````
 
 ## File: layers/main/i18n/locales/ja.json
