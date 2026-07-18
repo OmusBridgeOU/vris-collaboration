@@ -78,7 +78,8 @@ const { t } = useI18n()
     }
 
     @include m.sp {
-        width: 100%;
+      width: 100%;
+      padding: 20px;
     }
 
     &::before {
