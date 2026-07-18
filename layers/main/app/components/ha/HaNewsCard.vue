@@ -3,13 +3,13 @@
     :href="item.href"
     target="_blank"
     rel="noopener noreferrer"
-    class="content-card"
+    class="news-card"
   >
     <img
       v-if="item.imgSrc && item.imgSrc !== ''"
       :src="item.imgSrc"
       :alt="item.title"
-      class="content-card__image"
+      class="news-card__img"
       loading="lazy"
     >
     <div
@@ -18,20 +18,19 @@
     >
       <HaNoImage />
     </div>
-    <p class="content-card__title">{{ item.title }}</p>
-    <div class="content-card__text-flex">
-      <p class="content-card__text">{{ item.text }}</p>
-      <HaJumpToListIcon class="content-card__icon" />
+    <p class="news-card__timestamp">{{ item.timestamp }}</p>
+    <div class="news-card__title-flex">
+      <p class="news-card__title">{{ item.title }}</p>
+      <HaJumpToListIcon class="news-card__icon" />
     </div>
   </a>
 </template>
 
 <script setup lang="ts">
-import HaNoImage from './HaNoImage.vue'
 import HaJumpToListIcon from './icons/HaJumpToListIcon.vue'
 
 defineProps<{
-  item: { title: string, href: string, imgSrc: string, text: string }
+  item: { id: number, title: string, href: string, imgSrc: string, timestamp: string }
 }>()
 </script>
 
@@ -39,7 +38,7 @@ defineProps<{
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.content-card {
+.news-card {
   cursor: pointer;
 
   display: block;
@@ -50,63 +49,48 @@ defineProps<{
   padding-top: 16px;
   border-top: 1px solid white;
 
-  &__image, &__empty-image {
-    position: relative;
-
-    overflow: hidden;
+  &__img {
     display: block;
 
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16/9;
     width: 100%;
     margin-bottom: 14px;
     border-radius: 10px;
 
     object-fit: cover;
+    background-color: #d2d2d2;
 
-    // aspect-ratio非対応ブラウザ向けフォールバック
-    @supports not (aspect-ratio: 16 / 9) {
-      height: 0;
-      padding-top: 56.25%;
-    }
-
-    &::before {
-      position: absolute;
-      inset: 0;
-    }
+    transition: transform 0.2s ease;
 
     @include m.sp {
       margin-bottom: 6px;
     }
   }
 
-  &__text-flex {
+  &__timestamp {
+    margin-bottom: 6px;
+    color: v.$vket-amber;
+  }
+
+  &__title-flex {
     display: flex;
     justify-content: space-between;
   }
 
   &__title {
     margin-right: 1em;
-    margin-bottom: 24px;
-
     font-size: 20px;
     line-height: 1.2em;
     color: white;
 
     @include m.sp {
-      margin-bottom: 12px;
       font-size: 16px;
     }
   }
 
-  &__text {
-    margin-bottom: 6px;
-    font-size: 14px;
-    color: #a0a0a0;
-  }
-
   &__icon {
     width: 20px;
-    fill: v.$vket-cyan;
+    fill: v.$vket-magenta;
 
     @include m.sp {
       width: 16px;
@@ -118,8 +102,8 @@ defineProps<{
   }
 }
 
-.swiper-slide-active .content-card {
-  border-color: v.$vket-cyan;
+.swiper-slide-active .news-card {
+  border-color: v.$vket-magenta;
 
   @include m.sp {
     border: none;

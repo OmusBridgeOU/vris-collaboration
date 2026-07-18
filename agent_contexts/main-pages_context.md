@@ -413,6 +413,7 @@ const items = computed(() => [
   {
     id: 1,
     title: tGlobal('contents.1.title'),
+    imgSrc: '',
     href: 'https://archived.vris.jp/',
     text: tGlobal('contents.1.text'),
   },
@@ -547,7 +548,7 @@ const items = computed(() => [
 ```vue
 <script lang="ts" setup>
 import HaPageTitle from '~/components/ha/HaPageTitle.vue'
-import HaSwiperCard from '~/components/ha/HaSwiperCard.vue'
+import HaNewsCard from '~/components/ha/HaNewsCard.vue'
 
 definePageMeta({
   layout: 'list',
@@ -582,7 +583,7 @@ const items = computed(() => [
           title="お知らせ"
           class="news-list__item--full-width"
         />
-        <HaSwiperCard
+        <HaNewsCard
           v-for="item in items"
           :key="item.id"
           :item="item"
@@ -713,9 +714,9 @@ const { t } = useI18n()
 
 const navLinks = computed<NavLink[]>(() => [
   { type: 'anchor', href: 'exhibitor-info', text: t('sectionTitle.exhibitorInfo') },
-  { type: 'anchor', href: 'news', text: t('sectionTitle.news') },
   { type: 'anchor', href: 'contents', text: t('sectionTitle.contents') },
-  { type: 'anchor', href: 'qa', text: t('sectionTitle.qa') },
+  { type: 'anchor', href: 'location-info', text: t('sectionTitle.locationInfo') },
+  { type: 'anchor', href: 'qa', text: t('sectionTitle.qa--min') },
 ])
 
 const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()

@@ -58,6 +58,7 @@ en:
               </nav>
             </div>
             <div class="ho-the-header__hamburger-wrapper">
+              <HaLanguageSwitcher />
               <button
                 class="ho-the-header__hamburger"
                 :aria-label="isPanelOpen ? 'メニューを閉じる' : 'メニューを開く'"
@@ -102,6 +103,7 @@ en:
             </li>
           </ul>
         </nav>
+        <HaLanguageSwitcher />
       </div>
     </div>
   </header>
@@ -122,6 +124,7 @@ import { ref } from 'vue'
 import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
 import HaAnchorLink from '../ha/HaAnchorLink.vue'
 import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
+import HaLanguageSwitcher from '../ha/HaLanguageSwitcher.vue'
 
 const { t } = useI18n()
 
@@ -237,6 +240,8 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
     padding-right: 32px;
     padding-left: 32px;
 
+    box-shadow: inset rgb(22 0 120 / 30%) 0 0 12px 0;
+
     @include m.tb {
       padding-right: 24px;
       padding-left: 24px;
@@ -245,11 +250,14 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
 
   &__right {
     display: flex;
+    gap: 24px;
     align-items: center;
 
     height: 100%;
-    padding-right: 40px;
-    padding-left: 40px;
+    padding-right: 24px;
+    padding-left: 32px;
+
+    box-shadow: inset rgb(22 0 120 / 20%) 0 0 12px 0;
 
     @include m.tb {
       padding-right: 24px;
@@ -363,6 +371,8 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
   }
 
   &__hamburger-wrapper {
+    display: flex;
+    align-items: center;
     padding: 7px;
   }
 

@@ -1,0 +1,52 @@
+// 頻繁に使う余白・隙間
+@use "sass:list";
+
+
+$spacers: 0, 4, 6, 8, 10, 12, 16, 24, 28; // 使いたい値を配列で宣言
+
+$spacer-unit: 4px;// 値に対するpxの倍率 例(4倍): 0, 1, 2 → 0px, 4px, 8px
+
+$directions: (
+  "t": ("margin-top", "padding-top"),
+  "b": ("margin-bottom", "padding-bottom"),
+  "l": ("margin-left", "padding-left"),
+  "r": ("margin-right", "padding-right"),
+);
+
+@each $n in $spacers {
+  $value: $n * $spacer-unit;
+
+  // 全方向 (m-1, p-1)
+  .m-#{$n} { margin: $value; }
+  .p-#{$n} { padding: $value; }
+
+  // 縦方向 (my-1, py-1)
+  .my-#{$n} {
+    margin-top: $value;
+    margin-bottom: $value;
+  }
+  .py-#{$n} {
+    padding-top: $value;
+    padding-bottom: $value;
+  }
+
+  // 横方向 (mx-1, px-1)
+  .mx-#{$n} {
+    margin-right: $value;
+    margin-left: $value;
+  }
+  .px-#{$n} {
+    padding-right: $value;
+    padding-left: $value;
+  }
+
+  // 各方向 (mt-1, mb-1, ml-1, mr-1, pt-1, pb-1, pl-1, pr-1)
+  @each $key, $props in $directions {
+    .m#{$key}-#{$n} {
+      #{list.nth($props, 1)}: $value;
+    }
+    .p#{$key}-#{$n} {
+      #{list.nth($props, 2)}: $value;
+    }
+  }
+}

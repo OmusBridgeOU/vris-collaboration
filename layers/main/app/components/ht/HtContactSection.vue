@@ -86,8 +86,9 @@ onMounted(() => {
 
 .contact-grid {
   display: grid;
+  grid-auto-rows: 150px;
   grid-template-columns: 1fr 1fr;
-  gap: 12px 24px;
+  gap: 12px;
 
   max-width: 760px;
   margin: 0 auto;

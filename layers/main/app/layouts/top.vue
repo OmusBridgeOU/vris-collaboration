@@ -17,9 +17,9 @@ const { t } = useI18n()
 
 const navLinks = computed<NavLink[]>(() => [
   { type: 'anchor', href: 'exhibitor-info', text: t('sectionTitle.exhibitorInfo') },
-  { type: 'anchor', href: 'news', text: t('sectionTitle.news') },
   { type: 'anchor', href: 'contents', text: t('sectionTitle.contents') },
-  { type: 'anchor', href: 'qa', text: t('sectionTitle.qa') },
+  { type: 'anchor', href: 'location-info', text: t('sectionTitle.locationInfo') },
+  { type: 'anchor', href: 'qa', text: t('sectionTitle.qa--min') },
 ])
 
 const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()

@@ -1,30 +1,34 @@
 <i18n lang="yaml">
 ja:
   roles:
-    role1: '広報・ステージイベント企画'
-    role2: '実行委員長'
-    role3: 'PM'
-    role4: 'SNS運用'
-    role5: '企画・エンジニアリング'
-    role6: '裏方雑務'
-    role7: '当日運営'
-    role8: 'デザイン制作'
-    role9: '広報'
-    role10: 'グッズ企画・運用'
-    role11: 'webアプリ開発'
+    executiveChair: '実行委員長'
+    projectManager: 'PM'
+    generalSupport: '裏方雑務'
+    snsManagement: 'SNS運用'
+    publicRelations: '広報'
+    prAndStageEvent: '広報・ステージイベント企画'
+    planningAndEngineering: '企画・エンジニアリング'
+    merchandisePlanning: 'グッズ企画・運用'
+    webAppDevelopment: 'webアプリ開発'
+    dayOfOperations: '当日運営'
+    artDirector: 'アートディレクター'
+    keyVisualIllustration: 'KV・イラスト制作'
+    webDevelopment: 'Web開発'
 en:
   roles:
-    role1: 'role1'
-    role2: 'role2'
-    role3: 'role3'
-    role4: 'role4'
-    role5: 'role5'
-    role6: 'role6'
-    role7: 'role7'
-    role8: 'role8'
-    role9: 'role9'
-    role10: 'role10'
-    role11: 'role11'
+    executiveChair: 'Executive Chair'
+    projectManager: 'Project Manager'
+    generalSupport: 'General Support'
+    snsManagement: 'Social Media Management'
+    publicRelations: 'Public Relations'
+    prAndStageEvent: 'PR & Stage Event Planning'
+    planningAndEngineering: 'Planning & Engineering'
+    merchandisePlanning: 'Merchandise Planning & Operations'
+    webAppDevelopment: 'Web App Development'
+    dayOfOperations: 'Day-of Operations'
+    artDirector: 'Art Director'
+    keyVisualIllustration: 'Key Visual & Illustration'
+    webDevelopment: 'Web Development'
 </i18n>
 
 <script setup lang="ts">
@@ -51,89 +55,114 @@ const { t: tGlobal } = useI18n()
 const items = computed(() => [
   {
     id: 1,
-    name: 'Milia',
-    iconUrl: '/member-icons/milia.webp',
-    role: t('roles.role1'),
-    xLink: 'https://x.com/xmiliax',
-    instagramLink: '',
-  },
-  {
-    id: 2,
     name: 'A-kun',
     iconUrl: '/member-icons/a-kun.webp',
-    role: t('roles.role2'),
+    role: t('roles.executiveChair'),
     xLink: 'https://x.com/A919515',
     instagramLink: '',
   },
   {
-    id: 3,
+    id: 2,
     name: 'R.D.Sakamoto',
     iconUrl: '/member-icons/skmt3p.webp',
-    role: t('roles.role3'),
+    role: t('roles.projectManager'),
     xLink: 'https://x.com/skmt3p',
+    instagramLink: '',
+  },
+  {
+    id: 3,
+    name: 'ハチヤ',
+    iconUrl: '/member-icons/hatiya.webp',
+    role: t('roles.generalSupport'),
+    xLink: 'https://x.com/h4tiyA',
     instagramLink: '',
   },
   {
     id: 4,
     name: 'ふららん',
     iconUrl: '/member-icons/furarann.webp',
-    role: t('roles.role4'),
+    role: t('roles.snsManagement'),
     xLink: 'https://x.com/furarann_VR37',
     instagramLink: '',
   },
   {
     id: 5,
-    name: 'luft',
-    iconUrl: '/member-icons/luft.webp',
-    role: t('roles.role5'),
-    xLink: 'https://x.com/luft256',
-    instagramLink: '',
-  },
-  {
-    id: 6,
-    name: 'ハチヤ',
-    iconUrl: '/member-icons/hatiya.webp',
-    role: t('roles.role6'),
-    xLink: 'https://x.com/h4tiyA',
-    instagramLink: '',
-  },
-  {
-    id: 7,
-    name: 'Tsubaki',
-    iconUrl: '/member-icons/tsubaki.webp',
-    role: t('roles.role7'),
-    xLink: 'https://x.com/Tsubaki_HIUVR',
-    instagramLink: '',
-  },
-  {
-    id: 8,
-    name: 'おのでらりな',
-    iconUrl: '/member-icons/rina-onodera.webp',
-    role: t('roles.role8'),
-    xLink: 'https://x.com/studiococoon_',
-    instagramLink: '',
-  },
-  {
-    id: 9,
     name: '七草睦月',
     iconUrl: '/member-icons/nanakusa-mutsuki.webp',
-    role: t('roles.role9'),
+    role: t('roles.publicRelations'),
     xLink: 'https://x.com/nanakusamutsuki',
     instagramLink: '',
   },
   {
-    id: 10,
+    id: 6,
+    name: 'Milia',
+    iconUrl: '/member-icons/milia.webp',
+    role: t('roles.prAndStageEvent'),
+    xLink: 'https://x.com/xmiliax',
+    instagramLink: '',
+  },
+
+  {
+    id: 7,
+    name: 'luft',
+    iconUrl: '/member-icons/luft.webp',
+    role: t('roles.planningAndEngineering'),
+    xLink: 'https://x.com/luft256',
+    instagramLink: '',
+  },
+  {
+    id: 8,
     name: 'youyou',
+    iconUrl: '/member-icons/youyou.webp',
+    role: t('roles.merchandisePlanning'),
+    xLink: 'https://x.com/youyou0147',
+    instagramLink: '',
+  },
+  {
+    id: 10,
+    name: 'samy',
     iconUrl: '',
-    role: t('roles.role10'),
-    xLink: '',
+    role: t('roles.webAppDevelopment'),
+    xLink: 'https://x.com/samy_hrin',
+    instagramLink: '',
+  },
+  {
+    id: 9,
+    name: 'Tsubaki',
+    iconUrl: '/member-icons/tsubaki.webp',
+    role: t('roles.dayOfOperations'),
+    xLink: 'https://x.com/Tsubaki_HIUVR',
     instagramLink: '',
   },
   {
     id: 11,
-    name: 'samy',
-    iconUrl: '',
-    role: t('roles.role11'),
+    name: 'おのでらりな',
+    iconUrl: '/member-icons/rina-onodera.webp',
+    role: t('roles.artDirector'),
+    xLink: 'https://x.com/studiococoon_',
+    instagramLink: '',
+  },
+  {
+    id: 12,
+    name: 'なだ',
+    iconUrl: '/member-icons/otyano.webp',
+    role: t('roles.keyVisualIllustration'),
+    xLink: 'https://x.com/otyano8',
+    instagramLink: '',
+  },
+  {
+    id: 13,
+    name: 'aj8d',
+    iconUrl: '/member-icons/aj8d.webp',
+    role: t('roles.webDevelopment'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 14,
+    name: 'L.ami',
+    iconUrl: '/member-icons/lami.webp',
+    role: t('roles.webDevelopment'),
     xLink: '',
     instagramLink: '',
   },
@@ -150,12 +179,15 @@ const items = computed(() => [
       ref="listRef"
       class="member-section__grid"
     >
-      <HaMemberCard
+      <div
         v-for="item in items"
         :key="item.id"
         class="member-section__grid-item"
-        v-bind="item"
-      />
+      >
+        <HaMemberCard
+          v-bind="item"
+        />
+      </div>
     </div>
   </div>
 </template>

@@ -4,13 +4,15 @@ import 'swiper/css'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import type { Swiper as SwiperType } from 'swiper'
 import HaContentCard from '../ha/HaContentCard.vue'
-import HaCommingSoonCard from '../ha/HaCommingSoonCard.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 
 // スライドの型
 type SlideItem = {
   id: number
   title: string
   href: string
+  imgSrc: string
   text: string
 }
 
@@ -29,26 +31,22 @@ defineProps<{
 
 const modules = [Autoplay, Navigation, Pagination]
 
-const emit = defineEmits<{
-  slideChange: [isBeginning: boolean, isEnd: boolean]
-}>()
-
-const swiperInstance = ref<SwiperType | null>(null)
+// 先頭・末尾の状態（ボタンのdisabled制御用）
+const isBeginning = ref(true)
+const isEnd = ref(false)
 
 const updateState = (swiper: SwiperType) => {
-  emit('slideChange', swiper.isBeginning, swiper.isEnd)
+  isBeginning.value = swiper.isBeginning
+  isEnd.value = swiper.isEnd
 }
 
 const onSwiper = (swiper: SwiperType) => {
-  swiperInstance.value = swiper
   updateState(swiper)
 }
 
 const onSlideChange = (swiper: SwiperType) => {
   updateState(swiper)
 }
-
-defineExpose({ swiperInstance })
 </script>
 
 <template>
@@ -60,10 +58,10 @@ defineExpose({ swiperInstance })
       :autoplay="{ delay: 3000, stopOnLastSlide: true }"
       :modules="modules"
       :centered-slides="false"
-      :space-between="28"
+      :space-between="24"
       :navigation="{
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        nextEl: '.custom-swiper-button--next',
+        prevEl: '.custom-swiper-button--prev',
       }"
       :pagination="{
         el: '.custom-swiper-pagination',
@@ -78,13 +76,28 @@ defineExpose({ swiperInstance })
       >
         <HaContentCard :item="item" />
       </SwiperSlide>
-      <SwiperSlide
-        key="comming-soon"
-      >
-        <HaCommingSoonCard />
-      </SwiperSlide>
+      <div class="custom-swiper-pagination" />
+      <div class="swiper-button-flex">
+        <button
+          type="button"
+          class="custom-swiper-button custom-swiper-button--prev"
+          :disabled="isBeginning"
+          :class="{ 'is-disabled': isBeginning }"
+          aria-label="前のスライドへ"
+        >
+          <HaChevronLeftIcon />
+        </button>
+        <button
+          type="button"
+          class="custom-swiper-button custom-swiper-button--next"
+          :disabled="isEnd"
+          :class="{ 'is-disabled': isEnd }"
+          aria-label="次のスライドへ"
+        >
+          <HaChevronRightIcon />
+        </button>
+      </div>
     </Swiper>
-    <div class="custom-swiper-pagination" />
   </div>
 </template>
 

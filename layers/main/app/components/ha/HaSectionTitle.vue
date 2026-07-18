@@ -30,14 +30,10 @@ defineProps<{
 
 .section-title {
   position: relative;
-  margin-bottom: 112px;
+  margin-bottom: 40px;
 
   @include m.sp {
-    margin-bottom: 64px;
-  }
-
-  @include m.sp {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
 
   &__line {
@@ -111,12 +107,6 @@ defineProps<{
     @include m.sp {
       font-size: 24px;
     }
-  }
-
-  &__controls {
-    display: flex;
-    gap: 4px;
-    align-items: center;
   }
 }
 </style>

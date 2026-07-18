@@ -1,24 +1,18 @@
 <template>
-  <div
-    class="contact-card glassy-box-2"
-    :class="`contact-card--${color}`"
+  <a
+    :class="['contact-card glassy-box', `glassy-box--${color ?? 'cyan'}`]"
+    :href="href"
+    target="_blank"
+    rel="noopener noreferrer"
   >
     <p class="contact-card__title">
       {{ title }}
     </p>
-    <a
-      class="jump-to-form"
-      :href="href"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <p class="jump-to-form__text">{{ text }}<br></p>
-      <div class="jump-to-form__flex">
-        <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
-        <HaJumpToPageIcon class="jump-to-form__icon" />
-      </div>
-    </a>
-  </div>
+    <div class="jump-to-form__flex">
+      <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
+      <HaJumpToPageIcon class="jump-to-form__icon" />
+    </div>
+  </a>
 </template>
 
 <script setup>
@@ -60,8 +54,6 @@ defineProps({
   height: 100%;
   padding: 24px 0;
 
-  background-color: rgb(18 33 59 / 60%);
-
   &__icon {
     display: flex;
     flex-shrink: 0;
@@ -76,6 +68,7 @@ defineProps({
   &__title {
     font-size: 16px;
     font-weight: bold;
+    color: white;
   }
 
   &__link {
@@ -84,30 +77,6 @@ defineProps({
 
     &__underline {
       text-decoration: underline;
-    }
-  }
-
-  &--magenta {
-    .contact-card__icon {
-      background-color: rgba(v.$vket-magenta, 0.8);
-    }
-  }
-
-  &--cyan {
-    .contact-card__icon {
-      background-color: rgba(v.$vket-cyan, 0.8);
-    }
-  }
-
-  &--amber {
-    .contact-card__icon {
-      background-color: rgba(v.$vket-amber, 0.8);
-    }
-  }
-
-  &--vermilion {
-    .contact-card__icon {
-      background-color: rgba(v.$vket-vermilion, 0.8);
     }
   }
 }

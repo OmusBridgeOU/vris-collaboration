@@ -399,12 +399,14 @@ export const nuxtI18nOptions: NuxtI18nOptions = {
   locales: [
     {
       code: jaLanguage,
+      name: '日本語',
       language: 'ja-JP',
       file: 'ja.json',
       isCatchallLocale: true,
     },
     {
       code: enLanguage,
+      name: 'English',
       language: 'en-US',
       file: 'en.json',
     },
@@ -611,6 +613,7 @@ export default defineConfig({
     "sponsorsAndPartners" : "Sponsors & Partners",
     "members" : "members",
     "qa" : "FAQ",
+    "qa--min" : "FAQ",
     "contact" : "Contact Us"
   },
   "infoCard": {
@@ -854,6 +857,7 @@ export default defineNuxtConfig({
     "sponsorsAndPartners" : "ご協力",
     "members" : "有志メンバー",
     "qa" : "よくある質問",
+    "qa--min" : "Q&A",
     "contact" : "お問い合わせ"
   },
   "infoCard": {

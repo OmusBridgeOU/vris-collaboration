@@ -121,12 +121,12 @@ export const useGsapFadeIn = () => {
       { autoAlpha: 1 },
       {
         autoAlpha: 0,
-        ease: 'none',
+        duration: 0.4,
+        ease: 'ease',
         scrollTrigger: {
           trigger: triggerEl as Element,
           start: `top top-=100`,
-          end: `top top-=150`,
-          scrub: true,
+          toggleActions: 'play none none reverse',
           onLeave: () => gsap.set(targetEl, { display: 'none' }),
           onEnterBack: () => gsap.set(targetEl, { display: '' }),
         },

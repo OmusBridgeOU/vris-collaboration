@@ -54,8 +54,7 @@
 
     position: absolute;
     z-index: 0;
-    top: 0;
-    left: 0;
+    inset: 0;
 
     width: 100%;
     height: 100%;
@@ -112,7 +111,7 @@
   }
 
   &--cyan {
-    background-color: rgba(color.mix(black, v.$vket-cyan, 60%), 0.6);
+    background-color: rgba(color.mix(black, v.$vket-cyan, 75%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
 
     .glassy-box__icon {
@@ -146,7 +145,7 @@
   }
 
   &--magenta {
-    background-color: rgba(color.mix(black, v.$vket-magenta, 60%), 0.6);
+    background-color: rgba(color.mix(black, v.$vket-magenta, 75%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
 
     .glassy-box__icon {
@@ -180,7 +179,7 @@
   }
 
   &--amber {
-    background-color: rgba(color.mix(black, v.$vket-amber, 60%), 0.6);
+    background-color: rgba(color.mix(black, v.$vket-amber, 75%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
 
     .glassy-box__icon {
@@ -197,7 +196,7 @@
   }
 
   &--vermilion {
-    background-color: rgba(color.mix(black, v.$vket-vermilion, 60%), 0.6);
+    background-color: rgba(color.mix(black, v.$vket-vermilion, 75%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
 
     .glassy-box__icon {
@@ -246,8 +245,7 @@
 
     position: absolute;
     z-index: 0;
-    top: 0;
-    left: 0;
+    inset: 0;
 
     width: inherit;
     height: inherit;
@@ -399,6 +397,10 @@
     mask-composite: exclude;
   }
 
+  &--blue {
+    background-color: rgb(30 59 107 / 75%);
+  }
+
   &--radius-full {
     border-radius: 100px;
   }
@@ -540,7 +542,7 @@
 
 .subtitle {
   width: fit-content;
-  margin: 20px auto 42px;
+  margin: 20px auto 36px;
 
   font-size: 32px;
   font-weight: 700;
@@ -551,6 +553,14 @@
   @include m.tb {
     margin: 0 auto 24px;
     font-size: 20px;
+  }
+
+  &--cyan {
+    color: v.$vket-cyan;
+  }
+
+  &--amber {
+    color: v.$vket-amber;
   }
 }
 
@@ -565,7 +575,7 @@
   text-align: center;
 
   &--space {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
 
   @include m.tb {
@@ -584,6 +594,10 @@
 }
 
 /* swiper.js */
+.swiper-wrapper {
+  margin-bottom: 24px;
+}
+
 .custom-swiper-button {
   display: flex;
   align-items: center;
@@ -595,13 +609,14 @@
 
   background-color: #1e355b;
 
+  svg {
+    height: 80%;
+    fill: white;
+  }
+
   @include m.sp {
     width: 24px;
     height: 24px;
-
-    svg {
-      height: 80%;
-    }
   }
 
   &.is-disabled {
@@ -610,15 +625,20 @@
   }
 }
 
+.swiper-button-flex {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+
+  width: fit-content;
+  margin: 0 auto;
+}
+
 .custom-swiper-pagination {
   display: flex;
   gap: 6px;
   justify-content: center;
-  margin-top: 60px;
-
-  @include m.tb {
-    display: none;
-  }
+  margin-bottom: 16px;
 
   .swiper-pagination-bullet {
     width: 16px;
@@ -630,4 +650,17 @@
       background-color: rgb(94 130 190 / 100%);
     }
   }
+}
+
+.swiper-button-lock {
+  display: none;
+
+  // スライドが出来ない状態において付与される`swiper-button-lockクラスが、次へ進むボタンにしか付与されない為、後続兄弟結合子で指定している。
+  & ~ .custom-swiper-button {
+    display: none;
+  }
+}
+
+.swiper-pagination-lock {
+  display: none;
 }

@@ -13,7 +13,13 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="glassy-box-4 glassy-box-4--radius-min member-card none-hover-animation">
+  <component
+    :is="xLink ? 'a' : 'div'"
+    class="glassy-box-4 glassy-box-4--radius-min member-card"
+    :href="xLink ? xLink : undefined"
+    :target="xLink ? '_blank' : undefined"
+    :rel="xLink ? 'noopener noreferrer' : undefined"
+  >
     <div class="member-card__icon-wrapper">
       <img
         v-if="props.iconUrl"
@@ -42,6 +48,7 @@ const props = defineProps<{
         {{ props.role }}
       </p>
       <div class="member-card__logo-link-flex">
+        <!-- インスタリンクも公開される方がいるのであれば、各SNSアイコンのみにボタン判定がある仕様に戻す -->
         <a
           v-if="props.xLink"
           class="member-card__logo-link"
@@ -62,7 +69,7 @@ const props = defineProps<{
         </a>
       </div>
     </div>
-  </div>
+  </component>
 </template>
 
 <style lang="scss" scoped>

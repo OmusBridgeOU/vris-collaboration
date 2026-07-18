@@ -113,7 +113,7 @@ import HtMemberSection from './HtMemberSection.vue'
   }
 
   &__bg {
-    padding: 168px 0 80px;
+    padding: 108px 0 48px;
     border-radius: 36px 36px 0 0;
     background-color: v.$base-background-color;
 
@@ -144,16 +144,16 @@ import HtMemberSection from './HtMemberSection.vue'
 }
 
 section {
-  margin-bottom: 124px;
+  margin-bottom: 80px;
   padding: 0 v.$pc-content-body-padding;
 
   @include m.tb {
-    margin-bottom: 100px;
+    margin-bottom: 52px;
     padding: 0 24px;
   }
 
   @include m.sp {
-    margin-bottom: 100px;
+    margin-bottom: 32px;
     padding: 0 16px;
   }
 }

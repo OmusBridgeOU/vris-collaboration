@@ -13,18 +13,20 @@
       class="hero__kv"
     >
     <div
-      id="scroll-indicator"
-      class="scroll-indicator"
+      id="lower-content"
+      class="lower-content"
     >
-      <span class="scroll-indicator__text">scroll</span>
-      <div class="scroll-indicator__line-outer">
-        <div class="scroll-indicator__line-inner" />
+      <HaEventInfo />
+      <div class="lower-content__line-outer">
+        <div class="lower-content__line-inner" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import HaEventInfo from '../ha/HaEventInfo.vue'
+
 const { fadeOutOnScroll, destroyScrollTriggers } = useGsapFadeIn()
 const route = useRoute()
 
@@ -44,14 +46,14 @@ onUnmounted(() => {
 
 const initScrollEffects = () => {
   const firstView = document.querySelector('#gsap-fv')
-  const scrollIndicator = document.querySelector('#scroll-indicator')
+  const lowerContent = document.querySelector('#lower-content')
 
-  if (!scrollIndicator) return
+  if (!lowerContent) return
 
   // #first-viewがないページ（トップ以外）では実行しない
   if (!firstView) return
 
-  fadeOutOnScroll(scrollIndicator, firstView)
+  fadeOutOnScroll(lowerContent, firstView)
 }
 </script>
 
@@ -97,19 +99,20 @@ const initScrollEffects = () => {
   }
 }
 
-.scroll-indicator {
+.lower-content {
   pointer-events: none;
 
   position: absolute;
   z-index: 2;
-  bottom: 40px;
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
 
   display: flex;
   flex-direction: column;
-  gap: 8px;
   align-items: center;
+
+  width: 100%;
 
   transition: opacity 0.12s linear;
 
@@ -127,7 +130,7 @@ const initScrollEffects = () => {
     overflow: hidden;
 
     width: 2px;
-    height: 48px;
+    height: 40px;
 
     background: rgb(255 255 255 / 30%);
   }

@@ -1,7 +1,23 @@
 <i18n lang="yaml">
 ja:
-  desc1: '「VketReal in 札幌」は、{br1}世界最大級のメタバースイベント「バーチャルマーケット」から派生した{br2}リアルイベントです。'
-  desc2: 'VRSNS上で活躍する北海道ゆかりのクリエイターたちが、リアルの場に飛び出す場所をつくりたい―――{br}そんな想いから生まれた、有志主催のイベントです。北海道の有志XRクリエイターが主催し、札幌で開催します。'
+  desc1:
+    - '「VketReal in 札幌」は、'
+    - '__br-tb-over__'
+    - '世界最大級のメタバースイベント'
+    - '「バーチャルマーケット」から派生した'
+    - '__br-tb-over__'
+    - 'リアルイベントです。'
+  desc2:
+    - 'VRSNS上で活躍する'
+    - '北海道ゆかりのクリエイターたちが、'
+    - 'リアルの場に'
+    - '飛び出す場所をつくりたい―――'
+    - '__br-tb-over__'
+    - 'そんな想いから生まれた、'
+    - '有志主催のイベントです。'
+    - '__br-tb-over__'
+    - '北海道の有志XRクリエイターが主催し、'
+    - '札幌で開催します。'
   feature1Title: 'バーチャル姿のまま、{br}リアルで体験'
   feature1Desc:
     - 'アバターとしての'
@@ -33,7 +49,7 @@ ja:
     - '限定グッズも'
     - '販売されるかも？'
 en:
-  desc1: '"VketReal in Sapporo" is an in-person event inspired by "VirtualMarket (Vket)", one of the world''s largest events in the metaverse.'
+  desc1: '"VketReal in Sapporo" is an in-person event inspired by "VirtualMarket (Vket)", one of the world largest events in the metaverse.'
   desc2: 'This is a community-run event, born from a simple idea: give creators from the Hokkaido VR/SNS scene a place to step into the real world. Organized by volunteer XR creators based in Hokkaido, and held in Sapporo.'
   feature1Title: 'Experience the Event as Your Virtual Avatar'
   feature1Desc: 'A space where people who live as their avatars come together in the real world — to connect, create, and build a creative future.'
@@ -83,30 +99,14 @@ onMounted(() => {
     <HaSectionTitle
       :title="tGlobal('sectionTitle.about')"
       label="ABOUT"
+      class="mb-16"
     />
-    <i18n-t
-      keypath="desc1"
-      tag="div"
-      class="description description--space"
-      scope="parent"
-    >
-      <template #br1>
-        <br class="tb-over">
-      </template>
-      <template #br2>
-        <br class="tb-over">
-      </template>
-    </i18n-t>
-    <i18n-t
-      keypath="desc2"
-      tag="div"
-      class="description"
-      scope="parent"
-    >
-      <template #br>
-        <br class="tb-over">
-      </template>
-    </i18n-t>
+    <p class="description description--space">
+      <HaI18nNowrapText :content="resolveContent('desc1')" />
+    </p>
+    <p class="description">
+      <HaI18nNowrapText :content="resolveContent('desc2')" />
+    </p>
 
     <div
       ref="listRef"
@@ -195,10 +195,18 @@ $three-items-flex--template-column-width: 320px;
 $three-items-flex--template-column-gap: 32px;
 
 .mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+  margin-bottom: 96px;
 
   @include m.tb {
     margin-bottom: 64px;
+  }
+}
+
+.mb-16 {
+  margin-bottom: 64px;
+
+  @include m.tb {
+    margin-bottom: 48px;
   }
 }
 

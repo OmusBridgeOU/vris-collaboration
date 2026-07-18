@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import HaPageTitle from '~/components/ha/HaPageTitle.vue'
-import HaSwiperCard from '~/components/ha/HaSwiperCard.vue'
+import HaNewsCard from '~/components/ha/HaNewsCard.vue'
 
 definePageMeta({
   layout: 'list',
@@ -35,7 +35,7 @@ const items = computed(() => [
           title="お知らせ"
           class="news-list__item--full-width"
         />
-        <HaSwiperCard
+        <HaNewsCard
           v-for="item in items"
           :key="item.id"
           :item="item"
