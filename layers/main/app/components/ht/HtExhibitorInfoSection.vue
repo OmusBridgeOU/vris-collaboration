@@ -8,7 +8,7 @@ ja:
   overviewRow2Value: '1スペースにつき2名'
   overviewRow3Label: '出展内容'
   overviewRow3Value: 'グッズ・書籍頒布・作品展示など'
-  description: 'また、今回のサークル募集は二回に分けて行います。{br1}二次申し込みについては一次申し込みの結果、出展枠に余裕がある場合のみ開催します。{br1}確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。'
+  description: '今回のサークル募集は二回に分けて行います。{br1}二次申し込みについては一次申し込みの結果、出展枠に余裕がある場合のみ開催します。確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。'
   primaryTitle: '一次申し込み（先着順）'
   primaryRow1Label: '募集期間'
   primaryRow1Value: '6月1日(月) ～ 6月18日(木)'
@@ -253,16 +253,17 @@ onMounted(() => {
 
   &__description {
     width: fit-content;
+    max-width: 1080px;
     margin-right: auto;
     margin-left: auto;
 
     font-size: 20px;
     line-height: 1.8em;
     color: white;
+    text-align: center;
 
     @include m.tb {
       font-size: 16px;
-      text-align: center;
     }
 
     @include m.sp {

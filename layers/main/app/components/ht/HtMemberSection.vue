@@ -121,9 +121,9 @@ const items = computed(() => [
   {
     id: 10,
     name: 'samy',
-    iconUrl: '',
+    iconUrl: '/member-icons/samy.webp',
     role: t('roles.webAppDevelopment'),
-    xLink: 'https://x.com/samy_hrin',
+    xLink: '',
     instagramLink: '',
   },
   {

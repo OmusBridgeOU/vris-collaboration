@@ -22,7 +22,7 @@ const navLinks = computed<NavLink[]>(() => [
   { type: 'anchor', href: 'qa', text: t('sectionTitle.qa--min') },
 ])
 
-const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()
+const { firstViewBlur, destroyScrollTriggers } = useGsapFadeIn()
 const route = useRoute()
 
 onMounted(async () => {
@@ -41,15 +41,11 @@ onUnmounted(() => {
 
 const initScrollEffects = async () => {
   const firstView = document.querySelector('#gsap-fv')
-  const header = document.querySelector('#gsap-header')
-
-  if (!header) return
 
   // #first-viewがないページ（トップ以外）では実行しない
   if (!firstView) return
 
   firstViewBlur(firstView)
-  headerRevealOnScroll(header, firstView)
 
   // DOM更新が完了したタイミングでレイアウトを再計算
   await nextTick()

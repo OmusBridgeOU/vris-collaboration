@@ -676,6 +676,7 @@ export default defineNuxtConfig({
           type: 'image/x-icon',
           href: `${runtimeConfig.public.url}/favicon.ico`,
         },
+        { rel: 'manifest', href: '/site.webmanifest' },
       ],
     },
   },
@@ -744,16 +745,16 @@ export default defineNuxtConfig({
     },
   },
 
-  nitro: {
-    preset: 'vercel',
-  },
-
   sourcemap: {
     server: needSourcemap,
     client: needSourcemap,
   },
 
   compatibilityDate: '2024-04-03',
+
+  nitro: {
+    preset: 'cloudflare_pages',
+  },
 
   typescript: {
     typeCheck: checkTypeCheckOnBuild,
@@ -770,15 +771,6 @@ export default defineNuxtConfig({
   },
 
   i18n: nuxtI18nOptions,
-
-  vite: {
-    server: {
-      watch: {
-        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
-        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
-      },
-    },
-  },
 })
 ````
 

@@ -104,122 +104,122 @@ onBeforeUnmount(() => {
 @use '@/assets/styles/mixins' as m;
 
 .language-switcher {
-    cursor: pointer;
+  cursor: pointer;
 
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: fit-content;
+  height: fit-content;
+  padding: 8px 16px;
+
+  &__current-language {
+    margin-right: 4px;
+
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    white-space: nowrap;
+  }
+
+  &__pulldown {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    transition: transform 0.2s ease;
+  }
+
+  &.is-open &__pulldown {
+    transform: rotate(180deg);
+  }
+
+  &__list {
+    position: absolute;
+    top: 52px;
+    right: 0;
+
+    padding: 10px;
+
+    background-color: rgb(52 52 90);
+    box-shadow: inset rgb(79 138 255 / 35%) 0 0 8px 4px;
+
+    &::before {
+      pointer-events: none;
+      content: '';
+
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+      border: 1px solid transparent;
+      border-radius: inherit;
+
+      background-image: linear-gradient(
+      45deg,
+      rgb(v.$base-background-color, 0.75) 10px,
+      rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+      225deg,
+      rgb(v.$base-background-color, 0.75) 10px,
+      rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+      135deg,
+      rgb(255 255 255 / 65%) 10px,
+      rgb(255 255 255 / 15%) 20px
+      ),
+      linear-gradient(
+      315deg,
+      rgb(255 255 255 / 65%) 10px,
+      rgb(255 255 255 / 15%) 20px
+      );
+      background-clip: border-box, border-box, border-box, border-box;
+      background-origin: border-box, border-box, border-box, border-box;
+
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+  }
+
+  &__list-item-button {
     position: relative;
 
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
-    width: fit-content;
-    height: fit-content;
-    padding: 8px 16px;
+    width: 100%;
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 10px;
 
-    &__current-language {
-        margin-right: 4px;
-
-        font-size: 12px;
-        font-weight: bold;
-        color: white;
-        white-space: nowrap;
+    &.is-selected {
+      background-color: rgb(67 81 131 / 65%);
+      box-shadow: inset rgb(79 138 255 / 35%) 0 0 8px 4px;
     }
+  }
 
-    &__pulldown {
-        flex-shrink: 0;
-        width: 12px;
-        height: 12px;
-        transition: transform 0.2s ease;
+  &__language {
+    margin-right: 40px;
+
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    white-space: nowrap;
+
+    &--min {
+      margin-right: 0;
     }
-
-    &.is-open &__pulldown {
-        transform: rotate(180deg);
-    }
-
-    &__list {
-        position: absolute;
-        top: 52px;
-        right: 0;
-
-        padding: 10px;
-
-        background-color: rgb(43 43 87 / 65%);
-        box-shadow: inset rgb(79 138 255 / 35%) 0 0 8px 4px;
-
-        &::before {
-            pointer-events: none;
-            content: '';
-
-            position: absolute;
-            z-index: 0;
-            inset: 0;
-
-            width: 100%;
-            height: 100%;
-            border: 1px solid transparent;
-            border-radius: inherit;
-
-            background-image: linear-gradient(
-            45deg,
-            rgb(v.$base-background-color, 0.75) 10px,
-            rgb(v.$base-background-color, 0) 20px
-            ),
-            linear-gradient(
-            225deg,
-            rgb(v.$base-background-color, 0.75) 10px,
-            rgb(v.$base-background-color, 0) 20px
-            ),
-            linear-gradient(
-            135deg,
-            rgb(255 255 255 / 65%) 10px,
-            rgb(255 255 255 / 15%) 20px
-            ),
-            linear-gradient(
-            315deg,
-            rgb(255 255 255 / 65%) 10px,
-            rgb(255 255 255 / 15%) 20px
-            );
-            background-clip: border-box, border-box, border-box, border-box;
-            background-origin: border-box, border-box, border-box, border-box;
-
-            -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-            linear-gradient(#fff 0 0) border-box;
-            mask: linear-gradient(#fff 0 0) padding-box,
-            linear-gradient(#fff 0 0) border-box;
-            -webkit-mask-composite: destination-out;
-            mask-composite: exclude;
-        }
-    }
-
-    &__list-item-button {
-        position: relative;
-
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        width: 100%;
-        min-width: 200px;
-        padding: 10px;
-        border-radius: 10px;
-
-        &.is-selected {
-            background-color: rgb(67 81 131 / 65%);
-            box-shadow: inset rgb(79 138 255 / 35%) 0 0 8px 4px;
-        }
-    }
-
-    &__language {
-        margin-right: 40px;
-
-        font-size: 12px;
-        font-weight: bold;
-        color: white;
-        white-space: nowrap;
-
-        &--min {
-            margin-right: 0;
-        }
-    }
+  }
 }
 
 .fade-language-menu-enter-active,

@@ -2,16 +2,20 @@
 ja:
   desc1:
     - '「VketReal in 札幌」は、'
-    - '__br-tb-over__'
     - '世界最大級のメタバースイベント'
-    - '「バーチャルマーケット」から派生した'
     - '__br-tb-over__'
+    - '「バーチャルマーケット」から派生した'
     - 'リアルイベントです。'
   desc2:
-    - 'VRSNS上で活躍する'
-    - '北海道ゆかりのクリエイターたちが、'
+    - 'VRSNS上で'
+    - '活躍する'
+    - '北海道ゆかりの'
+    - 'クリエイターたちが、'
+    - '__br-tb-over__'
     - 'リアルの場に'
-    - '飛び出す場所をつくりたい―――'
+    - '飛び出す'
+    - '場所を'
+    - 'つくりたい―――'
     - '__br-tb-over__'
     - 'そんな想いから生まれた、'
     - '有志主催のイベントです。'
@@ -104,7 +108,7 @@ onMounted(() => {
     <p class="description description--space">
       <HaI18nNowrapText :content="resolveContent('desc1')" />
     </p>
-    <p class="description">
+    <p class="description specific-responsive__1">
       <HaI18nNowrapText :content="resolveContent('desc2')" />
     </p>
 
@@ -300,6 +304,16 @@ $three-items-flex--template-column-gap: 32px;
   &__child {
     width: 100%;
     height: 100%;
+  }
+}
+
+// 特定の文章の改行位置を調整するためだけのCSSクラス。
+.specific-responsive {
+  &__1 {
+    @include m.sp {
+      width: 500px;
+      max-width: 100%;
+    }
   }
 }
 </style>

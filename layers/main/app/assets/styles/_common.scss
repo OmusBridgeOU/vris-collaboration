@@ -569,7 +569,6 @@
   margin: 0 auto 80px;
 
   font-size: 20px;
-  font-weight: 700;
   line-height: 1.8em;
   color: white;
   text-align: center;
@@ -585,7 +584,6 @@
   @include m.sp {
     margin-bottom: 20px;
     font-size: 14px;
-    font-weight: normal;
   }
 
   &--left {

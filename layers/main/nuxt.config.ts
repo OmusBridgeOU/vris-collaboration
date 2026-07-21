@@ -77,6 +77,7 @@ export default defineNuxtConfig({
           type: 'image/x-icon',
           href: `${runtimeConfig.public.url}/favicon.ico`,
         },
+        { rel: 'manifest', href: '/site.webmanifest' },
       ],
     },
   },
@@ -145,16 +146,16 @@ export default defineNuxtConfig({
     },
   },
 
-  nitro: {
-    preset: 'cloudflare_pages',
-  },
-
   sourcemap: {
     server: needSourcemap,
     client: needSourcemap,
   },
 
   compatibilityDate: '2024-04-03',
+
+  nitro: {
+    preset: 'cloudflare_pages',
+  },
 
   typescript: {
     typeCheck: checkTypeCheckOnBuild,

@@ -32,6 +32,26 @@ en:
             class="ho-the-header__right glassy-box-4 none-hover-animation ho-the-header__accordion"
             :class="{ 'is-open': isPanelOpen }"
           >
+            <div class="ho-the-header__hamburger-wrapper">
+              <HaLanguageSwitcher />
+              <button
+                class="ho-the-header__hamburger"
+                :aria-label="isPanelOpen ? 'メニューを閉じる' : 'メニューを開く'"
+                :aria-expanded="isPanelOpen"
+                @click="isPanelOpen = !isPanelOpen"
+              >
+                <HaHamburgerIcon
+                  v-show="!isPanelOpen"
+                  class="ho-the-header__hamburger-icon"
+                  :class="{ 'is-open': isPanelOpen }"
+                />
+                <HaCloseIcon
+                  v-show="isPanelOpen"
+                  class="ho-the-header__hamburger-icon"
+                  :class="{ 'is-open': isPanelOpen }"
+                />
+              </button>
+            </div>
             <div class="ho-the-header__accordion-body">
               <nav class="ho-the-header__accordion-nav">
                 <ul class="ho-the-header__accordion-ul">
@@ -56,26 +76,6 @@ en:
                   </li>
                 </ul>
               </nav>
-            </div>
-            <div class="ho-the-header__hamburger-wrapper">
-              <HaLanguageSwitcher />
-              <button
-                class="ho-the-header__hamburger"
-                :aria-label="isPanelOpen ? 'メニューを閉じる' : 'メニューを開く'"
-                :aria-expanded="isPanelOpen"
-                @click="isPanelOpen = !isPanelOpen"
-              >
-                <HaHamburgerIcon
-                  v-show="!isPanelOpen"
-                  class="ho-the-header__hamburger-icon"
-                  :class="{ 'is-open': isPanelOpen }"
-                />
-                <HaCloseIcon
-                  v-show="isPanelOpen"
-                  class="ho-the-header__hamburger-icon"
-                  :class="{ 'is-open': isPanelOpen }"
-                />
-              </button>
             </div>
           </div>
         </div>
@@ -321,7 +321,8 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
 
   &__accordion {
     display: none;
-    align-items: start;
+    flex-direction: column;
+    align-items: end;
 
     width: fit-content;
     height: fit-content;
@@ -354,7 +355,7 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
       flex-direction: column;
 
       margin: 0;
-      padding: 36px 0 14px;
+      padding: 12px;
 
       list-style: none;
     }

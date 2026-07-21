@@ -105,6 +105,7 @@ const { t } = useI18n()
     &__title {
         margin-bottom: 16px;
         font-size: 24px;
+        font-weight: bold;
         color: v.$vket-cyan;
 
         @include m.tb {

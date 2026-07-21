@@ -4,8 +4,7 @@ ja:
     item1:
       title: 'VketReal in 札幌 とはどのようなイベントですか？'
       contents:
-        - 'VRSNSで活躍するクリエイターが集まるリアルイベントです。'
-        - 'HIKKYが主催するVketRealから派生した有志主催イベントです。'
+        - 'HIKKY主催のイベントVketRealから派生した、VRSNSで活躍するクリエイターが集う有志主催のリアルイベントです。'
     item2:
       title: 'チケットはどこで買えますか？'
       contents:

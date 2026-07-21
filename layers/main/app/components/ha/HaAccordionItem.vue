@@ -153,16 +153,14 @@ const toggle = (id: number) => {
   &__inner {
     overflow: hidden;
 
-    padding-left: 44px;
+    margin-left: 44px;
 
     font-size: 16px;
-    font-weight: 700;
     color: white;
     text-align: left;
 
     @include m.sp {
       font-size: 12px;
-      font-weight: normal;
     }
   }
 

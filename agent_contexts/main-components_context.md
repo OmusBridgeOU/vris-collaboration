@@ -147,6 +147,26 @@ layers/
 
 # Files
 
+## File: layers/main/app/components/ha/icons/HaBroadcastIcon.vue
+```vue
+<template>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M6.863 13.644L5 13.25H4.5C4.36739 13.25 4.24021 13.1973 4.14645 13.1036C4.05268 13.0098 4 12.8826 4 12.75V9.75C4 9.61739 4.05268 9.49021 4.14645 9.39645C4.24021 9.30268 4.36739 9.25 4.5 9.25H5L18 6.5H20V16H18L14.146 15.185L14.172 15.193C13.8993 16.0913 13.2995 16.8547 12.4912 17.3322C11.6828 17.8098 10.7248 17.9667 9.80636 17.7721C8.88792 17.5775 8.07589 17.0455 7.53073 16.2811C6.98557 15.5168 6.74794 14.5758 6.863 13.644ZM8.34 13.957C8.30786 14.4952 8.47 15.0271 8.79692 15.4559C9.12384 15.8847 9.59382 16.1819 10.1214 16.2935C10.6489 16.405 11.199 16.3235 11.6715 16.0637C12.144 15.8039 12.5075 15.3832 12.696 14.878L8.34 13.957ZM5.5 10.677L18.157 8H18.5V14.5H18.157L5.5 11.823V10.677Z"
+      fill="white"
+    />
+  </svg>
+</template>
+```
+
 ## File: layers/main/app/components/ha/icons/HaCalendarIcon.vue
 ```vue
 <template>
@@ -205,6 +225,78 @@ layers/
   >
     <path
       d="M10.0001 9.16675C11.4251 9.16675 12.5001 8.09175 12.5001 6.66675C12.5001 5.24175 11.4251 4.16675 10.0001 4.16675C8.57508 4.16675 7.50008 5.24175 7.50008 6.66675C7.50008 8.09175 8.57508 9.16675 10.0001 9.16675ZM10.0001 5.83341C10.5001 5.83341 10.8334 6.16675 10.8334 6.66675C10.8334 7.16675 10.5001 7.50008 10.0001 7.50008C9.50008 7.50008 9.16675 7.16675 9.16675 6.66675C9.16675 6.16675 9.50008 5.83341 10.0001 5.83341ZM10.8334 10.0001H9.16675C6.86675 10.0001 5.00008 11.8667 5.00008 14.1667V14.5834C5.00008 15.2751 5.55841 15.8334 6.25008 15.8334H13.7501C14.4417 15.8334 15.0001 15.2751 15.0001 14.5834V14.1667C15.0001 11.8667 13.1334 10.0001 10.8334 10.0001ZM6.66675 14.1667C6.66675 12.7917 7.79175 11.6667 9.16675 11.6667H10.8334C12.2084 11.6667 13.3334 12.7917 13.3334 14.1667H6.66675ZM5.41675 9.16675C5.80841 9.16675 6.16675 9.06675 6.47508 8.89175C6.12558 8.33528 5.9118 7.70444 5.851 7.05014C5.79021 6.39584 5.88409 5.73641 6.12508 5.12508C5.90841 5.05008 5.66675 5.00008 5.41675 5.00008C4.21675 5.00008 3.33341 5.88341 3.33341 7.08341C3.33341 8.28341 4.21675 9.16675 5.41675 9.16675ZM5.09175 10.0001H4.58341C2.97508 10.0001 1.66675 11.3084 1.66675 12.9167V13.7501C1.66675 13.9834 1.85008 14.1667 2.08341 14.1667H3.33341C3.33341 12.5334 4.00841 11.0584 5.09175 10.0001ZM14.5834 9.16675C15.7834 9.16675 16.6667 8.28341 16.6667 7.08341C16.6667 5.88341 15.7834 5.00008 14.5834 5.00008C14.3251 5.00008 14.0917 5.05008 13.8751 5.12508C14.1161 5.73641 14.21 6.39584 14.1492 7.05014C14.0884 7.70444 13.8746 8.33528 13.5251 8.89175C13.8334 9.06675 14.1834 9.16675 14.5834 9.16675ZM15.4167 10.0001H14.9084C15.4652 10.5417 15.9077 11.1896 16.2098 11.9053C16.5118 12.6209 16.6672 13.3899 16.6667 14.1667H17.9167C18.1501 14.1667 18.3334 13.9834 18.3334 13.7501V12.9167C18.3334 11.3084 17.0251 10.0001 15.4167 10.0001Z"
+      fill="white"
+    />
+  </svg>
+</template>
+```
+
+## File: layers/main/app/components/ha/icons/HaCompanyIcon.vue
+```vue
+<template>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M18 15H16V17H18M18 11H16V13H18M20 19H12V17H14V15H12V13H14V11H12V9H20M10 7H8V5H10M10 11H8V9H10M10 15H8V13H10M10 19H8V17H10M6 7H4V5H6M6 11H4V9H6M6 15H4V13H6M6 19H4V17H6M12 7V3H2V21H22V7H12Z"
+      fill="white"
+    />
+  </svg>
+</template>
+```
+
+## File: layers/main/app/components/ha/icons/HaDangerIcon.vue
+```vue
+<template>
+  <svg
+    width="23"
+    height="23"
+    viewBox="0 0 23 23"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M13.5874 4.23461L19.7393 14.4811C20.6234 15.9528 20.1892 17.889 18.7689 18.8052C18.2926 19.1145 17.7367 19.279 17.1688 19.2789H4.86395C3.19216 19.2789 1.83618 17.8743 1.83618 16.1401C1.83618 15.5534 1.99501 14.9796 2.29338 14.4811L8.44624 4.23461C9.32941 2.76296 11.1968 2.31219 12.617 3.22841C13.0099 3.4818 13.3423 3.82607 13.5874 4.23461ZM11.5493 5.00487C11.4369 4.93258 11.311 4.88382 11.1793 4.86154C11.0475 4.83926 10.9126 4.84392 10.7827 4.87524C10.6528 4.90656 10.5305 4.96388 10.4234 5.04376C10.3163 5.12363 10.2264 5.2244 10.1593 5.33996L4.0074 15.5883C3.90747 15.7553 3.85479 15.9463 3.855 16.141C3.855 16.7194 4.30669 17.1876 4.86487 17.1876H17.1678C17.357 17.1876 17.5415 17.1325 17.7012 17.0297C17.9305 16.8774 18.0921 16.6425 18.1525 16.374C18.2128 16.1055 18.1673 15.8241 18.0253 15.5883L11.8734 5.33996C11.7932 5.20462 11.6826 5.08987 11.5502 5.00487H11.5493ZM11.0168 15.6067C10.7733 15.6067 10.5398 15.5099 10.3676 15.3378C10.1955 15.1656 10.0988 14.9321 10.0988 14.6886C10.0988 14.4451 10.1955 14.2116 10.3676 14.0394C10.5398 13.8673 10.7733 13.7705 11.0168 13.7705C11.2603 13.7705 11.4938 13.8673 11.666 14.0394C11.8382 14.2116 11.9349 14.4451 11.9349 14.6886C11.9349 14.9321 11.8382 15.1656 11.666 15.3378C11.4938 15.5099 11.2603 15.6067 11.0168 15.6067ZM11.0168 7.34409C11.2603 7.34409 11.4938 7.44082 11.666 7.61299C11.8382 7.78516 11.9349 8.01867 11.9349 8.26216V11.9344C11.9349 12.1779 11.8382 12.4114 11.666 12.5836C11.4938 12.7557 11.2603 12.8525 11.0168 12.8525C10.7733 12.8525 10.5398 12.7557 10.3676 12.5836C10.1955 12.4114 10.0988 12.1779 10.0988 11.9344V8.26216C10.0988 8.01867 10.1955 7.78516 10.3676 7.61299C10.5398 7.44082 10.7733 7.34409 11.0168 7.34409Z"
+      fill="white"
+    />
+  </svg>
+</template>
+```
+
+## File: layers/main/app/components/ha/icons/HaEmailIcon.vue
+```vue
+<template>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M4 20C3.45 20 2.97933 19.8043 2.588 19.413C2.19667 19.0217 2.00067 18.5507 2 18V6C2 5.45 2.196 4.97933 2.588 4.588C2.98 4.19667 3.45067 4.00067 4 4H20C20.55 4 21.021 4.196 21.413 4.588C21.805 4.98 22.0007 5.45067 22 6V18C22 18.55 21.8043 19.021 21.413 19.413C21.0217 19.805 20.5507 20.0007 20 20H4ZM12 13L4 8V18H20V8L12 13ZM12 11L20 6H4L12 11ZM4 8V6V18V8Z"
+      fill="white"
+    />
+  </svg>
+</template>
+```
+
+## File: layers/main/app/components/ha/icons/HaInfoIcon.vue
+```vue
+<template>
+  <svg
+    width="23"
+    height="23"
+    viewBox="0 0 23 23"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M11.9449 8.26976H10.1072V6.43208H11.9449M11.9449 15.6205H10.1072V10.1074H11.9449M11.026 1.83789C9.8194 1.83789 8.62458 2.07556 7.50979 2.53731C6.395 2.99907 5.38208 3.67589 4.52886 4.52911C2.80571 6.25226 1.83765 8.58937 1.83765 11.0263C1.83765 13.4632 2.80571 15.8003 4.52886 17.5234C5.38208 18.3767 6.395 19.0535 7.50979 19.5152C8.62458 19.977 9.8194 20.2147 11.026 20.2147C13.4629 20.2147 15.8 19.2466 17.5232 17.5234C19.2464 15.8003 20.2144 13.4632 20.2144 11.0263C20.2144 9.81964 19.9768 8.62482 19.515 7.51003C19.0532 6.39525 18.3764 5.38233 17.5232 4.52911C16.67 3.67589 15.6571 2.99907 14.5423 2.53731C13.4275 2.07556 12.2327 1.83789 11.026 1.83789Z"
       fill="white"
     />
   </svg>
@@ -1515,20 +1607,16 @@ layers/
 </template>
 ```
 
-## File: layers/main/app/components/ha/icons/HaBroadcastIcon.vue
+## File: layers/main/app/components/ha/icons/HaCameraIcon.vue
 ```vue
 <template>
   <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
+    viewBox="0 0 23 23"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M6.863 13.644L5 13.25H4.5C4.36739 13.25 4.24021 13.1973 4.14645 13.1036C4.05268 13.0098 4 12.8826 4 12.75V9.75C4 9.61739 4.05268 9.49021 4.14645 9.39645C4.24021 9.30268 4.36739 9.25 4.5 9.25H5L18 6.5H20V16H18L14.146 15.185L14.172 15.193C13.8993 16.0913 13.2995 16.8547 12.4912 17.3322C11.6828 17.8098 10.7248 17.9667 9.80636 17.7721C8.88792 17.5775 8.07589 17.0455 7.53073 16.2811C6.98557 15.5168 6.74794 14.5758 6.863 13.644ZM8.34 13.957C8.30786 14.4952 8.47 15.0271 8.79692 15.4559C9.12384 15.8847 9.59382 16.1819 10.1214 16.2935C10.6489 16.405 11.199 16.3235 11.6715 16.0637C12.144 15.8039 12.5075 15.3832 12.696 14.878L8.34 13.957ZM5.5 10.677L18.157 8H18.5V14.5H18.157L5.5 11.823V10.677Z"
+      d="M18.3613 3.67206H15.4511L13.771 1.83594H8.26263L6.58257 3.67206H3.67231C3.18534 3.67206 2.71831 3.86551 2.37397 4.20985C2.02963 4.55419 1.83618 5.02122 1.83618 5.50819V16.525C1.83618 17.0119 2.02963 17.4789 2.37397 17.8233C2.71831 18.1676 3.18534 18.3611 3.67231 18.3611H18.3613C18.8483 18.3611 19.3153 18.1676 19.6597 17.8233C20.004 17.4789 20.1974 17.0119 20.1974 16.525V5.50819C20.1974 5.02122 20.004 4.55419 19.6597 4.20985C19.3153 3.86551 18.8483 3.67206 18.3613 3.67206ZM18.3613 16.525H3.67231V5.50819H7.39047L9.07052 3.67206H12.9631L14.6432 5.50819H18.3613V16.525ZM11.0168 6.42625C9.79939 6.42625 8.63182 6.90987 7.77097 7.77073C6.91012 8.63158 6.4265 9.79914 6.4265 11.0166C6.4265 12.234 6.91012 13.4016 7.77097 14.2624C8.63182 15.1233 9.79939 15.6069 11.0168 15.6069C12.2342 15.6069 13.4018 15.1233 14.2627 14.2624C15.1235 13.4016 15.6071 12.234 15.6071 11.0166C15.6071 9.79914 15.1235 8.63158 14.2627 7.77073C13.4018 6.90987 12.2342 6.42625 11.0168 6.42625ZM11.0168 13.7708C10.2864 13.7708 9.58582 13.4806 9.06931 12.9641C8.5528 12.4476 8.26263 11.747 8.26263 11.0166C8.26263 10.2861 8.5528 9.58557 9.06931 9.06906C9.58582 8.55255 10.2864 8.26238 11.0168 8.26238C11.7473 8.26238 12.4478 8.55255 12.9643 9.06906C13.4808 9.58557 13.771 10.2861 13.771 11.0166C13.771 11.747 13.4808 12.4476 12.9643 12.9641C12.4478 13.4806 11.7473 13.7708 11.0168 13.7708Z"
       fill="white"
     />
   </svg>
@@ -1627,60 +1715,6 @@ layers/
 </template>
 ```
 
-## File: layers/main/app/components/ha/icons/HaCompanyIcon.vue
-```vue
-<template>
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M18 15H16V17H18M18 11H16V13H18M20 19H12V17H14V15H12V13H14V11H12V9H20M10 7H8V5H10M10 11H8V9H10M10 15H8V13H10M10 19H8V17H10M6 7H4V5H6M6 11H4V9H6M6 15H4V13H6M6 19H4V17H6M12 7V3H2V21H22V7H12Z"
-      fill="white"
-    />
-  </svg>
-</template>
-```
-
-## File: layers/main/app/components/ha/icons/HaDangerIcon.vue
-```vue
-<template>
-  <svg
-    width="23"
-    height="23"
-    viewBox="0 0 23 23"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M13.5874 4.23461L19.7393 14.4811C20.6234 15.9528 20.1892 17.889 18.7689 18.8052C18.2926 19.1145 17.7367 19.279 17.1688 19.2789H4.86395C3.19216 19.2789 1.83618 17.8743 1.83618 16.1401C1.83618 15.5534 1.99501 14.9796 2.29338 14.4811L8.44624 4.23461C9.32941 2.76296 11.1968 2.31219 12.617 3.22841C13.0099 3.4818 13.3423 3.82607 13.5874 4.23461ZM11.5493 5.00487C11.4369 4.93258 11.311 4.88382 11.1793 4.86154C11.0475 4.83926 10.9126 4.84392 10.7827 4.87524C10.6528 4.90656 10.5305 4.96388 10.4234 5.04376C10.3163 5.12363 10.2264 5.2244 10.1593 5.33996L4.0074 15.5883C3.90747 15.7553 3.85479 15.9463 3.855 16.141C3.855 16.7194 4.30669 17.1876 4.86487 17.1876H17.1678C17.357 17.1876 17.5415 17.1325 17.7012 17.0297C17.9305 16.8774 18.0921 16.6425 18.1525 16.374C18.2128 16.1055 18.1673 15.8241 18.0253 15.5883L11.8734 5.33996C11.7932 5.20462 11.6826 5.08987 11.5502 5.00487H11.5493ZM11.0168 15.6067C10.7733 15.6067 10.5398 15.5099 10.3676 15.3378C10.1955 15.1656 10.0988 14.9321 10.0988 14.6886C10.0988 14.4451 10.1955 14.2116 10.3676 14.0394C10.5398 13.8673 10.7733 13.7705 11.0168 13.7705C11.2603 13.7705 11.4938 13.8673 11.666 14.0394C11.8382 14.2116 11.9349 14.4451 11.9349 14.6886C11.9349 14.9321 11.8382 15.1656 11.666 15.3378C11.4938 15.5099 11.2603 15.6067 11.0168 15.6067ZM11.0168 7.34409C11.2603 7.34409 11.4938 7.44082 11.666 7.61299C11.8382 7.78516 11.9349 8.01867 11.9349 8.26216V11.9344C11.9349 12.1779 11.8382 12.4114 11.666 12.5836C11.4938 12.7557 11.2603 12.8525 11.0168 12.8525C10.7733 12.8525 10.5398 12.7557 10.3676 12.5836C10.1955 12.4114 10.0988 12.1779 10.0988 11.9344V8.26216C10.0988 8.01867 10.1955 7.78516 10.3676 7.61299C10.5398 7.44082 10.7733 7.34409 11.0168 7.34409Z"
-      fill="white"
-    />
-  </svg>
-</template>
-```
-
-## File: layers/main/app/components/ha/icons/HaEmailIcon.vue
-```vue
-<template>
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M4 20C3.45 20 2.97933 19.8043 2.588 19.413C2.19667 19.0217 2.00067 18.5507 2 18V6C2 5.45 2.196 4.97933 2.588 4.588C2.98 4.19667 3.45067 4.00067 4 4H20C20.55 4 21.021 4.196 21.413 4.588C21.805 4.98 22.0007 5.45067 22 6V18C22 18.55 21.8043 19.021 21.413 19.413C21.0217 19.805 20.5507 20.0007 20 20H4ZM12 13L4 8V18H20V8L12 13ZM12 11L20 6H4L12 11ZM4 8V6V18V8Z"
-      fill="white"
-    />
-  </svg>
-</template>
-```
-
 ## File: layers/main/app/components/ha/icons/HaHamburgerIcon.vue
 ```vue
 <template>
@@ -1720,18 +1754,16 @@ layers/
 </template>
 ```
 
-## File: layers/main/app/components/ha/icons/HaInfoIcon.vue
+## File: layers/main/app/components/ha/icons/HaHeartIcon.vue
 ```vue
 <template>
   <svg
-    width="23"
-    height="23"
     viewBox="0 0 23 23"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      d="M11.9449 8.26976H10.1072V6.43208H11.9449M11.9449 15.6205H10.1072V10.1074H11.9449M11.026 1.83789C9.8194 1.83789 8.62458 2.07556 7.50979 2.53731C6.395 2.99907 5.38208 3.67589 4.52886 4.52911C2.80571 6.25226 1.83765 8.58937 1.83765 11.0263C1.83765 13.4632 2.80571 15.8003 4.52886 17.5234C5.38208 18.3767 6.395 19.0535 7.50979 19.5152C8.62458 19.977 9.8194 20.2147 11.026 20.2147C13.4629 20.2147 15.8 19.2466 17.5232 17.5234C19.2464 15.8003 20.2144 13.4632 20.2144 11.0263C20.2144 9.81964 19.9768 8.62482 19.515 7.51003C19.0532 6.39525 18.3764 5.38233 17.5232 4.52911C16.67 3.67589 15.6571 2.99907 14.5423 2.53731C13.4275 2.07556 12.2327 1.83789 11.026 1.83789Z"
+      d="M11.1086 17.0298L11.0168 17.1216L10.9158 17.0298C6.55503 13.0729 3.67231 10.4565 3.67231 7.80325C3.67231 5.96713 5.0494 4.59003 6.88553 4.59003C8.29935 4.59003 9.67644 5.5081 10.163 6.75666H11.8706C12.3572 5.5081 13.7343 4.59003 15.1481 4.59003C16.9842 4.59003 18.3613 5.96713 18.3613 7.80325C18.3613 10.4565 15.4786 13.0729 11.1086 17.0298ZM15.1481 2.75391C13.5507 2.75391 12.0175 3.49754 11.0168 4.66348C10.0161 3.49754 8.48296 2.75391 6.88553 2.75391C4.05789 2.75391 1.83618 4.96644 1.83618 7.80325C1.83618 11.2644 4.9576 14.1012 9.68562 18.3885L11.0168 19.6004L12.348 18.3885C17.076 14.1012 20.1974 11.2644 20.1974 7.80325C20.1974 4.96644 17.9757 2.75391 15.1481 2.75391Z"
       fill="white"
     />
   </svg>
@@ -1888,242 +1920,31 @@ layers/
 </template>
 ```
 
-## File: layers/main/app/components/ha/HaLanguageSwitcher.vue
+## File: layers/main/app/components/ha/icons/HaShieldIcon.vue
 ```vue
-<script setup lang="ts">
-import type { Locale } from 'vue-i18n'
-import HaPullDown from './icons/HaPullDown.vue'
-
-const { locale, locales, setLocale } = useI18n()
-
-// 現在選択中の言語情報（表示ラベル取得用）
-const availableLocales = computed(() => {
-  return (locales.value ?? []).filter(l => typeof l !== 'string')
-})
-
-const currentLocaleLabel = computed(() => {
-  return locale.value.toUpperCase()
-})
-
-// 開閉状態
-const isOpen = ref(false)
-
-const toggleOpen = () => {
-  isOpen.value = !isOpen.value
-}
-
-const closeMenu = () => {
-  isOpen.value = false
-}
-
-// 言語選択時の処理
-
-// 本来i18nが想定するのは下記のような処理だが、これはページのフルリロードを行わないため、GSAPのScrollTriggerがリセットされない。
-// 言語切替の頻度は高くないと考え、window.location.hrefを用いてフルリロードを挟むようにしている。
-// const selectLocale = (code: Locale) => {
-//   const path = switchLocalePath(code)
-//   if (path) {
-//     window.location.href = path
-//   }
-// }
-const selectLocale = async (code: Locale) => {
-  await setLocale(code)
-  await nextTick()
-  window.location.reload()
-}
-
-// 外側クリックで閉じる
-const rootRef = ref<HTMLElement | null>(null)
-
-const handleClickOutside = (event: MouseEvent) => {
-  if (rootRef.value && !rootRef.value.contains(event.target as Node)) {
-    closeMenu()
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
-</script>
-
 <template>
-  <div
-    ref="rootRef"
-    class="language-switcher glassy-box-4 none-hover-animation"
-    :class="{ 'is-open': isOpen }"
-    @click="toggleOpen"
+  <svg
+    viewBox="0 0 23 23"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
   >
-    <span class="language-switcher__current-language">{{ currentLocaleLabel }}</span>
-    <HaPullDown class="language-switcher__pulldown" />
-
-    <Transition
-      name="fade-language-menu"
-    >
-      <ul
-        v-if="isOpen"
-        role="listbox"
-        class="language-switcher__list glassy-box-2 none-hover-animation"
-        @click.stop
-      >
-        <li
-          v-for="l in availableLocales"
-          :key="l.code"
-          role="option"
-          :aria-selected="l.code === locale"
-          class="language-switcher__list-item"
-        >
-          <button
-            type="button"
-            class="language-switcher__list-item-button none-hover-animation"
-            :class="{ 'is-selected': l.code === locale }"
-            @click="selectLocale(l.code)"
-          >
-            <span class="language-switcher__language">{{ l.name }}</span>
-            <span class="language-switcher__language language-switcher__language--min">{{ l.code.toUpperCase() }}</span>
-          </button>
-        </li>
-      </ul>
-    </Transition>
-  </div>
+    <g clip-path="url(#clip0_284_61)">
+      <path
+        d="M18.755 7.53912C18.8775 6.08226 19.3169 4.74483 20.0902 3.51844L17.1228 0.661133C16.1854 1.43803 15.1173 1.86857 13.9081 1.94437C12.7993 2.04087 11.7488 1.83816 10.7599 1.33492C9.74373 1.82142 8.69714 2.02545 7.60648 1.94437C6.49638 1.85571 5.43478 1.45144 4.5469 0.779232L1.57194 3.63566C2.30389 4.87923 2.71151 6.18053 2.79127 7.53912C2.82917 8.16443 2.64409 9.02638 2.22765 10.1391C2.03865 10.6645 1.87352 11.1983 1.73278 11.7387C1.62878 12.1833 1.564 12.5438 1.54197 12.8148C1.52699 14.0007 1.87247 15.0715 2.58107 16.0238C3.13499 16.7187 4.0485 17.4864 5.31675 18.3258C6.70398 19.0058 7.7779 19.4469 8.53012 19.6351L9.15411 19.9149C9.35021 20.0048 9.56041 20.0934 9.77942 20.1894C10.2531 20.4627 10.585 20.7583 10.7599 21.0637C10.975 20.7328 11.3147 20.445 11.766 20.1894C12.0365 20.0777 12.3048 19.9606 12.5706 19.8382L13.0417 19.6355C13.2025 19.5593 13.4128 19.4711 13.6683 19.3738C13.9846 19.2532 14.3025 19.137 14.622 19.0252C15.3548 18.7758 15.8884 18.5391 16.2273 18.3258C17.4577 17.4868 18.3571 16.7311 18.9295 16.0564C19.6632 15.101 20.0202 14.0249 20.0039 12.8157C19.9602 12.2737 19.7218 11.4073 19.2891 10.2268C18.8775 9.07617 18.6955 8.18338 18.755 7.53912Z"
+        fill="white"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_284_61">
+        <rect
+          width="22.0335"
+          height="22.0335"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
+  </svg>
 </template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.language-switcher {
-    cursor: pointer;
-
-    position: relative;
-
-    display: flex;
-    align-items: center;
-
-    width: fit-content;
-    height: fit-content;
-    padding: 8px 16px;
-
-    &__current-language {
-        margin-right: 4px;
-
-        font-size: 12px;
-        font-weight: bold;
-        color: white;
-        white-space: nowrap;
-    }
-
-    &__pulldown {
-        flex-shrink: 0;
-        width: 12px;
-        height: 12px;
-        transition: transform 0.2s ease;
-    }
-
-    &.is-open &__pulldown {
-        transform: rotate(180deg);
-    }
-
-    &__list {
-        position: absolute;
-        top: 52px;
-        right: 0;
-
-        padding: 10px;
-
-        background-color: rgb(43 43 87 / 65%);
-        box-shadow: inset rgb(79 138 255 / 35%) 0 0 8px 4px;
-
-        &::before {
-            pointer-events: none;
-            content: '';
-
-            position: absolute;
-            z-index: 0;
-            inset: 0;
-
-            width: 100%;
-            height: 100%;
-            border: 1px solid transparent;
-            border-radius: inherit;
-
-            background-image: linear-gradient(
-            45deg,
-            rgb(v.$base-background-color, 0.75) 10px,
-            rgb(v.$base-background-color, 0) 20px
-            ),
-            linear-gradient(
-            225deg,
-            rgb(v.$base-background-color, 0.75) 10px,
-            rgb(v.$base-background-color, 0) 20px
-            ),
-            linear-gradient(
-            135deg,
-            rgb(255 255 255 / 65%) 10px,
-            rgb(255 255 255 / 15%) 20px
-            ),
-            linear-gradient(
-            315deg,
-            rgb(255 255 255 / 65%) 10px,
-            rgb(255 255 255 / 15%) 20px
-            );
-            background-clip: border-box, border-box, border-box, border-box;
-            background-origin: border-box, border-box, border-box, border-box;
-
-            -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-            linear-gradient(#fff 0 0) border-box;
-            mask: linear-gradient(#fff 0 0) padding-box,
-            linear-gradient(#fff 0 0) border-box;
-            -webkit-mask-composite: destination-out;
-            mask-composite: exclude;
-        }
-    }
-
-    &__list-item-button {
-        position: relative;
-
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        width: 100%;
-        min-width: 200px;
-        padding: 10px;
-        border-radius: 10px;
-
-        &.is-selected {
-            background-color: rgb(67 81 131 / 65%);
-            box-shadow: inset rgb(79 138 255 / 35%) 0 0 8px 4px;
-        }
-    }
-
-    &__language {
-        margin-right: 40px;
-
-        font-size: 12px;
-        font-weight: bold;
-        color: white;
-        white-space: nowrap;
-
-        &--min {
-            margin-right: 0;
-        }
-    }
-}
-
-.fade-language-menu-enter-active,
-.fade-language-menu-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-language-menu-enter-from,
-.fade-language-menu-leave-to {
-  opacity: 0;
-}
-</style>
 ```
 
 ## File: layers/main/app/components/ha/HaNoImage.vue
@@ -2587,22 +2408,6 @@ withDefaults(
 </template>
 ```
 
-## File: layers/main/app/components/ha/icons/HaCameraIcon.vue
-```vue
-<template>
-  <svg
-    viewBox="0 0 23 23"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M18.3613 3.67206H15.4511L13.771 1.83594H8.26263L6.58257 3.67206H3.67231C3.18534 3.67206 2.71831 3.86551 2.37397 4.20985C2.02963 4.55419 1.83618 5.02122 1.83618 5.50819V16.525C1.83618 17.0119 2.02963 17.4789 2.37397 17.8233C2.71831 18.1676 3.18534 18.3611 3.67231 18.3611H18.3613C18.8483 18.3611 19.3153 18.1676 19.6597 17.8233C20.004 17.4789 20.1974 17.0119 20.1974 16.525V5.50819C20.1974 5.02122 20.004 4.55419 19.6597 4.20985C19.3153 3.86551 18.8483 3.67206 18.3613 3.67206ZM18.3613 16.525H3.67231V5.50819H7.39047L9.07052 3.67206H12.9631L14.6432 5.50819H18.3613V16.525ZM11.0168 6.42625C9.79939 6.42625 8.63182 6.90987 7.77097 7.77073C6.91012 8.63158 6.4265 9.79914 6.4265 11.0166C6.4265 12.234 6.91012 13.4016 7.77097 14.2624C8.63182 15.1233 9.79939 15.6069 11.0168 15.6069C12.2342 15.6069 13.4018 15.1233 14.2627 14.2624C15.1235 13.4016 15.6071 12.234 15.6071 11.0166C15.6071 9.79914 15.1235 8.63158 14.2627 7.77073C13.4018 6.90987 12.2342 6.42625 11.0168 6.42625ZM11.0168 13.7708C10.2864 13.7708 9.58582 13.4806 9.06931 12.9641C8.5528 12.4476 8.26263 11.747 8.26263 11.0166C8.26263 10.2861 8.5528 9.58557 9.06931 9.06906C9.58582 8.55255 10.2864 8.26238 11.0168 8.26238C11.7473 8.26238 12.4478 8.55255 12.9643 9.06906C13.4808 9.58557 13.771 10.2861 13.771 11.0166C13.771 11.747 13.4808 12.4476 12.9643 12.9641C12.4478 13.4806 11.7473 13.7708 11.0168 13.7708Z"
-      fill="white"
-    />
-  </svg>
-</template>
-```
-
 ## File: layers/main/app/components/ha/icons/HaChevronDownIcon.vue
 ```vue
 <template>
@@ -2642,22 +2447,6 @@ withDefaults(
   >
     <path
       d="M20 3.33301C29.205 3.33301 36.6667 10.7947 36.6667 19.9997C36.6667 29.2047 29.205 36.6663 20 36.6663C10.795 36.6663 3.33337 29.2047 3.33337 19.9997C3.33337 10.7947 10.795 3.33301 20 3.33301ZM20 6.66634C16.4638 6.66634 13.0724 8.0711 10.572 10.5716C8.07147 13.0721 6.66671 16.4635 6.66671 19.9997C6.66671 23.5359 8.07147 26.9273 10.572 29.4278C13.0724 31.9282 16.4638 33.333 20 33.333C23.5363 33.333 26.9276 31.9282 29.4281 29.4278C31.9286 26.9273 33.3334 23.5359 33.3334 19.9997C33.3334 16.4635 31.9286 13.0721 29.4281 10.5716C26.9276 8.0711 23.5363 6.66634 20 6.66634ZM20 26.6663C20.4421 26.6663 20.866 26.8419 21.1786 27.1545C21.4911 27.4671 21.6667 27.891 21.6667 28.333C21.6667 28.775 21.4911 29.199 21.1786 29.5115C20.866 29.8241 20.4421 29.9997 20 29.9997C19.558 29.9997 19.1341 29.8241 18.8215 29.5115C18.509 29.199 18.3334 28.775 18.3334 28.333C18.3334 27.891 18.509 27.4671 18.8215 27.1545C19.1341 26.8419 19.558 26.6663 20 26.6663ZM20 10.833C21.4038 10.8331 22.7638 11.3219 23.8463 12.2157C24.9289 13.1094 25.6664 14.3522 25.9322 15.7306C26.198 17.109 25.9756 18.537 25.303 19.7692C24.6305 21.0014 23.5498 21.9609 22.2467 22.483C22.0537 22.554 21.8797 22.6686 21.7384 22.818C21.665 22.9013 21.6534 23.008 21.655 23.118L21.6667 23.333C21.6662 23.7578 21.5036 24.1664 21.212 24.4753C20.9203 24.7842 20.5218 24.9701 20.0977 24.995C19.6736 25.0199 19.2561 24.8819 18.9303 24.6092C18.6046 24.3366 18.3952 23.9498 18.345 23.528L18.3334 23.333V22.9163C18.3334 20.9947 19.8834 19.8413 21.0067 19.3897C21.4639 19.2071 21.8627 18.9035 22.1603 18.5113C22.458 18.1192 22.6432 17.6534 22.696 17.1639C22.7489 16.6745 22.6674 16.1799 22.4604 15.7332C22.2534 15.2866 21.9286 14.9048 21.5209 14.6288C21.1133 14.3528 20.6381 14.1931 20.1465 14.1668C19.655 14.1405 19.1655 14.2486 18.7307 14.4795C18.2959 14.7103 17.9322 15.0553 17.6787 15.4773C17.4252 15.8993 17.2914 16.3824 17.2917 16.8747C17.2917 17.3167 17.1161 17.7406 16.8036 18.0532C16.491 18.3657 16.0671 18.5413 15.625 18.5413C15.183 18.5413 14.7591 18.3657 14.4465 18.0532C14.134 17.7406 13.9584 17.3167 13.9584 16.8747C13.9584 15.2723 14.5949 13.7356 15.7279 12.6026C16.861 11.4695 18.3977 10.833 20 10.833Z"
-      fill="white"
-    />
-  </svg>
-</template>
-```
-
-## File: layers/main/app/components/ha/icons/HaHeartIcon.vue
-```vue
-<template>
-  <svg
-    viewBox="0 0 23 23"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M11.1086 17.0298L11.0168 17.1216L10.9158 17.0298C6.55503 13.0729 3.67231 10.4565 3.67231 7.80325C3.67231 5.96713 5.0494 4.59003 6.88553 4.59003C8.29935 4.59003 9.67644 5.5081 10.163 6.75666H11.8706C12.3572 5.5081 13.7343 4.59003 15.1481 4.59003C16.9842 4.59003 18.3613 5.96713 18.3613 7.80325C18.3613 10.4565 15.4786 13.0729 11.1086 17.0298ZM15.1481 2.75391C13.5507 2.75391 12.0175 3.49754 11.0168 4.66348C10.0161 3.49754 8.48296 2.75391 6.88553 2.75391C4.05789 2.75391 1.83618 4.96644 1.83618 7.80325C1.83618 11.2644 4.9576 14.1012 9.68562 18.3885L11.0168 19.6004L12.348 18.3885C17.076 14.1012 20.1974 11.2644 20.1974 7.80325C20.1974 4.96644 17.9757 2.75391 15.1481 2.75391Z"
       fill="white"
     />
   </svg>
@@ -2719,25 +2508,41 @@ withDefaults(
 </template>
 ```
 
-## File: layers/main/app/components/ha/icons/HaShieldIcon.vue
+## File: layers/main/app/components/ha/icons/HaXIcon.vue
 ```vue
 <template>
   <svg
-    viewBox="0 0 23 23"
+    viewBox="0 0 29 29"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g clip-path="url(#clip0_284_61)">
-      <path
-        d="M18.755 7.53912C18.8775 6.08226 19.3169 4.74483 20.0902 3.51844L17.1228 0.661133C16.1854 1.43803 15.1173 1.86857 13.9081 1.94437C12.7993 2.04087 11.7488 1.83816 10.7599 1.33492C9.74373 1.82142 8.69714 2.02545 7.60648 1.94437C6.49638 1.85571 5.43478 1.45144 4.5469 0.779232L1.57194 3.63566C2.30389 4.87923 2.71151 6.18053 2.79127 7.53912C2.82917 8.16443 2.64409 9.02638 2.22765 10.1391C2.03865 10.6645 1.87352 11.1983 1.73278 11.7387C1.62878 12.1833 1.564 12.5438 1.54197 12.8148C1.52699 14.0007 1.87247 15.0715 2.58107 16.0238C3.13499 16.7187 4.0485 17.4864 5.31675 18.3258C6.70398 19.0058 7.7779 19.4469 8.53012 19.6351L9.15411 19.9149C9.35021 20.0048 9.56041 20.0934 9.77942 20.1894C10.2531 20.4627 10.585 20.7583 10.7599 21.0637C10.975 20.7328 11.3147 20.445 11.766 20.1894C12.0365 20.0777 12.3048 19.9606 12.5706 19.8382L13.0417 19.6355C13.2025 19.5593 13.4128 19.4711 13.6683 19.3738C13.9846 19.2532 14.3025 19.137 14.622 19.0252C15.3548 18.7758 15.8884 18.5391 16.2273 18.3258C17.4577 17.4868 18.3571 16.7311 18.9295 16.0564C19.6632 15.101 20.0202 14.0249 20.0039 12.8157C19.9602 12.2737 19.7218 11.4073 19.2891 10.2268C18.8775 9.07617 18.6955 8.18338 18.755 7.53912Z"
-        fill="white"
-      />
+    <g clip-path="url(#clip0_287_95)">
+      <mask
+        id="mask0_287_95"
+        mask-type="luminance"
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
+        width="29"
+        height="29"
+      >
+        <path
+          d="M0 0H28.9863V28.9863H0V0Z"
+          fill="white"
+        />
+      </mask>
+      <g mask="url(#mask0_287_95)">
+        <path
+          d="M22.8267 1.3584H27.272L17.5616 12.485L28.9863 27.6283H20.042L13.0314 18.4458L5.01877 27.6283H0.569374L10.9547 15.7232L0 1.36047H9.17209L15.4994 9.752L22.8267 1.3584ZM21.2635 24.9615H23.7274L7.8263 3.88642H5.1844L21.2635 24.9615Z"
+          fill="white"
+        />
+      </g>
     </g>
     <defs>
-      <clipPath id="clip0_284_61">
+      <clipPath id="clip0_287_95">
         <rect
-          width="22.0335"
-          height="22.0335"
+          width="28.9863"
+          height="28.9863"
           fill="white"
         />
       </clipPath>
@@ -2952,6 +2757,7 @@ const { t } = useI18n()
     &__title {
         margin-bottom: 16px;
         font-size: 24px;
+        font-weight: bold;
         color: v.$vket-cyan;
 
         @include m.tb {
@@ -3039,6 +2845,244 @@ const isUnits = computed(() => Array.isArray(props.content))
     {{ content }}
   </template>
 </template>
+```
+
+## File: layers/main/app/components/ha/HaLanguageSwitcher.vue
+```vue
+<script setup lang="ts">
+import type { Locale } from 'vue-i18n'
+import HaPullDown from './icons/HaPullDown.vue'
+
+const { locale, locales, setLocale } = useI18n()
+
+// 現在選択中の言語情報（表示ラベル取得用）
+const availableLocales = computed(() => {
+  return (locales.value ?? []).filter(l => typeof l !== 'string')
+})
+
+const currentLocaleLabel = computed(() => {
+  return locale.value.toUpperCase()
+})
+
+// 開閉状態
+const isOpen = ref(false)
+
+const toggleOpen = () => {
+  isOpen.value = !isOpen.value
+}
+
+const closeMenu = () => {
+  isOpen.value = false
+}
+
+// 言語選択時の処理
+
+// 本来i18nが想定するのは下記のような処理だが、これはページのフルリロードを行わないため、GSAPのScrollTriggerがリセットされない。
+// 言語切替の頻度は高くないと考え、window.location.hrefを用いてフルリロードを挟むようにしている。
+// const selectLocale = (code: Locale) => {
+//   const path = switchLocalePath(code)
+//   if (path) {
+//     window.location.href = path
+//   }
+// }
+const selectLocale = async (code: Locale) => {
+  await setLocale(code)
+  await nextTick()
+  window.location.reload()
+}
+
+// 外側クリックで閉じる
+const rootRef = ref<HTMLElement | null>(null)
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (rootRef.value && !rootRef.value.contains(event.target as Node)) {
+    closeMenu()
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
+</script>
+
+<template>
+  <div
+    ref="rootRef"
+    class="language-switcher glassy-box-4 none-hover-animation"
+    :class="{ 'is-open': isOpen }"
+    @click="toggleOpen"
+  >
+    <span class="language-switcher__current-language">{{ currentLocaleLabel }}</span>
+    <HaPullDown class="language-switcher__pulldown" />
+
+    <Transition
+      name="fade-language-menu"
+    >
+      <ul
+        v-if="isOpen"
+        role="listbox"
+        class="language-switcher__list glassy-box-2 none-hover-animation"
+        @click.stop
+      >
+        <li
+          v-for="l in availableLocales"
+          :key="l.code"
+          role="option"
+          :aria-selected="l.code === locale"
+          class="language-switcher__list-item"
+        >
+          <button
+            type="button"
+            class="language-switcher__list-item-button none-hover-animation"
+            :class="{ 'is-selected': l.code === locale }"
+            @click="selectLocale(l.code)"
+          >
+            <span class="language-switcher__language">{{ l.name }}</span>
+            <span class="language-switcher__language language-switcher__language--min">{{ l.code.toUpperCase() }}</span>
+          </button>
+        </li>
+      </ul>
+    </Transition>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.language-switcher {
+  cursor: pointer;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: fit-content;
+  height: fit-content;
+  padding: 8px 16px;
+
+  &__current-language {
+    margin-right: 4px;
+
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    white-space: nowrap;
+  }
+
+  &__pulldown {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    transition: transform 0.2s ease;
+  }
+
+  &.is-open &__pulldown {
+    transform: rotate(180deg);
+  }
+
+  &__list {
+    position: absolute;
+    top: 52px;
+    right: 0;
+
+    padding: 10px;
+
+    background-color: rgb(52 52 90);
+    box-shadow: inset rgb(79 138 255 / 35%) 0 0 8px 4px;
+
+    &::before {
+      pointer-events: none;
+      content: '';
+
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+      border: 1px solid transparent;
+      border-radius: inherit;
+
+      background-image: linear-gradient(
+      45deg,
+      rgb(v.$base-background-color, 0.75) 10px,
+      rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+      225deg,
+      rgb(v.$base-background-color, 0.75) 10px,
+      rgb(v.$base-background-color, 0) 20px
+      ),
+      linear-gradient(
+      135deg,
+      rgb(255 255 255 / 65%) 10px,
+      rgb(255 255 255 / 15%) 20px
+      ),
+      linear-gradient(
+      315deg,
+      rgb(255 255 255 / 65%) 10px,
+      rgb(255 255 255 / 15%) 20px
+      );
+      background-clip: border-box, border-box, border-box, border-box;
+      background-origin: border-box, border-box, border-box, border-box;
+
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      mask: linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+  }
+
+  &__list-item-button {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 10px;
+
+    &.is-selected {
+      background-color: rgb(67 81 131 / 65%);
+      box-shadow: inset rgb(79 138 255 / 35%) 0 0 8px 4px;
+    }
+  }
+
+  &__language {
+    margin-right: 40px;
+
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    white-space: nowrap;
+
+    &--min {
+      margin-right: 0;
+    }
+  }
+}
+
+.fade-language-menu-enter-active,
+.fade-language-menu-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-language-menu-enter-from,
+.fade-language-menu-leave-to {
+  opacity: 0;
+}
+</style>
 ```
 
 ## File: layers/main/app/components/ha/HaNewsCard.vue
@@ -3484,49 +3528,6 @@ const { t: tGlobal } = useI18n()
     :title="tGlobal('sectionTitle.participationGuide')"
   />
   <HaCommingSoon />
-</template>
-```
-
-## File: layers/main/app/components/ha/icons/HaXIcon.vue
-```vue
-<template>
-  <svg
-    viewBox="0 0 29 29"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g clip-path="url(#clip0_287_95)">
-      <mask
-        id="mask0_287_95"
-        mask-type="luminance"
-        maskUnits="userSpaceOnUse"
-        x="0"
-        y="0"
-        width="29"
-        height="29"
-      >
-        <path
-          d="M0 0H28.9863V28.9863H0V0Z"
-          fill="white"
-        />
-      </mask>
-      <g mask="url(#mask0_287_95)">
-        <path
-          d="M22.8267 1.3584H27.272L17.5616 12.485L28.9863 27.6283H20.042L13.0314 18.4458L5.01877 27.6283H0.569374L10.9547 15.7232L0 1.36047H9.17209L15.4994 9.752L22.8267 1.3584ZM21.2635 24.9615H23.7274L7.8263 3.88642H5.1844L21.2635 24.9615Z"
-          fill="white"
-        />
-      </g>
-    </g>
-    <defs>
-      <clipPath id="clip0_287_95">
-        <rect
-          width="28.9863"
-          height="28.9863"
-          fill="white"
-        />
-      </clipPath>
-    </defs>
-  </svg>
 </template>
 ```
 
@@ -4429,9 +4430,9 @@ const items = computed(() => [
   {
     id: 10,
     name: 'samy',
-    iconUrl: '',
+    iconUrl: '/member-icons/samy.webp',
     role: t('roles.webAppDevelopment'),
-    xLink: 'https://x.com/samy_hrin',
+    xLink: '',
     instagramLink: '',
   },
   {
@@ -4519,61 +4520,6 @@ const items = computed(() => [
     @include m.sp {
       grid-template-columns: 1fr;
       max-width: 360px;
-    }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ha/HaAboutCard.vue
-```vue
-<script setup lang="ts">
-defineProps<{
-  color:
-    | 'cyan'
-    | 'magenta'
-    | 'amber'
-    | 'vermilion'
-    | 'light-cyan'
-    | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
-}>()
-</script>
-
-<template>
-  <div :class="['glassy-box about-card', `glassy-box--${color ?? 'cyan'}`]">
-    <h3 class="title about-card__title">
-      <slot name="title" />
-    </h3>
-    <div class="about-card__body">
-      <slot name="body" />
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.about-card {
-  padding: 20px;
-
-  &__icon {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 8px;
-    border-radius: 1000px;
-  }
-
-  &__title {
-    font-size: 16px;
-  }
-
-  &__body {
-    font-size: 13px;
-    line-height: 1.5em;
-
-    @include m.sp {
-      line-height: 1.8em;
     }
   }
 }
@@ -5403,6 +5349,61 @@ onMounted(() => {
 </style>
 ```
 
+## File: layers/main/app/components/ha/HaAboutCard.vue
+```vue
+<script setup lang="ts">
+defineProps<{
+  color:
+    | 'cyan'
+    | 'magenta'
+    | 'amber'
+    | 'vermilion'
+    | 'light-cyan'
+    | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+}>()
+</script>
+
+<template>
+  <div :class="['glassy-box about-card', `glassy-box--${color ?? 'cyan'}`]">
+    <h3 class="title about-card__title">
+      <slot name="title" />
+    </h3>
+    <div class="about-card__body">
+      <slot name="body" />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.about-card {
+  padding: 20px;
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+    border-radius: 1000px;
+  }
+
+  &__title {
+    font-size: 16px;
+  }
+
+  &__body {
+    font-size: 13px;
+    line-height: 1.5em;
+
+    @include m.sp {
+      line-height: 1.8em;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ha/HaConfetti.vue
 ```vue
 <script setup lang="ts">
@@ -6176,8 +6177,7 @@ ja:
     item1:
       title: 'VketReal in 札幌 とはどのようなイベントですか？'
       contents:
-        - 'VRSNSで活躍するクリエイターが集まるリアルイベントです。'
-        - 'HIKKYが主催するVketRealから派生した有志主催イベントです。'
+        - 'HIKKY主催のイベントVketRealから派生した、VRSNSで活躍するクリエイターが集う有志主催のリアルイベントです。'
     item2:
       title: 'チケットはどこで買えますか？'
       contents:
@@ -6960,381 +6960,6 @@ onMounted(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtExhibitorInfoSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  subtitle1: '出展概要'
-  subtitle2: '募集スケジュール'
-  overviewRow1Label: '出展費用'
-  overviewRow1Value: '1スペース 3,000円'
-  overviewRow2Label: '参加可能人数'
-  overviewRow2Value: '1スペースにつき2名'
-  overviewRow3Label: '出展内容'
-  overviewRow3Value: 'グッズ・書籍頒布・作品展示など'
-  description: 'また、今回のサークル募集は二回に分けて行います。{br1}二次申し込みについては一次申し込みの結果、出展枠に余裕がある場合のみ開催します。{br1}確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。'
-  primaryTitle: '一次申し込み（先着順）'
-  primaryRow1Label: '募集期間'
-  primaryRow1Value: '6月1日(月) ～ 6月18日(木)'
-  primaryRow2Label: '当選発表'
-  primaryRow2Value: '6月26日(金)'
-  secondaryTitle: '二次申し込み（抽選）'
-  secondaryRow1Label: '募集期間'
-  secondaryRow1Value: '7月13日(月) ～ 7月30日(木)'
-  secondaryRow2Label: '当選発表'
-  secondaryRow2Value: '8月7日(金)'
-en:
-  subtitle1: 'Exhibition Overview'
-  subtitle2: 'Application Schedule'
-  overviewRow1Label: 'Booth Fee'
-  overviewRow1Value: '3,000 JPY per space'
-  overviewRow2Label: 'Number of Participants'
-  overviewRow2Value: '2 people per space'
-  overviewRow3Label: 'Exhibition Content'
-  overviewRow3Value: 'Goods, books, artwork display, etc.'
-  description: 'This time, circle applications will be accepted in two rounds.{br1}The second round will only be held if there are remaining spaces{br2}after the results of the first round.{br3}If you would like to secure a spot, we recommend applying during the first round.'
-  primaryTitle: 'First Round{br}(First-Come, First-Served)'
-  primaryRow1Label: 'Application Period'
-  primaryRow1Value: 'Mon, June 1 - Thu, June 18'
-  primaryRow2Label: 'Results Announcement'
-  primaryRow2Value: 'Fri, June 26'
-  secondaryTitle: 'Second Round{br}(Lottery)'
-  secondaryRow1Label: 'Application Period'
-  secondaryRow1Value: 'Mon, July 13 - Thu, July 30'
-  secondaryRow2Label: 'Results Announcement'
-  secondaryRow2Value: 'Fri, August 7'
-</i18n>
-
-<script setup lang="ts">
-import HaSectionTitle from '../ha/HaSectionTitle.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.exhibitorInfo')"
-      label="EXHIBITOR INFO"
-    />
-
-    <p class="subtitle subtitle--cyan">
-      {{ t('subtitle1') }}
-    </p>
-    <div class="exhibitor-info__table glassy-box-4 glassy-box-4--blue mb-15">
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label exhibitor-info__label--cyan">
-          {{ t('overviewRow1Label') }}
-        </p>
-        <p class="exhibitor-info__text">
-          {{ t('overviewRow1Value') }}
-        </p>
-      </div>
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label exhibitor-info__label--cyan">
-          {{ t('overviewRow2Label') }}
-        </p>
-        <p class="exhibitor-info__text">
-          {{ t('overviewRow2Value') }}
-        </p>
-      </div>
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label exhibitor-info__label--cyan">
-          {{ t('overviewRow3Label') }}
-        </p>
-        <p class="exhibitor-info__text">
-          {{ t('overviewRow3Value') }}
-        </p>
-      </div>
-    </div>
-
-    <p class="subtitle subtitle--amber">
-      {{ t('subtitle2') }}
-    </p>
-
-    <p class="exhibitor-info__description mb-8">
-      <i18n-t
-        keypath="description"
-        tag="span"
-        scope="parent"
-      >
-        <template #br1>
-          <br>
-        </template>
-      </i18n-t>
-    </p>
-
-    <div class="grid-exhibitor-info">
-      <div class="grid-exhibitor-info__table glassy-box-4 glassy-box-4--blue">
-        <div class="grid-exhibitor-info__table-line grid-exhibitor-info__table-line--cyan" />
-        <p class="grid-exhibitor-info__table-title mb-4">
-          {{ t('primaryTitle') }}
-        </p>
-        <div class="grid-exhibitor-info__table-item">
-          <p class="grid-exhibitor-info__label">
-            {{ t('primaryRow1Label') }}
-          </p>
-          <p class="grid-exhibitor-info__label">
-            {{ t('primaryRow1Value') }}
-          </p>
-        </div>
-        <div class="grid-exhibitor-info__table-item">
-          <p class="grid-exhibitor-info__label">
-            {{ t('primaryRow2Label') }}
-          </p>
-          <p class="grid-exhibitor-info__label">
-            {{ t('primaryRow2Value') }}
-          </p>
-        </div>
-      </div>
-
-      <div class="grid-exhibitor-info__table glassy-box-4 glassy-box-4--blue">
-        <div class="grid-exhibitor-info__table-line grid-exhibitor-info__table-line--magenta" />
-        <p class="grid-exhibitor-info__table-title mb-4">
-          {{ t('secondaryTitle') }}
-        </p>
-        <div class="grid-exhibitor-info__table-item">
-          <p class="grid-exhibitor-info__label">
-            {{ t('secondaryRow1Label') }}
-          </p>
-          <p class="grid-exhibitor-info__label">
-            {{ t('secondaryRow1Value') }}
-          </p>
-        </div>
-        <div class="grid-exhibitor-info__table-item">
-          <p class="grid-exhibitor-info__label">
-            {{ t('secondaryRow2Label') }}
-          </p>
-          <p class="grid-exhibitor-info__label">
-            {{ t('secondaryRow2Value') }}
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-
-  @include m.tb {
-    margin-bottom: 64px;
-  }
-}
-
-.mb-15 {
-  margin-bottom: 60px;
-
-  @include m.sp {
-    margin-bottom: 48px;
-  }
-}
-
-.exhibitor-info {
-  &__table {
-    padding: 0 40px;
-
-    @include m.sp {
-      padding: 0 24px;
-    }
-  }
-
-  &__table-title {
-    margin-bottom: 24px;
-
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 1.2em;
-    color: white;
-    text-align: center;
-
-    @include m.tb {
-      font-size: 22px;
-    }
-
-    @include m.sp {
-      font-size: 16px;
-    }
-  }
-
-  &__table-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 32px 0;
-    border-bottom: 1px solid white;
-
-    @include m.tb {
-      padding: 24px 0;
-    }
-
-    &:last-of-type {
-      border: none;
-    }
-  }
-
-  &__label {
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-
-    &--cyan {
-      color: v.$vket-cyan;
-    }
-
-    &--amber {
-      color: v.$vket-amber;
-    }
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__text {
-    font-size: 20px;
-    color: white;
-    text-align: right;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__description {
-    width: fit-content;
-    margin-right: auto;
-    margin-left: auto;
-
-    font-size: 20px;
-    line-height: 1.8em;
-    color: white;
-
-    @include m.tb {
-      font-size: 16px;
-      text-align: center;
-    }
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-}
-
-.grid-exhibitor-info {
-  display: flex;
-  gap: 36px;
-
-  @include m.tb {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  &__table {
-    position: relative;
-    flex-grow: 1;
-    padding: 32px 32px 8px;
-
-    @include m.sp {
-      padding: 24px 24px 8px;
-    }
-  }
-
-  &__table-line {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-
-    width: calc(100% - 32px * 2);
-    height: 1px;
-
-    &--cyan {
-      background-color: v.$vket-cyan;
-    }
-
-    &--magenta {
-      background-color: v.$vket-magenta;
-    }
-  }
-
-  &__table-title {
-    margin-bottom: 24px;
-
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 1.2em;
-    color: white;
-
-    @include m.tb {
-      font-size: 22px;
-    }
-
-    @include m.sp {
-      font-size: 16px;
-    }
-  }
-
-  &__table-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 24px 0;
-    border-bottom: 1px solid white;
-
-    @include m.tb {
-      padding: 16px 0;
-    }
-
-    &:last-of-type {
-      border: none;
-    }
-  }
-
-  &__label {
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-
-    &--cyan {
-      color: v.$vket-cyan;
-    }
-
-    &--amber {
-      color: v.$vket-amber;
-    }
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__text {
-    font-size: 20px;
-    color: white;
-    text-align: right;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtTicketSection.vue
 ```vue
 <i18n lang="yaml">
@@ -7664,6 +7289,382 @@ onMounted(() => {
 
     @include m.sp {
       width: 100%;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtExhibitorInfoSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  subtitle1: '出展概要'
+  subtitle2: '募集スケジュール'
+  overviewRow1Label: '出展費用'
+  overviewRow1Value: '1スペース 3,000円'
+  overviewRow2Label: '参加可能人数'
+  overviewRow2Value: '1スペースにつき2名'
+  overviewRow3Label: '出展内容'
+  overviewRow3Value: 'グッズ・書籍頒布・作品展示など'
+  description: '今回のサークル募集は二回に分けて行います。{br1}二次申し込みについては一次申し込みの結果、出展枠に余裕がある場合のみ開催します。確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。'
+  primaryTitle: '一次申し込み（先着順）'
+  primaryRow1Label: '募集期間'
+  primaryRow1Value: '6月1日(月) ～ 6月18日(木)'
+  primaryRow2Label: '当選発表'
+  primaryRow2Value: '6月26日(金)'
+  secondaryTitle: '二次申し込み（抽選）'
+  secondaryRow1Label: '募集期間'
+  secondaryRow1Value: '7月13日(月) ～ 7月30日(木)'
+  secondaryRow2Label: '当選発表'
+  secondaryRow2Value: '8月7日(金)'
+en:
+  subtitle1: 'Exhibition Overview'
+  subtitle2: 'Application Schedule'
+  overviewRow1Label: 'Booth Fee'
+  overviewRow1Value: '3,000 JPY per space'
+  overviewRow2Label: 'Number of Participants'
+  overviewRow2Value: '2 people per space'
+  overviewRow3Label: 'Exhibition Content'
+  overviewRow3Value: 'Goods, books, artwork display, etc.'
+  description: 'This time, circle applications will be accepted in two rounds.{br1}The second round will only be held if there are remaining spaces{br2}after the results of the first round.{br3}If you would like to secure a spot, we recommend applying during the first round.'
+  primaryTitle: 'First Round{br}(First-Come, First-Served)'
+  primaryRow1Label: 'Application Period'
+  primaryRow1Value: 'Mon, June 1 - Thu, June 18'
+  primaryRow2Label: 'Results Announcement'
+  primaryRow2Value: 'Fri, June 26'
+  secondaryTitle: 'Second Round{br}(Lottery)'
+  secondaryRow1Label: 'Application Period'
+  secondaryRow1Value: 'Mon, July 13 - Thu, July 30'
+  secondaryRow2Label: 'Results Announcement'
+  secondaryRow2Value: 'Fri, August 7'
+</i18n>
+
+<script setup lang="ts">
+import HaSectionTitle from '../ha/HaSectionTitle.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.exhibitorInfo')"
+      label="EXHIBITOR INFO"
+    />
+
+    <p class="subtitle subtitle--cyan">
+      {{ t('subtitle1') }}
+    </p>
+    <div class="exhibitor-info__table glassy-box-4 glassy-box-4--blue mb-15">
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label exhibitor-info__label--cyan">
+          {{ t('overviewRow1Label') }}
+        </p>
+        <p class="exhibitor-info__text">
+          {{ t('overviewRow1Value') }}
+        </p>
+      </div>
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label exhibitor-info__label--cyan">
+          {{ t('overviewRow2Label') }}
+        </p>
+        <p class="exhibitor-info__text">
+          {{ t('overviewRow2Value') }}
+        </p>
+      </div>
+      <div class="exhibitor-info__table-item">
+        <p class="exhibitor-info__label exhibitor-info__label--cyan">
+          {{ t('overviewRow3Label') }}
+        </p>
+        <p class="exhibitor-info__text">
+          {{ t('overviewRow3Value') }}
+        </p>
+      </div>
+    </div>
+
+    <p class="subtitle subtitle--amber">
+      {{ t('subtitle2') }}
+    </p>
+
+    <p class="exhibitor-info__description mb-8">
+      <i18n-t
+        keypath="description"
+        tag="span"
+        scope="parent"
+      >
+        <template #br1>
+          <br>
+        </template>
+      </i18n-t>
+    </p>
+
+    <div class="grid-exhibitor-info">
+      <div class="grid-exhibitor-info__table glassy-box-4 glassy-box-4--blue">
+        <div class="grid-exhibitor-info__table-line grid-exhibitor-info__table-line--cyan" />
+        <p class="grid-exhibitor-info__table-title mb-4">
+          {{ t('primaryTitle') }}
+        </p>
+        <div class="grid-exhibitor-info__table-item">
+          <p class="grid-exhibitor-info__label">
+            {{ t('primaryRow1Label') }}
+          </p>
+          <p class="grid-exhibitor-info__label">
+            {{ t('primaryRow1Value') }}
+          </p>
+        </div>
+        <div class="grid-exhibitor-info__table-item">
+          <p class="grid-exhibitor-info__label">
+            {{ t('primaryRow2Label') }}
+          </p>
+          <p class="grid-exhibitor-info__label">
+            {{ t('primaryRow2Value') }}
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-exhibitor-info__table glassy-box-4 glassy-box-4--blue">
+        <div class="grid-exhibitor-info__table-line grid-exhibitor-info__table-line--magenta" />
+        <p class="grid-exhibitor-info__table-title mb-4">
+          {{ t('secondaryTitle') }}
+        </p>
+        <div class="grid-exhibitor-info__table-item">
+          <p class="grid-exhibitor-info__label">
+            {{ t('secondaryRow1Label') }}
+          </p>
+          <p class="grid-exhibitor-info__label">
+            {{ t('secondaryRow1Value') }}
+          </p>
+        </div>
+        <div class="grid-exhibitor-info__table-item">
+          <p class="grid-exhibitor-info__label">
+            {{ t('secondaryRow2Label') }}
+          </p>
+          <p class="grid-exhibitor-info__label">
+            {{ t('secondaryRow2Value') }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+
+  @include m.tb {
+    margin-bottom: 64px;
+  }
+}
+
+.mb-15 {
+  margin-bottom: 60px;
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
+}
+
+.exhibitor-info {
+  &__table {
+    padding: 0 40px;
+
+    @include m.sp {
+      padding: 0 24px;
+    }
+  }
+
+  &__table-title {
+    margin-bottom: 24px;
+
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.2em;
+    color: white;
+    text-align: center;
+
+    @include m.tb {
+      font-size: 22px;
+    }
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__table-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 32px 0;
+    border-bottom: 1px solid white;
+
+    @include m.tb {
+      padding: 24px 0;
+    }
+
+    &:last-of-type {
+      border: none;
+    }
+  }
+
+  &__label {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+
+    &--cyan {
+      color: v.$vket-cyan;
+    }
+
+    &--amber {
+      color: v.$vket-amber;
+    }
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__text {
+    font-size: 20px;
+    color: white;
+    text-align: right;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__description {
+    width: fit-content;
+    max-width: 1080px;
+    margin-right: auto;
+    margin-left: auto;
+
+    font-size: 20px;
+    line-height: 1.8em;
+    color: white;
+    text-align: center;
+
+    @include m.tb {
+      font-size: 16px;
+    }
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+}
+
+.grid-exhibitor-info {
+  display: flex;
+  gap: 36px;
+
+  @include m.tb {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__table {
+    position: relative;
+    flex-grow: 1;
+    padding: 32px 32px 8px;
+
+    @include m.sp {
+      padding: 24px 24px 8px;
+    }
+  }
+
+  &__table-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: calc(100% - 32px * 2);
+    height: 1px;
+
+    &--cyan {
+      background-color: v.$vket-cyan;
+    }
+
+    &--magenta {
+      background-color: v.$vket-magenta;
+    }
+  }
+
+  &__table-title {
+    margin-bottom: 24px;
+
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.2em;
+    color: white;
+
+    @include m.tb {
+      font-size: 22px;
+    }
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__table-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 0;
+    border-bottom: 1px solid white;
+
+    @include m.tb {
+      padding: 16px 0;
+    }
+
+    &:last-of-type {
+      border: none;
+    }
+  }
+
+  &__label {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+
+    &--cyan {
+      color: v.$vket-cyan;
+    }
+
+    &--amber {
+      color: v.$vket-amber;
+    }
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__text {
+    font-size: 20px;
+    color: white;
+    text-align: right;
+
+    @include m.sp {
+      font-size: 14px;
     }
   }
 }
@@ -8544,16 +8545,14 @@ const toggle = (id: number) => {
   &__inner {
     overflow: hidden;
 
-    padding-left: 44px;
+    margin-left: 44px;
 
     font-size: 16px;
-    font-weight: 700;
     color: white;
     text-align: left;
 
     @include m.sp {
       font-size: 12px;
-      font-weight: normal;
     }
   }
 
@@ -8587,16 +8586,20 @@ const toggle = (id: number) => {
 ja:
   desc1:
     - '「VketReal in 札幌」は、'
-    - '__br-tb-over__'
     - '世界最大級のメタバースイベント'
-    - '「バーチャルマーケット」から派生した'
     - '__br-tb-over__'
+    - '「バーチャルマーケット」から派生した'
     - 'リアルイベントです。'
   desc2:
-    - 'VRSNS上で活躍する'
-    - '北海道ゆかりのクリエイターたちが、'
+    - 'VRSNS上で'
+    - '活躍する'
+    - '北海道ゆかりの'
+    - 'クリエイターたちが、'
+    - '__br-tb-over__'
     - 'リアルの場に'
-    - '飛び出す場所をつくりたい―――'
+    - '飛び出す'
+    - '場所を'
+    - 'つくりたい―――'
     - '__br-tb-over__'
     - 'そんな想いから生まれた、'
     - '有志主催のイベントです。'
@@ -8689,7 +8692,7 @@ onMounted(() => {
     <p class="description description--space">
       <HaI18nNowrapText :content="resolveContent('desc1')" />
     </p>
-    <p class="description">
+    <p class="description specific-responsive__1">
       <HaI18nNowrapText :content="resolveContent('desc2')" />
     </p>
 
@@ -8885,6 +8888,16 @@ $three-items-flex--template-column-gap: 32px;
   &__child {
     width: 100%;
     height: 100%;
+  }
+}
+
+// 特定の文章の改行位置を調整するためだけのCSSクラス。
+.specific-responsive {
+  &__1 {
+    @include m.sp {
+      width: 500px;
+      max-width: 100%;
+    }
   }
 }
 </style>
@@ -9111,6 +9124,26 @@ en:
             class="ho-the-header__right glassy-box-4 none-hover-animation ho-the-header__accordion"
             :class="{ 'is-open': isPanelOpen }"
           >
+            <div class="ho-the-header__hamburger-wrapper">
+              <HaLanguageSwitcher />
+              <button
+                class="ho-the-header__hamburger"
+                :aria-label="isPanelOpen ? 'メニューを閉じる' : 'メニューを開く'"
+                :aria-expanded="isPanelOpen"
+                @click="isPanelOpen = !isPanelOpen"
+              >
+                <HaHamburgerIcon
+                  v-show="!isPanelOpen"
+                  class="ho-the-header__hamburger-icon"
+                  :class="{ 'is-open': isPanelOpen }"
+                />
+                <HaCloseIcon
+                  v-show="isPanelOpen"
+                  class="ho-the-header__hamburger-icon"
+                  :class="{ 'is-open': isPanelOpen }"
+                />
+              </button>
+            </div>
             <div class="ho-the-header__accordion-body">
               <nav class="ho-the-header__accordion-nav">
                 <ul class="ho-the-header__accordion-ul">
@@ -9135,26 +9168,6 @@ en:
                   </li>
                 </ul>
               </nav>
-            </div>
-            <div class="ho-the-header__hamburger-wrapper">
-              <HaLanguageSwitcher />
-              <button
-                class="ho-the-header__hamburger"
-                :aria-label="isPanelOpen ? 'メニューを閉じる' : 'メニューを開く'"
-                :aria-expanded="isPanelOpen"
-                @click="isPanelOpen = !isPanelOpen"
-              >
-                <HaHamburgerIcon
-                  v-show="!isPanelOpen"
-                  class="ho-the-header__hamburger-icon"
-                  :class="{ 'is-open': isPanelOpen }"
-                />
-                <HaCloseIcon
-                  v-show="isPanelOpen"
-                  class="ho-the-header__hamburger-icon"
-                  :class="{ 'is-open': isPanelOpen }"
-                />
-              </button>
             </div>
           </div>
         </div>
@@ -9400,7 +9413,8 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
 
   &__accordion {
     display: none;
-    align-items: start;
+    flex-direction: column;
+    align-items: end;
 
     width: fit-content;
     height: fit-content;
@@ -9433,7 +9447,7 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
       flex-direction: column;
 
       margin: 0;
-      padding: 36px 0 14px;
+      padding: 12px;
 
       list-style: none;
     }
