@@ -72,7 +72,7 @@ definePageMeta({
 ```vue
 <template>
   <div class="layout -default">
-    <HoTheHeader :nav-links="[]"/>
+    <HoTheHeader :nav-links="[]" />
     <slot />
     <HoTheFooter />
   </div>

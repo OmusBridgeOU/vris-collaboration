@@ -17,7 +17,7 @@
     "check": "bun run types && bun run typecheck && bun run d1:list:local"
   },
   "devDependencies": {
-    "typescript": "^5.9.2",
-    "wrangler": "4.98.0"
+    "typescript": "^6.0.3",
+    "wrangler": "4.107.0"
   }
 }

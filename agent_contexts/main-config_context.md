@@ -54,8 +54,6 @@ layers/
         ja.json
       i18n.config.ts
     server/
-      middleware/
-        basicAuth.ts
       tsconfig.json
     app.config.ts
     nuxt.config.ts
@@ -358,30 +356,6 @@ function getProduction() {
 }
 ````
 
-## File: layers/main/server/middleware/basicAuth.ts
-````typescript
-export default defineEventHandler((event) => {
-  // プリレンダリング時の内部リクエストはスキップ
-  const url = getRequestURL(event).pathname
-  if (url.startsWith('/__nuxt') || url.startsWith('/_nuxt')) return
-
-  const header = getRequestHeader(event, 'authorization')
-
-  const isValid = (() => {
-    if (!header?.startsWith('Basic ')) return false
-    const base64 = header.slice(6)
-    const decoded = Buffer.from(base64, 'base64').toString('utf-8')
-    const [user, pass] = decoded.split(':')
-    return user === process.env.BASIC_AUTH_USER && pass === process.env.BASIC_AUTH_PASS
-  })()
-
-  if (!isValid) {
-    setResponseHeader(event, 'WWW-Authenticate', 'Basic realm="Restricted"')
-    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
-  }
-})
-````
-
 ## File: layers/main/server/tsconfig.json
 ````json
 {
@@ -595,6 +569,63 @@ export default defineConfig({
 })
 ````
 
+## File: layers/main/i18n/locales/en.json
+````json
+{
+  "viewAll" : "view all",
+  "page": {
+    "top": "TOP"
+  },
+  "sectionTitle": {
+    "about": "What is VketReal in Sapporo?",
+    "exhibitorInfo": "Exhibitor Information",
+    "participationGuide" : "Participation Guide",
+    "news" : "News",
+    "contents" : "Programs & Contents",
+    "schedule" : "Event Schedule",
+    "locationInfo" : "Venue Information",
+    "sponsorsAndPartners" : "Sponsors & Partners",
+    "members" : "members",
+    "qa" : "FAQ",
+    "qa--min" : "FAQ",
+    "contact" : "Contact Us"
+  },
+  "infoCard": {
+    "venue": {
+      "title": "Venue",
+      "items": {
+        "venueName": {
+          "label": "Venue Name",
+          "text": "Asty45 4F Asty Hall"
+        },
+        "address": {
+          "label": "Address",
+          "text": "060-0004 {br}Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, Hokkaido"
+        },
+        "access": {
+          "label": "Access",
+          "text": "3 min walk from Sapporo Subway Station (direct underground access){br}5 min walk from JR Sapporo Station South Exit"
+        }
+      }
+    }
+  },
+  "contents": {
+    "1": {
+      "title": "ParaRealCreator in SAPPORO",
+      "text": "Goods Exhibition & Sale by VR Creators"
+    }
+  },
+  "news": {
+    "1": {
+      "title": "We have published our logo!"
+    },
+    "2": {
+      "title": "We have published our key visual!"
+    }
+  }
+}
+````
+
 ## File: layers/main/nuxt.config.ts
 ````typescript
 import { defineNuxtConfig } from 'nuxt/config'
@@ -774,63 +805,6 @@ export default defineNuxtConfig({
 })
 ````
 
-## File: layers/main/i18n/locales/en.json
-````json
-{
-  "viewAll" : "view all",
-  "page": {
-    "top": "TOP"
-  },
-  "sectionTitle": {
-    "about": "What is VketReal in Sapporo?",
-    "exhibitorInfo": "Exhibitor Information",
-    "participationGuide" : "Participation Guide",
-    "news" : "News",
-    "contents" : "Programs & Contents",
-    "schedule" : "Event Schedule",
-    "locationInfo" : "Venue Information",
-    "sponsorsAndPartners" : "Sponsors & Partners",
-    "members" : "members",
-    "qa" : "FAQ",
-    "qa--min" : "FAQ",
-    "contact" : "Contact Us"
-  },
-  "infoCard": {
-    "venue": {
-      "title": "Venue",
-      "items": {
-        "venueName": {
-          "label": "Venue Name",
-          "text": "Asty45 4F Asty Hall"
-        },
-        "address": {
-          "label": "Address",
-          "text": "060-0004 {br}Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, Hokkaido"
-        },
-        "access": {
-          "label": "Access",
-          "text": "3 min walk from Sapporo Subway Station (direct underground access){br}5 min walk from JR Sapporo Station South Exit"
-        }
-      }
-    }
-  },
-  "contents": {
-    "1": {
-      "title": "ParaRealCreator in SAPPORO",
-      "text": "Goods Exhibition & Sale by VR Creators"
-    }
-  },
-  "news": {
-    "1": {
-      "title": "We have published our logo!"
-    },
-    "2": {
-      "title": "We have published our key visual!"
-    }
-  }
-}
-````
-
 ## File: layers/main/i18n/locales/ja.json
 ````json
 {
@@ -895,12 +869,12 @@ export default defineNuxtConfig({
   "private": true,
   "type": "module",
   "version": "1.0.1",
-  "packageManager": "bun@1.3.13",
+  "packageManager": "bun@1.3.14",
   "scripts": {
     "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
     "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
     "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
-    "build": "VITE_OUTPUT_ENV=production nuxt build",
+    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
     "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
     "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
     "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",
@@ -928,7 +902,7 @@ export default defineNuxtConfig({
     "allclean-install": "bun run ../../scripts/clean_install.js all"
   },
   "dependencies": {
-    "@nuxt/content": "^3.12.0",
+    "@nuxt/content": "^3.15.0",
     "gsap": "^3.15.0",
     "vket-boilerplate-nuxt-base": "workspace:*"
   }

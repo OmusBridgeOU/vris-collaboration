@@ -1,0 +1,41 @@
+[
+  {
+    "id": "frame_default_001",
+    "type": "frame",
+    "name": "デフォルトフレーム",
+    "authorName": "sample_creator",
+    "description": "初回起動時に表示されるサンプルフレームです。",
+    "glbPath": "/assets/ar-objects/frame_default_001/model.glb",
+    "thumbnailPath": "/assets/ar-objects/frame_default_001/thumbnail.png",
+    "isDefault": true,
+    "initialScale": null,
+    "rotatable": false,
+    "enabled": true
+  },
+  {
+    "id": "decoration_star_001",
+    "type": "decoration",
+    "name": "星の装飾",
+    "authorName": "star_creator",
+    "description": "写真を華やかにする星の3D装飾です。",
+    "glbPath": "/assets/ar-objects/decoration_star_001/model.glb",
+    "thumbnailPath": "/assets/ar-objects/decoration_star_001/thumbnail.png",
+    "isDefault": false,
+    "initialScale": null,
+    "rotatable": true,
+    "enabled": true
+  },
+  {
+    "id": "decoration_heart_001",
+    "type": "decoration",
+    "name": "ハートの装飾",
+    "authorName": "heart_creator",
+    "description": "画面上に配置できるハート型の3D装飾です。",
+    "glbPath": "/assets/ar-objects/decoration_heart_001/model.glb",
+    "thumbnailPath": "/assets/ar-objects/decoration_heart_001/thumbnail.png",
+    "isDefault": false,
+    "initialScale": null,
+    "rotatable": true,
+    "enabled": true
+  }
+]
