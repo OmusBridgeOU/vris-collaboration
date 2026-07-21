@@ -269,7 +269,11 @@ const { data: page } = await useAsyncData(route.path, () => {
 <script setup lang="ts">
 import type { NavLink } from '../components/ho/HoTheHeader.vue'
 
-const navLinks: NavLink[] = [{ type: 'link', href: '/', text: 'TOPページ' }]
+const { t } = useI18n()
+
+const navLinks = computed<NavLink[]>(() => [
+  { type: 'link', href: '/', text: t('page.top') },
+])
 </script>
 
 <style lang="scss" scoped>
@@ -281,23 +285,6 @@ const navLinks: NavLink[] = [{ type: 'link', href: '/', text: 'TOPページ' }]
 
 ## File: layers/main/app/layouts/list.vue
 ```vue
-<i18n lang="yaml">
-ja:
-  nav:
-    about: イベントについて
-    individualParticipant: 一般参加
-    clubParticipant: サークル参加
-    listOfClubs: サークル一覧
-    qa: よくある質問
-en:
-  nav:
-    about: About VketReal in SAPPORO
-    individualParticipant: Individual Participant
-    clubParticipant: Club Participant
-    listOfClubs: List of Clubs
-    qa: FAQ
-</i18n>
-
 <template>
   <div class="layout">
     <div class="layout-bg">
@@ -326,11 +313,7 @@ import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 const { t } = useI18n()
 
 const navLinks = computed<NavLink[]>(() => [
-  { type: 'link', href: '/#about', text: t('nav.about') },
-  // { type: 'link', href: '/#individual-participant', text: t('nav.individualParticipant') },
-  { type: 'link', href: '/#participation-guide', text: t('nav.clubParticipant') },
-  { type: 'link', href: '/#participation-guide', text: t('nav.listOfClubs') },
-  { type: 'link', href: '/#qa', text: t('nav.qa') },
+  { type: 'link', href: '/', text: t('page.top') },
 ])
 
 const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()
@@ -416,19 +399,6 @@ const initScrollEffects = () => {
 
 ## File: layers/main/app/pages/contents/index.vue
 ```vue
-<i18n lang="yaml">
-ja:
-  items:
-    paraRealCreatorInSapporo:
-      title: パラリアルクリエイター in SAPPORO
-      text: VRクリエイターによるグッズ展示・即売コーナー
-en:
-  items:
-    paraRealCreatorInSapporo:
-      title: ParaRealCreator in SAPPORO
-      text: Goods Exhibition & Sale by VR Creators
-</i18n>
-
 <script lang="ts" setup>
 import HaContentCard from '~/components/ha/HaContentCard.vue'
 import HaPageTitle from '~/components/ha/HaPageTitle.vue'
@@ -437,14 +407,15 @@ definePageMeta({
   layout: 'list',
 })
 
-const { t } = useI18n()
+const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
   {
     id: 1,
-    title: t('items.paraRealCreatorInSapporo.title'),
+    title: tGlobal('contents.1.title'),
+    imgSrc: '',
     href: 'https://archived.vris.jp/',
-    text: t('items.paraRealCreatorInSapporo.text'),
+    text: tGlobal('contents.1.text'),
   },
 ])
 </script>
@@ -575,42 +546,27 @@ const items = computed(() => [
 
 ## File: layers/main/app/pages/news/index.vue
 ```vue
-<i18n lang="yaml">
-ja:
-  items:
-    news1:
-      title: ロゴマークを公開しました！
-    news2:
-      title: キービジュアルを公開しました！
-en:
-  items:
-    news1:
-      title: We have published our logo!
-    news2:
-      title: We have published our key visual!
-</i18n>
-
 <script lang="ts" setup>
 import HaPageTitle from '~/components/ha/HaPageTitle.vue'
-import HaSwiperCard from '~/components/ha/HaSwiperCard.vue'
+import HaNewsCard from '~/components/ha/HaNewsCard.vue'
 
 definePageMeta({
   layout: 'list',
 })
 
-const { t } = useI18n()
+const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
   {
     id: 1,
-    title: t('items.news1.title'),
+    title: tGlobal('news.1.title'),
     href: 'https://archived.vris.jp/',
     imgSrc: '/news1_thumbnail.png',
     timestamp: '2026-06-06',
   },
   {
     id: 2,
-    title: t('items.news2.title'),
+    title: tGlobal('news.2.title'),
     href: 'https://archived.vris.jp/',
     imgSrc: '/news2_thumbnail.png',
     timestamp: '2026-06-01',
@@ -627,7 +583,7 @@ const items = computed(() => [
           title="お知らせ"
           class="news-list__item--full-width"
         />
-        <HaSwiperCard
+        <HaNewsCard
           v-for="item in items"
           :key="item.id"
           :item="item"
@@ -739,47 +695,6 @@ const items = computed(() => [
 
 ## File: layers/main/app/layouts/top.vue
 ```vue
-<i18n lang="yaml">
-ja:
-  nav:
-    about: イベントについて
-    individualParticipant: 一般参加
-    clubParticipant: サークル参加
-    listOfClubs: サークル一覧
-    qa: よくある質問
-    # top: TOPページ
-    # quickAccess: 参加者向け重要情報
-    # news: お知らせ
-    # contents: 企画・コンテンツ
-    # schedule: 開催スケジュール
-    # exhibition: 出展情報
-    # access: アクセス
-    # ticket: チケット
-    # codeOfConduct: 行動規範
-    # relatedEvents: 関連イベント
-    # sponsorsAndPartners: ご協力
-    # contact: お問い合わせ
-en:
-  nav:
-    about: About VketReal in SAPPORO
-    individualParticipant: Individual Participant
-    clubParticipant: Club Participant
-    listOfClubs: List of Clubs
-    qa: FAQ
-    # top: Top
-    # quickAccess: Key Information
-    # news: News
-    # contents: Contents
-    # schedule: Schedule
-    # exhibition: Exhibition
-    # access: Access
-    # ticket: Tickets
-    # codeOfConduct: Code of Conduct
-    # relatedEvents: Related Events
-    # sponsorsAndPartners: Partners
-    # contact: Contact
-</i18n>
-
 <template>
   <div class="layout -top">
     <HoTheHeader :nav-links="navLinks" />
@@ -798,13 +713,13 @@ import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 const { t } = useI18n()
 
 const navLinks = computed<NavLink[]>(() => [
-  { type: 'anchor', href: 'about', text: t('nav.about') },
-  { type: 'anchor', href: 'participation-guide', text: t('nav.individualParticipant') },
-  { type: 'anchor', href: 'participation-guide', text: t('nav.clubParticipant') },
-  { type: 'anchor', href: 'qa', text: t('nav.qa') },
+  { type: 'anchor', href: 'exhibitor-info', text: t('sectionTitle.exhibitorInfo') },
+  { type: 'anchor', href: 'contents', text: t('sectionTitle.contents') },
+  { type: 'anchor', href: 'location-info', text: t('sectionTitle.locationInfo') },
+  { type: 'anchor', href: 'qa', text: t('sectionTitle.qa--min') },
 ])
 
-const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()
+const { firstViewBlur, destroyScrollTriggers } = useGsapFadeIn()
 const route = useRoute()
 
 onMounted(async () => {
@@ -823,15 +738,11 @@ onUnmounted(() => {
 
 const initScrollEffects = async () => {
   const firstView = document.querySelector('#gsap-fv')
-  const header = document.querySelector('#gsap-header')
-
-  if (!header) return
 
   // #first-viewがないページ（トップ以外）では実行しない
   if (!firstView) return
 
   firstViewBlur(firstView)
-  headerRevealOnScroll(header, firstView)
 
   // DOM更新が完了したタイミングでレイアウトを再計算
   await nextTick()

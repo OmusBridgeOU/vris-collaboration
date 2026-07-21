@@ -3,7 +3,7 @@
 @use 'sass:color';
 
 .nowrap {
-  display: block;
+  display: inline;
 
   font-size: inherit;
   line-height: inherit;
@@ -12,19 +12,26 @@
   white-space: nowrap;
 }
 
-/* 画面幅によって表示or非表示 */
-@include m.sp {
-  .sp-none {
-    display: none;
-  }
+// 表示or非表示切替用 ※ `{クラス名}の条件で表示`という命名法則で統一しています
+
+// PC以上で表示
+.over-pc {
+  @include m.over-pc;
 }
 
-.tb-only {
-  display: none;
+// タブレット以上で表示
+.over-tb {
+  @include m.over-tb;
+}
 
-  @include m.tb {
-    display: block;
-  }
+// タブレット以下で表示
+.under-tb {
+  @include m.under-tb;
+}
+
+// スマホ以下で表示
+.under-sp {
+  @include m.under-sp;
 }
 
 .glassy-box {
@@ -47,8 +54,7 @@
 
     position: absolute;
     z-index: 0;
-    top: 0;
-    left: 0;
+    inset: 0;
 
     width: 100%;
     height: 100%;
@@ -105,7 +111,7 @@
   }
 
   &--cyan {
-    background-color: rgba(color.mix(black, v.$vket-cyan, 60%), 0.6);
+    background-color: rgba(color.mix(black, v.$vket-cyan, 75%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-cyan, 0.4) inset;
 
     .glassy-box__icon {
@@ -139,7 +145,7 @@
   }
 
   &--magenta {
-    background-color: rgba(color.mix(black, v.$vket-magenta, 60%), 0.6);
+    background-color: rgba(color.mix(black, v.$vket-magenta, 75%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-magenta, 0.4) inset;
 
     .glassy-box__icon {
@@ -173,7 +179,7 @@
   }
 
   &--amber {
-    background-color: rgba(color.mix(black, v.$vket-amber, 60%), 0.6);
+    background-color: rgba(color.mix(black, v.$vket-amber, 75%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-amber, 0.4) inset;
 
     .glassy-box__icon {
@@ -190,7 +196,7 @@
   }
 
   &--vermilion {
-    background-color: rgba(color.mix(black, v.$vket-vermilion, 60%), 0.6);
+    background-color: rgba(color.mix(black, v.$vket-vermilion, 75%), 0.6);
     box-shadow: 0 0 20px 0 rgba(v.$vket-vermilion, 0.4) inset;
 
     .glassy-box__icon {
@@ -239,8 +245,7 @@
 
     position: absolute;
     z-index: 0;
-    top: 0;
-    left: 0;
+    inset: 0;
 
     width: inherit;
     height: inherit;
@@ -362,25 +367,25 @@
     border-radius: inherit;
 
     background-image: linear-gradient(
-        45deg,
-        rgb(v.$base-background-color, 0.75) 10px,
-        rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-        225deg,
-        rgb(v.$base-background-color, 0.75) 10px,
-        rgb(v.$base-background-color, 0) 20px
-      ),
-      linear-gradient(
-        135deg,
-        rgb(255 255 255 / 65%) 10px,
-        rgb(255 255 255 / 15%) 20px
-      ),
-      linear-gradient(
-        315deg,
-        rgb(255 255 255 / 65%) 10px,
-        rgb(255 255 255 / 15%) 20px
-      );
+      45deg,
+      rgb(v.$base-background-color, 0.75) 10px,
+      rgb(v.$base-background-color, 0) 20px
+    ),
+    linear-gradient(
+      225deg,
+      rgb(v.$base-background-color, 0.75) 10px,
+      rgb(v.$base-background-color, 0) 20px
+    ),
+    linear-gradient(
+      135deg,
+      rgb(255 255 255 / 65%) 10px,
+      rgb(255 255 255 / 15%) 20px
+    ),
+    linear-gradient(
+      315deg,
+      rgb(255 255 255 / 65%) 10px,
+      rgb(255 255 255 / 15%) 20px
+    );
     background-clip: border-box, border-box, border-box, border-box;
     background-origin: border-box, border-box, border-box, border-box;
 
@@ -392,12 +397,39 @@
     mask-composite: exclude;
   }
 
-  &--radius-full {
-    border-radius: 100px;
+  &--blue {
+    background-color: rgb(30 59 107 / 75%);
   }
 
   &--radius-full {
     border-radius: 100px;
+  }
+
+  &--radius-min {
+    border-radius: 6px;
+
+    &::before{
+      background-image: linear-gradient(
+        45deg,
+        rgb(v.$base-background-color, 0.75) 3px,
+        rgb(v.$base-background-color, 0) 6px
+      ),
+      linear-gradient(
+        225deg,
+        rgb(v.$base-background-color, 0.75) 3px,
+        rgb(v.$base-background-color, 0) 6px
+      ),
+      linear-gradient(
+        135deg,
+        rgb(255 255 255 / 65%) 3px,
+        rgb(255 255 255 / 15%) 6px
+      ),
+      linear-gradient(
+        315deg,
+        rgb(255 255 255 / 65%) 3px,
+        rgb(255 255 255 / 15%) 6px
+      );
+    }
   }
 
   &:not(.none-hover-animation):hover {
@@ -456,6 +488,8 @@
   backdrop-filter: blur(4px);
   box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
 
+  transition: 0.15s transform ease;
+
   &::before {
     pointer-events: none;
     content: '';
@@ -508,7 +542,7 @@
 
 .subtitle {
   width: fit-content;
-  margin: 20px auto 42px;
+  margin: 20px auto 36px;
 
   font-size: 32px;
   font-weight: 700;
@@ -517,8 +551,16 @@
   text-align: center;
 
   @include m.tb {
-    margin: 12px auto 24px;
+    margin: 0 auto 24px;
     font-size: 20px;
+  }
+
+  &--cyan {
+    color: v.$vket-cyan;
+  }
+
+  &--amber {
+    color: v.$vket-amber;
   }
 }
 
@@ -527,13 +569,12 @@
   margin: 0 auto 80px;
 
   font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5em;
+  line-height: 1.8em;
   color: white;
   text-align: center;
 
   &--space {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
 
   @include m.tb {
@@ -541,9 +582,8 @@
   }
 
   @include m.sp {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     font-size: 14px;
-    font-weight: normal;
   }
 
   &--left {
@@ -552,6 +592,10 @@
 }
 
 /* swiper.js */
+.swiper-wrapper {
+  margin-bottom: 24px;
+}
+
 .custom-swiper-button {
   display: flex;
   align-items: center;
@@ -563,13 +607,14 @@
 
   background-color: #1e355b;
 
+  svg {
+    height: 80%;
+    fill: white;
+  }
+
   @include m.sp {
     width: 24px;
     height: 24px;
-
-    svg {
-      height: 80%;
-    }
   }
 
   &.is-disabled {
@@ -578,15 +623,20 @@
   }
 }
 
+.swiper-button-flex {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+
+  width: fit-content;
+  margin: 0 auto;
+}
+
 .custom-swiper-pagination {
   display: flex;
   gap: 6px;
   justify-content: center;
-  margin-top: 60px;
-
-  @include m.tb {
-    display: none;
-  }
+  margin-bottom: 16px;
 
   .swiper-pagination-bullet {
     width: 16px;
@@ -598,4 +648,17 @@
       background-color: rgb(94 130 190 / 100%);
     }
   }
+}
+
+.swiper-button-lock {
+  display: none;
+
+  // スライドが出来ない状態において付与される`swiper-button-lockクラスが、次へ進むボタンにしか付与されない為、後続兄弟結合子で指定している。
+  & ~ .custom-swiper-button {
+    display: none;
+  }
+}
+
+.swiper-pagination-lock {
+  display: none;
 }

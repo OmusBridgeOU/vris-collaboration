@@ -1,5 +1,8 @@
 {
   "viewAll" : "すべて見る",
+  "page": {
+    "top": "TOPページ"
+  },
   "sectionTitle": {
     "about": "VketReal in 札幌とは",
     "exhibitorInfo": "出展者案内",
@@ -9,7 +12,9 @@
     "schedule" : "開催スケジュール",
     "locationInfo" : "会場情報",
     "sponsorsAndPartners" : "ご協力",
+    "members" : "有志メンバー",
     "qa" : "よくある質問",
+    "qa--min" : "Q&A",
     "contact" : "お問い合わせ"
   },
   "infoCard": {
@@ -39,7 +44,7 @@
   },
   "news": {
     "1": {
-      "title": "ロゴマークを公開しました！"
+      "title": "新ロゴマークを公開しました！"
     },
     "2": {
       "title": "キービジュアルを公開しました！"

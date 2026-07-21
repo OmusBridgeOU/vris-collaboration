@@ -15,15 +15,11 @@
     align-items: center;
     justify-content: center;
 
-    height: 480px;
+    height: 160px;
     margin: 0 auto;
 
-    @include m.tb {
-        height: 240px;
-    }
-
     @include m.sp {
-        height: 160px;
+        height: 120px;
     }
 
     &__en {

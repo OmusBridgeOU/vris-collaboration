@@ -8,13 +8,13 @@ ja:
   overviewRow2Value: '1スペースにつき2名'
   overviewRow3Label: '出展内容'
   overviewRow3Value: 'グッズ・書籍頒布・作品展示など'
-  description: 'また、今回のサークル募集は二回に分けて行います。{br1}二次申し込みについては一次申し込みの結果、{br2}出展枠に余裕がある場合のみ開催します。{br3}確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。'
-  primaryTitle: '一次申し込み{br}（先着順）'
+  description: '今回のサークル募集は二回に分けて行います。{br1}二次申し込みについては一次申し込みの結果、出展枠に余裕がある場合のみ開催します。確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。'
+  primaryTitle: '一次申し込み（先着順）'
   primaryRow1Label: '募集期間'
   primaryRow1Value: '6月1日(月) ～ 6月18日(木)'
   primaryRow2Label: '当選発表'
   primaryRow2Value: '6月26日(金)'
-  secondaryTitle: '二次申し込み{br}（抽選）'
+  secondaryTitle: '二次申し込み（抽選）'
   secondaryRow1Label: '募集期間'
   secondaryRow1Value: '7月13日(月) ～ 7月30日(木)'
   secondaryRow2Label: '当選発表'
@@ -65,41 +65,41 @@ onMounted(() => {
       label="EXHIBITOR INFO"
     />
 
-    <p class="subtitle">
+    <p class="subtitle subtitle--cyan">
       {{ t('subtitle1') }}
     </p>
-    <div class="exhibitor-info__table mb-15">
+    <div class="exhibitor-info__table glassy-box-4 glassy-box-4--blue mb-15">
       <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
+        <p class="exhibitor-info__label exhibitor-info__label--cyan">
           {{ t('overviewRow1Label') }}
         </p>
-        <p class="exhibitor-info__label">
+        <p class="exhibitor-info__text">
           {{ t('overviewRow1Value') }}
         </p>
       </div>
       <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
+        <p class="exhibitor-info__label exhibitor-info__label--cyan">
           {{ t('overviewRow2Label') }}
         </p>
-        <p class="exhibitor-info__label">
+        <p class="exhibitor-info__text">
           {{ t('overviewRow2Value') }}
         </p>
       </div>
       <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
+        <p class="exhibitor-info__label exhibitor-info__label--cyan">
           {{ t('overviewRow3Label') }}
         </p>
-        <p class="exhibitor-info__label">
+        <p class="exhibitor-info__text">
           {{ t('overviewRow3Value') }}
         </p>
       </div>
     </div>
 
-    <p class="subtitle">
+    <p class="subtitle subtitle--amber">
       {{ t('subtitle2') }}
     </p>
 
-    <p class="exhibitor-info__description mb-24">
+    <p class="exhibitor-info__description mb-8">
       <i18n-t
         keypath="description"
         tag="span"
@@ -108,74 +108,54 @@ onMounted(() => {
         <template #br1>
           <br>
         </template>
-        <template #br2>
-          <br class="tb-only">
-        </template>
-        <template #br3>
-          <br>
-        </template>
       </i18n-t>
     </p>
 
-    <p class="exhibitor-info__table-title">
-      <i18n-t
-        keypath="primaryTitle"
-        tag="span"
-        scope="parent"
-      >
-        <template #br>
-          <br class="tb-only">
-        </template>
-      </i18n-t>
-    </p>
-
-    <div class="exhibitor-info__table mb-24">
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('primaryRow1Label') }}
+    <div class="grid-exhibitor-info">
+      <div class="grid-exhibitor-info__table glassy-box-4 glassy-box-4--blue">
+        <div class="grid-exhibitor-info__table-line grid-exhibitor-info__table-line--cyan" />
+        <p class="grid-exhibitor-info__table-title mb-4">
+          {{ t('primaryTitle') }}
         </p>
-        <p class="exhibitor-info__label">
-          {{ t('primaryRow1Value') }}
-        </p>
+        <div class="grid-exhibitor-info__table-item">
+          <p class="grid-exhibitor-info__label">
+            {{ t('primaryRow1Label') }}
+          </p>
+          <p class="grid-exhibitor-info__label">
+            {{ t('primaryRow1Value') }}
+          </p>
+        </div>
+        <div class="grid-exhibitor-info__table-item">
+          <p class="grid-exhibitor-info__label">
+            {{ t('primaryRow2Label') }}
+          </p>
+          <p class="grid-exhibitor-info__label">
+            {{ t('primaryRow2Value') }}
+          </p>
+        </div>
       </div>
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('primaryRow2Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('primaryRow2Value') }}
-        </p>
-      </div>
-    </div>
 
-    <p class="exhibitor-info__table-title">
-      <i18n-t
-        keypath="secondaryTitle"
-        tag="span"
-        scope="parent"
-      >
-        <template #br>
-          <br class="tb-only">
-        </template>
-      </i18n-t>
-    </p>
-
-    <div class="exhibitor-info__table">
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('secondaryRow1Label') }}
+      <div class="grid-exhibitor-info__table glassy-box-4 glassy-box-4--blue">
+        <div class="grid-exhibitor-info__table-line grid-exhibitor-info__table-line--magenta" />
+        <p class="grid-exhibitor-info__table-title mb-4">
+          {{ t('secondaryTitle') }}
         </p>
-        <p class="exhibitor-info__label">
-          {{ t('secondaryRow1Value') }}
-        </p>
-      </div>
-      <div class="exhibitor-info__table-item">
-        <p class="exhibitor-info__label">
-          {{ t('secondaryRow2Label') }}
-        </p>
-        <p class="exhibitor-info__label">
-          {{ t('secondaryRow2Value') }}
-        </p>
+        <div class="grid-exhibitor-info__table-item">
+          <p class="grid-exhibitor-info__label">
+            {{ t('secondaryRow1Label') }}
+          </p>
+          <p class="grid-exhibitor-info__label">
+            {{ t('secondaryRow1Value') }}
+          </p>
+        </div>
+        <div class="grid-exhibitor-info__table-item">
+          <p class="grid-exhibitor-info__label">
+            {{ t('secondaryRow2Label') }}
+          </p>
+          <p class="grid-exhibitor-info__label">
+            {{ t('secondaryRow2Value') }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -202,6 +182,14 @@ onMounted(() => {
 }
 
 .exhibitor-info {
+  &__table {
+    padding: 0 40px;
+
+    @include m.sp {
+      padding: 0 24px;
+    }
+  }
+
   &__table-title {
     margin-bottom: 24px;
 
@@ -223,7 +211,7 @@ onMounted(() => {
   &__table-item {
     display: flex;
     justify-content: space-between;
-    padding: 38px 0;
+    padding: 32px 0;
     border-bottom: 1px solid white;
 
     @include m.tb {
@@ -237,7 +225,16 @@ onMounted(() => {
 
   &__label {
     font-size: 20px;
+    font-weight: bold;
     color: white;
+
+    &--cyan {
+      color: v.$vket-cyan;
+    }
+
+    &--amber {
+      color: v.$vket-amber;
+    }
 
     @include m.sp {
       font-size: 14px;
@@ -256,17 +253,116 @@ onMounted(() => {
 
   &__description {
     width: fit-content;
+    max-width: 1080px;
     margin-right: auto;
     margin-left: auto;
 
     font-size: 20px;
+    line-height: 1.8em;
+    color: white;
+    text-align: center;
+
+    @include m.tb {
+      font-size: 16px;
+    }
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+}
+
+.grid-exhibitor-info {
+  display: flex;
+  gap: 36px;
+
+  @include m.tb {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__table {
+    position: relative;
+    flex-grow: 1;
+    padding: 32px 32px 8px;
+
+    @include m.sp {
+      padding: 24px 24px 8px;
+    }
+  }
+
+  &__table-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: calc(100% - 32px * 2);
+    height: 1px;
+
+    &--cyan {
+      background-color: v.$vket-cyan;
+    }
+
+    &--magenta {
+      background-color: v.$vket-magenta;
+    }
+  }
+
+  &__table-title {
+    margin-bottom: 24px;
+
+    font-size: 24px;
+    font-weight: bold;
     line-height: 1.2em;
     color: white;
 
     @include m.tb {
-      font-size: 16px;
-      text-align: center;
+      font-size: 22px;
     }
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__table-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 0;
+    border-bottom: 1px solid white;
+
+    @include m.tb {
+      padding: 16px 0;
+    }
+
+    &:last-of-type {
+      border: none;
+    }
+  }
+
+  &__label {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+
+    &--cyan {
+      color: v.$vket-cyan;
+    }
+
+    &--amber {
+      color: v.$vket-amber;
+    }
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__text {
+    font-size: 20px;
+    color: white;
+    text-align: right;
 
     @include m.sp {
       font-size: 14px;

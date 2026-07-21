@@ -1,39 +1,24 @@
-<i18n lang="yaml">
-ja:
-  items:
-    news1:
-      title: ロゴマークを公開しました！
-    news2:
-      title: キービジュアルを公開しました！
-en:
-  items:
-    news1:
-      title: We have published our logo!
-    news2:
-      title: We have published our key visual!
-</i18n>
-
 <script lang="ts" setup>
 import HaPageTitle from '~/components/ha/HaPageTitle.vue'
-import HaSwiperCard from '~/components/ha/HaSwiperCard.vue'
+import HaNewsCard from '~/components/ha/HaNewsCard.vue'
 
 definePageMeta({
   layout: 'list',
 })
 
-const { t } = useI18n()
+const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
   {
     id: 1,
-    title: t('items.news1.title'),
+    title: tGlobal('news.1.title'),
     href: 'https://archived.vris.jp/',
     imgSrc: '/news1_thumbnail.png',
     timestamp: '2026-06-06',
   },
   {
     id: 2,
-    title: t('items.news2.title'),
+    title: tGlobal('news.2.title'),
     href: 'https://archived.vris.jp/',
     imgSrc: '/news2_thumbnail.png',
     timestamp: '2026-06-01',
@@ -50,7 +35,7 @@ const items = computed(() => [
           title="お知らせ"
           class="news-list__item--full-width"
         />
-        <HaSwiperCard
+        <HaNewsCard
           v-for="item in items"
           :key="item.id"
           :item="item"

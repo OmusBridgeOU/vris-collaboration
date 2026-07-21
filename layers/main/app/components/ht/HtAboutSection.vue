@@ -1,28 +1,60 @@
 <i18n lang="yaml">
 ja:
-  desc1: '「VketReal in 札幌」は、{br1}世界最大級のメタバースイベント「バーチャルマーケット」から派生した{br2}リアルイベントです。'
-  desc2: 'VRSNS上で活躍する北海道ゆかりのクリエイターたちが、リアルの場に飛び出す場所をつくりたい―――{br}そんな想いから生まれた、有志主催のイベントです。北海道の有志XRクリエイターが主催し、札幌で開催します。'
-  stat1Label: '過去の来場者数'
-  stat1Unit: '名+'
-  stat2Label: '出展サークル数'
-  stat2Unit: '+'
-  stat3Label: '開催回数'
-  stat3Unit: '回'
+  desc1:
+    - '「VketReal in 札幌」は、'
+    - '世界最大級のメタバースイベント'
+    - '__br-tb-over__'
+    - '「バーチャルマーケット」から派生した'
+    - 'リアルイベントです。'
+  desc2:
+    - 'VRSNS上で'
+    - '活躍する'
+    - '北海道ゆかりの'
+    - 'クリエイターたちが、'
+    - '__br-tb-over__'
+    - 'リアルの場に'
+    - '飛び出す'
+    - '場所を'
+    - 'つくりたい―――'
+    - '__br-tb-over__'
+    - 'そんな想いから生まれた、'
+    - '有志主催のイベントです。'
+    - '__br-tb-over__'
+    - '北海道の有志XRクリエイターが主催し、'
+    - '札幌で開催します。'
   feature1Title: 'バーチャル姿のまま、{br}リアルで体験'
-  feature1Desc: 'アバターとしての生き方を大切にする人々が{br}リアルの場で集い、交流し、共に{br}クリエイティブな未来を築く場です。'
+  feature1Desc:
+    - 'アバターとしての'
+    - '生き方を'
+    - '大切にする人々が'
+    - 'リアルの場で集い、'
+    - '交流し、'
+    - '共に'
+    - 'クリエイティブな'
+    - '未来を築く場です。'
   feature2Title: 'VRの世界で活躍する{br}クリエイターの出展'
-  feature2Desc: 'VRとリアルを行き来しながら活躍する{br}クリエイターの作品展示や、新たなXR技術を{br}活用したインタラクティブな企画を展開！'
+  feature2Desc:
+    - 'VRとリアルを'
+    - '行き来しながら'
+    - '活躍する'
+    - 'クリエイターの'
+    - '作品展示や、'
+    - '新たなXR技術を'
+    - '活用した'
+    - 'インタラクティブな'
+    - '企画を展開！'
   feature3Title: '遊んで、買って、{br}楽しめる企業ブース'
-  feature3Desc: '各企業ブースでは最新XRコンテンツを体験でき、{br}ここでしか手に入らない限定グッズも{br}販売されるかも？'
+  feature3Desc:
+    - '各企業ブースでは'
+    - '最新XRコンテンツ'
+    - 'を体験でき、'
+    - 'ここでしか'
+    - '手に入らない'
+    - '限定グッズも'
+    - '販売されるかも？'
 en:
-  desc1: '"VketReal in Sapporo" is an in-person event inspired by "VirtualMarket (Vket)", one of the world''s largest events in the metaverse.'
+  desc1: '"VketReal in Sapporo" is an in-person event inspired by "VirtualMarket (Vket)", one of the world largest events in the metaverse.'
   desc2: 'This is a community-run event, born from a simple idea: give creators from the Hokkaido VR/SNS scene a place to step into the real world. Organized by volunteer XR creators based in Hokkaido, and held in Sapporo.'
-  stat1Label: 'Total Attendees'
-  stat1Unit: '+'
-  stat2Label: 'Exhibiting Circles'
-  stat2Unit: '+'
-  stat3Label: 'Events Held'
-  stat3Unit: ''
   feature1Title: 'Experience the Event as Your Virtual Avatar'
   feature1Desc: 'A space where people who live as their avatars come together in the real world — to connect, create, and build a creative future.'
   feature2Title: 'Creators from the VR World, Exhibiting Live'
@@ -32,8 +64,8 @@ en:
 </i18n>
 
 <script setup lang="ts">
-import HaCard from '../ha/HaAboutCard.vue'
-import HaCountUpNumber from '../ha/HaCountUpNumber.vue'
+import HaAboutCard from '../ha/HaAboutCard.vue'
+import HaI18nNowrapText from '../ha/HaI18nNowrapText.vue'
 import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
 import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
 import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
@@ -41,8 +73,17 @@ import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
+const { t: tGlobal, tm, rt } = useI18n()
+
+function resolveContent(key: string): string | string[] {
+  // rawにはvue-i18nの内部型が入る。anyは極力使いたくないので、後から型ガードを掛けている。
+  const raw: unknown = tm(key)
+  if (Array.isArray(raw)) {
+    return raw.map(unit => rt(unit as never))
+  }
+
+  return rt(raw as never)
+}
 
 const sectionRef = ref<HTMLElement | null>(null)
 const listRef = ref<HTMLElement | null>(null)
@@ -62,72 +103,21 @@ onMounted(() => {
     <HaSectionTitle
       :title="tGlobal('sectionTitle.about')"
       label="ABOUT"
+      class="mb-16"
     />
-    <i18n-t
-      keypath="desc1"
-      tag="div"
-      class="description description--space"
-      scope="parent"
-    >
-      <template #br1>
-        <br class="sp-none">
-      </template>
-      <template #br2>
-        <br class="sp-none">
-      </template>
-    </i18n-t>
-    <i18n-t
-      keypath="desc2"
-      tag="div"
-      class="description"
-      scope="parent"
-    >
-      <template #br>
-        <br class="sp-none">
-      </template>
-    </i18n-t>
-    <div class="info-flex mb-24">
-      <div class="info-flex__child">
-        <p class="info-flex__number info-flex__number--amber">
-          <HaCountUpNumber
-            :value="500"
-            :duration="2000"
-          />{{ t('stat1Unit') }}
-        </p>
-        <p class="info-flex__label">
-          {{ t('stat1Label') }}
-        </p>
-      </div>
-      <div class="info-flex__child">
-        <p class="info-flex__number info-flex__number--cyan">
-          <HaCountUpNumber
-            :value="50"
-            :duration="2000"
-          />{{ t('stat2Unit') }}
-        </p>
-        <p class="info-flex__label">
-          {{ t('stat2Label') }}
-        </p>
-      </div>
-      <div class="info-flex__child">
-        <p class="info-flex__number info-flex__number--magenta">
-          <HaCountUpNumber
-            :value="6"
-            :duration="2000"
-          />{{ t('stat3Unit') }}
-        </p>
-        <p class="info-flex__label">
-          {{ t('stat3Label') }}
-        </p>
-      </div>
-    </div>
+    <p class="description description--space">
+      <HaI18nNowrapText :content="resolveContent('desc1')" />
+    </p>
+    <p class="description specific-responsive__1">
+      <HaI18nNowrapText :content="resolveContent('desc2')" />
+    </p>
 
     <div
       ref="listRef"
       class="card-flex"
     >
       <div class="gsap-list__child">
-        <HaCard
+        <HaAboutCard
           class="card-flex__child"
           color="amber"
         >
@@ -140,24 +130,17 @@ onMounted(() => {
               scope="parent"
             >
               <template #br>
-                <br>
+                <br class="under-tb">
               </template>
             </i18n-t>
           </template>
           <template #body>
-            <i18n-t
-              keypath="feature1Desc"
-              scope="parent"
-            >
-              <template #br>
-                <br>
-              </template>
-            </i18n-t>
+            <HaI18nNowrapText :content="resolveContent('feature1Desc')" />
           </template>
-        </HaCard>
+        </HaAboutCard>
       </div>
       <div class="gsap-list__child">
-        <HaCard
+        <HaAboutCard
           class="card-flex__child"
           color="cyan"
         >
@@ -170,24 +153,17 @@ onMounted(() => {
               scope="parent"
             >
               <template #br>
-                <br>
+                <br class="under-tb">
               </template>
             </i18n-t>
           </template>
           <template #body>
-            <i18n-t
-              keypath="feature2Desc"
-              scope="parent"
-            >
-              <template #br>
-                <br>
-              </template>
-            </i18n-t>
+            <HaI18nNowrapText :content="resolveContent('feature2Desc')" />
           </template>
-        </HaCard>
+        </HaAboutCard>
       </div>
       <div class="gsap-list__child">
-        <HaCard
+        <HaAboutCard
           class="card-flex__child"
           color="light-magenta"
         >
@@ -200,21 +176,14 @@ onMounted(() => {
               scope="parent"
             >
               <template #br>
-                <br>
+                <br class="under-tb">
               </template>
             </i18n-t>
           </template>
           <template #body>
-            <i18n-t
-              keypath="feature3Desc"
-              scope="parent"
-            >
-              <template #br>
-                <br>
-              </template>
-            </i18n-t>
+            <HaI18nNowrapText :content="resolveContent('feature3Desc')" />
           </template>
-        </HaCard>
+        </HaAboutCard>
       </div>
     </div>
   </div>
@@ -224,22 +193,38 @@ onMounted(() => {
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
+// 連続する3列レイアウト（info-flex, card-flex）の縦横は揃えたいので、css変数を参照させている。
+// 3列2行のgridレイアウトの方が記述量は少ないが、info-flexとcard-flexは互いに無関係の情報なのでhtmlの構造上も並列にしたいため上記の方法を採用している。
+$three-items-flex--template-column-width: 320px;
+$three-items-flex--template-column-gap: 32px;
+
 .mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+  margin-bottom: 96px;
 
   @include m.tb {
     margin-bottom: 64px;
   }
 }
 
+.mb-16 {
+  margin-bottom: 64px;
+
+  @include m.tb {
+    margin-bottom: 48px;
+  }
+
+  @include m.sp {
+    margin-bottom: 24px;
+  }
+}
+
 .info-flex {
   display: flex;
-  gap: 32px;
+  gap: $three-items-flex--template-column-gap;
   justify-content: center;
 
   width: 100%;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 0 auto 96px;
 
   @include m.tb {
     flex-direction: column;
@@ -247,7 +232,7 @@ onMounted(() => {
   }
 
   &__child {
-    width: 320px;
+    width: $three-items-flex--template-column-width;
   }
 
   &__number {
@@ -292,12 +277,11 @@ onMounted(() => {
 
 .card-flex {
   display: flex;
-  gap: 32px;
+  gap: $three-items-flex--template-column-gap;
   justify-content: center;
 
   width: 100%;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 0 auto;
 
   @include m.tb {
     flex-direction: column;
@@ -306,7 +290,7 @@ onMounted(() => {
   }
 
   .gsap-list__child {
-    width: 320px;
+    width: $three-items-flex--template-column-width;
 
     @include m.tb {
       width: 60%;
@@ -320,6 +304,16 @@ onMounted(() => {
   &__child {
     width: 100%;
     height: 100%;
+  }
+}
+
+// 特定の文章の改行位置を調整するためだけのCSSクラス。
+.specific-responsive {
+  &__1 {
+    @include m.sp {
+      width: 500px;
+      max-width: 100%;
+    }
   }
 }
 </style>

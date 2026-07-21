@@ -23,8 +23,8 @@ const getScrollOffset = () => {
   const width = window.innerWidth
 
   // 各値はapp/assets/styles/_variables.scssの`vket-header-height-{devices}`の値と揃える
-  if (width >= 1080) return -106 // タブレット: app/assets/styles/_variables.scss v.$pc-content-min-width
-  if (width >= 768) return -106 // スマホ: app/assets/styles/_variables.scss v.$media-query-width
+  if (width >= 1080) return -160 // PC: app/assets/styles/_variables.scss v.$pc-content-min-width
+  if (width >= 768) return -106 // タブレット: app/assets/styles/_variables.scss v.$media-query-width
   return -106 // スマホ
 }
 

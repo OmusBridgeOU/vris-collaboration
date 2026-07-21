@@ -1,5 +1,8 @@
 {
   "viewAll" : "view all",
+  "page": {
+    "top": "TOP"
+  },
   "sectionTitle": {
     "about": "What is VketReal in Sapporo?",
     "exhibitorInfo": "Exhibitor Information",
@@ -9,7 +12,9 @@
     "schedule" : "Event Schedule",
     "locationInfo" : "Venue Information",
     "sponsorsAndPartners" : "Sponsors & Partners",
+    "members" : "members",
     "qa" : "FAQ",
+    "qa--min" : "FAQ",
     "contact" : "Contact Us"
   },
   "infoCard": {

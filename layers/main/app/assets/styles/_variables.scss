@@ -29,7 +29,7 @@ $vket-vermilion: #ff4500;
 $vket-emerald: #43ffbd;
 $vket-white: #fff;
 $vket-gray: #a0a0a0;
-$vket-dark-purple: #2d1b4e; // デザイン要件定義には「薄紫」と記載されている
+$vket-dark-purple: #2d1b4e;
 $vket-pink: #ff1493;
 $vket-yellow-green: #7fff00;
 $vket-cherry-blossom: #ffb7c5;
@@ -140,11 +140,15 @@ $side-menu-height-sp: 64px;
   アンカーリンクのオフセット調整のために使用する
 */
 $vket-header-height-pc: 160px;
+$vket-header-vertical-padding-pc: 40px;
 $vket-header-height-tb: 106px;
+$vket-header-vertical-padding-tb: 28px;
 $vket-header-height-sp: 106px;
+$vket-header-vertical-padding-sp: 28px;
 
 // topページ用に追加
-$pc-content-body-width: 1470px;
+$pc-content-body-width: 1600px;
+$pc-content-body-padding: 136px;
 
 /* content height */
 $header-height-pc: 80px;

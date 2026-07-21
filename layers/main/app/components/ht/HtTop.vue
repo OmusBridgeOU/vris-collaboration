@@ -50,6 +50,10 @@ en:
           <HtSponsorsAndPartnersSection />
         </section>
 
+        <section id="members">
+          <HtMemberSection />
+        </section>
+
         <section id="qa">
           <HtQandASection />
         </section>
@@ -83,6 +87,7 @@ import HtContactSection from './HtContactSection.vue'
 import HaFireworks from '../ha/HaFireworks.vue'
 import HaConfetti from '../ha/HaConfetti.vue'
 import HtParticipationGuide from './HtParticipationGuide.vue'
+import HtMemberSection from './HtMemberSection.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -108,19 +113,19 @@ import HtParticipationGuide from './HtParticipationGuide.vue'
   }
 
   &__bg {
-    padding-top: 124px;
+    padding: 108px 0 48px;
     border-radius: 36px 36px 0 0;
     background-color: v.$base-background-color;
 
-    @include m.sp {
-      padding-top: 64px;
+    @include m.tb {
+      padding: 168px 0 64px;
     }
   }
 
   &__main {
     position: relative;
     z-index: 2;
-    max-width: 1600px;
+    max-width: v.$pc-content-body-width;
     margin: 0 auto;
   }
 }
@@ -139,26 +144,17 @@ import HtParticipationGuide from './HtParticipationGuide.vue'
 }
 
 section {
-  padding: 0 136px 108px;
-
-  &:first-of-type {
-    padding-top: 24px;
-  }
+  margin-bottom: 80px;
+  padding: 0 v.$pc-content-body-padding;
 
   @include m.tb {
-    padding: 0 16px 84px;
-  }
-}
-
-#contact {
-  padding-bottom: 220px;
-
-  @include m.tb {
-    padding-bottom: 180px;
+    margin-bottom: 52px;
+    padding: 0 24px;
   }
 
   @include m.sp {
-    padding-bottom: 124px;
+    margin-bottom: 32px;
+    padding: 0 16px;
   }
 }
 </style>

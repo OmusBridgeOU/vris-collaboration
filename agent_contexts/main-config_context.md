@@ -356,84 +356,6 @@ function getProduction() {
 }
 ````
 
-## File: layers/main/i18n/i18n.config.ts
-````typescript
-/*
- * note: i18n by nuxt-i18n i18nの不具合があればこのファイルから参照する
- * ref: https://v8.i18n.nuxtjs.org/
- */
-import type { NuxtI18nOptions } from '@nuxtjs/i18n'
-import Cookies from 'universal-cookie'
-import en from './locales/en.json'
-import ja from './locales/ja.json'
-
-const cookie = new Cookies()
-const jaLanguage = 'ja'
-const enLanguage = 'en'
-const cookieKey = 'VUEI18N_MANUAL_LOCALE'
-const isBrowserLanguageJa = import.meta.client
-  ? navigator?.language?.startsWith(jaLanguage)
-  : false
-const isBrowserLanguageEn = import.meta.client
-  ? navigator?.language?.startsWith(enLanguage)
-  : false
-const defaultLanguageFromCookie = import.meta.client
-  ? cookie.get(cookieKey) ?? null
-  : ''
-const defaultLanguage
-  = defaultLanguageFromCookie === jaLanguage
-    ? jaLanguage
-    : defaultLanguageFromCookie === enLanguage
-      ? enLanguage
-      : isBrowserLanguageJa
-        ? jaLanguage
-        : isBrowserLanguageEn
-          ? enLanguage
-          : jaLanguage
-
-// settings for nuxt-i18n v9~
-export const nuxtI18nOptions: NuxtI18nOptions = {
-  strategy: 'prefix_and_default',
-  locales: [
-    {
-      code: jaLanguage,
-      language: 'ja-JP',
-      file: 'ja.json',
-      isCatchallLocale: true,
-    },
-    {
-      code: enLanguage,
-      language: 'en-US',
-      file: 'en.json',
-    },
-  ],
-  defaultLocale: defaultLanguage,
-  customRoutes: 'config',
-  pages: {
-    api: false,
-    server: false,
-  },
-  detectBrowserLanguage: {
-    useCookie: true,
-    cookieKey: 'i18n_redirected',
-    redirectOn: 'root', // recommended
-    alwaysRedirect: true,
-    cookieCrossOrigin: true,
-    fallbackLocale: defaultLanguage,
-  },
-  vueI18n: '#main/i18n/i18n.config.ts',
-}
-
-export default {
-  legacy: false,
-  locale: defaultLanguage,
-  messages: {
-    ja,
-    en,
-  },
-}
-````
-
 ## File: layers/main/server/tsconfig.json
 ````json
 {
@@ -553,10 +475,107 @@ function getProduction(envType: EnvType) {
 }
 ````
 
+## File: layers/main/i18n/i18n.config.ts
+````typescript
+/*
+ * note: i18n by nuxt-i18n i18nの不具合があればこのファイルから参照する
+ * ref: https://v8.i18n.nuxtjs.org/
+ */
+import type { NuxtI18nOptions } from '@nuxtjs/i18n'
+import Cookies from 'universal-cookie'
+import en from './locales/en.json'
+import ja from './locales/ja.json'
+
+const cookie = new Cookies()
+const jaLanguage = 'ja'
+const enLanguage = 'en'
+const cookieKey = 'VUEI18N_MANUAL_LOCALE'
+const isBrowserLanguageJa = import.meta.client
+  ? navigator?.language?.startsWith(jaLanguage)
+  : false
+const isBrowserLanguageEn = import.meta.client
+  ? navigator?.language?.startsWith(enLanguage)
+  : false
+const defaultLanguageFromCookie = import.meta.client
+  ? cookie.get(cookieKey) ?? null
+  : ''
+const defaultLanguage
+  = defaultLanguageFromCookie === jaLanguage
+    ? jaLanguage
+    : defaultLanguageFromCookie === enLanguage
+      ? enLanguage
+      : isBrowserLanguageJa
+        ? jaLanguage
+        : isBrowserLanguageEn
+          ? enLanguage
+          : jaLanguage
+
+// settings for nuxt-i18n v9~
+export const nuxtI18nOptions: NuxtI18nOptions = {
+  strategy: 'prefix_and_default',
+  locales: [
+    {
+      code: jaLanguage,
+      name: '日本語',
+      language: 'ja-JP',
+      file: 'ja.json',
+      isCatchallLocale: true,
+    },
+    {
+      code: enLanguage,
+      name: 'English',
+      language: 'en-US',
+      file: 'en.json',
+    },
+  ],
+  defaultLocale: defaultLanguage,
+  customRoutes: 'config',
+  pages: {
+    api: false,
+    server: false,
+  },
+  detectBrowserLanguage: {
+    useCookie: true,
+    cookieKey: 'i18n_redirected',
+    redirectOn: 'root', // recommended
+    alwaysRedirect: true,
+    cookieCrossOrigin: true,
+    fallbackLocale: defaultLanguage,
+  },
+  vueI18n: '#main/i18n/i18n.config.ts',
+}
+
+export default {
+  legacy: false,
+  locale: defaultLanguage,
+  messages: {
+    ja,
+    en,
+  },
+}
+````
+
+## File: layers/main/playwright.config.ts
+````typescript
+// playwright.config.ts（nuxt.config.ts と同じ階層に置く）
+import { defineConfig } from '@playwright/test'
+
+export default defineConfig({
+  testDir: './app/test/e2e',
+  snapshotDir: './app/test/e2e/snapshots',
+  use: {
+    baseURL: 'http://localhost:3000',
+  },
+})
+````
+
 ## File: layers/main/i18n/locales/en.json
 ````json
 {
   "viewAll" : "view all",
+  "page": {
+    "top": "TOP"
+  },
   "sectionTitle": {
     "about": "What is VketReal in Sapporo?",
     "exhibitorInfo": "Exhibitor Information",
@@ -566,7 +585,9 @@ function getProduction(envType: EnvType) {
     "schedule" : "Event Schedule",
     "locationInfo" : "Venue Information",
     "sponsorsAndPartners" : "Sponsors & Partners",
+    "members" : "members",
     "qa" : "FAQ",
+    "qa--min" : "FAQ",
     "contact" : "Contact Us"
   },
   "infoCard": {
@@ -603,72 +624,6 @@ function getProduction(envType: EnvType) {
     }
   }
 }
-````
-
-## File: layers/main/i18n/locales/ja.json
-````json
-{
-  "viewAll" : "すべて見る",
-  "sectionTitle": {
-    "about": "VketReal in 札幌とは",
-    "exhibitorInfo": "出展者案内",
-    "participationGuide" : "参加案内",
-    "news" : "お知らせ",
-    "contents" : "企画・コンテンツ",
-    "schedule" : "開催スケジュール",
-    "locationInfo" : "会場情報",
-    "sponsorsAndPartners" : "ご協力",
-    "qa" : "よくある質問",
-    "contact" : "お問い合わせ"
-  },
-  "infoCard": {
-    "venue": {
-      "title": "会場概要",
-      "items": {
-        "venueName": {
-          "label": "会場名",
-          "text": "アスティ45 4F アスティホール"
-        },
-        "address": {
-          "label": "住所",
-          "text": "〒060-0004 {br}北海道札幌市中央区北4条西5丁目1"
-        },
-        "access": {
-          "label": "アクセス",
-          "text": "地下鉄さっぽろ駅より地下鉄直結・徒歩3分{br}JR札幌駅南口より徒歩5分"
-        }
-      }
-    }
-  },
-  "contents": {
-    "1": {
-      "title": "パラリアルクリエイター in SAPPORO",
-      "text": "VRクリエイターによるグッズ展示・即売コーナー"
-    }
-  },
-  "news": {
-    "1": {
-      "title": "ロゴマークを公開しました！"
-    },
-    "2": {
-      "title": "キービジュアルを公開しました！"
-    }
-  }
-}
-````
-
-## File: layers/main/playwright.config.ts
-````typescript
-// playwright.config.ts（nuxt.config.ts と同じ階層に置く）
-import { defineConfig } from '@playwright/test'
-
-export default defineConfig({
-  testDir: './app/test/e2e',
-  snapshotDir: './app/test/e2e/snapshots',
-  use: {
-    baseURL: 'http://localhost:3000',
-  },
-})
 ````
 
 ## File: layers/main/nuxt.config.ts
@@ -752,6 +707,7 @@ export default defineNuxtConfig({
           type: 'image/x-icon',
           href: `${runtimeConfig.public.url}/favicon.ico`,
         },
+        { rel: 'manifest', href: '/site.webmanifest' },
       ],
     },
   },
@@ -820,16 +776,16 @@ export default defineNuxtConfig({
     },
   },
 
-  nitro: {
-    preset: 'cloudflare_pages',
-  },
-
   sourcemap: {
     server: needSourcemap,
     client: needSourcemap,
   },
 
   compatibilityDate: '2024-04-03',
+
+  nitro: {
+    preset: 'cloudflare_pages',
+  },
 
   typescript: {
     typeCheck: checkTypeCheckOnBuild,
@@ -847,6 +803,63 @@ export default defineNuxtConfig({
 
   i18n: nuxtI18nOptions,
 })
+````
+
+## File: layers/main/i18n/locales/ja.json
+````json
+{
+  "viewAll" : "すべて見る",
+  "page": {
+    "top": "TOPページ"
+  },
+  "sectionTitle": {
+    "about": "VketReal in 札幌とは",
+    "exhibitorInfo": "出展者案内",
+    "participationGuide" : "参加案内",
+    "news" : "お知らせ",
+    "contents" : "企画・コンテンツ",
+    "schedule" : "開催スケジュール",
+    "locationInfo" : "会場情報",
+    "sponsorsAndPartners" : "ご協力",
+    "members" : "有志メンバー",
+    "qa" : "よくある質問",
+    "qa--min" : "Q&A",
+    "contact" : "お問い合わせ"
+  },
+  "infoCard": {
+    "venue": {
+      "title": "会場概要",
+      "items": {
+        "venueName": {
+          "label": "会場名",
+          "text": "アスティ45 4F アスティホール"
+        },
+        "address": {
+          "label": "住所",
+          "text": "〒060-0004 {br}北海道札幌市中央区北4条西5丁目1"
+        },
+        "access": {
+          "label": "アクセス",
+          "text": "地下鉄さっぽろ駅より地下鉄直結・徒歩3分{br}JR札幌駅南口より徒歩5分"
+        }
+      }
+    }
+  },
+  "contents": {
+    "1": {
+      "title": "パラリアルクリエイター in SAPPORO",
+      "text": "VRクリエイターによるグッズ展示・即売コーナー"
+    }
+  },
+  "news": {
+    "1": {
+      "title": "新ロゴマークを公開しました！"
+    },
+    "2": {
+      "title": "キービジュアルを公開しました！"
+    }
+  }
+}
 ````
 
 ## File: layers/main/package.json

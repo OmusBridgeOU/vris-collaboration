@@ -1,20 +1,3 @@
-<i18n lang="yaml">
-ja:
-  nav:
-    about: イベントについて
-    individualParticipant: 一般参加
-    clubParticipant: サークル参加
-    listOfClubs: サークル一覧
-    qa: よくある質問
-en:
-  nav:
-    about: About VketReal in SAPPORO
-    individualParticipant: Individual Participant
-    clubParticipant: Club Participant
-    listOfClubs: List of Clubs
-    qa: FAQ
-</i18n>
-
 <template>
   <div class="layout">
     <div class="layout-bg">
@@ -43,11 +26,7 @@ import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 const { t } = useI18n()
 
 const navLinks = computed<NavLink[]>(() => [
-  { type: 'link', href: '/#about', text: t('nav.about') },
-  // { type: 'link', href: '/#individual-participant', text: t('nav.individualParticipant') },
-  { type: 'link', href: '/#participation-guide', text: t('nav.clubParticipant') },
-  { type: 'link', href: '/#participation-guide', text: t('nav.listOfClubs') },
-  { type: 'link', href: '/#qa', text: t('nav.qa') },
+  { type: 'link', href: '/', text: t('page.top') },
 ])
 
 const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()

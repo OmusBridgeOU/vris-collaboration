@@ -1,44 +1,3 @@
-<i18n lang="yaml">
-ja:
-  nav:
-    about: イベントについて
-    individualParticipant: 一般参加
-    clubParticipant: サークル参加
-    listOfClubs: サークル一覧
-    qa: よくある質問
-    # top: TOPページ
-    # quickAccess: 参加者向け重要情報
-    # news: お知らせ
-    # contents: 企画・コンテンツ
-    # schedule: 開催スケジュール
-    # exhibition: 出展情報
-    # access: アクセス
-    # ticket: チケット
-    # codeOfConduct: 行動規範
-    # relatedEvents: 関連イベント
-    # sponsorsAndPartners: ご協力
-    # contact: お問い合わせ
-en:
-  nav:
-    about: About VketReal in SAPPORO
-    individualParticipant: Individual Participant
-    clubParticipant: Club Participant
-    listOfClubs: List of Clubs
-    qa: FAQ
-    # top: Top
-    # quickAccess: Key Information
-    # news: News
-    # contents: Contents
-    # schedule: Schedule
-    # exhibition: Exhibition
-    # access: Access
-    # ticket: Tickets
-    # codeOfConduct: Code of Conduct
-    # relatedEvents: Related Events
-    # sponsorsAndPartners: Partners
-    # contact: Contact
-</i18n>
-
 <template>
   <div class="layout -top">
     <HoTheHeader :nav-links="navLinks" />
@@ -57,13 +16,13 @@ import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 const { t } = useI18n()
 
 const navLinks = computed<NavLink[]>(() => [
-  { type: 'anchor', href: 'about', text: t('nav.about') },
-  { type: 'anchor', href: 'participation-guide', text: t('nav.individualParticipant') },
-  { type: 'anchor', href: 'participation-guide', text: t('nav.clubParticipant') },
-  { type: 'anchor', href: 'qa', text: t('nav.qa') },
+  { type: 'anchor', href: 'exhibitor-info', text: t('sectionTitle.exhibitorInfo') },
+  { type: 'anchor', href: 'contents', text: t('sectionTitle.contents') },
+  { type: 'anchor', href: 'location-info', text: t('sectionTitle.locationInfo') },
+  { type: 'anchor', href: 'qa', text: t('sectionTitle.qa--min') },
 ])
 
-const { firstViewBlur, headerRevealOnScroll, destroyScrollTriggers } = useGsapFadeIn()
+const { firstViewBlur, destroyScrollTriggers } = useGsapFadeIn()
 const route = useRoute()
 
 onMounted(async () => {
@@ -82,15 +41,11 @@ onUnmounted(() => {
 
 const initScrollEffects = async () => {
   const firstView = document.querySelector('#gsap-fv')
-  const header = document.querySelector('#gsap-header')
-
-  if (!header) return
 
   // #first-viewがないページ（トップ以外）では実行しない
   if (!firstView) return
 
   firstViewBlur(firstView)
-  headerRevealOnScroll(header, firstView)
 
   // DOM更新が完了したタイミングでレイアウトを再計算
   await nextTick()

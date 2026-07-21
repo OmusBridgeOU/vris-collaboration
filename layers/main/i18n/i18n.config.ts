@@ -37,12 +37,14 @@ export const nuxtI18nOptions: NuxtI18nOptions = {
   locales: [
     {
       code: jaLanguage,
+      name: '日本語',
       language: 'ja-JP',
       file: 'ja.json',
       isCatchallLocale: true,
     },
     {
       code: enLanguage,
+      name: 'English',
       language: 'en-US',
       file: 'en.json',
     },

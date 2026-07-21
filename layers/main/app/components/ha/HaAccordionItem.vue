@@ -60,29 +60,29 @@ const toggle = (id: number) => {
 .accordion {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 
   width: 100%;
   max-width: 760px;
   height: fit-content;
   margin: 0 auto;
-  padding: 70px 36px;
+  padding: 48px 32px;
 
   background-color: rgb(18 33 59 / 60%);
 
   @include m.tb {
-    padding: 48px 24px;
+    padding: 32px 24px;
     border-radius: 20px;
   }
 
   @include m.sp {
-    padding: 32px 16px;
+    padding: 24px 16px;
   }
 }
 
 .accordion-item {
   width: 100%;
-  padding: 40px;
+  padding: 32px 24px;
 
   background-color: rgb(42 63 99 / 0%);
   mix-blend-mode: plus-lighter;
@@ -107,13 +107,16 @@ const toggle = (id: number) => {
   }
 
   &__label {
-    font-size: 20px;
+    font-size: 28px;
     font-weight: 700;
+    line-height: 20px;
     color: #258966;
     white-space: nowrap;
+    vertical-align: baseline;
 
     @include m.sp {
-      font-size: 16px;
+      font-size: 20px;
+      line-height: 12px;
     }
   }
 
@@ -143,23 +146,21 @@ const toggle = (id: number) => {
   &__body {
     display: grid;
     grid-template-rows: 0fr;
-    padding-top: 0;
-    transition: padding 0.3s ease, grid-template-rows 0.3s ease;
+    margin-top: 0;
+    transition: margin 0.3s ease, grid-template-rows 0.3s ease;
   }
 
   &__inner {
     overflow: hidden;
 
-    padding-left: 44px;
+    margin-left: 44px;
 
     font-size: 16px;
-    font-weight: 700;
     color: white;
     text-align: left;
 
     @include m.sp {
       font-size: 12px;
-      font-weight: normal;
     }
   }
 
@@ -172,10 +173,10 @@ const toggle = (id: number) => {
 
     .accordion-item__body {
       grid-template-rows: 1fr;
-      padding-top: 80px;
+      margin-top: 24px;
 
       @include m.sp {
-        padding-top: 32px;
+        margin-top: 16px;
       }
     }
   }

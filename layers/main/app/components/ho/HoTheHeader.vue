@@ -8,11 +8,11 @@ en:
 </i18n>
 
 <template>
-  <div
+  <header
     id="gsap-header"
-    class="header__wrapper"
+    class="ho-the-header"
   >
-    <header class="ho-the-header">
+    <div class="ho-the-header__inner">
       <div class="ho-the-header__left glassy-box-4 glassy-box-4--radius-full none-hover-animation">
         <a
           href="/"
@@ -32,6 +32,26 @@ en:
             class="ho-the-header__right glassy-box-4 none-hover-animation ho-the-header__accordion"
             :class="{ 'is-open': isPanelOpen }"
           >
+            <div class="ho-the-header__hamburger-wrapper">
+              <HaLanguageSwitcher />
+              <button
+                class="ho-the-header__hamburger"
+                :aria-label="isPanelOpen ? 'メニューを閉じる' : 'メニューを開く'"
+                :aria-expanded="isPanelOpen"
+                @click="isPanelOpen = !isPanelOpen"
+              >
+                <HaHamburgerIcon
+                  v-show="!isPanelOpen"
+                  class="ho-the-header__hamburger-icon"
+                  :class="{ 'is-open': isPanelOpen }"
+                />
+                <HaCloseIcon
+                  v-show="isPanelOpen"
+                  class="ho-the-header__hamburger-icon"
+                  :class="{ 'is-open': isPanelOpen }"
+                />
+              </button>
+            </div>
             <div class="ho-the-header__accordion-body">
               <nav class="ho-the-header__accordion-nav">
                 <ul class="ho-the-header__accordion-ul">
@@ -56,25 +76,6 @@ en:
                   </li>
                 </ul>
               </nav>
-            </div>
-            <div class="ho-the-header__hamburger-wrapper">
-              <button
-                class="ho-the-header__hamburger"
-                :aria-label="isPanelOpen ? 'メニューを閉じる' : 'メニューを開く'"
-                :aria-expanded="isPanelOpen"
-                @click="isPanelOpen = !isPanelOpen"
-              >
-                <HaHamburgerIcon
-                  v-show="!isPanelOpen"
-                  class="ho-the-header__hamburger-icon"
-                  :class="{ 'is-open': isPanelOpen }"
-                />
-                <HaCloseIcon
-                  v-show="isPanelOpen"
-                  class="ho-the-header__hamburger-icon"
-                  :class="{ 'is-open': isPanelOpen }"
-                />
-              </button>
             </div>
           </div>
         </div>
@@ -102,18 +103,19 @@ en:
             </li>
           </ul>
         </nav>
+        <HaLanguageSwitcher />
       </div>
-    </header>
-    <div
-      class="maintenance-banner"
-      role="status"
-      aria-live="polite"
-    >
-      <span class="maintenance-banner__track">
-        <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
-        <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
-      </span>
     </div>
+  </header>
+  <div
+    class="maintenance-banner"
+    role="status"
+    aria-live="polite"
+  >
+    <span class="maintenance-banner__track">
+      <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
+      <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
+    </span>
   </div>
 </template>
 
@@ -122,6 +124,7 @@ import { ref } from 'vue'
 import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
 import HaAnchorLink from '../ha/HaAnchorLink.vue'
 import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
+import HaLanguageSwitcher from '../ha/HaLanguageSwitcher.vue'
 
 const { t } = useI18n()
 
@@ -140,25 +143,9 @@ const isPanelOpen = ref(false)
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.header__wrapper {
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: v.$vket-header-height-pc;
-  padding: 40px 16px;
-
-  @include m.tb {
-    height: v.$vket-header-height-tb;
-    padding: 28px 16px;
-  }
-
-  @include m.sp {
-    height: v.$vket-header-height-sp;
-  }
-}
+$vket-header-height-pc--real: v.$vket-header-height-pc - v.$vket-header-vertical-padding-pc * 2;
+$vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical-padding-tb * 2;
+$vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical-padding-sp * 2;
 
 .maintenance-banner {
   position: fixed;
@@ -200,17 +187,49 @@ const isPanelOpen = ref(false)
 }
 
 .ho-the-header {
-  position: relative;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
 
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: center;
 
   box-sizing: border-box;
-  width: 100%;
-  max-width: calc(1600px - 136px * 2); // FIXME: 1600px(メインコンテンツのmax-width) - 136*2(メインコンテンツのpadding-x)をハードコーディングしてしまっている
-  height: 100%;
-  margin: 0 auto;
+  width: 100svw;
+  height: fit-content;
+  margin: v.$vket-header-vertical-padding-pc auto 0;
+  padding: 0 v.$pc-content-body-padding;
+
+  @include m.tb {
+    margin-top: v.$vket-header-vertical-padding-tb;
+    padding: 0 24px;
+  }
+
+  @include m.sp {
+    padding: 0 16px;
+  }
+
+  &__inner {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    width: 100%;
+    max-width: v.$pc-content-body-width - v.$pc-content-body-padding * 2;
+    height: $vket-header-height-pc--real;
+
+    @include m.tb {
+      height: $vket-header-height-tb--real;
+    }
+
+    @include m.sp {
+      height: $vket-header-height-sp--real;
+    }
+  }
 
   &__left {
     display: flex;
@@ -221,6 +240,8 @@ const isPanelOpen = ref(false)
     padding-right: 32px;
     padding-left: 32px;
 
+    box-shadow: inset rgb(22 0 120 / 30%) 0 0 12px 0;
+
     @include m.tb {
       padding-right: 24px;
       padding-left: 24px;
@@ -229,13 +250,17 @@ const isPanelOpen = ref(false)
 
   &__right {
     display: flex;
+    gap: 24px;
     align-items: center;
 
     height: 100%;
-    padding-right: 40px;
-    padding-left: 40px;
+    padding-right: 24px;
+    padding-left: 32px;
+
+    box-shadow: inset rgb(22 0 120 / 20%) 0 0 12px 0;
 
     @include m.tb {
+      gap: 0;
       padding-right: 24px;
       padding-left: 24px;
     }
@@ -296,7 +321,8 @@ const isPanelOpen = ref(false)
 
   &__accordion {
     display: none;
-    align-items: start;
+    flex-direction: column;
+    align-items: end;
 
     width: fit-content;
     height: fit-content;
@@ -329,7 +355,7 @@ const isPanelOpen = ref(false)
       flex-direction: column;
 
       margin: 0;
-      padding: 36px 0 14px;
+      padding: 12px;
 
       list-style: none;
     }
@@ -347,6 +373,8 @@ const isPanelOpen = ref(false)
   }
 
   &__hamburger-wrapper {
+    display: flex;
+    align-items: center;
     padding: 7px;
   }
 
@@ -371,6 +399,13 @@ const isPanelOpen = ref(false)
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .maintenance-banner__track {
+    padding-left: 0;
+    animation: none;
+  }
+}
+
 @keyframes maintenance-marquee {
   0% {
     transform: translate(0, 0);
@@ -378,13 +413,6 @@ const isPanelOpen = ref(false)
 
   100% {
     transform: translate(-100%, 0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .maintenance-banner__track {
-    padding-left: 0;
-    animation: none;
   }
 }
 </style>

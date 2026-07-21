@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import HaNoteIcon from '../ha/icons/HaNoteIcon.vue'
 import HaXIcon from '../ha/icons/HaXIcon.vue'
 
 const { t } = useI18n()
@@ -48,21 +49,30 @@ en:
           >出展規約</NuxtLink>
         </nav> -->
       </div>
-      <a
-        href="https://x.com/vketreal_vris"
-        target="blank"
-        rel="noopener noreferrer"
-        class="footer__x-logo"
-      >
-        <HaXIcon />
-      </a>
+      <div class="footer__right">
+        <a
+          href="https://x.com/vketreal_vris"
+          target="blank"
+          rel="noopener noreferrer"
+          class="footer__sns-logo"
+        >
+          <HaXIcon />
+        </a>
+        <div class="footer__logo-divider" />
+        <a
+          href="https://note.com/vris"
+          target="blank"
+          rel="noopener noreferrer"
+          class="footer__sns-logo"
+        >
+          <HaNoteIcon class="footer__scaled-logo" />
+        </a>
+      </div>
     </div>
     <div class="footer__divider" />
-    <div class="footer__lower">
-      <p class="footer__copy">
-        🄫 2026 VketReal in 札幌 実行委員会. All rights reserved.
-      </p>
-    </div>
+    <p class="footer__copy">
+      &copy; 2026 VketReal in 札幌 実行委員会. All rights reserved.
+    </p>
   </footer>
 </template>
 
@@ -132,25 +142,44 @@ en:
     background-color: #8f8f8f;
   }
 
-  &__x-logo {
-    width: 30px;
+  &__right {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    height: 32px;
 
     @include m.sp {
-      width: 16px;
+      gap: 16px;
+      height: 24px;
     }
   }
 
-  &__lower {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 78px;
+  &__logo-divider {
+    width: 1px;
+    height: 100%;
+    background-color: white;
+  }
+
+  &__sns-logo {
+    height: 100%;
+
+    svg {
+      height: 100%;
+    }
+  }
+
+  &__scaled-logo {
+    pointer-events: none;
+    transform:scale(1.8);
   }
 
   &__copy {
+    padding: 32px 0;
+
     font-family: Inter, sans-serif;
     font-size: 12px;
     color: white;
+    text-align: center;
 
     @include m.sp {
       font-size: 8px;
