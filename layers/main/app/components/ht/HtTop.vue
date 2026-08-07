@@ -38,6 +38,10 @@ en:
           <HtContentsSection />
         </section>
 
+        <section id="exhibitor-circles">
+          <HtExhibitorCirclesSection />
+        </section>
+
         <section id="schedule">
           <HtScheduleSection />
         </section>
@@ -78,6 +82,7 @@ import HtAboutSection from './HtAboutSection.vue'
 import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
 import HtNewsSection from './HtNewsSection.vue'
 import HtContentsSection from './HtContentsSection.vue'
+import HtExhibitorCirclesSection from './HtExhibitorCirclesSection.vue'
 import HtAccessSection from './HtAccessSection.vue'
 import HtScheduleSection from './HtScheduleSection.vue'
 import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
