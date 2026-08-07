@@ -11,14 +11,14 @@ const items = computed(() => [
   {
     id: 1,
     title: tGlobal('news.1.title'),
-    href: 'https://archived.vris.jp/',
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
     imgSrc: '/news1_thumbnail.png',
     timestamp: '2026-06-06',
   },
   {
     id: 2,
     title: tGlobal('news.2.title'),
-    href: 'https://archived.vris.jp/',
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
     imgSrc: '/news2_thumbnail.png',
     timestamp: '2026-06-01',
   },

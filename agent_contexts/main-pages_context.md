@@ -414,7 +414,7 @@ const items = computed(() => [
     id: 1,
     title: tGlobal('contents.1.title'),
     imgSrc: '',
-    href: 'https://archived.vris.jp/',
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
     text: tGlobal('contents.1.text'),
   },
 ])
@@ -547,8 +547,8 @@ const items = computed(() => [
 ## File: layers/main/app/pages/news/index.vue
 ```vue
 <script lang="ts" setup>
-import HaPageTitle from '~/components/ha/HaPageTitle.vue'
 import HaNewsCard from '~/components/ha/HaNewsCard.vue'
+import HaPageTitle from '~/components/ha/HaPageTitle.vue'
 
 definePageMeta({
   layout: 'list',
@@ -560,14 +560,14 @@ const items = computed(() => [
   {
     id: 1,
     title: tGlobal('news.1.title'),
-    href: 'https://archived.vris.jp/',
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
     imgSrc: '/news1_thumbnail.png',
     timestamp: '2026-06-06',
   },
   {
     id: 2,
     title: tGlobal('news.2.title'),
-    href: 'https://archived.vris.jp/',
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
     imgSrc: '/news2_thumbnail.png',
     timestamp: '2026-06-01',
   },
@@ -715,6 +715,7 @@ const { t } = useI18n()
 const navLinks = computed<NavLink[]>(() => [
   { type: 'anchor', href: 'exhibitor-info', text: t('sectionTitle.exhibitorInfo') },
   { type: 'anchor', href: 'contents', text: t('sectionTitle.contents') },
+  { type: 'anchor', href: 'exhibitor-circles', text: t('sectionTitle.exhibitorCircles') },
   { type: 'anchor', href: 'location-info', text: t('sectionTitle.locationInfo') },
   { type: 'anchor', href: 'qa', text: t('sectionTitle.qa--min') },
 ])

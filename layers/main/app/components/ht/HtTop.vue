@@ -22,10 +22,6 @@ en:
           <HtAboutSection />
         </section>
 
-        <section id="exhibitor-info">
-          <HtExhibitorInfoSection />
-        </section>
-
         <section id="participation-guide">
           <HtParticipationGuide />
         </section>
@@ -48,6 +44,10 @@ en:
 
         <section id="location-info">
           <HtAccessSection />
+        </section>
+
+        <section id="exhibitor-info">
+          <HtExhibitorInfoSection />
         </section>
 
         <section id="sponsors-and-partners">
@@ -77,22 +77,22 @@ en:
 // import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
 // import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
 // import HtTicketSection from './HtTicketSection.vue'
-import HtHeroSection from './HtHeroSection.vue'
 import HtAboutSection from './HtAboutSection.vue'
-import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
-import HtNewsSection from './HtNewsSection.vue'
+import HtAccessSection from './HtAccessSection.vue'
+import HtContactSection from './HtContactSection.vue'
 import HtContentsSection from './HtContentsSection.vue'
 import HtExhibitorCirclesSection from './HtExhibitorCirclesSection.vue'
-import HtAccessSection from './HtAccessSection.vue'
+import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
+import HtHeroSection from './HtHeroSection.vue'
+import HtNewsSection from './HtNewsSection.vue'
+import HtQandASection from './HtQandASection.vue'
 import HtScheduleSection from './HtScheduleSection.vue'
 import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
-import HtQandASection from './HtQandASection.vue'
-import HtContactSection from './HtContactSection.vue'
 
-import HaFireworks from '../ha/HaFireworks.vue'
 import HaConfetti from '../ha/HaConfetti.vue'
-import HtParticipationGuide from './HtParticipationGuide.vue'
+import HaFireworks from '../ha/HaFireworks.vue'
 import HtMemberSection from './HtMemberSection.vue'
+import HtParticipationGuide from './HtParticipationGuide.vue'
 </script>
 
 <style lang="scss" scoped>

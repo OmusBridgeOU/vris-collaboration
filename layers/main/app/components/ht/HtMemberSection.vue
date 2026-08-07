@@ -129,7 +129,7 @@ const items = computed(() => [
   {
     id: 9,
     name: 'Tsubaki',
-    iconUrl: '/member-icons/tsubaki.webp',
+    iconUrl: '/member-icons/tsubaki.jpeg',
     role: t('roles.dayOfOperations'),
     xLink: 'https://x.com/Tsubaki_HIUVR',
     instagramLink: '',

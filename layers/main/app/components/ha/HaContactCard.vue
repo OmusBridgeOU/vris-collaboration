@@ -9,7 +9,7 @@
       {{ title }}
     </p>
     <div class="jump-to-form__flex">
-      <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
+      <span class="jump-to-form__text jump-to-form__text-underline" />
       <HaJumpToPageIcon class="jump-to-form__icon" />
     </div>
   </a>

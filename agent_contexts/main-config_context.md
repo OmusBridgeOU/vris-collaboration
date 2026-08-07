@@ -389,91 +389,6 @@ export default defineAppConfig(
 }
 ````
 
-## File: layers/main/config/runtimeConfig.ts
-````typescript
-/**
- * nuxt.config.tsのためのモジュール。
- *
- * @packageDocumentation
- */
-
-import type { EnvType } from './models/EnvType'
-
-export function getRuntimeConfigOfEnvType(envType: EnvType) {
-  switch (envType) {
-    case 'local':
-      return getLocal(envType)
-    case 'development':
-      return getDevelopment(envType)
-    case 'staging':
-      return getStaging(envType)
-    case 'production':
-      return getProduction(envType)
-  }
-}
-
-const commonPrivate = {} as const
-
-const commonPublic = {
-  gtmId: 'GTM-XXXXXXX',
-  apiPrefix: process.env.NUXT_API_PREFIX ?? '/api/v1',
-} as const
-
-function getLocal(envType: EnvType) {
-  return {
-    ...commonPrivate,
-
-    public: {
-      ...commonPublic,
-      outputEnv: envType,
-      url: 'http://localhost:3000',
-      baseUrl: 'http://localhost:3000',
-      httpBinUrl: 'http://localhost:3003',
-    },
-  } as const
-}
-
-function getDevelopment(envType: EnvType) {
-  return {
-    ...commonPrivate,
-
-    public: {
-      ...commonPublic,
-      outputEnv: envType,
-      url: 'http://localhost:3000',
-      baseUrl: 'http://localhost:3000',
-    },
-  } as const
-}
-
-function getStaging(envType: EnvType) {
-  return {
-    ...commonPrivate,
-
-    public: {
-      ...commonPublic,
-      outputEnv: envType,
-      url: '',
-      baseUrl: '',
-    },
-  } as const
-}
-
-function getProduction(envType: EnvType) {
-  return {
-    ...commonPrivate,
-
-    public: {
-      ...commonPublic,
-      gtmId: 'GTM-XXXXXXX',
-      outputEnv: envType,
-      url: 'https://vris.jp',
-      baseUrl: 'https://vris.jp',
-    },
-  } as const
-}
-````
-
 ## File: layers/main/i18n/i18n.config.ts
 ````typescript
 /*
@@ -566,6 +481,91 @@ export default defineConfig({
     baseURL: 'http://localhost:3000',
   },
 })
+````
+
+## File: layers/main/config/runtimeConfig.ts
+````typescript
+/**
+ * nuxt.config.tsのためのモジュール。
+ *
+ * @packageDocumentation
+ */
+
+import type { EnvType } from './models/EnvType'
+
+export function getRuntimeConfigOfEnvType(envType: EnvType) {
+  switch (envType) {
+    case 'local':
+      return getLocal(envType)
+    case 'development':
+      return getDevelopment(envType)
+    case 'staging':
+      return getStaging(envType)
+    case 'production':
+      return getProduction(envType)
+  }
+}
+
+const commonPrivate = {} as const
+
+const commonPublic = {
+  gtmId: 'GTM-XXXXXXX',
+  apiPrefix: process.env.NUXT_API_PREFIX ?? '/api/v1',
+} as const
+
+function getLocal(envType: EnvType) {
+  return {
+    ...commonPrivate,
+
+    public: {
+      ...commonPublic,
+      outputEnv: envType,
+      url: 'http://localhost:3000',
+      baseUrl: 'http://localhost:3000',
+      httpBinUrl: 'http://localhost:3003',
+    },
+  } as const
+}
+
+function getDevelopment(envType: EnvType) {
+  return {
+    ...commonPrivate,
+
+    public: {
+      ...commonPublic,
+      outputEnv: envType,
+      url: 'http://localhost:3000',
+      baseUrl: 'http://localhost:3000',
+    },
+  } as const
+}
+
+function getStaging(envType: EnvType) {
+  return {
+    ...commonPrivate,
+
+    public: {
+      ...commonPublic,
+      outputEnv: envType,
+      url: '',
+      baseUrl: '',
+    },
+  } as const
+}
+
+function getProduction(envType: EnvType) {
+  return {
+    ...commonPrivate,
+
+    public: {
+      ...commonPublic,
+      gtmId: 'GTM-XXXXXXX',
+      outputEnv: envType,
+      url: 'https://vris.jp',
+      baseUrl: 'https://vris.jp',
+    },
+  } as const
+}
 ````
 
 ## File: layers/main/nuxt.config.ts
@@ -760,6 +760,7 @@ export default defineNuxtConfig({
     "participationGuide" : "Participation Guide",
     "news" : "News",
     "contents" : "Programs & Contents",
+    "exhibitorCircles" : "Exhibiting Circles",
     "schedule" : "Event Schedule",
     "locationInfo" : "Venue Information",
     "sponsorsAndPartners" : "Sponsors & Partners",
@@ -817,6 +818,7 @@ export default defineNuxtConfig({
     "participationGuide" : "参加案内",
     "news" : "お知らせ",
     "contents" : "企画・コンテンツ",
+    "exhibitorCircles" : "出展サークル一覧",
     "schedule" : "開催スケジュール",
     "locationInfo" : "会場情報",
     "sponsorsAndPartners" : "ご協力",

@@ -13,7 +13,7 @@ const items = computed(() => [
     id: 1,
     title: tGlobal('contents.1.title'),
     imgSrc: '',
-    href: 'https://archived.vris.jp/',
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
     text: tGlobal('contents.1.text'),
   },
 ])

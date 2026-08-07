@@ -93,6 +93,7 @@ layers/
           HaAboutCard.vue
           HaAccordionItem.vue
           HaAnchorLink.vue
+          HaCircleCard.vue
           HaCommingSoon.vue
           HaConductCard.vue
           HaConfetti.vue
@@ -131,6 +132,7 @@ layers/
           HtContentsSection.vue
           HtCrowdLevelsSection.vue
           HtExhibitionSection.vue
+          HtExhibitorCirclesSection.vue
           HtExhibitorInfoSection.vue
           HtHeroSection.vue
           HtMemberSection.vue
@@ -2031,6 +2033,56 @@ layers/
 </template>
 ```
 
+## File: layers/main/app/components/ha/HaCircleCard.vue
+```vue
+<script lang="ts" setup>
+defineProps<{
+  name: string
+}>()
+</script>
+
+<template>
+  <div class="glassy-box-4 glassy-box-4--radius-min circle-card">
+    <p class="circle-card__name">
+      {{ name }}
+    </p>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.circle-card{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  padding: 20px;
+
+  @include m.sp {
+    padding: 16px;
+  }
+
+  &__name {
+    width: 100%;
+
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: white;
+    text-align: center;
+    overflow-wrap: anywhere;
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ha/HaConductCard.vue
 ```vue
 <template>
@@ -2592,6 +2644,110 @@ defineProps<{
     @include m.sp {
       font-size: 20px;
       font-weight: normal;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtExhibitorCirclesSection.vue
+```vue
+<script setup lang="ts">
+import HaCircleCard from '@/components/ha/HaCircleCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.exhibitor-circles-section__grid-item')
+  fadeInUpStagger(Array.from(items))
+})
+
+const { t: tGlobal } = useI18n()
+
+const circles = [
+  'わんぱくおにぎり',
+  'Aquange - 羽澄愛',
+  'PoteSuto',
+  '赤糸の裁縫箱',
+  'ゆるくる工房',
+  '貧弱な描きおき部屋',
+  'しろの里',
+  'Interlunium（インテルニウム）',
+  'ようよう制作',
+  'わにちゃのおみせ',
+  'メタバースソーラン',
+  'てんまるぱせり、。',
+  'VketReal in 広島 実行委員会',
+  'まろに屋',
+  'やきなす00',
+  'AmasukaLabo',
+  'にんぎょのくるぶし',
+  'VRアートを楽しむ会',
+  '北海道大学メタバース研究会',
+  'メタバースパブリックラボ',
+  '北海道科学大学メタバースプロジェクト',
+  '北海道情報大学 湯村研究室',
+  'わくわく犬プール',
+  'VRホビーロボット集会',
+  'VRC 3Dスキャン同好会',
+  'v-entry.app',
+  'ひかるのノースランドCHANNEL',
+  'きっポジの遊び場',
+  'まいけるさんすたじお',
+  '#リアルサイズアバター写真展',
+  'SYNR',
+  'VRC Avatar Collection',
+]
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.exhibitorCircles')"
+      label="CIRCLES"
+    />
+    <div
+      ref="listRef"
+      class="exhibitor-circles-section__grid"
+    >
+      <div
+        v-for="circle in circles"
+        :key="circle"
+        class="exhibitor-circles-section__grid-item"
+      >
+        <HaCircleCard :name="circle" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.exhibitor-circles-section{
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 30px;
+    margin: 0 auto;
+
+    @include m.tb {
+      grid-template-columns: 1fr 1fr;
+      max-width: 720px;
+    }
+
+    @include m.sp {
+      grid-template-columns: 1fr;
+      max-width: 360px;
     }
   }
 }
@@ -4854,7 +5010,7 @@ const handleClick = () => {
       {{ title }}
     </p>
     <div class="jump-to-form__flex">
-      <span class="jump-to-form__text jump-to-form__text-underline">フォームへ</span>
+      <span class="jump-to-form__text jump-to-form__text-underline" />
       <HaJumpToPageIcon class="jump-to-form__icon" />
     </div>
   </a>
@@ -5829,7 +5985,7 @@ const items = computed(() => [
   {
     id: 9,
     name: 'Tsubaki',
-    iconUrl: '/member-icons/tsubaki.webp',
+    iconUrl: '/member-icons/tsubaki.jpeg',
     role: t('roles.dayOfOperations'),
     xLink: 'https://x.com/Tsubaki_HIUVR',
     instagramLink: '',
@@ -8020,10 +8176,10 @@ ja:
   overviewRow1Label: '出展費用'
   overviewRow1Value: '1スペース 3,000円'
   overviewRow2Label: '参加可能人数'
-  overviewRow2Value: '1スペースにつき2名'
+  overviewRow2Value: '1スペースにつき1名'
   overviewRow3Label: '出展内容'
   overviewRow3Value: 'グッズ・書籍頒布・作品展示など'
-  description: '今回のサークル募集は二回に分けて行います。{br1}二次申し込みについては一次申し込みの結果、出展枠に余裕がある場合のみ開催します。確実に出展したいという方は、ぜひ一次申し込み期間中にご応募ください。'
+  description: '出展サークルの募集は終了しました。たくさんのご応募、ありがとうございます。'
   primaryTitle: '一次申し込み（先着順）'
   primaryRow1Label: '募集期間'
   primaryRow1Value: '6月1日(月) ～ 6月18日(木)'
@@ -8040,10 +8196,10 @@ en:
   overviewRow1Label: 'Booth Fee'
   overviewRow1Value: '3,000 JPY per space'
   overviewRow2Label: 'Number of Participants'
-  overviewRow2Value: '2 people per space'
+  overviewRow2Value: '1 people per space'
   overviewRow3Label: 'Exhibition Content'
   overviewRow3Value: 'Goods, books, artwork display, etc.'
-  description: 'This time, circle applications will be accepted in two rounds.{br1}The second round will only be held if there are remaining spaces{br2}after the results of the first round.{br3}If you would like to secure a spot, we recommend applying during the first round.'
+  description: 'Applications for exhibitor circles are now closed. Thank you very much for all your applications.'
   primaryTitle: 'First Round{br}(First-Come, First-Served)'
   primaryRow1Label: 'Application Period'
   primaryRow1Value: 'Mon, June 1 - Thu, June 18'
@@ -8597,7 +8753,7 @@ const items = computed(() => [
     id: 1,
     title: t('contents.1.title'),
     imgSrc: '',
-    href: 'https://archived.vris.jp/',
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
     text: t('contents.1.text'),
   },
 ])
@@ -9103,14 +9259,14 @@ const items = computed(() => [
   {
     id: 1,
     title: tGlobal('news.1.title'),
-    href: 'https://archived.vris.jp/',
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
     imgSrc: '/news1_thumbnail.png',
     timestamp: '2026-06-06',
   },
   {
     id: 2,
     title: tGlobal('news.2.title'),
-    href: 'https://archived.vris.jp/',
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
     imgSrc: '/news2_thumbnail.png',
     timestamp: '2026-06-01',
   },
@@ -9727,10 +9883,6 @@ en:
           <HtAboutSection />
         </section>
 
-        <section id="exhibitor-info">
-          <HtExhibitorInfoSection />
-        </section>
-
         <section id="participation-guide">
           <HtParticipationGuide />
         </section>
@@ -9743,12 +9895,20 @@ en:
           <HtContentsSection />
         </section>
 
+        <section id="exhibitor-circles">
+          <HtExhibitorCirclesSection />
+        </section>
+
         <section id="schedule">
           <HtScheduleSection />
         </section>
 
         <section id="location-info">
           <HtAccessSection />
+        </section>
+
+        <section id="exhibitor-info">
+          <HtExhibitorInfoSection />
         </section>
 
         <section id="sponsors-and-partners">
@@ -9778,21 +9938,22 @@ en:
 // import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
 // import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
 // import HtTicketSection from './HtTicketSection.vue'
-import HtHeroSection from './HtHeroSection.vue'
 import HtAboutSection from './HtAboutSection.vue'
-import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
-import HtNewsSection from './HtNewsSection.vue'
-import HtContentsSection from './HtContentsSection.vue'
 import HtAccessSection from './HtAccessSection.vue'
+import HtContactSection from './HtContactSection.vue'
+import HtContentsSection from './HtContentsSection.vue'
+import HtExhibitorCirclesSection from './HtExhibitorCirclesSection.vue'
+import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
+import HtHeroSection from './HtHeroSection.vue'
+import HtNewsSection from './HtNewsSection.vue'
+import HtQandASection from './HtQandASection.vue'
 import HtScheduleSection from './HtScheduleSection.vue'
 import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
-import HtQandASection from './HtQandASection.vue'
-import HtContactSection from './HtContactSection.vue'
 
-import HaFireworks from '../ha/HaFireworks.vue'
 import HaConfetti from '../ha/HaConfetti.vue'
-import HtParticipationGuide from './HtParticipationGuide.vue'
+import HaFireworks from '../ha/HaFireworks.vue'
 import HtMemberSection from './HtMemberSection.vue'
+import HtParticipationGuide from './HtParticipationGuide.vue'
 </script>
 
 <style lang="scss" scoped>
