@@ -417,7 +417,6 @@ const commonPrivate = {} as const
 const commonPublic = {
   gtmId: 'GTM-XXXXXXX',
   apiPrefix: process.env.NUXT_API_PREFIX ?? '/api/v1',
-  archivedUrl: 'https://archived.vris.jp',
 } as const
 
 function getLocal(envType: EnvType) {
@@ -567,63 +566,6 @@ export default defineConfig({
     baseURL: 'http://localhost:3000',
   },
 })
-````
-
-## File: layers/main/i18n/locales/en.json
-````json
-{
-  "viewAll" : "view all",
-  "page": {
-    "top": "TOP"
-  },
-  "sectionTitle": {
-    "about": "What is VketReal in Sapporo?",
-    "exhibitorInfo": "Exhibitor Information",
-    "participationGuide" : "Participation Guide",
-    "news" : "News",
-    "contents" : "Programs & Contents",
-    "schedule" : "Event Schedule",
-    "locationInfo" : "Venue Information",
-    "sponsorsAndPartners" : "Sponsors & Partners",
-    "members" : "members",
-    "qa" : "FAQ",
-    "qa--min" : "FAQ",
-    "contact" : "Contact Us"
-  },
-  "infoCard": {
-    "venue": {
-      "title": "Venue",
-      "items": {
-        "venueName": {
-          "label": "Venue Name",
-          "text": "Asty45 4F Asty Hall"
-        },
-        "address": {
-          "label": "Address",
-          "text": "060-0004 {br}Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, Hokkaido"
-        },
-        "access": {
-          "label": "Access",
-          "text": "3 min walk from Sapporo Subway Station (direct underground access){br}5 min walk from JR Sapporo Station South Exit"
-        }
-      }
-    }
-  },
-  "contents": {
-    "1": {
-      "title": "ParaRealCreator in SAPPORO",
-      "text": "Goods Exhibition & Sale by VR Creators"
-    }
-  },
-  "news": {
-    "1": {
-      "title": "We have published our logo!"
-    },
-    "2": {
-      "title": "We have published our key visual!"
-    }
-  }
-}
 ````
 
 ## File: layers/main/nuxt.config.ts
@@ -803,6 +745,63 @@ export default defineNuxtConfig({
 
   i18n: nuxtI18nOptions,
 })
+````
+
+## File: layers/main/i18n/locales/en.json
+````json
+{
+  "viewAll" : "view all",
+  "page": {
+    "top": "TOP"
+  },
+  "sectionTitle": {
+    "about": "What is VketReal in Sapporo?",
+    "exhibitorInfo": "Exhibitor Information",
+    "participationGuide" : "Participation Guide",
+    "news" : "News",
+    "contents" : "Programs & Contents",
+    "schedule" : "Event Schedule",
+    "locationInfo" : "Venue Information",
+    "sponsorsAndPartners" : "Sponsors & Partners",
+    "members" : "members",
+    "qa" : "FAQ",
+    "qa--min" : "FAQ",
+    "contact" : "Contact Us"
+  },
+  "infoCard": {
+    "venue": {
+      "title": "Venue",
+      "items": {
+        "venueName": {
+          "label": "Venue Name",
+          "text": "Asty45 4F Asty Hall"
+        },
+        "address": {
+          "label": "Address",
+          "text": "060-0004 {br}Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, Hokkaido"
+        },
+        "access": {
+          "label": "Access",
+          "text": "3 min walk from Sapporo Subway Station (direct underground access){br}5 min walk from JR Sapporo Station South Exit"
+        }
+      }
+    }
+  },
+  "contents": {
+    "1": {
+      "title": "ParaRealCreator in SAPPORO",
+      "text": "Goods Exhibition & Sale by VR Creators"
+    }
+  },
+  "news": {
+    "1": {
+      "title": "We have published our logo!"
+    },
+    "2": {
+      "title": "We have published our key visual!"
+    }
+  }
+}
 ````
 
 ## File: layers/main/i18n/locales/ja.json

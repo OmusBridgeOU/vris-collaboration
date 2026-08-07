@@ -40,7 +40,6 @@ layers/
     app/
       middleware/
         .gitkeep
-        archive-redirect.global.ts
       plugins/
         gsap.client.ts
         gtm.client.ts
@@ -120,31 +119,6 @@ export default defineNuxtPlugin(() => {
       ScrollTrigger,
     },
   }
-})
-```
-
-## File: layers/main/app/middleware/archive-redirect.global.ts
-```typescript
-export default defineNuxtRouteMiddleware((to) => {
-  const runtimeConfig = useRuntimeConfig()
-
-  if (process.env.VITEST === 'true') {
-    return
-  }
-
-  const debugQuery = to.query.debug
-  const isDebug = Array.isArray(debugQuery)
-    ? debugQuery.includes('1')
-    : debugQuery === '1'
-
-  if (isDebug) {
-    return
-  }
-
-  return navigateTo(runtimeConfig.public.archivedUrl, {
-    external: true,
-    redirectCode: 302,
-  })
 })
 ```
 
