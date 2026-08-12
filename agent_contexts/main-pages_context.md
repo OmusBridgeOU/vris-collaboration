@@ -713,7 +713,7 @@ import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 const { t } = useI18n()
 
 const navLinks = computed<NavLink[]>(() => [
-  { type: 'anchor', href: 'exhibitor-info', text: t('sectionTitle.exhibitorInfo') },
+  { type: 'anchor', href: 'participation-guide', text: t('sectionTitle.participationGuide') },
   { type: 'anchor', href: 'contents', text: t('sectionTitle.contents') },
   { type: 'anchor', href: 'exhibitor-circles', text: t('sectionTitle.exhibitorCircles') },
   { type: 'anchor', href: 'location-info', text: t('sectionTitle.locationInfo') },
