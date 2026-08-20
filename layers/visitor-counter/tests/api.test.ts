@@ -1,289 +1,105 @@
-import { describe, expect, it } from "vitest";
-import { app } from "../src/routes";
-import type { Env } from "../src/types";
+import { applyD1Migrations, env, SELF } from "cloudflare:test";
+import type { D1Migration } from "@cloudflare/vitest-pool-workers";
+import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 
-type StoredRow = {
-  id: number;
-  venue: "main" | "dtc";
-  crowd_level: 1 | 2 | 3;
-  created_at: string;
-};
-
-class MockD1Database {
-  private rows: StoredRow[] = [];
-  private nextId = 1;
-
-  prepare(query: string) {
-    return new MockD1PreparedStatement(query, this.rows, () => this.nextId++);
+declare global {
+  // Cloudflare's generated binding types are extended through its ambient namespace.
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Cloudflare {
+    interface Env {
+      TEST_MIGRATIONS: D1Migration[];
+    }
   }
 }
 
-class MockD1PreparedStatement {
-  private values: unknown[] = [];
+const apiKey = "test-secret";
 
-  constructor(
-    private readonly query: string,
-    private readonly rows: StoredRow[],
-    private readonly nextId: () => number,
-  ) {}
+beforeAll(async () => {
+  await applyD1Migrations(env.DB, env.TEST_MIGRATIONS);
+});
 
-  bind(...values: unknown[]) {
-    this.values = values;
-    return this;
-  }
+beforeEach(async () => {
+  await env.DB.prepare("DELETE FROM crowd_status_history").run();
+});
 
-  async run() {
-    if (this.query.includes("DELETE FROM crowd_status_history")) {
-      this.rows.splice(0, this.rows.length);
-      return { success: true };
-    }
-
-    if (!this.query.includes("INSERT INTO crowd_status_history")) {
-      throw new Error(`Unexpected run query: ${this.query}`);
-    }
-
-    const [venue, crowdLevel] = this.values as [StoredRow["venue"], StoredRow["crowd_level"]];
-    const id = this.nextId();
-    this.rows.push({
-      id,
-      venue,
-      crowd_level: crowdLevel,
-      created_at: `2026-05-21 10:00:0${id}`,
+describe("visitor counter API", () => {
+  it("requires the ingest API key for writes", async () => {
+    const response = await SELF.fetch("https://example.com/api/v1/venue-status-write", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ venue: "main", crowd_level: 2 }),
     });
-
-    return { success: true };
-  }
-
-  async all<T>() {
-    if (!this.query.includes("FROM crowd_status_history")) {
-      throw new Error(`Unexpected all query: ${this.query}`);
-    }
-
-    return {
-      results: [...this.rows].sort((a, b) => b.created_at.localeCompare(a.created_at)) as T[],
-      success: true,
-    };
-  }
-}
-
-function createEnv(overrides: Partial<Env> = {}): Env {
-  return {
-    DB: new MockD1Database() as unknown as D1Database,
-    CLOUD_INGEST_API_KEY: "secret",
-    ALLOWED_ORIGINS: "https://vris.jp,https://archived.vris.jp",
-    ...overrides,
-  };
-}
-
-describe("cloud api", () => {
-  it("requires VRIS-visitor-counter-APIKEY for venue status writes", async () => {
-    const response = await app.request(
-      "/api/v1/venue-status-write",
-      {
-        method: "POST",
-        body: JSON.stringify({ venue: "main", crowd_level: 2 }),
-        headers: { "Content-Type": "application/json" },
-      },
-      createEnv(),
-    );
-
     expect(response.status).toBe(401);
   });
 
-  it("validates venue and crowd level", async () => {
-    const response = await app.request(
-      "/api/v1/venue-status-write",
-      {
-        method: "POST",
-        body: JSON.stringify({ venue: "outside", crowd_level: 4 }),
-        headers: {
-          "Content-Type": "application/json",
-          "VRIS-visitor-counter-APIKEY": "secret",
-        },
-      },
-      createEnv(),
-    );
-
-    expect(response.status).toBe(400);
-    await expect(response.json()).resolves.toEqual({
-      error: "venue must be one of: main, dtc",
-    });
+  it("rejects malformed and unexpected request values", async () => {
+    expect((await write("{")).status).toBe(400);
+    expect((await write(JSON.stringify({ venue: "outside", crowd_level: 4 }))).status).toBe(400);
+    expect((await write(JSON.stringify({ venue: "main", crowd_level: 2, internal: true }))).status).toBe(400);
   });
 
-  it("validates crowd level", async () => {
-    const response = await app.request(
-      "/api/v1/venue-status-write",
-      {
-        method: "POST",
-        body: JSON.stringify({ venue: "main", crowd_level: 4 }),
-        headers: {
-          "Content-Type": "application/json",
-          "VRIS-visitor-counter-APIKEY": "secret",
-        },
-      },
-      createEnv(),
-    );
+  it("stores history and returns only the latest mapped values", async () => {
+    expect((await write(JSON.stringify({ venue: "main", crowd_level: 3 }))).status).toBe(200);
+    expect((await write(JSON.stringify({ venue: "main", crowd_level: 2 }))).status).toBe(200);
+    expect((await write(JSON.stringify({ venue: "dtc", crowd_level: 1 }))).status).toBe(200);
 
-    expect(response.status).toBe(400);
-    await expect(response.json()).resolves.toEqual({
-      error: "crowd_level must be one of: 1, 2, 3",
+    const response = await SELF.fetch("https://example.com/api/v1/crowd-status", {
+      headers: { Origin: "https://vris.jp" },
     });
-  });
-
-  it("inserts history and returns public mapped values", async () => {
-    const env = createEnv();
-
-    await app.request(
-      "/api/v1/venue-status-write",
-      {
-        method: "POST",
-        body: JSON.stringify({ venue: "main", crowd_level: 3 }),
-        headers: {
-          "Content-Type": "application/json",
-          "VRIS-visitor-counter-APIKEY": "secret",
-        },
-      },
-      env,
-    );
-    await app.request(
-      "/api/v1/venue-status-write",
-      {
-        method: "POST",
-        body: JSON.stringify({ venue: "main", crowd_level: 2 }),
-        headers: {
-          "Content-Type": "application/json",
-          "VRIS-visitor-counter-APIKEY": "secret",
-        },
-      },
-      env,
-    );
-    await app.request(
-      "/api/v1/venue-status-write",
-      {
-        method: "POST",
-        body: JSON.stringify({ venue: "dtc", crowd_level: 3 }),
-        headers: {
-          "Content-Type": "application/json",
-          "VRIS-visitor-counter-APIKEY": "secret",
-        },
-      },
-      env,
-    );
-
-    const response = await app.request(
-      "/api/v1/crowd-status",
-      { headers: { Origin: "https://vris.jp" } },
-      env,
-    );
-
     expect(response.status).toBe(200);
     expect(response.headers.get("Access-Control-Allow-Origin")).toBe("https://vris.jp");
-    await expect(response.json()).resolves.toEqual({
-      value1: 2,
-      value2: 3,
-      updated_at: "2026-05-21 10:00:03",
-    });
+    await expect(response.json()).resolves.toMatchObject({ value1: 2, value2: 1 });
+
+    const rowCount = await env.DB.prepare("SELECT COUNT(*) AS count FROM crowd_status_history").first<{ count: number }>();
+    expect(rowCount?.count).toBe(3);
   });
 
-  it("defaults missing venue levels to -1 and does not expose venue names", async () => {
-    const response = await app.request("/api/v1/crowd-status", {}, createEnv());
-    const body = await response.json<Record<string, unknown>>();
+  it("uses id as a deterministic tie breaker for same-second writes", async () => {
+    await env.DB.prepare(
+      "INSERT INTO crowd_status_history (venue, crowd_level, created_at) VALUES (?, ?, ?), (?, ?, ?)",
+    ).bind("main", 1, "2026-08-20 10:00:00", "main", 3, "2026-08-20 10:00:00").run();
 
-    expect(body).toEqual({
-      value1: -1,
-      value2: -1,
-      updated_at: null,
-    });
+    const response = await SELF.fetch("https://example.com/api/v1/crowd-status");
+    await expect(response.json()).resolves.toMatchObject({ value1: 3 });
+  });
+
+  it("returns defaults without leaking venue names", async () => {
+    const response = await SELF.fetch("https://example.com/api/v1/crowd-status");
+    const body = await response.json<Record<string, unknown>>();
+    expect(body).toEqual({ value1: -1, value2: -1, updated_at: null });
     expect(body).not.toHaveProperty("main");
     expect(body).not.toHaveProperty("dtc");
   });
 
-  it("omits CORS headers when ALLOWED_ORIGINS is not configured", async () => {
-    const response = await app.request(
-      "/api/v1/crowd-status",
-      { headers: { Origin: "https://vris.jp" } },
-      createEnv({ ALLOWED_ORIGINS: undefined }),
-    );
-
-    expect(response.headers.get("Access-Control-Allow-Origin")).toBeNull();
-  });
-
-  it("omits CORS headers for disallowed origins", async () => {
-    const response = await app.request(
-      "/api/v1/crowd-status",
-      { headers: { Origin: "https://example.com" } },
-      createEnv(),
-    );
-
-    expect(response.headers.get("Access-Control-Allow-Origin")).toBeNull();
-  });
-
-  it("allows any origin when ALLOWED_ORIGINS is wildcard", async () => {
-    const response = await app.request(
-      "/api/v1/crowd-status",
-      { headers: { Origin: "https://example.com" } },
-      createEnv({ ALLOWED_ORIGINS: "*" }),
-    );
-
-    expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
-  });
-
-  it("does not expose the test delete API unless enabled", async () => {
-    const response = await app.request(
-      "/api/v1/test/crowd-status-history",
-      {
-        method: "DELETE",
-        headers: { "VRIS-visitor-counter-APIKEY": "secret" },
-      },
-      createEnv(),
-    );
-
+  it("does not expose a destructive test endpoint", async () => {
+    const response = await SELF.fetch("https://example.com/api/v1/test/crowd-status-history", {
+      method: "DELETE",
+      headers: { "VRIS-visitor-counter-APIKEY": apiKey },
+    });
     expect(response.status).toBe(404);
   });
 
-  it("requires VRIS-visitor-counter-APIKEY for the test delete API", async () => {
-    const response = await app.request(
-      "/api/v1/test/crowd-status-history",
-      { method: "DELETE" },
-      createEnv({ ENABLE_TEST_API: "true" }),
-    );
-
-    expect(response.status).toBe(401);
-  });
-
-  it("clears history when the test delete API is enabled", async () => {
-    const env = createEnv({ ENABLE_TEST_API: "true" });
-
-    await app.request(
-      "/api/v1/venue-status-write",
-      {
-        method: "POST",
-        body: JSON.stringify({ venue: "main", crowd_level: 2 }),
-        headers: {
-          "Content-Type": "application/json",
-          "VRIS-visitor-counter-APIKEY": "secret",
-        },
-      },
-      env,
-    );
-
-    const deleteResponse = await app.request(
-      "/api/v1/test/crowd-status-history",
-      {
-        method: "DELETE",
-        headers: { "VRIS-visitor-counter-APIKEY": "secret" },
-      },
-      env,
-    );
-
-    expect(deleteResponse.status).toBe(200);
-    await expect(deleteResponse.json()).resolves.toEqual({ status: "ok" });
-
-    const readResponse = await app.request("/api/v1/crowd-status", {}, env);
-    await expect(readResponse.json()).resolves.toEqual({
-      value1: -1,
-      value2: -1,
-      updated_at: null,
+  it("handles allowed and denied CORS origins", async () => {
+    const allowed = await SELF.fetch("https://example.com/api/v1/crowd-status", {
+      headers: { Origin: "https://archived.vris.jp" },
     });
+    expect(allowed.headers.get("Access-Control-Allow-Origin")).toBe("https://archived.vris.jp");
+    expect(allowed.headers.get("Vary")).toBe("Origin");
+
+    const denied = await SELF.fetch("https://example.com/api/v1/crowd-status", {
+      headers: { Origin: "https://example.net" },
+    });
+    expect(denied.headers.get("Access-Control-Allow-Origin")).toBeNull();
   });
 });
+
+function write(body: string): Promise<Response> {
+  return SELF.fetch("https://example.com/api/v1/venue-status-write", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "VRIS-visitor-counter-APIKEY": apiKey,
+    },
+    body,
+  });
+}

@@ -16,14 +16,8 @@ export type VenueStatusRequest = {
 };
 
 export type LatestCrowdStatusRow = {
+  id: number;
   venue: Venue;
   crowd_level: CrowdLevel;
   created_at: string;
-};
-
-export type Env = {
-  DB: D1Database;
-  CLOUD_INGEST_API_KEY: string;
-  ALLOWED_ORIGINS?: string;
-  ENABLE_TEST_API?: string;
 };

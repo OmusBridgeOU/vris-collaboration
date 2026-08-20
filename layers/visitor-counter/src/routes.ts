@@ -1,49 +1,33 @@
 import { Hono } from "hono";
-import { clearCrowdStatusHistory, getPublicCrowdStatus, insertCrowdStatus } from "./db";
-import type { CrowdLevel, Env, Venue, VenueStatusRequest } from "./types";
+import { z } from "zod";
+import { getPublicCrowdStatus, insertCrowdStatus } from "./db";
 
-const venues = new Set<Venue>(["main", "dtc"]);
-const crowdLevels = new Set<CrowdLevel>([1, 2, 3]);
 const apiKeyHeaderName = "VRIS-visitor-counter-APIKEY";
+const venueStatusSchema = z.object({
+  venue: z.enum(["main", "dtc"]),
+  crowd_level: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+}).strict();
 
 export const app = new Hono<{ Bindings: Env }>();
 
 app.post("/api/v1/venue-status-write", async (c) => {
-  if (!isAuthorized(c.env, c.req.header(apiKeyHeaderName))) {
+  if (!(await isAuthorized(c.env.CLOUD_INGEST_API_KEY, c.req.header(apiKeyHeaderName)))) {
     return c.json({ error: "Unauthorized" }, 401);
   }
 
-  let body: VenueStatusRequest;
+  let body: unknown;
   try {
-    body = await c.req.json<VenueStatusRequest>();
+    body = await c.req.json<unknown>();
   } catch {
     return c.json({ error: "Invalid JSON body" }, 400);
   }
 
-  if (!isVenue(body.venue)) {
-    return c.json({ error: "venue must be one of: main, dtc" }, 400);
+  const parsedBody = venueStatusSchema.safeParse(body);
+  if (!parsedBody.success) {
+    return c.json({ error: "venue and crowd_level must be valid" }, 400);
   }
 
-  if (!isCrowdLevel(body.crowd_level)) {
-    return c.json({ error: "crowd_level must be one of: 1, 2, 3" }, 400);
-  }
-
-  await insertCrowdStatus(c.env.DB, body.venue, body.crowd_level);
-
-  return c.json({ status: "ok" });
-});
-
-app.delete("/api/v1/test/crowd-status-history", async (c) => {
-  if (c.env.ENABLE_TEST_API !== "true") {
-    return c.json({ error: "Not Found" }, 404);
-  }
-
-  if (!isAuthorized(c.env, c.req.header(apiKeyHeaderName))) {
-    return c.json({ error: "Unauthorized" }, 401);
-  }
-
-  await clearCrowdStatusHistory(c.env.DB);
-
+  await insertCrowdStatus(c.env.DB, parsedBody.data.venue, parsedBody.data.crowd_level);
   return c.json({ status: "ok" });
 });
 
@@ -51,7 +35,6 @@ app.get("/api/v1/crowd-status", async (c) => {
   const status = await getPublicCrowdStatus(c.env.DB);
   const response = c.json(status);
   setCorsHeaders(response.headers, c.env.ALLOWED_ORIGINS, c.req.header("Origin"));
-
   return response;
 });
 
@@ -60,20 +43,24 @@ app.options("/api/v1/crowd-status", (c) => {
   setCorsHeaders(response.headers, c.env.ALLOWED_ORIGINS, c.req.header("Origin"));
   response.headers.set("Access-Control-Allow-Methods", "GET, OPTIONS");
   response.headers.set("Access-Control-Allow-Headers", "Content-Type");
-
   return response;
 });
 
-function isVenue(value: unknown): value is Venue {
-  return typeof value === "string" && venues.has(value as Venue);
-}
+async function isAuthorized(expectedApiKey: string | undefined, actualApiKey: string | undefined): Promise<boolean> {
+  if (!expectedApiKey || !actualApiKey) return false;
 
-function isCrowdLevel(value: unknown): value is CrowdLevel {
-  return typeof value === "number" && crowdLevels.has(value as CrowdLevel);
-}
-
-function isAuthorized(env: Env, actualApiKey: string | undefined): boolean {
-  return Boolean(env.CLOUD_INGEST_API_KEY && actualApiKey === env.CLOUD_INGEST_API_KEY);
+  const encoder = new TextEncoder();
+  const [expectedHash, actualHash] = await Promise.all([
+    crypto.subtle.digest("SHA-256", encoder.encode(expectedApiKey)),
+    crypto.subtle.digest("SHA-256", encoder.encode(actualApiKey)),
+  ]);
+  const expectedBytes = new Uint8Array(expectedHash);
+  const actualBytes = new Uint8Array(actualHash);
+  let difference = 0;
+  for (let index = 0; index < expectedBytes.length; index += 1) {
+    difference |= (expectedBytes[index] ?? 0) ^ (actualBytes[index] ?? 0);
+  }
+  return difference === 0;
 }
 
 function setCorsHeaders(
@@ -81,9 +68,7 @@ function setCorsHeaders(
   allowedOrigins: string | undefined,
   requestOrigin: string | undefined,
 ): void {
-  if (!allowedOrigins || !requestOrigin) {
-    return;
-  }
+  if (!allowedOrigins || !requestOrigin) return;
 
   const origins = allowedOrigins.split(",").map((origin) => origin.trim());
   if (origins.includes("*")) {
@@ -91,10 +76,7 @@ function setCorsHeaders(
     return;
   }
 
-  if (!origins.includes(requestOrigin)) {
-    return;
-  }
-
+  if (!origins.includes(requestOrigin)) return;
   headers.set("Access-Control-Allow-Origin", requestOrigin);
   headers.set("Vary", "Origin");
 }
