@@ -1,0 +1,23 @@
+name = "vris-26autumn-visitor-counter-api"
+main = "src/index.ts"
+compatibility_date = "2026-06-22"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "vris-26autumn-visitor-counter"
+database_id = "replace-with-d1-database-id"
+
+[vars]
+ALLOWED_ORIGINS = "https://vris.jp,https://archived.vris.jp"
+
+[env.test]
+name = "vris-26autumn-visitor-counter-api-test"
+
+[[env.test.d1_databases]]
+binding = "DB"
+database_name = "vris-26autumn-visitor-counter"
+database_id = "replace-with-d1-database-id"
+
+[env.test.vars]
+ALLOWED_ORIGINS = "*"
+ENABLE_TEST_API = "true"
