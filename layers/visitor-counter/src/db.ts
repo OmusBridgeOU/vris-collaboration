@@ -11,30 +11,20 @@ export async function insertCrowdStatus(
     .run();
 }
 
-export async function clearCrowdStatusHistory(db: D1Database): Promise<void> {
-  await db.prepare("DELETE FROM crowd_status_history").run();
-}
-
 export async function getPublicCrowdStatus(db: D1Database): Promise<PublicCrowdStatus> {
-  const result = await db
-    .prepare(
-      `
-      SELECT venue, crowd_level, created_at
-      FROM crowd_status_history
-      WHERE venue IN ('main', 'dtc')
-      ORDER BY created_at DESC
-      `,
-    )
-    .all<LatestCrowdStatusRow>();
-
-  const rows = result.results ?? [];
-  const latest = new Map<Venue, LatestCrowdStatusRow>();
-
-  for (const row of rows) {
-    if (!latest.has(row.venue)) {
-      latest.set(row.venue, row);
-    }
-  }
+  const latestByVenueQuery = `
+    SELECT id, venue, crowd_level, created_at
+    FROM crowd_status_history
+    WHERE venue = ?
+    ORDER BY created_at DESC, id DESC
+    LIMIT 1
+  `;
+  const results = await db.batch<LatestCrowdStatusRow>([
+    db.prepare(latestByVenueQuery).bind("main"),
+    db.prepare(latestByVenueQuery).bind("dtc"),
+  ]);
+  const rows = results.flatMap((result) => result.results ?? []);
+  const latest = new Map<Venue, LatestCrowdStatusRow>(rows.map((row) => [row.venue, row]));
 
   const value1 = latest.get("main")?.crowd_level ?? -1;
   const value2 = latest.get("dtc")?.crowd_level ?? -1;

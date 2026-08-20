@@ -4,23 +4,31 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=18"
+    "node": "22.x"
   },
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "test": "vitest run tests/api.test.ts",
-    "test:ut": "vitest run tests/api.test.ts",
-    "test:deployed": "vitest run tests/deployed_api.test.ts",
-    "typecheck": "tsc --noEmit"
+    "dev": "wrangler dev --config wrangler.jsonc",
+    "deploy": "wrangler deploy --config wrangler.jsonc",
+    "d1:create-migration": "wrangler d1 migrations create DB --config wrangler.jsonc",
+    "d1:list:local": "wrangler d1 migrations list DB --local --config wrangler.jsonc",
+    "d1:list:remote": "wrangler d1 migrations list DB --remote --config wrangler.jsonc",
+    "d1:migrate:local": "wrangler d1 migrations apply DB --local --config wrangler.jsonc",
+    "d1:migrate:remote": "wrangler d1 migrations apply DB --remote --config wrangler.jsonc",
+    "types": "wrangler types --config wrangler.jsonc",
+    "test": "vitest run --config vitest.config.ts",
+    "test:ut": "vitest run --config vitest.config.ts",
+    "lint": "eslint src tests vitest.config.ts",
+    "typecheck": "tsc --noEmit",
+    "check": "bun run types && bun run typecheck && bun run lint && bun run d1:list:local && bun run test"
   },
   "dependencies": {
-    "hono": "^4.6.14"
+    "hono": "^4.13.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241230.0",
-    "typescript": "^5.7.2",
-    "vitest": "^2.1.8",
-    "wrangler": "^3.99.0"
+    "@cloudflare/vitest-pool-workers": "^0.22.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10",
+    "wrangler": "4.107.0"
   }
 }
