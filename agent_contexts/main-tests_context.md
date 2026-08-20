@@ -96,30 +96,6 @@ test('fetcher', () => {
 })
 ```
 
-## File: layers/main/app/test/e2e/visual/nuxtContent.spec.ts
-```typescript
-// app/test/e2e/visual/pages.spec.ts
-import { test, expect } from '@playwright/test'
-
-// テスト対象となるページ: nuxtContentを使用しているページ
-const PAGES = [
-  { name: 'terms', path: '/documents/terms' },
-  { name: 'policy', path: '/documents/policy' },
-]
-
-for (const { name, path } of PAGES) {
-  test(`${name}: ページの表示がベース画像と一致する`, async ({ page }) => {
-    await page.goto(path)
-    await page.waitForLoadState('networkidle')
-
-    await expect(page).toHaveScreenshot(`${name}.png`, {
-      maxDiffPixelRatio: 0.02,
-      fullPage: true,
-    })
-  })
-}
-```
-
 ## File: layers/main/app/test/utils/@types/auto-imports.d.ts
 ```typescript
 /* eslint-disable */
@@ -457,6 +433,30 @@ test('getI18nArray takes a list from vue-i18n dict', () => {
     },
   )
 })
+```
+
+## File: layers/main/app/test/e2e/visual/nuxtContent.spec.ts
+```typescript
+// app/test/e2e/visual/pages.spec.ts
+import { test, expect } from '@playwright/test'
+
+// テスト対象となるページ: nuxtContentを使用しているページ
+const PAGES = [
+  { name: 'terms', path: '/documents/terms' },
+  { name: 'policy', path: '/documents/policy' },
+]
+
+for (const { name, path } of PAGES) {
+  test(`${name}: ページの表示がベース画像と一致する`, async ({ page }) => {
+    await page.goto(path)
+    await page.waitForLoadState('networkidle')
+
+    await expect(page).toHaveScreenshot(`${name}.png`, {
+      maxDiffPixelRatio: 0.02,
+      fullPage: true,
+    })
+  })
+}
 ```
 
 ## File: layers/main/app/test/setup.ts
