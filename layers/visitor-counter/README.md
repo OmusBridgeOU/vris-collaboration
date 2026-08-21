@@ -4,6 +4,11 @@
 
 オンプレミスサーバーから送信された会場ごとの`crowd_level`を履歴として保存し、公開APIでは内部会場名を隠して`value1` / `value2`として返します。
 
+## 利用者向けマニュアル
+
+- [POST利用者マニュアル](./docs/post-api-user-guide.md): 会場から混雑度を送信する担当者向け
+- [GET利用者マニュアル](./docs/get-api-user-guide.md): Webサイトなどで最新値を取得する担当者向け
+
 ## API
 
 ### `POST /api/v1/venue-status-write`
