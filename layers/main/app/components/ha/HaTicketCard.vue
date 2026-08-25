@@ -91,8 +91,10 @@ defineProps<{
     align-items: center;
     justify-content: center;
 
-    width: 130px;
-    height: 40px;
+    box-sizing: border-box;
+    width: 190px;
+    min-height: 44px;
+    padding: 10px 20px;
 
     font-family: Inter, sans-serif;
     font-size: 14px;

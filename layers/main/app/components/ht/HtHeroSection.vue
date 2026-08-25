@@ -13,7 +13,7 @@
       class="hero__kv"
     >
     <NuxtLink
-      class="hero__ticket-button glassy-button"
+      class="hero__ticket-button glassy-button none-hover-animation"
       to="https://livepocket.jp/e/alkjd"
       target="_blank"
       rel="noopener"
@@ -138,6 +138,10 @@ en:
     color: white;
     text-decoration: none;
     letter-spacing: 0.04em;
+
+    &:hover {
+      transform: translateX(-50%) scale(1.02);
+    }
 
     @media (width <= 767px) {
       bottom: 216px;
