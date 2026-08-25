@@ -12,6 +12,15 @@
       alt="Vket Real in 札幌 2026 Autumnのキービジュアル"
       class="hero__kv"
     >
+    <NuxtLink
+      class="hero__ticket-button glassy-button"
+      to="https://livepocket.jp/e/alkjd"
+      target="_blank"
+      rel="noopener"
+    >
+      <HaTicketIcon class="hero__ticket-icon" />
+      {{ t('ticketCta') }}
+    </NuxtLink>
     <div
       id="lower-content"
       class="lower-content"
@@ -26,6 +35,9 @@
 
 <script lang="ts" setup>
 import HaEventInfo from '../ha/HaEventInfo.vue'
+import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
+
+const { t } = useI18n({ useScope: 'local' })
 
 const { fadeOutOnScroll, destroyScrollTriggers } = useGsapFadeIn()
 const route = useRoute()
@@ -56,6 +68,13 @@ const initScrollEffects = () => {
   fadeOutOnScroll(lowerContent, firstView)
 }
 </script>
+
+<i18n lang="yaml">
+ja:
+  ticketCta: チケットを購入する
+en:
+  ticketCta: Buy Tickets
+</i18n>
 
 <style lang="scss" scoped>
 .hero {
@@ -96,6 +115,40 @@ const initScrollEffects = () => {
     height: 100%;
 
     object-fit: contain;
+  }
+
+  &__ticket-button {
+    position: absolute;
+    z-index: 3;
+    bottom: 136px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+
+    width: min(320px, calc(100% - 32px));
+    min-height: 56px;
+    padding: 12px 24px;
+
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+
+    @media (width <= 767px) {
+      bottom: 216px;
+      min-height: 52px;
+      font-size: 14px;
+    }
+  }
+
+  &__ticket-icon {
+    width: 22px;
+    height: 22px;
   }
 }
 

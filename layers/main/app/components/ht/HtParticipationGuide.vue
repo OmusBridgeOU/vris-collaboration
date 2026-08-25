@@ -7,7 +7,7 @@ ja:
   venueLabel: 会場
   venue: アスティ45 4F アスティホール
   ticketLabel: 来場チケット
-  ticketNotice: 来場チケットは8月下旬に販売開始予定です。
+  ticketNotice: 来場チケットは2026年8月26日(水)より販売開始です。
 en:
   nameLabel: Event Name
   name: VketReal in Sapporo 2026 Autumn
@@ -16,7 +16,7 @@ en:
   venueLabel: Venue
   venue: Asty45 4F Asty Hall
   ticketLabel: Visitor Tickets
-  ticketNotice: Visitor tickets are scheduled to go on sale in late August.
+  ticketNotice: Visitor tickets go on sale Wednesday, August 26, 2026.
 </i18n>
 
 <script setup lang="ts">

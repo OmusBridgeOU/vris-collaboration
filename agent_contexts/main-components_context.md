@@ -3262,250 +3262,6 @@ defineProps<{
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaNoImage.vue
-```vue
-<template>
-  <div
-    class="no-image"
-  >
-    <p class="no-image__text">
-      no image
-    </p>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.no-image {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-
-  background-color: rgb(18 33 59 / 60%);
-
-  &__text {
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-    white-space: nowrap;
-
-    @include m.tb {
-      font-size: 16px;
-    }
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ha/HaPageTitle.vue
-```vue
-<script setup lang="ts">
-defineProps<{
-  label: string
-  title: string
-}>()
-</script>
-
-<template>
-  <div class="page-title">
-    <div class="page-title__flex">
-      <div class="page-title__text-box">
-        <p class="page-title__label">
-          {{ label }}
-        </p>
-        <h2 class="page-title__text">
-          {{ title }}
-        </h2>
-      </div>
-      <div class="page-title__controls">
-        <slot name="controls" />
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.page-title {
-  position: relative;
-  margin-bottom: 48px;
-
-  @include m.tb {
-    margin-bottom: 32px;
-  }
-
-  &__line {
-    position: relative;
-
-    overflow: hidden;
-
-    width: 100%;
-    height: 2px;
-    margin-bottom: 4px;
-
-  }
-
-  &__flex {
-    display: flex;
-    justify-content: space-between;
-    height: 130px;
-    border-bottom: 1px solid white;
-
-    @include m.sp {
-        height: 85px;
-    }
-  }
-
-  &__label {
-    font-size: 12px;
-    color: v.$vket-amber;
-    letter-spacing: 0.1em;
-
-    @include m.tb {
-      font-size: 10px;
-    }
-  }
-
-  &__text {
-    font-size: 48px;
-    font-weight: 700;
-    line-height: 1em;
-    color: #fff;
-
-    @include m.tb {
-      font-size: 40px;
-    }
-
-    @include m.sp {
-      font-size: 32px;
-    }
-  }
-
-  &__controls {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtExhibitorCirclesSection.vue
-```vue
-<script setup lang="ts">
-import HaCircleCard from '@/components/ha/HaCircleCard.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.exhibitor-circles-section__grid-item')
-  fadeInUpStagger(Array.from(items))
-})
-
-const { t: tGlobal } = useI18n()
-
-const circles = [
-  'わんぱくおにぎり',
-  'Aquange - 羽澄愛',
-  'PoteSuto',
-  '赤糸の裁縫箱',
-  'ゆるくる工房',
-  '貧弱な描きおき部屋',
-  'しろの里',
-  'Interlunium（インテルニウム）',
-  'ようよう制作',
-  'わにちゃのおみせ',
-  'メタバースソーラン',
-  'てんまるぱせり、。',
-  'VketReal in 広島 実行委員会',
-  'まろに屋',
-  'やきなす00',
-  'AmasukaLabo',
-  'にんぎょのくるぶし',
-  'VRアートを楽しむ会',
-  '北海道大学メタバース研究会',
-  'メタバースパブリックラボ',
-  '北海道科学大学メタバースプロジェクト',
-  '北海道情報大学 湯村研究室',
-  'わくわく犬プール',
-  'VRホビーロボット集会',
-  'VRC 3Dスキャン同好会',
-  'v-entry.app',
-  'ひかるのノースランドCHANNEL',
-  'きっポジの遊び場',
-  'まいけるさんすたじお',
-  '#リアルサイズアバター写真展',
-  'SYNR',
-  'VRC Avatar Collection',
-]
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.exhibitorCircles')"
-      label="CIRCLES"
-    />
-    <div
-      ref="listRef"
-      class="exhibitor-circles-section__grid"
-    >
-      <div
-        v-for="circle in circles"
-        :key="circle"
-        class="exhibitor-circles-section__grid-item"
-      >
-        <HaCircleCard :name="circle" />
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.exhibitor-circles-section{
-  &__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px 30px;
-    margin: 0 auto;
-
-    @include m.tb {
-      grid-template-columns: 1fr 1fr;
-      max-width: 720px;
-    }
-
-    @include m.sp {
-      grid-template-columns: 1fr;
-      max-width: 360px;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/HaCountUpNumber.vue
 ```vue
 <script setup lang="ts">
@@ -3835,237 +3591,6 @@ defineProps<{
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaFireworks.vue
-```vue
-<script setup lang="ts">
-import { shallowRef, onMounted, onUnmounted } from 'vue'
-
-const canvasRef = shallowRef<HTMLCanvasElement | null>(null)
-
-// アニメーション管理用の変数
-let animationId: number | null = null
-let resizeObserver: ResizeObserver | null = null
-let intersectionObserver: IntersectionObserver | null = null
-let visibilityHandler: (() => void) | null = null
-
-// 花火の発射タイミング管理
-let nextFireworkTime: number = 0
-
-// 画面サイズに応じたスケール係数（起動時に1度だけ決定）
-let scaleFactor: number = 1
-
-// ユーティリティ
-function random(min: number, max: number): number {
-  return Math.random() * (max - min) + min
-}
-
-// パーティクルの型定義
-interface Particle {
-  x: number
-  y: number
-  vx: number
-  vy: number
-  alpha: number
-  hue: number
-}
-
-// パーティクルをstartAnimationの外で管理（再起動時にリセットされないようにする）
-let particles: Particle[] = []
-
-// 次の花火を打ち上げる時刻をセット（1〜2秒のランダムなタイミング）
-function scheduleNextFirework() {
-  nextFireworkTime = performance.now() + random(1000, 2000)
-}
-
-// アニメーションのメイン処理
-function startAnimation(canvas: HTMLCanvasElement) {
-  // 二重起動を防ぐ
-  if (animationId !== null) return
-
-  const ctx = canvas.getContext('2d')!
-
-  // 花火を1発生成
-  function createFirework() {
-    const x = random(100, canvas.width - 100)
-    const y = random(100, canvas.height - 100)
-    const hue = Math.floor(random(0, 360))
-
-    // 固定パーティクル（強: 24度間隔 × 15個、中: 36度間隔 × 10個、弱: 72度間隔 × 5個 = 合計30個）を設けて概形を整える
-    const fixedConfig = [
-      { count: 15, interval: 24, speed: 5 * scaleFactor },
-      { count: 10, interval: 36, speed: 3 * scaleFactor },
-      { count: 5, interval: 72, speed: 1 * scaleFactor },
-    ]
-
-    // 花火1発ごとにランダムな回転オフセット（0〜12度）
-    const rotationOffset = (random(0, 12) * Math.PI) / 180
-
-    fixedConfig.forEach(({ count, interval, speed }) => {
-      Array.from({ length: count }, (_, i) => {
-        const angle = (i * interval * Math.PI) / 180 + rotationOffset
-        particles.push({
-          x,
-          y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          alpha: 1,
-          hue,
-        })
-      })
-    })
-
-    // ランダムパーティクル（30個）
-    for (let i = 0; i < 30; i++) {
-      const angle = random(0, Math.PI * 2)
-      const speed = random(1, 5) * scaleFactor
-
-      particles.push({
-        x,
-        y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        alpha: 1,
-        hue,
-      })
-    }
-
-    scheduleNextFirework()
-  }
-
-  // パーティクルの更新と描画
-  function updateParticles() {
-    // 画面全体をクリア（背景を透過させる）
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-    particles = particles.filter((p) => {
-      p.x += p.vx
-      p.y += p.vy
-      p.alpha -= 0.01
-      return p.alpha > 0
-    })
-
-    particles.forEach((p) => {
-      ctx.beginPath()
-      ctx.fillStyle = `hsla(${p.hue}, 100%, 60%, ${p.alpha})`
-      ctx.arc(p.x, p.y, 2 * scaleFactor, 0, Math.PI * 2)
-      ctx.fill()
-    })
-  }
-
-  // アニメーションループ
-  function animate() {
-    animationId = requestAnimationFrame(animate)
-    updateParticles()
-
-    if (performance.now() >= nextFireworkTime) {
-      createFirework()
-    }
-  }
-
-  animate()
-}
-
-// アニメーション停止
-function stopAnimation() {
-  if (animationId !== null) {
-    cancelAnimationFrame(animationId)
-    animationId = null
-  }
-}
-
-// canvasのサイズを親要素に合わせる
-function resizeCanvas(canvas: HTMLCanvasElement) {
-  const parent = canvas.parentElement
-  if (!parent) return
-  canvas.width = parent.clientWidth
-  canvas.height = parent.clientHeight
-}
-
-onMounted(() => {
-  const canvas = canvasRef.value as HTMLCanvasElement | null
-  if (!canvas) return
-  const parent = canvas.parentElement
-  if (!parent) return
-
-  // 起動時に1度だけ画面幅でscaleFactorを決定
-  const width = window.innerWidth
-  if (width < 768) {
-    // スマホ: app/assets/styles/_variables.scss v.$media-query-width
-    scaleFactor = 0.6
-  } else if (width < 1080) {
-    // タブレット: app/assets/styles/_variables.scss v.$pc-content-min-width
-    scaleFactor = 0.8
-  } else {
-    scaleFactor = 1.0
-  }
-
-  resizeCanvas(canvas)
-
-  // 親要素のリサイズを監視
-  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
-  resizeObserver.observe(parent)
-
-  // 要素の表示・非表示を監視（スクロールで画面外に出た場合）
-  intersectionObserver = new IntersectionObserver(
-    (entries) => {
-      const entry = entries[0]
-      if (!entry) return
-      if (entry.isIntersecting) {
-        startAnimation(canvas)
-      } else {
-        stopAnimation()
-      }
-    },
-    { threshold: 0 },
-  )
-  intersectionObserver.observe(canvas)
-
-  // タブの表示・非表示を監視
-  visibilityHandler = () => {
-    if (document.hidden) {
-      stopAnimation()
-    } else {
-      startAnimation(canvas)
-    }
-  }
-  document.addEventListener('visibilitychange', visibilityHandler)
-
-  // 初回スケジュール（ここでのみ呼ぶ）
-  scheduleNextFirework()
-})
-
-onUnmounted(() => {
-  stopAnimation()
-  resizeObserver?.disconnect()
-  intersectionObserver?.disconnect()
-  if (visibilityHandler) {
-    document.removeEventListener('visibilitychange', visibilityHandler)
-    visibilityHandler = null
-  }
-})
-</script>
-
-<template>
-  <canvas
-    ref="canvasRef"
-    class="fireworks-canvas"
-  />
-</template>
-
-<style scoped>
-.fireworks-canvas {
-  pointer-events: none;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/HaFirstView.vue
 ```vue
 <template>
@@ -4155,158 +3680,141 @@ onUnmounted(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaI18nNowrapText.vue
-```vue
-<script setup>
-// 日本語表示時に形態素内で改行が行われるのを出来るだけ防ぐための、プレーンテキストを返すコンポーネント。配列で渡すと、その要素内では改行がされなくなる
-// 新しい試みのため、要望への対応のため作成したが、管理の複雑化と改行の綺麗さを天秤にかけてもtoo matchである。
-
-const props = defineProps({
-  content: { type: [String, Array], required: true },
-})
-
-const isUnits = computed(() => Array.isArray(props.content))
-</script>
-
-<template>
-  <template v-if="isUnits">
-    <template
-      v-for="(unit, index) in content"
-      :key="index"
-    >
-      <br
-        v-if="unit === '__br__'"
-        class="sp-none"
-      >
-      <br
-        v-else-if="unit === '__br-tb-over__'"
-        class="tb-over"
-      >
-      <span
-        v-else
-        class="nowrap"
-      >{{ unit }}</span>
-    </template>
-  </template>
-  <template v-else>
-    {{ content }}
-  </template>
-</template>
-```
-
-## File: layers/main/app/components/ha/HaNewsCard.vue
+## File: layers/main/app/components/ha/HaNoImage.vue
 ```vue
 <template>
-  <a
-    :href="item.href"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="news-card"
+  <div
+    class="no-image"
   >
-    <img
-      v-if="item.imgSrc && item.imgSrc !== ''"
-      :src="item.imgSrc"
-      :alt="item.title"
-      class="news-card__img"
-      loading="lazy"
-    >
-    <div
-      v-else
-      class="content-card__empty-image"
-    >
-      <HaNoImage />
-    </div>
-    <p class="news-card__timestamp">{{ item.timestamp }}</p>
-    <div class="news-card__title-flex">
-      <p class="news-card__title">{{ item.title }}</p>
-      <HaJumpToListIcon class="news-card__icon" />
-    </div>
-  </a>
+    <p class="no-image__text">
+      no image
+    </p>
+  </div>
 </template>
-
-<script setup lang="ts">
-import HaJumpToListIcon from './icons/HaJumpToListIcon.vue'
-
-defineProps<{
-  item: { id: number, title: string, href: string, imgSrc: string, timestamp: string }
-}>()
-</script>
 
 <style lang="scss" scoped>
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.news-card {
-  cursor: pointer;
-
-  display: block;
+.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding-top: 16px;
-  border-top: 1px solid white;
 
-  transition: border-color 0.2s ease;
+  background-color: rgb(18 33 59 / 60%);
 
-  @include m.sp {
-    padding-top: 0;
-  }
-
-  &:hover {
-    border-color: v.$vket-magenta;
-
-    @include m.sp {
-      border: none;
-    }
-  }
-
-  &__img {
-    display: block;
-
-    aspect-ratio: 16/9;
-    width: 100%;
-    margin-bottom: 14px;
-    border-radius: 10px;
-
-    object-fit: cover;
-    background-color: #d2d2d2;
-
-    transition: transform 0.2s ease;
-
-    @include m.sp {
-      margin-bottom: 6px;
-    }
-  }
-
-  &__timestamp {
-    margin-bottom: 6px;
-    color: v.$vket-amber;
-  }
-
-  &__title-flex {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &__title {
-    margin-right: 1em;
+  &__text {
     font-size: 20px;
-    line-height: 1.2em;
+    font-weight: bold;
     color: white;
+    white-space: nowrap;
 
-    @include m.sp {
+    @include m.tb {
       font-size: 16px;
     }
-  }
-
-  &__icon {
-    width: 20px;
-    fill: v.$vket-magenta;
 
     @include m.sp {
-      width: 16px;
+      font-size: 14px;
     }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaPageTitle.vue
+```vue
+<script setup lang="ts">
+defineProps<{
+  label: string
+  title: string
+}>()
+</script>
+
+<template>
+  <div class="page-title">
+    <div class="page-title__flex">
+      <div class="page-title__text-box">
+        <p class="page-title__label">
+          {{ label }}
+        </p>
+        <h2 class="page-title__text">
+          {{ title }}
+        </h2>
+      </div>
+      <div class="page-title__controls">
+        <slot name="controls" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.page-title {
+  position: relative;
+  margin-bottom: 48px;
+
+  @include m.tb {
+    margin-bottom: 32px;
+  }
+
+  &__line {
+    position: relative;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 2px;
+    margin-bottom: 4px;
+
+  }
+
+  &__flex {
+    display: flex;
+    justify-content: space-between;
+    height: 130px;
+    border-bottom: 1px solid white;
+
+    @include m.sp {
+        height: 85px;
+    }
+  }
+
+  &__label {
+    font-size: 12px;
+    color: v.$vket-amber;
+    letter-spacing: 0.1em;
+
+    @include m.tb {
+      font-size: 10px;
+    }
+  }
+
+  &__text {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1em;
+    color: #fff;
+
+    @include m.tb {
+      font-size: 40px;
+    }
+
+    @include m.sp {
+      font-size: 32px;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    gap: 4px;
+    align-items: center;
   }
 }
 </style>
@@ -4395,232 +3903,6 @@ onUnmounted(() => {
 <template>
   <span ref="spanRef">{{ displayText }}</span>
 </template>
-```
-
-## File: layers/main/app/components/hm/HmContentsSwiper.vue
-```vue
-<script setup lang="ts">
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import type { Swiper as SwiperType } from 'swiper'
-import HaContentCard from '../ha/HaContentCard.vue'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-// スライドの型
-type SlideItem = {
-  id: number
-  title: string
-  href: string
-  imgSrc: string
-  text: string
-}
-
-// ブレークポイントごとのSlidesPerViewの型
-type BreakpointSlidesPerView = {
-  [width: number]: {
-    slidesPerView: number | 'auto'
-  }
-}
-
-defineProps<{
-  items?: SlideItem[]
-  _slidesPerView?: number | 'auto'
-  _breakpoints?: BreakpointSlidesPerView
-}>()
-
-const modules = [Autoplay, Navigation, Pagination]
-
-// 先頭・末尾の状態（ボタンのdisabled制御用）
-const isBeginning = ref(true)
-const isEnd = ref(false)
-
-const updateState = (swiper: SwiperType) => {
-  isBeginning.value = swiper.isBeginning
-  isEnd.value = swiper.isEnd
-}
-
-const onSwiper = (swiper: SwiperType) => {
-  updateState(swiper)
-}
-
-const onSlideChange = (swiper: SwiperType) => {
-  updateState(swiper)
-}
-</script>
-
-<template>
-  <div class="works-swiper mb-25">
-    <Swiper
-      :slides-per-view="_slidesPerView ?? 'auto'"
-      :breakpoints="_breakpoints"
-      :speed="1000"
-      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
-      :modules="modules"
-      :centered-slides="false"
-      :space-between="24"
-      :navigation="{
-        nextEl: '.custom-swiper-button--next',
-        prevEl: '.custom-swiper-button--prev',
-      }"
-      :pagination="{
-        el: '.custom-swiper-pagination',
-        clickable: true,
-      }"
-      @swiper="onSwiper"
-      @slide-change="onSlideChange"
-    >
-      <SwiperSlide
-        v-for="item in items"
-        :key="item.id"
-      >
-        <HaContentCard :item="item" />
-      </SwiperSlide>
-      <div class="custom-swiper-pagination" />
-      <div class="swiper-button-flex">
-        <button
-          type="button"
-          class="custom-swiper-button custom-swiper-button--prev"
-          :disabled="isBeginning"
-          :class="{ 'is-disabled': isBeginning }"
-          aria-label="前のスライドへ"
-        >
-          <HaChevronLeftIcon />
-        </button>
-        <button
-          type="button"
-          class="custom-swiper-button custom-swiper-button--next"
-          :disabled="isEnd"
-          :class="{ 'is-disabled': isEnd }"
-          aria-label="次のスライドへ"
-        >
-          <HaChevronRightIcon />
-        </button>
-      </div>
-    </Swiper>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-:deep(.swiper) {
-  overflow: visible;
-}
-</style>
-```
-
-## File: layers/main/app/components/hm/HmNewsSwiper.vue
-```vue
-<script setup lang="ts">
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import HaNewsCard from '../ha/HaNewsCard.vue'
-import type { Swiper as SwiperType } from 'swiper'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-// スライドの型
-type SlideItem = {
-  id: number
-  timestamp: string
-  title: string
-  href: string
-  imgSrc: string
-}
-
-// ブレークポイントごとのSlidesPerViewの型
-type BreakpointSlidesPerView = {
-  [width: number]: {
-    slidesPerView: number | 'auto'
-  }
-}
-
-defineProps<{
-  items?: SlideItem[]
-  _slidesPerView?: number | 'auto'
-  _breakpoints?: BreakpointSlidesPerView
-}>()
-
-const modules = [Autoplay, Navigation, Pagination]
-
-// 先頭・末尾の状態（ボタンのdisabled制御用）
-const isBeginning = ref(true)
-const isEnd = ref(false)
-
-const updateState = (swiper: SwiperType) => {
-  isBeginning.value = swiper.isBeginning
-  isEnd.value = swiper.isEnd
-}
-
-const onSwiper = (swiper: SwiperType) => {
-  updateState(swiper)
-}
-
-const onSlideChange = (swiper: SwiperType) => {
-  updateState(swiper)
-}
-</script>
-
-<template>
-  <div class="works-swiper mb-25">
-    <Swiper
-      :slides-per-view="_slidesPerView ?? 'auto'"
-      :breakpoints="_breakpoints"
-      :speed="1000"
-      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
-      :modules="modules"
-      :centered-slides="false"
-      :space-between="24"
-      :navigation="{
-        nextEl: '.custom-swiper-button--next',
-        prevEl: '.custom-swiper-button--prev',
-      }"
-      :pagination="{
-        el: '.custom-swiper-pagination',
-        clickable: true,
-      }"
-      @swiper="onSwiper"
-      @slide-change="onSlideChange"
-    >
-      <SwiperSlide
-        v-for="item in items"
-        :key="item.id"
-      >
-        <HaNewsCard :item="item" />
-      </SwiperSlide>
-      <div
-        class="custom-swiper-pagination"
-      />
-      <div class="swiper-button-flex">
-        <button
-          type="button"
-          class="custom-swiper-button custom-swiper-button--prev"
-          :disabled="isBeginning"
-          :class="{ 'is-disabled': isBeginning }"
-          aria-label="前のスライドへ"
-        >
-          <HaChevronLeftIcon />
-        </button>
-        <button
-          type="button"
-          class="custom-swiper-button custom-swiper-button--next"
-          :disabled="isEnd"
-          :class="{ 'is-disabled': isEnd }"
-          aria-label="次のスライドへ"
-        >
-          <HaChevronRightIcon />
-        </button>
-      </div>
-    </Swiper>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-:deep(.swiper) {
-  overflow: visible;
-}
-</style>
 ```
 
 ## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
@@ -4984,6 +4266,110 @@ onMounted(() => {
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtExhibitorCirclesSection.vue
+```vue
+<script setup lang="ts">
+import HaCircleCard from '@/components/ha/HaCircleCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.exhibitor-circles-section__grid-item')
+  fadeInUpStagger(Array.from(items))
+})
+
+const { t: tGlobal } = useI18n()
+
+const circles = [
+  'わんぱくおにぎり',
+  'Aquange - 羽澄愛',
+  'PoteSuto',
+  '赤糸の裁縫箱',
+  'ゆるくる工房',
+  '貧弱な描きおき部屋',
+  'しろの里',
+  'Interlunium（インテルニウム）',
+  'ようよう制作',
+  'わにちゃのおみせ',
+  'メタバースソーラン',
+  'てんまるぱせり、。',
+  'VketReal in 広島 実行委員会',
+  'まろに屋',
+  'やきなす00',
+  'AmasukaLabo',
+  'にんぎょのくるぶし',
+  'VRアートを楽しむ会',
+  '北海道大学メタバース研究会',
+  'メタバースパブリックラボ',
+  '北海道科学大学メタバースプロジェクト',
+  '北海道情報大学 湯村研究室',
+  'わくわく犬プール',
+  'VRホビーロボット集会',
+  'VRC 3Dスキャン同好会',
+  'v-entry.app',
+  'ひかるのノースランドCHANNEL',
+  'きっポジの遊び場',
+  'まいけるさんすたじお',
+  '#リアルサイズアバター写真展',
+  'SYNR',
+  'VRC Avatar Collection',
+]
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.exhibitorCircles')"
+      label="CIRCLES"
+    />
+    <div
+      ref="listRef"
+      class="exhibitor-circles-section__grid"
+    >
+      <div
+        v-for="circle in circles"
+        :key="circle"
+        class="exhibitor-circles-section__grid-item"
+      >
+        <HaCircleCard :name="circle" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.exhibitor-circles-section{
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 30px;
+    margin: 0 auto;
+
+    @include m.tb {
+      grid-template-columns: 1fr 1fr;
+      max-width: 720px;
+    }
+
+    @include m.sp {
+      grid-template-columns: 1fr;
+      max-width: 360px;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtQuickAccessSection.vue
 ```vue
 <i18n lang="yaml">
@@ -5152,6 +4538,966 @@ onMounted(() => {
   }
 }
 </style>
+```
+
+## File: layers/main/app/components/ht/HtTicketSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  section:
+    title: チケット
+    label: tickets
+  description:
+    line1: 一般来場チケットは2026年8月26日(水)より販売開始です。
+    line2: LivePocketの販売ページからお申し込みください。
+  cards:
+    general:
+      title: 一般参加チケット
+      desc: VketReal in 札幌 2026 Autumnの来場チケットです。
+      cta: チケットを購入する
+    updates:
+      title: 最新情報
+      desc: 公式Xで販売開始や追加情報をお知らせします。
+      cta: 公式Xを見る
+en:
+  section:
+    title: Tickets
+    label: tickets
+  description:
+    line1: General admission tickets go on sale Wednesday, August 26, 2026.
+    line2: Please purchase tickets through LivePocket.
+  cards:
+    general:
+      title: General Admission
+      desc: Admission ticket for VketReal in Sapporo 2026 Autumn.
+      cta: Buy Tickets
+    updates:
+      title: Latest Updates
+      desc: Sales launches and additional information will be announced on official X.
+      cta: Official X
+</i18n>
+
+<script setup lang="ts">
+import HaTicketCard from '../ha/HaTicketCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+const sectionRef = ref<Element | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.ticket-grid__item')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="t('section.title')"
+      :label="t('section.label')"
+    />
+    <p class="description description--left">
+      {{ t('description.line1') }}<br>
+      {{ t('description.line2') }}
+    </p>
+    <div
+      ref="listRef"
+      class="ticket-grid"
+    >
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          :title="t('cards.general.title')"
+          :desc="t('cards.general.desc')"
+          href="https://livepocket.jp/e/alkjd"
+          :cta-label="t('cards.general.cta')"
+        />
+      </div>
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          :title="t('cards.updates.title')"
+          :desc="t('cards.updates.desc')"
+          href="https://x.com/vketreal_vris"
+          :cta-label="t('cards.updates.cta')"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ticket-grid {
+  display: grid;
+  grid-auto-rows: 275px;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+
+  @include m.tb {
+    grid-auto-rows: 166px;
+    gap: 12px 16px;
+  }
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+  }
+
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaAboutCard.vue
+```vue
+<script setup lang="ts">
+defineProps<{
+  color:
+    | 'cyan'
+    | 'magenta'
+    | 'amber'
+    | 'vermilion'
+    | 'light-cyan'
+    | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+}>()
+</script>
+
+<template>
+  <div :class="['glassy-box about-card', `glassy-box--${color ?? 'cyan'}`]">
+    <h3 class="title about-card__title">
+      <slot name="title" />
+    </h3>
+    <div class="about-card__body">
+      <slot name="body" />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.about-card {
+  padding: 20px;
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+    border-radius: 1000px;
+  }
+
+  &__title {
+    font-size: 16px;
+  }
+
+  &__body {
+    font-size: 13px;
+    line-height: 1.5em;
+
+    @include m.sp {
+      line-height: 1.8em;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaFireworks.vue
+```vue
+<script setup lang="ts">
+import { shallowRef, onMounted, onUnmounted } from 'vue'
+
+const canvasRef = shallowRef<HTMLCanvasElement | null>(null)
+
+// アニメーション管理用の変数
+let animationId: number | null = null
+let resizeObserver: ResizeObserver | null = null
+let intersectionObserver: IntersectionObserver | null = null
+let visibilityHandler: (() => void) | null = null
+
+// 花火の発射タイミング管理
+let nextFireworkTime: number = 0
+
+// 画面サイズに応じたスケール係数（起動時に1度だけ決定）
+let scaleFactor: number = 1
+
+// ユーティリティ
+function random(min: number, max: number): number {
+  return Math.random() * (max - min) + min
+}
+
+// パーティクルの型定義
+interface Particle {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  alpha: number
+  hue: number
+}
+
+// パーティクルをstartAnimationの外で管理（再起動時にリセットされないようにする）
+let particles: Particle[] = []
+
+// 次の花火を打ち上げる時刻をセット（1〜2秒のランダムなタイミング）
+function scheduleNextFirework() {
+  nextFireworkTime = performance.now() + random(1000, 2000)
+}
+
+// アニメーションのメイン処理
+function startAnimation(canvas: HTMLCanvasElement) {
+  // 二重起動を防ぐ
+  if (animationId !== null) return
+
+  const ctx = canvas.getContext('2d')!
+
+  // 花火を1発生成
+  function createFirework() {
+    const x = random(100, canvas.width - 100)
+    const y = random(100, canvas.height - 100)
+    const hue = Math.floor(random(0, 360))
+
+    // 固定パーティクル（強: 24度間隔 × 15個、中: 36度間隔 × 10個、弱: 72度間隔 × 5個 = 合計30個）を設けて概形を整える
+    const fixedConfig = [
+      { count: 15, interval: 24, speed: 5 * scaleFactor },
+      { count: 10, interval: 36, speed: 3 * scaleFactor },
+      { count: 5, interval: 72, speed: 1 * scaleFactor },
+    ]
+
+    // 花火1発ごとにランダムな回転オフセット（0〜12度）
+    const rotationOffset = (random(0, 12) * Math.PI) / 180
+
+    fixedConfig.forEach(({ count, interval, speed }) => {
+      Array.from({ length: count }, (_, i) => {
+        const angle = (i * interval * Math.PI) / 180 + rotationOffset
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          alpha: 1,
+          hue,
+        })
+      })
+    })
+
+    // ランダムパーティクル（30個）
+    for (let i = 0; i < 30; i++) {
+      const angle = random(0, Math.PI * 2)
+      const speed = random(1, 5) * scaleFactor
+
+      particles.push({
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        alpha: 1,
+        hue,
+      })
+    }
+
+    scheduleNextFirework()
+  }
+
+  // パーティクルの更新と描画
+  function updateParticles() {
+    // 画面全体をクリア（背景を透過させる）
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    particles = particles.filter((p) => {
+      p.x += p.vx
+      p.y += p.vy
+      p.alpha -= 0.01
+      return p.alpha > 0
+    })
+
+    particles.forEach((p) => {
+      ctx.beginPath()
+      ctx.fillStyle = `hsla(${p.hue}, 100%, 60%, ${p.alpha})`
+      ctx.arc(p.x, p.y, 2 * scaleFactor, 0, Math.PI * 2)
+      ctx.fill()
+    })
+  }
+
+  // アニメーションループ
+  function animate() {
+    animationId = requestAnimationFrame(animate)
+    updateParticles()
+
+    if (performance.now() >= nextFireworkTime) {
+      createFirework()
+    }
+  }
+
+  animate()
+}
+
+// アニメーション停止
+function stopAnimation() {
+  if (animationId !== null) {
+    cancelAnimationFrame(animationId)
+    animationId = null
+  }
+}
+
+// canvasのサイズを親要素に合わせる
+function resizeCanvas(canvas: HTMLCanvasElement) {
+  const parent = canvas.parentElement
+  if (!parent) return
+  canvas.width = parent.clientWidth
+  canvas.height = parent.clientHeight
+}
+
+onMounted(() => {
+  const canvas = canvasRef.value as HTMLCanvasElement | null
+  if (!canvas) return
+  const parent = canvas.parentElement
+  if (!parent) return
+
+  // 起動時に1度だけ画面幅でscaleFactorを決定
+  const width = window.innerWidth
+  if (width < 768) {
+    // スマホ: app/assets/styles/_variables.scss v.$media-query-width
+    scaleFactor = 0.6
+  } else if (width < 1080) {
+    // タブレット: app/assets/styles/_variables.scss v.$pc-content-min-width
+    scaleFactor = 0.8
+  } else {
+    scaleFactor = 1.0
+  }
+
+  resizeCanvas(canvas)
+
+  // 親要素のリサイズを監視
+  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
+  resizeObserver.observe(parent)
+
+  // 要素の表示・非表示を監視（スクロールで画面外に出た場合）
+  intersectionObserver = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0]
+      if (!entry) return
+      if (entry.isIntersecting) {
+        startAnimation(canvas)
+      } else {
+        stopAnimation()
+      }
+    },
+    { threshold: 0 },
+  )
+  intersectionObserver.observe(canvas)
+
+  // タブの表示・非表示を監視
+  visibilityHandler = () => {
+    if (document.hidden) {
+      stopAnimation()
+    } else {
+      startAnimation(canvas)
+    }
+  }
+  document.addEventListener('visibilitychange', visibilityHandler)
+
+  // 初回スケジュール（ここでのみ呼ぶ）
+  scheduleNextFirework()
+})
+
+onUnmounted(() => {
+  stopAnimation()
+  resizeObserver?.disconnect()
+  intersectionObserver?.disconnect()
+  if (visibilityHandler) {
+    document.removeEventListener('visibilitychange', visibilityHandler)
+    visibilityHandler = null
+  }
+})
+</script>
+
+<template>
+  <canvas
+    ref="canvasRef"
+    class="fireworks-canvas"
+  />
+</template>
+
+<style scoped>
+.fireworks-canvas {
+  pointer-events: none;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaI18nNowrapText.vue
+```vue
+<script setup>
+// 日本語表示時に形態素内で改行が行われるのを出来るだけ防ぐための、プレーンテキストを返すコンポーネント。配列で渡すと、その要素内では改行がされなくなる
+// 新しい試みのため、要望への対応のため作成したが、管理の複雑化と改行の綺麗さを天秤にかけてもtoo matchである。
+
+const props = defineProps({
+  content: { type: [String, Array], required: true },
+})
+
+const isUnits = computed(() => Array.isArray(props.content))
+</script>
+
+<template>
+  <template v-if="isUnits">
+    <template
+      v-for="(unit, index) in content"
+      :key="index"
+    >
+      <br
+        v-if="unit === '__br__'"
+        class="sp-none"
+      >
+      <br
+        v-else-if="unit === '__br-tb-over__'"
+        class="tb-over"
+      >
+      <span
+        v-else
+        class="nowrap"
+      >{{ unit }}</span>
+    </template>
+  </template>
+  <template v-else>
+    {{ content }}
+  </template>
+</template>
+```
+
+## File: layers/main/app/components/ha/HaNewsCard.vue
+```vue
+<template>
+  <a
+    :href="item.href"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="news-card"
+  >
+    <img
+      v-if="item.imgSrc && item.imgSrc !== ''"
+      :src="item.imgSrc"
+      :alt="item.title"
+      class="news-card__img"
+      loading="lazy"
+    >
+    <div
+      v-else
+      class="content-card__empty-image"
+    >
+      <HaNoImage />
+    </div>
+    <p class="news-card__timestamp">{{ item.timestamp }}</p>
+    <div class="news-card__title-flex">
+      <p class="news-card__title">{{ item.title }}</p>
+      <HaJumpToListIcon class="news-card__icon" />
+    </div>
+  </a>
+</template>
+
+<script setup lang="ts">
+import HaJumpToListIcon from './icons/HaJumpToListIcon.vue'
+
+defineProps<{
+  item: { id: number, title: string, href: string, imgSrc: string, timestamp: string }
+}>()
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.news-card {
+  cursor: pointer;
+
+  display: block;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding-top: 16px;
+  border-top: 1px solid white;
+
+  transition: border-color 0.2s ease;
+
+  @include m.sp {
+    padding-top: 0;
+  }
+
+  &:hover {
+    border-color: v.$vket-magenta;
+
+    @include m.sp {
+      border: none;
+    }
+  }
+
+  &__img {
+    display: block;
+
+    aspect-ratio: 16/9;
+    width: 100%;
+    margin-bottom: 14px;
+    border-radius: 10px;
+
+    object-fit: cover;
+    background-color: #d2d2d2;
+
+    transition: transform 0.2s ease;
+
+    @include m.sp {
+      margin-bottom: 6px;
+    }
+  }
+
+  &__timestamp {
+    margin-bottom: 6px;
+    color: v.$vket-amber;
+  }
+
+  &__title-flex {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    margin-right: 1em;
+    font-size: 20px;
+    line-height: 1.2em;
+    color: white;
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__icon {
+    width: 20px;
+    fill: v.$vket-magenta;
+
+    @include m.sp {
+      width: 16px;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaTicketCard.vue
+```vue
+<i18n lang="yaml">
+ja:
+  cta:
+    purchase: チケット購入
+    pending: 準備中
+en:
+  cta:
+    purchase: Buy Tickets
+    pending: Coming soon
+</i18n>
+
+<template>
+  <div class="ticket-card glassy-box-3">
+    <p class="ticket-card__title">
+      {{ title }}
+    </p>
+    <p class="ticket-card__desc">
+      {{ desc }}
+    </p>
+
+    <NuxtLink
+      v-if="href"
+      class="glassy-button ticket-card__button none-hover-animation"
+      :to="href"
+      target="_blank"
+      rel="noopener"
+    >
+      {{ ctaLabel ?? t('cta.purchase') }}
+    </NuxtLink>
+    <span
+      v-else
+      class="glassy-button ticket-card__button ticket-card__button--disabled none-hover-animation"
+    >
+      {{ ctaLabel ?? t('cta.pending') }}
+    </span>
+  </div>
+</template>
+
+<script setup lang="ts">
+const { t } = useI18n()
+
+defineProps<{
+  title: string
+  desc: string
+  href?: string
+  ctaLabel?: string
+}>()
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ticket-card {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgb(49 35 96 / 40%);
+  mix-blend-mode: plus-lighter;
+
+  @include m.tb {
+    gap: 16px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1em;
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__desc {
+    font-size: 16px;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 130px;
+    height: 40px;
+
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    text-decoration: none;
+
+    &--disabled {
+      cursor: not-allowed;
+      opacity: 0.68;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/hm/HmContentsSwiper.vue
+```vue
+<script setup lang="ts">
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import type { Swiper as SwiperType } from 'swiper'
+import HaContentCard from '../ha/HaContentCard.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+// スライドの型
+type SlideItem = {
+  id: number
+  title: string
+  href: string
+  imgSrc: string
+  text: string
+}
+
+// ブレークポイントごとのSlidesPerViewの型
+type BreakpointSlidesPerView = {
+  [width: number]: {
+    slidesPerView: number | 'auto'
+  }
+}
+
+defineProps<{
+  items?: SlideItem[]
+  _slidesPerView?: number | 'auto'
+  _breakpoints?: BreakpointSlidesPerView
+}>()
+
+const modules = [Autoplay, Navigation, Pagination]
+
+// 先頭・末尾の状態（ボタンのdisabled制御用）
+const isBeginning = ref(true)
+const isEnd = ref(false)
+
+const updateState = (swiper: SwiperType) => {
+  isBeginning.value = swiper.isBeginning
+  isEnd.value = swiper.isEnd
+}
+
+const onSwiper = (swiper: SwiperType) => {
+  updateState(swiper)
+}
+
+const onSlideChange = (swiper: SwiperType) => {
+  updateState(swiper)
+}
+</script>
+
+<template>
+  <div class="works-swiper mb-25">
+    <Swiper
+      :slides-per-view="_slidesPerView ?? 'auto'"
+      :breakpoints="_breakpoints"
+      :speed="1000"
+      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
+      :modules="modules"
+      :centered-slides="false"
+      :space-between="24"
+      :navigation="{
+        nextEl: '.custom-swiper-button--next',
+        prevEl: '.custom-swiper-button--prev',
+      }"
+      :pagination="{
+        el: '.custom-swiper-pagination',
+        clickable: true,
+      }"
+      @swiper="onSwiper"
+      @slide-change="onSlideChange"
+    >
+      <SwiperSlide
+        v-for="item in items"
+        :key="item.id"
+      >
+        <HaContentCard :item="item" />
+      </SwiperSlide>
+      <div class="custom-swiper-pagination" />
+      <div class="swiper-button-flex">
+        <button
+          type="button"
+          class="custom-swiper-button custom-swiper-button--prev"
+          :disabled="isBeginning"
+          :class="{ 'is-disabled': isBeginning }"
+          aria-label="前のスライドへ"
+        >
+          <HaChevronLeftIcon />
+        </button>
+        <button
+          type="button"
+          class="custom-swiper-button custom-swiper-button--next"
+          :disabled="isEnd"
+          :class="{ 'is-disabled': isEnd }"
+          aria-label="次のスライドへ"
+        >
+          <HaChevronRightIcon />
+        </button>
+      </div>
+    </Swiper>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+:deep(.swiper) {
+  overflow: visible;
+}
+</style>
+```
+
+## File: layers/main/app/components/hm/HmNewsSwiper.vue
+```vue
+<script setup lang="ts">
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import HaNewsCard from '../ha/HaNewsCard.vue'
+import type { Swiper as SwiperType } from 'swiper'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+// スライドの型
+type SlideItem = {
+  id: number
+  timestamp: string
+  title: string
+  href: string
+  imgSrc: string
+}
+
+// ブレークポイントごとのSlidesPerViewの型
+type BreakpointSlidesPerView = {
+  [width: number]: {
+    slidesPerView: number | 'auto'
+  }
+}
+
+defineProps<{
+  items?: SlideItem[]
+  _slidesPerView?: number | 'auto'
+  _breakpoints?: BreakpointSlidesPerView
+}>()
+
+const modules = [Autoplay, Navigation, Pagination]
+
+// 先頭・末尾の状態（ボタンのdisabled制御用）
+const isBeginning = ref(true)
+const isEnd = ref(false)
+
+const updateState = (swiper: SwiperType) => {
+  isBeginning.value = swiper.isBeginning
+  isEnd.value = swiper.isEnd
+}
+
+const onSwiper = (swiper: SwiperType) => {
+  updateState(swiper)
+}
+
+const onSlideChange = (swiper: SwiperType) => {
+  updateState(swiper)
+}
+</script>
+
+<template>
+  <div class="works-swiper mb-25">
+    <Swiper
+      :slides-per-view="_slidesPerView ?? 'auto'"
+      :breakpoints="_breakpoints"
+      :speed="1000"
+      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
+      :modules="modules"
+      :centered-slides="false"
+      :space-between="24"
+      :navigation="{
+        nextEl: '.custom-swiper-button--next',
+        prevEl: '.custom-swiper-button--prev',
+      }"
+      :pagination="{
+        el: '.custom-swiper-pagination',
+        clickable: true,
+      }"
+      @swiper="onSwiper"
+      @slide-change="onSlideChange"
+    >
+      <SwiperSlide
+        v-for="item in items"
+        :key="item.id"
+      >
+        <HaNewsCard :item="item" />
+      </SwiperSlide>
+      <div
+        class="custom-swiper-pagination"
+      />
+      <div class="swiper-button-flex">
+        <button
+          type="button"
+          class="custom-swiper-button custom-swiper-button--prev"
+          :disabled="isBeginning"
+          :class="{ 'is-disabled': isBeginning }"
+          aria-label="前のスライドへ"
+        >
+          <HaChevronLeftIcon />
+        </button>
+        <button
+          type="button"
+          class="custom-swiper-button custom-swiper-button--next"
+          :disabled="isEnd"
+          :class="{ 'is-disabled': isEnd }"
+          aria-label="次のスライドへ"
+        >
+          <HaChevronRightIcon />
+        </button>
+      </div>
+    </Swiper>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+:deep(.swiper) {
+  overflow: visible;
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtRelatedEventsSection.vue
+```vue
+<script setup lang="ts">
+import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+// Swiper
+import type { Swiper as SwiperType } from 'swiper'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
+const isBeginning = ref(true)
+const isEnd = ref(false)
+const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
+  isBeginning.value = newIsBeginning
+  isEnd.value = newIsEnd
+}
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="関連イベント"
+      label="RELATED EVENTS"
+    >
+      <template #controls>
+        <button
+          :disabled="isBeginning"
+          class="custom-swiper-button"
+          :class="{ 'is-disabled': isBeginning }"
+          @click="worksSwiperRef?.swiperInstance?.slidePrev()"
+        >
+          <HaChevronLeftIcon />
+        </button>
+        <button
+          :disabled="isEnd"
+          class="custom-swiper-button"
+          :class="{ 'is-disabled': isEnd }"
+          @click="worksSwiperRef?.swiperInstance?.slideNext()"
+        >
+          <HaChevronRightIcon />
+        </button>
+      </template>
+    </HaSectionTitle>
+    <HmNewsSwiper
+      :_slides-per-view="1"
+      :_breakpoints="{
+        768: { slidesPerView: 1.4 },
+      }"
+      @slide-change="onSlideChange"
+    />
+  </div>
+</template>
 ```
 
 ## File: layers/main/app/components/ht/HtScheduleSection.vue
@@ -5388,192 +5734,82 @@ const { t: tGlobal } = useI18n()
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtTicketSection.vue
+## File: layers/main/app/components/ht/HtSponsorsAndPartnersSection.vue
 ```vue
-<i18n lang="yaml">
-ja:
-  section:
-    title: チケット
-    label: tickets
-  description:
-    line1: 持続可能なイベント開催のため、
-    line2: チケット制でのご参加にご協力をお願いいたします。
-    line3: チケットは複数種類を用意予定です。
-  cards:
-    general:
-      title: 一般参加チケット
-      desc: 販売開始に向けて準備中です。
-      cta: 準備中
-    exhibitor:
-      title: 出展者向け案内
-      desc: 募集要項・申込方法は順次公開予定です。
-      cta: 近日公開
-    updates:
-      title: 最新情報
-      desc: 公式Xで販売開始や追加情報をお知らせします。
-      cta: 公式Xを見る
-en:
-  section:
-    title: Tickets
-    label: tickets
-  description:
-    line1: To support a sustainable event,
-    line2: we kindly ask for your cooperation with ticketed admission.
-    line3: Multiple ticket types are planned.
-  cards:
-    general:
-      title: General Admission
-      desc: Ticket sales are being prepared.
-      cta: Coming soon
-    exhibitor:
-      title: Exhibitor Information
-      desc: Application guidelines and details will be announced later.
-      cta: Coming soon
-    updates:
-      title: Latest Updates
-      desc: Sales launches and additional information will be announced on official X.
-      cta: Official X
-</i18n>
-
 <script setup lang="ts">
-import HaTicketCard from '../ha/HaTicketCard.vue'
+import HaCommingSoon from '../ha/HaCommingSoon.vue'
+import HaSectionTitle from '../ha/HaSectionTitle.vue'
 
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+// import HaSponsorCard from '../ha/HaSponsorCard.vue'
 
-const { t } = useI18n()
-const sectionRef = ref<Element | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+const { t: tGlobal } = useI18n()
 
-onMounted(() => {
-  fadeInUp(sectionRef)
+// // GSAP
+// import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.ticket-grid__item')
-  fadeInUpStagger(Array.from(items))
-})
+// const sectionRef = ref<HTMLElement | null>(null)
+// const listRef = ref<HTMLElement | null>(null)
+// const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+// onMounted(() => {
+//   fadeInUp(sectionRef)
+//   if (!listRef.value) return
+//   const items = listRef.value.querySelectorAll('.sponsor-grid__child')
+//   fadeInUpStagger(Array.from(items))
+// })
 </script>
 
 <template>
-  <div ref="sectionRef">
+  <HaSectionTitle
+    :title="tGlobal('sectionTitle.sponsorsAndPartners')"
+    label="SPONSORS & PARTNERS"
+  />
+  <HaCommingSoon />
+  <!-- <div ref="sectionRef">
     <HaSectionTitle
-      :title="t('section.title')"
-      :label="t('section.label')"
+      title="ご協力"
+      label="SPONSORS & PARTNERS"
     />
-    <p class="description description--left">
-      {{ t('description.line1') }}<br>
-      {{ t('description.line2') }}<br>
-      {{ t('description.line3') }}
-    </p>
     <div
       ref="listRef"
-      class="ticket-grid"
+      class="sponsor-grid"
     >
-      <div class="ticket-grid__item">
-        <HaTicketCard
-          :title="t('cards.general.title')"
-          :desc="t('cards.general.desc')"
-          :cta-label="t('cards.general.cta')"
+      <div class="sponsor-grid__child">
+        <HaSponsorCard
+          label="企業出展"
+          name="〇〇〇 様"
         />
       </div>
-      <div class="ticket-grid__item">
-        <HaTicketCard
-          :title="t('cards.exhibitor.title')"
-          :desc="t('cards.exhibitor.desc')"
-          :cta-label="t('cards.exhibitor.cta')"
+      <div class="sponsor-grid__child">
+        <HaSponsorCard
+          label="企業出展"
+          name="〇〇〇 様"
         />
       </div>
-      <div class="ticket-grid__item ticket-grid__item--full-width">
-        <HaTicketCard
-          :title="t('cards.updates.title')"
-          :desc="t('cards.updates.desc')"
-          href="https://x.com/vketreal_vris"
-          :cta-label="t('cards.updates.cta')"
+      <div class="sponsor-grid__child">
+        <HaSponsorCard
+          label="企業出展"
+          name="〇〇〇 様"
         />
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.ticket-grid {
+.sponsor-grid {
   display: grid;
-  grid-auto-rows: 275px;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 24px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
 
   @include m.tb {
-    grid-auto-rows: 166px;
-    gap: 12px 16px;
+    grid-template-columns: 1fr 1fr;
   }
 
   @include m.sp {
-    grid-template-columns: 1fr;
-  }
-
-  &__item {
-    &--full-width {
-      grid-column: 1 / -1;
-    }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ha/HaAboutCard.vue
-```vue
-<script setup lang="ts">
-defineProps<{
-  color:
-    | 'cyan'
-    | 'magenta'
-    | 'amber'
-    | 'vermilion'
-    | 'light-cyan'
-    | 'light-magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
-}>()
-</script>
-
-<template>
-  <div :class="['glassy-box about-card', `glassy-box--${color ?? 'cyan'}`]">
-    <h3 class="title about-card__title">
-      <slot name="title" />
-    </h3>
-    <div class="about-card__body">
-      <slot name="body" />
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.about-card {
-  padding: 20px;
-
-  &__icon {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 8px;
-    border-radius: 1000px;
-  }
-
-  &__title {
-    font-size: 16px;
-  }
-
-  &__body {
-    font-size: 13px;
-    line-height: 1.5em;
-
-    @include m.sp {
-      line-height: 1.8em;
-    }
+    gap: 20px;
   }
 }
 </style>
@@ -5620,6 +5856,243 @@ defineProps<{
         font-weight: 400;
         text-align: center;
     }
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaConfetti.vue
+```vue
+<script setup lang="ts">
+/*
+  canvas最上部のランダムな位置から、ランダムな角度でランダムな色の長方形を一定間隔で収縮させながら落下させている。
+*/
+import { shallowRef, onMounted, onUnmounted } from 'vue'
+
+const canvasRef = shallowRef<HTMLCanvasElement | null>(null)
+
+// 調整可能なパラメータ
+const CONFIG = {
+  particleCount: 80,
+  fallSpeed: 2,
+  maxAngle: 15,
+  maxRotation: 65,
+  width: 12,
+  height: 8,
+  flipInterval: 500,
+} as const
+
+// 型定義
+interface Confetti {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  hue: number
+  scaleY: number
+  scaleDirection: number
+  flipTimer: number
+  rotation: number
+}
+
+// 状態管理
+let animationId: number | null = null
+let resizeObserver: ResizeObserver | null = null
+let intersectionObserver: IntersectionObserver | null = null
+let visibilityHandler: (() => void) | null = null
+let scaleFactor: number = 1
+let confetti: Confetti[] = []
+
+// ユーティリティ
+function random(min: number, max: number): number {
+  return Math.random() * (max - min) + min
+}
+
+// 紙吹雪を1個生成（canvas最上部からスタート）
+function createConfetti(canvasWidth: number): Confetti {
+  const sign = Math.random() < 0.5 ? 1 : -1
+  const angleRad = ((random(0, CONFIG.maxAngle) * Math.PI) / 180) * sign
+  const speed = CONFIG.fallSpeed * scaleFactor
+
+  return {
+    x: random(0, canvasWidth),
+    y: -CONFIG.height,
+    vx: Math.sin(angleRad) * speed,
+    vy: Math.cos(angleRad) * speed,
+    hue: Math.floor(random(0, 360)),
+    scaleY: 1,
+    scaleDirection: -1,
+    flipTimer: performance.now() + CONFIG.flipInterval,
+    rotation:
+      (random(-1 * CONFIG.maxRotation, CONFIG.maxRotation) * Math.PI) / 180,
+  }
+}
+
+// 再開時にflipTimerをばらつかせてリセット（これがないと収縮タイミングが同期してしまう）
+function resetFlipTimers() {
+  const now = performance.now()
+  confetti.forEach((c) => {
+    c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
+  })
+}
+
+// アニメーションのメイン処理
+function startAnimation(canvas: HTMLCanvasElement) {
+  if (animationId !== null) return
+
+  const ctx = canvas.getContext('2d')!
+
+  // 初期状態では、パーティクルを画面内のランダムな高さに配置
+  if (confetti.length === 0) {
+    const now = performance.now()
+    confetti = Array.from({ length: CONFIG.particleCount }, () => {
+      const c = createConfetti(canvas.width)
+      c.y = random(0, canvas.height)
+      c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
+      return c
+    })
+  }
+
+  function updateConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    const now = performance.now()
+    const w = CONFIG.width * scaleFactor
+    const h = CONFIG.height * scaleFactor
+
+    confetti.forEach((c) => {
+      c.x += c.vx
+      c.y += c.vy
+
+      // 回転アニメーション（収縮アニメーションによる疑似的なもの）：flipTimerごとに折り返す
+      if (now >= c.flipTimer) {
+        c.scaleDirection *= -1
+        c.flipTimer = now + CONFIG.flipInterval
+      }
+
+      c.scaleY += c.scaleDirection * 0.05
+      c.scaleY = Math.max(0.1, Math.min(1, c.scaleY))
+
+      // 光の反射表現（回転アニメーションに合わせて輝度を変化させることによる疑似的なもの）
+      const lightness = 30 + c.scaleY * 40
+
+      // 画面下に出たら最上部に戻す
+      if (c.y > canvas.height + h) {
+        const next = createConfetti(canvas.width)
+        Object.assign(c, next)
+      }
+
+      ctx.save()
+      ctx.translate(c.x, c.y)
+      ctx.rotate(c.rotation)
+      ctx.scale(1, c.scaleY)
+      ctx.fillStyle = `hsl(${c.hue}, 90%, ${lightness}%)`
+      ctx.fillRect(-w / 2, -h / 2, w, h)
+      ctx.restore()
+    })
+  }
+
+  function animate() {
+    animationId = requestAnimationFrame(animate)
+    updateConfetti()
+  }
+
+  animate()
+}
+
+// 停止・リサイズ
+function stopAnimation() {
+  if (animationId !== null) {
+    cancelAnimationFrame(animationId)
+    animationId = null
+  }
+}
+
+function resizeCanvas(canvas: HTMLCanvasElement) {
+  const parent = canvas.parentElement
+  if (!parent) return
+  canvas.width = parent.clientWidth
+  canvas.height = parent.clientHeight
+}
+
+// ライフサイクル
+onMounted(() => {
+  const canvas = canvasRef.value as HTMLCanvasElement | null
+  if (!canvas) return
+  const parent = canvas.parentElement
+  if (!parent) return
+
+  const width = window.innerWidth
+  if (width < 768) {
+    // スマホ: app/assets/styles/_variables.scss v.$media-query-width
+    scaleFactor = 0.6
+  } else if (width < 1080) {
+    // タブレット: app/assets/styles/_variables.scss v.$pc-content-min-width
+    scaleFactor = 0.8
+  } else {
+    scaleFactor = 1.0
+  }
+
+  resizeCanvas(canvas)
+
+  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
+  resizeObserver.observe(parent)
+
+  intersectionObserver = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0]
+      if (!entry) return
+      if (entry.isIntersecting) {
+        resetFlipTimers()
+        startAnimation(canvas)
+      } else {
+        stopAnimation()
+      }
+    },
+    { threshold: 0 },
+  )
+  intersectionObserver.observe(canvas)
+
+  visibilityHandler = () => {
+    if (document.hidden) {
+      stopAnimation()
+    } else {
+      resetFlipTimers()
+      startAnimation(canvas)
+    }
+  }
+  document.addEventListener('visibilitychange', visibilityHandler)
+})
+
+onUnmounted(() => {
+  stopAnimation()
+  resizeObserver?.disconnect()
+  intersectionObserver?.disconnect()
+  if (visibilityHandler) {
+    document.removeEventListener('visibilitychange', visibilityHandler)
+    visibilityHandler = null
+  }
+})
+</script>
+
+<template>
+  <canvas
+    ref="canvasRef"
+    class="confetti-canvas"
+  />
+</template>
+
+<style scoped>
+.confetti-canvas {
+  pointer-events: none;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0.2;
 }
 </style>
 ```
@@ -6292,119 +6765,6 @@ defineProps<{
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaTicketCard.vue
-```vue
-<i18n lang="yaml">
-ja:
-  cta:
-    purchase: チケット購入
-    pending: 準備中
-en:
-  cta:
-    purchase: Buy Tickets
-    pending: Coming soon
-</i18n>
-
-<template>
-  <div class="ticket-card glassy-box-3">
-    <p class="ticket-card__title">
-      {{ title }}
-    </p>
-    <p class="ticket-card_desc">
-      {{ desc }}
-    </p>
-
-    <NuxtLink
-      v-if="href"
-      class="glassy-button ticket-card__button none-hover-animation"
-      :to="href"
-      target="_blank"
-      rel="noopener"
-    >
-      {{ ctaLabel ?? t('cta.purchase') }}
-    </NuxtLink>
-    <span
-      v-else
-      class="glassy-button ticket-card__button ticket-card__button--disabled none-hover-animation"
-    >
-      {{ ctaLabel ?? t('cta.pending') }}
-    </span>
-  </div>
-</template>
-
-<script setup lang="ts">
-const { t } = useI18n()
-
-defineProps<{
-  title: string
-  desc: string
-  href?: string
-  ctaLabel?: string
-}>()
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.ticket-card {
-  display: flex;
-  flex-direction: column;
-  gap: 44px;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 100%;
-
-  background: rgb(49 35 96 / 40%);
-  mix-blend-mode: plus-lighter;
-
-  @include m.tb {
-    gap: 16px;
-  }
-
-  &__title {
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 1em;
-
-    @include m.sp {
-      font-size: 16px;
-    }
-  }
-
-  &__desc {
-    font-size: 16px;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 130px;
-    height: 40px;
-
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-    text-decoration: none;
-
-    &--disabled {
-      cursor: not-allowed;
-      opacity: 0.68;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtParticipationGuide.vue
 ```vue
 <i18n lang="yaml">
@@ -6416,7 +6776,7 @@ ja:
   venueLabel: 会場
   venue: アスティ45 4F アスティホール
   ticketLabel: 来場チケット
-  ticketNotice: 来場チケットは8月下旬に販売開始予定です。
+  ticketNotice: 来場チケットは2026年8月26日(水)より販売開始です。
 en:
   nameLabel: Event Name
   name: VketReal in Sapporo 2026 Autumn
@@ -6425,7 +6785,7 @@ en:
   venueLabel: Venue
   venue: Asty45 4F Asty Hall
   ticketLabel: Visitor Tickets
-  ticketNotice: Visitor tickets are scheduled to go on sale in late August.
+  ticketNotice: Visitor tickets go on sale Wednesday, August 26, 2026.
 </i18n>
 
 <script setup lang="ts">
@@ -6612,151 +6972,6 @@ onMounted(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtRelatedEventsSection.vue
-```vue
-<script setup lang="ts">
-import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-// Swiper
-import type { Swiper as SwiperType } from 'swiper'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const worksSwiperRef = ref<{ swiperInstance: SwiperType | null } | null>(null)
-const isBeginning = ref(true)
-const isEnd = ref(false)
-const onSlideChange = (newIsBeginning: boolean, newIsEnd: boolean) => {
-  isBeginning.value = newIsBeginning
-  isEnd.value = newIsEnd
-}
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="関連イベント"
-      label="RELATED EVENTS"
-    >
-      <template #controls>
-        <button
-          :disabled="isBeginning"
-          class="custom-swiper-button"
-          :class="{ 'is-disabled': isBeginning }"
-          @click="worksSwiperRef?.swiperInstance?.slidePrev()"
-        >
-          <HaChevronLeftIcon />
-        </button>
-        <button
-          :disabled="isEnd"
-          class="custom-swiper-button"
-          :class="{ 'is-disabled': isEnd }"
-          @click="worksSwiperRef?.swiperInstance?.slideNext()"
-        >
-          <HaChevronRightIcon />
-        </button>
-      </template>
-    </HaSectionTitle>
-    <HmNewsSwiper
-      :_slides-per-view="1"
-      :_breakpoints="{
-        768: { slidesPerView: 1.4 },
-      }"
-      @slide-change="onSlideChange"
-    />
-  </div>
-</template>
-```
-
-## File: layers/main/app/components/ht/HtSponsorsAndPartnersSection.vue
-```vue
-<script setup lang="ts">
-import HaCommingSoon from '../ha/HaCommingSoon.vue'
-import HaSectionTitle from '../ha/HaSectionTitle.vue'
-
-// import HaSponsorCard from '../ha/HaSponsorCard.vue'
-
-const { t: tGlobal } = useI18n()
-
-// // GSAP
-// import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-// const sectionRef = ref<HTMLElement | null>(null)
-// const listRef = ref<HTMLElement | null>(null)
-// const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-// onMounted(() => {
-//   fadeInUp(sectionRef)
-//   if (!listRef.value) return
-//   const items = listRef.value.querySelectorAll('.sponsor-grid__child')
-//   fadeInUpStagger(Array.from(items))
-// })
-</script>
-
-<template>
-  <HaSectionTitle
-    :title="tGlobal('sectionTitle.sponsorsAndPartners')"
-    label="SPONSORS & PARTNERS"
-  />
-  <HaCommingSoon />
-  <!-- <div ref="sectionRef">
-    <HaSectionTitle
-      title="ご協力"
-      label="SPONSORS & PARTNERS"
-    />
-    <div
-      ref="listRef"
-      class="sponsor-grid"
-    >
-      <div class="sponsor-grid__child">
-        <HaSponsorCard
-          label="企業出展"
-          name="〇〇〇 様"
-        />
-      </div>
-      <div class="sponsor-grid__child">
-        <HaSponsorCard
-          label="企業出展"
-          name="〇〇〇 様"
-        />
-      </div>
-      <div class="sponsor-grid__child">
-        <HaSponsorCard
-          label="企業出展"
-          name="〇〇〇 様"
-        />
-      </div>
-    </div>
-  </div> -->
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/mixins' as m;
-
-.sponsor-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 24px;
-
-  @include m.tb {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  @include m.sp {
-    gap: 20px;
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/HaAnchorLink.vue
 ```vue
 <template>
@@ -6802,243 +7017,6 @@ const handleClick = () => {
   }, 350)
 }
 </script>
-```
-
-## File: layers/main/app/components/ha/HaConfetti.vue
-```vue
-<script setup lang="ts">
-/*
-  canvas最上部のランダムな位置から、ランダムな角度でランダムな色の長方形を一定間隔で収縮させながら落下させている。
-*/
-import { shallowRef, onMounted, onUnmounted } from 'vue'
-
-const canvasRef = shallowRef<HTMLCanvasElement | null>(null)
-
-// 調整可能なパラメータ
-const CONFIG = {
-  particleCount: 80,
-  fallSpeed: 2,
-  maxAngle: 15,
-  maxRotation: 65,
-  width: 12,
-  height: 8,
-  flipInterval: 500,
-} as const
-
-// 型定義
-interface Confetti {
-  x: number
-  y: number
-  vx: number
-  vy: number
-  hue: number
-  scaleY: number
-  scaleDirection: number
-  flipTimer: number
-  rotation: number
-}
-
-// 状態管理
-let animationId: number | null = null
-let resizeObserver: ResizeObserver | null = null
-let intersectionObserver: IntersectionObserver | null = null
-let visibilityHandler: (() => void) | null = null
-let scaleFactor: number = 1
-let confetti: Confetti[] = []
-
-// ユーティリティ
-function random(min: number, max: number): number {
-  return Math.random() * (max - min) + min
-}
-
-// 紙吹雪を1個生成（canvas最上部からスタート）
-function createConfetti(canvasWidth: number): Confetti {
-  const sign = Math.random() < 0.5 ? 1 : -1
-  const angleRad = ((random(0, CONFIG.maxAngle) * Math.PI) / 180) * sign
-  const speed = CONFIG.fallSpeed * scaleFactor
-
-  return {
-    x: random(0, canvasWidth),
-    y: -CONFIG.height,
-    vx: Math.sin(angleRad) * speed,
-    vy: Math.cos(angleRad) * speed,
-    hue: Math.floor(random(0, 360)),
-    scaleY: 1,
-    scaleDirection: -1,
-    flipTimer: performance.now() + CONFIG.flipInterval,
-    rotation:
-      (random(-1 * CONFIG.maxRotation, CONFIG.maxRotation) * Math.PI) / 180,
-  }
-}
-
-// 再開時にflipTimerをばらつかせてリセット（これがないと収縮タイミングが同期してしまう）
-function resetFlipTimers() {
-  const now = performance.now()
-  confetti.forEach((c) => {
-    c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
-  })
-}
-
-// アニメーションのメイン処理
-function startAnimation(canvas: HTMLCanvasElement) {
-  if (animationId !== null) return
-
-  const ctx = canvas.getContext('2d')!
-
-  // 初期状態では、パーティクルを画面内のランダムな高さに配置
-  if (confetti.length === 0) {
-    const now = performance.now()
-    confetti = Array.from({ length: CONFIG.particleCount }, () => {
-      const c = createConfetti(canvas.width)
-      c.y = random(0, canvas.height)
-      c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
-      return c
-    })
-  }
-
-  function updateConfetti() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-    const now = performance.now()
-    const w = CONFIG.width * scaleFactor
-    const h = CONFIG.height * scaleFactor
-
-    confetti.forEach((c) => {
-      c.x += c.vx
-      c.y += c.vy
-
-      // 回転アニメーション（収縮アニメーションによる疑似的なもの）：flipTimerごとに折り返す
-      if (now >= c.flipTimer) {
-        c.scaleDirection *= -1
-        c.flipTimer = now + CONFIG.flipInterval
-      }
-
-      c.scaleY += c.scaleDirection * 0.05
-      c.scaleY = Math.max(0.1, Math.min(1, c.scaleY))
-
-      // 光の反射表現（回転アニメーションに合わせて輝度を変化させることによる疑似的なもの）
-      const lightness = 30 + c.scaleY * 40
-
-      // 画面下に出たら最上部に戻す
-      if (c.y > canvas.height + h) {
-        const next = createConfetti(canvas.width)
-        Object.assign(c, next)
-      }
-
-      ctx.save()
-      ctx.translate(c.x, c.y)
-      ctx.rotate(c.rotation)
-      ctx.scale(1, c.scaleY)
-      ctx.fillStyle = `hsl(${c.hue}, 90%, ${lightness}%)`
-      ctx.fillRect(-w / 2, -h / 2, w, h)
-      ctx.restore()
-    })
-  }
-
-  function animate() {
-    animationId = requestAnimationFrame(animate)
-    updateConfetti()
-  }
-
-  animate()
-}
-
-// 停止・リサイズ
-function stopAnimation() {
-  if (animationId !== null) {
-    cancelAnimationFrame(animationId)
-    animationId = null
-  }
-}
-
-function resizeCanvas(canvas: HTMLCanvasElement) {
-  const parent = canvas.parentElement
-  if (!parent) return
-  canvas.width = parent.clientWidth
-  canvas.height = parent.clientHeight
-}
-
-// ライフサイクル
-onMounted(() => {
-  const canvas = canvasRef.value as HTMLCanvasElement | null
-  if (!canvas) return
-  const parent = canvas.parentElement
-  if (!parent) return
-
-  const width = window.innerWidth
-  if (width < 768) {
-    // スマホ: app/assets/styles/_variables.scss v.$media-query-width
-    scaleFactor = 0.6
-  } else if (width < 1080) {
-    // タブレット: app/assets/styles/_variables.scss v.$pc-content-min-width
-    scaleFactor = 0.8
-  } else {
-    scaleFactor = 1.0
-  }
-
-  resizeCanvas(canvas)
-
-  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
-  resizeObserver.observe(parent)
-
-  intersectionObserver = new IntersectionObserver(
-    (entries) => {
-      const entry = entries[0]
-      if (!entry) return
-      if (entry.isIntersecting) {
-        resetFlipTimers()
-        startAnimation(canvas)
-      } else {
-        stopAnimation()
-      }
-    },
-    { threshold: 0 },
-  )
-  intersectionObserver.observe(canvas)
-
-  visibilityHandler = () => {
-    if (document.hidden) {
-      stopAnimation()
-    } else {
-      resetFlipTimers()
-      startAnimation(canvas)
-    }
-  }
-  document.addEventListener('visibilitychange', visibilityHandler)
-})
-
-onUnmounted(() => {
-  stopAnimation()
-  resizeObserver?.disconnect()
-  intersectionObserver?.disconnect()
-  if (visibilityHandler) {
-    document.removeEventListener('visibilitychange', visibilityHandler)
-    visibilityHandler = null
-  }
-})
-</script>
-
-<template>
-  <canvas
-    ref="canvasRef"
-    class="confetti-canvas"
-  />
-</template>
-
-<style scoped>
-.confetti-canvas {
-  pointer-events: none;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-
-  opacity: 0.2;
-}
-</style>
 ```
 
 ## File: layers/main/app/components/ha/HaContactCard.vue
@@ -7158,6 +7136,166 @@ defineProps({
   &__icon {
     width: 14px;
     height: 14px;
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaInfoCard.vue
+```vue
+<script setup lang="ts">
+import HaInfoIcon from './icons/HaInfoIcon.vue'
+
+const { t } = useI18n()
+
+const brSlots = ['br', 'br1', 'br2', 'br3']
+
+interface InfoItem {
+  labelKey: string
+  textKey: string
+  brClass?: string
+}
+
+defineProps<{
+  titleKey: string
+  items: InfoItem[]
+}>()
+</script>
+
+<template>
+  <div class="info-card glassy-box-2 none-hover-animation">
+    <div class="info-card__head">
+      <div class="info-card__icon">
+        <HaInfoIcon />
+      </div>
+      <h4 class="info-card__title">
+        {{ t(titleKey) }}
+      </h4>
+    </div>
+    <div class="info-card__body">
+      <div class="info-card__items">
+        <div
+          v-for="item in items"
+          :key="item.labelKey"
+          class="info-card__item"
+        >
+          <p class="info-card__label">
+            {{ t(item.labelKey) }}
+          </p>
+          <p class="info-card__text">
+            <i18n-t
+              :keypath="item.textKey"
+              tag="span"
+              scope="global"
+            >
+              <template
+                v-for="slot in brSlots"
+                #[slot]=""
+                :key="slot"
+              >
+                <br :class="item.brClass">
+              </template>
+            </i18n-t>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.info-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  padding: 32px;
+
+  background-color: rgb(18 33 59 / 60%);
+
+  @include m.tb {
+    padding: 24px;
+  }
+
+  &__head {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+
+    @include m.sp {
+      gap: 8px;
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+
+    background: rgb(30 53 91 / 100%);
+
+    @include m.sp {
+      width: 28px;
+      height: 28px;
+    }
+
+    svg {
+      width: 60%;
+      height: 60%;
+    }
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  &__body {
+    flex-grow: 1;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid rgb(86 86 86 / 100%);
+
+    &:last-of-type {
+      border: none;
+    }
+  }
+
+  &__label {
+    margin-right: 16px;
+
+    font-size: 16px;
+    font-weight: bold;
+    color: v.$vket-amber;
+    white-space: nowrap;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__text {
+    font-size: 16px;
+    color: white;
+    text-align: right;
+
+    @include m.sp {
+      font-size: 14px;
+    }
   }
 }
 </style>
@@ -7288,6 +7426,15 @@ onMounted(() => {
       alt="Vket Real in 札幌 2026 Autumnのキービジュアル"
       class="hero__kv"
     >
+    <NuxtLink
+      class="hero__ticket-button glassy-button"
+      to="https://livepocket.jp/e/alkjd"
+      target="_blank"
+      rel="noopener"
+    >
+      <HaTicketIcon class="hero__ticket-icon" />
+      {{ t('ticketCta') }}
+    </NuxtLink>
     <div
       id="lower-content"
       class="lower-content"
@@ -7302,6 +7449,9 @@ onMounted(() => {
 
 <script lang="ts" setup>
 import HaEventInfo from '../ha/HaEventInfo.vue'
+import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
+
+const { t } = useI18n({ useScope: 'local' })
 
 const { fadeOutOnScroll, destroyScrollTriggers } = useGsapFadeIn()
 const route = useRoute()
@@ -7332,6 +7482,13 @@ const initScrollEffects = () => {
   fadeOutOnScroll(lowerContent, firstView)
 }
 </script>
+
+<i18n lang="yaml">
+ja:
+  ticketCta: チケットを購入する
+en:
+  ticketCta: Buy Tickets
+</i18n>
 
 <style lang="scss" scoped>
 .hero {
@@ -7372,6 +7529,40 @@ const initScrollEffects = () => {
     height: 100%;
 
     object-fit: contain;
+  }
+
+  &__ticket-button {
+    position: absolute;
+    z-index: 3;
+    bottom: 136px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+
+    width: min(320px, calc(100% - 32px));
+    min-height: 56px;
+    padding: 12px 24px;
+
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+
+    @media (width <= 767px) {
+      bottom: 216px;
+      min-height: 52px;
+      font-size: 14px;
+    }
+  }
+
+  &__ticket-icon {
+    width: 22px;
+    height: 22px;
   }
 }
 
@@ -7449,7 +7640,7 @@ ja:
     item2:
       title: 'チケットはどこで買えますか？'
       contents:
-        - 'オンラインにて事前販売予定しております。'
+        - 'LivePocketにて2026年8月26日(水)より販売します。ページ内の「チケットを購入する」ボタンからお申し込みください。'
     item3:
       title: '入場制限等はありますか？'
       contents:
@@ -7468,7 +7659,7 @@ en:
     item2:
       title: 'Where can I purchase tickets?'
       contents:
-        - 'Tickets are planned to be sold online in advance.'
+        - 'Tickets go on sale through LivePocket on Wednesday, August 26, 2026. Use the Buy Tickets button on this page to purchase.'
     item3:
       title: 'Is there a limit on the number of attendees?'
       contents:
@@ -7674,64 +7865,82 @@ defineProps<{
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaInfoCard.vue
+## File: layers/main/app/components/ht/HtContactSection.vue
 ```vue
+<i18n lang="yaml">
+ja:
+  personal:
+    title: '個人向けお問い合わせ'
+    text: '一般の方からのお問い合わせはこちら'
+  corporate:
+    title: '法人向けお問い合わせ'
+    text: '企業・法人の方からのお問い合わせはこちら'
+  press:
+    title: '広報向けお問い合わせ'
+    text: 'メディア・広報関連のお問い合わせはこちら'
+en:
+  personal:
+    title: 'For General Inquiries'
+    text: 'For inquiries from individuals'
+  corporate:
+    title: 'For Business Inquiries'
+    text: 'For inquiries from companies and organizations'
+  press:
+    title: 'For Press Inquiries'
+    text: 'For media and press-related inquiries'
+</i18n>
+
 <script setup lang="ts">
-import HaInfoIcon from './icons/HaInfoIcon.vue'
+import HaContactCard from '../ha/HaContactCard.vue'
 
-const { t } = useI18n()
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+// import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 
-const brSlots = ['br', 'br1', 'br2', 'br3']
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
 
-interface InfoItem {
-  labelKey: string
-  textKey: string
-  brClass?: string
-}
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
 
-defineProps<{
-  titleKey: string
-  items: InfoItem[]
-}>()
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.contact-grid__child')
+  fadeInUpStagger(Array.from(items))
+})
 </script>
 
 <template>
-  <div class="info-card glassy-box-2 none-hover-animation">
-    <div class="info-card__head">
-      <div class="info-card__icon">
-        <HaInfoIcon />
-      </div>
-      <h4 class="info-card__title">
-        {{ t(titleKey) }}
-      </h4>
-    </div>
-    <div class="info-card__body">
-      <div class="info-card__items">
-        <div
-          v-for="item in items"
-          :key="item.labelKey"
-          class="info-card__item"
-        >
-          <p class="info-card__label">
-            {{ t(item.labelKey) }}
-          </p>
-          <p class="info-card__text">
-            <i18n-t
-              :keypath="item.textKey"
-              tag="span"
-              scope="global"
-            >
-              <template
-                v-for="slot in brSlots"
-                #[slot]=""
-                :key="slot"
-              >
-                <br :class="item.brClass">
-              </template>
-            </i18n-t>
-          </p>
-        </div>
-      </div>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.contact')"
+      label="CONTACT"
+    />
+    <div class="contact-grid">
+      <HaContactCard
+        :title="t('personal.title')"
+        :text="t('personal.text')"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSchGlf0h1eszxPupo5aWycU_s3CAOmkP1LJP38Niiwi95KNwQ/viewform"
+        color="amber"
+        class="contact-grid__child"
+      />
+      <HaContactCard
+        :title="t('corporate.title')"
+        :text="t('corporate.text')"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSeEevGm1q7byQWd7RhGWTGYClcGthQEbWufSviyiFbcYzsd6A/viewform"
+        color="cyan"
+        class="contact-grid__child"
+      />
+      <HaContactCard
+        :title="t('press.title')"
+        :text="t('press.text')"
+        href="https://docs.google.com/forms/d/e/1FAIpQLScmYNjxOyf1GtHVSqsRe7pFDoyfUhiSSDqJh5Q0WD40b-1LOg/viewform"
+        color="magenta"
+        class="contact-grid__child contact-grid__child--full-width"
+      />
     </div>
   </div>
 </template>
@@ -7740,94 +7949,26 @@ defineProps<{
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.info-card {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
 
-  width: 100%;
-  height: 100%;
-  min-height: 340px;
-  padding: 32px;
+.contact-grid {
+  display: grid;
+  grid-auto-rows: 150px;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 
-  background-color: rgb(18 33 59 / 60%);
+  max-width: 760px;
+  margin: 0 auto;
 
-  @include m.tb {
-    padding: 24px;
+  @include m.sp {
+    grid-template-columns: 1fr;
   }
 
-  &__head {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-
-    @include m.sp {
-      gap: 8px;
-    }
-  }
-
-  &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-
-    background: rgb(30 53 91 / 100%);
-
-    @include m.sp {
-      width: 28px;
-      height: 28px;
-    }
-
-    svg {
-      width: 60%;
-      height: 60%;
-    }
-  }
-
-  &__title {
-    font-size: 20px;
-    font-weight: bold;
-  }
-
-  &__body {
-    flex-grow: 1;
-  }
-
-  &__item {
-    display: flex;
-    justify-content: space-between;
-    padding: 16px 0;
-    border-bottom: 1px solid rgb(86 86 86 / 100%);
-
-    &:last-of-type {
-      border: none;
-    }
-  }
-
-  &__label {
-    margin-right: 16px;
-
-    font-size: 16px;
-    font-weight: bold;
-    color: v.$vket-amber;
-    white-space: nowrap;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__text {
-    font-size: 16px;
-    color: white;
-    text-align: right;
-
-    @include m.sp {
-      font-size: 14px;
+  &__child {
+    &--full-width {
+      grid-column: 1 / -1;
     }
   }
 }
@@ -8049,116 +8190,6 @@ const items = computed(() => [
     @include m.sp {
       grid-template-columns: 1fr;
       max-width: 360px;
-    }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtContactSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  personal:
-    title: '個人向けお問い合わせ'
-    text: '一般の方からのお問い合わせはこちら'
-  corporate:
-    title: '法人向けお問い合わせ'
-    text: '企業・法人の方からのお問い合わせはこちら'
-  press:
-    title: '広報向けお問い合わせ'
-    text: 'メディア・広報関連のお問い合わせはこちら'
-en:
-  personal:
-    title: 'For General Inquiries'
-    text: 'For inquiries from individuals'
-  corporate:
-    title: 'For Business Inquiries'
-    text: 'For inquiries from companies and organizations'
-  press:
-    title: 'For Press Inquiries'
-    text: 'For media and press-related inquiries'
-</i18n>
-
-<script setup lang="ts">
-import HaContactCard from '../ha/HaContactCard.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-// import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.contact-grid__child')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.contact')"
-      label="CONTACT"
-    />
-    <div class="contact-grid">
-      <HaContactCard
-        :title="t('personal.title')"
-        :text="t('personal.text')"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSchGlf0h1eszxPupo5aWycU_s3CAOmkP1LJP38Niiwi95KNwQ/viewform"
-        color="amber"
-        class="contact-grid__child"
-      />
-      <HaContactCard
-        :title="t('corporate.title')"
-        :text="t('corporate.text')"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSeEevGm1q7byQWd7RhGWTGYClcGthQEbWufSviyiFbcYzsd6A/viewform"
-        color="cyan"
-        class="contact-grid__child"
-      />
-      <HaContactCard
-        :title="t('press.title')"
-        :text="t('press.text')"
-        href="https://docs.google.com/forms/d/e/1FAIpQLScmYNjxOyf1GtHVSqsRe7pFDoyfUhiSSDqJh5Q0WD40b-1LOg/viewform"
-        color="magenta"
-        class="contact-grid__child contact-grid__child--full-width"
-      />
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.contact-grid {
-  display: grid;
-  grid-auto-rows: 150px;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-
-  max-width: 760px;
-  margin: 0 auto;
-
-  @include m.sp {
-    grid-template-columns: 1fr;
-  }
-
-  &__child {
-    &--full-width {
-      grid-column: 1 / -1;
     }
   }
 }
@@ -10077,6 +10108,10 @@ en:
           <HtParticipationGuide />
         </section>
 
+        <section id="tickets">
+          <HtTicketSection />
+        </section>
+
         <section id="news">
           <HtNewsSection />
         </section>
@@ -10127,7 +10162,6 @@ en:
 // import HtExhibitionSection from './HtExhibitionSection.vue'
 // import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
 // import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
-// import HtTicketSection from './HtTicketSection.vue'
 import HtAboutSection from './HtAboutSection.vue'
 import HtAccessSection from './HtAccessSection.vue'
 import HtContactSection from './HtContactSection.vue'
@@ -10139,6 +10173,7 @@ import HtNewsSection from './HtNewsSection.vue'
 import HtQandASection from './HtQandASection.vue'
 import HtScheduleSection from './HtScheduleSection.vue'
 import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
+import HtTicketSection from './HtTicketSection.vue'
 
 import HaConfetti from '../ha/HaConfetti.vue'
 import HaFireworks from '../ha/HaFireworks.vue'

@@ -26,6 +26,10 @@ en:
           <HtParticipationGuide />
         </section>
 
+        <section id="tickets">
+          <HtTicketSection />
+        </section>
+
         <section id="news">
           <HtNewsSection />
         </section>
@@ -76,7 +80,6 @@ en:
 // import HtExhibitionSection from './HtExhibitionSection.vue'
 // import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
 // import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
-// import HtTicketSection from './HtTicketSection.vue'
 import HtAboutSection from './HtAboutSection.vue'
 import HtAccessSection from './HtAccessSection.vue'
 import HtContactSection from './HtContactSection.vue'
@@ -88,6 +91,7 @@ import HtNewsSection from './HtNewsSection.vue'
 import HtQandASection from './HtQandASection.vue'
 import HtScheduleSection from './HtScheduleSection.vue'
 import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
+import HtTicketSection from './HtTicketSection.vue'
 
 import HaConfetti from '../ha/HaConfetti.vue'
 import HaFireworks from '../ha/HaFireworks.vue'

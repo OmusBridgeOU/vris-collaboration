@@ -14,7 +14,7 @@ en:
     <p class="ticket-card__title">
       {{ title }}
     </p>
-    <p class="ticket-card_desc">
+    <p class="ticket-card__desc">
       {{ desc }}
     </p>
 

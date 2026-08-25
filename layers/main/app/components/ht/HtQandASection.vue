@@ -8,7 +8,7 @@ ja:
     item2:
       title: 'チケットはどこで買えますか？'
       contents:
-        - 'オンラインにて事前販売予定しております。'
+        - 'LivePocketにて2026年8月26日(水)より販売します。ページ内の「チケットを購入する」ボタンからお申し込みください。'
     item3:
       title: '入場制限等はありますか？'
       contents:
@@ -27,7 +27,7 @@ en:
     item2:
       title: 'Where can I purchase tickets?'
       contents:
-        - 'Tickets are planned to be sold online in advance.'
+        - 'Tickets go on sale through LivePocket on Wednesday, August 26, 2026. Use the Buy Tickets button on this page to purchase.'
     item3:
       title: 'Is there a limit on the number of attendees?'
       contents:
