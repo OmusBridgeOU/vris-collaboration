@@ -1,3 +1,10 @@
+<i18n lang="yaml">
+ja:
+  linkLabel: フォームへ
+en:
+  linkLabel: Open form
+</i18n>
+
 <template>
   <a
     :class="['contact-card glassy-box', `glassy-box--${color ?? 'cyan'}`]"
@@ -9,7 +16,9 @@
       {{ title }}
     </p>
     <div class="jump-to-form__flex">
-      <span class="jump-to-form__text jump-to-form__text-underline" />
+      <span class="jump-to-form__text">
+        {{ t('linkLabel') }}
+      </span>
       <HaJumpToPageIcon class="jump-to-form__icon" />
     </div>
   </a>
@@ -17,6 +26,8 @@
 
 <script setup>
 import HaJumpToPageIcon from './icons/HaJumpToPageIcon.vue'
+
+const { t } = useI18n()
 
 defineProps({
   title: {
@@ -102,12 +113,6 @@ defineProps({
   &__text {
     font-size: 14px;
     color: v.$vket-green;
-
-    &--underline {
-      margin-bottom: 0;
-      font-size: 12px;
-      text-decoration: underline;
-    }
   }
 
   &__icon {
