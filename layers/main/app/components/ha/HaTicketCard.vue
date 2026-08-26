@@ -102,12 +102,6 @@ defineProps<{
     color: white;
     text-decoration: none;
 
-    &::before {
-      inset: 0;
-      width: auto;
-      height: auto;
-    }
-
     &--disabled {
       cursor: not-allowed;
       opacity: 0.68;
