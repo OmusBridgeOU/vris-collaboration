@@ -9,7 +9,7 @@
     "head_sampling_rate": 1
   },
   "vars": {
-    "ALLOWED_ORIGINS": "https://vris.jp,https://archived.vris.jp"
+    "ALLOWED_ORIGINS": "https://vris.jp,https://archived.vris.jp,https://test-site-for-review.vercel.app"
   },
   "d1_databases": [
     {
