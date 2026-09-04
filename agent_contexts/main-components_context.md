@@ -2196,6 +2196,49 @@ layers/
 </template>
 ```
 
+## File: layers/main/app/components/ha/icons/HaXIcon.vue
+```vue
+<template>
+  <svg
+    viewBox="0 0 29 29"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_287_95)">
+      <mask
+        id="mask0_287_95"
+        mask-type="luminance"
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
+        width="29"
+        height="29"
+      >
+        <path
+          d="M0 0H28.9863V28.9863H0V0Z"
+          fill="white"
+        />
+      </mask>
+      <g mask="url(#mask0_287_95)">
+        <path
+          d="M22.8267 1.3584H27.272L17.5616 12.485L28.9863 27.6283H20.042L13.0314 18.4458L5.01877 27.6283H0.569374L10.9547 15.7232L0 1.36047H9.17209L15.4994 9.752L22.8267 1.3584ZM21.2635 24.9615H23.7274L7.8263 3.88642H5.1844L21.2635 24.9615Z"
+          fill="white"
+        />
+      </g>
+    </g>
+    <defs>
+      <clipPath id="clip0_287_95">
+        <rect
+          width="28.9863"
+          height="28.9863"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+</template>
+```
+
 ## File: layers/main/app/components/ha/HaConductCard.vue
 ```vue
 <template>
@@ -2338,6 +2381,103 @@ defineProps({
   }
 }
 </style>
+```
+
+## File: layers/main/app/components/ha/HaCountUpNumber.vue
+```vue
+<script setup lang="ts">
+import { ref, shallowRef, onMounted, onUnmounted } from 'vue'
+
+// props
+const props = withDefaults(
+  defineProps<{
+    value: number
+    duration?: number
+    delay?: number
+  }>(),
+  {
+    duration: 2000,
+    delay: 0,
+  },
+)
+
+// 状態管理
+const spanRef = shallowRef<HTMLSpanElement | null>(null)
+const displayValue = ref(0)
+let animationId: number | null = null
+let timeoutId: ReturnType<typeof setTimeout> | null = null
+let hasPlayed = false
+let intersectionObserver: IntersectionObserver | null = null
+
+// アニメーション処理
+function clearTimers() {
+  if (animationId !== null) {
+    cancelAnimationFrame(animationId)
+    animationId = null
+  }
+  if (timeoutId !== null) {
+    clearTimeout(timeoutId)
+    timeoutId = null
+  }
+}
+
+function startCountUp(targetValue: number) {
+  clearTimers()
+  displayValue.value = 0
+
+  timeoutId = setTimeout(() => {
+    const startTime = performance.now()
+
+    function tick(currentTime: number) {
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / props.duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 4) // 最初は速く、終盤はゆっくり目標値に近づく
+
+      displayValue.value = Math.round(eased * targetValue)
+
+      if (progress < 1) {
+        animationId = requestAnimationFrame(tick)
+      }
+    }
+
+    animationId = requestAnimationFrame(tick)
+  }, props.delay)
+}
+
+// ライフサイクル
+onMounted(() => {
+  const el = spanRef.value
+  if (!el) return
+
+  intersectionObserver = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0]
+      if (!entry) return
+
+      // 画面内に入り、かつまだ再生していない場合のみ発火
+      if (entry.isIntersecting && !hasPlayed) {
+        hasPlayed = true
+        startCountUp(props.value)
+
+        // 一度再生したら監視を解除
+        intersectionObserver?.disconnect()
+        intersectionObserver = null
+      }
+    },
+    { threshold: 0 },
+  )
+  intersectionObserver.observe(el)
+})
+
+onUnmounted(() => {
+  clearTimers()
+  intersectionObserver?.disconnect()
+})
+</script>
+
+<template>
+  <span ref="spanRef">{{ displayValue }}</span>
+</template>
 ```
 
 ## File: layers/main/app/components/ha/HaDocumentLink.vue
@@ -2942,6 +3082,91 @@ defineProps<{
   }
 }
 </style>
+```
+
+## File: layers/main/app/components/ha/HaTypewriterText.vue
+```vue
+<script setup lang="ts">
+import { ref, shallowRef, onMounted, onUnmounted } from 'vue'
+
+// props
+const props = withDefaults(
+  defineProps<{
+    text: string
+    speed?: number
+    delay?: number
+  }>(),
+  {
+    speed: 50,
+    delay: 0,
+  },
+)
+
+// 状態管理
+const spanRef = shallowRef<HTMLSpanElement | null>(null)
+const displayText = ref('')
+let timeoutId: ReturnType<typeof setTimeout> | null = null
+let hasPlayed = false // 一度再生したら二度と発火しないフラグ
+let intersectionObserver: IntersectionObserver | null = null
+
+// アニメーション処理
+function clearTimer() {
+  if (timeoutId !== null) {
+    clearTimeout(timeoutId)
+    timeoutId = null
+  }
+}
+
+function startTypewriter(text: string) {
+  clearTimer()
+  displayText.value = ''
+
+  let index = 0
+
+  function typeNextChar() {
+    if (index >= text.length) return
+    displayText.value += text[index]
+    index++
+    timeoutId = setTimeout(typeNextChar, props.speed)
+  }
+
+  timeoutId = setTimeout(typeNextChar, props.delay)
+}
+
+// ライフサイクル
+onMounted(() => {
+  const el = spanRef.value
+  if (!el) return
+
+  intersectionObserver = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0]
+      if (!entry) return
+
+      // 画面内に入り、かつまだ再生していない場合のみ発火
+      if (entry.isIntersecting && !hasPlayed) {
+        hasPlayed = true
+        startTypewriter(props.text)
+
+        // 一度再生したら監視を解除
+        intersectionObserver?.disconnect()
+        intersectionObserver = null
+      }
+    },
+    { threshold: 0 },
+  )
+  intersectionObserver.observe(el)
+})
+
+onUnmounted(() => {
+  clearTimer()
+  intersectionObserver?.disconnect()
+})
+</script>
+
+<template>
+  <span ref="spanRef">{{ displayText }}</span>
+</template>
 ```
 
 ## File: layers/main/app/components/hm/HmCrowdLevelCard.vue
@@ -3598,6 +3823,176 @@ onMounted(() => {
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtQuickAccessSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  section:
+    title: 参加者向け重要情報
+    label: quick access
+  cards:
+    date:
+      title: 開催日
+      label: DATE
+      body: 2026年9月26日(土)
+    location:
+      title: 会場
+      label: LOCATION
+      body:
+        line1: アスティーホール
+        line2: 札幌市中央区 北4条西5丁目1 4F
+    tickets:
+      title: チケット
+      label: TICKETS
+      body: 販売開始に向けて準備中です。
+    schedule:
+      title: スケジュール
+      label: SCHEDULE
+      body: 詳細タイムテーブルは順次公開予定です。
+en:
+  section:
+    title: Key Information for Visitors
+    label: quick access
+  cards:
+    date:
+      title: Date
+      label: DATE
+      body: Sat, September 26, 2026
+    location:
+      title: Venue
+      label: LOCATION
+      body:
+        line1: ASTY Hall
+        line2: Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, 4F
+    tickets:
+      title: Tickets
+      label: TICKETS
+      body: Ticket sales are being prepared.
+    schedule:
+      title: Schedule
+      label: SCHEDULE
+      body: The detailed timetable will be announced later.
+</i18n>
+
+<script setup lang="ts">
+import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
+import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
+import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
+import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
+import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.gsap-list__child')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="t('section.title')"
+      :label="t('section.label')"
+    />
+    <div
+      ref="listRef"
+      class="grid2x"
+    >
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="cyan"
+          :title="t('cards.date.title')"
+          :label="t('cards.date.label')"
+        >
+          <template #icon>
+            <HaCalendarIcon />
+          </template>
+          <template #body>
+            <p>{{ t('cards.date.body') }}</p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="magenta"
+          :title="t('cards.location.title')"
+          :label="t('cards.location.label')"
+        >
+          <template #icon>
+            <HaMapPinIcon />
+          </template>
+          <template #body>
+            <p>
+              {{ t('cards.location.body.line1') }}<br>
+              {{ t('cards.location.body.line2') }}
+            </p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="amber"
+          :title="t('cards.tickets.title')"
+          :label="t('cards.tickets.label')"
+        >
+          <template #icon>
+            <HaTicketIcon />
+          </template>
+          <template #body>
+            <p>{{ t('cards.tickets.body') }}</p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+      <div class="gsap-list__child grid2x__child">
+        <HaQuickAccessCard
+          color="vermilion"
+          :title="t('cards.schedule.title')"
+          :label="t('cards.schedule.label')"
+          icon-url="/icons/material-symbols_timer-outline.svg"
+        >
+          <template #icon>
+            <HaTimerIcon />
+          </template>
+          <template #body>
+            <p>{{ t('cards.schedule.body') }}</p>
+          </template>
+        </HaQuickAccessCard>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
+.grid2x {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 20px;
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  &__child {
+    height: 100%;
+    min-height: 280px;
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ha/icons/HaArrowRightIcon.vue
 ```vue
 <template>
@@ -3689,49 +4084,6 @@ onMounted(() => {
 </template>
 ```
 
-## File: layers/main/app/components/ha/icons/HaXIcon.vue
-```vue
-<template>
-  <svg
-    viewBox="0 0 29 29"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g clip-path="url(#clip0_287_95)">
-      <mask
-        id="mask0_287_95"
-        mask-type="luminance"
-        maskUnits="userSpaceOnUse"
-        x="0"
-        y="0"
-        width="29"
-        height="29"
-      >
-        <path
-          d="M0 0H28.9863V28.9863H0V0Z"
-          fill="white"
-        />
-      </mask>
-      <g mask="url(#mask0_287_95)">
-        <path
-          d="M22.8267 1.3584H27.272L17.5616 12.485L28.9863 27.6283H20.042L13.0314 18.4458L5.01877 27.6283H0.569374L10.9547 15.7232L0 1.36047H9.17209L15.4994 9.752L22.8267 1.3584ZM21.2635 24.9615H23.7274L7.8263 3.88642H5.1844L21.2635 24.9615Z"
-          fill="white"
-        />
-      </g>
-    </g>
-    <defs>
-      <clipPath id="clip0_287_95">
-        <rect
-          width="28.9863"
-          height="28.9863"
-          fill="white"
-        />
-      </clipPath>
-    </defs>
-  </svg>
-</template>
-```
-
 ## File: layers/main/app/components/ha/HaCircleCard.vue
 ```vue
 <script lang="ts" setup>
@@ -3782,101 +4134,235 @@ defineProps<{
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaCountUpNumber.vue
+## File: layers/main/app/components/ha/HaFireworks.vue
 ```vue
 <script setup lang="ts">
-import { ref, shallowRef, onMounted, onUnmounted } from 'vue'
+import { shallowRef, onMounted, onUnmounted } from 'vue'
 
-// props
-const props = withDefaults(
-  defineProps<{
-    value: number
-    duration?: number
-    delay?: number
-  }>(),
-  {
-    duration: 2000,
-    delay: 0,
-  },
-)
+const canvasRef = shallowRef<HTMLCanvasElement | null>(null)
 
-// 状態管理
-const spanRef = shallowRef<HTMLSpanElement | null>(null)
-const displayValue = ref(0)
+// アニメーション管理用の変数
 let animationId: number | null = null
-let timeoutId: ReturnType<typeof setTimeout> | null = null
-let hasPlayed = false
+let resizeObserver: ResizeObserver | null = null
 let intersectionObserver: IntersectionObserver | null = null
+let visibilityHandler: (() => void) | null = null
 
-// アニメーション処理
-function clearTimers() {
+// 花火の発射タイミング管理
+let nextFireworkTime: number = 0
+
+// 画面サイズに応じたスケール係数（起動時に1度だけ決定）
+let scaleFactor: number = 1
+
+// ユーティリティ
+function random(min: number, max: number): number {
+  return Math.random() * (max - min) + min
+}
+
+// パーティクルの型定義
+interface Particle {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  alpha: number
+  hue: number
+}
+
+// パーティクルをstartAnimationの外で管理（再起動時にリセットされないようにする）
+let particles: Particle[] = []
+
+// 次の花火を打ち上げる時刻をセット（1〜2秒のランダムなタイミング）
+function scheduleNextFirework() {
+  nextFireworkTime = performance.now() + random(1000, 2000)
+}
+
+// アニメーションのメイン処理
+function startAnimation(canvas: HTMLCanvasElement) {
+  // 二重起動を防ぐ
+  if (animationId !== null) return
+
+  const ctx = canvas.getContext('2d')!
+
+  // 花火を1発生成
+  function createFirework() {
+    const x = random(100, canvas.width - 100)
+    const y = random(100, canvas.height - 100)
+    const hue = Math.floor(random(0, 360))
+
+    // 固定パーティクル（強: 24度間隔 × 15個、中: 36度間隔 × 10個、弱: 72度間隔 × 5個 = 合計30個）を設けて概形を整える
+    const fixedConfig = [
+      { count: 15, interval: 24, speed: 5 * scaleFactor },
+      { count: 10, interval: 36, speed: 3 * scaleFactor },
+      { count: 5, interval: 72, speed: 1 * scaleFactor },
+    ]
+
+    // 花火1発ごとにランダムな回転オフセット（0〜12度）
+    const rotationOffset = (random(0, 12) * Math.PI) / 180
+
+    fixedConfig.forEach(({ count, interval, speed }) => {
+      Array.from({ length: count }, (_, i) => {
+        const angle = (i * interval * Math.PI) / 180 + rotationOffset
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          alpha: 1,
+          hue,
+        })
+      })
+    })
+
+    // ランダムパーティクル（30個）
+    for (let i = 0; i < 30; i++) {
+      const angle = random(0, Math.PI * 2)
+      const speed = random(1, 5) * scaleFactor
+
+      particles.push({
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        alpha: 1,
+        hue,
+      })
+    }
+
+    scheduleNextFirework()
+  }
+
+  // パーティクルの更新と描画
+  function updateParticles() {
+    // 画面全体をクリア（背景を透過させる）
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    particles = particles.filter((p) => {
+      p.x += p.vx
+      p.y += p.vy
+      p.alpha -= 0.01
+      return p.alpha > 0
+    })
+
+    particles.forEach((p) => {
+      ctx.beginPath()
+      ctx.fillStyle = `hsla(${p.hue}, 100%, 60%, ${p.alpha})`
+      ctx.arc(p.x, p.y, 2 * scaleFactor, 0, Math.PI * 2)
+      ctx.fill()
+    })
+  }
+
+  // アニメーションループ
+  function animate() {
+    animationId = requestAnimationFrame(animate)
+    updateParticles()
+
+    if (performance.now() >= nextFireworkTime) {
+      createFirework()
+    }
+  }
+
+  animate()
+}
+
+// アニメーション停止
+function stopAnimation() {
   if (animationId !== null) {
     cancelAnimationFrame(animationId)
     animationId = null
   }
-  if (timeoutId !== null) {
-    clearTimeout(timeoutId)
-    timeoutId = null
-  }
 }
 
-function startCountUp(targetValue: number) {
-  clearTimers()
-  displayValue.value = 0
-
-  timeoutId = setTimeout(() => {
-    const startTime = performance.now()
-
-    function tick(currentTime: number) {
-      const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / props.duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 4) // 最初は速く、終盤はゆっくり目標値に近づく
-
-      displayValue.value = Math.round(eased * targetValue)
-
-      if (progress < 1) {
-        animationId = requestAnimationFrame(tick)
-      }
-    }
-
-    animationId = requestAnimationFrame(tick)
-  }, props.delay)
+// canvasのサイズを親要素に合わせる
+function resizeCanvas(canvas: HTMLCanvasElement) {
+  const parent = canvas.parentElement
+  if (!parent) return
+  canvas.width = parent.clientWidth
+  canvas.height = parent.clientHeight
 }
 
-// ライフサイクル
 onMounted(() => {
-  const el = spanRef.value
-  if (!el) return
+  const canvas = canvasRef.value as HTMLCanvasElement | null
+  if (!canvas) return
+  const parent = canvas.parentElement
+  if (!parent) return
 
+  // 起動時に1度だけ画面幅でscaleFactorを決定
+  const width = window.innerWidth
+  if (width < 768) {
+    // スマホ: app/assets/styles/_variables.scss v.$media-query-width
+    scaleFactor = 0.6
+  } else if (width < 1080) {
+    // タブレット: app/assets/styles/_variables.scss v.$pc-content-min-width
+    scaleFactor = 0.8
+  } else {
+    scaleFactor = 1.0
+  }
+
+  resizeCanvas(canvas)
+
+  // 親要素のリサイズを監視
+  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
+  resizeObserver.observe(parent)
+
+  // 要素の表示・非表示を監視（スクロールで画面外に出た場合）
   intersectionObserver = new IntersectionObserver(
     (entries) => {
       const entry = entries[0]
       if (!entry) return
-
-      // 画面内に入り、かつまだ再生していない場合のみ発火
-      if (entry.isIntersecting && !hasPlayed) {
-        hasPlayed = true
-        startCountUp(props.value)
-
-        // 一度再生したら監視を解除
-        intersectionObserver?.disconnect()
-        intersectionObserver = null
+      if (entry.isIntersecting) {
+        startAnimation(canvas)
+      } else {
+        stopAnimation()
       }
     },
     { threshold: 0 },
   )
-  intersectionObserver.observe(el)
+  intersectionObserver.observe(canvas)
+
+  // タブの表示・非表示を監視
+  visibilityHandler = () => {
+    if (document.hidden) {
+      stopAnimation()
+    } else {
+      startAnimation(canvas)
+    }
+  }
+  document.addEventListener('visibilitychange', visibilityHandler)
+
+  // 初回スケジュール（ここでのみ呼ぶ）
+  scheduleNextFirework()
 })
 
 onUnmounted(() => {
-  clearTimers()
+  stopAnimation()
+  resizeObserver?.disconnect()
   intersectionObserver?.disconnect()
+  if (visibilityHandler) {
+    document.removeEventListener('visibilitychange', visibilityHandler)
+    visibilityHandler = null
+  }
 })
 </script>
 
 <template>
-  <span ref="spanRef">{{ displayValue }}</span>
+  <canvas
+    ref="canvasRef"
+    class="fireworks-canvas"
+  />
 </template>
+
+<style scoped>
+.fireworks-canvas {
+  pointer-events: none;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+}
+</style>
 ```
 
 ## File: layers/main/app/components/ha/HaNoImage.vue
@@ -4017,91 +4503,6 @@ defineProps<{
   }
 }
 </style>
-```
-
-## File: layers/main/app/components/ha/HaTypewriterText.vue
-```vue
-<script setup lang="ts">
-import { ref, shallowRef, onMounted, onUnmounted } from 'vue'
-
-// props
-const props = withDefaults(
-  defineProps<{
-    text: string
-    speed?: number
-    delay?: number
-  }>(),
-  {
-    speed: 50,
-    delay: 0,
-  },
-)
-
-// 状態管理
-const spanRef = shallowRef<HTMLSpanElement | null>(null)
-const displayText = ref('')
-let timeoutId: ReturnType<typeof setTimeout> | null = null
-let hasPlayed = false // 一度再生したら二度と発火しないフラグ
-let intersectionObserver: IntersectionObserver | null = null
-
-// アニメーション処理
-function clearTimer() {
-  if (timeoutId !== null) {
-    clearTimeout(timeoutId)
-    timeoutId = null
-  }
-}
-
-function startTypewriter(text: string) {
-  clearTimer()
-  displayText.value = ''
-
-  let index = 0
-
-  function typeNextChar() {
-    if (index >= text.length) return
-    displayText.value += text[index]
-    index++
-    timeoutId = setTimeout(typeNextChar, props.speed)
-  }
-
-  timeoutId = setTimeout(typeNextChar, props.delay)
-}
-
-// ライフサイクル
-onMounted(() => {
-  const el = spanRef.value
-  if (!el) return
-
-  intersectionObserver = new IntersectionObserver(
-    (entries) => {
-      const entry = entries[0]
-      if (!entry) return
-
-      // 画面内に入り、かつまだ再生していない場合のみ発火
-      if (entry.isIntersecting && !hasPlayed) {
-        hasPlayed = true
-        startTypewriter(props.text)
-
-        // 一度再生したら監視を解除
-        intersectionObserver?.disconnect()
-        intersectionObserver = null
-      }
-    },
-    { threshold: 0 },
-  )
-  intersectionObserver.observe(el)
-})
-
-onUnmounted(() => {
-  clearTimer()
-  intersectionObserver?.disconnect()
-})
-</script>
-
-<template>
-  <span ref="spanRef">{{ displayText }}</span>
-</template>
 ```
 
 ## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
@@ -4370,69 +4771,51 @@ const circles = [
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtQuickAccessSection.vue
+## File: layers/main/app/components/ht/HtTicketSection.vue
 ```vue
 <i18n lang="yaml">
 ja:
   section:
-    title: 参加者向け重要情報
-    label: quick access
+    title: チケット
+    label: tickets
+  description:
+    line1: 一般来場チケットは2026年8月26日(水)より販売開始です。
+    line2: LivePocketの販売ページからお申し込みください。
   cards:
-    date:
-      title: 開催日
-      label: DATE
-      body: 2026年9月26日(土)
-    location:
-      title: 会場
-      label: LOCATION
-      body:
-        line1: アスティーホール
-        line2: 札幌市中央区 北4条西5丁目1 4F
-    tickets:
-      title: チケット
-      label: TICKETS
-      body: 販売開始に向けて準備中です。
-    schedule:
-      title: スケジュール
-      label: SCHEDULE
-      body: 詳細タイムテーブルは順次公開予定です。
+    general:
+      title: 一般参加チケット
+      desc: VketReal in 札幌 2026 Autumnの来場チケットです。
+      cta: チケットを購入する
+    updates:
+      title: 最新情報
+      desc: 公式Xで販売開始や追加情報をお知らせします。
+      cta: 公式Xを見る
 en:
   section:
-    title: Key Information for Visitors
-    label: quick access
+    title: Tickets
+    label: tickets
+  description:
+    line1: General admission tickets go on sale Wednesday, August 26, 2026.
+    line2: Please purchase tickets through LivePocket.
   cards:
-    date:
-      title: Date
-      label: DATE
-      body: Sat, September 26, 2026
-    location:
-      title: Venue
-      label: LOCATION
-      body:
-        line1: ASTY Hall
-        line2: Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, 4F
-    tickets:
-      title: Tickets
-      label: TICKETS
-      body: Ticket sales are being prepared.
-    schedule:
-      title: Schedule
-      label: SCHEDULE
-      body: The detailed timetable will be announced later.
+    general:
+      title: General Admission
+      desc: Admission ticket for VketReal in Sapporo 2026 Autumn.
+      cta: Buy Tickets
+    updates:
+      title: Latest Updates
+      desc: Sales launches and additional information will be announced on official X.
+      cta: Official X
 </i18n>
 
 <script setup lang="ts">
-import HaQuickAccessCard from '../ha/HaQuickAccessCard.vue'
-import HaCalendarIcon from '../ha/icons/HaCalendarIcon.vue'
-import HaMapPinIcon from '../ha/icons/HaMapPinIcon.vue'
-import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
-import HaTimerIcon from '../ha/icons/HaTimerIcon.vue'
+import HaTicketCard from '../ha/HaTicketCard.vue'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
 const { t } = useI18n()
-const sectionRef = ref<HTMLElement | null>(null)
+const sectionRef = ref<Element | null>(null)
 const listRef = ref<HTMLElement | null>(null)
 const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
 
@@ -4440,7 +4823,7 @@ onMounted(() => {
   fadeInUp(sectionRef)
 
   if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.gsap-list__child')
+  const items = listRef.value.querySelectorAll('.ticket-grid__item')
   fadeInUpStagger(Array.from(items))
 })
 </script>
@@ -4451,91 +4834,53 @@ onMounted(() => {
       :title="t('section.title')"
       :label="t('section.label')"
     />
+    <p class="description description--left">
+      {{ t('description.line1') }}<br>
+      {{ t('description.line2') }}
+    </p>
     <div
       ref="listRef"
-      class="grid2x"
+      class="ticket-grid"
     >
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="cyan"
-          :title="t('cards.date.title')"
-          :label="t('cards.date.label')"
-        >
-          <template #icon>
-            <HaCalendarIcon />
-          </template>
-          <template #body>
-            <p>{{ t('cards.date.body') }}</p>
-          </template>
-        </HaQuickAccessCard>
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          :title="t('cards.general.title')"
+          :desc="t('cards.general.desc')"
+          href="https://livepocket.jp/e/alkjd"
+          :cta-label="t('cards.general.cta')"
+        />
       </div>
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="magenta"
-          :title="t('cards.location.title')"
-          :label="t('cards.location.label')"
-        >
-          <template #icon>
-            <HaMapPinIcon />
-          </template>
-          <template #body>
-            <p>
-              {{ t('cards.location.body.line1') }}<br>
-              {{ t('cards.location.body.line2') }}
-            </p>
-          </template>
-        </HaQuickAccessCard>
-      </div>
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="amber"
-          :title="t('cards.tickets.title')"
-          :label="t('cards.tickets.label')"
-        >
-          <template #icon>
-            <HaTicketIcon />
-          </template>
-          <template #body>
-            <p>{{ t('cards.tickets.body') }}</p>
-          </template>
-        </HaQuickAccessCard>
-      </div>
-      <div class="gsap-list__child grid2x__child">
-        <HaQuickAccessCard
-          color="vermilion"
-          :title="t('cards.schedule.title')"
-          :label="t('cards.schedule.label')"
-          icon-url="/icons/material-symbols_timer-outline.svg"
-        >
-          <template #icon>
-            <HaTimerIcon />
-          </template>
-          <template #body>
-            <p>{{ t('cards.schedule.body') }}</p>
-          </template>
-        </HaQuickAccessCard>
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          :title="t('cards.updates.title')"
+          :desc="t('cards.updates.desc')"
+          href="https://x.com/vketreal_vris"
+          :cta-label="t('cards.updates.cta')"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.grid2x {
+.ticket-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px 20px;
+  grid-auto-rows: 275px;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+
+  @include m.tb {
+    grid-auto-rows: 166px;
+    gap: 12px 16px;
+  }
 
   @include m.sp {
     grid-template-columns: 1fr;
-    gap: 22px;
   }
 
-  &__child {
-    height: 100%;
-    min-height: 280px;
-  }
 }
 </style>
 ```
@@ -4595,137 +4940,146 @@ defineProps<{
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaFireworks.vue
+## File: layers/main/app/components/ha/HaConfetti.vue
 ```vue
 <script setup lang="ts">
+/*
+  canvas最上部のランダムな位置から、ランダムな角度でランダムな色の長方形を一定間隔で収縮させながら落下させている。
+*/
 import { shallowRef, onMounted, onUnmounted } from 'vue'
 
 const canvasRef = shallowRef<HTMLCanvasElement | null>(null)
 
-// アニメーション管理用の変数
+// 調整可能なパラメータ
+const CONFIG = {
+  particleCount: 80,
+  fallSpeed: 2,
+  maxAngle: 15,
+  maxRotation: 65,
+  width: 12,
+  height: 8,
+  flipInterval: 500,
+} as const
+
+// 型定義
+interface Confetti {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  hue: number
+  scaleY: number
+  scaleDirection: number
+  flipTimer: number
+  rotation: number
+}
+
+// 状態管理
 let animationId: number | null = null
 let resizeObserver: ResizeObserver | null = null
 let intersectionObserver: IntersectionObserver | null = null
 let visibilityHandler: (() => void) | null = null
-
-// 花火の発射タイミング管理
-let nextFireworkTime: number = 0
-
-// 画面サイズに応じたスケール係数（起動時に1度だけ決定）
 let scaleFactor: number = 1
+let confetti: Confetti[] = []
 
 // ユーティリティ
 function random(min: number, max: number): number {
   return Math.random() * (max - min) + min
 }
 
-// パーティクルの型定義
-interface Particle {
-  x: number
-  y: number
-  vx: number
-  vy: number
-  alpha: number
-  hue: number
+// 紙吹雪を1個生成（canvas最上部からスタート）
+function createConfetti(canvasWidth: number): Confetti {
+  const sign = Math.random() < 0.5 ? 1 : -1
+  const angleRad = ((random(0, CONFIG.maxAngle) * Math.PI) / 180) * sign
+  const speed = CONFIG.fallSpeed * scaleFactor
+
+  return {
+    x: random(0, canvasWidth),
+    y: -CONFIG.height,
+    vx: Math.sin(angleRad) * speed,
+    vy: Math.cos(angleRad) * speed,
+    hue: Math.floor(random(0, 360)),
+    scaleY: 1,
+    scaleDirection: -1,
+    flipTimer: performance.now() + CONFIG.flipInterval,
+    rotation:
+      (random(-1 * CONFIG.maxRotation, CONFIG.maxRotation) * Math.PI) / 180,
+  }
 }
 
-// パーティクルをstartAnimationの外で管理（再起動時にリセットされないようにする）
-let particles: Particle[] = []
-
-// 次の花火を打ち上げる時刻をセット（1〜2秒のランダムなタイミング）
-function scheduleNextFirework() {
-  nextFireworkTime = performance.now() + random(1000, 2000)
+// 再開時にflipTimerをばらつかせてリセット（これがないと収縮タイミングが同期してしまう）
+function resetFlipTimers() {
+  const now = performance.now()
+  confetti.forEach((c) => {
+    c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
+  })
 }
 
 // アニメーションのメイン処理
 function startAnimation(canvas: HTMLCanvasElement) {
-  // 二重起動を防ぐ
   if (animationId !== null) return
 
   const ctx = canvas.getContext('2d')!
 
-  // 花火を1発生成
-  function createFirework() {
-    const x = random(100, canvas.width - 100)
-    const y = random(100, canvas.height - 100)
-    const hue = Math.floor(random(0, 360))
-
-    // 固定パーティクル（強: 24度間隔 × 15個、中: 36度間隔 × 10個、弱: 72度間隔 × 5個 = 合計30個）を設けて概形を整える
-    const fixedConfig = [
-      { count: 15, interval: 24, speed: 5 * scaleFactor },
-      { count: 10, interval: 36, speed: 3 * scaleFactor },
-      { count: 5, interval: 72, speed: 1 * scaleFactor },
-    ]
-
-    // 花火1発ごとにランダムな回転オフセット（0〜12度）
-    const rotationOffset = (random(0, 12) * Math.PI) / 180
-
-    fixedConfig.forEach(({ count, interval, speed }) => {
-      Array.from({ length: count }, (_, i) => {
-        const angle = (i * interval * Math.PI) / 180 + rotationOffset
-        particles.push({
-          x,
-          y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          alpha: 1,
-          hue,
-        })
-      })
+  // 初期状態では、パーティクルを画面内のランダムな高さに配置
+  if (confetti.length === 0) {
+    const now = performance.now()
+    confetti = Array.from({ length: CONFIG.particleCount }, () => {
+      const c = createConfetti(canvas.width)
+      c.y = random(0, canvas.height)
+      c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
+      return c
     })
-
-    // ランダムパーティクル（30個）
-    for (let i = 0; i < 30; i++) {
-      const angle = random(0, Math.PI * 2)
-      const speed = random(1, 5) * scaleFactor
-
-      particles.push({
-        x,
-        y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        alpha: 1,
-        hue,
-      })
-    }
-
-    scheduleNextFirework()
   }
 
-  // パーティクルの更新と描画
-  function updateParticles() {
-    // 画面全体をクリア（背景を透過させる）
+  function updateConfetti() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    particles = particles.filter((p) => {
-      p.x += p.vx
-      p.y += p.vy
-      p.alpha -= 0.01
-      return p.alpha > 0
-    })
+    const now = performance.now()
+    const w = CONFIG.width * scaleFactor
+    const h = CONFIG.height * scaleFactor
 
-    particles.forEach((p) => {
-      ctx.beginPath()
-      ctx.fillStyle = `hsla(${p.hue}, 100%, 60%, ${p.alpha})`
-      ctx.arc(p.x, p.y, 2 * scaleFactor, 0, Math.PI * 2)
-      ctx.fill()
+    confetti.forEach((c) => {
+      c.x += c.vx
+      c.y += c.vy
+
+      // 回転アニメーション（収縮アニメーションによる疑似的なもの）：flipTimerごとに折り返す
+      if (now >= c.flipTimer) {
+        c.scaleDirection *= -1
+        c.flipTimer = now + CONFIG.flipInterval
+      }
+
+      c.scaleY += c.scaleDirection * 0.05
+      c.scaleY = Math.max(0.1, Math.min(1, c.scaleY))
+
+      // 光の反射表現（回転アニメーションに合わせて輝度を変化させることによる疑似的なもの）
+      const lightness = 30 + c.scaleY * 40
+
+      // 画面下に出たら最上部に戻す
+      if (c.y > canvas.height + h) {
+        const next = createConfetti(canvas.width)
+        Object.assign(c, next)
+      }
+
+      ctx.save()
+      ctx.translate(c.x, c.y)
+      ctx.rotate(c.rotation)
+      ctx.scale(1, c.scaleY)
+      ctx.fillStyle = `hsl(${c.hue}, 90%, ${lightness}%)`
+      ctx.fillRect(-w / 2, -h / 2, w, h)
+      ctx.restore()
     })
   }
 
-  // アニメーションループ
   function animate() {
     animationId = requestAnimationFrame(animate)
-    updateParticles()
-
-    if (performance.now() >= nextFireworkTime) {
-      createFirework()
-    }
+    updateConfetti()
   }
 
   animate()
 }
 
-// アニメーション停止
+// 停止・リサイズ
 function stopAnimation() {
   if (animationId !== null) {
     cancelAnimationFrame(animationId)
@@ -4733,7 +5087,6 @@ function stopAnimation() {
   }
 }
 
-// canvasのサイズを親要素に合わせる
 function resizeCanvas(canvas: HTMLCanvasElement) {
   const parent = canvas.parentElement
   if (!parent) return
@@ -4741,13 +5094,13 @@ function resizeCanvas(canvas: HTMLCanvasElement) {
   canvas.height = parent.clientHeight
 }
 
+// ライフサイクル
 onMounted(() => {
   const canvas = canvasRef.value as HTMLCanvasElement | null
   if (!canvas) return
   const parent = canvas.parentElement
   if (!parent) return
 
-  // 起動時に1度だけ画面幅でscaleFactorを決定
   const width = window.innerWidth
   if (width < 768) {
     // スマホ: app/assets/styles/_variables.scss v.$media-query-width
@@ -4761,16 +5114,15 @@ onMounted(() => {
 
   resizeCanvas(canvas)
 
-  // 親要素のリサイズを監視
   resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
   resizeObserver.observe(parent)
 
-  // 要素の表示・非表示を監視（スクロールで画面外に出た場合）
   intersectionObserver = new IntersectionObserver(
     (entries) => {
       const entry = entries[0]
       if (!entry) return
       if (entry.isIntersecting) {
+        resetFlipTimers()
         startAnimation(canvas)
       } else {
         stopAnimation()
@@ -4780,18 +5132,15 @@ onMounted(() => {
   )
   intersectionObserver.observe(canvas)
 
-  // タブの表示・非表示を監視
   visibilityHandler = () => {
     if (document.hidden) {
       stopAnimation()
     } else {
+      resetFlipTimers()
       startAnimation(canvas)
     }
   }
   document.addEventListener('visibilitychange', visibilityHandler)
-
-  // 初回スケジュール（ここでのみ呼ぶ）
-  scheduleNextFirework()
 })
 
 onUnmounted(() => {
@@ -4808,12 +5157,12 @@ onUnmounted(() => {
 <template>
   <canvas
     ref="canvasRef"
-    class="fireworks-canvas"
+    class="confetti-canvas"
   />
 </template>
 
 <style scoped>
-.fireworks-canvas {
+.confetti-canvas {
   pointer-events: none;
 
   position: absolute;
@@ -4822,6 +5171,8 @@ onUnmounted(() => {
 
   width: 100%;
   height: 100%;
+
+  opacity: 0.2;
 }
 </style>
 ```
@@ -5588,120 +5939,6 @@ const { t: tGlobal } = useI18n()
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtTicketSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  section:
-    title: チケット
-    label: tickets
-  description:
-    line1: 一般来場チケットは2026年8月26日(水)より販売開始です。
-    line2: LivePocketの販売ページからお申し込みください。
-  cards:
-    general:
-      title: 一般参加チケット
-      desc: VketReal in 札幌 2026 Autumnの来場チケットです。
-      cta: チケットを購入する
-    updates:
-      title: 最新情報
-      desc: 公式Xで販売開始や追加情報をお知らせします。
-      cta: 公式Xを見る
-en:
-  section:
-    title: Tickets
-    label: tickets
-  description:
-    line1: General admission tickets go on sale Wednesday, August 26, 2026.
-    line2: Please purchase tickets through LivePocket.
-  cards:
-    general:
-      title: General Admission
-      desc: Admission ticket for VketReal in Sapporo 2026 Autumn.
-      cta: Buy Tickets
-    updates:
-      title: Latest Updates
-      desc: Sales launches and additional information will be announced on official X.
-      cta: Official X
-</i18n>
-
-<script setup lang="ts">
-import HaTicketCard from '../ha/HaTicketCard.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n()
-const sectionRef = ref<Element | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.ticket-grid__item')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="t('section.title')"
-      :label="t('section.label')"
-    />
-    <p class="description description--left">
-      {{ t('description.line1') }}<br>
-      {{ t('description.line2') }}
-    </p>
-    <div
-      ref="listRef"
-      class="ticket-grid"
-    >
-      <div class="ticket-grid__item">
-        <HaTicketCard
-          :title="t('cards.general.title')"
-          :desc="t('cards.general.desc')"
-          href="https://livepocket.jp/e/alkjd"
-          :cta-label="t('cards.general.cta')"
-        />
-      </div>
-      <div class="ticket-grid__item">
-        <HaTicketCard
-          :title="t('cards.updates.title')"
-          :desc="t('cards.updates.desc')"
-          href="https://x.com/vketreal_vris"
-          :cta-label="t('cards.updates.cta')"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.ticket-grid {
-  display: grid;
-  grid-auto-rows: 275px;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 24px;
-
-  @include m.tb {
-    grid-auto-rows: 166px;
-    gap: 12px 16px;
-  }
-
-  @include m.sp {
-    grid-template-columns: 1fr;
-  }
-
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/HaAnchorLink.vue
 ```vue
 <template>
@@ -5790,243 +6027,6 @@ const handleClick = () => {
         font-weight: 400;
         text-align: center;
     }
-}
-</style>
-```
-
-## File: layers/main/app/components/ha/HaConfetti.vue
-```vue
-<script setup lang="ts">
-/*
-  canvas最上部のランダムな位置から、ランダムな角度でランダムな色の長方形を一定間隔で収縮させながら落下させている。
-*/
-import { shallowRef, onMounted, onUnmounted } from 'vue'
-
-const canvasRef = shallowRef<HTMLCanvasElement | null>(null)
-
-// 調整可能なパラメータ
-const CONFIG = {
-  particleCount: 80,
-  fallSpeed: 2,
-  maxAngle: 15,
-  maxRotation: 65,
-  width: 12,
-  height: 8,
-  flipInterval: 500,
-} as const
-
-// 型定義
-interface Confetti {
-  x: number
-  y: number
-  vx: number
-  vy: number
-  hue: number
-  scaleY: number
-  scaleDirection: number
-  flipTimer: number
-  rotation: number
-}
-
-// 状態管理
-let animationId: number | null = null
-let resizeObserver: ResizeObserver | null = null
-let intersectionObserver: IntersectionObserver | null = null
-let visibilityHandler: (() => void) | null = null
-let scaleFactor: number = 1
-let confetti: Confetti[] = []
-
-// ユーティリティ
-function random(min: number, max: number): number {
-  return Math.random() * (max - min) + min
-}
-
-// 紙吹雪を1個生成（canvas最上部からスタート）
-function createConfetti(canvasWidth: number): Confetti {
-  const sign = Math.random() < 0.5 ? 1 : -1
-  const angleRad = ((random(0, CONFIG.maxAngle) * Math.PI) / 180) * sign
-  const speed = CONFIG.fallSpeed * scaleFactor
-
-  return {
-    x: random(0, canvasWidth),
-    y: -CONFIG.height,
-    vx: Math.sin(angleRad) * speed,
-    vy: Math.cos(angleRad) * speed,
-    hue: Math.floor(random(0, 360)),
-    scaleY: 1,
-    scaleDirection: -1,
-    flipTimer: performance.now() + CONFIG.flipInterval,
-    rotation:
-      (random(-1 * CONFIG.maxRotation, CONFIG.maxRotation) * Math.PI) / 180,
-  }
-}
-
-// 再開時にflipTimerをばらつかせてリセット（これがないと収縮タイミングが同期してしまう）
-function resetFlipTimers() {
-  const now = performance.now()
-  confetti.forEach((c) => {
-    c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
-  })
-}
-
-// アニメーションのメイン処理
-function startAnimation(canvas: HTMLCanvasElement) {
-  if (animationId !== null) return
-
-  const ctx = canvas.getContext('2d')!
-
-  // 初期状態では、パーティクルを画面内のランダムな高さに配置
-  if (confetti.length === 0) {
-    const now = performance.now()
-    confetti = Array.from({ length: CONFIG.particleCount }, () => {
-      const c = createConfetti(canvas.width)
-      c.y = random(0, canvas.height)
-      c.flipTimer = now + random(0, CONFIG.flipInterval * 2)
-      return c
-    })
-  }
-
-  function updateConfetti() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-    const now = performance.now()
-    const w = CONFIG.width * scaleFactor
-    const h = CONFIG.height * scaleFactor
-
-    confetti.forEach((c) => {
-      c.x += c.vx
-      c.y += c.vy
-
-      // 回転アニメーション（収縮アニメーションによる疑似的なもの）：flipTimerごとに折り返す
-      if (now >= c.flipTimer) {
-        c.scaleDirection *= -1
-        c.flipTimer = now + CONFIG.flipInterval
-      }
-
-      c.scaleY += c.scaleDirection * 0.05
-      c.scaleY = Math.max(0.1, Math.min(1, c.scaleY))
-
-      // 光の反射表現（回転アニメーションに合わせて輝度を変化させることによる疑似的なもの）
-      const lightness = 30 + c.scaleY * 40
-
-      // 画面下に出たら最上部に戻す
-      if (c.y > canvas.height + h) {
-        const next = createConfetti(canvas.width)
-        Object.assign(c, next)
-      }
-
-      ctx.save()
-      ctx.translate(c.x, c.y)
-      ctx.rotate(c.rotation)
-      ctx.scale(1, c.scaleY)
-      ctx.fillStyle = `hsl(${c.hue}, 90%, ${lightness}%)`
-      ctx.fillRect(-w / 2, -h / 2, w, h)
-      ctx.restore()
-    })
-  }
-
-  function animate() {
-    animationId = requestAnimationFrame(animate)
-    updateConfetti()
-  }
-
-  animate()
-}
-
-// 停止・リサイズ
-function stopAnimation() {
-  if (animationId !== null) {
-    cancelAnimationFrame(animationId)
-    animationId = null
-  }
-}
-
-function resizeCanvas(canvas: HTMLCanvasElement) {
-  const parent = canvas.parentElement
-  if (!parent) return
-  canvas.width = parent.clientWidth
-  canvas.height = parent.clientHeight
-}
-
-// ライフサイクル
-onMounted(() => {
-  const canvas = canvasRef.value as HTMLCanvasElement | null
-  if (!canvas) return
-  const parent = canvas.parentElement
-  if (!parent) return
-
-  const width = window.innerWidth
-  if (width < 768) {
-    // スマホ: app/assets/styles/_variables.scss v.$media-query-width
-    scaleFactor = 0.6
-  } else if (width < 1080) {
-    // タブレット: app/assets/styles/_variables.scss v.$pc-content-min-width
-    scaleFactor = 0.8
-  } else {
-    scaleFactor = 1.0
-  }
-
-  resizeCanvas(canvas)
-
-  resizeObserver = new ResizeObserver(() => resizeCanvas(canvas))
-  resizeObserver.observe(parent)
-
-  intersectionObserver = new IntersectionObserver(
-    (entries) => {
-      const entry = entries[0]
-      if (!entry) return
-      if (entry.isIntersecting) {
-        resetFlipTimers()
-        startAnimation(canvas)
-      } else {
-        stopAnimation()
-      }
-    },
-    { threshold: 0 },
-  )
-  intersectionObserver.observe(canvas)
-
-  visibilityHandler = () => {
-    if (document.hidden) {
-      stopAnimation()
-    } else {
-      resetFlipTimers()
-      startAnimation(canvas)
-    }
-  }
-  document.addEventListener('visibilitychange', visibilityHandler)
-})
-
-onUnmounted(() => {
-  stopAnimation()
-  resizeObserver?.disconnect()
-  intersectionObserver?.disconnect()
-  if (visibilityHandler) {
-    document.removeEventListener('visibilitychange', visibilityHandler)
-    visibilityHandler = null
-  }
-})
-</script>
-
-<template>
-  <canvas
-    ref="canvasRef"
-    class="confetti-canvas"
-  />
-</template>
-
-<style scoped>
-.confetti-canvas {
-  pointer-events: none;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-
-  opacity: 0.2;
 }
 </style>
 ```
@@ -7436,127 +7436,6 @@ defineProps<{
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaTicketCard.vue
-```vue
-<i18n lang="yaml">
-ja:
-  cta:
-    purchase: チケット購入
-    pending: 準備中
-en:
-  cta:
-    purchase: Buy Tickets
-    pending: Coming soon
-</i18n>
-
-<template>
-  <div class="ticket-card glassy-box-3">
-    <p class="ticket-card__title">
-      {{ title }}
-    </p>
-    <p class="ticket-card__desc">
-      {{ desc }}
-    </p>
-
-    <NuxtLink
-      v-if="href"
-      class="glassy-button ticket-card__button none-hover-animation"
-      :to="href"
-      target="_blank"
-      rel="noopener"
-    >
-      {{ ctaLabel ?? t('cta.purchase') }}
-    </NuxtLink>
-    <span
-      v-else
-      class="glassy-button ticket-card__button ticket-card__button--disabled none-hover-animation"
-    >
-      {{ ctaLabel ?? t('cta.pending') }}
-    </span>
-  </div>
-</template>
-
-<script setup lang="ts">
-const { t } = useI18n()
-
-defineProps<{
-  title: string
-  desc: string
-  href?: string
-  ctaLabel?: string
-}>()
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.ticket-card {
-  display: flex;
-  flex-direction: column;
-  gap: 44px;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 100%;
-
-  background: rgb(49 35 96 / 40%);
-  mix-blend-mode: plus-lighter;
-
-  @include m.tb {
-    gap: 16px;
-  }
-
-  &__title {
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 1em;
-
-    @include m.sp {
-      font-size: 16px;
-    }
-  }
-
-  &__desc {
-    font-size: 16px;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    box-sizing: border-box;
-    width: 190px;
-    min-height: 44px;
-    padding: 10px 20px;
-
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-    text-decoration: none;
-
-    &::before {
-      inset: 0;
-      width: auto;
-      height: auto;
-    }
-
-    &--disabled {
-      cursor: not-allowed;
-      opacity: 0.68;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtContactSection.vue
 ```vue
 <i18n lang="yaml">
@@ -8179,6 +8058,127 @@ const toggle = (id: number) => {
 
 .accordion-glassy-box {
   box-shadow: inset rgb(70 132 255 / 35%) 0 0 8px 4px;
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaTicketCard.vue
+```vue
+<i18n lang="yaml">
+ja:
+  cta:
+    purchase: チケット購入
+    pending: 準備中
+en:
+  cta:
+    purchase: Buy Tickets
+    pending: Coming soon
+</i18n>
+
+<template>
+  <div class="ticket-card glassy-box-3">
+    <p class="ticket-card__title">
+      {{ title }}
+    </p>
+    <p class="ticket-card__desc">
+      {{ desc }}
+    </p>
+
+    <NuxtLink
+      v-if="href"
+      class="glassy-button ticket-card__button none-hover-animation"
+      :to="href"
+      target="_blank"
+      rel="noopener"
+    >
+      {{ ctaLabel ?? t('cta.purchase') }}
+    </NuxtLink>
+    <span
+      v-else
+      class="glassy-button ticket-card__button ticket-card__button--disabled none-hover-animation"
+    >
+      {{ ctaLabel ?? t('cta.pending') }}
+    </span>
+  </div>
+</template>
+
+<script setup lang="ts">
+const { t } = useI18n()
+
+defineProps<{
+  title: string
+  desc: string
+  href?: string
+  ctaLabel?: string
+}>()
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ticket-card {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgb(49 35 96 / 40%);
+  mix-blend-mode: plus-lighter;
+
+  @include m.tb {
+    gap: 16px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1em;
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__desc {
+    font-size: 16px;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    width: 190px;
+    min-height: 44px;
+    padding: 10px 20px;
+
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    text-decoration: none;
+
+    &::before {
+      inset: 0;
+      width: auto;
+      height: auto;
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+      opacity: 0.68;
+    }
+  }
 }
 </style>
 ```
@@ -9482,109 +9482,6 @@ onMounted(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtNewsSection.vue
-```vue
-<script setup lang="ts">
-import HaArrowRightIcon from '../ha/icons/HaArrowRightIcon.vue'
-import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t: tGlobal } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    title: tGlobal('news.1.title'),
-    href: 'https://note.com/vris/n/nd2a52adc9c5c',
-    imgSrc: '/news1_thumbnail.png',
-    timestamp: '2026-06-06',
-  },
-  {
-    id: 2,
-    title: tGlobal('news.2.title'),
-    href: 'https://note.com/vris/n/nd2a52adc9c5c',
-    imgSrc: '/news2_thumbnail.png',
-    timestamp: '2026-06-01',
-  },
-])
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <HaSectionTitle
-    :title="tGlobal('sectionTitle.news')"
-    label="NEWS"
-  >
-    <template #controls>
-      <NuxtLink
-        class="glassy-button"
-        to="/news"
-      >
-        <span class="news__button-text">
-          {{ tGlobal("viewAll") }}
-        </span>
-        <HaArrowRightIcon class="glassy-button news__button-icon" />
-      </NuxtLink>
-    </template>
-  </HaSectionTitle>
-  <div ref="sectionRef">
-    <HmNewsSwiper
-      ref="worksSwiperRef"
-      class="news__swiper"
-      :items="items"
-      :_slides-per-view="1"
-      :_breakpoints="{
-        1024: { slidesPerView: 3 }, // PC: app/assets/styles/_variables.scss v.$pc-content-min-width
-        768: { slidesPerView: 2 }, // タブレット: app/assets/styles/_variables.scss v.$media-query-width
-      }"
-    />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.news {
-  &__swiper {
-    margin-bottom: 36px;
-
-    @include m.tb {
-      margin-bottom: 24px;
-    }
-  }
-
-  &__button-text {
-    font-family: Inter, sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
-
-    @include m.tb {
-      font-size: 14px;
-    }
-  }
-
-  &__button-icon {
-    display: none;
-    width: 14px;
-
-    @include m.sp {
-      display: block;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ho/HoTheHeader.vue
 ```vue
 <i18n lang="yaml">
@@ -10002,6 +9899,109 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
 
   100% {
     transform: translate(-100%, 0);
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtNewsSection.vue
+```vue
+<script setup lang="ts">
+import HaArrowRightIcon from '../ha/icons/HaArrowRightIcon.vue'
+import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: tGlobal('news.1.title'),
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
+    imgSrc: '/news1_thumbnail.png',
+    timestamp: '2026-06-06',
+  },
+  {
+    id: 2,
+    title: tGlobal('news.2.title'),
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
+    imgSrc: '/news2_thumbnail.png',
+    timestamp: '2026-06-01',
+  },
+])
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <HaSectionTitle
+    :title="tGlobal('sectionTitle.news')"
+    label="NEWS"
+  >
+    <template #controls>
+      <NuxtLink
+        class="glassy-button"
+        to="/news"
+      >
+        <span class="news__button-text">
+          {{ tGlobal("viewAll") }}
+        </span>
+        <HaArrowRightIcon class="glassy-button news__button-icon" />
+      </NuxtLink>
+    </template>
+  </HaSectionTitle>
+  <div ref="sectionRef">
+    <HmNewsSwiper
+      ref="worksSwiperRef"
+      class="news__swiper"
+      :items="items"
+      :_slides-per-view="1"
+      :_breakpoints="{
+        1024: { slidesPerView: 3 }, // PC: app/assets/styles/_variables.scss v.$pc-content-min-width
+        768: { slidesPerView: 2 }, // タブレット: app/assets/styles/_variables.scss v.$media-query-width
+      }"
+    />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.news {
+  &__swiper {
+    margin-bottom: 36px;
+
+    @include m.tb {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__button-text {
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+
+    @include m.tb {
+      font-size: 14px;
+    }
+  }
+
+  &__button-icon {
+    display: none;
+    width: 14px;
+
+    @include m.sp {
+      display: block;
+    }
   }
 }
 </style>
