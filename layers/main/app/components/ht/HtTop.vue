@@ -18,6 +18,10 @@ en:
       </div>
 
       <div class="content-wrapper__main">
+        <section id="crowd-levels">
+          <HtCrowdLevelsSection />
+        </section>
+
         <section id="about">
           <HtAboutSection />
         </section>
@@ -76,7 +80,7 @@ en:
 
 <script setup lang="ts">
 // import HtQuickAccessSection from './HtQuickAccessSection.vue'
-// import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
+import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
 // import HtExhibitionSection from './HtExhibitionSection.vue'
 // import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
 // import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
