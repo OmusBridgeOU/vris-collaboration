@@ -95,6 +95,27 @@ describe('crowdLevel（computed）', () => {
     await fetchCrowdData()
     expect(crowdLevel.value).toBe(3)
   })
+
+  test('ヘッダーとセクションの更新タイマーが互いに解除されない', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    const fetchMock = vi.fn(() => Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 1 }),
+    }))
+    vi.stubGlobal('fetch', fetchMock)
+    const { useCrowdData } = await importFresh()
+    const header = useCrowdData()
+    const section = useCrowdData()
+
+    await header.fetchCrowdData()
+    await section.fetchCrowdData()
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+
+    await vi.advanceTimersByTimeAsync(5 * 60 * 1000)
+    expect(fetchMock).toHaveBeenCalledTimes(4)
+    expect(header.crowdLevel.value).toBe(1)
+    expect(section.crowdLevel.value).toBe(1)
+  })
 })
 
 // データフェッチの仕様は適切か

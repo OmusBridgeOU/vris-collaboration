@@ -29,7 +29,7 @@ const { t } = useI18n()
         <p class="event-info-table__label">
           {{ t('nameLabel') }}
         </p>
-        <p class="event-info-table__text">
+        <p class="event-info-table__text event-info-table__text--name">
           {{ t('name') }}
         </p>
       </div>
@@ -128,18 +128,58 @@ const { t } = useI18n()
     }
 }
 
+@media screen and (770px <= width <= 1080px) {
+    .event-info {
+        align-self: flex-start;
+
+        box-sizing: border-box;
+        width: min(320px, calc((100vw - 320px) / 2 - 24px));
+        max-width: none;
+        margin-left: 24px;
+        padding: 16px;
+
+        &__inner {
+            padding: 8px;
+        }
+
+        &__title {
+            margin-bottom: 8px;
+        }
+
+        &__table-flex {
+            flex-direction: column;
+            gap: 4px;
+        }
+    }
+
+    .event-info-table {
+        &__text {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        &__divider {
+            margin: 4px 0;
+        }
+    }
+}
+
 .event-info-table {
     &__label {
         font-size: 14px;
         color: #a0a0a0;
 
-        @include m.sp {
-            font-size: 10px;
+        @include m.tb {
+            display: none;
         }
     }
 
     &__text {
         font-size: 24px;
+
+        &--name {
+            font-weight: 700;
+        }
 
         @include m.tb {
             font-size: 16px;

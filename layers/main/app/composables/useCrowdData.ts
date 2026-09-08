@@ -6,10 +6,6 @@ interface ReadResponse {
   value: CrowdLevel
 }
 
-let timerId: ReturnType<typeof setTimeout> | null = null
-let isFetching = false // Fetch実行中フラグ（開発者ツールを用いたリトライ攻撃対策）
-let retryCount = 0
-
 // 開催日時を指定
 const EVENT_START = new Date('2026-09-26T10:00:00+09:00')
 
@@ -18,6 +14,10 @@ export function isBeforeEvent(): boolean {
 }
 
 export function useCrowdData() {
+  // ヘッダーと混雑情報セクションで互いの更新タイマーを解除しない。
+  let timerId: ReturnType<typeof setTimeout> | null = null
+  let isFetching = false
+  let retryCount = 0
   const crowdData = ref<ReadResponse | null>(null)
   const isLoading = ref(true)
   const isError = ref(false)

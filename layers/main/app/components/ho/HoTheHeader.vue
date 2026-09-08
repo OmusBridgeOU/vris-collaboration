@@ -1,8 +1,26 @@
 <i18n lang="yaml">
 ja:
   mainlogo: VketReal in 札幌 2026 Autumn
+  openMenu: メニューを開く
+  closeMenu: メニューを閉じる
+  venue: 会場内：
+  closed: 開催期間外
+  available: 余裕あり
+  moderate: やや混雑
+  busy: 混雑
+  loading: 混雑状況取得中…
+  error: 混雑状況を取得できません
   maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 en:
+  openMenu: Open menu
+  closeMenu: Close menu
+  venue: 'Venue: '
+  closed: Outside event hours
+  available: Available
+  moderate: Moderately crowded
+  busy: Crowded
+  loading: Loading crowd status…
+  error: Crowd status unavailable
   mainlogo: VketReal in Sapporo 2026 Autumn
   maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 </i18n>
@@ -26,33 +44,46 @@ en:
         </a>
       </div>
 
-      <div class="ho-the-header__accordion-wrapper--inner">
+      <div
+        class="ho-the-header__accordion-wrapper--inner"
+        @keydown.esc="closeMenu(true)"
+      >
         <div class="ho-the-header__accordion-wrapper">
           <div
-            class="ho-the-header__right glassy-box-4 none-hover-animation ho-the-header__accordion"
-            :class="{ 'is-open': isPanelOpen }"
+            class="ho-the-header__right glassy-box-4 glassy-box-4--radius-full none-hover-animation ho-the-header__accordion"
+            :class="{ 'is-open': isPanelOpen, 'is-closing': isPanelClosing }"
           >
             <div class="ho-the-header__hamburger-wrapper">
               <HaLanguageSwitcher />
               <button
+                ref="menuButtonRef"
+                type="button"
                 class="ho-the-header__hamburger"
-                :aria-label="isPanelOpen ? 'メニューを閉じる' : 'メニューを開く'"
+                :aria-label="t(isPanelOpen ? 'closeMenu' : 'openMenu')"
+                aria-controls="header-navigation"
                 :aria-expanded="isPanelOpen"
-                @click="isPanelOpen = !isPanelOpen"
+                @click="toggleMenu"
               >
                 <HaHamburgerIcon
                   v-show="!isPanelOpen"
                   class="ho-the-header__hamburger-icon"
+                  aria-hidden="true"
                   :class="{ 'is-open': isPanelOpen }"
                 />
                 <HaCloseIcon
                   v-show="isPanelOpen"
                   class="ho-the-header__hamburger-icon"
+                  aria-hidden="true"
                   :class="{ 'is-open': isPanelOpen }"
                 />
               </button>
             </div>
-            <div class="ho-the-header__accordion-body">
+            <div
+              id="header-navigation"
+              class="ho-the-header__accordion-body"
+              :inert="!isPanelOpen"
+              :aria-hidden="!isPanelOpen"
+            >
               <nav class="ho-the-header__accordion-nav">
                 <ul class="ho-the-header__accordion-ul">
                   <li
@@ -64,14 +95,14 @@ en:
                       v-if="link.type === 'link'"
                       :href="link.href"
                       class="ho-the-header__accordion-link"
-                      @click="isPanelOpen = false"
+                      @click="closeMenu()"
                     >{{ link.text }}</a>
                     <HaAnchorLink
                       v-else
                       class="ho-the-header__accordion-link"
                       :href="link.href"
                       :text="link.text"
-                      @clicked="isPanelOpen = false"
+                      @clicked="closeMenu()"
                     />
                   </li>
                 </ul>
@@ -80,33 +111,23 @@ en:
           </div>
         </div>
       </div>
-
-      <div class="ho-the-header__right ho-the-header__right--pc-only glassy-box-4 glassy-box-4--radius-full none-hover-animation">
-        <nav class="ho-the-header__nav">
-          <ul class="ho-the-header__ul">
-            <li
-              v-for="link in navLinks"
-              :key="link.href"
-              class="ho-the-header__li"
-            >
-              <a
-                v-if="link.type === 'link'"
-                :href="link.href"
-                class="ho-the-header__link"
-              >{{ link.text }}</a>
-              <HaAnchorLink
-                v-else
-                class="ho-the-header__link"
-                :href="link.href"
-                :text="link.text"
-              />
-            </li>
-          </ul>
-        </nav>
-        <HaLanguageSwitcher />
-      </div>
     </div>
   </header>
+  <div
+    class="ho-the-header__crowd glassy-box-4 glassy-box-4--radius-full none-hover-animation"
+    :class="`ho-the-header__crowd--${crowdStatus}`"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+  >
+    <span
+      class="ho-the-header__crowd-dot"
+      aria-hidden="true"
+    />
+    <span class="ho-the-header__crowd-text">
+      <span v-if="showsVenue">{{ t('venue') }}</span><strong>{{ t(crowdStatus) }}</strong>
+    </span>
+  </div>
   <div
     class="maintenance-banner"
     role="status"
@@ -121,6 +142,7 @@ en:
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useCrowdData } from '~/composables/useCrowdData'
 import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
 import HaAnchorLink from '../ha/HaAnchorLink.vue'
 import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
@@ -136,7 +158,52 @@ defineProps<{
   navLinks: NavLink[]
 }>()
 
+const { isLoading, isError, crowdLevel } = useCrowdData()
+const crowdStatus = computed(() => {
+  if (isError.value) return 'error'
+  if (crowdLevel.value === 0) return 'closed'
+  if (isLoading.value || crowdLevel.value === null) return 'loading'
+  return ({ 1: 'available', 2: 'moderate', 3: 'busy' } as const)[crowdLevel.value]
+})
+const showsVenue = computed(() =>
+  crowdStatus.value === 'available'
+  || crowdStatus.value === 'moderate'
+  || crowdStatus.value === 'busy',
+)
+
 const isPanelOpen = ref(false)
+const isPanelClosing = ref(false)
+const menuButtonRef = ref<HTMLButtonElement | null>(null)
+let closeAnimationTimer: ReturnType<typeof setTimeout> | null = null
+
+const closeMenu = (restoreFocus = false) => {
+  if (!isPanelOpen.value) return
+  isPanelOpen.value = false
+  isPanelClosing.value = true
+
+  if (closeAnimationTimer !== null) clearTimeout(closeAnimationTimer)
+  closeAnimationTimer = setTimeout(() => {
+    isPanelClosing.value = false
+    closeAnimationTimer = null
+  }, 300)
+
+  if (restoreFocus) menuButtonRef.value?.focus()
+}
+const toggleMenu = () => {
+  if (isPanelOpen.value) {
+    closeMenu()
+    return
+  }
+
+  if (closeAnimationTimer !== null) clearTimeout(closeAnimationTimer)
+  closeAnimationTimer = null
+  isPanelClosing.value = false
+  isPanelOpen.value = true
+}
+
+onBeforeUnmount(() => {
+  if (closeAnimationTimer !== null) clearTimeout(closeAnimationTimer)
+})
 </script>
 
 <style scoped lang="scss">
@@ -145,7 +212,6 @@ const isPanelOpen = ref(false)
 
 $vket-header-height-pc--real: v.$vket-header-height-pc - v.$vket-header-vertical-padding-pc * 2;
 $vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical-padding-tb * 2;
-$vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical-padding-sp * 2;
 
 .maintenance-banner {
   position: fixed;
@@ -160,6 +226,10 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
   color: white;
 
   background: #e6002d;
+
+  @include m.tb {
+    top: v.$vket-header-height-tb;
+  }
 
   @include m.sp {
     top: v.$vket-header-height-sp;
@@ -214,9 +284,10 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
   &__inner {
     position: relative;
 
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: center;
 
     width: 100%;
     max-width: v.$pc-content-body-width - v.$pc-content-body-padding * 2;
@@ -227,7 +298,9 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
     }
 
     @include m.sp {
-      height: $vket-header-height-sp--real;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      height: auto;
     }
   }
 
@@ -235,16 +308,26 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
     display: flex;
     flex-shrink: 0;
     align-items: center;
+    justify-self: start;
 
-    height: 100%;
+    height: $vket-header-height-pc--real;
     padding-right: 32px;
     padding-left: 32px;
 
     box-shadow: inset rgb(22 0 120 / 30%) 0 0 12px 0;
 
     @include m.tb {
+      height: $vket-header-height-tb--real;
       padding-right: 24px;
       padding-left: 24px;
+    }
+
+    @include m.sp {
+      padding-inline: 16px;
+    }
+
+    @include m.xs {
+      padding-inline: 10px;
     }
   }
 
@@ -265,19 +348,10 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
       padding-left: 24px;
     }
 
-    &--pc-only {
-      @include m.tb {
-        display: none;
-      }
-    }
+  }
 
-    &--pc-none {
-      display: none;
-
-      @include m.tb {
-        display: flex;
-      }
-    }
+  &__logo-link {
+    display: flex;
   }
 
   &__logo {
@@ -286,26 +360,128 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
     @include m.tb {
       height: 36px;
     }
-  }
 
-  // PC用ナビ
-  &__nav {
-    @include m.tb {
-      display: none;
+    @include m.xs {
+      height: 30px;
     }
   }
 
-  &__ul {
+  &__crowd {
+    --crowd-color: #{v.$vket-gray};
+    --crowd-shadow-color: rgb(0 0 0 / 25%);
+
+    position: absolute;
+    z-index: 4;
+    top: 58px;
+    left: 50%;
+    transform: translateX(-50%);
+
     display: flex;
-    gap: 24px;
+    gap: 10px;
     align-items: center;
-    list-style: none;
+    justify-content: center;
+    justify-self: center;
+
+    box-sizing: border-box;
+    min-width: 220px;
+    max-width: 100%;
+    min-height: 44px;
+    padding: 6px 14px;
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: v.$vket-rich-navy;
+    white-space: nowrap;
+
+    box-shadow:
+      0 4px 12px -2px var(--crowd-shadow-color),
+      inset rgb(22 0 120 / 20%) 0 0 12px 0;
+
+    @include m.tb {
+      top: 32px;
+
+      gap: 9px;
+
+      min-width: 200px;
+      min-height: 42px;
+      padding: 6px 13px;
+
+      font-size: 14px;
+    }
+
+    @include m.sp {
+      top: 90px;
+      left: 16px;
+      transform: none;
+
+      gap: 8px;
+
+      min-width: 180px;
+      min-height: 40px;
+      padding: 5px 12px;
+
+      font-size: 13px;
+    }
+
+    &--available {
+      --crowd-color: #{v.$vket-emerald};
+      --crowd-shadow-color: rgb(67 255 189 / 45%);
+    }
+
+    &--moderate {
+      --crowd-color: #{v.$vket-amber};
+      --crowd-shadow-color: rgb(255 165 0 / 45%);
+    }
+
+    &--busy {
+      --crowd-color: #{v.$vket-vermilion};
+      --crowd-shadow-color: rgb(255 69 0 / 45%);
+    }
+
+    &--closed,
+    &--loading,
+    &--error {
+      --crowd-color: #{v.$vket-gray};
+      --crowd-shadow-color: rgb(0 0 0 / 25%);
+    }
+
+    &--available,
+    &--moderate,
+    &--busy {
+      strong {
+        color: var(--crowd-color);
+      }
+    }
   }
 
-  &__link {
-    font-weight: 700;
-    color: white;
-    text-decoration: none;
+  &__crowd-dot {
+    flex: 0 0 28px;
+
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+
+    background-color: var(--crowd-color);
+    box-shadow: 0 3px 8px -1px var(--crowd-shadow-color);
+
+    @include m.tb {
+      flex-basis: 26px;
+      width: 26px;
+      height: 26px;
+    }
+
+    @include m.sp {
+      flex-basis: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__crowd-text {
+    overflow: hidden;
+    font-weight: 900;
+    text-overflow: ellipsis;
   }
 
   &__accordion-wrapper {
@@ -313,25 +489,48 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
   }
 
   &__accordion-wrapper--inner {
-    position: absolute;
+    position: relative;
     z-index: 1;
-    top: 0;
-    right: 0;
+    place-self: start end;
+    height: $vket-header-height-pc--real;
+
+    @include m.tb {
+      height: $vket-header-height-tb--real;
+    }
+
+    @include m.sp {
+      grid-area: 1 / 2;
+    }
   }
 
   &__accordion {
-    display: none;
+    --accordion-corner-radius: calc(#{$vket-header-height-pc--real} / 2);
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    display: flex;
     flex-direction: column;
+    gap: 0;
     align-items: end;
 
     width: fit-content;
     height: fit-content;
-    min-height: 50px;
+    min-height: $vket-header-height-pc--real;
     padding: 0;
-    border-radius: 25px;
+    border-radius: var(--accordion-corner-radius);
 
     @include m.tb {
-      display: flex;
+      --accordion-corner-radius: calc(#{$vket-header-height-tb--real} / 2);
+
+      min-height: $vket-header-height-tb--real;
+    }
+
+    &.is-open,
+    &.is-closing {
+      width: max-content;
+      max-width: calc(100vw - 32px);
     }
 
     &-body {
@@ -374,8 +573,22 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
 
   &__hamburger-wrapper {
     display: flex;
+    gap: 8px;
     align-items: center;
-    padding: 7px;
+
+    box-sizing: border-box;
+    min-height: $vket-header-height-pc--real;
+    padding: 6px 12px;
+
+    @include m.tb {
+      gap: 4px;
+      min-height: $vket-header-height-tb--real;
+      padding: 3px 10px;
+    }
+
+    @include m.xs {
+      padding-inline: 4px;
+    }
   }
 
   // ハンバーガーボタン
@@ -386,15 +599,30 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
     align-items: center;
     justify-content: center;
 
-    width: 36px;
-    height: 36px;
+    width: 52px;
+    height: 52px;
     padding: 0;
+
+    &:focus-visible {
+      outline: 2px solid v.$vket-cyan;
+      outline-offset: 2px;
+    }
 
     &-icon {
       display: block;
-      width: 22px;
-      height: 22px;
+      width: 40px;
+      height: 40px;
       color: white;
+
+      @include m.tb {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    @include m.tb {
+      width: 44px;
+      height: 44px;
     }
   }
 }
