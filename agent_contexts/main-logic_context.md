@@ -329,9 +329,10 @@ export function useCrowdData() {
     try {
       const res = await fetch(endpoint)
       if (!res.ok) throw new Error(`Visitor Counter API: HTTP ${res.status}`)
-      crowdData.value = await res.json()
 
-      console.log(crowdData)
+      const json = await res.json()
+      crowdData.value = json.value
+
       isError.value = false
       retryCount = 0
       schedule(NORMAL_INTERVAL_MS)
