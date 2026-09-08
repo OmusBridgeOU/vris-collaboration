@@ -778,8 +778,19 @@ import svgLoader from 'vite-svg-loader'
 import { readEnvType } from './config/models/EnvType'
 import { getRuntimeConfigOfEnvType } from './config/runtimeConfig'
 import { nuxtI18nOptions } from './i18n/i18n.config'
+import { createResolver } from '@nuxt/kit'
 
-const cssUrls = [`./app/assets/styles/style.scss`]
+// NOTE: cssの相対パス指定に関する不具合対応
+//
+// Nuxtのレイヤー機構(extends)には、「レイヤーのnuxt.config.tsに書かれたcss配列の相対パスは、そのレイヤー自身ではなく、
+// extendsしている側(例: layers/main)のプロジェクトディレクトリを基準に解決される」という仕様がある。
+// これにより、本来は`layers/base/app/assets/styles/style.scss`を指すはずだった相対パス './app/assets/styles/style.scss' が、
+// layers/main 側を基準に解決されようとすることで見つからず、ビルドエラー(Internal server error)が発生していた。
+//
+// @nuxt/kit の createResolver を使い、このnuxt.config.ts自身の物理的な場所(import.meta.url)を基準に、絶対パスへ明示的に解決するよう変更した。
+// これにより、baseをどのレイヤーがextendsしても、常にbaseレイヤー自身のstyle.scssを正しく指すようにしている。
+const { resolve } = createResolver(import.meta.url)
+const cssUrls = [resolve('./app/assets/styles/style.scss')]
 const srcDir = 'app'
 
 type NuxtConfigInput = Parameters<typeof defineNuxtConfig>[0]
