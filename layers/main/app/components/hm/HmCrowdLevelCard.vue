@@ -93,7 +93,7 @@ const fillCount = computed(() => {
       >
         <div class="crowd-level-card__icon-box">
           <template v-if="isError">
-            <HaPeopleIcon />
+            <HaPeopleFillIcon />
             <HaQuestionIcon />
           </template>
           <template v-else-if="fillCount == 0">

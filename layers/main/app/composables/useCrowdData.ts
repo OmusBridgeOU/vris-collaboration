@@ -1,7 +1,7 @@
 type CrowdLevel = -1 | 1 | 2 | 3 // -1: API未登録, 0: 開催期間外, 1~3: 混雑度
 
 // 混雑度データ型
-interface CrowdData {
+export interface CrowdData {
   value1: CrowdLevel
   value2: CrowdLevel
   updated_at: string | null

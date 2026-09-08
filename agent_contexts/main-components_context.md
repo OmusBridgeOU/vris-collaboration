@@ -100,6 +100,7 @@ layers/
           HaContactCard.vue
           HaContentCard.vue
           HaCountUpNumber.vue
+          HaCrowdInfo.vue
           HaDocumentLink.vue
           HaEventInfo.vue
           HaFireworks.vue
@@ -2478,6 +2479,11 @@ onUnmounted(() => {
 <template>
   <span ref="spanRef">{{ displayValue }}</span>
 </template>
+```
+
+## File: layers/main/app/components/ha/HaCrowdInfo.vue
+```vue
+
 ```
 
 ## File: layers/main/app/components/ha/HaDocumentLink.vue
@@ -5088,7 +5094,7 @@ const fillCount = computed(() => {
       >
         <div class="crowd-level-card__icon-box">
           <template v-if="isError">
-            <HaPeopleIcon />
+            <HaPeopleFillIcon />
             <HaQuestionIcon />
           </template>
           <template v-else-if="fillCount == 0">
@@ -9795,12 +9801,12 @@ defineProps<{
   navLinks: NavLink[]
 }>()
 
-const { isLoading, isError, crowdLevel } = useCrowdData()
+const { isLoading, isError, crowdData } = useCrowdData()
 const crowdStatus = computed(() => {
   if (isError.value) return 'error'
-  if (crowdLevel.value === 0) return 'closed'
-  if (isLoading.value || crowdLevel.value === null) return 'loading'
-  return ({ 1: 'available', 2: 'moderate', 3: 'busy' } as const)[crowdLevel.value]
+  if (crowdData.value?.value1 === -1) return 'closed'
+  if (isLoading.value || !crowdData.value) return 'loading'
+  return ({ 1: 'available', 2: 'moderate', 3: 'busy' } as const)[crowdData.value.value1]
 })
 const showsVenue = computed(() =>
   crowdStatus.value === 'available'
@@ -10014,16 +10020,16 @@ $vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical
     transform: translateX(-50%);
 
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     justify-self: center;
 
     box-sizing: border-box;
-    min-width: 220px;
-    max-width: 100%;
-    min-height: 44px;
-    padding: 6px 14px;
+    width: auto;
+    min-width: 172px;
+    height: 40px;
+    padding: 6px 12px;
 
     font-size: 14px;
     font-weight: 700;
@@ -10037,13 +10043,6 @@ $vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical
 
     @include m.tb {
       top: 32px;
-
-      gap: 9px;
-
-      min-width: 200px;
-      min-height: 42px;
-      padding: 6px 13px;
-
       font-size: 14px;
     }
 
@@ -10052,11 +10051,7 @@ $vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical
       left: 16px;
       transform: none;
 
-      gap: 8px;
-
-      min-width: 180px;
-      min-height: 40px;
-      padding: 5px 12px;
+      min-width: 160px;
 
       font-size: 13px;
     }
@@ -10305,10 +10300,6 @@ en:
       </div>
 
       <div class="content-wrapper__main">
-        <section id="crowd-levels">
-          <HtCrowdLevelsSection />
-        </section>
-
         <section id="about">
           <HtAboutSection />
         </section>
@@ -10367,7 +10358,7 @@ en:
 
 <script setup lang="ts">
 // import HtQuickAccessSection from './HtQuickAccessSection.vue'
-import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
+// import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
 // import HtExhibitionSection from './HtExhibitionSection.vue'
 // import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
 // import HtRelatedEventsSection from './HtRelatedEventsSection.vue'

@@ -135,8 +135,8 @@ describe('crowdData / isBeforeEventStart', () => {
 
     await vi.advanceTimersByTimeAsync(5 * 60 * 1000)
     expect(fetchMock).toHaveBeenCalledTimes(4)
-    expect(header.crowdLevel.value).toBe(1)
-    expect(section.crowdLevel.value).toBe(1)
+    expect(header.crowdData.value?.value1).toBe(1)
+    expect(section.crowdData.value?.value1).toBe(1)
   })
 })
 

@@ -593,9 +593,10 @@ if (!global.HTMLDialogElement) {
 import { describe, expect, test, vi, beforeEach, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { mockNuxtImport } from '@nuxt/test-utils/runtime'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import HoTheHeader from '../../components/ho/HoTheHeader.vue'
 import { useCrowdData } from '../../composables/useCrowdData'
+import type { CrowdData } from '../../composables/useCrowdData'
 
 vi.mock('../../composables/useCrowdData', () => ({
   useCrowdData: vi.fn(),
@@ -603,7 +604,7 @@ vi.mock('../../composables/useCrowdData', () => ({
 
 mockNuxtImport('useI18n', () => () => ({ t: (key: string) => key }))
 
-const crowdLevel = ref<0 | 1 | 2 | 3 | null>(1)
+const crowdData = ref<CrowdData | null>({ value1: 1, value2: 1, updated_at: null })
 const isLoading = ref(false)
 const isError = ref(false)
 const wrappers: ReturnType<typeof mount>[] = []
@@ -625,13 +626,14 @@ function mountHeader() {
 }
 
 beforeEach(() => {
-  crowdLevel.value = 1
+  crowdData.value = { value1: 1, value2: 1, updated_at: null }
   isLoading.value = false
   isError.value = false
   vi.mocked(useCrowdData).mockReturnValue({
-    crowdLevel: computed(() => crowdLevel.value),
+    crowdData,
     isLoading,
     isError,
+    isBeforeEventStart: ref(false),
     fetchCrowdData: vi.fn(),
   })
 })
@@ -642,16 +644,21 @@ afterEach(() => {
 
 describe('header crowd status', () => {
   test.each([
-    [0, 'closed'],
+    [-1, 'closed'],
     [1, 'venueavailable'],
     [2, 'venuemoderate'],
     [3, 'venuebusy'],
-    [null, 'loading'],
-  ] as const)('shows level %s as %s', (level, label) => {
-    crowdLevel.value = level
+  ] as const)('shows value1 %s as %s', (value1, label) => {
+    crowdData.value = { value1, value2: value1, updated_at: null }
     const wrapper = mountHeader()
     expect(wrapper.get('.ho-the-header__crowd').text()).toBe(label)
     expect(wrapper.get('.ho-the-header__crowd-dot').attributes('aria-hidden')).toBe('true')
+  })
+
+  test('shows loading when crowdData is not yet fetched', () => {
+    crowdData.value = null
+    const wrapper = mountHeader()
+    expect(wrapper.get('.ho-the-header__crowd').text()).toBe('loading')
   })
 
   test('does not show stale availability after a fetch error', () => {
@@ -832,8 +839,8 @@ describe('crowdData / isBeforeEventStart', () => {
 
     await vi.advanceTimersByTimeAsync(5 * 60 * 1000)
     expect(fetchMock).toHaveBeenCalledTimes(4)
-    expect(header.crowdLevel.value).toBe(1)
-    expect(section.crowdLevel.value).toBe(1)
+    expect(header.crowdData.value?.value1).toBe(1)
+    expect(section.crowdData.value?.value1).toBe(1)
   })
 })
 

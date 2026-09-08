@@ -767,6 +767,84 @@ export default {
 }
 ````
 
+## File: layers/base/reset.d.ts
+````typescript
+import '@total-typescript/ts-reset'
+````
+
+## File: layers/base/tsconfig.json
+````json
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": [
+    "./.nuxt/tsconfig.server.json",
+    "./.nuxt/tsconfig.json",
+    "./tsconfig.shared.json"
+  ],
+  "include": [
+    "./app/**/*.ts",
+    "./app/**/*.d.ts",
+    "./app/**/*.vue",
+    "./server/**/*.ts",
+    "./config/**/*.ts",
+    "./@types/**/*.d.ts",
+    "./*.ts",
+    "./*.mts",
+    "./*.d.ts"
+  ]
+}
+````
+
+## File: layers/base/tsconfig.shared.json
+````json
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "preserve",
+    "lib": [
+      "dom",
+      "ES2023"
+    ],
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "sourceMap": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "noUncheckedIndexedAccess": true,
+    "jsx": "preserve",
+    "isolatedModules": true,
+    "typeRoots": [
+      "../../node_modules",
+      "../../node_modules/@types",
+      "./@types"
+    ],
+    "types": [
+      "vue3-toastify/global",
+      "unplugin-icons/types/vue",
+      "vite/client",
+      "vitest/globals"
+    ]
+  },
+  "vueCompilerOptions": {
+    "target": 3
+  },
+  "ts-node": {
+    "esm": true
+  },
+  "exclude": [
+    "node_modules",
+    ".output",
+    "dist",
+    "eslint.config.shared.mjs",
+    ".stylelintrc.shared.mjs",
+    "tsconfig.shared.json"
+  ]
+}
+````
+
 ## File: layers/base/nuxt.config.ts
 ````typescript
 import { defineNuxtConfig } from 'nuxt/config'
@@ -925,84 +1003,6 @@ const config: ResolvedNuxtConfigInput & { eslint?: NuxtEslintConfig } = {
 }
 
 export default defineNuxtConfig(config)
-````
-
-## File: layers/base/reset.d.ts
-````typescript
-import '@total-typescript/ts-reset'
-````
-
-## File: layers/base/tsconfig.json
-````json
-{
-  // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": [
-    "./.nuxt/tsconfig.server.json",
-    "./.nuxt/tsconfig.json",
-    "./tsconfig.shared.json"
-  ],
-  "include": [
-    "./app/**/*.ts",
-    "./app/**/*.d.ts",
-    "./app/**/*.vue",
-    "./server/**/*.ts",
-    "./config/**/*.ts",
-    "./@types/**/*.d.ts",
-    "./*.ts",
-    "./*.mts",
-    "./*.d.ts"
-  ]
-}
-````
-
-## File: layers/base/tsconfig.shared.json
-````json
-{
-  "compilerOptions": {
-    "target": "ES2023",
-    "module": "preserve",
-    "lib": [
-      "dom",
-      "ES2023"
-    ],
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "allowJs": true,
-    "sourceMap": true,
-    "strict": true,
-    "experimentalDecorators": true,
-    "noUncheckedIndexedAccess": true,
-    "jsx": "preserve",
-    "isolatedModules": true,
-    "typeRoots": [
-      "../../node_modules",
-      "../../node_modules/@types",
-      "./@types"
-    ],
-    "types": [
-      "vue3-toastify/global",
-      "unplugin-icons/types/vue",
-      "vite/client",
-      "vitest/globals"
-    ]
-  },
-  "vueCompilerOptions": {
-    "target": 3
-  },
-  "ts-node": {
-    "esm": true
-  },
-  "exclude": [
-    "node_modules",
-    ".output",
-    "dist",
-    "eslint.config.shared.mjs",
-    ".stylelintrc.shared.mjs",
-    "tsconfig.shared.json"
-  ]
-}
 ````
 
 ## File: layers/base/package.json
