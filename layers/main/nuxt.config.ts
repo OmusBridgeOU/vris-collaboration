@@ -13,7 +13,12 @@ type MetaInfo = {
 
 const NUXT_ENV_OUTPUT_ENV = readEnvType(process.env)
 const runtimeConfig = getRuntimeConfigOfEnvType(NUXT_ENV_OUTPUT_ENV)
-const cssUrls = [`@/assets/styles/style.scss`]
+// NOTE: layers/baseのcssエントリ（相対パス指定）が、Nuxtの仕様上「base自身」ではなく「baseをextendsしているmain側」を基準に解決される。
+// これによりbase自身のstyle.scssが正しく解決できずビルドエラーになるため、main側でcssを明示的に上書きし、base側の壊れたエントリを無効化している。
+const cssUrls = [
+  `@/assets/styles/style.scss`, // mainレイヤー自身のスタイル
+  `#base/app/assets/styles/style.scss`, // baseレイヤーのスタイル（#baseエイリアス経由で明示的に解決）
+]
 const srcDir = 'app'
 const isSsr = true
 const checkTypeCheckOnBuild = true

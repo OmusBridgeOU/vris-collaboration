@@ -585,7 +585,12 @@ type MetaInfo = {
 
 const NUXT_ENV_OUTPUT_ENV = readEnvType(process.env)
 const runtimeConfig = getRuntimeConfigOfEnvType(NUXT_ENV_OUTPUT_ENV)
-const cssUrls = [`@/assets/styles/style.scss`]
+// NOTE: layers/baseのcssエントリ（相対パス指定）が、Nuxtの仕様上「base自身」ではなく「baseをextendsしているmain側」を基準に解決される。
+// これによりbase自身のstyle.scssが正しく解決できずビルドエラーになるため、main側でcssを明示的に上書きし、base側の壊れたエントリを無効化している。
+const cssUrls = [
+  `@/assets/styles/style.scss`, // mainレイヤー自身のスタイル
+  `#base/app/assets/styles/style.scss`, // baseレイヤーのスタイル（#baseエイリアス経由で明示的に解決）
+]
 const srcDir = 'app'
 const isSsr = true
 const checkTypeCheckOnBuild = true
@@ -759,7 +764,7 @@ export default defineNuxtConfig({
     "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
     "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
     "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
-    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
+    "build": "VITE_OUTPUT_ENV=production nuxt build",
     "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
     "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
     "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",

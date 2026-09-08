@@ -5942,58 +5942,6 @@ const { t: tGlobal } = useI18n()
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaAnchorLink.vue
-```vue
-<i18n lang="yaml">
-ja: {}
-en: {}
-</i18n>
-
-<template>
-  <a
-    :href="`#${href}`"
-    class="ha-anchor-link"
-    @click.prevent="handleClick"
-  >
-    {{ text }}
-  </a>
-</template>
-
-<script setup lang="ts">
-const props = defineProps<{
-  text: string
-  href: string
-}>()
-
-const emit = defineEmits<{
-  clicked: []
-}>()
-
-// ブレークポイントに応じたスクロールオフセットを取得
-const getScrollOffset = () => {
-  const width = window.innerWidth
-
-  // 各値はapp/assets/styles/_variables.scssの`vket-header-height-{devices}`の値と揃える
-  if (width > 1080) return -160 // PC: app/assets/styles/_variables.scss v.$pc-content-min-width
-  if (width > 769) return -106 // タブレット: app/assets/styles/_variables.scss v.$media-query-width
-  return -150 // スマホ（混雑表示の二段目を含む）
-}
-
-const handleClick = () => {
-  emit('clicked')
-
-  setTimeout(() => {
-    const target = document.querySelector(`#${props.href}`)
-    if (!target) return
-
-    const top
-      = target.getBoundingClientRect().top + window.scrollY + getScrollOffset()
-    window.scrollTo({ top, behavior: 'smooth' })
-  }, 350)
-}
-</script>
-```
-
 ## File: layers/main/app/components/ha/HaCommingSoon.vue
 ```vue
 <template>
@@ -6034,206 +5982,6 @@ const handleClick = () => {
         font-size: 14px;
         font-weight: 400;
         text-align: center;
-    }
-}
-</style>
-```
-
-## File: layers/main/app/components/ha/HaEventInfo.vue
-```vue
-<i18n lang="yaml">
-ja:
-    nameLabel: 'イベント名'
-    name: 'VketReal in 札幌 2026 Autumn'
-    dateLabel: '開催日'
-    date: '2026年9月26日(土)'
-    venueLabel: '会場'
-    venue: 'アスティ45 4F アスティホール'
-en:
-    nameLabel: 'Event Name'
-    name: 'VketReal in Sapporo 2026 Autumn'
-    dateLabel: 'Date'
-    date: 'September 26, 2026 (Sat)'
-    venueLabel: 'Venue'
-    venue: 'Asty45 4F Asty Hall'
-</i18n>
-
-<script setup lang="ts">
-const { t } = useI18n()
-</script>
-
-<template>
-  <div class="event-info">
-    <div class="event-info__inner">
-      <h3 class="event-info__title">
-        EVENT INFO
-      </h3>
-      <div class="event-info-table">
-        <p class="event-info-table__label">
-          {{ t('nameLabel') }}
-        </p>
-        <p class="event-info-table__text event-info-table__text--name">
-          {{ t('name') }}
-        </p>
-      </div>
-      <div class="event-info-table__divider" />
-      <div class="event-info__table-flex">
-        <div class="event-info-table">
-          <p class="event-info-table__label">
-            {{ t('dateLabel') }}
-          </p>
-          <p class="event-info-table__text">
-            {{ t('date') }}
-          </p>
-        </div>
-        <div class="event-info-table">
-          <p class="event-info-table__label">
-            {{ t('venueLabel') }}
-          </p>
-          <p class="event-info-table__text">
-            {{ t('venue') }}
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.event-info {
-    position: relative;
-
-    align-self: start;
-
-    width: fit-content;
-    height: auto;
-    margin-left: 24px;
-    padding: 48px;
-
-    @include m.tb {
-        align-self: center;
-        width: 100%;
-        width: calc(100% - 48px * 2);
-        margin-left: 0;
-    }
-
-    @include m.sp {
-      width: 100%;
-      padding: 20px;
-    }
-
-    &::before {
-        content: '';
-
-        position: absolute;
-        z-index: -1;
-        inset: 0;
-
-        background-color: rgb(0 0 0 / 65%);
-        filter: blur(32px);
-
-        @include m.tb {
-            filter: blur(24px);
-        }
-    }
-
-    &__inner {
-        padding: 8px;
-        border-left: 1px solid v.$vket-cyan;
-    }
-
-    &__title {
-        margin-bottom: 16px;
-        font-size: 24px;
-        font-weight: bold;
-        color: v.$vket-cyan;
-
-        @include m.tb {
-            font-size: 12px;
-        }
-    }
-
-    &__table-flex {
-        display: flex;
-        gap: 24px;
-        justify-content: space-between;
-
-        .event-info-table__text {
-            font-size: 16px;
-
-            @include m.sp {
-                font-size: 12px;
-            }
-        }
-    }
-}
-
-@media screen and (770px <= width <= 1080px) {
-    .event-info {
-        align-self: flex-start;
-
-        box-sizing: border-box;
-        width: min(320px, calc((100vw - 320px) / 2 - 24px));
-        max-width: none;
-        margin-left: 24px;
-        padding: 16px;
-
-        &__inner {
-            padding: 8px;
-        }
-
-        &__title {
-            margin-bottom: 8px;
-        }
-
-        &__table-flex {
-            flex-direction: column;
-            gap: 4px;
-        }
-    }
-
-    .event-info-table {
-        &__text {
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        &__divider {
-            margin: 4px 0;
-        }
-    }
-}
-
-.event-info-table {
-    &__label {
-        font-size: 14px;
-        color: #a0a0a0;
-
-        @include m.tb {
-            display: none;
-        }
-    }
-
-    &__text {
-        font-size: 24px;
-
-        &--name {
-            font-weight: 700;
-        }
-
-        @include m.tb {
-            font-size: 16px;
-        }
-    }
-
-    &__divider {
-        width: 100%;
-        height: 1px;
-        margin: 4px 0;
-        background-color: rgb(white, 0.6);
     }
 }
 </style>
@@ -6852,6 +6600,258 @@ onMounted(() => {
 
 .mb-30 {
   margin-bottom: 120px;
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaAnchorLink.vue
+```vue
+<i18n lang="yaml">
+ja: {}
+en: {}
+</i18n>
+
+<template>
+  <a
+    :href="`#${href}`"
+    class="ha-anchor-link"
+    @click.prevent="handleClick"
+  >
+    {{ text }}
+  </a>
+</template>
+
+<script setup lang="ts">
+const props = defineProps<{
+  text: string
+  href: string
+}>()
+
+const emit = defineEmits<{
+  clicked: []
+}>()
+
+// ブレークポイントに応じたスクロールオフセットを取得
+const getScrollOffset = () => {
+  const width = window.innerWidth
+
+  // 各値はapp/assets/styles/_variables.scssの`vket-header-height-{devices}`の値と揃える
+  if (width > 1080) return -160 // PC: app/assets/styles/_variables.scss v.$pc-content-min-width
+  if (width > 769) return -106 // タブレット: app/assets/styles/_variables.scss v.$media-query-width
+  return -150 // スマホ（混雑表示の二段目を含む）
+}
+
+const handleClick = () => {
+  emit('clicked')
+
+  setTimeout(() => {
+    const target = document.querySelector(`#${props.href}`)
+    if (!target) return
+
+    const top
+      = target.getBoundingClientRect().top + window.scrollY + getScrollOffset()
+    window.scrollTo({ top, behavior: 'smooth' })
+  }, 350)
+}
+</script>
+```
+
+## File: layers/main/app/components/ha/HaEventInfo.vue
+```vue
+<i18n lang="yaml">
+ja:
+    nameLabel: 'イベント名'
+    name: 'VketReal in 札幌 2026 Autumn'
+    dateLabel: '開催日'
+    date: '2026年9月26日(土)'
+    venueLabel: '会場'
+    venue: 'アスティ45 4F アスティホール'
+en:
+    nameLabel: 'Event Name'
+    name: 'VketReal in Sapporo 2026 Autumn'
+    dateLabel: 'Date'
+    date: 'September 26, 2026 (Sat)'
+    venueLabel: 'Venue'
+    venue: 'Asty45 4F Asty Hall'
+</i18n>
+
+<script setup lang="ts">
+const { t } = useI18n()
+</script>
+
+<template>
+  <div class="event-info">
+    <div class="event-info__inner">
+      <h3 class="event-info__title">
+        EVENT INFO
+      </h3>
+      <div class="event-info-table">
+        <p class="event-info-table__label">
+          {{ t('nameLabel') }}
+        </p>
+        <p class="event-info-table__text event-info-table__text--name">
+          {{ t('name') }}
+        </p>
+      </div>
+      <div class="event-info-table__divider" />
+      <div class="event-info__table-flex">
+        <div class="event-info-table">
+          <p class="event-info-table__label">
+            {{ t('dateLabel') }}
+          </p>
+          <p class="event-info-table__text">
+            {{ t('date') }}
+          </p>
+        </div>
+        <div class="event-info-table">
+          <p class="event-info-table__label">
+            {{ t('venueLabel') }}
+          </p>
+          <p class="event-info-table__text">
+            {{ t('venue') }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.event-info {
+    position: relative;
+
+    align-self: start;
+
+    width: fit-content;
+    height: auto;
+    margin-left: 24px;
+    padding: 48px;
+
+    @include m.tb {
+        align-self: center;
+        width: 100%;
+        width: calc(100% - 48px * 2);
+        margin-left: 0;
+    }
+
+    @include m.sp {
+      width: 100%;
+      padding: 20px;
+    }
+
+    &::before {
+        content: '';
+
+        position: absolute;
+        z-index: -1;
+        inset: 0;
+
+        background-color: rgb(0 0 0 / 65%);
+        filter: blur(32px);
+
+        @include m.tb {
+            filter: blur(24px);
+        }
+    }
+
+    &__inner {
+        padding: 8px;
+        border-left: 1px solid v.$vket-cyan;
+    }
+
+    &__title {
+        margin-bottom: 16px;
+        font-size: 24px;
+        font-weight: bold;
+        color: v.$vket-cyan;
+
+        @include m.tb {
+            font-size: 12px;
+        }
+    }
+
+    &__table-flex {
+        display: flex;
+        gap: 24px;
+        justify-content: space-between;
+
+        .event-info-table__text {
+            font-size: 16px;
+
+            @include m.sp {
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+@media screen and (770px <= width <= 1080px) {
+    .event-info {
+        align-self: flex-start;
+
+        box-sizing: border-box;
+        width: min(320px, calc((100vw - 320px) / 2 - 24px));
+        max-width: none;
+        margin-left: 24px;
+        padding: 16px;
+
+        &__inner {
+            padding: 8px;
+        }
+
+        &__title {
+            margin-bottom: 8px;
+        }
+
+        &__table-flex {
+            flex-direction: column;
+            gap: 4px;
+        }
+    }
+
+    .event-info-table {
+        &__text {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        &__divider {
+            margin: 4px 0;
+        }
+    }
+}
+
+.event-info-table {
+    &__label {
+        font-size: 14px;
+        color: #a0a0a0;
+
+        @include m.tb {
+            display: none;
+        }
+    }
+
+    &__text {
+        font-size: 24px;
+
+        &--name {
+            font-weight: 700;
+        }
+
+        @include m.tb {
+            font-size: 16px;
+        }
+    }
+
+    &__divider {
+        width: 100%;
+        height: 1px;
+        margin: 4px 0;
+        background-color: rgb(white, 0.6);
+    }
 }
 </style>
 ```
@@ -9530,6 +9530,109 @@ onMounted(() => {
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtNewsSection.vue
+```vue
+<script setup lang="ts">
+import HaArrowRightIcon from '../ha/icons/HaArrowRightIcon.vue'
+import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: tGlobal('news.1.title'),
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
+    imgSrc: '/news1_thumbnail.png',
+    timestamp: '2026-06-06',
+  },
+  {
+    id: 2,
+    title: tGlobal('news.2.title'),
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
+    imgSrc: '/news2_thumbnail.png',
+    timestamp: '2026-06-01',
+  },
+])
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <HaSectionTitle
+    :title="tGlobal('sectionTitle.news')"
+    label="NEWS"
+  >
+    <template #controls>
+      <NuxtLink
+        class="glassy-button"
+        to="/news"
+      >
+        <span class="news__button-text">
+          {{ tGlobal("viewAll") }}
+        </span>
+        <HaArrowRightIcon class="glassy-button news__button-icon" />
+      </NuxtLink>
+    </template>
+  </HaSectionTitle>
+  <div ref="sectionRef">
+    <HmNewsSwiper
+      ref="worksSwiperRef"
+      class="news__swiper"
+      :items="items"
+      :_slides-per-view="1"
+      :_breakpoints="{
+        1024: { slidesPerView: 3 }, // PC: app/assets/styles/_variables.scss v.$pc-content-min-width
+        768: { slidesPerView: 2 }, // タブレット: app/assets/styles/_variables.scss v.$media-query-width
+      }"
+    />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.news {
+  &__swiper {
+    margin-bottom: 36px;
+
+    @include m.tb {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__button-text {
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+
+    @include m.tb {
+      font-size: 14px;
+    }
+  }
+
+  &__button-icon {
+    display: none;
+    width: 14px;
+
+    @include m.sp {
+      display: block;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ho/HoTheHeader.vue
 ```vue
 <i18n lang="yaml">
@@ -10175,109 +10278,6 @@ $vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical
 
   100% {
     transform: translate(-100%, 0);
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtNewsSection.vue
-```vue
-<script setup lang="ts">
-import HaArrowRightIcon from '../ha/icons/HaArrowRightIcon.vue'
-import HmNewsSwiper from '../hm/HmNewsSwiper.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t: tGlobal } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    title: tGlobal('news.1.title'),
-    href: 'https://note.com/vris/n/nd2a52adc9c5c',
-    imgSrc: '/news1_thumbnail.png',
-    timestamp: '2026-06-06',
-  },
-  {
-    id: 2,
-    title: tGlobal('news.2.title'),
-    href: 'https://note.com/vris/n/nd2a52adc9c5c',
-    imgSrc: '/news2_thumbnail.png',
-    timestamp: '2026-06-01',
-  },
-])
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <HaSectionTitle
-    :title="tGlobal('sectionTitle.news')"
-    label="NEWS"
-  >
-    <template #controls>
-      <NuxtLink
-        class="glassy-button"
-        to="/news"
-      >
-        <span class="news__button-text">
-          {{ tGlobal("viewAll") }}
-        </span>
-        <HaArrowRightIcon class="glassy-button news__button-icon" />
-      </NuxtLink>
-    </template>
-  </HaSectionTitle>
-  <div ref="sectionRef">
-    <HmNewsSwiper
-      ref="worksSwiperRef"
-      class="news__swiper"
-      :items="items"
-      :_slides-per-view="1"
-      :_breakpoints="{
-        1024: { slidesPerView: 3 }, // PC: app/assets/styles/_variables.scss v.$pc-content-min-width
-        768: { slidesPerView: 2 }, // タブレット: app/assets/styles/_variables.scss v.$media-query-width
-      }"
-    />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.news {
-  &__swiper {
-    margin-bottom: 36px;
-
-    @include m.tb {
-      margin-bottom: 24px;
-    }
-  }
-
-  &__button-text {
-    font-family: Inter, sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
-
-    @include m.tb {
-      font-size: 14px;
-    }
-  }
-
-  &__button-icon {
-    display: none;
-    width: 14px;
-
-    @include m.sp {
-      display: block;
-    }
   }
 }
 </style>
