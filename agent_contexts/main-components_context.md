@@ -4071,7 +4071,7 @@ import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
 import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
 import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
 
-type CrowdLevel = -1 | 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
+type CrowdLevel = -1 | 1 | 2 | 3 // -1: 開催期間外, 1~3: 混雑度
 
 const props = defineProps<{
   label: string
@@ -4084,15 +4084,13 @@ const props = defineProps<{
 
 const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
   [-1]: '情報なし',
-  0: '期間外',
   1: '余裕あり',
   2: 'やや混雑',
   3: '混雑',
 }
 
 const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-  [-1]: '情報なし',
-  0: 'gray',
+  [-1]: 'gray',
   1: 'emgreen',
   2: 'amber',
   3: 'vermilion',
@@ -4114,7 +4112,10 @@ const statusColor = computed(() =>
       : 'gray',
 )
 
-const fillCount = computed(() => props.crowdLevel ?? 0)
+const fillCount = computed(() => {
+  const level = props.crowdLevel
+  return level && level > 0 ? level : 0
+})
 </script>
 
 <template>
@@ -4635,14 +4636,14 @@ onMounted(() => {
         :is-loading="isLoading"
         :crowd-level="crowdData?.value1"
       />
-      <HmCrowdLevelCard
+      <!-- <HmCrowdLevelCard
         label="サブ会場"
         name="Deep-tech CORE SAPPORO"
         :building="2"
         :is-error="isError"
         :is-loading="isLoading"
-        :crowd-level="crowdData?.value1"
-      />
+        :crowd-level="crowdData?.value2"
+      /> -->
     </div>
   </div>
 </template>

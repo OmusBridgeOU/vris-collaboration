@@ -1,4 +1,4 @@
-type CrowdLevel = -1 | 0 | 1 | 2 | 3 // -1: API未登録, 0: 開催期間外, 1~3: 混雑度
+type CrowdLevel = -1 | 1 | 2 | 3 // -1: API未登録, 0: 開催期間外, 1~3: 混雑度
 
 // 混雑度データ型
 interface CrowdData {
@@ -50,8 +50,7 @@ export function useCrowdData() {
       const res = await fetch(endpoint)
       if (!res.ok) throw new Error(`Visitor Counter API: HTTP ${res.status}`)
 
-      const json = await res.json()
-      crowdData.value = json.value
+      crowdData.value = await res.json()
 
       isError.value = false
       retryCount = 0

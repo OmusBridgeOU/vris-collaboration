@@ -29,14 +29,14 @@ onMounted(() => {
         :is-loading="isLoading"
         :crowd-level="crowdData?.value1"
       />
-      <HmCrowdLevelCard
+      <!-- <HmCrowdLevelCard
         label="サブ会場"
         name="Deep-tech CORE SAPPORO"
         :building="2"
         :is-error="isError"
         :is-loading="isLoading"
-        :crowd-level="crowdData?.value1"
-      />
+        :crowd-level="crowdData?.value2"
+      /> -->
     </div>
   </div>
 </template>
