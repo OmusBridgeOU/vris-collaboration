@@ -17,7 +17,7 @@ import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
 import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
 import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
 
-type CrowdLevel = -1 | 1 | 2 | 3 // -1: 開催期間外, 1~3: 混雑度
+type CrowdLevel = -2 | -1 | 1 | 2 | 3 // -1: 開催期間外, 1~3: 混雑度
 
 const props = defineProps<{
   label: string
@@ -29,13 +29,15 @@ const props = defineProps<{
 }>()
 
 const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-  [-1]: '情報なし',
+  [-2]: '情報なし',
+  [-1]: '未登録',
   1: '余裕あり',
   2: 'やや混雑',
   3: '混雑',
 }
 
 const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+  [-2]: 'gray',
   [-1]: 'gray',
   1: 'emgreen',
   2: 'amber',

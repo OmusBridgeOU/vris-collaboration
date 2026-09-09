@@ -422,7 +422,7 @@ export const useGsapFadeIn = () => {
 
 ## File: layers/main/app/composables/useCrowdData.ts
 ````typescript
-type CrowdLevel = -1 | 1 | 2 | 3 // -1: API未登録, 0: 開催期間外, 1~3: 混雑度
+type CrowdLevel = -2 | -1 | 1 | 2 | 3 // -2: 開催期間前, -1: API未登録, 0: 開催期間外, 1~3: 混雑度
 
 // 混雑度データ型
 export interface CrowdData {
@@ -524,6 +524,10 @@ export function useCrowdData() {
     if (activeInstanceCount > 1) return
 
     if (isBeforeEventStart.value) {
+      // 開催期間前はfetchを行わないため、表示側が状態を判別できるよう
+      // crowdData自体に開催期間前を示す値(-2)をセットしておく。
+      crowdData.value = { value1: -2, value2: -2, updated_at: null }
+
       // ページ表示中にイベント開催日時に到達しても問題ないように、
       // 開催時刻にデータフェッチをスケジュール
       scheduleEventStart()

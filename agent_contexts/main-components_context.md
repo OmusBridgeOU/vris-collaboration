@@ -3680,178 +3680,6 @@ defineProps<{
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaCrowdInfo.vue
-```vue
-<i18n lang="yaml">
-ja:
-  venue: 会場内：
-  closed: 開催期間外
-  available: 余裕あり
-  moderate: やや混雑
-  busy: 混雑
-  loading: 混雑状況取得中…
-  error: 混雑状況を取得できません
-en:
-  venue: 'Venue: '
-  closed: Outside event hours
-  available: Available
-  moderate: Moderately crowded
-  busy: Crowded
-  loading: Loading crowd status…
-  error: Crowd status unavailable
-</i18n>
-
-<template>
-  <div
-    class="ha-crowd-info glassy-box-4 glassy-box-4--radius-full none-hover-animation"
-    :class="`ha-crowd-info--${crowdStatus}`"
-    role="status"
-    aria-live="polite"
-    aria-atomic="true"
-  >
-    <span
-      class="ha-crowd-info__dot"
-      aria-hidden="true"
-    />
-    <span class="ha-crowd-info__text">
-      <span v-if="showsVenue">{{ t('venue') }}</span><strong>{{ t(crowdStatus) }}</strong>
-    </span>
-  </div>
-</template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-import { useCrowdData } from '~/composables/useCrowdData'
-
-const { t } = useI18n()
-
-const { isLoading, isError, crowdData } = useCrowdData()
-const crowdStatus = computed(() => {
-  if (isError.value) return 'error'
-  if (crowdData.value?.value1 === -1) return 'closed'
-  if (isLoading.value || !crowdData.value) return 'loading'
-  return ({ 1: 'available', 2: 'moderate', 3: 'busy' } as const)[crowdData.value.value1]
-})
-const showsVenue = computed(() =>
-  crowdStatus.value === 'available'
-  || crowdStatus.value === 'moderate'
-  || crowdStatus.value === 'busy',
-)
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.ha-crowd-info {
-    --crowd-color: #{v.$vket-gray};
-    --crowd-shadow-color: rgb(0 0 0 / 25%);
-
-    position: absolute;
-    z-index: 4;
-    top: 58px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: flex-start;
-    justify-self: center;
-
-    box-sizing: border-box;
-    width: auto;
-    min-width: 172px;
-    height: 40px;
-    padding: 6px 12px;
-
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.5;
-    color: v.$vket-rich-navy;
-    white-space: nowrap;
-
-    box-shadow:
-        0 4px 12px -2px var(--crowd-shadow-color),
-        inset rgb(22 0 120 / 20%) 0 0 12px 0;
-
-    @include m.tb {
-        top: 32px;
-        font-size: 14px;
-    }
-
-    @include m.sp {
-        top: 90px;
-        left: 16px;
-        transform: none;
-
-        min-width: 160px;
-
-        font-size: 13px;
-    }
-
-    &--available {
-        --crowd-color: #{v.$vket-emerald};
-        --crowd-shadow-color: rgb(67 255 189 / 45%);
-    }
-
-    &--moderate {
-        --crowd-color: #{v.$vket-amber};
-        --crowd-shadow-color: rgb(255 165 0 / 45%);
-    }
-
-    &--busy {
-        --crowd-color: #{v.$vket-vermilion};
-        --crowd-shadow-color: rgb(255 69 0 / 45%);
-    }
-
-    &--closed,
-    &--loading,
-    &--error {
-        --crowd-color: #{v.$vket-gray};
-        --crowd-shadow-color: rgb(0 0 0 / 25%);
-    }
-
-    &--available,
-    &--moderate,
-    &--busy {
-        strong {
-        color: var(--crowd-color);
-        }
-    }
-
-    &__dot {
-        flex: 0 0 28px;
-
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-
-        background-color: var(--crowd-color);
-        box-shadow: 0 3px 8px -1px var(--crowd-shadow-color);
-
-        @include m.tb {
-            flex-basis: 26px;
-            width: 26px;
-            height: 26px;
-        }
-
-        @include m.sp {
-            flex-basis: 24px;
-            width: 24px;
-            height: 24px;
-        }
-    }
-
-    &__text {
-        overflow: hidden;
-        font-weight: 900;
-        text-overflow: ellipsis;
-    }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/HaFireworks.vue
 ```vue
 <script setup lang="ts">
@@ -4891,6 +4719,181 @@ onUnmounted(() => {
   height: 100%;
 
   opacity: 0.2;
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaCrowdInfo.vue
+```vue
+<i18n lang="yaml">
+ja:
+  venue: 会場内：
+  closed: 開催期間外
+  noInfo: 情報無し
+  available: 余裕あり
+  moderate: やや混雑
+  busy: 混雑
+  loading: 混雑状況取得中…
+  error: 混雑状況を取得できません
+en:
+  venue: 'Venue: '
+  closed: Outside event hours
+  noInfo: No Information
+  available: Available
+  moderate: Moderately crowded
+  busy: Crowded
+  loading: Loading crowd status…
+  error: Crowd status unavailable
+</i18n>
+
+<template>
+  <div
+    class="ha-crowd-info glassy-box-4 glassy-box-4--radius-full none-hover-animation"
+    :class="`ha-crowd-info--${crowdStatus}`"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+  >
+    <span
+      class="ha-crowd-info__dot"
+      aria-hidden="true"
+    />
+    <span class="ha-crowd-info__text">
+      <span v-if="showsVenue">{{ t('venue') }}</span><strong>{{ t(crowdStatus) }}</strong>
+    </span>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useCrowdData } from '~/composables/useCrowdData'
+
+const { t } = useI18n()
+
+const { isLoading, isError, crowdData } = useCrowdData()
+const crowdStatus = computed(() => {
+  if (isError.value) return 'error'
+  if (crowdData.value?.value1 === -2) return 'closed' // 開催期間前
+  if (crowdData.value?.value1 === -1) return 'noInfo' // API未登録
+  if (isLoading.value || !crowdData.value) return 'loading'
+  return ({ 1: 'available', 2: 'moderate', 3: 'busy' } as const)[crowdData.value.value1]
+})
+const showsVenue = computed(() =>
+  crowdStatus.value === 'available'
+  || crowdStatus.value === 'moderate'
+  || crowdStatus.value === 'busy',
+)
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ha-crowd-info {
+    --crowd-color: #{v.$vket-gray};
+    --crowd-shadow-color: rgb(0 0 0 / 25%);
+
+    position: absolute;
+    z-index: 4;
+    top: 58px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+    justify-self: center;
+
+    box-sizing: border-box;
+    width: auto;
+    min-width: 172px;
+    height: 40px;
+    padding: 6px 12px;
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: v.$vket-rich-navy;
+    white-space: nowrap;
+
+    box-shadow:
+        0 4px 12px -2px var(--crowd-shadow-color),
+        inset rgb(22 0 120 / 20%) 0 0 12px 0;
+
+    @include m.tb {
+        top: 32px;
+        font-size: 14px;
+    }
+
+    @include m.sp {
+        top: 90px;
+        left: 16px;
+        transform: none;
+
+        min-width: 160px;
+
+        font-size: 13px;
+    }
+
+    &--available {
+        --crowd-color: #{v.$vket-emerald};
+        --crowd-shadow-color: rgb(67 255 189 / 45%);
+    }
+
+    &--moderate {
+        --crowd-color: #{v.$vket-amber};
+        --crowd-shadow-color: rgb(255 165 0 / 45%);
+    }
+
+    &--busy {
+        --crowd-color: #{v.$vket-vermilion};
+        --crowd-shadow-color: rgb(255 69 0 / 45%);
+    }
+
+    &--closed,
+    &--loading,
+    &--error {
+        --crowd-color: #{v.$vket-gray};
+        --crowd-shadow-color: rgb(0 0 0 / 25%);
+    }
+
+    &--available,
+    &--moderate,
+    &--busy {
+        strong {
+        color: var(--crowd-color);
+        }
+    }
+
+    &__dot {
+        flex: 0 0 28px;
+
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+
+        background-color: var(--crowd-color);
+        box-shadow: 0 3px 8px -1px var(--crowd-shadow-color);
+
+        @include m.tb {
+            flex-basis: 26px;
+            width: 26px;
+            height: 26px;
+        }
+
+        @include m.sp {
+            flex-basis: 24px;
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    &__text {
+        overflow: hidden;
+        font-weight: 900;
+        text-overflow: ellipsis;
+    }
 }
 </style>
 ```
@@ -6298,7 +6301,7 @@ import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
 import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
 import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
 
-type CrowdLevel = -1 | 1 | 2 | 3 // -1: 開催期間外, 1~3: 混雑度
+type CrowdLevel = -2 | -1 | 1 | 2 | 3 // -1: 開催期間外, 1~3: 混雑度
 
 const props = defineProps<{
   label: string
@@ -6310,13 +6313,15 @@ const props = defineProps<{
 }>()
 
 const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-  [-1]: '情報なし',
+  [-2]: '情報なし',
+  [-1]: '未登録',
   1: '余裕あり',
   2: 'やや混雑',
   3: '混雑',
 }
 
 const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+  [-2]: 'gray',
   [-1]: 'gray',
   1: 'emgreen',
   2: 'amber',
@@ -9806,6 +9811,179 @@ onMounted(() => {
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtTop.vue
+```vue
+<i18n lang="yaml">
+ja:
+  hoge: ほげ
+en:
+  hoge: hoge
+</i18n>
+
+<template>
+  <main class="ht-top content-wrapper">
+    <div class="content-wrapper__sticky">
+      <HtHeroSection />
+    </div>
+
+    <div class="content-wrapper__bg content-wrapper__scroll">
+      <div class="canvas-wrapper">
+        <HaConfetti />
+        <HaFireworks />
+      </div>
+
+      <div class="content-wrapper__main">
+        <section id="about">
+          <HtAboutSection />
+        </section>
+
+        <section id="participation-guide">
+          <HtParticipationGuide />
+        </section>
+
+        <section id="tickets">
+          <HtTicketSection />
+        </section>
+
+        <section id="news">
+          <HtNewsSection />
+        </section>
+
+        <section id="contents">
+          <HtContentsSection />
+        </section>
+
+        <section id="exhibitor-circles">
+          <HtExhibitorCirclesSection />
+        </section>
+
+        <section id="schedule">
+          <HtScheduleSection />
+        </section>
+
+        <section id="location-info">
+          <HtAccessSection />
+        </section>
+
+        <section id="exhibitor-info">
+          <HtExhibitorInfoSection />
+        </section>
+
+        <section id="sponsors-and-partners">
+          <HtSponsorsAndPartnersSection />
+        </section>
+
+        <section id="members">
+          <HtMemberSection />
+        </section>
+
+        <section id="qa">
+          <HtQandASection />
+        </section>
+
+        <section id="contact">
+          <HtContactSection />
+        </section>
+      </div>
+    </div>
+  </main>
+</template>
+
+<script setup lang="ts">
+// import HtQuickAccessSection from './HtQuickAccessSection.vue'
+// import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
+// import HtExhibitionSection from './HtExhibitionSection.vue'
+// import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
+// import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
+import HtAboutSection from './HtAboutSection.vue'
+import HtAccessSection from './HtAccessSection.vue'
+import HtContactSection from './HtContactSection.vue'
+import HtContentsSection from './HtContentsSection.vue'
+import HtExhibitorCirclesSection from './HtExhibitorCirclesSection.vue'
+import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
+import HtHeroSection from './HtHeroSection.vue'
+import HtNewsSection from './HtNewsSection.vue'
+import HtQandASection from './HtQandASection.vue'
+import HtScheduleSection from './HtScheduleSection.vue'
+import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
+import HtTicketSection from './HtTicketSection.vue'
+
+import HaConfetti from '../ha/HaConfetti.vue'
+import HaFireworks from '../ha/HaFireworks.vue'
+import HtMemberSection from './HtMemberSection.vue'
+import HtParticipationGuide from './HtParticipationGuide.vue'
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ht-top {
+  position: relative;
+  z-index: 0;
+
+  width: 100%;
+  height: 100%;
+  margin-bottom: -40px;
+}
+
+.content-wrapper {
+  position: relative;
+
+  &__sticky {
+    position: sticky;
+    z-index: -1;
+    top: 0;
+  }
+
+  &__bg {
+    padding: 108px 0 48px;
+    border-radius: 36px 36px 0 0;
+    background-color: v.$base-background-color;
+
+    @include m.tb {
+      padding: 168px 0 64px;
+    }
+  }
+
+  &__main {
+    position: relative;
+    z-index: 2;
+    max-width: v.$pc-content-body-width;
+    margin: 0 auto;
+  }
+}
+
+.canvas-wrapper {
+  pointer-events: none;
+
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100svh;
+  margin-bottom: -100svh;
+}
+
+section {
+  margin-bottom: 80px;
+  padding: 0 v.$pc-content-body-padding;
+
+  @include m.tb {
+    margin-bottom: 52px;
+    padding: 0 24px;
+  }
+
+  @include m.sp {
+    margin-bottom: 32px;
+    padding: 0 16px;
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ho/HoTheHeader.vue
 ```vue
 <i18n lang="yaml">
@@ -10292,179 +10470,6 @@ $vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical
 
   100% {
     transform: translate(-100%, 0);
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtTop.vue
-```vue
-<i18n lang="yaml">
-ja:
-  hoge: ほげ
-en:
-  hoge: hoge
-</i18n>
-
-<template>
-  <main class="ht-top content-wrapper">
-    <div class="content-wrapper__sticky">
-      <HtHeroSection />
-    </div>
-
-    <div class="content-wrapper__bg content-wrapper__scroll">
-      <div class="canvas-wrapper">
-        <HaConfetti />
-        <HaFireworks />
-      </div>
-
-      <div class="content-wrapper__main">
-        <section id="about">
-          <HtAboutSection />
-        </section>
-
-        <section id="participation-guide">
-          <HtParticipationGuide />
-        </section>
-
-        <section id="tickets">
-          <HtTicketSection />
-        </section>
-
-        <section id="news">
-          <HtNewsSection />
-        </section>
-
-        <section id="contents">
-          <HtContentsSection />
-        </section>
-
-        <section id="exhibitor-circles">
-          <HtExhibitorCirclesSection />
-        </section>
-
-        <section id="schedule">
-          <HtScheduleSection />
-        </section>
-
-        <section id="location-info">
-          <HtAccessSection />
-        </section>
-
-        <section id="exhibitor-info">
-          <HtExhibitorInfoSection />
-        </section>
-
-        <section id="sponsors-and-partners">
-          <HtSponsorsAndPartnersSection />
-        </section>
-
-        <section id="members">
-          <HtMemberSection />
-        </section>
-
-        <section id="qa">
-          <HtQandASection />
-        </section>
-
-        <section id="contact">
-          <HtContactSection />
-        </section>
-      </div>
-    </div>
-  </main>
-</template>
-
-<script setup lang="ts">
-// import HtQuickAccessSection from './HtQuickAccessSection.vue'
-// import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
-// import HtExhibitionSection from './HtExhibitionSection.vue'
-// import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
-// import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
-import HtAboutSection from './HtAboutSection.vue'
-import HtAccessSection from './HtAccessSection.vue'
-import HtContactSection from './HtContactSection.vue'
-import HtContentsSection from './HtContentsSection.vue'
-import HtExhibitorCirclesSection from './HtExhibitorCirclesSection.vue'
-import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
-import HtHeroSection from './HtHeroSection.vue'
-import HtNewsSection from './HtNewsSection.vue'
-import HtQandASection from './HtQandASection.vue'
-import HtScheduleSection from './HtScheduleSection.vue'
-import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
-import HtTicketSection from './HtTicketSection.vue'
-
-import HaConfetti from '../ha/HaConfetti.vue'
-import HaFireworks from '../ha/HaFireworks.vue'
-import HtMemberSection from './HtMemberSection.vue'
-import HtParticipationGuide from './HtParticipationGuide.vue'
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.ht-top {
-  position: relative;
-  z-index: 0;
-
-  width: 100%;
-  height: 100%;
-  margin-bottom: -40px;
-}
-
-.content-wrapper {
-  position: relative;
-
-  &__sticky {
-    position: sticky;
-    z-index: -1;
-    top: 0;
-  }
-
-  &__bg {
-    padding: 108px 0 48px;
-    border-radius: 36px 36px 0 0;
-    background-color: v.$base-background-color;
-
-    @include m.tb {
-      padding: 168px 0 64px;
-    }
-  }
-
-  &__main {
-    position: relative;
-    z-index: 2;
-    max-width: v.$pc-content-body-width;
-    margin: 0 auto;
-  }
-}
-
-.canvas-wrapper {
-  pointer-events: none;
-
-  position: sticky;
-  z-index: 1;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100svh;
-  margin-bottom: -100svh;
-}
-
-section {
-  margin-bottom: 80px;
-  padding: 0 v.$pc-content-body-padding;
-
-  @include m.tb {
-    margin-bottom: 52px;
-    padding: 0 24px;
-  }
-
-  @include m.sp {
-    margin-bottom: 32px;
-    padding: 0 16px;
   }
 }
 </style>

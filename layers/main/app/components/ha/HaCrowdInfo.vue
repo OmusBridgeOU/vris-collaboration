@@ -2,6 +2,7 @@
 ja:
   venue: 会場内：
   closed: 開催期間外
+  noInfo: 情報無し
   available: 余裕あり
   moderate: やや混雑
   busy: 混雑
@@ -10,6 +11,7 @@ ja:
 en:
   venue: 'Venue: '
   closed: Outside event hours
+  noInfo: No Information
   available: Available
   moderate: Moderately crowded
   busy: Crowded
@@ -44,7 +46,8 @@ const { t } = useI18n()
 const { isLoading, isError, crowdData } = useCrowdData()
 const crowdStatus = computed(() => {
   if (isError.value) return 'error'
-  if (crowdData.value?.value1 === -1) return 'closed'
+  if (crowdData.value?.value1 === -2) return 'closed' // 開催期間前
+  if (crowdData.value?.value1 === -1) return 'noInfo' // API未登録
   if (isLoading.value || !crowdData.value) return 'loading'
   return ({ 1: 'available', 2: 'moderate', 3: 'busy' } as const)[crowdData.value.value1]
 })
