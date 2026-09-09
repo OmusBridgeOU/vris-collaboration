@@ -68,6 +68,23 @@ definePageMeta({
 </script>
 ```
 
+## File: layers/main/app/layouts/default.vue
+```vue
+<template>
+  <div class="layout -default">
+    <HoTheHeader :nav-links="[]" />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.layout.-default {
+  overflow-x: hidden;
+}
+</style>
+```
+
 ## File: layers/main/app/layouts/document.vue
 ```vue
 <template>
@@ -262,23 +279,6 @@ const { data: page } = await useAsyncData(route.path, () => {
     border: none;
     border-top: 1px solid #999;
   }
-}
-</style>
-```
-
-## File: layers/main/app/layouts/default.vue
-```vue
-<template>
-  <div class="layout -default">
-    <HoTheHeader :nav-links="[]" />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-.layout.-default {
-  overflow-x: hidden;
 }
 </style>
 ```

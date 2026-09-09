@@ -6,6 +6,10 @@ ja:
   description:
     line1: 一般来場チケットは2026年8月26日(水)より販売開始です。
     line2: LivePocketの販売ページからお申し込みください。
+  numberedTicketNotice:
+    line1: ※入場には一般参加チケットとは別に、オンライン入場整理券が必要です。
+    line2: 入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。
+    line3: 整理券番号はLivePocketからメールで届きます。事前にLivePocketからのメールを受信できるよう、受信設定をご確認ください。
   cards:
     general:
       title: 一般参加チケット
@@ -22,6 +26,10 @@ en:
   description:
     line1: General admission tickets go on sale Wednesday, August 26, 2026.
     line2: Please purchase tickets through LivePocket.
+  numberedTicketNotice:
+    line1: An online numbered admission ticket is required in addition to a general admission ticket.
+    line2: Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.
+    line3: LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.
   cards:
     general:
       title: General Admission
@@ -63,6 +71,11 @@ onMounted(() => {
       {{ t('description.line1') }}<br>
       {{ t('description.line2') }}
     </p>
+    <div class="numbered-ticket-notice glassy-box-3">
+      <p>{{ t('numberedTicketNotice.line1') }}</p>
+      <p>{{ t('numberedTicketNotice.line2') }}</p>
+      <p>{{ t('numberedTicketNotice.line3') }}</p>
+    </div>
     <div
       ref="listRef"
       class="ticket-grid"
@@ -106,5 +119,24 @@ onMounted(() => {
     grid-template-columns: 1fr;
   }
 
+}
+
+.numbered-ticket-notice {
+  display: grid;
+  gap: 8px;
+
+  margin-bottom: 24px;
+  padding: 16px 20px;
+
+  font-size: 14px;
+  line-height: 1.7;
+
+  background: rgb(49 35 96 / 40%);
+
+  @include m.sp {
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    font-size: 13px;
+  }
 }
 </style>
