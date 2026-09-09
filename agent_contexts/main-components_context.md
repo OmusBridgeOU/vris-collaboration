@@ -5281,7 +5281,6 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import HaNewsCard from '../ha/HaNewsCard.vue'
-import type { Swiper as SwiperType } from 'swiper'
 import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
 import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 
@@ -5308,23 +5307,6 @@ defineProps<{
 }>()
 
 const modules = [Autoplay, Navigation, Pagination]
-
-// 先頭・末尾の状態（ボタンのdisabled制御用）
-const isBeginning = ref(true)
-const isEnd = ref(false)
-
-const updateState = (swiper: SwiperType) => {
-  isBeginning.value = swiper.isBeginning
-  isEnd.value = swiper.isEnd
-}
-
-const onSwiper = (swiper: SwiperType) => {
-  updateState(swiper)
-}
-
-const onSlideChange = (swiper: SwiperType) => {
-  updateState(swiper)
-}
 </script>
 
 <template>
@@ -5333,8 +5315,9 @@ const onSlideChange = (swiper: SwiperType) => {
       :slides-per-view="_slidesPerView ?? 'auto'"
       :breakpoints="_breakpoints"
       :speed="1000"
-      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
+      :autoplay="{ delay: 3000, disableOnInteraction: false }"
       :modules="modules"
+      :loop="true"
       :centered-slides="false"
       :space-between="24"
       :navigation="{
@@ -5345,8 +5328,6 @@ const onSlideChange = (swiper: SwiperType) => {
         el: '.custom-swiper-pagination',
         clickable: true,
       }"
-      @swiper="onSwiper"
-      @slide-change="onSlideChange"
     >
       <SwiperSlide
         v-for="item in items"
@@ -5361,8 +5342,6 @@ const onSlideChange = (swiper: SwiperType) => {
         <button
           type="button"
           class="custom-swiper-button custom-swiper-button--prev"
-          :disabled="isBeginning"
-          :class="{ 'is-disabled': isBeginning }"
           aria-label="前のスライドへ"
         >
           <HaChevronLeftIcon />
@@ -5370,8 +5349,6 @@ const onSlideChange = (swiper: SwiperType) => {
         <button
           type="button"
           class="custom-swiper-button custom-swiper-button--next"
-          :disabled="isEnd"
-          :class="{ 'is-disabled': isEnd }"
           aria-label="次のスライドへ"
         >
           <HaChevronRightIcon />
@@ -5383,7 +5360,7 @@ const onSlideChange = (swiper: SwiperType) => {
 
 <style lang="scss" scoped>
 :deep(.swiper) {
-  overflow: visible;
+  overflow: hidden;
 }
 </style>
 ```
@@ -7090,237 +7067,6 @@ const onSlideChange = (swiper: SwiperType) => {
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtParticipationGuide.vue
-```vue
-<i18n lang="yaml">
-ja:
-  nameLabel: イベント名
-  name: VketReal in 札幌 2026 Autumn
-  dateLabel: 開催日
-  date: 2026年9月26日(土)
-  venueLabel: 会場
-  venue: アスティ45 4F アスティホール
-  ticketLabel: 来場チケット
-  ticketNotice: 来場チケットはLivePocketにて販売中です。入場には整理券が必要です。
-  ticketLink: チケット販売ページはこちら
-en:
-  nameLabel: Event Name
-  name: VketReal in Sapporo 2026 Autumn
-  dateLabel: Date
-  date: September 26, 2026 (Sat)
-  venueLabel: Venue
-  venue: Asty45 4F Asty Hall
-  ticketLabel: Visitor Tickets
-  ticketNotice: Visitor tickets are now available on LivePocket. A numbered admission ticket is required for entry.
-  ticketLink: View the ticket sales page
-</i18n>
-
-<script setup lang="ts">
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n({ useScope: 'global' })
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      label="PARTICIPATION GUIDE"
-      :title="tGlobal('sectionTitle.participationGuide')"
-    />
-
-    <dl class="participation-guide glassy-box-4 glassy-box-4--blue">
-      <div class="participation-guide__name">
-        <dt class="participation-guide__label">
-          {{ t('nameLabel') }}
-        </dt>
-        <dd class="participation-guide__name-text">
-          {{ t('name') }}
-        </dd>
-      </div>
-
-      <div class="participation-guide__details">
-        <div class="participation-guide__detail">
-          <dt class="participation-guide__label">
-            {{ t('dateLabel') }}
-          </dt>
-          <dd class="participation-guide__text">
-            {{ t('date') }}
-          </dd>
-        </div>
-        <div class="participation-guide__detail">
-          <dt class="participation-guide__label">
-            {{ t('venueLabel') }}
-          </dt>
-          <dd class="participation-guide__text">
-            {{ t('venue') }}
-          </dd>
-        </div>
-      </div>
-
-      <div class="participation-guide__ticket">
-        <dt class="participation-guide__ticket-label">
-          {{ t('ticketLabel') }}
-        </dt>
-        <dd class="participation-guide__ticket-text">
-          <p>{{ t('ticketNotice') }}</p>
-          <a
-            class="participation-guide__ticket-link"
-            href="https://livepocket.jp/e/alkjd"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {{ t('ticketLink') }}
-          </a>
-        </dd>
-      </div>
-    </dl>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.participation-guide {
-  padding: 40px;
-
-  @include m.tb {
-    padding: 32px;
-  }
-
-  @include m.sp {
-    padding: 24px;
-  }
-
-  &__name {
-    padding-bottom: 28px;
-    border-bottom: 1px solid rgb(255 255 255 / 60%);
-
-    @include m.sp {
-      padding-bottom: 20px;
-    }
-  }
-
-  &__details {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 40px;
-    padding-top: 28px;
-
-    @include m.sp {
-      grid-template-columns: 1fr;
-      gap: 20px;
-      padding-top: 20px;
-    }
-  }
-
-  &__detail + &__detail {
-    @include m.sp {
-      padding-top: 20px;
-      border-top: 1px solid rgb(255 255 255 / 30%);
-    }
-  }
-
-  &__label {
-    margin-bottom: 8px;
-
-    font-size: 14px;
-    font-weight: 700;
-    color: v.$vket-cyan;
-    letter-spacing: 0.04em;
-
-    @include m.sp {
-      margin-bottom: 6px;
-      font-size: 12px;
-    }
-  }
-
-  &__name-text {
-    font-size: 32px;
-    font-weight: 700;
-    line-height: 1.35;
-    color: white;
-
-    @include m.tb {
-      font-size: 26px;
-    }
-
-    @include m.sp {
-      font-size: 20px;
-    }
-  }
-
-  &__text {
-    font-size: 20px;
-    line-height: 1.5;
-    color: white;
-
-    @include m.sp {
-      font-size: 16px;
-    }
-  }
-
-  &__ticket {
-    margin-top: 28px;
-    padding-top: 28px;
-    border-top: 1px solid rgb(255 255 255 / 30%);
-
-    @include m.sp {
-      margin-top: 20px;
-      padding-top: 20px;
-    }
-  }
-
-  &__ticket-label {
-    margin-bottom: 8px;
-
-    font-size: 14px;
-    font-weight: 700;
-    color: v.$vket-amber;
-    letter-spacing: 0.04em;
-
-    @include m.sp {
-      margin-bottom: 6px;
-      font-size: 12px;
-    }
-  }
-
-  &__ticket-text {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.5;
-    color: white;
-
-    @include m.sp {
-      font-size: 16px;
-    }
-  }
-
-  &__ticket-link {
-    display: inline-block;
-
-    margin-top: 8px;
-
-    color: v.$vket-cyan;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/HaContactCard.vue
 ```vue
 <i18n lang="yaml">
@@ -7558,6 +7304,228 @@ onMounted(() => {
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtHeroSection.vue
+```vue
+<template>
+  <div
+    id="gsap-fv"
+    class="hero"
+  >
+    <div
+      class="hero__bg"
+      :style="{ backgroundImage: `url('/kv.png')` }"
+    />
+    <img
+      src="/kv.png"
+      alt="Vket Real in 札幌 2026 Autumnのキービジュアル"
+      class="hero__kv"
+    >
+    <NuxtLink
+      class="hero__ticket-button glassy-button none-hover-animation"
+      to="https://livepocket.jp/e/alkjd"
+      target="_blank"
+      rel="noopener"
+    >
+      <HaTicketIcon class="hero__ticket-icon" />
+      {{ t('ticketCta') }}
+    </NuxtLink>
+    <div
+      id="lower-content"
+      class="lower-content"
+    >
+      <HaEventInfo />
+      <div class="lower-content__line-outer">
+        <div class="lower-content__line-inner" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import HaEventInfo from '../ha/HaEventInfo.vue'
+import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
+
+const { t } = useI18n({ useScope: 'local' })
+
+const { fadeOutOnScroll, destroyScrollTriggers } = useGsapFadeIn()
+const route = useRoute()
+
+onMounted(() => {
+  initScrollEffects()
+})
+
+// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
+watch(() => route.path, () => {
+  destroyScrollTriggers()
+  nextTick(() => initScrollEffects())
+})
+
+onUnmounted(() => {
+  destroyScrollTriggers()
+})
+
+const initScrollEffects = () => {
+  const firstView = document.querySelector('#gsap-fv')
+  const lowerContent = document.querySelector('#lower-content')
+
+  if (!lowerContent) return
+
+  // #first-viewがないページ（トップ以外）では実行しない
+  if (!firstView) return
+
+  fadeOutOnScroll(lowerContent, firstView)
+}
+</script>
+
+<i18n lang="yaml">
+ja:
+  ticketCta: チケットを購入する
+en:
+  ticketCta: Buy Tickets
+</i18n>
+
+<style lang="scss" scoped>
+.hero {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100svw;
+  height: 100svh;
+
+  clip-path: inset(0);
+
+  &__bg {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    transform: scale(1.1);
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    background-position: center;
+    background-size: cover;
+    filter: blur(8px);
+  }
+
+  &__kv {
+    position: relative;
+    z-index: 2;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+  }
+
+  &__ticket-button {
+    position: absolute;
+    z-index: 3;
+    bottom: 136px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+
+    width: min(320px, calc(100% - 32px));
+    min-height: 56px;
+    padding: 12px 24px;
+
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+
+    &:hover {
+      transform: translateX(-50%) scale(1.02);
+    }
+
+    @media (width <= 767px) {
+      bottom: 216px;
+      min-height: 52px;
+      font-size: 14px;
+    }
+  }
+
+  &__ticket-icon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.lower-content {
+  pointer-events: none;
+
+  position: absolute;
+  z-index: 2;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+
+  transition: opacity 0.12s linear;
+
+  &__text {
+    font-size: 14px;
+    color: white;
+    text-shadow: 1px 1px 2px rgb(black, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+
+  &__line-outer {
+    position: relative;
+
+    overflow: hidden;
+
+    width: 2px;
+    height: 40px;
+
+    background: rgb(255 255 255 / 30%);
+  }
+
+  &__line-inner {
+    position: absolute;
+    top: -50%;
+    left: 0;
+
+    width: 100%;
+    height: 50%;
+
+    background: #fff;
+
+    animation: line-run 1.8s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+  }
+}
+
+@keyframes line-run {
+  0% {
+    top: -50%;
+  }
+
+  100% {
+    top: 100%;
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtMemberSection.vue
 ```vue
 <i18n lang="yaml">
@@ -7773,6 +7741,237 @@ const items = computed(() => [
     @include m.sp {
       grid-template-columns: 1fr;
       max-width: 360px;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtParticipationGuide.vue
+```vue
+<i18n lang="yaml">
+ja:
+  nameLabel: イベント名
+  name: VketReal in 札幌 2026 Autumn
+  dateLabel: 開催日
+  date: 2026年9月26日(土)
+  venueLabel: 会場
+  venue: アスティ45 4F アスティホール
+  ticketLabel: 来場チケット
+  ticketNotice: 来場チケットはLivePocketにて販売中です。入場には整理券が必要です。
+  ticketLink: チケット販売ページはこちら
+en:
+  nameLabel: Event Name
+  name: VketReal in Sapporo 2026 Autumn
+  dateLabel: Date
+  date: September 26, 2026 (Sat)
+  venueLabel: Venue
+  venue: Asty45 4F Asty Hall
+  ticketLabel: Visitor Tickets
+  ticketNotice: Visitor tickets are now available on LivePocket. A numbered admission ticket is required for entry.
+  ticketLink: View the ticket sales page
+</i18n>
+
+<script setup lang="ts">
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n({ useScope: 'global' })
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      label="PARTICIPATION GUIDE"
+      :title="tGlobal('sectionTitle.participationGuide')"
+    />
+
+    <dl class="participation-guide glassy-box-4 glassy-box-4--blue">
+      <div class="participation-guide__name">
+        <dt class="participation-guide__label">
+          {{ t('nameLabel') }}
+        </dt>
+        <dd class="participation-guide__name-text">
+          {{ t('name') }}
+        </dd>
+      </div>
+
+      <div class="participation-guide__details">
+        <div class="participation-guide__detail">
+          <dt class="participation-guide__label">
+            {{ t('dateLabel') }}
+          </dt>
+          <dd class="participation-guide__text">
+            {{ t('date') }}
+          </dd>
+        </div>
+        <div class="participation-guide__detail">
+          <dt class="participation-guide__label">
+            {{ t('venueLabel') }}
+          </dt>
+          <dd class="participation-guide__text">
+            {{ t('venue') }}
+          </dd>
+        </div>
+      </div>
+
+      <div class="participation-guide__ticket">
+        <dt class="participation-guide__ticket-label">
+          {{ t('ticketLabel') }}
+        </dt>
+        <dd class="participation-guide__ticket-text">
+          <p>{{ t('ticketNotice') }}</p>
+          <a
+            class="participation-guide__ticket-link"
+            href="https://livepocket.jp/e/alkjd"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ t('ticketLink') }}
+          </a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.participation-guide {
+  padding: 40px;
+
+  @include m.tb {
+    padding: 32px;
+  }
+
+  @include m.sp {
+    padding: 24px;
+  }
+
+  &__name {
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgb(255 255 255 / 60%);
+
+    @include m.sp {
+      padding-bottom: 20px;
+    }
+  }
+
+  &__details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px;
+    padding-top: 28px;
+
+    @include m.sp {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding-top: 20px;
+    }
+  }
+
+  &__detail + &__detail {
+    @include m.sp {
+      padding-top: 20px;
+      border-top: 1px solid rgb(255 255 255 / 30%);
+    }
+  }
+
+  &__label {
+    margin-bottom: 8px;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: v.$vket-cyan;
+    letter-spacing: 0.04em;
+
+    @include m.sp {
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+  }
+
+  &__name-text {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: white;
+
+    @include m.tb {
+      font-size: 26px;
+    }
+
+    @include m.sp {
+      font-size: 20px;
+    }
+  }
+
+  &__text {
+    font-size: 20px;
+    line-height: 1.5;
+    color: white;
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__ticket {
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 1px solid rgb(255 255 255 / 30%);
+
+    @include m.sp {
+      margin-top: 20px;
+      padding-top: 20px;
+    }
+  }
+
+  &__ticket-label {
+    margin-bottom: 8px;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: v.$vket-amber;
+    letter-spacing: 0.04em;
+
+    @include m.sp {
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+  }
+
+  &__ticket-text {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: white;
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__ticket-link {
+    display: inline-block;
+
+    margin-top: 8px;
+
+    color: v.$vket-cyan;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+    &:hover {
+      text-decoration: none;
     }
   }
 }
@@ -8087,228 +8286,6 @@ defineProps<{
       cursor: not-allowed;
       opacity: 0.68;
     }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtHeroSection.vue
-```vue
-<template>
-  <div
-    id="gsap-fv"
-    class="hero"
-  >
-    <div
-      class="hero__bg"
-      :style="{ backgroundImage: `url('/kv.png')` }"
-    />
-    <img
-      src="/kv.png"
-      alt="Vket Real in 札幌 2026 Autumnのキービジュアル"
-      class="hero__kv"
-    >
-    <NuxtLink
-      class="hero__ticket-button glassy-button none-hover-animation"
-      to="https://livepocket.jp/e/alkjd"
-      target="_blank"
-      rel="noopener"
-    >
-      <HaTicketIcon class="hero__ticket-icon" />
-      {{ t('ticketCta') }}
-    </NuxtLink>
-    <div
-      id="lower-content"
-      class="lower-content"
-    >
-      <HaEventInfo />
-      <div class="lower-content__line-outer">
-        <div class="lower-content__line-inner" />
-      </div>
-    </div>
-  </div>
-</template>
-
-<script lang="ts" setup>
-import HaEventInfo from '../ha/HaEventInfo.vue'
-import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
-
-const { t } = useI18n({ useScope: 'local' })
-
-const { fadeOutOnScroll, destroyScrollTriggers } = useGsapFadeIn()
-const route = useRoute()
-
-onMounted(() => {
-  initScrollEffects()
-})
-
-// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
-watch(() => route.path, () => {
-  destroyScrollTriggers()
-  nextTick(() => initScrollEffects())
-})
-
-onUnmounted(() => {
-  destroyScrollTriggers()
-})
-
-const initScrollEffects = () => {
-  const firstView = document.querySelector('#gsap-fv')
-  const lowerContent = document.querySelector('#lower-content')
-
-  if (!lowerContent) return
-
-  // #first-viewがないページ（トップ以外）では実行しない
-  if (!firstView) return
-
-  fadeOutOnScroll(lowerContent, firstView)
-}
-</script>
-
-<i18n lang="yaml">
-ja:
-  ticketCta: チケットを購入する
-en:
-  ticketCta: Buy Tickets
-</i18n>
-
-<style lang="scss" scoped>
-.hero {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100svw;
-  height: 100svh;
-
-  clip-path: inset(0);
-
-  &__bg {
-    position: absolute;
-    z-index: 1;
-    inset: 0;
-    transform: scale(1.1);
-
-    overflow: hidden;
-
-    width: 100%;
-    height: 100%;
-
-    background-position: center;
-    background-size: cover;
-    filter: blur(8px);
-  }
-
-  &__kv {
-    position: relative;
-    z-index: 2;
-
-    overflow: hidden;
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-  }
-
-  &__ticket-button {
-    position: absolute;
-    z-index: 3;
-    bottom: 136px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-
-    width: min(320px, calc(100% - 32px));
-    min-height: 56px;
-    padding: 12px 24px;
-
-    font-size: 16px;
-    font-weight: 700;
-    color: white;
-    text-decoration: none;
-    letter-spacing: 0.04em;
-
-    &:hover {
-      transform: translateX(-50%) scale(1.02);
-    }
-
-    @media (width <= 767px) {
-      bottom: 216px;
-      min-height: 52px;
-      font-size: 14px;
-    }
-  }
-
-  &__ticket-icon {
-    width: 22px;
-    height: 22px;
-  }
-}
-
-.lower-content {
-  pointer-events: none;
-
-  position: absolute;
-  z-index: 2;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: 100%;
-
-  transition: opacity 0.12s linear;
-
-  &__text {
-    font-size: 14px;
-    color: white;
-    text-shadow: 1px 1px 2px rgb(black, 0.3);
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-  }
-
-  &__line-outer {
-    position: relative;
-
-    overflow: hidden;
-
-    width: 2px;
-    height: 40px;
-
-    background: rgb(255 255 255 / 30%);
-  }
-
-  &__line-inner {
-    position: absolute;
-    top: -50%;
-    left: 0;
-
-    width: 100%;
-    height: 50%;
-
-    background: #fff;
-
-    animation: line-run 1.8s cubic-bezier(0.76, 0, 0.24, 1) infinite;
-  }
-}
-
-@keyframes line-run {
-  0% {
-    top: -50%;
-  }
-
-  100% {
-    top: 100%;
   }
 }
 </style>
@@ -9447,200 +9424,13 @@ onMounted(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtContentsSection.vue
-```vue
-<script setup lang="ts">
-import HaArrowRightIcon from '../ha/icons/HaArrowRightIcon.vue'
-import HmContentsSwiper from '../hm/HmContentsSwiper.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    title: t('contents.1.title'),
-    imgSrc: '/images/contents/vris-noimage.png',
-    href: 'https://note.com/vris/n/nd2a52adc9c5c',
-    text: t('contents.1.text'),
-  },
-])
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <HaSectionTitle
-    :title="tGlobal('sectionTitle.contents')"
-    label="CONTENTS"
-  >
-    <template #controls>
-      <NuxtLink
-        class="glassy-button contents__button"
-        to="/news"
-      >
-        <span class="contents__button-text">
-          {{ tGlobal("viewAll") }}
-        </span>
-        <HaArrowRightIcon class="contents__button-icon" />
-      </NuxtLink>
-    </template>
-  </HaSectionTitle>
-  <div ref="sectionRef">
-    <HmContentsSwiper
-      ref="worksSwiperRef"
-      class="contents__swiper"
-      :items="items"
-      :_slides-per-view="1"
-      :_breakpoints="{
-        1024: { slidesPerView: 3 }, // PC: app/assets/styles/_variables.scss v.$pc-content-min-width
-        768: { slidesPerView: 2 }, // タブレット: app/assets/styles/_variables.scss v.$media-query-width
-      }"
-    />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.contents {
-  &__swiper {
-    margin-bottom: 36px;
-
-    @include m.tb {
-      margin-bottom: 24px;
-    }
-  }
-
-  &__button {
-    position: relative;
-
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    justify-content: center;
-
-    width: 140px;
-    height: 48px;
-    margin: 0 auto;
-    border-radius: 1000px;
-
-    background-color: #e5b5ff3b;
-    backdrop-filter: blur(4px);
-    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
-
-    transition: 0.15s transform ease;
-
-    &::before {
-      pointer-events: none;
-      content: '';
-
-      position: absolute;
-      z-index: 0;
-      top: 0;
-      left: 0;
-
-      width: inherit;
-      height: inherit;
-      border: 1px solid transparent;
-      border-radius: inherit;
-
-      background-image: linear-gradient(
-          45deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-        ),
-        linear-gradient(
-          225deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-        ),
-        linear-gradient(
-          135deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px
-        ),
-        linear-gradient(
-          315deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px
-        );
-      background-clip: border-box, border-box, border-box, border-box;
-      background-origin: border-box, border-box, border-box, border-box;
-
-      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
-
-    &:hover {
-      transform: scale(1.02);
-    }
-
-     @include m.tb {
-      width: 120px;
-      height: 36px;
-      font-size: 14px;
-    }
-
-    @include m.sp {
-      margin-top: 10px;
-      border-radius: 0;
-
-      background-color: transparent;
-      backdrop-filter: none;
-      box-shadow: none;
-
-      &::before{
-        display: none;
-      }
-    }
-  }
-
-  &__button-text {
-    font-family: Inter, sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
-
-    @include m.tb {
-      font-size: 14px;
-    }
-  }
-
-  &__button-icon {
-    display: none;
-    width: 14px;
-
-    @include m.sp {
-      display: block;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ho/HoTheHeader.vue
 ```vue
 <i18n lang="yaml">
 ja:
   mainlogo: VketReal in 札幌 2026 Autumn
-  maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 en:
   mainlogo: VketReal in Sapporo 2026 Autumn
-  maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 </i18n>
 
 <template>
@@ -9743,16 +9533,6 @@ en:
       </div>
     </div>
   </header>
-  <div
-    class="maintenance-banner"
-    role="status"
-    aria-live="polite"
-  >
-    <span class="maintenance-banner__track">
-      <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
-      <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
-    </span>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -9782,45 +9562,6 @@ const isPanelOpen = ref(false)
 $vket-header-height-pc--real: v.$vket-header-height-pc - v.$vket-header-vertical-padding-pc * 2;
 $vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical-padding-tb * 2;
 $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical-padding-sp * 2;
-
-.maintenance-banner {
-  position: fixed;
-  top: v.$vket-header-height-pc;
-  left: 0;
-
-  overflow: hidden;
-
-  width: 100vw;
-  height: 32px;
-
-  color: white;
-
-  background: #e6002d;
-
-  @include m.sp {
-    top: v.$vket-header-height-sp;
-  }
-
-  &__track {
-    will-change: transform;
-
-    display: inline-block;
-
-    padding-left: 100%;
-
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 32px;
-    white-space: nowrap;
-
-    animation: maintenance-marquee 20s linear infinite;
-  }
-
-  &__text {
-    display: inline-block;
-    padding-right: 56px;
-  }
-}
 
 .ho-the-header {
   position: fixed;
@@ -10034,21 +9775,189 @@ $vket-header-height-sp--real: v.$vket-header-height-sp - v.$vket-header-vertical
     }
   }
 }
+</style>
+```
 
-@media (prefers-reduced-motion: reduce) {
-  .maintenance-banner__track {
-    padding-left: 0;
-    animation: none;
+## File: layers/main/app/components/ht/HtContentsSection.vue
+```vue
+<script setup lang="ts">
+import HaArrowRightIcon from '../ha/icons/HaArrowRightIcon.vue'
+import HmContentsSwiper from '../hm/HmContentsSwiper.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: t('contents.1.title'),
+    imgSrc: '/images/contents/vris-noimage.png',
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
+    text: t('contents.1.text'),
+  },
+])
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <HaSectionTitle
+    :title="tGlobal('sectionTitle.contents')"
+    label="CONTENTS"
+  >
+    <template #controls>
+      <NuxtLink
+        class="glassy-button contents__button"
+        to="/news"
+      >
+        <span class="contents__button-text">
+          {{ tGlobal("viewAll") }}
+        </span>
+        <HaArrowRightIcon class="contents__button-icon" />
+      </NuxtLink>
+    </template>
+  </HaSectionTitle>
+  <div ref="sectionRef">
+    <HmContentsSwiper
+      ref="worksSwiperRef"
+      class="contents__swiper"
+      :items="items"
+      :_slides-per-view="1"
+      :_breakpoints="{
+        1024: { slidesPerView: 3 }, // PC: app/assets/styles/_variables.scss v.$pc-content-min-width
+        768: { slidesPerView: 2 }, // タブレット: app/assets/styles/_variables.scss v.$media-query-width
+      }"
+    />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.contents {
+  &__swiper {
+    margin-bottom: 36px;
+
+    @include m.tb {
+      margin-bottom: 24px;
+    }
   }
-}
 
-@keyframes maintenance-marquee {
-  0% {
-    transform: translate(0, 0);
+  &__button {
+    position: relative;
+
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+
+    width: 140px;
+    height: 48px;
+    margin: 0 auto;
+    border-radius: 1000px;
+
+    background-color: #e5b5ff3b;
+    backdrop-filter: blur(4px);
+    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+
+    transition: 0.15s transform ease;
+
+    &::before {
+      pointer-events: none;
+      content: '';
+
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+
+      width: inherit;
+      height: inherit;
+      border: 1px solid transparent;
+      border-radius: inherit;
+
+      background-image: linear-gradient(
+          45deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+        ),
+        linear-gradient(
+          225deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+        ),
+        linear-gradient(
+          135deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 30%) 20px
+        ),
+        linear-gradient(
+          315deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 30%) 20px
+        );
+      background-clip: border-box, border-box, border-box, border-box;
+      background-origin: border-box, border-box, border-box, border-box;
+
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+     @include m.tb {
+      width: 120px;
+      height: 36px;
+      font-size: 14px;
+    }
+
+    @include m.sp {
+      margin-top: 10px;
+      border-radius: 0;
+
+      background-color: transparent;
+      backdrop-filter: none;
+      box-shadow: none;
+
+      &::before{
+        display: none;
+      }
+    }
   }
 
-  100% {
-    transform: translate(-100%, 0);
+  &__button-text {
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+
+    @include m.tb {
+      font-size: 14px;
+    }
+  }
+
+  &__button-icon {
+    display: none;
+    width: 14px;
+
+    @include m.sp {
+      display: block;
+    }
   }
 }
 </style>
