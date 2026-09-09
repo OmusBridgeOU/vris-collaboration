@@ -42,6 +42,10 @@ en:
           <HtExhibitorCirclesSection />
         </section>
 
+        <section id="sponsors-and-partners">
+          <HtSponsorsAndPartnersSection />
+        </section>
+
         <section id="schedule">
           <HtScheduleSection />
         </section>
@@ -52,10 +56,6 @@ en:
 
         <section id="exhibitor-info">
           <HtExhibitorInfoSection />
-        </section>
-
-        <section id="sponsors-and-partners">
-          <HtSponsorsAndPartnersSection />
         </section>
 
         <section id="members">

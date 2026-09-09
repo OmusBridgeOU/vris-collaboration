@@ -7,7 +7,8 @@ ja:
   venueLabel: 会場
   venue: アスティ45 4F アスティホール
   ticketLabel: 来場チケット
-  ticketNotice: 来場チケットは2026年8月26日(水)より販売開始です。
+  ticketNotice: 来場チケットはLivePocketにて販売中です。入場には整理券が必要です。
+  ticketLink: チケット販売ページはこちら
 en:
   nameLabel: Event Name
   name: VketReal in Sapporo 2026 Autumn
@@ -16,7 +17,8 @@ en:
   venueLabel: Venue
   venue: Asty45 4F Asty Hall
   ticketLabel: Visitor Tickets
-  ticketNotice: Visitor tickets go on sale Wednesday, August 26, 2026.
+  ticketNotice: Visitor tickets are now available on LivePocket. A numbered admission ticket is required for entry.
+  ticketLink: View the ticket sales page
 </i18n>
 
 <script setup lang="ts">
@@ -74,7 +76,15 @@ onMounted(() => {
           {{ t('ticketLabel') }}
         </dt>
         <dd class="participation-guide__ticket-text">
-          {{ t('ticketNotice') }}
+          <p>{{ t('ticketNotice') }}</p>
+          <a
+            class="participation-guide__ticket-link"
+            href="https://livepocket.jp/e/alkjd"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ t('ticketLink') }}
+          </a>
         </dd>
       </div>
     </dl>
@@ -197,6 +207,20 @@ onMounted(() => {
 
     @include m.sp {
       font-size: 16px;
+    }
+  }
+
+  &__ticket-link {
+    display: inline-block;
+
+    margin-top: 8px;
+
+    color: v.$vket-cyan;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+    &:hover {
+      text-decoration: none;
     }
   }
 }
