@@ -40,8 +40,32 @@
   },
   "contents": {
     "1": {
-      "title": "ParaRealCreator in SAPPORO",
-      "text": "Goods Exhibition & Sale by VR Creators"
+      "title": "ParaReal Stage",
+      "text": "Screening of “Shika The VR MUSICAL,” a real talk show, and a live crossover of real and virtual. Held after closing at Deep Tech CORE SAPPORO (free)."
+    },
+    "2": {
+      "title": "Matching Card Game",
+      "text": "Write your interests on a card and introduce yourselves. Keep mingling and you may get a shot at a limited-goods lottery. Participation is optional."
+    },
+    "3": {
+      "title": "Message Cards",
+      "text": "Write a message on a small card and pin it to the board. Photos with the event hashtag are welcome."
+    },
+    "4": {
+      "title": "Creator Showcase",
+      "text": "A promo space where you can leave flyers, business cards, and postcards to share your activities."
+    },
+    "5": {
+      "title": "Avatar Group Photo (Advance Program)",
+      "text": "Group photos taken in VRChat and displayed at the real venue."
+    },
+    "6": {
+      "title": "Official Goods",
+      "text": "Official merchandise for sale, including venue exclusives. Full lineup to be announced later."
+    },
+    "7": {
+      "title": "Visitor Giveaway",
+      "text": "A raffle giveaway held during the ParaReal Creator closing ceremony."
     }
   },
   "news": {

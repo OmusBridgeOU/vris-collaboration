@@ -1,9 +1,11 @@
 <template>
-  <a
-    :href="item.href"
-    target="_blank"
-    rel="noopener noreferrer"
+  <component
+    :is="isLink ? 'a' : 'div'"
+    :href="isLink ? item.href : undefined"
+    :target="isLink ? '_blank' : undefined"
+    :rel="isLink ? 'noopener noreferrer' : undefined"
     class="content-card"
+    :class="{ 'content-card--static': !isLink }"
   >
     <img
       v-if="item.imgSrc && item.imgSrc !== ''"
@@ -21,18 +23,23 @@
     <p class="content-card__title">{{ item.title }}</p>
     <div class="content-card__text-flex">
       <p class="content-card__text">{{ item.text }}</p>
-      <HaJumpToListIcon class="content-card__icon" />
+      <HaJumpToListIcon
+        v-if="isLink"
+        class="content-card__icon"
+      />
     </div>
-  </a>
+  </component>
 </template>
 
 <script setup lang="ts">
 import HaNoImage from './HaNoImage.vue'
 import HaJumpToListIcon from './icons/HaJumpToListIcon.vue'
 
-defineProps<{
-  item: { title: string, href: string, imgSrc: string, text: string }
+const props = defineProps<{
+  item: { title: string, href?: string, imgSrc: string, text: string }
 }>()
+
+const isLink = computed(() => Boolean(props.item.href))
 </script>
 
 <style lang="scss" scoped>
@@ -61,6 +68,18 @@ defineProps<{
 
     @include m.sp {
       border: none;
+    }
+  }
+
+  &--static {
+    cursor: default;
+
+    &:hover {
+      border-color: white;
+
+      @include m.sp {
+        border: none;
+      }
     }
   }
 
