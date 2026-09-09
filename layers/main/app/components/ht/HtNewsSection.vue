@@ -9,6 +9,13 @@ const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
   {
+    id: 4,
+    title: tGlobal('news.4.title'),
+    href: 'https://note.com/vris/n/n017807ce1d33',
+    imgSrc: '/news4_thumbnail.png',
+    timestamp: '2026-09-09',
+  },
+  {
     id: 3,
     title: tGlobal('news.3.title'),
     href: 'https://note.com/vris/n/n880e9b3364f9',

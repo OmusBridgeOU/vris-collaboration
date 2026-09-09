@@ -843,6 +843,9 @@ export default defineNuxtConfig({
     }
   },
   "news": {
+    "4": {
+      "title": "VketReal in Sapporo 2026 Autumn Exhibitors, Sponsors, Official Merchandise, and Numbered Admission Tickets Announced!"
+    },
     "3": {
       "title": "VketReal in Sapporo 2026 Autumn Tickets Now on Sale and Official Programs Announced!"
     },
@@ -905,6 +908,9 @@ export default defineNuxtConfig({
     }
   },
   "news": {
+    "4": {
+      "title": "「VketReal in 札幌 2026 Autumn」出展協賛企業・公式グッズ紹介・整理券などについて発表！"
+    },
     "3": {
       "title": "「VketReal in 札幌 2026 Autumn」来場チケット販売開始＆公式企画発表！"
     },
