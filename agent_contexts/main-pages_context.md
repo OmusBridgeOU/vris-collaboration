@@ -561,7 +561,7 @@ const items = computed(() => [
     id: 4,
     title: tGlobal('news.4.title'),
     href: 'https://note.com/vris/n/n017807ce1d33',
-    imgSrc: '/news4_thumbnail.png',
+    imgSrc: '/news4_thumbnail.jpg',
     timestamp: '2026-09-09',
   },
   {
