@@ -5024,7 +5024,6 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import HaNewsCard from '../ha/HaNewsCard.vue'
-import type { Swiper as SwiperType } from 'swiper'
 import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
 import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 
@@ -5051,23 +5050,6 @@ defineProps<{
 }>()
 
 const modules = [Autoplay, Navigation, Pagination]
-
-// 先頭・末尾の状態（ボタンのdisabled制御用）
-const isBeginning = ref(true)
-const isEnd = ref(false)
-
-const updateState = (swiper: SwiperType) => {
-  isBeginning.value = swiper.isBeginning
-  isEnd.value = swiper.isEnd
-}
-
-const onSwiper = (swiper: SwiperType) => {
-  updateState(swiper)
-}
-
-const onSlideChange = (swiper: SwiperType) => {
-  updateState(swiper)
-}
 </script>
 
 <template>
@@ -5076,8 +5058,9 @@ const onSlideChange = (swiper: SwiperType) => {
       :slides-per-view="_slidesPerView ?? 'auto'"
       :breakpoints="_breakpoints"
       :speed="1000"
-      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
+      :autoplay="{ delay: 3000, disableOnInteraction: false }"
       :modules="modules"
+      :loop="true"
       :centered-slides="false"
       :space-between="24"
       :navigation="{
@@ -5088,8 +5071,6 @@ const onSlideChange = (swiper: SwiperType) => {
         el: '.custom-swiper-pagination',
         clickable: true,
       }"
-      @swiper="onSwiper"
-      @slide-change="onSlideChange"
     >
       <SwiperSlide
         v-for="item in items"
@@ -5104,8 +5085,6 @@ const onSlideChange = (swiper: SwiperType) => {
         <button
           type="button"
           class="custom-swiper-button custom-swiper-button--prev"
-          :disabled="isBeginning"
-          :class="{ 'is-disabled': isBeginning }"
           aria-label="前のスライドへ"
         >
           <HaChevronLeftIcon />
@@ -5113,8 +5092,6 @@ const onSlideChange = (swiper: SwiperType) => {
         <button
           type="button"
           class="custom-swiper-button custom-swiper-button--next"
-          :disabled="isEnd"
-          :class="{ 'is-disabled': isEnd }"
           aria-label="次のスライドへ"
         >
           <HaChevronRightIcon />
@@ -5126,7 +5103,7 @@ const onSlideChange = (swiper: SwiperType) => {
 
 <style lang="scss" scoped>
 :deep(.swiper) {
-  overflow: visible;
+  overflow: hidden;
 }
 </style>
 ```
@@ -9863,12 +9840,10 @@ ja:
   mainlogo: VketReal in 札幌 2026 Autumn
   openMenu: メニューを開く
   closeMenu: メニューを閉じる
-  maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 en:
   openMenu: Open menu
   closeMenu: Close menu
   mainlogo: VketReal in Sapporo 2026 Autumn
-  maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 </i18n>
 
 <template>
@@ -9960,16 +9935,6 @@ en:
     </div>
   </header>
   <HaCrowdInfo />
-  <div
-    class="maintenance-banner"
-    role="status"
-    aria-live="polite"
-  >
-    <span class="maintenance-banner__track">
-      <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
-      <span class="maintenance-banner__text">{{ t('maintenance') }}</span>
-    </span>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -10031,49 +9996,6 @@ onBeforeUnmount(() => {
 
 $vket-header-height-pc--real: v.$vket-header-height-pc - v.$vket-header-vertical-padding-pc * 2;
 $vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical-padding-tb * 2;
-
-.maintenance-banner {
-  position: fixed;
-  top: v.$vket-header-height-pc;
-  left: 0;
-
-  overflow: hidden;
-
-  width: 100vw;
-  height: 32px;
-
-  color: white;
-
-  background: #e6002d;
-
-  @include m.tb {
-    top: v.$vket-header-height-tb;
-  }
-
-  @include m.sp {
-    top: v.$vket-header-height-sp;
-  }
-
-  &__track {
-    will-change: transform;
-
-    display: inline-block;
-
-    padding-left: 100%;
-
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 32px;
-    white-space: nowrap;
-
-    animation: maintenance-marquee 20s linear infinite;
-  }
-
-  &__text {
-    display: inline-block;
-    padding-right: 56px;
-  }
-}
 
 .ho-the-header {
   position: fixed;
@@ -10325,23 +10247,6 @@ $vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical
       width: 44px;
       height: 44px;
     }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .maintenance-banner__track {
-    padding-left: 0;
-    animation: none;
-  }
-}
-
-@keyframes maintenance-marquee {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  100% {
-    transform: translate(-100%, 0);
   }
 }
 </style>
