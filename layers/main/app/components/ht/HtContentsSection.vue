@@ -7,14 +7,12 @@ import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
 const { t: tGlobal } = useI18n()
 
-// Official programs (公式企画). Images: place files under public/images/contents/
-// (parareal-stage, matching-card-game, message-card, creator-showcase,
-// avatar-group-photo, official-goods, visitor-giveaway).png — empty imgSrc uses HaNoImage.
+// Official programs (公式企画). Placeholder: VketReal light logo until per-program art is ready.
 const items = computed(() =>
   [1, 2, 3, 4, 5, 6, 7].map(id => ({
     id,
     title: tGlobal(`contents.${id}.title`),
-    imgSrc: '',
+    imgSrc: '/vketreal_in_sapporo_logo_light.png',
     text: tGlobal(`contents.${id}.text`),
   })),
 )
