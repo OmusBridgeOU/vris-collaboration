@@ -21,12 +21,12 @@ export default defineVitestConfig({
     },
     setupFiles: ['app/test/setup.ts'],
     alias: {
-      '#base': path.resolve(__dirname, '../base'),
+      '#base': path.resolve(import.meta.dirname, '../base'),
     },
   },
   resolve: {
     alias: {
-      '#base': path.resolve(__dirname, '../base'),
+      '#base': path.resolve(import.meta.dirname, '../base'),
     },
   },
 })
