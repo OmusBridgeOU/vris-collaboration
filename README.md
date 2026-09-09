@@ -1,6 +1,6 @@
 # Vket Boilerplate Nuxt
 
-[![japanese](https://badgen.net/badge/README/in%20日本語/red?icon=github)](./README.ja.md) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/PublicHIKKY/vket-boilerplate-nuxt)
+[![japanese](https://badgen.net/badge/README/in%20日本語/red?icon=github)](./README.ja.md)
 
 
 This is a production-ready Nuxt4 boilerplate published by HIKKY Ltd., designed for building scalable VR/metaverse web applications.
@@ -214,7 +214,7 @@ Examples:
 ## 📚 Documentation
 
 - [`AGENTS.md`](./AGENTS.md) - Complete development guide for AI agents
-- [`repomix-output.md`](./repomix-output.md) - Full codebase structure
+- [`agent_contexts/`](./agent_contexts/README.md) - Generated, scoped codebase context for AI agents
 - [Nuxt Docs](https://nuxt.com/docs) - Framework documentation
 - [Zod Docs](https://zod.dev) - Schema validation
 - [RSCSS](https://rscss.io) - CSS naming convention
