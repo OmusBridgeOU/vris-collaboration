@@ -28,6 +28,9 @@
   "workspaces": [
     "layers/*"
   ],
+  "overrides": {
+    "vite": "8.2.2"
+  },
   "scripts": {
     "update-project": "bun update && bun clean-install",
     "clean-install": "bun run ./scripts/clean_install.js",

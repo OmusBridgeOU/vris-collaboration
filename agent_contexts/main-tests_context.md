@@ -124,36 +124,6 @@ for (const { name, path } of PAGES) {
 }
 ```
 
-## File: layers/main/app/test/models/crowdData.spec.ts
-```typescript
-import { describe, expect, test } from 'vitest'
-import { crowdDataSchema } from '../../models/crowdData'
-
-describe('crowdDataSchema', () => {
-  test('本番APIの正常なレスポンスを受け入れる', () => {
-    expect(crowdDataSchema.parse({
-      value1: 1,
-      value2: 3,
-      updated_at: '2026-09-26T01:00:00.000Z',
-    })).toEqual({
-      value1: 1,
-      value2: 3,
-      updated_at: '2026-09-26T01:00:00.000Z',
-    })
-  })
-
-  test.each([
-    { value1: -2, value2: 1, updated_at: null },
-    { value1: 0, value2: 1, updated_at: null },
-    { value1: 4, value2: 1, updated_at: null },
-    { value1: 1, value2: 2, updated_at: 'invalid-date' },
-    { value1: 1, updated_at: null },
-  ])('契約外のレスポンスを拒否する: %o', (payload) => {
-    expect(crowdDataSchema.safeParse(payload).success).toBe(false)
-  })
-})
-```
-
 ## File: layers/main/app/test/utils/@types/auto-imports.d.ts
 ```typescript
 /* eslint-disable */
@@ -620,6 +590,36 @@ if (!global.HTMLDialogElement) {
 }
 ```
 
+## File: layers/main/app/test/models/crowdData.spec.ts
+```typescript
+import { describe, expect, test } from 'vitest'
+import { crowdDataSchema } from '../../models/crowdData'
+
+describe('crowdDataSchema', () => {
+  test('本番APIの正常なレスポンスを受け入れる', () => {
+    expect(crowdDataSchema.parse({
+      value1: 1,
+      value2: 3,
+      updated_at: '2026-09-26T01:00:00.000Z',
+    })).toEqual({
+      value1: 1,
+      value2: 3,
+      updated_at: '2026-09-26T01:00:00.000Z',
+    })
+  })
+
+  test.each([
+    { value1: -2, value2: 1, updated_at: null },
+    { value1: 0, value2: 1, updated_at: null },
+    { value1: 4, value2: 1, updated_at: null },
+    { value1: 1, value2: 2, updated_at: 'invalid-date' },
+    { value1: 1, updated_at: null },
+  ])('契約外のレスポンスを拒否する: %o', (payload) => {
+    expect(crowdDataSchema.safeParse(payload).success).toBe(false)
+  })
+})
+```
+
 ## File: layers/main/app/test/components/HoTheHeader.spec.ts
 ```typescript
 import { describe, expect, test, vi, beforeEach, afterEach } from 'vitest'
@@ -627,6 +627,7 @@ import { mount } from '@vue/test-utils'
 import { mockNuxtImport } from '@nuxt/test-utils/runtime'
 import { ref } from 'vue'
 import HoTheHeader from '../../components/ho/HoTheHeader.vue'
+import HaCrowdInfo from '../../components/ha/HaCrowdInfo.vue'
 import { useCrowdData } from '../../composables/useCrowdData'
 import type { CrowdData } from '../../composables/useCrowdData'
 
@@ -685,30 +686,31 @@ describe('header crowd status', () => {
   ] as const)('shows value1 %s as %s', (value1, label) => {
     crowdData.value = { value1, value2: value1, updated_at: null }
     const wrapper = mountHeader()
-    expect(wrapper.get('.ho-the-header__crowd').text()).toBe(label)
-    expect(wrapper.get('.ho-the-header__crowd-dot').attributes('aria-hidden')).toBe('true')
+    const crowdInfo = wrapper.getComponent(HaCrowdInfo)
+    expect(crowdInfo.text()).toBe(label)
+    expect(crowdInfo.get('.ha-crowd-info__dot').attributes('aria-hidden')).toBe('true')
   })
 
   test('shows loading when crowdData is not yet fetched', () => {
     crowdData.value = null
     const wrapper = mountHeader()
-    expect(wrapper.get('.ho-the-header__crowd').text()).toBe('loading')
+    expect(wrapper.getComponent(HaCrowdInfo).text()).toBe('loading')
   })
 
   test('shows closed before the event without synthetic crowd data', () => {
     crowdData.value = null
     isBeforeEventStart.value = true
-    expect(mountHeader().get('.ho-the-header__crowd').text()).toBe('closed')
+    expect(mountHeader().getComponent(HaCrowdInfo).text()).toBe('closed')
   })
 
   test('does not show stale availability after a fetch error', () => {
     isError.value = true
-    expect(mountHeader().get('.ho-the-header__crowd').text()).toBe('error')
+    expect(mountHeader().getComponent(HaCrowdInfo).text()).toBe('error')
   })
 
   test('shows loading rather than a previous level while initially loading', () => {
     isLoading.value = true
-    expect(mountHeader().get('.ho-the-header__crowd').text()).toBe('loading')
+    expect(mountHeader().getComponent(HaCrowdInfo).text()).toBe('loading')
   })
 })
 
@@ -941,7 +943,7 @@ describe('crowdData / isBeforeEventStart', () => {
     vi.setSystemTime(AFTER_EVENT)
     const fetchMock = vi.fn(() => Promise.resolve({
       ok: true,
-      json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 1 }),
+      json: () => Promise.resolve({ value1: 1, value2: 1, updated_at: AFTER_EVENT.toISOString() }),
     }))
     vi.stubGlobal('fetch', fetchMock)
     const { useCrowdData } = await importFresh()
@@ -953,7 +955,7 @@ describe('crowdData / isBeforeEventStart', () => {
     expect(fetchMock).toHaveBeenCalledTimes(2)
 
     await vi.advanceTimersByTimeAsync(5 * 60 * 1000)
-    expect(fetchMock).toHaveBeenCalledTimes(4)
+    expect(fetchMock).toHaveBeenCalledTimes(7)
     expect(header.crowdData.value?.value1).toBe(1)
     expect(section.crowdData.value?.value1).toBe(1)
   })

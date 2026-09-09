@@ -197,7 +197,7 @@ describe('crowdData / isBeforeEventStart', () => {
     vi.setSystemTime(AFTER_EVENT)
     const fetchMock = vi.fn(() => Promise.resolve({
       ok: true,
-      json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 1 }),
+      json: () => Promise.resolve({ value1: 1, value2: 1, updated_at: AFTER_EVENT.toISOString() }),
     }))
     vi.stubGlobal('fetch', fetchMock)
     const { useCrowdData } = await importFresh()
@@ -209,7 +209,7 @@ describe('crowdData / isBeforeEventStart', () => {
     expect(fetchMock).toHaveBeenCalledTimes(2)
 
     await vi.advanceTimersByTimeAsync(5 * 60 * 1000)
-    expect(fetchMock).toHaveBeenCalledTimes(4)
+    expect(fetchMock).toHaveBeenCalledTimes(7)
     expect(header.crowdData.value?.value1).toBe(1)
     expect(section.crowdData.value?.value1).toBe(1)
   })
