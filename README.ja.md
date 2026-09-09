@@ -5,7 +5,6 @@
 [![Nuxt](https://img.shields.io/badge/Nuxt-4.0+-00DC82?logo=nuxt.js)](https://nuxt.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9+-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Bun](https://img.shields.io/badge/Bun-1.0+-000000?logo=bun)](https://bun.sh/)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/PublicHIKKY/vket-boilerplate-nuxt)
 
 これはHIKKY株式会社が公開するNuxt4本格運用向けボイラープレートで、スケーラブルなVR/メタバース関連Webアプリケーション構築用に設計されています。
 
@@ -155,7 +154,7 @@ en:
 ## 📚 ドキュメント
 
 * [`AGENTS.md`](./AGENTS.md) - AIエージェント開発の完全ガイド
-* [`repomix-output.md`](./repomix-output.md) - コードベース全体の構造
+* [`agent_contexts/`](./agent_contexts/README.md) - AI向けに分割生成されたコードベースコンテキスト
 * [Nuxt Docs](https://nuxt.com/docs) - フレームワークの公式ドキュメント
 * [Zod Docs](https://zod.dev) - スキーマバリデーションのドキュメント
 * [RSCSS](https://rscss.io) - CSS命名規則
