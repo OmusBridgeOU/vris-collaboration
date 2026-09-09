@@ -11,7 +11,7 @@ import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 type SlideItem = {
   id: number
   title: string
-  href?: string
+  href: string
   imgSrc: string
   text: string
 }

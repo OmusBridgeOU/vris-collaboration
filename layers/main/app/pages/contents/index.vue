@@ -8,15 +8,15 @@ definePageMeta({
 
 const { t: tGlobal } = useI18n()
 
-// Official programs (公式企画). Images under public/images/contents/ later; empty uses HaNoImage.
-const items = computed(() =>
-  [1, 2, 3, 4, 5, 6, 7].map(id => ({
-    id,
-    title: tGlobal(`contents.${id}.title`),
+const items = computed(() => [
+  {
+    id: 1,
+    title: tGlobal('contents.1.title'),
     imgSrc: '',
-    text: tGlobal(`contents.${id}.text`),
-  })),
-)
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
+    text: tGlobal('contents.1.text'),
+  },
+])
 </script>
 
 <template>
@@ -33,6 +33,11 @@ const items = computed(() =>
           :key="item.id"
           :item="item"
         />
+        <SwiperSlide
+          key="comming-soon"
+        >
+          <HaCommingSoonCard />
+        </SwiperSlide>
       </div>
     </div>
   </div>

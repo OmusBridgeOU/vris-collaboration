@@ -5,19 +5,18 @@ import HmContentsSwiper from '../hm/HmContentsSwiper.vue'
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
+const { t } = useI18n({ useScope: 'local' })
 const { t: tGlobal } = useI18n()
 
-// Official programs (公式企画). Images: place files under public/images/contents/
-// (parareal-stage, matching-card-game, message-card, creator-showcase,
-// avatar-group-photo, official-goods, visitor-giveaway).png — empty imgSrc uses HaNoImage.
-const items = computed(() =>
-  [1, 2, 3, 4, 5, 6, 7].map(id => ({
-    id,
-    title: tGlobal(`contents.${id}.title`),
+const items = computed(() => [
+  {
+    id: 1,
+    title: t('contents.1.title'),
     imgSrc: '',
-    text: tGlobal(`contents.${id}.text`),
-  })),
-)
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
+    text: t('contents.1.text'),
+  },
+])
 
 const sectionRef = ref<HTMLElement | null>(null)
 const { fadeInUp } = useGsapFadeIn()
@@ -35,7 +34,7 @@ onMounted(() => {
     <template #controls>
       <NuxtLink
         class="glassy-button contents__button"
-        to="/contents"
+        to="/news"
       >
         <span class="contents__button-text">
           {{ tGlobal("viewAll") }}
@@ -46,6 +45,7 @@ onMounted(() => {
   </HaSectionTitle>
   <div ref="sectionRef">
     <HmContentsSwiper
+      ref="worksSwiperRef"
       class="contents__swiper"
       :items="items"
       :_slides-per-view="1"
