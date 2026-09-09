@@ -3008,82 +3008,6 @@ withDefaults(
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaSponsorCard.vue
-```vue
-<template>
-  <div class="sponsor-card glassy-box-2">
-    <div class="sponsor-card__img">
-      <img
-        :src="imgSrc"
-        :alt="name"
-      >
-    </div>
-    <div class="sponsor-card__text-box">
-      <p class="sponsor-card__label">
-        {{ label }}
-      </p>
-      <p class="sponsor-card__name">
-        {{ name }}
-      </p>
-    </div>
-  </div>
-</template>
-
-<script setup lang="ts">
-defineProps<{
-  imgSrc?: string
-  label: string
-  name: string
-}>()
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.sponsor-card {
-  width: 100%;
-  height: 100%;
-  margin-bottom: 16px;
-  padding: 24px 36px;
-
-  @include m.sp {
-    padding: 16px 24px;
-  }
-
-  &__img {
-    aspect-ratio: 1/1;
-    width: 100%;
-    margin-bottom: 12px;
-    background-color: gray;
-
-    img {
-      width: 100%;
-    }
-  }
-
-  &__label {
-    margin-bottom: 12px;
-    font-size: 12px;
-    line-height: 1em;
-    color: white;
-  }
-
-  &__name {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1em;
-    color: white;
-
-    @include m.sp {
-      font-size: 20px;
-      font-weight: normal;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/HaTypewriterText.vue
 ```vue
 <script setup lang="ts">
@@ -4505,6 +4429,136 @@ defineProps<{
 </style>
 ```
 
+## File: layers/main/app/components/ha/HaSponsorCard.vue
+```vue
+<template>
+  <div class="sponsor-card glassy-box-2">
+    <div
+      class="sponsor-card__img"
+      :class="`-${logoVariant}`"
+    >
+      <img
+        :src="imgSrc"
+        :alt="name"
+        loading="lazy"
+      >
+    </div>
+    <div class="sponsor-card__text-box">
+      <p class="sponsor-card__label">
+        {{ label }}
+      </p>
+      <p class="sponsor-card__name">
+        {{ name }}
+      </p>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+withDefaults(
+  defineProps<{
+    imgSrc: string
+    label: string
+    name: string
+    logoVariant?: 'default' | 'wide' | 'square' | 'compact' | 'hikky'
+  }>(),
+  {
+    logoVariant: 'default',
+  },
+)
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.sponsor-card {
+  overflow: hidden;
+
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  border-top: 1px solid white;
+
+  transition: border-color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: v.$vket-cyan;
+  }
+
+  @include m.sp {
+    padding: 12px;
+    border-top: 0;
+  }
+
+  &__img {
+    position: relative;
+
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    margin-bottom: 14px;
+    padding: 16px;
+    border-radius: 10px;
+
+    background: v.$base-background-color;
+
+    img {
+      position: absolute;
+      inset: 16px;
+
+      display: block;
+
+      width: calc(100% - 32px);
+      height: calc(100% - 32px);
+
+      object-fit: contain;
+    }
+
+    &.-wide img {
+      transform: scale(1.15);
+    }
+
+    &.-square img {
+      transform: scale(1.08);
+      object-fit: cover;
+    }
+
+    &.-compact img {
+      transform: scale(2.1);
+    }
+
+    &.-hikky {
+      background: #0052a9;
+    }
+  }
+
+  &__label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: v.$vket-cyan;
+  }
+
+  &__name {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: white;
+
+    @include m.sp {
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
 ```vue
 <script setup lang="ts">
@@ -5220,118 +5274,6 @@ defineProps<{
 </style>
 ```
 
-## File: layers/main/app/components/hm/HmContentsSwiper.vue
-```vue
-<script setup lang="ts">
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import type { Swiper as SwiperType } from 'swiper'
-import HaContentCard from '../ha/HaContentCard.vue'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-// スライドの型
-type SlideItem = {
-  id: number
-  title: string
-  href: string
-  imgSrc: string
-  text: string
-}
-
-// ブレークポイントごとのSlidesPerViewの型
-type BreakpointSlidesPerView = {
-  [width: number]: {
-    slidesPerView: number | 'auto'
-  }
-}
-
-defineProps<{
-  items?: SlideItem[]
-  _slidesPerView?: number | 'auto'
-  _breakpoints?: BreakpointSlidesPerView
-}>()
-
-const modules = [Autoplay, Navigation, Pagination]
-
-// 先頭・末尾の状態（ボタンのdisabled制御用）
-const isBeginning = ref(true)
-const isEnd = ref(false)
-
-const updateState = (swiper: SwiperType) => {
-  isBeginning.value = swiper.isBeginning
-  isEnd.value = swiper.isEnd
-}
-
-const onSwiper = (swiper: SwiperType) => {
-  updateState(swiper)
-}
-
-const onSlideChange = (swiper: SwiperType) => {
-  updateState(swiper)
-}
-</script>
-
-<template>
-  <div class="works-swiper mb-25">
-    <Swiper
-      :slides-per-view="_slidesPerView ?? 'auto'"
-      :breakpoints="_breakpoints"
-      :speed="1000"
-      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
-      :modules="modules"
-      :centered-slides="false"
-      :space-between="24"
-      :navigation="{
-        nextEl: '.custom-swiper-button--next',
-        prevEl: '.custom-swiper-button--prev',
-      }"
-      :pagination="{
-        el: '.custom-swiper-pagination',
-        clickable: true,
-      }"
-      @swiper="onSwiper"
-      @slide-change="onSlideChange"
-    >
-      <SwiperSlide
-        v-for="item in items"
-        :key="item.id"
-      >
-        <HaContentCard :item="item" />
-      </SwiperSlide>
-      <div class="custom-swiper-pagination" />
-      <div class="swiper-button-flex">
-        <button
-          type="button"
-          class="custom-swiper-button custom-swiper-button--prev"
-          :disabled="isBeginning"
-          :class="{ 'is-disabled': isBeginning }"
-          aria-label="前のスライドへ"
-        >
-          <HaChevronLeftIcon />
-        </button>
-        <button
-          type="button"
-          class="custom-swiper-button custom-swiper-button--next"
-          :disabled="isEnd"
-          :class="{ 'is-disabled': isEnd }"
-          aria-label="次のスライドへ"
-        >
-          <HaChevronRightIcon />
-        </button>
-      </div>
-    </Swiper>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-:deep(.swiper) {
-  overflow: visible;
-}
-</style>
-```
-
 ## File: layers/main/app/components/hm/HmNewsSwiper.vue
 ```vue
 <script setup lang="ts">
@@ -5739,87 +5681,6 @@ const { t: tGlobal } = useI18n()
     @include m.sp {
       font-size: 12px;
     }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtSponsorsAndPartnersSection.vue
-```vue
-<script setup lang="ts">
-import HaCommingSoon from '../ha/HaCommingSoon.vue'
-import HaSectionTitle from '../ha/HaSectionTitle.vue'
-
-// import HaSponsorCard from '../ha/HaSponsorCard.vue'
-
-const { t: tGlobal } = useI18n()
-
-// // GSAP
-// import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-// const sectionRef = ref<HTMLElement | null>(null)
-// const listRef = ref<HTMLElement | null>(null)
-// const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-// onMounted(() => {
-//   fadeInUp(sectionRef)
-//   if (!listRef.value) return
-//   const items = listRef.value.querySelectorAll('.sponsor-grid__child')
-//   fadeInUpStagger(Array.from(items))
-// })
-</script>
-
-<template>
-  <HaSectionTitle
-    :title="tGlobal('sectionTitle.sponsorsAndPartners')"
-    label="SPONSORS & PARTNERS"
-  />
-  <HaCommingSoon />
-  <!-- <div ref="sectionRef">
-    <HaSectionTitle
-      title="ご協力"
-      label="SPONSORS & PARTNERS"
-    />
-    <div
-      ref="listRef"
-      class="sponsor-grid"
-    >
-      <div class="sponsor-grid__child">
-        <HaSponsorCard
-          label="企業出展"
-          name="〇〇〇 様"
-        />
-      </div>
-      <div class="sponsor-grid__child">
-        <HaSponsorCard
-          label="企業出展"
-          name="〇〇〇 様"
-        />
-      </div>
-      <div class="sponsor-grid__child">
-        <HaSponsorCard
-          label="企業出展"
-          name="〇〇〇 様"
-        />
-      </div>
-    </div>
-  </div> -->
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/mixins' as m;
-
-.sponsor-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 24px;
-
-  @include m.tb {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  @include m.sp {
-    gap: 20px;
   }
 }
 </style>
@@ -6840,6 +6701,123 @@ onMounted(() => {
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtSponsorsAndPartnersSection.vue
+```vue
+<script setup lang="ts">
+import HaSponsorCard from '../ha/HaSponsorCard.vue'
+import HaSectionTitle from '../ha/HaSectionTitle.vue'
+
+type Sponsor = {
+  id: string
+  name: string
+  category: string
+  href: string
+  imgSrc: string
+  logoVariant?: 'default' | 'wide' | 'square' | 'compact' | 'hikky'
+}
+
+const { t: tGlobal } = useI18n()
+
+const sponsors: Sponsor[] = [
+  {
+    id: 'infinite-loop',
+    name: '株式会社インフィニットループ',
+    category: '法人出展 & 特別協力',
+    href: 'https://www.infiniteloop.co.jp/',
+    imgSrc: '/partners-and-sponsors/infinite-loop.png',
+    logoVariant: 'wide',
+  },
+  {
+    id: 'nunuai',
+    name: '株式会社NuNuAI（VR向けPCブランド NuNuPC）',
+    category: '法人出展',
+    href: 'https://nunupc.com/pages/event-info',
+    imgSrc: '/partners-and-sponsors/nunuai.png',
+    logoVariant: 'square',
+  },
+  {
+    id: 'sapporo-innovation-lab',
+    name: '一般社団法人さっぽろイノベーションラボ',
+    category: '法人協賛',
+    href: 'https://sapporo-innovation-lab.jp/',
+    imgSrc: '/partners-and-sponsors/sapporo-innovation-lab.png',
+  },
+  {
+    id: 'sapporo-engineer-base',
+    name: 'SapporoEngineerBase',
+    category: '法人協賛',
+    href: 'https://sapporo-engineer-base.dev/',
+    imgSrc: '/partners-and-sponsors/sapporo-engineer-base.png',
+    logoVariant: 'compact',
+  },
+  {
+    id: 'nomaps-2026',
+    name: 'NoMaps 2026',
+    category: '連携イベント',
+    href: 'https://no-maps.jp/2026',
+    imgSrc: '/partners-and-sponsors/nomaps-2026.svg',
+  },
+  {
+    id: 'hikky',
+    name: '株式会社HIKKY',
+    category: '特別協力',
+    href: 'https://hikky.co.jp',
+    imgSrc: '/partners-and-sponsors/hikky.webp',
+    logoVariant: 'hikky',
+  },
+]
+</script>
+
+<template>
+  <HaSectionTitle
+    :title="tGlobal('sectionTitle.sponsorsAndPartners')"
+    label="PARTNERS & SPONSORS"
+  />
+  <div class="sponsor-grid">
+    <a
+      v-for="sponsor in sponsors"
+      :key="sponsor.id"
+      :href="sponsor.href"
+      class="sponsor-grid__child"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <HaSponsorCard
+        :img-src="sponsor.imgSrc"
+        :label="sponsor.category"
+        :logo-variant="sponsor.logoVariant"
+        :name="sponsor.name"
+      />
+    </a>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/mixins' as m;
+
+.sponsor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+
+  &__child {
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  @include m.tb {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ha/HaInfoCard.vue
 ```vue
 <script setup lang="ts">
@@ -7000,6 +6978,118 @@ defineProps<{
 </style>
 ```
 
+## File: layers/main/app/components/hm/HmContentsSwiper.vue
+```vue
+<script setup lang="ts">
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import type { Swiper as SwiperType } from 'swiper'
+import HaContentCard from '../ha/HaContentCard.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+// スライドの型
+type SlideItem = {
+  id: number
+  title: string
+  href: string
+  imgSrc: string
+  text: string
+}
+
+// ブレークポイントごとのSlidesPerViewの型
+type BreakpointSlidesPerView = {
+  [width: number]: {
+    slidesPerView: number | 'auto'
+  }
+}
+
+defineProps<{
+  items?: SlideItem[]
+  _slidesPerView?: number | 'auto'
+  _breakpoints?: BreakpointSlidesPerView
+}>()
+
+const modules = [Autoplay, Navigation, Pagination]
+
+// 先頭・末尾の状態（ボタンのdisabled制御用）
+const isBeginning = ref(true)
+const isEnd = ref(false)
+
+const updateState = (swiper: SwiperType) => {
+  isBeginning.value = swiper.isBeginning
+  isEnd.value = swiper.isEnd
+}
+
+const onSwiper = (swiper: SwiperType) => {
+  updateState(swiper)
+}
+
+const onSlideChange = (swiper: SwiperType) => {
+  updateState(swiper)
+}
+</script>
+
+<template>
+  <div class="works-swiper mb-25">
+    <Swiper
+      :slides-per-view="_slidesPerView ?? 'auto'"
+      :breakpoints="_breakpoints"
+      :speed="1000"
+      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
+      :modules="modules"
+      :centered-slides="false"
+      :space-between="24"
+      :navigation="{
+        nextEl: '.custom-swiper-button--next',
+        prevEl: '.custom-swiper-button--prev',
+      }"
+      :pagination="{
+        el: '.custom-swiper-pagination',
+        clickable: true,
+      }"
+      @swiper="onSwiper"
+      @slide-change="onSlideChange"
+    >
+      <SwiperSlide
+        v-for="item in items"
+        :key="item.id"
+      >
+        <HaContentCard :item="item" />
+      </SwiperSlide>
+      <div class="custom-swiper-pagination" />
+      <div class="swiper-button-flex">
+        <button
+          type="button"
+          class="custom-swiper-button custom-swiper-button--prev"
+          :disabled="isBeginning"
+          :class="{ 'is-disabled': isBeginning }"
+          aria-label="前のスライドへ"
+        >
+          <HaChevronLeftIcon />
+        </button>
+        <button
+          type="button"
+          class="custom-swiper-button custom-swiper-button--next"
+          :disabled="isEnd"
+          :class="{ 'is-disabled': isEnd }"
+          aria-label="次のスライドへ"
+        >
+          <HaChevronRightIcon />
+        </button>
+      </div>
+    </Swiper>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+:deep(.swiper) {
+  overflow: visible;
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtParticipationGuide.vue
 ```vue
 <i18n lang="yaml">
@@ -7011,7 +7101,8 @@ ja:
   venueLabel: 会場
   venue: アスティ45 4F アスティホール
   ticketLabel: 来場チケット
-  ticketNotice: 来場チケットは2026年8月26日(水)より販売開始です。
+  ticketNotice: 来場チケットはLivePocketにて販売中です。入場には整理券が必要です。
+  ticketLink: チケット販売ページはこちら
 en:
   nameLabel: Event Name
   name: VketReal in Sapporo 2026 Autumn
@@ -7020,7 +7111,8 @@ en:
   venueLabel: Venue
   venue: Asty45 4F Asty Hall
   ticketLabel: Visitor Tickets
-  ticketNotice: Visitor tickets go on sale Wednesday, August 26, 2026.
+  ticketNotice: Visitor tickets are now available on LivePocket. A numbered admission ticket is required for entry.
+  ticketLink: View the ticket sales page
 </i18n>
 
 <script setup lang="ts">
@@ -7078,7 +7170,15 @@ onMounted(() => {
           {{ t('ticketLabel') }}
         </dt>
         <dd class="participation-guide__ticket-text">
-          {{ t('ticketNotice') }}
+          <p>{{ t('ticketNotice') }}</p>
+          <a
+            class="participation-guide__ticket-link"
+            href="https://livepocket.jp/e/alkjd"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ t('ticketLink') }}
+          </a>
         </dd>
       </div>
     </dl>
@@ -7201,6 +7301,20 @@ onMounted(() => {
 
     @include m.sp {
       font-size: 16px;
+    }
+  }
+
+  &__ticket-link {
+    display: inline-block;
+
+    margin-top: 8px;
+
+    color: v.$vket-cyan;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+    &:hover {
+      text-decoration: none;
     }
   }
 }
@@ -7329,140 +7443,6 @@ defineProps({
   &__icon {
     width: 14px;
     height: 14px;
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ha/HaContentCard.vue
-```vue
-<template>
-  <a
-    :href="item.href"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="content-card"
-  >
-    <img
-      v-if="item.imgSrc && item.imgSrc !== ''"
-      :src="item.imgSrc"
-      :alt="item.title"
-      class="content-card__image"
-      loading="lazy"
-    >
-    <div
-      v-else
-      class="content-card__empty-image"
-    >
-      <HaNoImage />
-    </div>
-    <p class="content-card__title">{{ item.title }}</p>
-    <div class="content-card__text-flex">
-      <p class="content-card__text">{{ item.text }}</p>
-      <HaJumpToListIcon class="content-card__icon" />
-    </div>
-  </a>
-</template>
-
-<script setup lang="ts">
-import HaNoImage from './HaNoImage.vue'
-import HaJumpToListIcon from './icons/HaJumpToListIcon.vue'
-
-defineProps<{
-  item: { title: string, href: string, imgSrc: string, text: string }
-}>()
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.content-card {
-  cursor: pointer;
-
-  display: block;
-
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  padding-top: 16px;
-  border-top: 1px solid white;
-
-  transition: border-color 0.2s ease;
-
-  @include m.sp {
-    padding-top: 0;
-  }
-
-  &:hover {
-    border-color: v.$vket-cyan;
-
-    @include m.sp {
-      border: none;
-    }
-  }
-
-  &__image, &__empty-image {
-    position: relative;
-
-    overflow: hidden;
-    display: block;
-
-    aspect-ratio: 16 / 9;
-    width: 100%;
-    margin-bottom: 14px;
-    border-radius: 10px;
-
-    object-fit: cover;
-
-    // aspect-ratio非対応ブラウザ向けフォールバック
-    @supports not (aspect-ratio: 16 / 9) {
-      height: 0;
-      padding-top: 56.25%;
-    }
-
-    &::before {
-      position: absolute;
-      inset: 0;
-    }
-
-    @include m.sp {
-      margin-bottom: 6px;
-    }
-  }
-
-  &__text-flex {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &__title {
-    margin-right: 1em;
-    margin-bottom: 24px;
-
-    font-size: 20px;
-    line-height: 1.2em;
-    color: white;
-
-    @include m.sp {
-      margin-bottom: 12px;
-      font-size: 16px;
-    }
-  }
-
-  &__text {
-    margin-bottom: 6px;
-    font-size: 14px;
-    color: #a0a0a0;
-  }
-
-  &__icon {
-    width: 20px;
-    fill: v.$vket-cyan;
-
-    @include m.sp {
-      width: 16px;
-    }
   }
 }
 </style>
@@ -8441,6 +8421,140 @@ onMounted(() => {
 </template>
 ```
 
+## File: layers/main/app/components/ha/HaContentCard.vue
+```vue
+<template>
+  <a
+    :href="item.href"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="content-card"
+  >
+    <img
+      v-if="item.imgSrc && item.imgSrc !== ''"
+      :src="item.imgSrc"
+      :alt="item.title"
+      class="content-card__image"
+      loading="lazy"
+    >
+    <div
+      v-else
+      class="content-card__empty-image"
+    >
+      <HaNoImage />
+    </div>
+    <p class="content-card__title">{{ item.title }}</p>
+    <div class="content-card__text-flex">
+      <p class="content-card__text">{{ item.text }}</p>
+      <HaJumpToListIcon class="content-card__icon" />
+    </div>
+  </a>
+</template>
+
+<script setup lang="ts">
+import HaNoImage from './HaNoImage.vue'
+import HaJumpToListIcon from './icons/HaJumpToListIcon.vue'
+
+defineProps<{
+  item: { title: string, href: string, imgSrc: string, text: string }
+}>()
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.content-card {
+  cursor: pointer;
+
+  display: block;
+
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding-top: 16px;
+  border-top: 1px solid white;
+
+  transition: border-color 0.2s ease;
+
+  @include m.sp {
+    padding-top: 0;
+  }
+
+  &:hover {
+    border-color: v.$vket-cyan;
+
+    @include m.sp {
+      border: none;
+    }
+  }
+
+  &__image, &__empty-image {
+    position: relative;
+
+    overflow: hidden;
+    display: block;
+
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    margin-bottom: 14px;
+    border-radius: 10px;
+
+    object-fit: cover;
+
+    // aspect-ratio非対応ブラウザ向けフォールバック
+    @supports not (aspect-ratio: 16 / 9) {
+      height: 0;
+      padding-top: 56.25%;
+    }
+
+    &::before {
+      position: absolute;
+      inset: 0;
+    }
+
+    @include m.sp {
+      margin-bottom: 6px;
+    }
+  }
+
+  &__text-flex {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    margin-right: 1em;
+    margin-bottom: 24px;
+
+    font-size: 20px;
+    line-height: 1.2em;
+    color: white;
+
+    @include m.sp {
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+  }
+
+  &__text {
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #a0a0a0;
+  }
+
+  &__icon {
+    width: 20px;
+    fill: v.$vket-cyan;
+
+    @include m.sp {
+      width: 16px;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ho/HoTheFooter.vue
 ```vue
 <script setup lang="ts">
@@ -8957,191 +9071,6 @@ $three-items-flex--template-column-gap: 32px;
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtContentsSection.vue
-```vue
-<script setup lang="ts">
-import HaArrowRightIcon from '../ha/icons/HaArrowRightIcon.vue'
-import HmContentsSwiper from '../hm/HmContentsSwiper.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    title: t('contents.1.title'),
-    imgSrc: '',
-    href: 'https://note.com/vris/n/nd2a52adc9c5c',
-    text: t('contents.1.text'),
-  },
-])
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <HaSectionTitle
-    :title="tGlobal('sectionTitle.contents')"
-    label="CONTENTS"
-  >
-    <template #controls>
-      <NuxtLink
-        class="glassy-button contents__button"
-        to="/news"
-      >
-        <span class="contents__button-text">
-          {{ tGlobal("viewAll") }}
-        </span>
-        <HaArrowRightIcon class="contents__button-icon" />
-      </NuxtLink>
-    </template>
-  </HaSectionTitle>
-  <div ref="sectionRef">
-    <HmContentsSwiper
-      ref="worksSwiperRef"
-      class="contents__swiper"
-      :items="items"
-      :_slides-per-view="1"
-      :_breakpoints="{
-        1024: { slidesPerView: 3 }, // PC: app/assets/styles/_variables.scss v.$pc-content-min-width
-        768: { slidesPerView: 2 }, // タブレット: app/assets/styles/_variables.scss v.$media-query-width
-      }"
-    />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.contents {
-  &__swiper {
-    margin-bottom: 36px;
-
-    @include m.tb {
-      margin-bottom: 24px;
-    }
-  }
-
-  &__button {
-    position: relative;
-
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    justify-content: center;
-
-    width: 140px;
-    height: 48px;
-    margin: 0 auto;
-    border-radius: 1000px;
-
-    background-color: #e5b5ff3b;
-    backdrop-filter: blur(4px);
-    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
-
-    transition: 0.15s transform ease;
-
-    &::before {
-      pointer-events: none;
-      content: '';
-
-      position: absolute;
-      z-index: 0;
-      top: 0;
-      left: 0;
-
-      width: inherit;
-      height: inherit;
-      border: 1px solid transparent;
-      border-radius: inherit;
-
-      background-image: linear-gradient(
-          45deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-        ),
-        linear-gradient(
-          225deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-        ),
-        linear-gradient(
-          135deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px
-        ),
-        linear-gradient(
-          315deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px
-        );
-      background-clip: border-box, border-box, border-box, border-box;
-      background-origin: border-box, border-box, border-box, border-box;
-
-      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
-
-    &:hover {
-      transform: scale(1.02);
-    }
-
-     @include m.tb {
-      width: 120px;
-      height: 36px;
-      font-size: 14px;
-    }
-
-    @include m.sp {
-      margin-top: 10px;
-      border-radius: 0;
-
-      background-color: transparent;
-      backdrop-filter: none;
-      box-shadow: none;
-
-      &::before{
-        display: none;
-      }
-    }
-  }
-
-  &__button-text {
-    font-family: Inter, sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
-
-    @include m.tb {
-      font-size: 14px;
-    }
-  }
-
-  &__button-icon {
-    display: none;
-    width: 14px;
-
-    @include m.sp {
-      display: block;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtExhibitorInfoSection.vue
 ```vue
 <i18n lang="yaml">
@@ -9512,6 +9441,191 @@ onMounted(() => {
 
     @include m.sp {
       font-size: 14px;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtContentsSection.vue
+```vue
+<script setup lang="ts">
+import HaArrowRightIcon from '../ha/icons/HaArrowRightIcon.vue'
+import HmContentsSwiper from '../hm/HmContentsSwiper.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: t('contents.1.title'),
+    imgSrc: '/images/contents/vris-noimage.png',
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
+    text: t('contents.1.text'),
+  },
+])
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <HaSectionTitle
+    :title="tGlobal('sectionTitle.contents')"
+    label="CONTENTS"
+  >
+    <template #controls>
+      <NuxtLink
+        class="glassy-button contents__button"
+        to="/news"
+      >
+        <span class="contents__button-text">
+          {{ tGlobal("viewAll") }}
+        </span>
+        <HaArrowRightIcon class="contents__button-icon" />
+      </NuxtLink>
+    </template>
+  </HaSectionTitle>
+  <div ref="sectionRef">
+    <HmContentsSwiper
+      ref="worksSwiperRef"
+      class="contents__swiper"
+      :items="items"
+      :_slides-per-view="1"
+      :_breakpoints="{
+        1024: { slidesPerView: 3 }, // PC: app/assets/styles/_variables.scss v.$pc-content-min-width
+        768: { slidesPerView: 2 }, // タブレット: app/assets/styles/_variables.scss v.$media-query-width
+      }"
+    />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.contents {
+  &__swiper {
+    margin-bottom: 36px;
+
+    @include m.tb {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__button {
+    position: relative;
+
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+
+    width: 140px;
+    height: 48px;
+    margin: 0 auto;
+    border-radius: 1000px;
+
+    background-color: #e5b5ff3b;
+    backdrop-filter: blur(4px);
+    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
+
+    transition: 0.15s transform ease;
+
+    &::before {
+      pointer-events: none;
+      content: '';
+
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+
+      width: inherit;
+      height: inherit;
+      border: 1px solid transparent;
+      border-radius: inherit;
+
+      background-image: linear-gradient(
+          45deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+        ),
+        linear-gradient(
+          225deg,
+          rgb(v.$base-background-color, 0.8) 10px,
+          rgb(v.$base-background-color, 0) 20px
+        ),
+        linear-gradient(
+          135deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 30%) 20px
+        ),
+        linear-gradient(
+          315deg,
+          rgb(255 255 255 / 75%) 10px,
+          rgb(255 255 255 / 30%) 20px
+        );
+      background-clip: border-box, border-box, border-box, border-box;
+      background-origin: border-box, border-box, border-box, border-box;
+
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+     @include m.tb {
+      width: 120px;
+      height: 36px;
+      font-size: 14px;
+    }
+
+    @include m.sp {
+      margin-top: 10px;
+      border-radius: 0;
+
+      background-color: transparent;
+      backdrop-filter: none;
+      box-shadow: none;
+
+      &::before{
+        display: none;
+      }
+    }
+  }
+
+  &__button-text {
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+
+    @include m.tb {
+      font-size: 14px;
+    }
+  }
+
+  &__button-icon {
+    display: none;
+    width: 14px;
+
+    @include m.sp {
+      display: block;
     }
   }
 }
@@ -9986,6 +10100,10 @@ en:
           <HtExhibitorCirclesSection />
         </section>
 
+        <section id="sponsors-and-partners">
+          <HtSponsorsAndPartnersSection />
+        </section>
+
         <section id="schedule">
           <HtScheduleSection />
         </section>
@@ -9996,10 +10114,6 @@ en:
 
         <section id="exhibitor-info">
           <HtExhibitorInfoSection />
-        </section>
-
-        <section id="sponsors-and-partners">
-          <HtSponsorsAndPartnersSection />
         </section>
 
         <section id="members">

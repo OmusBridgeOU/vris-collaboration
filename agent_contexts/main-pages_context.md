@@ -413,7 +413,7 @@ const items = computed(() => [
   {
     id: 1,
     title: tGlobal('contents.1.title'),
-    imgSrc: '',
+    imgSrc: '/images/contents/vris-noimage.png',
     href: 'https://note.com/vris/n/nd2a52adc9c5c',
     text: tGlobal('contents.1.text'),
   },
@@ -540,6 +540,77 @@ const items = computed(() => [
   &__item--full-width {
     grid-column: 1 / -1;
   }
+}
+</style>
+```
+
+## File: layers/main/app/layouts/top.vue
+```vue
+<template>
+  <div class="layout -top">
+    <HoTheHeader :nav-links="navLinks" />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { NavLink } from '../components/ho/HoTheHeader.vue'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+
+const navLinks = computed<NavLink[]>(() => [
+  { type: 'anchor', href: 'tickets', text: t('sectionTitle.tickets') },
+  { type: 'anchor', href: 'participation-guide', text: t('sectionTitle.participationGuide') },
+  { type: 'anchor', href: 'contents', text: t('sectionTitle.contents') },
+  { type: 'anchor', href: 'exhibitor-circles', text: t('sectionTitle.exhibitorCircles') },
+  { type: 'anchor', href: 'location-info', text: t('sectionTitle.locationInfo') },
+  { type: 'anchor', href: 'qa', text: t('sectionTitle.qa--min') },
+])
+
+const { firstViewBlur, destroyScrollTriggers } = useGsapFadeIn()
+const route = useRoute()
+
+onMounted(async () => {
+  await initScrollEffects()
+})
+
+// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
+watch(() => route.path, () => {
+  destroyScrollTriggers()
+  nextTick(() => initScrollEffects())
+})
+
+onUnmounted(() => {
+  destroyScrollTriggers()
+})
+
+const initScrollEffects = async () => {
+  const firstView = document.querySelector('#gsap-fv')
+
+  // #first-viewがないページ（トップ以外）では実行しない
+  if (!firstView) return
+
+  firstViewBlur(firstView)
+
+  // DOM更新が完了したタイミングでレイアウトを再計算
+  await nextTick()
+  ScrollTrigger.refresh()
+
+  // 画像・フォント等の読み込み完了後にも念のため再計算
+  window.addEventListener('load', () => {
+    ScrollTrigger.refresh()
+  }, { once: true })
+}
+</script>
+
+<style lang="scss" scoped>
+.layout.-top {
+  overflow: visible;
 }
 </style>
 ```
@@ -703,77 +774,6 @@ const items = computed(() => [
   &__item--full-width {
     grid-column: 1 / -1;
   }
-}
-</style>
-```
-
-## File: layers/main/app/layouts/top.vue
-```vue
-<template>
-  <div class="layout -top">
-    <HoTheHeader :nav-links="navLinks" />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<script setup lang="ts">
-import type { NavLink } from '../components/ho/HoTheHeader.vue'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n()
-
-const navLinks = computed<NavLink[]>(() => [
-  { type: 'anchor', href: 'tickets', text: t('sectionTitle.tickets') },
-  { type: 'anchor', href: 'participation-guide', text: t('sectionTitle.participationGuide') },
-  { type: 'anchor', href: 'contents', text: t('sectionTitle.contents') },
-  { type: 'anchor', href: 'exhibitor-circles', text: t('sectionTitle.exhibitorCircles') },
-  { type: 'anchor', href: 'location-info', text: t('sectionTitle.locationInfo') },
-  { type: 'anchor', href: 'qa', text: t('sectionTitle.qa--min') },
-])
-
-const { firstViewBlur, destroyScrollTriggers } = useGsapFadeIn()
-const route = useRoute()
-
-onMounted(async () => {
-  await initScrollEffects()
-})
-
-// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
-watch(() => route.path, () => {
-  destroyScrollTriggers()
-  nextTick(() => initScrollEffects())
-})
-
-onUnmounted(() => {
-  destroyScrollTriggers()
-})
-
-const initScrollEffects = async () => {
-  const firstView = document.querySelector('#gsap-fv')
-
-  // #first-viewがないページ（トップ以外）では実行しない
-  if (!firstView) return
-
-  firstViewBlur(firstView)
-
-  // DOM更新が完了したタイミングでレイアウトを再計算
-  await nextTick()
-  ScrollTrigger.refresh()
-
-  // 画像・フォント等の読み込み完了後にも念のため再計算
-  window.addEventListener('load', () => {
-    ScrollTrigger.refresh()
-  }, { once: true })
-}
-</script>
-
-<style lang="scss" scoped>
-.layout.-top {
-  overflow: visible;
 }
 </style>
 ```
