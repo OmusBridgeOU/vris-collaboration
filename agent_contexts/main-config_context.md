@@ -731,7 +731,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
 
   nitro: {
-    preset: 'vercel',
+    preset: 'cloudflare_pages',
   },
 
   typescript: {
@@ -749,15 +749,6 @@ export default defineNuxtConfig({
   },
 
   i18n: nuxtI18nOptions,
-
-  vite: {
-    server: {
-      watch: {
-        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
-        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
-      },
-    },
-  },
 })
 ````
 
@@ -773,7 +764,7 @@ export default defineNuxtConfig({
     "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
     "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
     "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
-    "build": "VITE_OUTPUT_ENV=production nuxt build",
+    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
     "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
     "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
     "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",

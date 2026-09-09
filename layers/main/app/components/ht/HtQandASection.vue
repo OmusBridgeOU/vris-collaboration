@@ -10,11 +10,13 @@ ja:
       contents:
         - 'LivePocketにて2026年8月26日(水)より販売します。ページ内の「チケットを購入する」ボタンからお申し込みください。'
     item3:
-      title: '入場制限等はありますか？'
+      title: '入場には整理券が必要ですか？'
       contents:
-        - 'チケットの枚数の制限等はありません。'
+        - '一般参加チケットとは別に、オンライン入場整理券が必要です。'
+        - '入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。'
+        - '整理券番号はLivePocketからメールで届きます。事前にLivePocketからのメールを受信できるよう、受信設定をご確認ください。'
     item4:
-      title: '当日券はありますか？'
+      title: '一般参加チケットの当日券はありますか？'
       contents:
         - '用意する予定です。'
 en:
@@ -29,11 +31,13 @@ en:
       contents:
         - 'Tickets go on sale through LivePocket on Wednesday, August 26, 2026. Use the Buy Tickets button on this page to purchase.'
     item3:
-      title: 'Is there a limit on the number of attendees?'
+      title: 'Do I need a numbered admission ticket to enter?'
       contents:
-        - 'There is no limit on the number of tickets available.'
+        - 'An online numbered admission ticket is required in addition to a general admission ticket.'
+        - 'Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.'
+        - 'LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.'
     item4:
-      title: 'Will tickets be available at the door?'
+      title: 'Will general admission tickets be available at the door?'
       contents:
         - 'Yes, we plan to offer tickets at the door.'
 </i18n>
