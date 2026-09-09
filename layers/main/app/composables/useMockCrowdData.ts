@@ -5,7 +5,7 @@ import type { CrowdData } from '~/composables/useCrowdData'
 const MOCK_INTERVAL_MS = 3 * 1000 // 3秒おきに更新
 const MOCK_INITIAL_DELAY_MS = 10 * 1000 // 初回ローディング 10秒
 
-export function useCrowdData() {
+export function useMockCrowdData() {
   const crowdData = ref<CrowdData | null>(null)
   const isLoading = ref(true)
   const isError = ref(false)

@@ -55,63 +55,6 @@ layers/
 
 # Files
 
-## File: layers/main/app/pages/index.vue
-```vue
-<template>
-  <HtTop />
-</template>
-
-<script setup lang="ts">
-definePageMeta({
-  layout: 'top',
-})
-</script>
-```
-
-## File: layers/main/app/layouts/default.vue
-```vue
-<template>
-  <div class="layout -default">
-    <HoTheHeader :nav-links="[]" />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-.layout.-default {
-  overflow-x: hidden;
-}
-</style>
-```
-
-## File: layers/main/app/layouts/document.vue
-```vue
-<template>
-  <div class="layout -top">
-    <HoTheHeader :nav-links="navLinks" />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<script setup lang="ts">
-import type { NavLink } from '../components/ho/HoTheHeader.vue'
-
-const { t } = useI18n()
-
-const navLinks = computed<NavLink[]>(() => [
-  { type: 'link', href: '/', text: t('page.top') },
-])
-</script>
-
-<style lang="scss" scoped>
-.layout.-top {
-  overflow-x: hidden;
-}
-</style>
-```
-
 ## File: layers/main/app/pages/_documents/[...slug].vue
 ```vue
 <script lang="ts" setup>
@@ -283,6 +226,63 @@ const { data: page } = await useAsyncData(route.path, () => {
 </style>
 ```
 
+## File: layers/main/app/pages/index.vue
+```vue
+<template>
+  <HtTop />
+</template>
+
+<script setup lang="ts">
+definePageMeta({
+  layout: 'top',
+})
+</script>
+```
+
+## File: layers/main/app/layouts/default.vue
+```vue
+<template>
+  <div class="layout -default">
+    <HoTheHeader :nav-links="[]" />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.layout.-default {
+  overflow-x: hidden;
+}
+</style>
+```
+
+## File: layers/main/app/layouts/document.vue
+```vue
+<template>
+  <div class="layout -top">
+    <HoTheHeader :nav-links="navLinks" />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { NavLink } from '../components/ho/HoTheHeader.vue'
+
+const { t } = useI18n()
+
+const navLinks = computed<NavLink[]>(() => [
+  { type: 'link', href: '/', text: t('page.top') },
+])
+</script>
+
+<style lang="scss" scoped>
+.layout.-top {
+  overflow-x: hidden;
+}
+</style>
+```
+
 ## File: layers/main/app/layouts/list.vue
 ```vue
 <template>
@@ -393,6 +393,77 @@ const initScrollEffects = () => {
 
     object-fit: contain;
   }
+}
+</style>
+```
+
+## File: layers/main/app/layouts/top.vue
+```vue
+<template>
+  <div class="layout -top">
+    <HoTheHeader :nav-links="navLinks" />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { NavLink } from '../components/ho/HoTheHeader.vue'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+
+const navLinks = computed<NavLink[]>(() => [
+  { type: 'anchor', href: 'tickets', text: t('sectionTitle.tickets') },
+  { type: 'anchor', href: 'participation-guide', text: t('sectionTitle.participationGuide') },
+  { type: 'anchor', href: 'contents', text: t('sectionTitle.contents') },
+  { type: 'anchor', href: 'exhibitor-circles', text: t('sectionTitle.exhibitorCircles') },
+  { type: 'anchor', href: 'location-info', text: t('sectionTitle.locationInfo') },
+  { type: 'anchor', href: 'qa', text: t('sectionTitle.qa--min') },
+])
+
+const { firstViewBlur, destroyScrollTriggers } = useGsapFadeIn()
+const route = useRoute()
+
+onMounted(async () => {
+  await initScrollEffects()
+})
+
+// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
+watch(() => route.path, () => {
+  destroyScrollTriggers()
+  nextTick(() => initScrollEffects())
+})
+
+onUnmounted(() => {
+  destroyScrollTriggers()
+})
+
+const initScrollEffects = async () => {
+  const firstView = document.querySelector('#gsap-fv')
+
+  // #first-viewがないページ（トップ以外）では実行しない
+  if (!firstView) return
+
+  firstViewBlur(firstView)
+
+  // DOM更新が完了したタイミングでレイアウトを再計算
+  await nextTick()
+  ScrollTrigger.refresh()
+
+  // 画像・フォント等の読み込み完了後にも念のため再計算
+  window.addEventListener('load', () => {
+    ScrollTrigger.refresh()
+  }, { once: true })
+}
+</script>
+
+<style lang="scss" scoped>
+.layout.-top {
+  overflow: visible;
 }
 </style>
 ```
@@ -540,77 +611,6 @@ const items = computed(() => [
   &__item--full-width {
     grid-column: 1 / -1;
   }
-}
-</style>
-```
-
-## File: layers/main/app/layouts/top.vue
-```vue
-<template>
-  <div class="layout -top">
-    <HoTheHeader :nav-links="navLinks" />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<script setup lang="ts">
-import type { NavLink } from '../components/ho/HoTheHeader.vue'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n()
-
-const navLinks = computed<NavLink[]>(() => [
-  { type: 'anchor', href: 'tickets', text: t('sectionTitle.tickets') },
-  { type: 'anchor', href: 'participation-guide', text: t('sectionTitle.participationGuide') },
-  { type: 'anchor', href: 'contents', text: t('sectionTitle.contents') },
-  { type: 'anchor', href: 'exhibitor-circles', text: t('sectionTitle.exhibitorCircles') },
-  { type: 'anchor', href: 'location-info', text: t('sectionTitle.locationInfo') },
-  { type: 'anchor', href: 'qa', text: t('sectionTitle.qa--min') },
-])
-
-const { firstViewBlur, destroyScrollTriggers } = useGsapFadeIn()
-const route = useRoute()
-
-onMounted(async () => {
-  await initScrollEffects()
-})
-
-// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
-watch(() => route.path, () => {
-  destroyScrollTriggers()
-  nextTick(() => initScrollEffects())
-})
-
-onUnmounted(() => {
-  destroyScrollTriggers()
-})
-
-const initScrollEffects = async () => {
-  const firstView = document.querySelector('#gsap-fv')
-
-  // #first-viewがないページ（トップ以外）では実行しない
-  if (!firstView) return
-
-  firstViewBlur(firstView)
-
-  // DOM更新が完了したタイミングでレイアウトを再計算
-  await nextTick()
-  ScrollTrigger.refresh()
-
-  // 画像・フォント等の読み込み完了後にも念のため再計算
-  window.addEventListener('load', () => {
-    ScrollTrigger.refresh()
-  }, { once: true })
-}
-</script>
-
-<style lang="scss" scoped>
-.layout.-top {
-  overflow: visible;
 }
 </style>
 ```

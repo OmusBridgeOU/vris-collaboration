@@ -15,6 +15,7 @@ mockNuxtImport('useI18n', () => () => ({ t: (key: string) => key }))
 const crowdData = ref<CrowdData | null>({ value1: 1, value2: 1, updated_at: null })
 const isLoading = ref(false)
 const isError = ref(false)
+const isBeforeEventStart = ref(false)
 const wrappers: ReturnType<typeof mount>[] = []
 
 function mountHeader() {
@@ -37,11 +38,12 @@ beforeEach(() => {
   crowdData.value = { value1: 1, value2: 1, updated_at: null }
   isLoading.value = false
   isError.value = false
+  isBeforeEventStart.value = false
   vi.mocked(useCrowdData).mockReturnValue({
     crowdData,
     isLoading,
     isError,
-    isBeforeEventStart: ref(false),
+    isBeforeEventStart,
     fetchCrowdData: vi.fn(),
   })
 })
@@ -52,7 +54,7 @@ afterEach(() => {
 
 describe('header crowd status', () => {
   test.each([
-    [-1, 'closed'],
+    [-1, 'noInfo'],
     [1, 'venueavailable'],
     [2, 'venuemoderate'],
     [3, 'venuebusy'],
@@ -67,6 +69,12 @@ describe('header crowd status', () => {
     crowdData.value = null
     const wrapper = mountHeader()
     expect(wrapper.get('.ho-the-header__crowd').text()).toBe('loading')
+  })
+
+  test('shows closed before the event without synthetic crowd data', () => {
+    crowdData.value = null
+    isBeforeEventStart.value = true
+    expect(mountHeader().get('.ho-the-header__crowd').text()).toBe('closed')
   })
 
   test('does not show stale availability after a fetch error', () => {

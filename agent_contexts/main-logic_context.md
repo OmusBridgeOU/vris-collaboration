@@ -44,6 +44,7 @@ layers/
         useGsapFadeIn.ts
         useMockCrowdData.ts
       models/
+        crowdData.ts
         json.ts
         todo.ts
       repositories/
@@ -88,6 +89,27 @@ export default function useApi<K extends RepositoryKey>(endpoint: K) {
     repository,
   }
 }
+````
+
+## File: layers/main/app/models/crowdData.ts
+````typescript
+import { z } from 'zod'
+
+export const crowdLevelSchema = z.union([
+  z.literal(-1),
+  z.literal(1),
+  z.literal(2),
+  z.literal(3),
+])
+
+export const crowdDataSchema = z.object({
+  value1: crowdLevelSchema,
+  value2: crowdLevelSchema,
+  updated_at: z.iso.datetime().nullable(),
+})
+
+export type CrowdLevel = z.infer<typeof crowdLevelSchema>
+export type CrowdData = z.infer<typeof crowdDataSchema>
 ````
 
 ## File: layers/main/app/models/json.ts
@@ -211,59 +233,6 @@ export type UseI18nReturnType<Options extends UseI18nOptions = UseI18nOptions>
  */
 export const getI18nArray = (i18n: UseI18nReturnType, key: string): string[] =>
   Object.entries<VueMessageType>(i18n.tm(key)).map(([, term]) => i18n.rt(term))
-````
-
-## File: layers/main/app/composables/useMockCrowdData.ts
-````typescript
-// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
-import { ref, onMounted, onUnmounted } from 'vue'
-import type { CrowdData } from '~/composables/useCrowdData'
-
-const MOCK_INTERVAL_MS = 3 * 1000 // 3秒おきに更新
-const MOCK_INITIAL_DELAY_MS = 10 * 1000 // 初回ローディング 10秒
-
-export function useCrowdData() {
-  const crowdData = ref<CrowdData | null>(null)
-  const isLoading = ref(true)
-  const isError = ref(false)
-  const isBeforeEventStart = ref(false) // モックでは開催期間外の状態は扱わないため常にfalse
-
-  let timerId: ReturnType<typeof setInterval> | null = null
-  let initialTimerId: ReturnType<typeof setTimeout> | null = null
-
-  function generateMock() {
-    console.log('取得：ダミー')
-    const randomLevel = (Math.floor(Math.random() * 3) + 1) as 1 | 2 | 3
-    crowdData.value = {
-      value1: randomLevel,
-      value2: randomLevel,
-      updated_at: new Date().toISOString(),
-    }
-    isLoading.value = false
-    isError.value = false
-  }
-
-  // 本物のcomposableと同じインターフェースを保つためのダミー実装。
-  // モックでは即座にgenerateMockを呼び直すことで、手動リフレッシュのような見た目にしている。
-  async function fetchCrowdData() {
-    generateMock()
-  }
-
-  onMounted(() => {
-    // 10秒後に初回データ取得 → その後3秒おきに更新
-    initialTimerId = setTimeout(() => {
-      generateMock()
-      timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
-    }, MOCK_INITIAL_DELAY_MS)
-  })
-
-  onUnmounted(() => {
-    if (initialTimerId !== null) clearTimeout(initialTimerId)
-    if (timerId !== null) clearInterval(timerId)
-  })
-
-  return { isLoading, isError, crowdData, isBeforeEventStart, fetchCrowdData }
-}
 ````
 
 ## File: layers/main/app/composables/useGsapFadeIn.ts
@@ -420,16 +389,65 @@ export const useGsapFadeIn = () => {
 }
 ````
 
+## File: layers/main/app/composables/useMockCrowdData.ts
+````typescript
+// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
+import { ref, onMounted, onUnmounted } from 'vue'
+import type { CrowdData } from '~/composables/useCrowdData'
+
+const MOCK_INTERVAL_MS = 3 * 1000 // 3秒おきに更新
+const MOCK_INITIAL_DELAY_MS = 10 * 1000 // 初回ローディング 10秒
+
+export function useMockCrowdData() {
+  const crowdData = ref<CrowdData | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+  const isBeforeEventStart = ref(false) // モックでは開催期間外の状態は扱わないため常にfalse
+
+  let timerId: ReturnType<typeof setInterval> | null = null
+  let initialTimerId: ReturnType<typeof setTimeout> | null = null
+
+  function generateMock() {
+    console.log('取得：ダミー')
+    const randomLevel = (Math.floor(Math.random() * 3) + 1) as 1 | 2 | 3
+    crowdData.value = {
+      value1: randomLevel,
+      value2: randomLevel,
+      updated_at: new Date().toISOString(),
+    }
+    isLoading.value = false
+    isError.value = false
+  }
+
+  // 本物のcomposableと同じインターフェースを保つためのダミー実装。
+  // モックでは即座にgenerateMockを呼び直すことで、手動リフレッシュのような見た目にしている。
+  async function fetchCrowdData() {
+    generateMock()
+  }
+
+  onMounted(() => {
+    // 10秒後に初回データ取得 → その後3秒おきに更新
+    initialTimerId = setTimeout(() => {
+      generateMock()
+      timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
+    }, MOCK_INITIAL_DELAY_MS)
+  })
+
+  onUnmounted(() => {
+    if (initialTimerId !== null) clearTimeout(initialTimerId)
+    if (timerId !== null) clearInterval(timerId)
+  })
+
+  return { isLoading, isError, crowdData, isBeforeEventStart, fetchCrowdData }
+}
+````
+
 ## File: layers/main/app/composables/useCrowdData.ts
 ````typescript
-type CrowdLevel = -2 | -1 | 1 | 2 | 3 // -2: 開催期間前, -1: API未登録, 0: 開催期間外, 1~3: 混雑度
+import { crowdDataSchema } from '~/models/crowdData'
+import type { CrowdData } from '~/models/crowdData'
 
-// 混雑度データ型
-export interface CrowdData {
-  value1: CrowdLevel
-  value2: CrowdLevel
-  updated_at: string | null
-}
+export type { CrowdData, CrowdLevel } from '~/models/crowdData'
 
 // --- モジュールスコープの内部制御変数 -----------------------------------
 // 今後、同一ページにこのモジュールスコープを使用する複数コンポ―ネントを設置しても良いように
@@ -474,7 +492,8 @@ export function useCrowdData() {
       const res = await fetch(endpoint)
       if (!res.ok) throw new Error(`Visitor Counter API: HTTP ${res.status}`)
 
-      crowdData.value = await res.json()
+      const payload: unknown = await res.json()
+      crowdData.value = crowdDataSchema.parse(payload)
 
       isError.value = false
       retryCount = 0
@@ -524,10 +543,6 @@ export function useCrowdData() {
     if (activeInstanceCount > 1) return
 
     if (isBeforeEventStart.value) {
-      // 開催期間前はfetchを行わないため、表示側が状態を判別できるよう
-      // crowdData自体に開催期間前を示す値(-2)をセットしておく。
-      crowdData.value = { value1: -2, value2: -2, updated_at: null }
-
       // ページ表示中にイベント開催日時に到達しても問題ないように、
       // 開催時刻にデータフェッチをスケジュール
       scheduleEventStart()
