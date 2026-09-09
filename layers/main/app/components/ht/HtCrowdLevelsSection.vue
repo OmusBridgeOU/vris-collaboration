@@ -6,7 +6,7 @@ import HmCrowdLevelCard from '../hm/HmCrowdLevelCard.vue'
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
-const { isLoading, isError, crowdLevel } = useCrowdData()
+const { isLoading, isError, crowdData } = useCrowdData()
 const sectionRef = ref<HTMLElement | null>(null)
 const { fadeInUp } = useGsapFadeIn()
 onMounted(() => {
@@ -27,16 +27,16 @@ onMounted(() => {
         :building="1"
         :is-error="isError"
         :is-loading="isLoading"
-        :crowd-level="crowdLevel"
+        :crowd-level="crowdData?.value1"
       />
-      <HmCrowdLevelCard
+      <!-- <HmCrowdLevelCard
         label="サブ会場"
         name="Deep-tech CORE SAPPORO"
         :building="2"
         :is-error="isError"
         :is-loading="isLoading"
-        :crowd-level="crowdLevel"
-      />
+        :crowd-level="crowdData?.value2"
+      /> -->
     </div>
   </div>
 </template>

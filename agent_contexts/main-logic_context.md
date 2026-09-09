@@ -44,6 +44,7 @@ layers/
         useGsapFadeIn.ts
         useMockCrowdData.ts
       models/
+        crowdData.ts
         json.ts
         todo.ts
       repositories/
@@ -87,165 +88,6 @@ export default function useApi<K extends RepositoryKey>(endpoint: K) {
   return {
     repository,
   }
-}
-````
-
-## File: layers/main/app/composables/useCrowdData.ts
-````typescript
-type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
-
-// FIXME: 本APIでは建物別にvalueがあるので、要変更
-interface ReadResponse {
-  timestamp: string
-  value: CrowdLevel
-}
-
-let timerId: ReturnType<typeof setTimeout> | null = null
-let isFetching = false // Fetch実行中フラグ（開発者ツールを用いたリトライ攻撃対策）
-let retryCount = 0
-
-// 開催日時を指定
-const EVENT_START = new Date('2026-09-26T10:00:00+09:00')
-
-export function isBeforeEvent(): boolean {
-  return new Date() < EVENT_START
-}
-
-export function useCrowdData() {
-  const crowdData = ref<ReadResponse | null>(null)
-  const isLoading = ref(true)
-  const isError = ref(false)
-  const isBeforeEventStart = ref(isBeforeEvent()) // 開催期間外はデータフェッチ自体させたくないため、フロントエンド側でも開催期間外フラグを用意している。
-
-  // データフェッチの仕様
-  const NORMAL_INTERVAL_MS = 5 * 60 * 1000
-  const RETRY_INTERVAL_MS = 3 * 1000
-  const MAX_RETRY_COUNT = 5
-
-  const crowdLevel = computed<CrowdLevel | null>(() => {
-    if (isBeforeEventStart.value) return 0 // 念のため、開催期間外は強制的に0
-    return crowdData.value?.value ?? null
-  })
-
-  async function fetchCrowdData() {
-    if (isBeforeEventStart.value) return // 開催前はfetchしない
-    if (isFetching) return // fetchの多重実行を防ぐ
-    isFetching = true
-
-    try {
-      const res = await fetch('/external/read')
-      if (!res.ok) throw new Error()
-      crowdData.value = await res.json()
-      isError.value = false
-      retryCount = 0
-      schedule(NORMAL_INTERVAL_MS)
-    } catch (e) {
-      if (import.meta.dev) {
-        console.error('混雑情報の取得に失敗しました', e)
-      }
-      isError.value = true
-      if (retryCount < MAX_RETRY_COUNT) {
-        retryCount++
-        schedule(RETRY_INTERVAL_MS)
-      }
-    } finally {
-      isLoading.value = false
-      isFetching = false
-    }
-  }
-
-  function schedule(ms: number) {
-    if (timerId !== null) clearTimeout(timerId)
-    timerId = setTimeout(fetchCrowdData, ms)
-  }
-
-  onMounted(() => {
-    if (isBeforeEventStart.value) {
-      const msUntilStart = EVENT_START.getTime() - Date.now()
-
-      // ページ表示中にイベント開催日時に到達しても問題ないように、開催時刻にデータフェッチをスケジュール
-      timerId = setTimeout(() => {
-        isBeforeEventStart.value = false
-        fetchCrowdData()
-      }, msUntilStart)
-      isLoading.value = false // 開催期間前である表示を出すため、ローディングを即解除
-      return
-    }
-    if (timerId !== null) {
-      clearTimeout(timerId)
-      timerId = null
-    }
-    fetchCrowdData()
-  })
-
-  onUnmounted(() => {
-    if (timerId !== null) clearTimeout(timerId)
-  })
-
-  return { isLoading, isError, crowdLevel, fetchCrowdData }
-}
-````
-
-## File: layers/main/app/composables/useMockCrowdData.ts
-````typescript
-// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
-import { ref, onMounted, onUnmounted } from 'vue'
-
-type CrowdLevel = 0 | 1 | 2 | 3
-
-export function useCrowdData() {
-  const crowdData = ref<{ timestamp: string, value: CrowdLevel } | null>(null)
-  const isLoading = ref(true)
-  const isError = ref(false)
-
-  const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-    0: '開催期間外',
-    1: '余裕あり',
-    2: 'やや混雑',
-    3: '混雑',
-  }
-
-  const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-    0: 'gray',
-    1: 'emgreen',
-    2: 'amber',
-    3: 'vermilion',
-  }
-
-  const MOCK_INTERVAL_MS = 3 * 1000 // 10秒
-  const MOCK_INITIAL_DELAY_MS = 10 * 1000 // 初回ローディング 10秒
-  const crowdLevel = computed<CrowdLevel | null>(() => crowdData.value?.value ?? null)
-  const fillCount = computed(() => crowdLevel.value ?? 0)
-  const statusText = computed(() => isLoading.value ? '取得中' : crowdLevel.value !== null ? CROWD_LEVEL_TEXT[crowdLevel.value] : '')
-  const statusColor = computed(() => isLoading.value ? 'purple' : crowdLevel.value !== null ? CROWD_LEVEL_COLOR[crowdLevel.value] : '')
-
-  let timerId: ReturnType<typeof setInterval> | null = null
-  let initialTimerId: ReturnType<typeof setTimeout> | null = null // 追加
-
-  function generateMock() {
-    console.log('取得：ダミー')
-    crowdData.value = {
-      timestamp: new Date().toISOString(),
-      value: (Math.floor(Math.random() * 3) + 1) as CrowdLevel,
-    }
-    isLoading.value = false
-    isError.value = false
-  }
-
-  onMounted(() => {
-    // 10秒後に初回データ取得 → その後3秒おきに更新
-    initialTimerId = setTimeout(() => {
-      generateMock()
-      timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
-    }, MOCK_INITIAL_DELAY_MS)
-  })
-
-  onUnmounted(() => {
-    if (initialTimerId !== null) clearTimeout(initialTimerId) // 追加
-    if (timerId !== null) clearInterval(timerId)
-  })
-
-  return { crowdData, isLoading, isError, crowdLevel, fillCount, statusText, statusColor }
 }
 ````
 
@@ -523,5 +365,210 @@ export const useGsapFadeIn = () => {
     fadeOutOnScroll,
     destroyScrollTriggers,
   }
+}
+````
+
+## File: layers/main/app/models/crowdData.ts
+````typescript
+import { z } from 'zod'
+
+export const crowdLevelSchema = z.union([
+  z.literal(-1),
+  z.literal(1),
+  z.literal(2),
+  z.literal(3),
+])
+
+export const crowdDataSchema = z.object({
+  value1: crowdLevelSchema,
+  value2: crowdLevelSchema,
+  updated_at: z.iso.datetime().nullable(),
+})
+
+export type CrowdLevel = z.infer<typeof crowdLevelSchema>
+export type CrowdData = z.infer<typeof crowdDataSchema>
+````
+
+## File: layers/main/app/composables/useMockCrowdData.ts
+````typescript
+// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
+import { ref, onMounted, onUnmounted } from 'vue'
+import type { CrowdData } from '~/composables/useCrowdData'
+
+const MOCK_INTERVAL_MS = 3 * 1000 // 3秒おきに更新
+const MOCK_INITIAL_DELAY_MS = 10 * 1000 // 初回ローディング 10秒
+
+export function useMockCrowdData() {
+  const crowdData = ref<CrowdData | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+  const isBeforeEventStart = ref(false) // モックでは開催期間外の状態は扱わないため常にfalse
+
+  let timerId: ReturnType<typeof setInterval> | null = null
+  let initialTimerId: ReturnType<typeof setTimeout> | null = null
+
+  function generateMock() {
+    console.log('取得：ダミー')
+    const randomLevel = (Math.floor(Math.random() * 3) + 1) as 1 | 2 | 3
+    crowdData.value = {
+      value1: randomLevel,
+      value2: randomLevel,
+      updated_at: new Date().toISOString(),
+    }
+    isLoading.value = false
+    isError.value = false
+  }
+
+  // 本物のcomposableと同じインターフェースを保つためのダミー実装。
+  // モックでは即座にgenerateMockを呼び直すことで、手動リフレッシュのような見た目にしている。
+  async function fetchCrowdData() {
+    generateMock()
+  }
+
+  onMounted(() => {
+    // 10秒後に初回データ取得 → その後3秒おきに更新
+    initialTimerId = setTimeout(() => {
+      generateMock()
+      timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
+    }, MOCK_INITIAL_DELAY_MS)
+  })
+
+  onUnmounted(() => {
+    if (initialTimerId !== null) clearTimeout(initialTimerId)
+    if (timerId !== null) clearInterval(timerId)
+  })
+
+  return { isLoading, isError, crowdData, isBeforeEventStart, fetchCrowdData }
+}
+````
+
+## File: layers/main/app/composables/useCrowdData.ts
+````typescript
+import { crowdDataSchema } from '~/models/crowdData'
+import type { CrowdData } from '~/models/crowdData'
+
+export type { CrowdData, CrowdLevel } from '~/models/crowdData'
+
+// --- モジュールスコープの内部制御変数 -----------------------------------
+// 今後、同一ページにこのモジュールスコープを使用する複数コンポ―ネントを設置しても良いように
+// 1つのブラウザタブ内でポーリング処理を一元管理するための制御フラグを用意している。
+let timerId: ReturnType<typeof setTimeout> | null = null
+let isFetching = false // Fetch実行中フラグ（同時多重fetch防止）
+let retryCount = 0
+let activeInstanceCount = 0 // このcomposableを呼び出しているコンポーネントの数（参照カウント）
+
+// FetchURL
+const endpoint = 'https://vris-26autumn-visitor-counter-api.skmt3p.workers.dev/api/v1/crowd-status'
+
+// 開催日時を指定
+const EVENT_START = new Date('2026-09-26T10:00:00+09:00')
+
+// FIXME: setTimeoutの遅延値は内部的に32bit符号付き整数(最大約24.8日)を超えると仕様上オーバーフローし、ほぼ即座に発火してしまう。※ 下記の通り対策済み
+// 対策として開催日時までの残り時間が長い場合は、この値を上限として何度か再スケジュールしながら近づいていく。
+const MAX_TIMEOUT_MS = 20 * 24 * 60 * 60 * 1000 // 20日
+
+export function isBeforeEvent(): boolean {
+  return new Date() < EVENT_START
+}
+
+export function useCrowdData() {
+  // ページ内の複数箇所から呼び出されても同じ内容が見えるように、refではなくuseStateで管理している。
+  const crowdData = useState<CrowdData | null>('crowd-status:data', () => null)
+  const isLoading = useState<boolean>('crowd-status:is-loading', () => true)
+  const isError = useState<boolean>('crowd-status:is-error', () => false)
+  const isBeforeEventStart = useState<boolean>('crowd-status:is-before-event', () => isBeforeEvent())
+
+  // データフェッチの仕様
+  const NORMAL_INTERVAL_MS = 60 * 1000
+  const RETRY_INTERVAL_MS = 5 * 1000
+  const MAX_RETRY_COUNT = 5
+
+  async function fetchCrowdData() {
+    if (isBeforeEventStart.value) return // 開催前はfetchしない
+    if (isFetching) return // fetchの多重実行を防ぐ
+    isFetching = true
+
+    try {
+      const res = await fetch(endpoint)
+      if (!res.ok) throw new Error(`Visitor Counter API: HTTP ${res.status}`)
+
+      const payload: unknown = await res.json()
+      crowdData.value = crowdDataSchema.parse(payload)
+
+      isError.value = false
+      retryCount = 0
+      schedule(NORMAL_INTERVAL_MS)
+    } catch (e) {
+      if (import.meta.dev) {
+        console.error('混雑情報の取得に失敗しました', e)
+      }
+      isError.value = true
+      if (retryCount < MAX_RETRY_COUNT) {
+        retryCount++
+        schedule(RETRY_INTERVAL_MS)
+      } else {
+        // リトライ上限に達した場合、通常間隔まで更新頻度を落として回し続けている。
+        schedule(NORMAL_INTERVAL_MS)
+      }
+    } finally {
+      isLoading.value = false
+      isFetching = false
+    }
+  }
+
+  function schedule(ms: number) {
+    if (timerId !== null) clearTimeout(timerId)
+    timerId = setTimeout(fetchCrowdData, ms)
+  }
+
+  // 開催日時までの残り時間を、setTimeoutのオーバーフロー上限を超えないよう分割しながら再帰的にスケジュールする。
+  function scheduleEventStart() {
+    const msUntilStart = EVENT_START.getTime() - Date.now()
+
+    if (msUntilStart <= 0) {
+      isBeforeEventStart.value = false
+      fetchCrowdData()
+      return
+    }
+
+    const delay = Math.min(msUntilStart, MAX_TIMEOUT_MS)
+    if (timerId !== null) clearTimeout(timerId)
+    timerId = setTimeout(scheduleEventStart, delay)
+  }
+
+  onMounted(() => {
+    activeInstanceCount++
+
+    // 既に他のインスタンスがfetch/タイマーを主導している場合は、同じuseStateを参照しているので何もしなくてよい。
+    if (activeInstanceCount > 1) return
+
+    if (isBeforeEventStart.value) {
+      // ページ表示中にイベント開催日時に到達しても問題ないように、
+      // 開催時刻にデータフェッチをスケジュール
+      scheduleEventStart()
+      isLoading.value = false // 開催期間前である表示を出すため、ローディングを即解除
+      return
+    }
+
+    if (timerId !== null) {
+      clearTimeout(timerId)
+      timerId = null
+    }
+    fetchCrowdData()
+  })
+
+  onUnmounted(() => {
+    activeInstanceCount--
+
+    // まだ他のインスタンスが生きている場合は、ポーリングを止めない
+    if (activeInstanceCount > 0) return
+
+    if (timerId !== null) {
+      clearTimeout(timerId)
+      timerId = null
+    }
+  })
+
+  return { isLoading, isError, crowdData, isBeforeEventStart, fetchCrowdData }
 }
 ````

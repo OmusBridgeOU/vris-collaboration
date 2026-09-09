@@ -17,7 +17,7 @@ import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
 import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
 import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
 
-type CrowdLevel = 0 | 1 | 2 | 3 // 0: 開催期間外, 1~3: 混雑度
+import type { CrowdLevel } from '~/models/crowdData'
 
 const props = defineProps<{
   label: string
@@ -25,18 +25,18 @@ const props = defineProps<{
   isLoading: boolean
   isError: boolean
   building: 1 | 2
-  crowdLevel: CrowdLevel | null
+  crowdLevel: CrowdLevel | null | undefined
 }>()
 
 const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-  0: '期間外',
+  [-1]: '未登録',
   1: '余裕あり',
   2: 'やや混雑',
   3: '混雑',
 }
 
 const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-  0: 'gray',
+  [-1]: 'gray',
   1: 'emgreen',
   2: 'amber',
   3: 'vermilion',
@@ -45,7 +45,7 @@ const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
 const statusText = computed(() =>
   props.isLoading || props.isError
     ? '取得中'
-    : props.crowdLevel !== null
+    : props.crowdLevel !== null && props.crowdLevel !== undefined
       ? CROWD_LEVEL_TEXT[props.crowdLevel]
       : '取得中',
 )
@@ -53,12 +53,15 @@ const statusText = computed(() =>
 const statusColor = computed(() =>
   props.isLoading || props.isError
     ? 'gray'
-    : props.crowdLevel !== null
+    : props.crowdLevel !== null && props.crowdLevel !== undefined
       ? CROWD_LEVEL_COLOR[props.crowdLevel]
       : 'gray',
 )
 
-const fillCount = computed(() => props.crowdLevel ?? 0)
+const fillCount = computed(() => {
+  const level = props.crowdLevel
+  return level && level > 0 ? level : 0
+})
 </script>
 
 <template>
@@ -90,7 +93,7 @@ const fillCount = computed(() => props.crowdLevel ?? 0)
       >
         <div class="crowd-level-card__icon-box">
           <template v-if="isError">
-            <HaPeopleIcon />
+            <HaPeopleFillIcon />
             <HaQuestionIcon />
           </template>
           <template v-else-if="fillCount == 0">

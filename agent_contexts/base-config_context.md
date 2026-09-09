@@ -767,6 +767,84 @@ export default {
 }
 ````
 
+## File: layers/base/reset.d.ts
+````typescript
+import '@total-typescript/ts-reset'
+````
+
+## File: layers/base/tsconfig.json
+````json
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": [
+    "./.nuxt/tsconfig.server.json",
+    "./.nuxt/tsconfig.json",
+    "./tsconfig.shared.json"
+  ],
+  "include": [
+    "./app/**/*.ts",
+    "./app/**/*.d.ts",
+    "./app/**/*.vue",
+    "./server/**/*.ts",
+    "./config/**/*.ts",
+    "./@types/**/*.d.ts",
+    "./*.ts",
+    "./*.mts",
+    "./*.d.ts"
+  ]
+}
+````
+
+## File: layers/base/tsconfig.shared.json
+````json
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "preserve",
+    "lib": [
+      "dom",
+      "ES2023"
+    ],
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "sourceMap": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "noUncheckedIndexedAccess": true,
+    "jsx": "preserve",
+    "isolatedModules": true,
+    "typeRoots": [
+      "../../node_modules",
+      "../../node_modules/@types",
+      "./@types"
+    ],
+    "types": [
+      "vue3-toastify/global",
+      "unplugin-icons/types/vue",
+      "vite/client",
+      "vitest/globals"
+    ]
+  },
+  "vueCompilerOptions": {
+    "target": 3
+  },
+  "ts-node": {
+    "esm": true
+  },
+  "exclude": [
+    "node_modules",
+    ".output",
+    "dist",
+    "eslint.config.shared.mjs",
+    ".stylelintrc.shared.mjs",
+    "tsconfig.shared.json"
+  ]
+}
+````
+
 ## File: layers/base/nuxt.config.ts
 ````typescript
 import { defineNuxtConfig } from 'nuxt/config'
@@ -778,8 +856,19 @@ import svgLoader from 'vite-svg-loader'
 import { readEnvType } from './config/models/EnvType'
 import { getRuntimeConfigOfEnvType } from './config/runtimeConfig'
 import { nuxtI18nOptions } from './i18n/i18n.config'
+import { createResolver } from '@nuxt/kit'
 
-const cssUrls = [`./app/assets/styles/style.scss`]
+// NOTE: cssの相対パス指定に関する不具合対応
+//
+// Nuxtのレイヤー機構(extends)には、「レイヤーのnuxt.config.tsに書かれたcss配列の相対パスは、そのレイヤー自身ではなく、
+// extendsしている側(例: layers/main)のプロジェクトディレクトリを基準に解決される」という仕様がある。
+// これにより、本来は`layers/base/app/assets/styles/style.scss`を指すはずだった相対パス './app/assets/styles/style.scss' が、
+// layers/main 側を基準に解決されようとすることで見つからず、ビルドエラー(Internal server error)が発生していた。
+//
+// @nuxt/kit の createResolver を使い、このnuxt.config.ts自身の物理的な場所(import.meta.url)を基準に、絶対パスへ明示的に解決するよう変更した。
+// これにより、baseをどのレイヤーがextendsしても、常にbaseレイヤー自身のstyle.scssを正しく指すようにしている。
+const { resolve } = createResolver(import.meta.url)
+const cssUrls = [resolve('./app/assets/styles/style.scss')]
 const srcDir = 'app'
 
 type NuxtConfigInput = Parameters<typeof defineNuxtConfig>[0]
@@ -916,84 +1005,6 @@ const config: ResolvedNuxtConfigInput & { eslint?: NuxtEslintConfig } = {
 export default defineNuxtConfig(config)
 ````
 
-## File: layers/base/reset.d.ts
-````typescript
-import '@total-typescript/ts-reset'
-````
-
-## File: layers/base/tsconfig.json
-````json
-{
-  // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": [
-    "./.nuxt/tsconfig.server.json",
-    "./.nuxt/tsconfig.json",
-    "./tsconfig.shared.json"
-  ],
-  "include": [
-    "./app/**/*.ts",
-    "./app/**/*.d.ts",
-    "./app/**/*.vue",
-    "./server/**/*.ts",
-    "./config/**/*.ts",
-    "./@types/**/*.d.ts",
-    "./*.ts",
-    "./*.mts",
-    "./*.d.ts"
-  ]
-}
-````
-
-## File: layers/base/tsconfig.shared.json
-````json
-{
-  "compilerOptions": {
-    "target": "ES2023",
-    "module": "preserve",
-    "lib": [
-      "dom",
-      "ES2023"
-    ],
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "allowJs": true,
-    "sourceMap": true,
-    "strict": true,
-    "experimentalDecorators": true,
-    "noUncheckedIndexedAccess": true,
-    "jsx": "preserve",
-    "isolatedModules": true,
-    "typeRoots": [
-      "../../node_modules",
-      "../../node_modules/@types",
-      "./@types"
-    ],
-    "types": [
-      "vue3-toastify/global",
-      "unplugin-icons/types/vue",
-      "vite/client",
-      "vitest/globals"
-    ]
-  },
-  "vueCompilerOptions": {
-    "target": 3
-  },
-  "ts-node": {
-    "esm": true
-  },
-  "exclude": [
-    "node_modules",
-    ".output",
-    "dist",
-    "eslint.config.shared.mjs",
-    ".stylelintrc.shared.mjs",
-    "tsconfig.shared.json"
-  ]
-}
-````
-
 ## File: layers/base/package.json
 ````json
 {
@@ -1069,7 +1080,7 @@ import '@total-typescript/ts-reset'
     "@vee-validate/i18n": "^4.15.1",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vitejs/plugin-vue-jsx": "^5.1.6",
-    "@vitest/coverage-v8": "4.1.9",
+    "@vitest/coverage-v8": "4.1.11",
     "@vitest/ui": "4.1.11",
     "@vue/runtime-dom": "^3.5.41",
     "@vue/test-utils": "^2.4.11",
