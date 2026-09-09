@@ -10,6 +10,18 @@ updates:
     open-pull-requests-limit: 10
     labels:
       - dependencies
+    ignore:
+      # Vitest 5 is incompatible with the current @fast-check/vitest integration.
+      - dependency-name: vitest
+        update-types:
+          - version-update:semver-major
+      - dependency-name: '@vitest/*'
+        update-types:
+          - version-update:semver-major
+      # TypeScript 7 currently fails the Nuxt/vue-tsc check and lint pipeline.
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
     groups:
       production-minor-and-patch:
         dependency-type: production
