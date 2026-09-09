@@ -8,12 +8,12 @@ definePageMeta({
 
 const { t: tGlobal } = useI18n()
 
-// Official programs (公式企画). Images under public/images/contents/ later; empty uses HaNoImage.
+// Official programs (公式企画). Placeholder: VketReal light logo until per-program art is ready.
 const items = computed(() =>
   [1, 2, 3, 4, 5, 6, 7].map(id => ({
     id,
     title: tGlobal(`contents.${id}.title`),
-    imgSrc: '',
+    imgSrc: '/vketreal_in_sapporo_logo_light.png',
     text: tGlobal(`contents.${id}.text`),
   })),
 )
