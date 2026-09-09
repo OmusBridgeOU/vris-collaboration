@@ -14,7 +14,7 @@
     "@vueuse/nuxt": "^14.4.0",
     "dayjs": "^1.11.23",
     "nuxt": "4.5.2",
-    "ress": "^5.0.2",
+    "ress": "^6.0.0",
     "swiper": "^14.1.0",
     "universal-cookie": "^8.1.2",
     "unplugin-icons": "^23.0.1",
