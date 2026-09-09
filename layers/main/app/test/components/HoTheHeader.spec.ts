@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { mockNuxtImport } from '@nuxt/test-utils/runtime'
 import { ref } from 'vue'
 import HoTheHeader from '../../components/ho/HoTheHeader.vue'
+import HaCrowdInfo from '../../components/ha/HaCrowdInfo.vue'
 import { useCrowdData } from '../../composables/useCrowdData'
 import type { CrowdData } from '../../composables/useCrowdData'
 
@@ -15,6 +16,7 @@ mockNuxtImport('useI18n', () => () => ({ t: (key: string) => key }))
 const crowdData = ref<CrowdData | null>({ value1: 1, value2: 1, updated_at: null })
 const isLoading = ref(false)
 const isError = ref(false)
+const isBeforeEventStart = ref(false)
 const wrappers: ReturnType<typeof mount>[] = []
 
 function mountHeader() {
@@ -37,11 +39,12 @@ beforeEach(() => {
   crowdData.value = { value1: 1, value2: 1, updated_at: null }
   isLoading.value = false
   isError.value = false
+  isBeforeEventStart.value = false
   vi.mocked(useCrowdData).mockReturnValue({
     crowdData,
     isLoading,
     isError,
-    isBeforeEventStart: ref(false),
+    isBeforeEventStart,
     fetchCrowdData: vi.fn(),
   })
 })
@@ -52,31 +55,38 @@ afterEach(() => {
 
 describe('header crowd status', () => {
   test.each([
-    [-1, 'closed'],
+    [-1, 'noInfo'],
     [1, 'venueavailable'],
     [2, 'venuemoderate'],
     [3, 'venuebusy'],
   ] as const)('shows value1 %s as %s', (value1, label) => {
     crowdData.value = { value1, value2: value1, updated_at: null }
     const wrapper = mountHeader()
-    expect(wrapper.get('.ho-the-header__crowd').text()).toBe(label)
-    expect(wrapper.get('.ho-the-header__crowd-dot').attributes('aria-hidden')).toBe('true')
+    const crowdInfo = wrapper.getComponent(HaCrowdInfo)
+    expect(crowdInfo.text()).toBe(label)
+    expect(crowdInfo.get('.ha-crowd-info__dot').attributes('aria-hidden')).toBe('true')
   })
 
   test('shows loading when crowdData is not yet fetched', () => {
     crowdData.value = null
     const wrapper = mountHeader()
-    expect(wrapper.get('.ho-the-header__crowd').text()).toBe('loading')
+    expect(wrapper.getComponent(HaCrowdInfo).text()).toBe('loading')
+  })
+
+  test('shows closed before the event without synthetic crowd data', () => {
+    crowdData.value = null
+    isBeforeEventStart.value = true
+    expect(mountHeader().getComponent(HaCrowdInfo).text()).toBe('closed')
   })
 
   test('does not show stale availability after a fetch error', () => {
     isError.value = true
-    expect(mountHeader().get('.ho-the-header__crowd').text()).toBe('error')
+    expect(mountHeader().getComponent(HaCrowdInfo).text()).toBe('error')
   })
 
   test('shows loading rather than a previous level while initially loading', () => {
     isLoading.value = true
-    expect(mountHeader().get('.ho-the-header__crowd').text()).toBe('loading')
+    expect(mountHeader().getComponent(HaCrowdInfo).text()).toBe('loading')
   })
 })
 

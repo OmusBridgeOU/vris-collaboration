@@ -585,12 +585,7 @@ type MetaInfo = {
 
 const NUXT_ENV_OUTPUT_ENV = readEnvType(process.env)
 const runtimeConfig = getRuntimeConfigOfEnvType(NUXT_ENV_OUTPUT_ENV)
-// NOTE: layers/baseのcssエントリ（相対パス指定）が、Nuxtの仕様上「base自身」ではなく「baseをextendsしているmain側」を基準に解決される。
-// これによりbase自身のstyle.scssが正しく解決できずビルドエラーになるため、main側でcssを明示的に上書きし、base側の壊れたエントリを無効化している。
-const cssUrls = [
-  `@/assets/styles/style.scss`, // mainレイヤー自身のスタイル
-  `#base/app/assets/styles/style.scss`, // baseレイヤーのスタイル（#baseエイリアス経由で明示的に解決）
-]
+const cssUrls = [`@/assets/styles/style.scss`]
 const srcDir = 'app'
 const isSsr = true
 const checkTypeCheckOnBuild = true
@@ -794,7 +789,8 @@ export default defineNuxtConfig({
   "dependencies": {
     "@nuxt/content": "^3.15.2",
     "gsap": "^3.15.0",
-    "vket-boilerplate-nuxt-base": "workspace:*"
+    "vket-boilerplate-nuxt-base": "workspace:*",
+    "zod": "^4.4.3"
   }
 }
 ````
@@ -816,7 +812,7 @@ export default defineNuxtConfig({
     "exhibitorCircles" : "Exhibiting Circles",
     "schedule" : "Event Schedule",
     "locationInfo" : "Venue Information",
-    "sponsorsAndPartners" : "Sponsors & Partners",
+    "sponsorsAndPartners" : "Partners & Sponsors",
     "members" : "members",
     "qa" : "FAQ",
     "qa--min" : "FAQ",
@@ -848,6 +844,12 @@ export default defineNuxtConfig({
     }
   },
   "news": {
+    "4": {
+      "title": "VketReal in Sapporo 2026 Autumn Exhibitors, Sponsors, Official Merchandise, and Numbered Admission Tickets Announced!"
+    },
+    "3": {
+      "title": "VketReal in Sapporo 2026 Autumn Tickets Now on Sale and Official Programs Announced!"
+    },
     "1": {
       "title": "We have published our logo!"
     },
@@ -907,6 +909,12 @@ export default defineNuxtConfig({
     }
   },
   "news": {
+    "4": {
+      "title": "「VketReal in 札幌 2026 Autumn」出展協賛企業・公式グッズ紹介・整理券などについて発表！"
+    },
+    "3": {
+      "title": "「VketReal in 札幌 2026 Autumn」来場チケット販売開始＆公式企画発表！"
+    },
     "1": {
       "title": "新ロゴマークを公開しました！"
     },

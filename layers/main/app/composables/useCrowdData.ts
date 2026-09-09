@@ -1,11 +1,7 @@
-type CrowdLevel = -2 | -1 | 1 | 2 | 3 // -2: 開催期間前, -1: API未登録, 0: 開催期間外, 1~3: 混雑度
+import { crowdDataSchema } from '~/models/crowdData'
+import type { CrowdData } from '~/models/crowdData'
 
-// 混雑度データ型
-export interface CrowdData {
-  value1: CrowdLevel
-  value2: CrowdLevel
-  updated_at: string | null
-}
+export type { CrowdData, CrowdLevel } from '~/models/crowdData'
 
 // --- モジュールスコープの内部制御変数 -----------------------------------
 // 今後、同一ページにこのモジュールスコープを使用する複数コンポ―ネントを設置しても良いように
@@ -50,7 +46,8 @@ export function useCrowdData() {
       const res = await fetch(endpoint)
       if (!res.ok) throw new Error(`Visitor Counter API: HTTP ${res.status}`)
 
-      crowdData.value = await res.json()
+      const payload: unknown = await res.json()
+      crowdData.value = crowdDataSchema.parse(payload)
 
       isError.value = false
       retryCount = 0
@@ -100,10 +97,6 @@ export function useCrowdData() {
     if (activeInstanceCount > 1) return
 
     if (isBeforeEventStart.value) {
-      // 開催期間前はfetchを行わないため、表示側が状態を判別できるよう
-      // crowdData自体に開催期間前を示す値(-2)をセットしておく。
-      crowdData.value = { value1: -2, value2: -2, updated_at: null }
-
       // ページ表示中にイベント開催日時に到達しても問題ないように、
       // 開催時刻にデータフェッチをスケジュール
       scheduleEventStart()

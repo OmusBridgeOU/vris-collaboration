@@ -12,7 +12,7 @@ const items = computed(() => [
   {
     id: 1,
     title: t('contents.1.title'),
-    imgSrc: '',
+    imgSrc: '/images/contents/vris-noimage.png',
     href: 'https://note.com/vris/n/nd2a52adc9c5c',
     text: t('contents.1.text'),
   },

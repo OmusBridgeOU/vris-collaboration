@@ -55,63 +55,6 @@ layers/
 
 # Files
 
-## File: layers/main/app/pages/index.vue
-```vue
-<template>
-  <HtTop />
-</template>
-
-<script setup lang="ts">
-definePageMeta({
-  layout: 'top',
-})
-</script>
-```
-
-## File: layers/main/app/layouts/default.vue
-```vue
-<template>
-  <div class="layout -default">
-    <HoTheHeader :nav-links="[]" />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<style lang="scss" scoped>
-.layout.-default {
-  overflow-x: hidden;
-}
-</style>
-```
-
-## File: layers/main/app/layouts/document.vue
-```vue
-<template>
-  <div class="layout -top">
-    <HoTheHeader :nav-links="navLinks" />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<script setup lang="ts">
-import type { NavLink } from '../components/ho/HoTheHeader.vue'
-
-const { t } = useI18n()
-
-const navLinks = computed<NavLink[]>(() => [
-  { type: 'link', href: '/', text: t('page.top') },
-])
-</script>
-
-<style lang="scss" scoped>
-.layout.-top {
-  overflow-x: hidden;
-}
-</style>
-```
-
 ## File: layers/main/app/pages/_documents/[...slug].vue
 ```vue
 <script lang="ts" setup>
@@ -283,6 +226,63 @@ const { data: page } = await useAsyncData(route.path, () => {
 </style>
 ```
 
+## File: layers/main/app/pages/index.vue
+```vue
+<template>
+  <HtTop />
+</template>
+
+<script setup lang="ts">
+definePageMeta({
+  layout: 'top',
+})
+</script>
+```
+
+## File: layers/main/app/layouts/default.vue
+```vue
+<template>
+  <div class="layout -default">
+    <HoTheHeader :nav-links="[]" />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.layout.-default {
+  overflow-x: hidden;
+}
+</style>
+```
+
+## File: layers/main/app/layouts/document.vue
+```vue
+<template>
+  <div class="layout -top">
+    <HoTheHeader :nav-links="navLinks" />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { NavLink } from '../components/ho/HoTheHeader.vue'
+
+const { t } = useI18n()
+
+const navLinks = computed<NavLink[]>(() => [
+  { type: 'link', href: '/', text: t('page.top') },
+])
+</script>
+
+<style lang="scss" scoped>
+.layout.-top {
+  overflow-x: hidden;
+}
+</style>
+```
+
 ## File: layers/main/app/layouts/list.vue
 ```vue
 <template>
@@ -397,6 +397,77 @@ const initScrollEffects = () => {
 </style>
 ```
 
+## File: layers/main/app/layouts/top.vue
+```vue
+<template>
+  <div class="layout -top">
+    <HoTheHeader :nav-links="navLinks" />
+    <slot />
+    <HoTheFooter />
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { NavLink } from '../components/ho/HoTheHeader.vue'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+
+const navLinks = computed<NavLink[]>(() => [
+  { type: 'anchor', href: 'tickets', text: t('sectionTitle.tickets') },
+  { type: 'anchor', href: 'participation-guide', text: t('sectionTitle.participationGuide') },
+  { type: 'anchor', href: 'contents', text: t('sectionTitle.contents') },
+  { type: 'anchor', href: 'exhibitor-circles', text: t('sectionTitle.exhibitorCircles') },
+  { type: 'anchor', href: 'location-info', text: t('sectionTitle.locationInfo') },
+  { type: 'anchor', href: 'qa', text: t('sectionTitle.qa--min') },
+])
+
+const { firstViewBlur, destroyScrollTriggers } = useGsapFadeIn()
+const route = useRoute()
+
+onMounted(async () => {
+  await initScrollEffects()
+})
+
+// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
+watch(() => route.path, () => {
+  destroyScrollTriggers()
+  nextTick(() => initScrollEffects())
+})
+
+onUnmounted(() => {
+  destroyScrollTriggers()
+})
+
+const initScrollEffects = async () => {
+  const firstView = document.querySelector('#gsap-fv')
+
+  // #first-viewがないページ（トップ以外）では実行しない
+  if (!firstView) return
+
+  firstViewBlur(firstView)
+
+  // DOM更新が完了したタイミングでレイアウトを再計算
+  await nextTick()
+  ScrollTrigger.refresh()
+
+  // 画像・フォント等の読み込み完了後にも念のため再計算
+  window.addEventListener('load', () => {
+    ScrollTrigger.refresh()
+  }, { once: true })
+}
+</script>
+
+<style lang="scss" scoped>
+.layout.-top {
+  overflow: visible;
+}
+</style>
+```
+
 ## File: layers/main/app/pages/contents/index.vue
 ```vue
 <script lang="ts" setup>
@@ -413,7 +484,7 @@ const items = computed(() => [
   {
     id: 1,
     title: tGlobal('contents.1.title'),
-    imgSrc: '',
+    imgSrc: '/images/contents/vris-noimage.png',
     href: 'https://note.com/vris/n/nd2a52adc9c5c',
     text: tGlobal('contents.1.text'),
   },
@@ -558,6 +629,20 @@ const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
   {
+    id: 4,
+    title: tGlobal('news.4.title'),
+    href: 'https://note.com/vris/n/n017807ce1d33',
+    imgSrc: '/news4_thumbnail.jpg',
+    timestamp: '2026-09-09',
+  },
+  {
+    id: 3,
+    title: tGlobal('news.3.title'),
+    href: 'https://note.com/vris/n/n880e9b3364f9',
+    imgSrc: '/news3_thumbnail.png',
+    timestamp: '2026-08-26',
+  },
+  {
     id: 1,
     title: tGlobal('news.1.title'),
     href: 'https://note.com/vris/n/nd2a52adc9c5c',
@@ -689,77 +774,6 @@ const items = computed(() => [
   &__item--full-width {
     grid-column: 1 / -1;
   }
-}
-</style>
-```
-
-## File: layers/main/app/layouts/top.vue
-```vue
-<template>
-  <div class="layout -top">
-    <HoTheHeader :nav-links="navLinks" />
-    <slot />
-    <HoTheFooter />
-  </div>
-</template>
-
-<script setup lang="ts">
-import type { NavLink } from '../components/ho/HoTheHeader.vue'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n()
-
-const navLinks = computed<NavLink[]>(() => [
-  { type: 'anchor', href: 'tickets', text: t('sectionTitle.tickets') },
-  { type: 'anchor', href: 'participation-guide', text: t('sectionTitle.participationGuide') },
-  { type: 'anchor', href: 'contents', text: t('sectionTitle.contents') },
-  { type: 'anchor', href: 'exhibitor-circles', text: t('sectionTitle.exhibitorCircles') },
-  { type: 'anchor', href: 'location-info', text: t('sectionTitle.locationInfo') },
-  { type: 'anchor', href: 'qa', text: t('sectionTitle.qa--min') },
-])
-
-const { firstViewBlur, destroyScrollTriggers } = useGsapFadeIn()
-const route = useRoute()
-
-onMounted(async () => {
-  await initScrollEffects()
-})
-
-// ページ遷移時に#first-viewが存在しない場合があるためrouteを監視
-watch(() => route.path, () => {
-  destroyScrollTriggers()
-  nextTick(() => initScrollEffects())
-})
-
-onUnmounted(() => {
-  destroyScrollTriggers()
-})
-
-const initScrollEffects = async () => {
-  const firstView = document.querySelector('#gsap-fv')
-
-  // #first-viewがないページ（トップ以外）では実行しない
-  if (!firstView) return
-
-  firstViewBlur(firstView)
-
-  // DOM更新が完了したタイミングでレイアウトを再計算
-  await nextTick()
-  ScrollTrigger.refresh()
-
-  // 画像・フォント等の読み込み完了後にも念のため再計算
-  window.addEventListener('load', () => {
-    ScrollTrigger.refresh()
-  }, { once: true })
-}
-</script>
-
-<style lang="scss" scoped>
-.layout.-top {
-  overflow: visible;
 }
 </style>
 ```

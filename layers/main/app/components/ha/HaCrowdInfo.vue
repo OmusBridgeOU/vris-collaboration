@@ -43,13 +43,13 @@ import { useCrowdData } from '~/composables/useCrowdData'
 
 const { t } = useI18n()
 
-const { isLoading, isError, crowdData } = useCrowdData()
+const { isLoading, isError, crowdData, isBeforeEventStart } = useCrowdData()
 const crowdStatus = computed(() => {
   if (isError.value) return 'error'
-  if (crowdData.value?.value1 === -2) return 'closed' // 開催期間前
+  if (isBeforeEventStart.value) return 'closed'
   if (crowdData.value?.value1 === -1) return 'noInfo' // API未登録
   if (isLoading.value || !crowdData.value) return 'loading'
-  return ({ 1: 'available', 2: 'moderate', 3: 'busy' } as const)[crowdData.value.value1]
+  return ({ 1: 'available', 2: 'moderate', 3: 'busy' } as const)[crowdData.value.value1] ?? 'error'
 })
 const showsVenue = computed(() =>
   crowdStatus.value === 'available'

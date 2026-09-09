@@ -52,6 +52,8 @@ layers/
                 terms-linux.png
           visual/
             nuxtContent.spec.ts
+        models/
+          crowdData.spec.ts
         utils/
           @types/
             auto-imports.d.ts
@@ -588,6 +590,36 @@ if (!global.HTMLDialogElement) {
 }
 ```
 
+## File: layers/main/app/test/models/crowdData.spec.ts
+```typescript
+import { describe, expect, test } from 'vitest'
+import { crowdDataSchema } from '../../models/crowdData'
+
+describe('crowdDataSchema', () => {
+  test('本番APIの正常なレスポンスを受け入れる', () => {
+    expect(crowdDataSchema.parse({
+      value1: 1,
+      value2: 3,
+      updated_at: '2026-09-26T01:00:00.000Z',
+    })).toEqual({
+      value1: 1,
+      value2: 3,
+      updated_at: '2026-09-26T01:00:00.000Z',
+    })
+  })
+
+  test.each([
+    { value1: -2, value2: 1, updated_at: null },
+    { value1: 0, value2: 1, updated_at: null },
+    { value1: 4, value2: 1, updated_at: null },
+    { value1: 1, value2: 2, updated_at: 'invalid-date' },
+    { value1: 1, updated_at: null },
+  ])('契約外のレスポンスを拒否する: %o', (payload) => {
+    expect(crowdDataSchema.safeParse(payload).success).toBe(false)
+  })
+})
+```
+
 ## File: layers/main/app/test/components/HoTheHeader.spec.ts
 ```typescript
 import { describe, expect, test, vi, beforeEach, afterEach } from 'vitest'
@@ -595,6 +627,7 @@ import { mount } from '@vue/test-utils'
 import { mockNuxtImport } from '@nuxt/test-utils/runtime'
 import { ref } from 'vue'
 import HoTheHeader from '../../components/ho/HoTheHeader.vue'
+import HaCrowdInfo from '../../components/ha/HaCrowdInfo.vue'
 import { useCrowdData } from '../../composables/useCrowdData'
 import type { CrowdData } from '../../composables/useCrowdData'
 
@@ -607,6 +640,7 @@ mockNuxtImport('useI18n', () => () => ({ t: (key: string) => key }))
 const crowdData = ref<CrowdData | null>({ value1: 1, value2: 1, updated_at: null })
 const isLoading = ref(false)
 const isError = ref(false)
+const isBeforeEventStart = ref(false)
 const wrappers: ReturnType<typeof mount>[] = []
 
 function mountHeader() {
@@ -629,11 +663,12 @@ beforeEach(() => {
   crowdData.value = { value1: 1, value2: 1, updated_at: null }
   isLoading.value = false
   isError.value = false
+  isBeforeEventStart.value = false
   vi.mocked(useCrowdData).mockReturnValue({
     crowdData,
     isLoading,
     isError,
-    isBeforeEventStart: ref(false),
+    isBeforeEventStart,
     fetchCrowdData: vi.fn(),
   })
 })
@@ -644,31 +679,38 @@ afterEach(() => {
 
 describe('header crowd status', () => {
   test.each([
-    [-1, 'closed'],
+    [-1, 'noInfo'],
     [1, 'venueavailable'],
     [2, 'venuemoderate'],
     [3, 'venuebusy'],
   ] as const)('shows value1 %s as %s', (value1, label) => {
     crowdData.value = { value1, value2: value1, updated_at: null }
     const wrapper = mountHeader()
-    expect(wrapper.get('.ho-the-header__crowd').text()).toBe(label)
-    expect(wrapper.get('.ho-the-header__crowd-dot').attributes('aria-hidden')).toBe('true')
+    const crowdInfo = wrapper.getComponent(HaCrowdInfo)
+    expect(crowdInfo.text()).toBe(label)
+    expect(crowdInfo.get('.ha-crowd-info__dot').attributes('aria-hidden')).toBe('true')
   })
 
   test('shows loading when crowdData is not yet fetched', () => {
     crowdData.value = null
     const wrapper = mountHeader()
-    expect(wrapper.get('.ho-the-header__crowd').text()).toBe('loading')
+    expect(wrapper.getComponent(HaCrowdInfo).text()).toBe('loading')
+  })
+
+  test('shows closed before the event without synthetic crowd data', () => {
+    crowdData.value = null
+    isBeforeEventStart.value = true
+    expect(mountHeader().getComponent(HaCrowdInfo).text()).toBe('closed')
   })
 
   test('does not show stale availability after a fetch error', () => {
     isError.value = true
-    expect(mountHeader().get('.ho-the-header__crowd').text()).toBe('error')
+    expect(mountHeader().getComponent(HaCrowdInfo).text()).toBe('error')
   })
 
   test('shows loading rather than a previous level while initially loading', () => {
     isLoading.value = true
-    expect(mountHeader().get('.ho-the-header__crowd').text()).toBe('loading')
+    expect(mountHeader().getComponent(HaCrowdInfo).text()).toBe('loading')
   })
 })
 
@@ -705,6 +747,8 @@ describe('header navigation', () => {
 // app/test/composables/useCrowdData.spec.ts
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
 import { clearNuxtState } from '#app'
+import { mount } from '@vue/test-utils'
+import { defineComponent, h } from 'vue'
 
 const EVENT_START = new Date('2026-09-26T10:00:00+09:00') // 本番コードと同じ開催日時
 
@@ -822,11 +866,84 @@ describe('crowdData / isBeforeEventStart', () => {
     expect(crowdData.value?.updated_at).toBeNull()
   })
 
+  test('不正なAPIレスポンスを状態へ格納せず取得エラーにする', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ value1: 99, value2: 1, updated_at: null }),
+      }),
+    ))
+    const { useCrowdData } = await importFresh()
+    const { crowdData, isError, fetchCrowdData } = useCrowdData()
+
+    await fetchCrowdData()
+
+    expect(crowdData.value).toBeNull()
+    expect(isError.value).toBe(true)
+  })
+
+  test('開催時刻に到達するとfetchを開始する', async () => {
+    vi.setSystemTime(BEFORE_EVENT)
+    const fetchMock = vi.fn(() => Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({ value1: 1, value2: 2, updated_at: AFTER_EVENT.toISOString() }),
+    }))
+    vi.stubGlobal('fetch', fetchMock)
+    const { useCrowdData } = await importFresh()
+    let state: ReturnType<typeof useCrowdData> | undefined
+    const wrapper = mount(defineComponent({
+      setup() {
+        state = useCrowdData()
+        return () => h('div')
+      },
+    }))
+
+    expect(state?.isBeforeEventStart.value).toBe(true)
+    expect(state?.crowdData.value).toBeNull()
+    expect(fetchMock).not.toHaveBeenCalled()
+
+    await vi.advanceTimersByTimeAsync(1000)
+
+    expect(state?.isBeforeEventStart.value).toBe(false)
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    wrapper.unmount()
+  })
+
+  test('複数コンポーネントでポーリングを共有し、最後のunmountで停止する', async () => {
+    vi.setSystemTime(AFTER_EVENT)
+    const fetchMock = vi.fn(() => Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({ value1: 1, value2: 2, updated_at: AFTER_EVENT.toISOString() }),
+    }))
+    vi.stubGlobal('fetch', fetchMock)
+    const { useCrowdData } = await importFresh()
+    const Consumer = defineComponent({
+      setup() {
+        useCrowdData()
+        return () => h('div')
+      },
+    })
+
+    const first = mount(Consumer)
+    const second = mount(Consumer)
+    await vi.runAllTicks()
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+
+    first.unmount()
+    await vi.advanceTimersByTimeAsync(NORMAL_INTERVAL_MS)
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+
+    second.unmount()
+    await vi.advanceTimersByTimeAsync(NORMAL_INTERVAL_MS)
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+  })
+
   test('ヘッダーとセクションの更新タイマーが互いに解除されない', async () => {
     vi.setSystemTime(AFTER_EVENT)
     const fetchMock = vi.fn(() => Promise.resolve({
       ok: true,
-      json: () => Promise.resolve({ timestamp: AFTER_EVENT.toISOString(), value: 1 }),
+      json: () => Promise.resolve({ value1: 1, value2: 1, updated_at: AFTER_EVENT.toISOString() }),
     }))
     vi.stubGlobal('fetch', fetchMock)
     const { useCrowdData } = await importFresh()
@@ -838,7 +955,7 @@ describe('crowdData / isBeforeEventStart', () => {
     expect(fetchMock).toHaveBeenCalledTimes(2)
 
     await vi.advanceTimersByTimeAsync(5 * 60 * 1000)
-    expect(fetchMock).toHaveBeenCalledTimes(4)
+    expect(fetchMock).toHaveBeenCalledTimes(7)
     expect(header.crowdData.value?.value1).toBe(1)
     expect(section.crowdData.value?.value1).toBe(1)
   })
