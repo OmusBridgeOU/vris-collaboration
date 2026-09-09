@@ -811,7 +811,7 @@ export default defineNuxtConfig({
     "exhibitorCircles" : "Exhibiting Circles",
     "schedule" : "Event Schedule",
     "locationInfo" : "Venue Information",
-    "sponsorsAndPartners" : "Sponsors & Partners",
+    "sponsorsAndPartners" : "Partners & Sponsors",
     "members" : "members",
     "qa" : "FAQ",
     "qa--min" : "FAQ",
