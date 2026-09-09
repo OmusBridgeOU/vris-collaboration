@@ -16,6 +16,13 @@ const items = computed(() => [
     href: 'https://note.com/vris/n/nd2a52adc9c5c',
     text: t('contents.1.text'),
   },
+  {
+    id: 2,
+    title: t('contents.2.title'),
+    imgSrc: 'contents1_thumbnail.webp',
+    href: 'https://note.com/vris/n/n880e9b3364f9',
+    text: t('contents.2.text'),
+  },
 ])
 
 const sectionRef = ref<HTMLElement | null>(null)

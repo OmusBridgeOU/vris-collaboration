@@ -118,6 +118,7 @@ layers/
           HaSponsorCard.vue
           HaTicketCard.vue
           HaTypewriterText.vue
+          HaYoutubeEmbed.vue
         hm/
           HmContentsSwiper.vue
           HmCrowdLevelCard.vue
@@ -129,6 +130,7 @@ layers/
           HtAboutSection.vue
           HtAccessSection.vue
           HtCodeOfConductSection.vue
+          HtCollaborativeEvent.vue
           HtContactSection.vue
           HtContentsSection.vue
           HtCrowdLevelsSection.vue
@@ -3189,6 +3191,91 @@ onUnmounted(() => {
 </template>
 ```
 
+## File: layers/main/app/components/ha/HaYoutubeEmbed.vue
+```vue
+<template>
+  <div
+    class="ha-youtube-embed"
+    :style="{ aspectRatio: `${aspectWidth} / ${aspectHeight}` }"
+  >
+    <iframe
+      class="ha-youtube-embed__iframe"
+      :src="embedSrc"
+      :title="title"
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      :allowfullscreen="allowFullscreen"
+      referrerpolicy="strict-origin-when-cross-origin"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = withDefaults(defineProps<{
+  videoId: string // YouTubeの動画ID（例: 'dQw4w9WgXcQ'）。URL全体ではなくIDのみを渡す
+  autoplay?: boolean
+  muted?: boolean
+  loop?: boolean
+  controls?: boolean
+  title?: string
+  showUnrelatedVideos?: boolean
+  allowFullscreen?: boolean
+  privacyEnhanced?: boolean
+  aspectWidth?: number
+  aspectHeight?: number
+}>(), {
+  autoplay: false,
+  muted: false,
+  loop: false,
+  controls: true,
+  title: 'YouTube video player',
+  showUnrelatedVideos: false,
+  allowFullscreen: true,
+  privacyEnhanced: true,
+  aspectWidth: 16,
+  aspectHeight: 9,
+})
+
+const embedSrc = computed(() => {
+  const host = props.privacyEnhanced ? 'www.youtube-nocookie.com' : 'www.youtube.com'
+  const params = new URLSearchParams({
+    autoplay: props.autoplay ? '1' : '0',
+    mute: props.muted ? '1' : '0',
+    loop: props.loop ? '1' : '0',
+    controls: props.controls ? '1' : '0',
+    rel: props.showUnrelatedVideos ? '1' : '0',
+    playsinline: '1',
+  })
+
+  // loop=1を機能させるには、YouTube側の仕様上playlistパラメータに同じvideoIdを渡す必要がある
+  if (props.loop) {
+    params.set('playlist', props.videoId)
+  }
+
+  return `https://${host}/embed/${props.videoId}?${params.toString()}`
+})
+</script>
+
+<style scoped>
+.ha-youtube-embed {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.ha-youtube-embed__iframe {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
 ```vue
 <script setup lang="ts">
@@ -3347,6 +3434,157 @@ onMounted(() => {
       height: 40px;
     }
   }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtCollaborativeEvent.vue
+```vue
+<script setup lang="ts">
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+import HaYoutubeEmbed from '../ha/HaYoutubeEmbed.vue'
+import HaJumpToPageIcon from '../ha/icons/HaJumpToPageIcon.vue'
+
+const { t: tGlobal } = useI18n()
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <HaSectionTitle
+    :title="tGlobal('sectionTitle.collaborativeEvent')"
+    label="COLLABORATIVE EVENT"
+  />
+  <div ref="sectionRef">
+    <HaYoutubeEmbed
+      class="collaborative-event__movie"
+      video-id="mlGii_DdBbs"
+      autoplay
+      loop
+      mute
+    />
+    <img
+      src="/partners-and-sponsors/nomaps-2026.svg"
+      alt=""
+      class="nomaps-logo"
+    >
+    <i18n-t
+      keypath="collaborativeEvent.nomaps.text1"
+      tag="p"
+      scope="global"
+      class="collaborative-event__text collaborative-event__text--center"
+    >
+      <template #br>
+        <br>
+      </template>
+    </i18n-t>
+    <a
+      class="collaborative-event__link"
+      href="https://no-maps.jp/2026"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <div class="collaborative-event-link__flex">
+        <span class="collaborative-event-link__text">
+          {{ tGlobal('learnMore') }}
+        </span>
+        <HaJumpToPageIcon class="collaborative-event-link__icon" />
+      </div>
+    </a>
+    <img
+      src="/collaborativeEvents1_thumbnail.jpg"
+      alt=""
+      class="collaborative-event__image collaborative-event__restrict-width"
+    >
+    <p class="collaborative-event__text collaborative-event__restrict-width">
+      {{ tGlobal('collaborativeEvent.nomaps.text2') }}
+    </p>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.collaborative-event {
+  &__movie {
+    width: 100%;
+    margin-bottom: 64px;
+
+    @include m.sp {
+      margin-bottom: 32px;
+    }
+  }
+
+  &__text {
+    font-size: 16px;
+    text-align: center;
+    text-align: left;
+
+    &--center {
+      text-align: center;
+    }
+  }
+
+  &__image {
+    display: block;
+    margin-bottom: 24px;
+  }
+
+  &__restrict-width {
+    width: 1080px;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  &__link {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 64px;
+    color: white;
+
+    @include m.sp {
+      margin-bottom: 32px;
+    }
+  }
+
+  &-link__flex {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-bottom: 1px solid v.$vket-green;
+  }
+
+  &-link__text {
+    font-size: 16px;
+    color: v.$vket-green;
+  }
+
+  &-link__icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.nomaps-logo {
+  display: block;
+
+  width: 600px;
+  max-width: 80vw;
+  margin-right: auto;
+  margin-bottom: 64px;
+  margin-left: auto;
+
+    @include m.sp {
+      margin-bottom: 32px;
+    }
 }
 </style>
 ```
@@ -5017,97 +5255,6 @@ withDefaults(
 </style>
 ```
 
-## File: layers/main/app/components/hm/HmNewsSwiper.vue
-```vue
-<script setup lang="ts">
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import HaNewsCard from '../ha/HaNewsCard.vue'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-// スライドの型
-type SlideItem = {
-  id: number
-  timestamp: string
-  title: string
-  href: string
-  imgSrc: string
-}
-
-// ブレークポイントごとのSlidesPerViewの型
-type BreakpointSlidesPerView = {
-  [width: number]: {
-    slidesPerView: number | 'auto'
-  }
-}
-
-defineProps<{
-  items?: SlideItem[]
-  _slidesPerView?: number | 'auto'
-  _breakpoints?: BreakpointSlidesPerView
-}>()
-
-const modules = [Autoplay, Navigation, Pagination]
-</script>
-
-<template>
-  <div class="works-swiper mb-25">
-    <Swiper
-      :slides-per-view="_slidesPerView ?? 'auto'"
-      :breakpoints="_breakpoints"
-      :speed="1000"
-      :autoplay="{ delay: 3000, disableOnInteraction: false }"
-      :modules="modules"
-      :loop="true"
-      :centered-slides="false"
-      :space-between="24"
-      :navigation="{
-        nextEl: '.custom-swiper-button--next',
-        prevEl: '.custom-swiper-button--prev',
-      }"
-      :pagination="{
-        el: '.custom-swiper-pagination',
-        clickable: true,
-      }"
-    >
-      <SwiperSlide
-        v-for="item in items"
-        :key="item.id"
-      >
-        <HaNewsCard :item="item" />
-      </SwiperSlide>
-      <div
-        class="custom-swiper-pagination"
-      />
-      <div class="swiper-button-flex">
-        <button
-          type="button"
-          class="custom-swiper-button custom-swiper-button--prev"
-          aria-label="前のスライドへ"
-        >
-          <HaChevronLeftIcon />
-        </button>
-        <button
-          type="button"
-          class="custom-swiper-button custom-swiper-button--next"
-          aria-label="次のスライドへ"
-        >
-          <HaChevronRightIcon />
-        </button>
-      </div>
-    </Swiper>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-:deep(.swiper) {
-  overflow: hidden;
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtAccessSection.vue
 ```vue
 <script setup lang="ts">
@@ -5862,6 +6009,97 @@ defineProps<{
       font-size: 24px;
     }
   }
+}
+</style>
+```
+
+## File: layers/main/app/components/hm/HmNewsSwiper.vue
+```vue
+<script setup lang="ts">
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import HaNewsCard from '../ha/HaNewsCard.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
+
+// スライドの型
+type SlideItem = {
+  id: number
+  timestamp: string
+  title: string
+  href: string
+  imgSrc: string
+}
+
+// ブレークポイントごとのSlidesPerViewの型
+type BreakpointSlidesPerView = {
+  [width: number]: {
+    slidesPerView: number | 'auto'
+  }
+}
+
+defineProps<{
+  items?: SlideItem[]
+  _slidesPerView?: number | 'auto'
+  _breakpoints?: BreakpointSlidesPerView
+}>()
+
+const modules = [Autoplay, Navigation, Pagination]
+</script>
+
+<template>
+  <div class="works-swiper mb-25">
+    <Swiper
+      :slides-per-view="_slidesPerView ?? 'auto'"
+      :breakpoints="_breakpoints"
+      :speed="1000"
+      :autoplay="{ delay: 3000, disableOnInteraction: false }"
+      :modules="modules"
+      :loop="true"
+      :centered-slides="false"
+      :space-between="24"
+      :navigation="{
+        nextEl: '.custom-swiper-button--next',
+        prevEl: '.custom-swiper-button--prev',
+      }"
+      :pagination="{
+        el: '.custom-swiper-pagination',
+        clickable: true,
+      }"
+    >
+      <SwiperSlide
+        v-for="item in items"
+        :key="item.id"
+      >
+        <HaNewsCard :item="item" />
+      </SwiperSlide>
+      <div
+        class="custom-swiper-pagination"
+      />
+      <div class="swiper-button-flex">
+        <button
+          type="button"
+          class="custom-swiper-button custom-swiper-button--prev"
+          aria-label="前のスライドへ"
+        >
+          <HaChevronLeftIcon />
+        </button>
+        <button
+          type="button"
+          class="custom-swiper-button custom-swiper-button--next"
+          aria-label="次のスライドへ"
+        >
+          <HaChevronRightIcon />
+        </button>
+      </div>
+    </Swiper>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+:deep(.swiper) {
+  overflow: hidden;
 }
 </style>
 ```
@@ -9668,6 +9906,13 @@ const items = computed(() => [
     href: 'https://note.com/vris/n/nd2a52adc9c5c',
     text: t('contents.1.text'),
   },
+  {
+    id: 2,
+    title: t('contents.2.title'),
+    imgSrc: 'contents1_thumbnail.webp',
+    href: 'https://note.com/vris/n/n880e9b3364f9',
+    text: t('contents.2.text'),
+  },
 ])
 
 const sectionRef = ref<HTMLElement | null>(null)
@@ -10415,6 +10660,10 @@ en:
           <HtExhibitorCirclesSection />
         </section>
 
+        <section id="collaborative-events">
+          <HtCollaborativeEvent />
+        </section>
+
         <section id="sponsors-and-partners">
           <HtSponsorsAndPartnersSection />
         </section>
@@ -10470,6 +10719,7 @@ import HaConfetti from '../ha/HaConfetti.vue'
 import HaFireworks from '../ha/HaFireworks.vue'
 import HtMemberSection from './HtMemberSection.vue'
 import HtParticipationGuide from './HtParticipationGuide.vue'
+import HtCollaborativeEvent from './HtCollaborativeEvent.vue'
 </script>
 
 <style lang="scss" scoped>

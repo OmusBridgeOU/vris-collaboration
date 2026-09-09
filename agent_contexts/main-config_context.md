@@ -726,7 +726,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
 
   nitro: {
-    preset: 'cloudflare_pages',
+    preset: 'vercel',
   },
 
   typescript: {
@@ -744,6 +744,15 @@ export default defineNuxtConfig({
   },
 
   i18n: nuxtI18nOptions,
+
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
+        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
+      },
+    },
+  },
 })
 ````
 
@@ -759,7 +768,7 @@ export default defineNuxtConfig({
     "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
     "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
     "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
-    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
+    "build": "VITE_OUTPUT_ENV=production nuxt build",
     "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
     "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
     "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",
@@ -799,6 +808,7 @@ export default defineNuxtConfig({
 ````json
 {
   "viewAll" : "view all",
+  "learnMore" : "learn more",
   "page": {
     "top": "TOP"
   },
@@ -808,6 +818,7 @@ export default defineNuxtConfig({
     "participationGuide" : "Participation Guide",
     "tickets" : "Tickets",
     "news" : "News",
+    "collaborativeEvent" : "Collaborative Event",
     "contents" : "Programs & Contents",
     "exhibitorCircles" : "Exhibiting Circles",
     "schedule" : "Event Schedule",
@@ -837,10 +848,20 @@ export default defineNuxtConfig({
       }
     }
   },
+  "collaborativeEvent": {
+    "nomaps": {
+      "text": "NoMaps: from Sapporo, Hokkaido — a festival that makes the world way more awesome through tech, entertainment, and creativity.",
+      "text2": "VketReal in Sapporo 2026 Autumn is held in collaboration with NoMaps 2026.{br}NoMaps events are also taking place in Sapporo on the same day, so be sure to check them out too!"
+    }
+  },
   "contents": {
     "1": {
       "title": "ParaRealCreator in SAPPORO",
       "text": "Goods Exhibition & Sale by VR Creators"
+    },
+    "2": {
+      "title": "VketReal in Sapporo 2026 Autumn",
+      "text": "An XR experience event fusing digital and real worlds"
     }
   },
   "news": {
@@ -864,6 +885,7 @@ export default defineNuxtConfig({
 ````json
 {
   "viewAll" : "すべて見る",
+  "learnMore" : "詳しくはこちらから",
   "page": {
     "top": "TOPページ"
   },
@@ -877,6 +899,7 @@ export default defineNuxtConfig({
     "exhibitorCircles" : "出展サークル一覧",
     "schedule" : "開催スケジュール",
     "locationInfo" : "会場情報",
+    "collaborativeEvent" : "連携イベント",
     "sponsorsAndPartners" : "ご協力",
     "members" : "有志メンバー",
     "qa" : "よくある質問",
@@ -902,10 +925,20 @@ export default defineNuxtConfig({
       }
     }
   },
+  "collaborativeEvent": {
+    "nomaps": {
+      "text1": "札幌·北海道から テック・エンタメ・クリエイティブで世界をめっちゃおもろくするフェスNoMaps（ノーマップス）",
+      "text2": "VketReal in 札幌 2026 Autumn は、NoMaps 2026と連携しております。{br}同日、札幌ではNoMapsのイベントも開催されているので、NoMapsにも遊びに行こう！"
+    }
+  },
   "contents": {
     "1": {
       "title": "パラリアルクリエイター in SAPPORO",
       "text": "VRクリエイターによるグッズ展示・即売コーナー"
+    },
+    "2": {
+      "title": "VketReal in 札幌 2026 Autumn",
+      "text": "バーチャルとリアルを融合させたXR体験型イベント"
     }
   },
   "news": {
