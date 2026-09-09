@@ -726,7 +726,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
 
   nitro: {
-    preset: 'vercel',
+    preset: 'cloudflare_pages',
   },
 
   typescript: {
@@ -744,15 +744,6 @@ export default defineNuxtConfig({
   },
 
   i18n: nuxtI18nOptions,
-
-  vite: {
-    server: {
-      watch: {
-        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
-        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
-      },
-    },
-  },
 })
 ````
 
@@ -768,7 +759,7 @@ export default defineNuxtConfig({
     "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
     "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
     "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
-    "build": "VITE_OUTPUT_ENV=production nuxt build",
+    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
     "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
     "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
     "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",
@@ -800,83 +791,6 @@ export default defineNuxtConfig({
     "gsap": "^3.15.0",
     "vket-boilerplate-nuxt-base": "workspace:*",
     "zod": "^4.4.3"
-  }
-}
-````
-
-## File: layers/main/i18n/locales/en.json
-````json
-{
-  "viewAll" : "view all",
-  "learnMore" : "learn more",
-  "page": {
-    "top": "TOP"
-  },
-  "sectionTitle": {
-    "about": "What is VketReal in Sapporo?",
-    "exhibitorInfo": "Exhibitor Information",
-    "participationGuide" : "Participation Guide",
-    "tickets" : "Tickets",
-    "news" : "News",
-    "collaborativeEvent" : "Collaborative Event",
-    "contents" : "Programs & Contents",
-    "exhibitorCircles" : "Exhibiting Circles",
-    "schedule" : "Event Schedule",
-    "locationInfo" : "Venue Information",
-    "sponsorsAndPartners" : "Partners & Sponsors",
-    "members" : "members",
-    "qa" : "FAQ",
-    "qa--min" : "FAQ",
-    "contact" : "Contact Us"
-  },
-  "infoCard": {
-    "venue": {
-      "title": "Venue",
-      "items": {
-        "venueName": {
-          "label": "Venue Name",
-          "text": "Asty45 4F Asty Hall"
-        },
-        "address": {
-          "label": "Address",
-          "text": "060-0004 {br}Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, Hokkaido"
-        },
-        "access": {
-          "label": "Access",
-          "text": "3 min walk from Sapporo Subway Station (direct underground access){br}5 min walk from JR Sapporo Station South Exit"
-        }
-      }
-    }
-  },
-  "collaborativeEvent": {
-    "nomaps": {
-      "text": "NoMaps: from Sapporo, Hokkaido — a festival that makes the world way more awesome through tech, entertainment, and creativity.",
-      "text2": "VketReal in Sapporo 2026 Autumn is held in collaboration with NoMaps 2026.{br}NoMaps events are also taking place in Sapporo on the same day, so be sure to check them out too!"
-    }
-  },
-  "contents": {
-    "1": {
-      "title": "ParaRealCreator in SAPPORO",
-      "text": "Goods Exhibition & Sale by VR Creators"
-    },
-    "2": {
-      "title": "VketReal in Sapporo 2026 Autumn",
-      "text": "An XR experience event fusing digital and real worlds"
-    }
-  },
-  "news": {
-    "4": {
-      "title": "VketReal in Sapporo 2026 Autumn Exhibitors, Sponsors, Official Merchandise, and Numbered Admission Tickets Announced!"
-    },
-    "3": {
-      "title": "VketReal in Sapporo 2026 Autumn Tickets Now on Sale and Official Programs Announced!"
-    },
-    "1": {
-      "title": "We have published our logo!"
-    },
-    "2": {
-      "title": "We have published our key visual!"
-    }
   }
 }
 ````
@@ -953,6 +867,83 @@ export default defineNuxtConfig({
     },
     "2": {
       "title": "キービジュアルを公開しました！"
+    }
+  }
+}
+````
+
+## File: layers/main/i18n/locales/en.json
+````json
+{
+  "viewAll" : "view all",
+  "learnMore" : "learn more",
+  "page": {
+    "top": "TOP"
+  },
+  "sectionTitle": {
+    "about": "What is VketReal in Sapporo?",
+    "exhibitorInfo": "Exhibitor Information",
+    "participationGuide" : "Participation Guide",
+    "tickets" : "Tickets",
+    "news" : "News",
+    "collaborativeEvent" : "Collaborative Event",
+    "contents" : "Programs & Contents",
+    "exhibitorCircles" : "Exhibiting Circles",
+    "schedule" : "Event Schedule",
+    "locationInfo" : "Venue Information",
+    "sponsorsAndPartners" : "Partners & Sponsors",
+    "members" : "members",
+    "qa" : "FAQ",
+    "qa--min" : "FAQ",
+    "contact" : "Contact Us"
+  },
+  "infoCard": {
+    "venue": {
+      "title": "Venue",
+      "items": {
+        "venueName": {
+          "label": "Venue Name",
+          "text": "Asty45 4F Asty Hall"
+        },
+        "address": {
+          "label": "Address",
+          "text": "060-0004 {br}Kita 4-jo Nishi 5-chome 1, Chuo-ku, Sapporo, Hokkaido"
+        },
+        "access": {
+          "label": "Access",
+          "text": "3 min walk from Sapporo Subway Station (direct underground access){br}5 min walk from JR Sapporo Station South Exit"
+        }
+      }
+    }
+  },
+  "collaborativeEvent": {
+    "nomaps": {
+      "text1": "NoMaps: from Sapporo, Hokkaido — a festival that makes the world way more awesome through tech, entertainment, and creativity.",
+      "text2": "VketReal in Sapporo 2026 Autumn is held in collaboration with NoMaps 2026.{br}NoMaps events are also taking place in Sapporo on the same day, so be sure to check them out too!"
+    }
+  },
+  "contents": {
+    "1": {
+      "title": "ParaRealCreator in SAPPORO",
+      "text": "Goods Exhibition & Sale by VR Creators"
+    },
+    "2": {
+      "title": "VketReal in Sapporo 2026 Autumn",
+      "text": "An XR experience event fusing digital and real worlds"
+    }
+  },
+  "news": {
+    "4": {
+      "title": "VketReal in Sapporo 2026 Autumn Exhibitors, Sponsors, Official Merchandise, and Numbered Admission Tickets Announced!"
+    },
+    "3": {
+      "title": "VketReal in Sapporo 2026 Autumn Tickets Now on Sale and Official Programs Announced!"
+    },
+    "1": {
+      "title": "We have published our logo!"
+    },
+    "2": {
+      "title": "We have published our key visual!"
     }
   }
 }

@@ -25,7 +25,7 @@ onMounted(() => {
       video-id="mlGii_DdBbs"
       autoplay
       loop
-      mute
+      muted
     />
     <img
       src="/partners-and-sponsors/nomaps-2026.svg"
@@ -60,9 +60,16 @@ onMounted(() => {
       alt=""
       class="collaborative-event__image collaborative-event__restrict-width"
     >
-    <p class="collaborative-event__text collaborative-event__restrict-width">
-      {{ tGlobal('collaborativeEvent.nomaps.text2') }}
-    </p>
+    <i18n-t
+      keypath="collaborativeEvent.nomaps.text2"
+      tag="p"
+      scope="global"
+      class="collaborative-event__text collaborative-event__restrict-width"
+    >
+      <template #br>
+        <br>
+      </template>
+    </i18n-t>
   </div>
 </template>
 
