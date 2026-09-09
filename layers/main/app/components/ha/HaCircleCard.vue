@@ -5,6 +5,9 @@ const props = defineProps<{
   imgSrc?: string | null
 }>()
 
+const FALLBACK_IMG = '/vketreal_in_sapporo_logo_light.png'
+const displayImgSrc = computed(() => props.imgSrc || FALLBACK_IMG)
+
 const tag = computed(() => (props.href ? 'a' : 'div'))
 const linkAttrs = computed(() => {
   if (!props.href) return {}
@@ -23,12 +26,9 @@ const linkAttrs = computed(() => {
     :class="{ 'circle-card--link': !!href }"
     v-bind="linkAttrs"
   >
-    <div
-      v-if="imgSrc"
-      class="circle-card__img"
-    >
+    <div class="circle-card__img">
       <img
-        :src="imgSrc"
+        :src="displayImgSrc"
         :alt="name"
         loading="lazy"
       >
