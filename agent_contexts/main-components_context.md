@@ -4771,152 +4771,6 @@ const circles = [
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtTicketSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  section:
-    title: チケット
-    label: tickets
-  description:
-    line1: 一般来場チケットは2026年8月26日(水)より販売開始です。
-    line2: LivePocketの販売ページからお申し込みください。
-  numberedTicketNotice:
-    line1: ※入場には一般参加チケットとは別に、オンライン入場整理券が必要です。
-    line2: 入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。
-    line3: 整理券番号はLivePocketからメールで届きます。事前にLivePocketからのメールを受信できるよう、受信設定をご確認ください。
-  cards:
-    general:
-      title: 一般参加チケット
-      desc: VketReal in 札幌 2026 Autumnの来場チケットです。
-      cta: チケットを購入する
-    updates:
-      title: 最新情報
-      desc: 公式Xで販売開始や追加情報をお知らせします。
-      cta: 公式Xを見る
-en:
-  section:
-    title: Tickets
-    label: tickets
-  description:
-    line1: General admission tickets go on sale Wednesday, August 26, 2026.
-    line2: Please purchase tickets through LivePocket.
-  numberedTicketNotice:
-    line1: An online numbered admission ticket is required in addition to a general admission ticket.
-    line2: Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.
-    line3: LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.
-  cards:
-    general:
-      title: General Admission
-      desc: Admission ticket for VketReal in Sapporo 2026 Autumn.
-      cta: Buy Tickets
-    updates:
-      title: Latest Updates
-      desc: Sales launches and additional information will be announced on official X.
-      cta: Official X
-</i18n>
-
-<script setup lang="ts">
-import HaTicketCard from '../ha/HaTicketCard.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n()
-const sectionRef = ref<Element | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.ticket-grid__item')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="t('section.title')"
-      :label="t('section.label')"
-    />
-    <p class="description description--left">
-      {{ t('description.line1') }}<br>
-      {{ t('description.line2') }}
-    </p>
-    <div class="numbered-ticket-notice glassy-box-3">
-      <p>{{ t('numberedTicketNotice.line1') }}</p>
-      <p>{{ t('numberedTicketNotice.line2') }}</p>
-      <p>{{ t('numberedTicketNotice.line3') }}</p>
-    </div>
-    <div
-      ref="listRef"
-      class="ticket-grid"
-    >
-      <div class="ticket-grid__item">
-        <HaTicketCard
-          :title="t('cards.general.title')"
-          :desc="t('cards.general.desc')"
-          href="https://livepocket.jp/e/alkjd"
-          :cta-label="t('cards.general.cta')"
-        />
-      </div>
-      <div class="ticket-grid__item">
-        <HaTicketCard
-          :title="t('cards.updates.title')"
-          :desc="t('cards.updates.desc')"
-          href="https://x.com/vketreal_vris"
-          :cta-label="t('cards.updates.cta')"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.ticket-grid {
-  display: grid;
-  grid-auto-rows: 275px;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 24px;
-
-  @include m.tb {
-    grid-auto-rows: 166px;
-    gap: 12px 16px;
-  }
-
-  @include m.sp {
-    grid-template-columns: 1fr;
-  }
-
-}
-
-.numbered-ticket-notice {
-  display: grid;
-  gap: 8px;
-
-  margin-bottom: 24px;
-  padding: 16px 20px;
-
-  font-size: 14px;
-  line-height: 1.7;
-
-  background: rgb(49 35 96 / 40%);
-
-  @include m.sp {
-    margin-bottom: 16px;
-    padding: 14px 16px;
-    font-size: 13px;
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/HaAboutCard.vue
 ```vue
 <script setup lang="ts">
@@ -5966,6 +5820,152 @@ const { t: tGlobal } = useI18n()
 
   @include m.sp {
     gap: 20px;
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtTicketSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  section:
+    title: チケット
+    label: tickets
+  description:
+    line1: 一般来場チケットは2026年8月26日(水)より販売開始です。
+    line2: LivePocketの販売ページからお申し込みください。
+  numberedTicketNotice:
+    line1: ※入場には一般参加チケットとは別に、オンライン入場整理券が必要です。
+    line2: 入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。
+    line3: 整理券番号はLivePocketからメールで届きます。事前にLivePocketからのメールを受信できるよう、受信設定をご確認ください。
+  cards:
+    general:
+      title: 一般参加チケット
+      desc: VketReal in 札幌 2026 Autumnの来場チケットです。
+      cta: チケットを購入する
+    updates:
+      title: 最新情報
+      desc: 公式Xで販売開始や追加情報をお知らせします。
+      cta: 公式Xを見る
+en:
+  section:
+    title: Tickets
+    label: tickets
+  description:
+    line1: General admission tickets go on sale Wednesday, August 26, 2026.
+    line2: Please purchase tickets through LivePocket.
+  numberedTicketNotice:
+    line1: An online numbered admission ticket is required in addition to a general admission ticket.
+    line2: Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.
+    line3: LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.
+  cards:
+    general:
+      title: General Admission
+      desc: Admission ticket for VketReal in Sapporo 2026 Autumn.
+      cta: Buy Tickets
+    updates:
+      title: Latest Updates
+      desc: Sales launches and additional information will be announced on official X.
+      cta: Official X
+</i18n>
+
+<script setup lang="ts">
+import HaTicketCard from '../ha/HaTicketCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+const sectionRef = ref<Element | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.ticket-grid__item')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="t('section.title')"
+      :label="t('section.label')"
+    />
+    <p class="description description--left">
+      {{ t('description.line1') }}<br>
+      {{ t('description.line2') }}
+    </p>
+    <div class="numbered-ticket-notice glassy-box-3">
+      <p>{{ t('numberedTicketNotice.line1') }}</p>
+      <p>{{ t('numberedTicketNotice.line2') }}</p>
+      <p>{{ t('numberedTicketNotice.line3') }}</p>
+    </div>
+    <div
+      ref="listRef"
+      class="ticket-grid"
+    >
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          :title="t('cards.general.title')"
+          :desc="t('cards.general.desc')"
+          href="https://livepocket.jp/e/alkjd"
+          :cta-label="t('cards.general.cta')"
+        />
+      </div>
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          :title="t('cards.updates.title')"
+          :desc="t('cards.updates.desc')"
+          href="https://x.com/vketreal_vris"
+          :cta-label="t('cards.updates.cta')"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ticket-grid {
+  display: grid;
+  grid-auto-rows: 275px;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+
+  @include m.tb {
+    grid-auto-rows: 166px;
+    gap: 12px 16px;
+  }
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+.numbered-ticket-notice {
+  display: grid;
+  gap: 8px;
+
+  margin-bottom: 24px;
+  padding: 16px 20px;
+
+  font-size: 14px;
+  line-height: 1.7;
+
+  background: rgb(49 35 96 / 40%);
+
+  @include m.sp {
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    font-size: 13px;
   }
 }
 </style>
@@ -7799,113 +7799,6 @@ const items = computed(() => [
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtQandASection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  items:
-    item1:
-      title: 'VketReal in 札幌 とはどのようなイベントですか？'
-      contents:
-        - 'HIKKY主催のイベントVketRealから派生した、VRSNSで活躍するクリエイターが集う有志主催のリアルイベントです。'
-    item2:
-      title: 'チケットはどこで買えますか？'
-      contents:
-        - 'LivePocketにて2026年8月26日(水)より販売します。ページ内の「チケットを購入する」ボタンからお申し込みください。'
-    item3:
-      title: '入場には整理券が必要ですか？'
-      contents:
-        - '一般参加チケットとは別に、オンライン入場整理券が必要です。'
-        - '入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。'
-        - '整理券番号はLivePocketからメールで届きます。事前にLivePocketからのメールを受信できるよう、受信設定をご確認ください。'
-    item4:
-      title: '一般参加チケットの当日券はありますか？'
-      contents:
-        - '用意する予定です。'
-en:
-  items:
-    item1:
-      title: 'What kind of event is VketReal in Sapporo?'
-      contents:
-        - 'An in-person event that brings together creators active in the VR/SNS scene.'
-        - 'A community-run event derived from VketReal, organized by HIKKY.'
-    item2:
-      title: 'Where can I purchase tickets?'
-      contents:
-        - 'Tickets go on sale through LivePocket on Wednesday, August 26, 2026. Use the Buy Tickets button on this page to purchase.'
-    item3:
-      title: 'Do I need a numbered admission ticket to enter?'
-      contents:
-        - 'An online numbered admission ticket is required in addition to a general admission ticket.'
-        - 'Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.'
-        - 'LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.'
-    item4:
-      title: 'Will general admission tickets be available at the door?'
-      contents:
-        - 'Yes, we plan to offer tickets at the door.'
-</i18n>
-
-<script setup lang="ts">
-import HaAccordionItem from '../ha/HaAccordionItem.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t, tm, rt } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    title: t('items.item1.title'),
-    contents: (tm('items.item1.contents') as string[]).map(c => rt(c)),
-  },
-  {
-    id: 2,
-    title: t('items.item2.title'),
-    contents: (tm('items.item2.contents') as string[]).map(c => rt(c)),
-  },
-  {
-    id: 3,
-    title: t('items.item3.title'),
-    contents: (tm('items.item3.contents') as string[]).map(c => rt(c)),
-  },
-  {
-    id: 4,
-    title: t('items.item4.title'),
-    contents: (tm('items.item4.contents') as string[]).map(c => rt(c)),
-  },
-])
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.qa')"
-      label="Q&A"
-    />
-    <HaAccordionItem :items="items">
-      <template #content="{ item }">
-        <p
-          v-for="(content, index) in item.contents"
-          :key="`${item.id}-${index}`"
-          class="content__text"
-        >
-          {{ content }}
-        </p>
-      </template>
-    </HaAccordionItem>
-  </div>
-</template>
-```
-
 ## File: layers/main/app/components/ha/HaAccordionItem.vue
 ```vue
 <script setup lang="ts">
@@ -8439,6 +8332,113 @@ en:
   }
 }
 </style>
+```
+
+## File: layers/main/app/components/ht/HtQandASection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  items:
+    item1:
+      title: 'VketReal in 札幌 とはどのようなイベントですか？'
+      contents:
+        - 'HIKKY主催のイベントVketRealから派生した、VRSNSで活躍するクリエイターが集う有志主催のリアルイベントです。'
+    item2:
+      title: 'チケットはどこで買えますか？'
+      contents:
+        - 'LivePocketにて2026年8月26日(水)より販売します。ページ内の「チケットを購入する」ボタンからお申し込みください。'
+    item3:
+      title: '入場には整理券が必要ですか？'
+      contents:
+        - '一般参加チケットとは別に、オンライン入場整理券が必要です。'
+        - '入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。'
+        - '整理券番号はLivePocketからメールで届きます。事前にLivePocketからのメールを受信できるよう、受信設定をご確認ください。'
+    item4:
+      title: '一般参加チケットの当日券はありますか？'
+      contents:
+        - '用意する予定です。'
+en:
+  items:
+    item1:
+      title: 'What kind of event is VketReal in Sapporo?'
+      contents:
+        - 'An in-person event that brings together creators active in the VR/SNS scene.'
+        - 'A community-run event derived from VketReal, organized by HIKKY.'
+    item2:
+      title: 'Where can I purchase tickets?'
+      contents:
+        - 'Tickets go on sale through LivePocket on Wednesday, August 26, 2026. Use the Buy Tickets button on this page to purchase.'
+    item3:
+      title: 'Do I need a numbered admission ticket to enter?'
+      contents:
+        - 'An online numbered admission ticket is required in addition to a general admission ticket.'
+        - 'Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.'
+        - 'LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.'
+    item4:
+      title: 'Will general admission tickets be available at the door?'
+      contents:
+        - 'Yes, we plan to offer tickets at the door.'
+</i18n>
+
+<script setup lang="ts">
+import HaAccordionItem from '../ha/HaAccordionItem.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t, tm, rt } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    title: t('items.item1.title'),
+    contents: (tm('items.item1.contents') as string[]).map(c => rt(c)),
+  },
+  {
+    id: 2,
+    title: t('items.item2.title'),
+    contents: (tm('items.item2.contents') as string[]).map(c => rt(c)),
+  },
+  {
+    id: 3,
+    title: t('items.item3.title'),
+    contents: (tm('items.item3.contents') as string[]).map(c => rt(c)),
+  },
+  {
+    id: 4,
+    title: t('items.item4.title'),
+    contents: (tm('items.item4.contents') as string[]).map(c => rt(c)),
+  },
+])
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.qa')"
+      label="Q&A"
+    />
+    <HaAccordionItem :items="items">
+      <template #content="{ item }">
+        <p
+          v-for="(content, index) in item.contents"
+          :key="`${item.id}-${index}`"
+          class="content__text"
+        >
+          {{ content }}
+        </p>
+      </template>
+    </HaAccordionItem>
+  </div>
+</template>
 ```
 
 ## File: layers/main/app/components/ho/HoTheFooter.vue
@@ -9952,6 +9952,13 @@ import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
+  {
+    id: 3,
+    title: tGlobal('news.3.title'),
+    href: 'https://note.com/vris/n/n880e9b3364f9',
+    imgSrc: '/news3_thumbnail.png',
+    timestamp: '2026-08-26',
+  },
   {
     id: 1,
     title: tGlobal('news.1.title'),
