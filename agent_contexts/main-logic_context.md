@@ -90,59 +90,6 @@ export default function useApi<K extends RepositoryKey>(endpoint: K) {
 }
 ````
 
-## File: layers/main/app/composables/useMockCrowdData.ts
-````typescript
-// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
-import { ref, onMounted, onUnmounted } from 'vue'
-import type { CrowdData } from '~/composables/useCrowdData'
-
-const MOCK_INTERVAL_MS = 3 * 1000 // 3秒おきに更新
-const MOCK_INITIAL_DELAY_MS = 10 * 1000 // 初回ローディング 10秒
-
-export function useCrowdData() {
-  const crowdData = ref<CrowdData | null>(null)
-  const isLoading = ref(true)
-  const isError = ref(false)
-  const isBeforeEventStart = ref(false) // モックでは開催期間外の状態は扱わないため常にfalse
-
-  let timerId: ReturnType<typeof setInterval> | null = null
-  let initialTimerId: ReturnType<typeof setTimeout> | null = null
-
-  function generateMock() {
-    console.log('取得：ダミー')
-    const randomLevel = (Math.floor(Math.random() * 3) + 1) as 1 | 2 | 3
-    crowdData.value = {
-      value1: randomLevel,
-      value2: randomLevel,
-      updated_at: new Date().toISOString(),
-    }
-    isLoading.value = false
-    isError.value = false
-  }
-
-  // 本物のcomposableと同じインターフェースを保つためのダミー実装。
-  // モックでは即座にgenerateMockを呼び直すことで、手動リフレッシュのような見た目にしている。
-  async function fetchCrowdData() {
-    generateMock()
-  }
-
-  onMounted(() => {
-    // 10秒後に初回データ取得 → その後3秒おきに更新
-    initialTimerId = setTimeout(() => {
-      generateMock()
-      timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
-    }, MOCK_INITIAL_DELAY_MS)
-  })
-
-  onUnmounted(() => {
-    if (initialTimerId !== null) clearTimeout(initialTimerId)
-    if (timerId !== null) clearInterval(timerId)
-  })
-
-  return { isLoading, isError, crowdData, isBeforeEventStart, fetchCrowdData }
-}
-````
-
 ## File: layers/main/app/models/json.ts
 ````typescript
 /**
@@ -264,6 +211,59 @@ export type UseI18nReturnType<Options extends UseI18nOptions = UseI18nOptions>
  */
 export const getI18nArray = (i18n: UseI18nReturnType, key: string): string[] =>
   Object.entries<VueMessageType>(i18n.tm(key)).map(([, term]) => i18n.rt(term))
+````
+
+## File: layers/main/app/composables/useMockCrowdData.ts
+````typescript
+// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
+import { ref, onMounted, onUnmounted } from 'vue'
+import type { CrowdData } from '~/composables/useCrowdData'
+
+const MOCK_INTERVAL_MS = 3 * 1000 // 3秒おきに更新
+const MOCK_INITIAL_DELAY_MS = 10 * 1000 // 初回ローディング 10秒
+
+export function useCrowdData() {
+  const crowdData = ref<CrowdData | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+  const isBeforeEventStart = ref(false) // モックでは開催期間外の状態は扱わないため常にfalse
+
+  let timerId: ReturnType<typeof setInterval> | null = null
+  let initialTimerId: ReturnType<typeof setTimeout> | null = null
+
+  function generateMock() {
+    console.log('取得：ダミー')
+    const randomLevel = (Math.floor(Math.random() * 3) + 1) as 1 | 2 | 3
+    crowdData.value = {
+      value1: randomLevel,
+      value2: randomLevel,
+      updated_at: new Date().toISOString(),
+    }
+    isLoading.value = false
+    isError.value = false
+  }
+
+  // 本物のcomposableと同じインターフェースを保つためのダミー実装。
+  // モックでは即座にgenerateMockを呼び直すことで、手動リフレッシュのような見た目にしている。
+  async function fetchCrowdData() {
+    generateMock()
+  }
+
+  onMounted(() => {
+    // 10秒後に初回データ取得 → その後3秒おきに更新
+    initialTimerId = setTimeout(() => {
+      generateMock()
+      timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
+    }, MOCK_INITIAL_DELAY_MS)
+  })
+
+  onUnmounted(() => {
+    if (initialTimerId !== null) clearTimeout(initialTimerId)
+    if (timerId !== null) clearInterval(timerId)
+  })
+
+  return { isLoading, isError, crowdData, isBeforeEventStart, fetchCrowdData }
+}
 ````
 
 ## File: layers/main/app/composables/useGsapFadeIn.ts
@@ -443,7 +443,7 @@ let activeInstanceCount = 0 // このcomposableを呼び出しているコンポ
 const endpoint = 'https://vris-26autumn-visitor-counter-api.skmt3p.workers.dev/api/v1/crowd-status'
 
 // 開催日時を指定
-const EVENT_START = new Date('2026-08-26T10:00:00+09:00')
+const EVENT_START = new Date('2026-09-26T10:00:00+09:00')
 
 // FIXME: setTimeoutの遅延値は内部的に32bit符号付き整数(最大約24.8日)を超えると仕様上オーバーフローし、ほぼ即座に発火してしまう。※ 下記の通り対策済み
 // 対策として開催日時までの残り時間が長い場合は、この値を上限として何度か再スケジュールしながら近づいていく。

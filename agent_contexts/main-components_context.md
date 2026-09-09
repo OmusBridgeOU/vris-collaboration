@@ -2481,11 +2481,6 @@ onUnmounted(() => {
 </template>
 ```
 
-## File: layers/main/app/components/ha/HaCrowdInfo.vue
-```vue
-
-```
-
 ## File: layers/main/app/components/ha/HaDocumentLink.vue
 ```vue
 <script setup lang="ts">
@@ -3681,6 +3676,178 @@ defineProps<{
       font-size: 16px;
     }
   }
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaCrowdInfo.vue
+```vue
+<i18n lang="yaml">
+ja:
+  venue: 会場内：
+  closed: 開催期間外
+  available: 余裕あり
+  moderate: やや混雑
+  busy: 混雑
+  loading: 混雑状況取得中…
+  error: 混雑状況を取得できません
+en:
+  venue: 'Venue: '
+  closed: Outside event hours
+  available: Available
+  moderate: Moderately crowded
+  busy: Crowded
+  loading: Loading crowd status…
+  error: Crowd status unavailable
+</i18n>
+
+<template>
+  <div
+    class="ha-crowd-info glassy-box-4 glassy-box-4--radius-full none-hover-animation"
+    :class="`ha-crowd-info--${crowdStatus}`"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+  >
+    <span
+      class="ha-crowd-info__dot"
+      aria-hidden="true"
+    />
+    <span class="ha-crowd-info__text">
+      <span v-if="showsVenue">{{ t('venue') }}</span><strong>{{ t(crowdStatus) }}</strong>
+    </span>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useCrowdData } from '~/composables/useCrowdData'
+
+const { t } = useI18n()
+
+const { isLoading, isError, crowdData } = useCrowdData()
+const crowdStatus = computed(() => {
+  if (isError.value) return 'error'
+  if (crowdData.value?.value1 === -1) return 'closed'
+  if (isLoading.value || !crowdData.value) return 'loading'
+  return ({ 1: 'available', 2: 'moderate', 3: 'busy' } as const)[crowdData.value.value1]
+})
+const showsVenue = computed(() =>
+  crowdStatus.value === 'available'
+  || crowdStatus.value === 'moderate'
+  || crowdStatus.value === 'busy',
+)
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ha-crowd-info {
+    --crowd-color: #{v.$vket-gray};
+    --crowd-shadow-color: rgb(0 0 0 / 25%);
+
+    position: absolute;
+    z-index: 4;
+    top: 58px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+    justify-self: center;
+
+    box-sizing: border-box;
+    width: auto;
+    min-width: 172px;
+    height: 40px;
+    padding: 6px 12px;
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: v.$vket-rich-navy;
+    white-space: nowrap;
+
+    box-shadow:
+        0 4px 12px -2px var(--crowd-shadow-color),
+        inset rgb(22 0 120 / 20%) 0 0 12px 0;
+
+    @include m.tb {
+        top: 32px;
+        font-size: 14px;
+    }
+
+    @include m.sp {
+        top: 90px;
+        left: 16px;
+        transform: none;
+
+        min-width: 160px;
+
+        font-size: 13px;
+    }
+
+    &--available {
+        --crowd-color: #{v.$vket-emerald};
+        --crowd-shadow-color: rgb(67 255 189 / 45%);
+    }
+
+    &--moderate {
+        --crowd-color: #{v.$vket-amber};
+        --crowd-shadow-color: rgb(255 165 0 / 45%);
+    }
+
+    &--busy {
+        --crowd-color: #{v.$vket-vermilion};
+        --crowd-shadow-color: rgb(255 69 0 / 45%);
+    }
+
+    &--closed,
+    &--loading,
+    &--error {
+        --crowd-color: #{v.$vket-gray};
+        --crowd-shadow-color: rgb(0 0 0 / 25%);
+    }
+
+    &--available,
+    &--moderate,
+    &--busy {
+        strong {
+        color: var(--crowd-color);
+        }
+    }
+
+    &__dot {
+        flex: 0 0 28px;
+
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+
+        background-color: var(--crowd-color);
+        box-shadow: 0 3px 8px -1px var(--crowd-shadow-color);
+
+        @include m.tb {
+            flex-basis: 26px;
+            width: 26px;
+            height: 26px;
+        }
+
+        @include m.sp {
+            flex-basis: 24px;
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    &__text {
+        overflow: hidden;
+        font-weight: 900;
+        text-overflow: ellipsis;
+    }
 }
 </style>
 ```
@@ -4997,397 +5164,6 @@ const onSlideChange = (swiper: SwiperType) => {
 </style>
 ```
 
-## File: layers/main/app/components/hm/HmCrowdLevelCard.vue
-```vue
-<script lang="ts" setup>
-import HaAstyError from '../ha/buildings/HaAstyError.vue'
-import HaAstyLevel1 from '../ha/buildings/HaAstyLevel1.vue'
-import HaAstyLevel2 from '../ha/buildings/HaAstyLevel2.vue'
-import HaAstyLevel3 from '../ha/buildings/HaAstyLevel3.vue'
-import HaAstyLoading from '../ha/buildings/HaAstyLoading.vue'
-import HaAstyUnable from '../ha/buildings/HaAstyUnable.vue'
-import HaDTCError from '../ha/buildings/HaDTCError.vue'
-import HaDTCLevel1 from '../ha/buildings/HaDTCLevel1.vue'
-import HaDTCLevel2 from '../ha/buildings/HaDTCLevel2.vue'
-import HaDTCLevel3 from '../ha/buildings/HaDTCLevel3.vue'
-import HaDTCLoading from '../ha/buildings/HaDTCLoading.vue'
-import HaDTCUnable from '../ha/buildings/HaDTCUnable.vue'
-import HaShimmer from '../ha/HaShimmer.vue'
-import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
-import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
-import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
-import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
-
-type CrowdLevel = -1 | 1 | 2 | 3 // -1: 開催期間外, 1~3: 混雑度
-
-const props = defineProps<{
-  label: string
-  name: string
-  isLoading: boolean
-  isError: boolean
-  building: 1 | 2
-  crowdLevel: CrowdLevel | null | undefined
-}>()
-
-const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-  [-1]: '情報なし',
-  1: '余裕あり',
-  2: 'やや混雑',
-  3: '混雑',
-}
-
-const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-  [-1]: 'gray',
-  1: 'emgreen',
-  2: 'amber',
-  3: 'vermilion',
-}
-
-const statusText = computed(() =>
-  props.isLoading || props.isError
-    ? '取得中'
-    : props.crowdLevel !== null && props.crowdLevel !== undefined
-      ? CROWD_LEVEL_TEXT[props.crowdLevel]
-      : '取得中',
-)
-
-const statusColor = computed(() =>
-  props.isLoading || props.isError
-    ? 'gray'
-    : props.crowdLevel !== null && props.crowdLevel !== undefined
-      ? CROWD_LEVEL_COLOR[props.crowdLevel]
-      : 'gray',
-)
-
-const fillCount = computed(() => {
-  const level = props.crowdLevel
-  return level && level > 0 ? level : 0
-})
-</script>
-
-<template>
-  <div
-    class="glassy-box-4 crowd-level-card"
-    :class="`crowd-level-card--${statusColor}`"
-  >
-    <div class="crowd-level-card__head">
-      <div class="crowd-level-card__text-box">
-        <HaShimmer
-          :loading="isLoading"
-          as="p"
-          class="crowd-level-card__label"
-        >
-          {{ label }}
-        </HaShimmer>
-        <HaShimmer
-          :loading="isLoading"
-          as="p"
-          class="crowd-level-card__name"
-        >
-          {{ name }}
-        </HaShimmer>
-      </div>
-      <HaShimmer
-        :loading="isLoading"
-        as="div"
-        class="crowd-level-card__status-box"
-      >
-        <div class="crowd-level-card__icon-box">
-          <template v-if="isError">
-            <HaPeopleFillIcon />
-            <HaQuestionIcon />
-          </template>
-          <template v-else-if="fillCount == 0">
-            <HaPeopleUnableIcon />
-          </template>
-          <template v-else>
-            <HaPeopleFillIcon
-              v-for="i in fillCount"
-              :key="`fill-${i}`"
-            />
-            <HaPeopleIcon
-              v-for="i in 3 - fillCount"
-              :key="`empty-${i}`"
-            />
-          </template>
-        </div>
-        <p
-          class="crowd-level-card__status-text"
-          data-testid="crowd-status-text"
-        >
-          {{ statusText }}
-        </p>
-      </HaShimmer>
-    </div>
-    <div class="crowd-level-card__body">
-      <div class="crowd-level-card__image">
-        <template v-if="building == 1">
-          <HaAstyLoading v-if="isLoading" />
-          <HaAstyError v-else-if="isError" />
-          <template v-else>
-            <HaAstyUnable v-show="statusColor == 'gray'" />
-            <HaAstyLevel1 v-show="statusColor == 'emgreen'" />
-            <HaAstyLevel2 v-show="statusColor == 'amber'" />
-            <HaAstyLevel3 v-show="statusColor == 'vermilion'" />
-          </template>
-        </template>
-        <template v-else-if="building == 2">
-          <HaDTCLoading v-if="isLoading" />
-          <HaDTCError v-else-if="isError" />
-          <template v-else>
-            <HaDTCUnable v-show="statusColor == 'gray'" />
-            <HaDTCLevel1 v-show="statusColor == 'emgreen'" />
-            <HaDTCLevel2 v-show="statusColor == 'amber'" />
-            <HaDTCLevel3 v-show="statusColor == 'vermilion'" />
-          </template>
-        </template>
-      </div>
-    </div>
-    <div class="crowd-level-card__footer">
-      <HaShimmer
-        :loading="isLoading"
-        as="p"
-        class="crowd-level-card__text"
-      >
-        混雑状況
-      </HaShimmer>
-      <HaShimmer
-        :loading="isLoading"
-        as="div"
-        class="crowd-level-card__carousel glassy-carousel"
-      >
-        <div
-          class="crowd-level-card__carousel-inner glassy-carousel"
-          :class="`glassy-carousel crowd-level-card__carousel-inner--${
-            isError || fillCount == 0 || fillCount == 3
-              ? '1-1'
-              : fillCount == 1
-                ? '1-4'
-                : fillCount == 2
-                  ? '1-2'
-                  : ''
-          }`"
-        />
-      </HaShimmer>
-      <HaShimmer
-        :loading="isLoading"
-        as="p"
-        class="crowd-level-card__text"
-      >
-        {{
-          isError
-            ? '取得中'
-            : fillCount == 0
-              ? '期間外'
-              : fillCount == 1
-                ? '低'
-                : fillCount == 2
-                  ? '中'
-                  : fillCount == 3
-                    ? '高'
-                    : ''
-        }}
-      </HaShimmer>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.crowd-level-card {
-  display: flex;
-  flex-direction: column;
-  padding: 24px 18px 24px 32px;
-
-  @include m.sp {
-    padding: 16px;
-  }
-
-  &--emgreen {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-emgreen;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-emgreen, 0.75);
-    }
-  }
-
-  &--amber {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-amber;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-amber, 0.75);
-    }
-  }
-
-  &--gray {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-gray;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-gray, 0.75);
-    }
-  }
-
-  &--purple {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-purple;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-purple, 0.75);
-    }
-  }
-
-  &--vermilion {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-vermilion;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-vermilion, 0.75);
-    }
-  }
-
-  &__head {
-    display: flex;
-    gap: 8px;
-    justify-content: space-between;
-  }
-
-  &__text-box {
-    width: fit-content;
-  }
-
-  &__label {
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 700;
-
-    @include m.sp {
-      font-size: 10px;
-    }
-  }
-
-  &__name {
-    font-size: 32px;
-    font-weight: 900;
-    line-height: 1em;
-
-    @include m.sp {
-      font-size: 18px;
-    }
-  }
-
-  &__icon-box {
-    display: flex;
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
-
-    @include m.sp {
-      width: 16px;
-      height: 16px;
-    }
-  }
-
-  &__status-box {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-
-    width: fit-content;
-    height: fit-content;
-    padding: 10px 18px;
-    border-radius: 20px;
-
-    @include m.sp {
-      padding: 6px 12px;
-    }
-  }
-
-  &__status-text {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 100%;
-    text-wrap: nowrap;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__body {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    flex-shrink: 1;
-    align-items: center;
-    justify-content: flex-end;
-  }
-
-  &__image {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    width: 50%;
-
-    svg {
-      width: 100%;
-    }
-  }
-
-  &__footer {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    width: 100%;
-  }
-
-  &__carousel {
-    display: flex;
-    flex-grow: 1;
-    height: 14px;
-  }
-
-  &__carousel-inner {
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    transition: width 0.6s ease;
-
-    &--1-1 {
-      width: 100%;
-    }
-
-    &--1-2 {
-      width: 50%;
-    }
-
-    &--1-4 {
-      width: 25%;
-    }
-  }
-
-  &__text {
-    width: 4em;
-    font-size: 16px;
-    line-height: 1em;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/hm/HmNewsSwiper.vue
 ```vue
 <script setup lang="ts">
@@ -6495,6 +6271,397 @@ defineProps<{
 
     @include m.sp {
       font-size: 24px;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/hm/HmCrowdLevelCard.vue
+```vue
+<script lang="ts" setup>
+import HaAstyError from '../ha/buildings/HaAstyError.vue'
+import HaAstyLevel1 from '../ha/buildings/HaAstyLevel1.vue'
+import HaAstyLevel2 from '../ha/buildings/HaAstyLevel2.vue'
+import HaAstyLevel3 from '../ha/buildings/HaAstyLevel3.vue'
+import HaAstyLoading from '../ha/buildings/HaAstyLoading.vue'
+import HaAstyUnable from '../ha/buildings/HaAstyUnable.vue'
+import HaDTCError from '../ha/buildings/HaDTCError.vue'
+import HaDTCLevel1 from '../ha/buildings/HaDTCLevel1.vue'
+import HaDTCLevel2 from '../ha/buildings/HaDTCLevel2.vue'
+import HaDTCLevel3 from '../ha/buildings/HaDTCLevel3.vue'
+import HaDTCLoading from '../ha/buildings/HaDTCLoading.vue'
+import HaDTCUnable from '../ha/buildings/HaDTCUnable.vue'
+import HaShimmer from '../ha/HaShimmer.vue'
+import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
+import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
+import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
+import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
+
+type CrowdLevel = -1 | 1 | 2 | 3 // -1: 開催期間外, 1~3: 混雑度
+
+const props = defineProps<{
+  label: string
+  name: string
+  isLoading: boolean
+  isError: boolean
+  building: 1 | 2
+  crowdLevel: CrowdLevel | null | undefined
+}>()
+
+const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
+  [-1]: '情報なし',
+  1: '余裕あり',
+  2: 'やや混雑',
+  3: '混雑',
+}
+
+const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
+  [-1]: 'gray',
+  1: 'emgreen',
+  2: 'amber',
+  3: 'vermilion',
+}
+
+const statusText = computed(() =>
+  props.isLoading || props.isError
+    ? '取得中'
+    : props.crowdLevel !== null && props.crowdLevel !== undefined
+      ? CROWD_LEVEL_TEXT[props.crowdLevel]
+      : '取得中',
+)
+
+const statusColor = computed(() =>
+  props.isLoading || props.isError
+    ? 'gray'
+    : props.crowdLevel !== null && props.crowdLevel !== undefined
+      ? CROWD_LEVEL_COLOR[props.crowdLevel]
+      : 'gray',
+)
+
+const fillCount = computed(() => {
+  const level = props.crowdLevel
+  return level && level > 0 ? level : 0
+})
+</script>
+
+<template>
+  <div
+    class="glassy-box-4 crowd-level-card"
+    :class="`crowd-level-card--${statusColor}`"
+  >
+    <div class="crowd-level-card__head">
+      <div class="crowd-level-card__text-box">
+        <HaShimmer
+          :loading="isLoading"
+          as="p"
+          class="crowd-level-card__label"
+        >
+          {{ label }}
+        </HaShimmer>
+        <HaShimmer
+          :loading="isLoading"
+          as="p"
+          class="crowd-level-card__name"
+        >
+          {{ name }}
+        </HaShimmer>
+      </div>
+      <HaShimmer
+        :loading="isLoading"
+        as="div"
+        class="crowd-level-card__status-box"
+      >
+        <div class="crowd-level-card__icon-box">
+          <template v-if="isError">
+            <HaPeopleFillIcon />
+            <HaQuestionIcon />
+          </template>
+          <template v-else-if="fillCount == 0">
+            <HaPeopleUnableIcon />
+          </template>
+          <template v-else>
+            <HaPeopleFillIcon
+              v-for="i in fillCount"
+              :key="`fill-${i}`"
+            />
+            <HaPeopleIcon
+              v-for="i in 3 - fillCount"
+              :key="`empty-${i}`"
+            />
+          </template>
+        </div>
+        <p
+          class="crowd-level-card__status-text"
+          data-testid="crowd-status-text"
+        >
+          {{ statusText }}
+        </p>
+      </HaShimmer>
+    </div>
+    <div class="crowd-level-card__body">
+      <div class="crowd-level-card__image">
+        <template v-if="building == 1">
+          <HaAstyLoading v-if="isLoading" />
+          <HaAstyError v-else-if="isError" />
+          <template v-else>
+            <HaAstyUnable v-show="statusColor == 'gray'" />
+            <HaAstyLevel1 v-show="statusColor == 'emgreen'" />
+            <HaAstyLevel2 v-show="statusColor == 'amber'" />
+            <HaAstyLevel3 v-show="statusColor == 'vermilion'" />
+          </template>
+        </template>
+        <template v-else-if="building == 2">
+          <HaDTCLoading v-if="isLoading" />
+          <HaDTCError v-else-if="isError" />
+          <template v-else>
+            <HaDTCUnable v-show="statusColor == 'gray'" />
+            <HaDTCLevel1 v-show="statusColor == 'emgreen'" />
+            <HaDTCLevel2 v-show="statusColor == 'amber'" />
+            <HaDTCLevel3 v-show="statusColor == 'vermilion'" />
+          </template>
+        </template>
+      </div>
+    </div>
+    <div class="crowd-level-card__footer">
+      <HaShimmer
+        :loading="isLoading"
+        as="p"
+        class="crowd-level-card__text"
+      >
+        混雑状況
+      </HaShimmer>
+      <HaShimmer
+        :loading="isLoading"
+        as="div"
+        class="crowd-level-card__carousel glassy-carousel"
+      >
+        <div
+          class="crowd-level-card__carousel-inner glassy-carousel"
+          :class="`glassy-carousel crowd-level-card__carousel-inner--${
+            isError || fillCount == 0 || fillCount == 3
+              ? '1-1'
+              : fillCount == 1
+                ? '1-4'
+                : fillCount == 2
+                  ? '1-2'
+                  : ''
+          }`"
+        />
+      </HaShimmer>
+      <HaShimmer
+        :loading="isLoading"
+        as="p"
+        class="crowd-level-card__text"
+      >
+        {{
+          isError
+            ? '取得中'
+            : fillCount == 0
+              ? '期間外'
+              : fillCount == 1
+                ? '低'
+                : fillCount == 2
+                  ? '中'
+                  : fillCount == 3
+                    ? '高'
+                    : ''
+        }}
+      </HaShimmer>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.crowd-level-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 18px 24px 32px;
+
+  @include m.sp {
+    padding: 16px;
+  }
+
+  &--emgreen {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-emgreen;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-emgreen, 0.75);
+    }
+  }
+
+  &--amber {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-amber;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-amber, 0.75);
+    }
+  }
+
+  &--gray {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-gray;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-gray, 0.75);
+    }
+  }
+
+  &--purple {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-purple;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-purple, 0.75);
+    }
+  }
+
+  &--vermilion {
+    .crowd-level-card__status-box {
+      background-color: v.$vket-vermilion;
+    }
+
+    .crowd-level-card__carousel-inner {
+      background-color: rgba(v.$vket-vermilion, 0.75);
+    }
+  }
+
+  &__head {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  &__text-box {
+    width: fit-content;
+  }
+
+  &__label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 700;
+
+    @include m.sp {
+      font-size: 10px;
+    }
+  }
+
+  &__name {
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1em;
+
+    @include m.sp {
+      font-size: 18px;
+    }
+  }
+
+  &__icon-box {
+    display: flex;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+
+    @include m.sp {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__status-box {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 18px;
+    border-radius: 20px;
+
+    @include m.sp {
+      padding: 6px 12px;
+    }
+  }
+
+  &__status-text {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 100%;
+    text-wrap: nowrap;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &__image {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 50%;
+
+    svg {
+      width: 100%;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__carousel {
+    display: flex;
+    flex-grow: 1;
+    height: 14px;
+  }
+
+  &__carousel-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    transition: width 0.6s ease;
+
+    &--1-1 {
+      width: 100%;
+    }
+
+    &--1-2 {
+      width: 50%;
+    }
+
+    &--1-4 {
+      width: 25%;
+    }
+  }
+
+  &__text {
+    width: 4em;
+    font-size: 16px;
+    line-height: 1em;
+
+    @include m.sp {
+      font-size: 14px;
     }
   }
 }
@@ -9646,24 +9813,10 @@ ja:
   mainlogo: VketReal in 札幌 2026 Autumn
   openMenu: メニューを開く
   closeMenu: メニューを閉じる
-  venue: 会場内：
-  closed: 開催期間外
-  available: 余裕あり
-  moderate: やや混雑
-  busy: 混雑
-  loading: 混雑状況取得中…
-  error: 混雑状況を取得できません
   maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 en:
   openMenu: Open menu
   closeMenu: Close menu
-  venue: 'Venue: '
-  closed: Outside event hours
-  available: Available
-  moderate: Moderately crowded
-  busy: Crowded
-  loading: Loading crowd status…
-  error: Crowd status unavailable
   mainlogo: VketReal in Sapporo 2026 Autumn
   maintenance: 本サイトはメンテナンス中です。もうしばらくお待ちください！
 </i18n>
@@ -9756,21 +9909,7 @@ en:
       </div>
     </div>
   </header>
-  <div
-    class="ho-the-header__crowd glassy-box-4 glassy-box-4--radius-full none-hover-animation"
-    :class="`ho-the-header__crowd--${crowdStatus}`"
-    role="status"
-    aria-live="polite"
-    aria-atomic="true"
-  >
-    <span
-      class="ho-the-header__crowd-dot"
-      aria-hidden="true"
-    />
-    <span class="ho-the-header__crowd-text">
-      <span v-if="showsVenue">{{ t('venue') }}</span><strong>{{ t(crowdStatus) }}</strong>
-    </span>
-  </div>
+  <HaCrowdInfo />
   <div
     class="maintenance-banner"
     role="status"
@@ -9785,11 +9924,11 @@ en:
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useCrowdData } from '~/composables/useCrowdData'
 import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
 import HaAnchorLink from '../ha/HaAnchorLink.vue'
 import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
 import HaLanguageSwitcher from '../ha/HaLanguageSwitcher.vue'
+import HaCrowdInfo from '../ha/HaCrowdInfo.vue'
 
 const { t } = useI18n()
 
@@ -9800,19 +9939,6 @@ export type NavLink
 defineProps<{
   navLinks: NavLink[]
 }>()
-
-const { isLoading, isError, crowdData } = useCrowdData()
-const crowdStatus = computed(() => {
-  if (isError.value) return 'error'
-  if (crowdData.value?.value1 === -1) return 'closed'
-  if (isLoading.value || !crowdData.value) return 'loading'
-  return ({ 1: 'available', 2: 'moderate', 3: 'busy' } as const)[crowdData.value.value1]
-})
-const showsVenue = computed(() =>
-  crowdStatus.value === 'available'
-  || crowdStatus.value === 'moderate'
-  || crowdStatus.value === 'busy',
-)
 
 const isPanelOpen = ref(false)
 const isPanelClosing = ref(false)
@@ -10007,113 +10133,6 @@ $vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical
     @include m.xs {
       height: 30px;
     }
-  }
-
-  &__crowd {
-    --crowd-color: #{v.$vket-gray};
-    --crowd-shadow-color: rgb(0 0 0 / 25%);
-
-    position: absolute;
-    z-index: 4;
-    top: 58px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: flex-start;
-    justify-self: center;
-
-    box-sizing: border-box;
-    width: auto;
-    min-width: 172px;
-    height: 40px;
-    padding: 6px 12px;
-
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.5;
-    color: v.$vket-rich-navy;
-    white-space: nowrap;
-
-    box-shadow:
-      0 4px 12px -2px var(--crowd-shadow-color),
-      inset rgb(22 0 120 / 20%) 0 0 12px 0;
-
-    @include m.tb {
-      top: 32px;
-      font-size: 14px;
-    }
-
-    @include m.sp {
-      top: 90px;
-      left: 16px;
-      transform: none;
-
-      min-width: 160px;
-
-      font-size: 13px;
-    }
-
-    &--available {
-      --crowd-color: #{v.$vket-emerald};
-      --crowd-shadow-color: rgb(67 255 189 / 45%);
-    }
-
-    &--moderate {
-      --crowd-color: #{v.$vket-amber};
-      --crowd-shadow-color: rgb(255 165 0 / 45%);
-    }
-
-    &--busy {
-      --crowd-color: #{v.$vket-vermilion};
-      --crowd-shadow-color: rgb(255 69 0 / 45%);
-    }
-
-    &--closed,
-    &--loading,
-    &--error {
-      --crowd-color: #{v.$vket-gray};
-      --crowd-shadow-color: rgb(0 0 0 / 25%);
-    }
-
-    &--available,
-    &--moderate,
-    &--busy {
-      strong {
-        color: var(--crowd-color);
-      }
-    }
-  }
-
-  &__crowd-dot {
-    flex: 0 0 28px;
-
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-
-    background-color: var(--crowd-color);
-    box-shadow: 0 3px 8px -1px var(--crowd-shadow-color);
-
-    @include m.tb {
-      flex-basis: 26px;
-      width: 26px;
-      height: 26px;
-    }
-
-    @include m.sp {
-      flex-basis: 24px;
-      width: 24px;
-      height: 24px;
-    }
-  }
-
-  &__crowd-text {
-    overflow: hidden;
-    font-weight: 900;
-    text-overflow: ellipsis;
   }
 
   &__accordion-wrapper {

@@ -19,7 +19,7 @@ let activeInstanceCount = 0 // このcomposableを呼び出しているコンポ
 const endpoint = 'https://vris-26autumn-visitor-counter-api.skmt3p.workers.dev/api/v1/crowd-status'
 
 // 開催日時を指定
-const EVENT_START = new Date('2026-08-26T10:00:00+09:00')
+const EVENT_START = new Date('2026-09-26T10:00:00+09:00')
 
 // FIXME: setTimeoutの遅延値は内部的に32bit符号付き整数(最大約24.8日)を超えると仕様上オーバーフローし、ほぼ即座に発火してしまう。※ 下記の通り対策済み
 // 対策として開催日時までの残り時間が長い場合は、この値を上限として何度か再スケジュールしながら近づいていく。
