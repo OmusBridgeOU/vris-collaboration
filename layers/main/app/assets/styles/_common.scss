@@ -537,6 +537,16 @@
   }
 }
 
+.view-all-button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  padding: 8px 16px;
+
+  text-decoration: none;
+}
+
 .subtitle {
   width: fit-content;
   margin: 20px auto 36px;
