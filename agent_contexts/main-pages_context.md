@@ -468,10 +468,10 @@ const initScrollEffects = async () => {
 </style>
 ```
 
-## File: layers/main/app/pages/contents/index.vue
+## File: layers/main/app/pages/news/index.vue
 ```vue
 <script lang="ts" setup>
-import HaContentCard from '~/components/ha/HaContentCard.vue'
+import HaNewsCard from '~/components/ha/HaNewsCard.vue'
 import HaPageTitle from '~/components/ha/HaPageTitle.vue'
 
 definePageMeta({
@@ -482,34 +482,50 @@ const { t: tGlobal } = useI18n()
 
 const items = computed(() => [
   {
+    id: 4,
+    title: tGlobal('news.4.title'),
+    href: 'https://note.com/vris/n/n017807ce1d33',
+    imgSrc: '/news4_thumbnail.jpg',
+    timestamp: '2026-09-09',
+  },
+  {
+    id: 3,
+    title: tGlobal('news.3.title'),
+    href: 'https://note.com/vris/n/n880e9b3364f9',
+    imgSrc: '/news3_thumbnail.png',
+    timestamp: '2026-08-26',
+  },
+  {
     id: 1,
-    title: tGlobal('contents.1.title'),
-    imgSrc: '/images/contents/vris-noimage.png',
+    title: tGlobal('news.1.title'),
     href: 'https://note.com/vris/n/nd2a52adc9c5c',
-    text: tGlobal('contents.1.text'),
+    imgSrc: '/news1_thumbnail.png',
+    timestamp: '2026-06-06',
+  },
+  {
+    id: 2,
+    title: tGlobal('news.2.title'),
+    href: 'https://note.com/vris/n/nd2a52adc9c5c',
+    imgSrc: '/news2_thumbnail.png',
+    timestamp: '2026-06-01',
   },
 ])
 </script>
 
 <template>
-  <div class="contents-list">
-    <div class="contents-list__card">
-      <div class="contents-list__inner">
+  <div class="news-list">
+    <div class="news-list__card">
+      <div class="news-list__inner">
         <HaPageTitle
-          label="contents"
-          title="企画・コンテンツ"
-          class="contents-list__item--full-width"
+          label="news"
+          title="お知らせ"
+          class="news-list__item--full-width"
         />
-        <HaContentCard
+        <HaNewsCard
           v-for="item in items"
           :key="item.id"
           :item="item"
         />
-        <SwiperSlide
-          key="comming-soon"
-        >
-          <HaCommingSoonCard />
-        </SwiperSlide>
       </div>
     </div>
   </div>
@@ -519,7 +535,7 @@ const items = computed(() => [
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.contents-list {
+.news-list {
   padding: v.$vket-header-height-pc 32px;
 
   @include m.tb {
@@ -615,10 +631,10 @@ const items = computed(() => [
 </style>
 ```
 
-## File: layers/main/app/pages/news/index.vue
+## File: layers/main/app/pages/contents/index.vue
 ```vue
 <script lang="ts" setup>
-import HaNewsCard from '~/components/ha/HaNewsCard.vue'
+import HaContentCard from '~/components/ha/HaContentCard.vue'
 import HaPageTitle from '~/components/ha/HaPageTitle.vue'
 
 definePageMeta({
@@ -627,48 +643,29 @@ definePageMeta({
 
 const { t: tGlobal } = useI18n()
 
+const NOTE_PROGRAMS = 'https://note.com/vris/n/n880e9b3364f9'
+const NOTE_GOODS = 'https://note.com/vris/n/n017807ce1d33'
 const items = computed(() => [
-  {
-    id: 4,
-    title: tGlobal('news.4.title'),
-    href: 'https://note.com/vris/n/n017807ce1d33',
-    imgSrc: '/news4_thumbnail.jpg',
-    timestamp: '2026-09-09',
-  },
-  {
-    id: 3,
-    title: tGlobal('news.3.title'),
-    href: 'https://note.com/vris/n/n880e9b3364f9',
-    imgSrc: '/news3_thumbnail.png',
-    timestamp: '2026-08-26',
-  },
-  {
-    id: 1,
-    title: tGlobal('news.1.title'),
-    href: 'https://note.com/vris/n/nd2a52adc9c5c',
-    imgSrc: '/news1_thumbnail.png',
-    timestamp: '2026-06-06',
-  },
-  {
-    id: 2,
-    title: tGlobal('news.2.title'),
-    href: 'https://note.com/vris/n/nd2a52adc9c5c',
-    imgSrc: '/news2_thumbnail.png',
-    timestamp: '2026-06-01',
-  },
+  { id: 1, title: tGlobal('contents.1.title'), href: NOTE_PROGRAMS, imgSrc: '/images/2026Autumn/contents/contents-1-parareal.png', text: tGlobal('contents.1.text') },
+  { id: 2, title: tGlobal('contents.2.title'), href: NOTE_PROGRAMS, imgSrc: '/images/2026Autumn/contents/contents-2-matching.png', text: tGlobal('contents.2.text') },
+  { id: 3, title: tGlobal('contents.3.title'), href: NOTE_PROGRAMS, imgSrc: '/images/2026Autumn/contents/contents-3-message.png', text: tGlobal('contents.3.text') },
+  { id: 4, title: tGlobal('contents.4.title'), href: NOTE_PROGRAMS, imgSrc: '/images/2026Autumn/contents/contents-4-showcase.png', text: tGlobal('contents.4.text') },
+  { id: 5, title: tGlobal('contents.5.title'), href: NOTE_PROGRAMS, imgSrc: '/images/2026Autumn/contents/contents-5-avatar.png', text: tGlobal('contents.5.text') },
+  { id: 6, title: tGlobal('contents.6.title'), href: NOTE_GOODS, imgSrc: '/images/2026Autumn/contents/contents-6-goods.png', text: tGlobal('contents.6.text') },
+  { id: 7, title: tGlobal('contents.7.title'), href: NOTE_PROGRAMS, imgSrc: '/images/contents/vris-noimage.png', text: tGlobal('contents.7.text') },
 ])
 </script>
 
 <template>
-  <div class="news-list">
-    <div class="news-list__card">
-      <div class="news-list__inner">
+  <div class="contents-list">
+    <div class="contents-list__card">
+      <div class="contents-list__inner">
         <HaPageTitle
-          label="news"
-          title="お知らせ"
-          class="news-list__item--full-width"
+          label="contents"
+          title="企画・コンテンツ"
+          class="contents-list__item--full-width"
         />
-        <HaNewsCard
+        <HaContentCard
           v-for="item in items"
           :key="item.id"
           :item="item"
@@ -682,7 +679,7 @@ const items = computed(() => [
 @use '@/assets/styles/variables' as v;
 @use '@/assets/styles/mixins' as m;
 
-.news-list {
+.contents-list {
   padding: v.$vket-header-height-pc 32px;
 
   @include m.tb {

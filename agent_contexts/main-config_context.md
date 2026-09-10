@@ -726,7 +726,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
 
   nitro: {
-    preset: 'vercel',
+    preset: 'cloudflare_pages',
   },
 
   typescript: {
@@ -744,15 +744,6 @@ export default defineNuxtConfig({
   },
 
   i18n: nuxtI18nOptions,
-
-  vite: {
-    server: {
-      watch: {
-        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
-        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
-      },
-    },
-  },
 })
 ````
 
@@ -807,7 +798,7 @@ export default defineNuxtConfig({
 ## File: layers/main/i18n/locales/en.json
 ````json
 {
-  "viewAll" : "view all",
+  "viewAll": "view all",
   "page": {
     "top": "TOP"
   },
@@ -848,8 +839,32 @@ export default defineNuxtConfig({
   },
   "contents": {
     "1": {
-      "title": "ParaRealCreator in SAPPORO",
-      "text": "Goods Exhibition & Sale by VR Creators"
+      "title": "ParaReal Stage",
+      "text": "Screening of “Shika The VR MUSICAL,” a real talk show, and a live crossover of real and virtual. Held after closing at Deep Tech CORE SAPPORO (free)."
+    },
+    "2": {
+      "title": "Matching Card Game",
+      "text": "Write your interests on a card and introduce yourselves. Keep mingling and you may get a shot at a limited-goods lottery."
+    },
+    "3": {
+      "title": "Message Cards",
+      "text": "Write a message on a small card and pin it to the board."
+    },
+    "4": {
+      "title": "Creator Showcase",
+      "text": "A promo space where you can leave flyers, business cards, and postcards to share your activities."
+    },
+    "5": {
+      "title": "Avatar Group Photo (Advance Program)",
+      "text": "Group photos taken in VRChat and displayed at the real venue."
+    },
+    "6": {
+      "title": "Official Goods",
+      "text": "Official merchandise for sale, including venue exclusives."
+    },
+    "7": {
+      "title": "Visitor Giveaway",
+      "text": "A raffle giveaway held during the ParaReal Creator closing ceremony."
     }
   },
   "news": {
@@ -872,25 +887,25 @@ export default defineNuxtConfig({
 ## File: layers/main/i18n/locales/ja.json
 ````json
 {
-  "viewAll" : "すべて見る",
+  "viewAll": "すべて見る",
   "page": {
     "top": "TOPページ"
   },
   "sectionTitle": {
     "about": "VketReal in 札幌とは",
     "exhibitorInfo": "出展者案内",
-    "participationGuide" : "参加案内",
-    "tickets" : "チケット",
-    "news" : "お知らせ",
-    "contents" : "企画・コンテンツ",
-    "exhibitorCircles" : "出展サークル一覧",
-    "schedule" : "開催スケジュール",
-    "locationInfo" : "会場情報",
-    "sponsorsAndPartners" : "ご協力",
-    "members" : "有志メンバー",
-    "qa" : "よくある質問",
-    "qa--min" : "Q&A",
-    "contact" : "お問い合わせ"
+    "participationGuide": "参加案内",
+    "tickets": "チケット",
+    "news": "お知らせ",
+    "contents": "企画・コンテンツ",
+    "exhibitorCircles": "出展サークル一覧",
+    "schedule": "開催スケジュール",
+    "locationInfo": "会場情報",
+    "sponsorsAndPartners": "ご協力",
+    "members": "有志メンバー",
+    "qa": "よくある質問",
+    "qa--min": "Q&A",
+    "contact": "お問い合わせ"
   },
   "infoCard": {
     "venue": {
@@ -913,8 +928,32 @@ export default defineNuxtConfig({
   },
   "contents": {
     "1": {
-      "title": "パラリアルクリエイター in SAPPORO",
-      "text": "VRクリエイターによるグッズ展示・即売コーナー"
+      "title": "パラリアルステージ",
+      "text": "『鹿 The VR MUSICAL』上映、リアルトークショー、リアル×バーチャルの生ライブ。閉会後に Deep Tech CORE SAPPORO で開催（無料）。"
+    },
+    "2": {
+      "title": "マッチングカードゲーム",
+      "text": "カードに興味を書いて自己紹介し合う交流企画。交流を進めると限定グッズくじに挑戦できるかも。"
+    },
+    "3": {
+      "title": "メッセージカード",
+      "text": "小さなカードにメッセージを書いてボードに貼る参加型企画。"
+    },
+    "4": {
+      "title": "クリエイター・ショーケース",
+      "text": "チラシ・名刺・ポストカードなどを置いて活動をアピールできる宣伝スペース。"
+    },
+    "5": {
+      "title": "アバター集合写真（事前企画）",
+      "text": "VRChat内で集合撮影し、リアル会場に掲示する企画。"
+    },
+    "6": {
+      "title": "公式グッズ",
+      "text": "会場限定を含む公式グッズを販売。"
+    },
+    "7": {
+      "title": "来場者プレゼント企画",
+      "text": "パラリアルクリエイター閉会式時の抽選プレゼント企画。"
     }
   },
   "news": {

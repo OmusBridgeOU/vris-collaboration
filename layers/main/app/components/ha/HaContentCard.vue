@@ -21,7 +21,9 @@
       <HaNoImage />
     </div>
     <div class="content-card__title-flex">
-      <p class="content-card__title">{{ item.title }}</p>
+      <p class="content-card__title">
+        {{ item.title }}
+      </p>
       <HaJumpToListIcon
         v-if="isLink"
         class="content-card__icon"
@@ -55,6 +57,7 @@ const isLink = computed(() => Boolean(props.item.href))
   cursor: pointer;
 
   display: block;
+
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
@@ -90,6 +93,7 @@ const isLink = computed(() => Boolean(props.item.href))
 
   &__image, &__empty-image {
     position: relative;
+
     overflow: hidden;
     display: block;
 
@@ -97,6 +101,7 @@ const isLink = computed(() => Boolean(props.item.href))
     width: 100%;
     margin-bottom: 14px;
     border-radius: 10px;
+
     object-fit: cover;
     background-color: #d2d2d2;
 
@@ -112,13 +117,14 @@ const isLink = computed(() => Boolean(props.item.href))
 
   &__title-flex {
     display: flex;
-    justify-content: space-between;
     gap: 8px;
+    justify-content: space-between;
     min-width: 0;
   }
 
   &__title {
     flex: 1;
+
     min-width: 0;
     margin-bottom: 8px;
 
@@ -133,12 +139,13 @@ const isLink = computed(() => Boolean(props.item.href))
   }
 
   &__text {
+    overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    overflow: hidden;
 
     margin-bottom: 6px;
+
     font-size: 14px;
     line-height: 1.4;
     color: #a0a0a0;
