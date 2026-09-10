@@ -8,14 +8,16 @@ definePageMeta({
 
 const { t: tGlobal } = useI18n()
 
-// Official programs (公式企画). Placeholder: VketReal light logo until per-program art is ready.
-const items = computed(() =>
-  [1, 2, 3, 4, 5, 6, 7].map(id => ({
-    id,
-    title: tGlobal(`contents.${id}.title`),
-    imgSrc: '/vketreal_in_sapporo_logo_light.png',
-    text: tGlobal(`contents.${id}.text`),
-  })),
+const NOTE_HREF = 'https://note.com/vris/n/n017807ce1d33'
+const items = computed(() => [
+  { id: 1, title: tGlobal('contents.1.title'), href: NOTE_HREF, imgSrc: '/images/2026Autumn/contents/contents-1-parareal.png', text: tGlobal('contents.1.text') },
+  { id: 2, title: tGlobal('contents.2.title'), href: NOTE_HREF, imgSrc: '/images/2026Autumn/contents/contents-2-matching.png', text: tGlobal('contents.2.text') },
+  { id: 3, title: tGlobal('contents.3.title'), href: NOTE_HREF, imgSrc: '/images/2026Autumn/contents/contents-3-message.png', text: tGlobal('contents.3.text') },
+  { id: 4, title: tGlobal('contents.4.title'), href: NOTE_HREF, imgSrc: '/images/2026Autumn/contents/contents-4-showcase.png', text: tGlobal('contents.4.text') },
+  { id: 5, title: tGlobal('contents.5.title'), href: NOTE_HREF, imgSrc: '/images/2026Autumn/contents/contents-5-avatar.png', text: tGlobal('contents.5.text') },
+  { id: 6, title: tGlobal('contents.6.title'), href: NOTE_HREF, imgSrc: '/images/2026Autumn/contents/contents-6-goods.png', text: tGlobal('contents.6.text') },
+  { id: 7, title: tGlobal('contents.7.title'), href: NOTE_HREF, imgSrc: '', text: tGlobal('contents.7.text') },
+]),
 )
 </script>
 
