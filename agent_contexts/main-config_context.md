@@ -726,7 +726,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
 
   nitro: {
-    preset: 'cloudflare_pages',
+    preset: 'vercel',
   },
 
   typescript: {
@@ -744,6 +744,15 @@ export default defineNuxtConfig({
   },
 
   i18n: nuxtI18nOptions,
+
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
+        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
+      },
+    },
+  },
 })
 ````
 
