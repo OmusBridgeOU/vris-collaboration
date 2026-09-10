@@ -799,6 +799,7 @@ export default defineNuxtConfig({
 ````json
 {
   "viewAll": "view all",
+  "learnMore" : "learn more",
   "page": {
     "top": "TOP"
   },
@@ -808,6 +809,7 @@ export default defineNuxtConfig({
     "participationGuide" : "Participation Guide",
     "tickets" : "Tickets",
     "news" : "News",
+    "collaborativeEvent" : "Collaborative Event",
     "contents" : "Programs & Contents",
     "exhibitorCircles" : "Exhibiting Circles",
     "schedule" : "Event Schedule",
@@ -835,6 +837,12 @@ export default defineNuxtConfig({
           "text": "3 min walk from Sapporo Subway Station (direct underground access){br}5 min walk from JR Sapporo Station South Exit"
         }
       }
+    }
+  },
+  "collaborativeEvent": {
+    "nomaps": {
+      "text1": "NoMaps: from Sapporo, Hokkaido — a festival that makes the world way more awesome through tech, entertainment, and creativity.",
+      "text2": "VketReal in Sapporo 2026 Autumn is held in collaboration with NoMaps 2026.{br}NoMaps events are also taking place in Sapporo on the same day, so be sure to check them out too!"
     }
   },
   "contents": {
@@ -888,6 +896,7 @@ export default defineNuxtConfig({
 ````json
 {
   "viewAll": "すべて見る",
+  "learnMore" : "詳しくはこちらから",
   "page": {
     "top": "TOPページ"
   },
@@ -901,6 +910,7 @@ export default defineNuxtConfig({
     "exhibitorCircles": "出展サークル一覧",
     "schedule": "開催スケジュール",
     "locationInfo": "会場情報",
+    "collaborativeEvent": "連携イベント",
     "sponsorsAndPartners": "ご協力",
     "members": "有志メンバー",
     "qa": "よくある質問",
@@ -924,6 +934,12 @@ export default defineNuxtConfig({
           "text": "地下鉄さっぽろ駅より地下鉄直結・徒歩3分{br}JR札幌駅南口より徒歩5分"
         }
       }
+    }
+  },
+  "collaborativeEvent": {
+    "nomaps": {
+      "text1": "札幌·北海道から テック・エンタメ・クリエイティブで世界をめっちゃおもろくするフェスNoMaps（ノーマップス）",
+      "text2": "VketReal in 札幌 2026 Autumn は、NoMaps 2026と連携しております。{br}同日、札幌ではNoMapsのイベントも開催されているので、NoMapsにも遊びに行こう！"
     }
   },
   "contents": {

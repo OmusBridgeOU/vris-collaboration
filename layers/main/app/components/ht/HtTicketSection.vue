@@ -4,15 +4,15 @@ ja:
     title: チケット
     label: tickets
   description:
-    line1: 一般来場チケットは2026年8月26日(水)より販売開始です。
+    line1: イベント入場券は2026年8月26日(水)より販売開始です。
     line2: LivePocketの販売ページからお申し込みください。
   numberedTicketNotice:
-    line1: ※入場には一般参加チケットとは別に、オンライン入場整理券が必要です。
+    line1: ※入場にはイベント入場券とは別に、オンライン入場整理券が必要です。
     line2: 入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。
     line3: 整理券番号はLivePocketからメールで届きます。事前にLivePocketからのメールを受信できるよう、受信設定をご確認ください。
   cards:
     general:
-      title: 一般参加チケット
+      title: イベント入場券
       desc: VketReal in 札幌 2026 Autumnの来場チケットです。
       cta: チケットを購入する
     updates:
@@ -24,15 +24,15 @@ en:
     title: Tickets
     label: tickets
   description:
-    line1: General admission tickets go on sale Wednesday, August 26, 2026.
+    line1: Event admission tickets go on sale Wednesday, August 26, 2026.
     line2: Please purchase tickets through LivePocket.
   numberedTicketNotice:
-    line1: An online numbered admission ticket is required in addition to a general admission ticket.
+    line1: An online numbered admission ticket is required in addition to an event admission ticket.
     line2: Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.
     line3: LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.
   cards:
     general:
-      title: General Admission
+      title: Event Admission Ticket
       desc: Admission ticket for VketReal in Sapporo 2026 Autumn.
       cta: Buy Tickets
     updates:

@@ -118,6 +118,7 @@ layers/
           HaSponsorCard.vue
           HaTicketCard.vue
           HaTypewriterText.vue
+          HaYoutubeEmbed.vue
         hm/
           HmContentsSwiper.vue
           HmCrowdLevelCard.vue
@@ -129,6 +130,7 @@ layers/
           HtAboutSection.vue
           HtAccessSection.vue
           HtCodeOfConductSection.vue
+          HtCollaborativeEvent.vue
           HtContactSection.vue
           HtContentsSection.vue
           HtCrowdLevelsSection.vue
@@ -1877,6 +1879,22 @@ layers/
   >
     <path
       d="M11.9449 8.26976H10.1072V6.43208H11.9449M11.9449 15.6205H10.1072V10.1074H11.9449M11.026 1.83789C9.8194 1.83789 8.62458 2.07556 7.50979 2.53731C6.395 2.99907 5.38208 3.67589 4.52886 4.52911C2.80571 6.25226 1.83765 8.58937 1.83765 11.0263C1.83765 13.4632 2.80571 15.8003 4.52886 17.5234C5.38208 18.3767 6.395 19.0535 7.50979 19.5152C8.62458 19.977 9.8194 20.2147 11.026 20.2147C13.4629 20.2147 15.8 19.2466 17.5232 17.5234C19.2464 15.8003 20.2144 13.4632 20.2144 11.0263C20.2144 9.81964 19.9768 8.62482 19.515 7.51003C19.0532 6.39525 18.3764 5.38233 17.5232 4.52911C16.67 3.67589 15.6571 2.99907 14.5423 2.53731C13.4275 2.07556 12.2327 1.83789 11.026 1.83789Z"
+      fill="white"
+    />
+  </svg>
+</template>
+```
+
+## File: layers/main/app/components/ha/icons/HaInstagramIcon.vue
+```vue
+<template>
+  <svg
+    viewBox="0 0 14 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M4.06 0H9.94C12.18 0 14 1.82 14 4.06V9.94C14 11.0168 13.5723 12.0495 12.8109 12.8109C12.0495 13.5723 11.0168 14 9.94 14H4.06C1.82 14 0 12.18 0 9.94V4.06C0 2.98322 0.427749 1.95054 1.18915 1.18915C1.95054 0.427749 2.98322 0 4.06 0ZM3.92 1.4C3.25165 1.4 2.61068 1.6655 2.13809 2.13809C1.6655 2.61068 1.4 3.25165 1.4 3.92V10.08C1.4 11.473 2.527 12.6 3.92 12.6H10.08C10.7483 12.6 11.3893 12.3345 11.8619 11.8619C12.3345 11.3893 12.6 10.7483 12.6 10.08V3.92C12.6 2.527 11.473 1.4 10.08 1.4H3.92ZM10.675 2.45C10.9071 2.45 11.1296 2.54219 11.2937 2.70628C11.4578 2.87038 11.55 3.09294 11.55 3.325C11.55 3.55706 11.4578 3.77962 11.2937 3.94372C11.1296 4.10781 10.9071 4.2 10.675 4.2C10.4429 4.2 10.2204 4.10781 10.0563 3.94372C9.89219 3.77962 9.8 3.55706 9.8 3.325C9.8 3.09294 9.89219 2.87038 10.0563 2.70628C10.2204 2.54219 10.4429 2.45 10.675 2.45ZM7 3.5C7.92826 3.5 8.8185 3.86875 9.47487 4.52513C10.1313 5.1815 10.5 6.07174 10.5 7C10.5 7.92826 10.1313 8.8185 9.47487 9.47487C8.8185 10.1313 7.92826 10.5 7 10.5C6.07174 10.5 5.1815 10.1313 4.52513 9.47487C3.86875 8.8185 3.5 7.92826 3.5 7C3.5 6.07174 3.86875 5.1815 4.52513 4.52513C5.1815 3.86875 6.07174 3.5 7 3.5ZM7 4.9C6.44305 4.9 5.9089 5.12125 5.51508 5.51508C5.12125 5.9089 4.9 6.44305 4.9 7C4.9 7.55695 5.12125 8.0911 5.51508 8.48492C5.9089 8.87875 6.44305 9.1 7 9.1C7.55695 9.1 8.0911 8.87875 8.48492 8.48492C8.87875 8.0911 9.1 7.55695 9.1 7C9.1 6.44305 8.87875 5.9089 8.48492 5.51508C8.0911 5.12125 7.55695 4.9 7 4.9Z"
       fill="white"
     />
   </svg>
@@ -3674,6 +3692,91 @@ onUnmounted(() => {
 </template>
 ```
 
+## File: layers/main/app/components/ha/HaYoutubeEmbed.vue
+```vue
+<template>
+  <div
+    class="ha-youtube-embed"
+    :style="{ aspectRatio: `${aspectWidth} / ${aspectHeight}` }"
+  >
+    <iframe
+      class="ha-youtube-embed__iframe"
+      :src="embedSrc"
+      :title="title"
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      :allowfullscreen="allowFullscreen"
+      referrerpolicy="strict-origin-when-cross-origin"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = withDefaults(defineProps<{
+  videoId: string // YouTubeの動画ID（例: 'dQw4w9WgXcQ'）。URL全体ではなくIDのみを渡す
+  autoplay?: boolean
+  muted?: boolean
+  loop?: boolean
+  controls?: boolean
+  title?: string
+  showUnrelatedVideos?: boolean
+  allowFullscreen?: boolean
+  privacyEnhanced?: boolean
+  aspectWidth?: number
+  aspectHeight?: number
+}>(), {
+  autoplay: false,
+  muted: false,
+  loop: false,
+  controls: true,
+  title: 'YouTube video player',
+  showUnrelatedVideos: false,
+  allowFullscreen: true,
+  privacyEnhanced: true,
+  aspectWidth: 16,
+  aspectHeight: 9,
+})
+
+const embedSrc = computed(() => {
+  const host = props.privacyEnhanced ? 'www.youtube-nocookie.com' : 'www.youtube.com'
+  const params = new URLSearchParams({
+    autoplay: props.autoplay ? '1' : '0',
+    mute: props.muted ? '1' : '0',
+    loop: props.loop ? '1' : '0',
+    controls: props.controls ? '1' : '0',
+    rel: props.showUnrelatedVideos ? '1' : '0',
+    playsinline: '1',
+  })
+
+  // loop=1を機能させるには、YouTube側の仕様上playlistパラメータに同じvideoIdを渡す必要がある
+  if (props.loop) {
+    params.set('playlist', props.videoId)
+  }
+
+  return `https://${host}/embed/${props.videoId}?${params.toString()}`
+})
+</script>
+
+<style scoped>
+.ha-youtube-embed {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.ha-youtube-embed__iframe {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
 ```vue
 <script setup lang="ts">
@@ -3832,6 +3935,164 @@ onMounted(() => {
       height: 40px;
     }
   }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtCollaborativeEvent.vue
+```vue
+<script setup lang="ts">
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+import HaYoutubeEmbed from '../ha/HaYoutubeEmbed.vue'
+import HaJumpToPageIcon from '../ha/icons/HaJumpToPageIcon.vue'
+
+const { t: tGlobal } = useI18n()
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <HaSectionTitle
+    :title="tGlobal('sectionTitle.collaborativeEvent')"
+    label="COLLABORATIVE EVENT"
+  />
+  <div ref="sectionRef">
+    <HaYoutubeEmbed
+      class="collaborative-event__movie"
+      video-id="mlGii_DdBbs"
+      autoplay
+      loop
+      muted
+    />
+    <img
+      src="/partners-and-sponsors/nomaps-2026.svg"
+      alt=""
+      class="nomaps-logo"
+    >
+    <i18n-t
+      keypath="collaborativeEvent.nomaps.text1"
+      tag="p"
+      scope="global"
+      class="collaborative-event__text collaborative-event__text--center"
+    >
+      <template #br>
+        <br>
+      </template>
+    </i18n-t>
+    <a
+      class="collaborative-event__link"
+      href="https://no-maps.jp/2026"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <div class="collaborative-event-link__flex">
+        <span class="collaborative-event-link__text">
+          {{ tGlobal('learnMore') }}
+        </span>
+        <HaJumpToPageIcon class="collaborative-event-link__icon" />
+      </div>
+    </a>
+    <img
+      src="/collaborativeEvents1_thumbnail.jpg"
+      alt=""
+      class="collaborative-event__image collaborative-event__restrict-width"
+    >
+    <i18n-t
+      keypath="collaborativeEvent.nomaps.text2"
+      tag="p"
+      scope="global"
+      class="collaborative-event__text collaborative-event__restrict-width"
+    >
+      <template #br>
+        <br>
+      </template>
+    </i18n-t>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.collaborative-event {
+  &__movie {
+    width: 100%;
+    margin-bottom: 64px;
+
+    @include m.sp {
+      margin-bottom: 32px;
+    }
+  }
+
+  &__text {
+    font-size: 16px;
+    text-align: center;
+    text-align: left;
+
+    &--center {
+      text-align: center;
+    }
+  }
+
+  &__image {
+    display: block;
+    margin-bottom: 24px;
+  }
+
+  &__restrict-width {
+    width: 1080px;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  &__link {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 64px;
+    color: white;
+
+    @include m.sp {
+      margin-bottom: 32px;
+    }
+  }
+
+  &-link__flex {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-bottom: 1px solid v.$vket-green;
+  }
+
+  &-link__text {
+    font-size: 16px;
+    color: v.$vket-green;
+  }
+
+  &-link__icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.nomaps-logo {
+  display: block;
+
+  width: 600px;
+  max-width: 80vw;
+  margin-right: auto;
+  margin-bottom: 64px;
+  margin-left: auto;
+
+    @include m.sp {
+      margin-bottom: 32px;
+    }
 }
 </style>
 ```
@@ -4519,22 +4780,6 @@ const { t: tGlobal } = useI18n()
 </template>
 ```
 
-## File: layers/main/app/components/ha/icons/HaInstagramIcon.vue
-```vue
-<template>
-  <svg
-    viewBox="0 0 14 14"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M4.06 0H9.94C12.18 0 14 1.82 14 4.06V9.94C14 11.0168 13.5723 12.0495 12.8109 12.8109C12.0495 13.5723 11.0168 14 9.94 14H4.06C1.82 14 0 12.18 0 9.94V4.06C0 2.98322 0.427749 1.95054 1.18915 1.18915C1.95054 0.427749 2.98322 0 4.06 0ZM3.92 1.4C3.25165 1.4 2.61068 1.6655 2.13809 2.13809C1.6655 2.61068 1.4 3.25165 1.4 3.92V10.08C1.4 11.473 2.527 12.6 3.92 12.6H10.08C10.7483 12.6 11.3893 12.3345 11.8619 11.8619C12.3345 11.3893 12.6 10.7483 12.6 10.08V3.92C12.6 2.527 11.473 1.4 10.08 1.4H3.92ZM10.675 2.45C10.9071 2.45 11.1296 2.54219 11.2937 2.70628C11.4578 2.87038 11.55 3.09294 11.55 3.325C11.55 3.55706 11.4578 3.77962 11.2937 3.94372C11.1296 4.10781 10.9071 4.2 10.675 4.2C10.4429 4.2 10.2204 4.10781 10.0563 3.94372C9.89219 3.77962 9.8 3.55706 9.8 3.325C9.8 3.09294 9.89219 2.87038 10.0563 2.70628C10.2204 2.54219 10.4429 2.45 10.675 2.45ZM7 3.5C7.92826 3.5 8.8185 3.86875 9.47487 4.52513C10.1313 5.1815 10.5 6.07174 10.5 7C10.5 7.92826 10.1313 8.8185 9.47487 9.47487C8.8185 10.1313 7.92826 10.5 7 10.5C6.07174 10.5 5.1815 10.1313 4.52513 9.47487C3.86875 8.8185 3.5 7.92826 3.5 7C3.5 6.07174 3.86875 5.1815 4.52513 4.52513C5.1815 3.86875 6.07174 3.5 7 3.5ZM7 4.9C6.44305 4.9 5.9089 5.12125 5.51508 5.51508C5.12125 5.9089 4.9 6.44305 4.9 7C4.9 7.55695 5.12125 8.0911 5.51508 8.48492C5.9089 8.87875 6.44305 9.1 7 9.1C7.55695 9.1 8.0911 8.87875 8.48492 8.48492C8.87875 8.0911 9.1 7.55695 9.1 7C9.1 6.44305 8.87875 5.9089 8.48492 5.51508C8.0911 5.12125 7.55695 4.9 7 4.9Z"
-      fill="white"
-    />
-  </svg>
-</template>
-```
-
 ## File: layers/main/app/components/ha/icons/HaJumpToListIcon.vue
 ```vue
 <template>
@@ -4635,17 +4880,44 @@ defineProps<{
 ## File: layers/main/app/components/ha/HaCircleCard.vue
 ```vue
 <script lang="ts" setup>
-defineProps<{
+const props = defineProps<{
   name: string
+  href?: string | null
+  imgSrc?: string | null
 }>()
+
+const FALLBACK_IMG = '/images/2026Autumn/vketreal_vris_x_icon.jpg'
+const displayImgSrc = computed(() => props.imgSrc || FALLBACK_IMG)
+
+const tag = computed(() => (props.href ? 'a' : 'div'))
+const linkAttrs = computed(() => {
+  if (!props.href) return {}
+  return {
+    href: props.href,
+    target: '_blank',
+    rel: 'noopener noreferrer',
+  }
+})
 </script>
 
 <template>
-  <div class="glassy-box-4 glassy-box-4--radius-min circle-card">
+  <component
+    :is="tag"
+    class="glassy-box-4 glassy-box-4--radius-min circle-card"
+    :class="{ 'circle-card--link': !!href }"
+    v-bind="linkAttrs"
+  >
+    <div class="circle-card__img">
+      <img
+        :src="displayImgSrc"
+        :alt="name"
+        loading="lazy"
+      >
+    </div>
     <p class="circle-card__name">
       {{ name }}
     </p>
-  </div>
+  </component>
 </template>
 
 <style lang="scss" scoped>
@@ -4654,14 +4926,54 @@ defineProps<{
 
 .circle-card{
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 12px;
 
   height: 100%;
   padding: 20px;
 
+  text-decoration: none;
+  color: inherit;
+
   @include m.sp {
     padding: 16px;
+  }
+
+  &--link {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.7);
+      outline-offset: 2px;
+    }
+  }
+
+  &__img {
+    overflow: hidden;
+    flex-shrink: 0;
+
+    aspect-ratio: 1 / 1;
+    width: 88px;
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    @include m.sp {
+      width: 72px;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   &__name {
@@ -5258,39 +5570,45 @@ onMounted(() => {
 
 const { t: tGlobal } = useI18n()
 
-const circles = [
-  'わんぱくおにぎり',
-  'Aquange - 羽澄愛',
-  'PoteSuto',
-  '赤糸の裁縫箱',
-  'ゆるくる工房',
-  '貧弱な描きおき部屋',
-  'しろの里',
-  'Interlunium（インテルニウム）',
-  'ようよう制作',
-  'わにちゃのおみせ',
-  'メタバースソーラン',
-  'てんまるぱせり、。',
-  'VketReal in 広島 実行委員会',
-  'まろに屋',
-  'やきなす00',
-  'AmasukaLabo',
-  'にんぎょのくるぶし',
-  'VRアートを楽しむ会',
-  '北海道大学メタバース研究会',
-  'メタバースパブリックラボ',
-  '北海道科学大学メタバースプロジェクト',
-  '北海道情報大学 湯村研究室',
-  'わくわく犬プール',
-  'VRホビーロボット集会',
-  'VRC 3Dスキャン同好会',
-  'v-entry.app',
-  'ひかるのノースランドCHANNEL',
-  'きっポジの遊び場',
-  'まいけるさんすたじお',
-  '#リアルサイズアバター写真展',
-  'SYNR',
-  'VRC Avatar Collection',
+type CircleItem = {
+  name: string
+  href?: string
+  imgSrc?: string
+}
+
+const circles: CircleItem[] = [
+  { name: 'わんぱくおにぎり', href: 'https://x.com/dkbs_vrc', imgSrc: '/images/2026Autumn/circles/わんぱくおにぎり.png' },
+  { name: 'Aquange - 羽澄愛', href: 'https://x.com/hazumi_ai', imgSrc: '/images/2026Autumn/circles/Aquange_-_羽澄愛.jpg' },
+  { name: 'PoteSuto', href: 'https://x.com/PoteSuto29', imgSrc: '/images/2026Autumn/circles/PoteSuto.png' },
+  { name: '赤糸の裁縫箱', href: 'https://x.com/akaito3418', imgSrc: '/images/2026Autumn/circles/赤糸の裁縫箱.png' },
+  { name: 'ゆるくる工房', href: 'https://x.com/kurumi_vr?s=11' },
+  { name: '貧弱な描きおき部屋', href: 'https://lit.link/hinjyakumatsuge', imgSrc: '/images/2026Autumn/circles/貧弱な描きおき部屋.png' },
+  { name: 'しろの里' },
+  { name: 'Interlunium（インテルニウム）', href: 'https://interlunium-vrc.sakura.ne.jp/index.html', imgSrc: '/images/2026Autumn/circles/Interlunium_インテルニウム.png' },
+  { name: 'ようよう制作', href: 'https://youyou2002.booth.pm/', imgSrc: '/images/2026Autumn/circles/ようよう制作.png' },
+  { name: 'わにちゃのおみせ', href: 'https://victoryshop.booth.pm/', imgSrc: '/images/2026Autumn/circles/わにちゃのおみせ.png' },
+  { name: 'メタバースソーラン', href: 'https://x.com/GoldsanV', imgSrc: '/images/2026Autumn/circles/メタバースソーラン.png' },
+  { name: 'てんまるぱせり、。', href: 'https://x.com/paseei888?s=11&t=jYmF-u4D-Rie1mLiApNcGA', imgSrc: '/images/2026Autumn/circles/てんまるぱせり.jpeg' },
+  { name: 'VketReal in 広島 実行委員会', href: 'https://www.vrih.jp/links/', imgSrc: '/images/2026Autumn/circles/VketReal_in_広島_実行委員会.png' },
+  { name: 'まろに屋', href: 'https://maromaromaron.booth.pm/', imgSrc: '/images/2026Autumn/circles/まろに屋.png' },
+  { name: 'やきなす00', href: 'https://x.com/yakinasu00', imgSrc: '/images/2026Autumn/circles/やきなす00.jpeg' },
+  { name: 'AmasukaLabo', href: 'https://x.com/amasuka_vrc', imgSrc: '/images/2026Autumn/circles/AmasukaLabo.png' },
+  { name: 'にんぎょのくるぶし', href: 'https://kikei.booth.pm/', imgSrc: '/images/2026Autumn/circles/にんぎょのくるぶし.png' },
+  { name: 'VRアートを楽しむ会' },
+  { name: '北海道大学メタバース研究会', href: 'https://x.com/HU_Metaverse', imgSrc: '/images/2026Autumn/circles/北海道大学メタバース研究会.jpg' },
+  { name: 'メタバースパブリックラボ', href: 'https://public-lab.my.canva.site/', imgSrc: '/images/2026Autumn/circles/メタバースパブリックラボ.jpeg' },
+  { name: '北海道科学大学メタバースプロジェクト', imgSrc: '/images/2026Autumn/circles/北海道科学大学メタバースプロジェクト.png' },
+  { name: '北海道情報大学 湯村研究室', href: 'https://x.com/yumulab', imgSrc: '/images/2026Autumn/circles/北海道情報大学_湯村研究室.png' },
+  { name: 'わくわく犬プール', href: 'https://x.com/1nupool', imgSrc: '/images/2026Autumn/circles/わくわく犬プール.png' },
+  { name: 'VRホビーロボット集会', href: 'https://x.com/nisoconVR', imgSrc: '/images/2026Autumn/circles/VRホビーロボット集会.png' },
+  { name: 'VRC 3Dスキャン同好会', href: 'https://lit.link/3DSCANCLUB', imgSrc: '/images/2026Autumn/circles/VRC_3Dスキャン同好会.PNG' },
+  { name: 'v-entry.app', href: 'https://v-entry.app/', imgSrc: '/images/2026Autumn/circles/v-entry_app.jpeg' },
+  { name: 'ひかるのノースランドCHANNEL' },
+  { name: 'きっポジの遊び場' },
+  { name: 'まいけるさんすたじお', href: 'https://x.com/MasoronaT', imgSrc: '/images/2026Autumn/circles/まいけるさんすたじお.png' },
+  { name: '#リアルサイズアバター写真展' },
+  { name: 'SYNR', href: 'https://x.com/synr_vrc', imgSrc: '/images/2026Autumn/circles/SYNR.png' },
+  { name: 'VRC Avatar Collection', href: 'https://x.com/VRC_AvaColle', imgSrc: '/images/2026Autumn/circles/VRC_Avatar_Collection.png' },
 ]
 </script>
 
@@ -5306,10 +5624,14 @@ const circles = [
     >
       <div
         v-for="circle in circles"
-        :key="circle"
+        :key="circle.name"
         class="exhibitor-circles-section__grid-item"
       >
-        <HaCircleCard :name="circle" />
+        <HaCircleCard
+          :name="circle.name"
+          :href="circle.href"
+          :img-src="circle.imgSrc"
+        />
       </div>
     </div>
   </div>
@@ -5591,6 +5913,160 @@ const isUnits = computed(() => Array.isArray(props.content))
     {{ content }}
   </template>
 </template>
+```
+
+## File: layers/main/app/components/ha/HaMemberCard.vue
+```vue
+<script lang="ts" setup>
+import HaInstagramIcon from './icons/HaInstagramIcon.vue'
+import HaXIcon from './icons/HaXIcon.vue'
+
+const props = defineProps<{
+  id: number
+  name: string
+  iconUrl: string
+  role: string
+  xLink: string | null
+  instagramLink: string | null
+}>()
+</script>
+
+<template>
+  <component
+    :is="xLink ? 'a' : 'div'"
+    class="glassy-box-4 glassy-box-4--radius-min member-card"
+    :href="xLink ? xLink : undefined"
+    :target="xLink ? '_blank' : undefined"
+    :rel="xLink ? 'noopener noreferrer' : undefined"
+  >
+    <div class="member-card__icon-wrapper">
+      <img
+        v-if="props.iconUrl"
+        :src="props.iconUrl"
+        :alt="props.iconUrl"
+        class="member-card__icon"
+      >
+      <div
+        v-else
+        class="member-card__icon member-card__icon--default"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+          fill="#ceeaff"
+        >
+          <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Z" />
+        </svg>
+      </div>
+    </div>
+    <div class="member-card__right">
+      <p class="member-card__name">
+        {{ props.name }}
+      </p>
+      <p class="member-card__role">
+        {{ props.role }}
+      </p>
+      <div class="member-card__logo-link-flex">
+        <!-- インスタリンクも公開される方がいるのであれば、各SNSアイコンのみにボタン判定がある仕様に戻す -->
+        <a
+          v-if="props.xLink"
+          class="member-card__logo-link"
+          :href="props.xLink"
+          target="blank"
+          rel="noopener noreferrer"
+        >
+          <HaXIcon />
+        </a>
+        <a
+          v-if="props.instagramLink"
+          class="member-card__logo-link"
+          :href="props.instagramLink"
+          target="blank"
+          rel="noopener noreferrer"
+        >
+          <HaInstagramIcon />
+        </a>
+      </div>
+    </div>
+  </component>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.member-card{
+  display: flex;
+  gap: 14px;
+  align-items: center;
+
+  height: 100%;
+  padding: 20px;
+
+  &__icon-wrapper {
+    overflow: hidden;
+    flex-shrink: 0;
+
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+  }
+
+  &__icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    &--default {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: hsl(206deg 30% 50%);
+
+      svg {
+        width: 80%;
+      }
+    }
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: space-between;
+
+    min-height: 80px;
+
+    svg {
+        display: block;
+    }
+  }
+
+  &__name {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1em;
+    color: white;
+  }
+
+  &__role {
+    font-size: 14px;
+    line-height: 1em;
+    color: v.$vket-amber;
+  }
+
+  &__logo-link-flex {
+    display: flex;
+    gap: 12px;
+    height: 14px;
+  }
+
+  &__logo-link {
+    width: 14px;
+    height: 14px;
+  }
+}
+</style>
 ```
 
 ## File: layers/main/app/components/ha/HaNewsCard.vue
@@ -6186,15 +6662,15 @@ ja:
     title: チケット
     label: tickets
   description:
-    line1: 一般来場チケットは2026年8月26日(水)より販売開始です。
+    line1: イベント入場券は2026年8月26日(水)より販売開始です。
     line2: LivePocketの販売ページからお申し込みください。
   numberedTicketNotice:
-    line1: ※入場には一般参加チケットとは別に、オンライン入場整理券が必要です。
+    line1: ※入場にはイベント入場券とは別に、オンライン入場整理券が必要です。
     line2: 入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。
     line3: 整理券番号はLivePocketからメールで届きます。事前にLivePocketからのメールを受信できるよう、受信設定をご確認ください。
   cards:
     general:
-      title: 一般参加チケット
+      title: イベント入場券
       desc: VketReal in 札幌 2026 Autumnの来場チケットです。
       cta: チケットを購入する
     updates:
@@ -6206,15 +6682,15 @@ en:
     title: Tickets
     label: tickets
   description:
-    line1: General admission tickets go on sale Wednesday, August 26, 2026.
+    line1: Event admission tickets go on sale Wednesday, August 26, 2026.
     line2: Please purchase tickets through LivePocket.
   numberedTicketNotice:
-    line1: An online numbered admission ticket is required in addition to a general admission ticket.
+    line1: An online numbered admission ticket is required in addition to an event admission ticket.
     line2: Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.
     line3: LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.
   cards:
     general:
-      title: General Admission
+      title: Event Admission Ticket
       desc: Admission ticket for VketReal in Sapporo 2026 Autumn.
       cta: Buy Tickets
     updates:
@@ -6689,160 +7165,6 @@ onBeforeUnmount(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaMemberCard.vue
-```vue
-<script lang="ts" setup>
-import HaInstagramIcon from './icons/HaInstagramIcon.vue'
-import HaXIcon from './icons/HaXIcon.vue'
-
-const props = defineProps<{
-  id: number
-  name: string
-  iconUrl: string
-  role: string
-  xLink: string | null
-  instagramLink: string | null
-}>()
-</script>
-
-<template>
-  <component
-    :is="xLink ? 'a' : 'div'"
-    class="glassy-box-4 glassy-box-4--radius-min member-card"
-    :href="xLink ? xLink : undefined"
-    :target="xLink ? '_blank' : undefined"
-    :rel="xLink ? 'noopener noreferrer' : undefined"
-  >
-    <div class="member-card__icon-wrapper">
-      <img
-        v-if="props.iconUrl"
-        :src="props.iconUrl"
-        :alt="props.iconUrl"
-        class="member-card__icon"
-      >
-      <div
-        v-else
-        class="member-card__icon member-card__icon--default"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 -960 960 960"
-          fill="#ceeaff"
-        >
-          <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Z" />
-        </svg>
-      </div>
-    </div>
-    <div class="member-card__right">
-      <p class="member-card__name">
-        {{ props.name }}
-      </p>
-      <p class="member-card__role">
-        {{ props.role }}
-      </p>
-      <div class="member-card__logo-link-flex">
-        <!-- インスタリンクも公開される方がいるのであれば、各SNSアイコンのみにボタン判定がある仕様に戻す -->
-        <a
-          v-if="props.xLink"
-          class="member-card__logo-link"
-          :href="props.xLink"
-          target="blank"
-          rel="noopener noreferrer"
-        >
-          <HaXIcon />
-        </a>
-        <a
-          v-if="props.instagramLink"
-          class="member-card__logo-link"
-          :href="props.instagramLink"
-          target="blank"
-          rel="noopener noreferrer"
-        >
-          <HaInstagramIcon />
-        </a>
-      </div>
-    </div>
-  </component>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.member-card{
-  display: flex;
-  gap: 14px;
-  align-items: center;
-
-  height: 100%;
-  padding: 20px;
-
-  &__icon-wrapper {
-    overflow: hidden;
-    flex-shrink: 0;
-
-    width: 80px;
-    height: 80px;
-    border-radius: 100%;
-  }
-
-  &__icon {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-
-    &--default {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: hsl(206deg 30% 50%);
-
-      svg {
-        width: 80%;
-      }
-    }
-  }
-
-  &__right {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    justify-content: space-between;
-
-    min-height: 80px;
-
-    svg {
-        display: block;
-    }
-  }
-
-  &__name {
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 1em;
-    color: white;
-  }
-
-  &__role {
-    font-size: 14px;
-    line-height: 1em;
-    color: v.$vket-amber;
-  }
-
-  &__logo-link-flex {
-    display: flex;
-    gap: 12px;
-    height: 14px;
-  }
-
-  &__logo-link {
-    width: 14px;
-    height: 14px;
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtParticipationGuide.vue
 ```vue
 <i18n lang="yaml">
@@ -7090,11 +7412,11 @@ ja:
     item3:
       title: '入場には整理券が必要ですか？'
       contents:
-        - '一般参加チケットとは別に、オンライン入場整理券が必要です。'
+        - 'イベント入場券とは別に、オンライン入場整理券が必要です。'
         - '入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。'
         - '整理券番号はLivePocketからメールで届きます。事前にLivePocketからのメールを受信できるよう、受信設定をご確認ください。'
     item4:
-      title: '一般参加チケットの当日券はありますか？'
+      title: 'イベント入場券の当日券はありますか？'
       contents:
         - '用意する予定です。'
 en:
@@ -7111,11 +7433,11 @@ en:
     item3:
       title: 'Do I need a numbered admission ticket to enter?'
       contents:
-        - 'An online numbered admission ticket is required in addition to a general admission ticket.'
+        - 'An online numbered admission ticket is required in addition to an event admission ticket.'
         - 'Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.'
         - 'LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.'
     item4:
-      title: 'Will general admission tickets be available at the door?'
+      title: 'Will event admission tickets be available at the door?'
       contents:
         - 'Yes, we plan to offer tickets at the door.'
 </i18n>
@@ -7970,6 +8292,227 @@ en:
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtMemberSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  roles:
+    executiveChair: '実行委員長'
+    projectManager: 'PM'
+    generalSupport: '裏方雑務'
+    snsManagement: 'SNS運用'
+    publicRelations: '広報'
+    prAndStageEvent: '広報・ステージイベント企画'
+    planningAndEngineering: '企画・エンジニアリング'
+    merchandisePlanning: 'グッズ企画・運用'
+    webAppDevelopment: 'webアプリ開発'
+    dayOfOperations: '当日運営'
+    artDirector: 'アートディレクター'
+    keyVisualIllustration: 'KV・イラスト制作'
+    webDevelopment: 'Web開発'
+en:
+  roles:
+    executiveChair: 'Executive Chair'
+    projectManager: 'Project Manager'
+    generalSupport: 'General Support'
+    snsManagement: 'Social Media Management'
+    publicRelations: 'Public Relations'
+    prAndStageEvent: 'PR & Stage Event Planning'
+    planningAndEngineering: 'Planning & Engineering'
+    merchandisePlanning: 'Merchandise Planning & Operations'
+    webAppDevelopment: 'Web App Development'
+    dayOfOperations: 'Day-of Operations'
+    artDirector: 'Art Director'
+    keyVisualIllustration: 'Key Visual & Illustration'
+    webDevelopment: 'Web Development'
+</i18n>
+
+<script setup lang="ts">
+import HaMemberCard from '@/components/ha/HaMemberCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.member-section__grid-item')
+  fadeInUpStagger(Array.from(items))
+})
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    name: 'A-kun',
+    iconUrl: '/member-icons/a-kun.webp',
+    role: t('roles.executiveChair'),
+    xLink: 'https://x.com/A919515',
+    instagramLink: '',
+  },
+  {
+    id: 2,
+    name: 'R.D.Sakamoto',
+    iconUrl: '/member-icons/skmt3p.webp',
+    role: t('roles.projectManager'),
+    xLink: 'https://x.com/skmt3p',
+    instagramLink: '',
+  },
+  {
+    id: 3,
+    name: 'ハチヤ',
+    iconUrl: '/member-icons/hatiya.webp',
+    role: t('roles.generalSupport'),
+    xLink: 'https://x.com/h4tiyA',
+    instagramLink: '',
+  },
+  {
+    id: 4,
+    name: 'ふららん',
+    iconUrl: '/member-icons/furarann.webp',
+    role: t('roles.snsManagement'),
+    xLink: 'https://x.com/furarann_VR37',
+    instagramLink: '',
+  },
+  {
+    id: 5,
+    name: '七草睦月',
+    iconUrl: '/member-icons/nanakusa-mutsuki.webp',
+    role: t('roles.publicRelations'),
+    xLink: 'https://x.com/nanakusamutsuki',
+    instagramLink: '',
+  },
+  {
+    id: 6,
+    name: 'Milia',
+    iconUrl: '/member-icons/milia.webp',
+    role: t('roles.prAndStageEvent'),
+    xLink: 'https://x.com/xmiliax',
+    instagramLink: '',
+  },
+
+  {
+    id: 7,
+    name: 'luft',
+    iconUrl: '/member-icons/luft.webp',
+    role: t('roles.planningAndEngineering'),
+    xLink: 'https://x.com/luft256',
+    instagramLink: '',
+  },
+  {
+    id: 8,
+    name: 'youyou',
+    iconUrl: '/member-icons/youyou.webp',
+    role: t('roles.merchandisePlanning'),
+    xLink: 'https://x.com/youyou0147',
+    instagramLink: '',
+  },
+  {
+    id: 10,
+    name: 'samy',
+    iconUrl: '/member-icons/samy.webp',
+    role: t('roles.webAppDevelopment'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 9,
+    name: 'Tsubaki',
+    iconUrl: '/member-icons/tsubaki.jpeg',
+    role: t('roles.dayOfOperations'),
+    xLink: 'https://x.com/Tsubaki_HIUVR',
+    instagramLink: '',
+  },
+  {
+    id: 11,
+    name: 'おのでらりな',
+    iconUrl: '/member-icons/rina-onodera.webp',
+    role: t('roles.artDirector'),
+    xLink: 'https://x.com/studiococoon_',
+    instagramLink: '',
+  },
+  {
+    id: 12,
+    name: 'なだ',
+    iconUrl: '/member-icons/otyano.webp',
+    role: t('roles.keyVisualIllustration'),
+    xLink: 'https://x.com/otyano8',
+    instagramLink: '',
+  },
+  {
+    id: 13,
+    name: 'aj8d',
+    iconUrl: '/member-icons/aj8d.webp',
+    role: t('roles.webDevelopment'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 14,
+    name: 'L.ami',
+    iconUrl: '/member-icons/lami.webp',
+    role: t('roles.webDevelopment'),
+    xLink: '',
+    instagramLink: '',
+  },
+])
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.members')"
+      label="MEMBERS"
+    />
+    <div
+      ref="listRef"
+      class="member-section__grid"
+    >
+      <div
+        v-for="item in items"
+        :key="item.id"
+        class="member-section__grid-item"
+      >
+        <HaMemberCard
+          v-bind="item"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.member-section{
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px 30px;
+    margin: 0 auto;
+
+    @include m.tb {
+      grid-template-columns: 1fr 1fr;
+      max-width: 720px;
+    }
+
+    @include m.sp {
+      grid-template-columns: 1fr;
+      max-width: 360px;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ha/HaTicketCard.vue
 ```vue
 <i18n lang="yaml">
@@ -8087,123 +8630,6 @@ defineProps<{
       opacity: 0.68;
     }
   }
-}
-</style>
-```
-
-## File: layers/main/app/components/hm/HmContentsSwiper.vue
-```vue
-<script setup lang="ts">
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import type { Swiper as SwiperType } from 'swiper'
-import HaContentCard from '../ha/HaContentCard.vue'
-import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
-import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
-
-// スライドの型
-type SlideItem = {
-  id: number
-  title: string
-  href?: string
-  imgSrc: string
-  text: string
-}
-
-// ブレークポイントごとのSlidesPerViewの型
-type BreakpointSlidesPerView = {
-  [width: number]: {
-    slidesPerView: number | 'auto'
-  }
-}
-
-defineProps<{
-  items?: SlideItem[]
-  _slidesPerView?: number | 'auto'
-  _breakpoints?: BreakpointSlidesPerView
-}>()
-
-const modules = [Autoplay, Navigation, Pagination]
-
-// 先頭・末尾の状態（ボタンのdisabled制御用）
-const isBeginning = ref(true)
-const isEnd = ref(false)
-
-const updateState = (swiper: SwiperType) => {
-  isBeginning.value = swiper.isBeginning
-  isEnd.value = swiper.isEnd
-}
-
-const onSwiper = (swiper: SwiperType) => {
-  updateState(swiper)
-}
-
-const onSlideChange = (swiper: SwiperType) => {
-  updateState(swiper)
-}
-</script>
-
-<template>
-  <div class="works-swiper mb-25">
-    <Swiper
-      :slides-per-view="_slidesPerView ?? 'auto'"
-      :breakpoints="_breakpoints"
-      :speed="1000"
-      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
-      :modules="modules"
-      :centered-slides="false"
-      :space-between="24"
-      :navigation="{
-        nextEl: '.custom-swiper-button--next',
-        prevEl: '.custom-swiper-button--prev',
-      }"
-      :pagination="{
-        el: '.custom-swiper-pagination',
-        clickable: true,
-      }"
-      @swiper="onSwiper"
-      @slide-change="onSlideChange"
-    >
-      <SwiperSlide
-        v-for="item in items"
-        :key="item.id"
-      >
-        <HaContentCard :item="item" />
-      </SwiperSlide>
-      <div class="custom-swiper-pagination" />
-      <div class="swiper-button-flex">
-        <button
-          type="button"
-          class="custom-swiper-button custom-swiper-button--prev"
-          :disabled="isBeginning"
-          :class="{ 'is-disabled': isBeginning }"
-          aria-label="前のスライドへ"
-        >
-          <HaChevronLeftIcon />
-        </button>
-        <button
-          type="button"
-          class="custom-swiper-button custom-swiper-button--next"
-          :disabled="isEnd"
-          :class="{ 'is-disabled': isEnd }"
-          aria-label="次のスライドへ"
-        >
-          <HaChevronRightIcon />
-        </button>
-      </div>
-    </Swiper>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-:deep(.swiper) {
-  overflow: hidden;
-}
-
-:deep(.swiper-slide) {
-  min-width: 0;
-  height: auto;
 }
 </style>
 ```
@@ -9298,223 +9724,119 @@ onMounted(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtMemberSection.vue
+## File: layers/main/app/components/hm/HmContentsSwiper.vue
 ```vue
-<i18n lang="yaml">
-ja:
-  roles:
-    executiveChair: '実行委員長'
-    projectManager: 'PM'
-    generalSupport: '裏方雑務'
-    snsManagement: 'SNS運用'
-    publicRelations: '広報'
-    prAndStageEvent: '広報・ステージイベント企画'
-    planningAndEngineering: '企画・エンジニアリング'
-    merchandisePlanning: 'グッズ企画・運用'
-    webAppDevelopment: 'webアプリ開発'
-    dayOfOperations: '当日運営'
-    artDirector: 'アートディレクター'
-    keyVisualIllustration: 'KV・イラスト制作'
-    webDevelopment: 'Web開発'
-en:
-  roles:
-    executiveChair: 'Executive Chair'
-    projectManager: 'Project Manager'
-    generalSupport: 'General Support'
-    snsManagement: 'Social Media Management'
-    publicRelations: 'Public Relations'
-    prAndStageEvent: 'PR & Stage Event Planning'
-    planningAndEngineering: 'Planning & Engineering'
-    merchandisePlanning: 'Merchandise Planning & Operations'
-    webAppDevelopment: 'Web App Development'
-    dayOfOperations: 'Day-of Operations'
-    artDirector: 'Art Director'
-    keyVisualIllustration: 'Key Visual & Illustration'
-    webDevelopment: 'Web Development'
-</i18n>
-
 <script setup lang="ts">
-import HaMemberCard from '@/components/ha/HaMemberCard.vue'
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import type { Swiper as SwiperType } from 'swiper'
+import HaContentCard from '../ha/HaContentCard.vue'
+import HaChevronLeftIcon from '../ha/icons/HaChevronLeftIcon.vue'
+import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+// スライドの型
+type SlideItem = {
+  id: number
+  title: string
+  href?: string
+  imgSrc: string
+  text: string
+}
 
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+// ブレークポイントごとのSlidesPerViewの型
+type BreakpointSlidesPerView = {
+  [width: number]: {
+    slidesPerView: number | 'auto'
+  }
+}
 
-onMounted(() => {
-  fadeInUp(sectionRef)
+defineProps<{
+  items?: SlideItem[]
+  _slidesPerView?: number | 'auto'
+  _breakpoints?: BreakpointSlidesPerView
+}>()
 
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.member-section__grid-item')
-  fadeInUpStagger(Array.from(items))
-})
+const modules = [Autoplay, Navigation, Pagination]
 
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
+// 先頭・末尾の状態（ボタンのdisabled制御用）
+const isBeginning = ref(true)
+const isEnd = ref(false)
 
-const items = computed(() => [
-  {
-    id: 1,
-    name: 'A-kun',
-    iconUrl: '/member-icons/a-kun.webp',
-    role: t('roles.executiveChair'),
-    xLink: 'https://x.com/A919515',
-    instagramLink: '',
-  },
-  {
-    id: 2,
-    name: 'R.D.Sakamoto',
-    iconUrl: '/member-icons/skmt3p.webp',
-    role: t('roles.projectManager'),
-    xLink: 'https://x.com/skmt3p',
-    instagramLink: '',
-  },
-  {
-    id: 3,
-    name: 'ハチヤ',
-    iconUrl: '/member-icons/hatiya.webp',
-    role: t('roles.generalSupport'),
-    xLink: 'https://x.com/h4tiyA',
-    instagramLink: '',
-  },
-  {
-    id: 4,
-    name: 'ふららん',
-    iconUrl: '/member-icons/furarann.webp',
-    role: t('roles.snsManagement'),
-    xLink: 'https://x.com/furarann_VR37',
-    instagramLink: '',
-  },
-  {
-    id: 5,
-    name: '七草睦月',
-    iconUrl: '/member-icons/nanakusa-mutsuki.webp',
-    role: t('roles.publicRelations'),
-    xLink: 'https://x.com/nanakusamutsuki',
-    instagramLink: '',
-  },
-  {
-    id: 6,
-    name: 'Milia',
-    iconUrl: '/member-icons/milia.webp',
-    role: t('roles.prAndStageEvent'),
-    xLink: 'https://x.com/xmiliax',
-    instagramLink: '',
-  },
+const updateState = (swiper: SwiperType) => {
+  isBeginning.value = swiper.isBeginning
+  isEnd.value = swiper.isEnd
+}
 
-  {
-    id: 7,
-    name: 'luft',
-    iconUrl: '/member-icons/luft.webp',
-    role: t('roles.planningAndEngineering'),
-    xLink: 'https://x.com/luft256',
-    instagramLink: '',
-  },
-  {
-    id: 8,
-    name: 'youyou',
-    iconUrl: '/member-icons/youyou.webp',
-    role: t('roles.merchandisePlanning'),
-    xLink: 'https://x.com/youyou0147',
-    instagramLink: '',
-  },
-  {
-    id: 10,
-    name: 'samy',
-    iconUrl: '/member-icons/samy.webp',
-    role: t('roles.webAppDevelopment'),
-    xLink: '',
-    instagramLink: '',
-  },
-  {
-    id: 9,
-    name: 'Tsubaki',
-    iconUrl: '/member-icons/tsubaki.jpeg',
-    role: t('roles.dayOfOperations'),
-    xLink: 'https://x.com/Tsubaki_HIUVR',
-    instagramLink: '',
-  },
-  {
-    id: 11,
-    name: 'おのでらりな',
-    iconUrl: '/member-icons/rina-onodera.webp',
-    role: t('roles.artDirector'),
-    xLink: 'https://x.com/studiococoon_',
-    instagramLink: '',
-  },
-  {
-    id: 12,
-    name: 'なだ',
-    iconUrl: '/member-icons/otyano.webp',
-    role: t('roles.keyVisualIllustration'),
-    xLink: 'https://x.com/otyano8',
-    instagramLink: '',
-  },
-  {
-    id: 13,
-    name: 'aj8d',
-    iconUrl: '/member-icons/aj8d.webp',
-    role: t('roles.webDevelopment'),
-    xLink: '',
-    instagramLink: '',
-  },
-  {
-    id: 14,
-    name: 'L.ami',
-    iconUrl: '/member-icons/lami.webp',
-    role: t('roles.webDevelopment'),
-    xLink: '',
-    instagramLink: '',
-  },
-])
+const onSwiper = (swiper: SwiperType) => {
+  updateState(swiper)
+}
+
+const onSlideChange = (swiper: SwiperType) => {
+  updateState(swiper)
+}
 </script>
 
 <template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.members')"
-      label="MEMBERS"
-    />
-    <div
-      ref="listRef"
-      class="member-section__grid"
+  <div class="works-swiper mb-25">
+    <Swiper
+      :slides-per-view="_slidesPerView ?? 'auto'"
+      :breakpoints="_breakpoints"
+      :speed="1000"
+      :autoplay="{ delay: 3000, stopOnLastSlide: true }"
+      :modules="modules"
+      :centered-slides="false"
+      :space-between="24"
+      :navigation="{
+        nextEl: '.custom-swiper-button--next',
+        prevEl: '.custom-swiper-button--prev',
+      }"
+      :pagination="{
+        el: '.custom-swiper-pagination',
+        clickable: true,
+      }"
+      @swiper="onSwiper"
+      @slide-change="onSlideChange"
     >
-      <div
+      <SwiperSlide
         v-for="item in items"
         :key="item.id"
-        class="member-section__grid-item"
       >
-        <HaMemberCard
-          v-bind="item"
-        />
+        <HaContentCard :item="item" />
+      </SwiperSlide>
+      <div class="custom-swiper-pagination" />
+      <div class="swiper-button-flex">
+        <button
+          type="button"
+          class="custom-swiper-button custom-swiper-button--prev"
+          :disabled="isBeginning"
+          :class="{ 'is-disabled': isBeginning }"
+          aria-label="前のスライドへ"
+        >
+          <HaChevronLeftIcon />
+        </button>
+        <button
+          type="button"
+          class="custom-swiper-button custom-swiper-button--next"
+          :disabled="isEnd"
+          :class="{ 'is-disabled': isEnd }"
+          aria-label="次のスライドへ"
+        >
+          <HaChevronRightIcon />
+        </button>
       </div>
-    </div>
+    </Swiper>
   </div>
 </template>
 
 <style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
+:deep(.swiper) {
+  overflow: hidden;
+}
 
-.member-section{
-  &__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px 30px;
-    margin: 0 auto;
-
-    @include m.tb {
-      grid-template-columns: 1fr 1fr;
-      max-width: 720px;
-    }
-
-    @include m.sp {
-      grid-template-columns: 1fr;
-      max-width: 360px;
-    }
-  }
+:deep(.swiper-slide) {
+  min-width: 0;
+  height: auto;
 }
 </style>
 ```
@@ -10106,6 +10428,184 @@ $vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtTop.vue
+```vue
+<i18n lang="yaml">
+ja:
+  hoge: ほげ
+en:
+  hoge: hoge
+</i18n>
+
+<template>
+  <main class="ht-top content-wrapper">
+    <div class="content-wrapper__sticky">
+      <HtHeroSection />
+    </div>
+
+    <div class="content-wrapper__bg content-wrapper__scroll">
+      <div class="canvas-wrapper">
+        <HaConfetti />
+        <HaFireworks />
+      </div>
+
+      <div class="content-wrapper__main">
+        <section id="about">
+          <HtAboutSection />
+        </section>
+
+        <section id="participation-guide">
+          <HtParticipationGuide />
+        </section>
+
+        <section id="tickets">
+          <HtTicketSection />
+        </section>
+
+        <section id="news">
+          <HtNewsSection />
+        </section>
+
+        <section id="contents">
+          <HtContentsSection />
+        </section>
+
+        <section id="exhibitor-circles">
+          <HtExhibitorCirclesSection />
+        </section>
+
+        <section id="collaborative-events">
+          <HtCollaborativeEvent />
+        </section>
+
+        <section id="sponsors-and-partners">
+          <HtSponsorsAndPartnersSection />
+        </section>
+
+        <section id="schedule">
+          <HtScheduleSection />
+        </section>
+
+        <section id="location-info">
+          <HtAccessSection />
+        </section>
+
+        <section id="exhibitor-info">
+          <HtExhibitorInfoSection />
+        </section>
+
+        <section id="members">
+          <HtMemberSection />
+        </section>
+
+        <section id="qa">
+          <HtQandASection />
+        </section>
+
+        <section id="contact">
+          <HtContactSection />
+        </section>
+      </div>
+    </div>
+  </main>
+</template>
+
+<script setup lang="ts">
+// import HtQuickAccessSection from './HtQuickAccessSection.vue'
+// import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
+// import HtExhibitionSection from './HtExhibitionSection.vue'
+// import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
+// import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
+import HtAboutSection from './HtAboutSection.vue'
+import HtAccessSection from './HtAccessSection.vue'
+import HtContactSection from './HtContactSection.vue'
+import HtContentsSection from './HtContentsSection.vue'
+import HtExhibitorCirclesSection from './HtExhibitorCirclesSection.vue'
+import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
+import HtHeroSection from './HtHeroSection.vue'
+import HtNewsSection from './HtNewsSection.vue'
+import HtQandASection from './HtQandASection.vue'
+import HtScheduleSection from './HtScheduleSection.vue'
+import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
+import HtTicketSection from './HtTicketSection.vue'
+
+import HaConfetti from '../ha/HaConfetti.vue'
+import HaFireworks from '../ha/HaFireworks.vue'
+import HtMemberSection from './HtMemberSection.vue'
+import HtParticipationGuide from './HtParticipationGuide.vue'
+import HtCollaborativeEvent from './HtCollaborativeEvent.vue'
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ht-top {
+  position: relative;
+  z-index: 0;
+
+  width: 100%;
+  height: 100%;
+  margin-bottom: -40px;
+}
+
+.content-wrapper {
+  position: relative;
+
+  &__sticky {
+    position: sticky;
+    z-index: -1;
+    top: 0;
+  }
+
+  &__bg {
+    padding: 108px 0 48px;
+    border-radius: 36px 36px 0 0;
+    background-color: v.$base-background-color;
+
+    @include m.tb {
+      padding: 168px 0 64px;
+    }
+  }
+
+  &__main {
+    position: relative;
+    z-index: 2;
+    max-width: v.$pc-content-body-width;
+    margin: 0 auto;
+  }
+}
+
+.canvas-wrapper {
+  pointer-events: none;
+
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100svh;
+  margin-bottom: -100svh;
+}
+
+section {
+  margin-bottom: 80px;
+  padding: 0 v.$pc-content-body-padding;
+
+  @include m.tb {
+    margin-bottom: 52px;
+    padding: 0 24px;
+  }
+
+  @include m.sp {
+    margin-bottom: 32px;
+    padding: 0 16px;
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtNewsSection.vue
 ```vue
 <script setup lang="ts">
@@ -10218,179 +10718,6 @@ onMounted(() => {
     @include m.sp {
       display: block;
     }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtTop.vue
-```vue
-<i18n lang="yaml">
-ja:
-  hoge: ほげ
-en:
-  hoge: hoge
-</i18n>
-
-<template>
-  <main class="ht-top content-wrapper">
-    <div class="content-wrapper__sticky">
-      <HtHeroSection />
-    </div>
-
-    <div class="content-wrapper__bg content-wrapper__scroll">
-      <div class="canvas-wrapper">
-        <HaConfetti />
-        <HaFireworks />
-      </div>
-
-      <div class="content-wrapper__main">
-        <section id="about">
-          <HtAboutSection />
-        </section>
-
-        <section id="participation-guide">
-          <HtParticipationGuide />
-        </section>
-
-        <section id="tickets">
-          <HtTicketSection />
-        </section>
-
-        <section id="news">
-          <HtNewsSection />
-        </section>
-
-        <section id="contents">
-          <HtContentsSection />
-        </section>
-
-        <section id="exhibitor-circles">
-          <HtExhibitorCirclesSection />
-        </section>
-
-        <section id="sponsors-and-partners">
-          <HtSponsorsAndPartnersSection />
-        </section>
-
-        <section id="schedule">
-          <HtScheduleSection />
-        </section>
-
-        <section id="location-info">
-          <HtAccessSection />
-        </section>
-
-        <section id="exhibitor-info">
-          <HtExhibitorInfoSection />
-        </section>
-
-        <section id="members">
-          <HtMemberSection />
-        </section>
-
-        <section id="qa">
-          <HtQandASection />
-        </section>
-
-        <section id="contact">
-          <HtContactSection />
-        </section>
-      </div>
-    </div>
-  </main>
-</template>
-
-<script setup lang="ts">
-// import HtQuickAccessSection from './HtQuickAccessSection.vue'
-// import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
-// import HtExhibitionSection from './HtExhibitionSection.vue'
-// import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
-// import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
-import HtAboutSection from './HtAboutSection.vue'
-import HtAccessSection from './HtAccessSection.vue'
-import HtContactSection from './HtContactSection.vue'
-import HtContentsSection from './HtContentsSection.vue'
-import HtExhibitorCirclesSection from './HtExhibitorCirclesSection.vue'
-import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
-import HtHeroSection from './HtHeroSection.vue'
-import HtNewsSection from './HtNewsSection.vue'
-import HtQandASection from './HtQandASection.vue'
-import HtScheduleSection from './HtScheduleSection.vue'
-import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
-import HtTicketSection from './HtTicketSection.vue'
-
-import HaConfetti from '../ha/HaConfetti.vue'
-import HaFireworks from '../ha/HaFireworks.vue'
-import HtMemberSection from './HtMemberSection.vue'
-import HtParticipationGuide from './HtParticipationGuide.vue'
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.ht-top {
-  position: relative;
-  z-index: 0;
-
-  width: 100%;
-  height: 100%;
-  margin-bottom: -40px;
-}
-
-.content-wrapper {
-  position: relative;
-
-  &__sticky {
-    position: sticky;
-    z-index: -1;
-    top: 0;
-  }
-
-  &__bg {
-    padding: 108px 0 48px;
-    border-radius: 36px 36px 0 0;
-    background-color: v.$base-background-color;
-
-    @include m.tb {
-      padding: 168px 0 64px;
-    }
-  }
-
-  &__main {
-    position: relative;
-    z-index: 2;
-    max-width: v.$pc-content-body-width;
-    margin: 0 auto;
-  }
-}
-
-.canvas-wrapper {
-  pointer-events: none;
-
-  position: sticky;
-  z-index: 1;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100svh;
-  margin-bottom: -100svh;
-}
-
-section {
-  margin-bottom: 80px;
-  padding: 0 v.$pc-content-body-padding;
-
-  @include m.tb {
-    margin-bottom: 52px;
-    padding: 0 24px;
-  }
-
-  @include m.sp {
-    margin-bottom: 32px;
-    padding: 0 16px;
   }
 }
 </style>

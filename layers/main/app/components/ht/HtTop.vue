@@ -42,6 +42,10 @@ en:
           <HtExhibitorCirclesSection />
         </section>
 
+        <section id="collaborative-events">
+          <HtCollaborativeEvent />
+        </section>
+
         <section id="sponsors-and-partners">
           <HtSponsorsAndPartnersSection />
         </section>
@@ -97,6 +101,7 @@ import HaConfetti from '../ha/HaConfetti.vue'
 import HaFireworks from '../ha/HaFireworks.vue'
 import HtMemberSection from './HtMemberSection.vue'
 import HtParticipationGuide from './HtParticipationGuide.vue'
+import HtCollaborativeEvent from './HtCollaborativeEvent.vue'
 </script>
 
 <style lang="scss" scoped>

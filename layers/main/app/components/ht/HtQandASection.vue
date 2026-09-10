@@ -12,11 +12,11 @@ ja:
     item3:
       title: '入場には整理券が必要ですか？'
       contents:
-        - '一般参加チケットとは別に、オンライン入場整理券が必要です。'
+        - 'イベント入場券とは別に、オンライン入場整理券が必要です。'
         - '入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。'
         - '整理券番号はLivePocketからメールで届きます。事前にLivePocketからのメールを受信できるよう、受信設定をご確認ください。'
     item4:
-      title: '一般参加チケットの当日券はありますか？'
+      title: 'イベント入場券の当日券はありますか？'
       contents:
         - '用意する予定です。'
 en:
@@ -33,11 +33,11 @@ en:
     item3:
       title: 'Do I need a numbered admission ticket to enter?'
       contents:
-        - 'An online numbered admission ticket is required in addition to a general admission ticket.'
+        - 'An online numbered admission ticket is required in addition to an event admission ticket.'
         - 'Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.'
         - 'LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.'
     item4:
-      title: 'Will general admission tickets be available at the door?'
+      title: 'Will event admission tickets be available at the door?'
       contents:
         - 'Yes, we plan to offer tickets at the door.'
 </i18n>
