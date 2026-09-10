@@ -46,15 +46,15 @@ const linkAttrs = computed(() => {
 .circle-card{
   display: flex;
   flex-direction: column;
+  gap: 12px;
   align-items: center;
   justify-content: center;
-  gap: 12px;
 
   height: 100%;
   padding: 20px;
 
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
 
   @include m.sp {
     padding: 16px;
@@ -68,7 +68,7 @@ const linkAttrs = computed(() => {
     }
 
     &:focus-visible {
-      outline: 2px solid rgba(255, 255, 255, 0.7);
+      outline: 2px solid rgb(255 255 255 / 70%);
       outline-offset: 2px;
     }
   }
@@ -81,7 +81,7 @@ const linkAttrs = computed(() => {
     width: 88px;
     border-radius: 50%;
 
-    background: rgba(255, 255, 255, 0.12);
+    background: rgb(255 255 255 / 12%);
 
     @include m.sp {
       width: 72px;
