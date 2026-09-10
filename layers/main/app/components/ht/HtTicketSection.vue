@@ -4,7 +4,7 @@ ja:
     title: チケット
     label: tickets
   description:
-    line1: 一般来場チケットは2026年8月26日(水)より販売開始です。
+    line1: イベント入場券は2026年8月26日(水)より販売開始です。
     line2: LivePocketの販売ページからお申し込みください。
   numberedTicketNotice:
     line1: ※入場にはイベント入場券とは別に、オンライン入場整理券が必要です。
@@ -24,7 +24,7 @@ en:
     title: Tickets
     label: tickets
   description:
-    line1: General admission tickets go on sale Wednesday, August 26, 2026.
+    line1: Event admission tickets go on sale Wednesday, August 26, 2026.
     line2: Please purchase tickets through LivePocket.
   numberedTicketNotice:
     line1: An online numbered admission ticket is required in addition to an event admission ticket.
