@@ -53,7 +53,7 @@ onMounted(() => {
   >
     <template #controls>
       <NuxtLink
-        class="glassy-button"
+        class="glassy-button view-all-button"
         to="/news"
       >
         <span class="news__button-text">
