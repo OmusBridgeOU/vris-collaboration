@@ -795,10 +795,88 @@ export default defineNuxtConfig({
 }
 ````
 
+## File: layers/main/i18n/locales/ja.json
+````json
+{
+  "viewAll" : "すべて見る",
+  "learnMore" : "詳しくはこちらから",
+  "page": {
+    "top": "TOPページ"
+  },
+  "sectionTitle": {
+    "about": "VketReal in 札幌とは",
+    "exhibitorInfo": "出展者案内",
+    "participationGuide" : "参加案内",
+    "tickets" : "チケット",
+    "news" : "お知らせ",
+    "contents" : "企画・コンテンツ",
+    "exhibitorCircles" : "出展サークル一覧",
+    "schedule" : "開催スケジュール",
+    "locationInfo" : "会場情報",
+    "collaborativeEvent" : "連携イベント",
+    "sponsorsAndPartners" : "ご協力",
+    "members" : "有志メンバー",
+    "qa" : "よくある質問",
+    "qa--min" : "Q&A",
+    "contact" : "お問い合わせ"
+  },
+  "infoCard": {
+    "venue": {
+      "title": "会場概要",
+      "items": {
+        "venueName": {
+          "label": "会場名",
+          "text": "アスティ45 4F アスティホール"
+        },
+        "address": {
+          "label": "住所",
+          "text": "〒060-0004 {br}北海道札幌市中央区北4条西5丁目1"
+        },
+        "access": {
+          "label": "アクセス",
+          "text": "地下鉄さっぽろ駅より地下鉄直結・徒歩3分{br}JR札幌駅南口より徒歩5分"
+        }
+      }
+    }
+  },
+  "collaborativeEvent": {
+    "nomaps": {
+      "text1": "札幌·北海道から テック・エンタメ・クリエイティブで世界をめっちゃおもろくするフェスNoMaps（ノーマップス）",
+      "text2": "VketReal in 札幌 2026 Autumn は、NoMaps 2026と連携しております。{br}同日、札幌ではNoMapsのイベントも開催されているので、NoMapsにも遊びに行こう！"
+    }
+  },
+  "contents": {
+    "1": {
+      "title": "パラリアルクリエイター in SAPPORO",
+      "text": "VRクリエイターによるグッズ展示・即売コーナー"
+    },
+    "2": {
+      "title": "VketReal in 札幌 2026 Autumn",
+      "text": "バーチャルとリアルを融合させたXR体験型イベント"
+    }
+  },
+  "news": {
+    "4": {
+      "title": "「VketReal in 札幌 2026 Autumn」出展協賛企業・公式グッズ紹介・整理券などについて発表！"
+    },
+    "3": {
+      "title": "「VketReal in 札幌 2026 Autumn」来場チケット販売開始＆公式企画発表！"
+    },
+    "1": {
+      "title": "新ロゴマークを公開しました！"
+    },
+    "2": {
+      "title": "キービジュアルを公開しました！"
+    }
+  }
+}
+````
+
 ## File: layers/main/i18n/locales/en.json
 ````json
 {
   "viewAll" : "view all",
+  "learnMore" : "learn more",
   "page": {
     "top": "TOP"
   },
@@ -808,6 +886,7 @@ export default defineNuxtConfig({
     "participationGuide" : "Participation Guide",
     "tickets" : "Tickets",
     "news" : "News",
+    "collaborativeEvent" : "Collaborative Event",
     "contents" : "Programs & Contents",
     "exhibitorCircles" : "Exhibiting Circles",
     "schedule" : "Event Schedule",
@@ -837,10 +916,20 @@ export default defineNuxtConfig({
       }
     }
   },
+  "collaborativeEvent": {
+    "nomaps": {
+      "text1": "NoMaps: from Sapporo, Hokkaido — a festival that makes the world way more awesome through tech, entertainment, and creativity.",
+      "text2": "VketReal in Sapporo 2026 Autumn is held in collaboration with NoMaps 2026.{br}NoMaps events are also taking place in Sapporo on the same day, so be sure to check them out too!"
+    }
+  },
   "contents": {
     "1": {
       "title": "ParaRealCreator in SAPPORO",
       "text": "Goods Exhibition & Sale by VR Creators"
+    },
+    "2": {
+      "title": "VketReal in Sapporo 2026 Autumn",
+      "text": "An XR experience event fusing digital and real worlds"
     }
   },
   "news": {
@@ -855,71 +944,6 @@ export default defineNuxtConfig({
     },
     "2": {
       "title": "We have published our key visual!"
-    }
-  }
-}
-````
-
-## File: layers/main/i18n/locales/ja.json
-````json
-{
-  "viewAll" : "すべて見る",
-  "page": {
-    "top": "TOPページ"
-  },
-  "sectionTitle": {
-    "about": "VketReal in 札幌とは",
-    "exhibitorInfo": "出展者案内",
-    "participationGuide" : "参加案内",
-    "tickets" : "チケット",
-    "news" : "お知らせ",
-    "contents" : "企画・コンテンツ",
-    "exhibitorCircles" : "出展サークル一覧",
-    "schedule" : "開催スケジュール",
-    "locationInfo" : "会場情報",
-    "sponsorsAndPartners" : "ご協力",
-    "members" : "有志メンバー",
-    "qa" : "よくある質問",
-    "qa--min" : "Q&A",
-    "contact" : "お問い合わせ"
-  },
-  "infoCard": {
-    "venue": {
-      "title": "会場概要",
-      "items": {
-        "venueName": {
-          "label": "会場名",
-          "text": "アスティ45 4F アスティホール"
-        },
-        "address": {
-          "label": "住所",
-          "text": "〒060-0004 {br}北海道札幌市中央区北4条西5丁目1"
-        },
-        "access": {
-          "label": "アクセス",
-          "text": "地下鉄さっぽろ駅より地下鉄直結・徒歩3分{br}JR札幌駅南口より徒歩5分"
-        }
-      }
-    }
-  },
-  "contents": {
-    "1": {
-      "title": "パラリアルクリエイター in SAPPORO",
-      "text": "VRクリエイターによるグッズ展示・即売コーナー"
-    }
-  },
-  "news": {
-    "4": {
-      "title": "「VketReal in 札幌 2026 Autumn」出展協賛企業・公式グッズ紹介・整理券などについて発表！"
-    },
-    "3": {
-      "title": "「VketReal in 札幌 2026 Autumn」来場チケット販売開始＆公式企画発表！"
-    },
-    "1": {
-      "title": "新ロゴマークを公開しました！"
-    },
-    "2": {
-      "title": "キービジュアルを公開しました！"
     }
   }
 }

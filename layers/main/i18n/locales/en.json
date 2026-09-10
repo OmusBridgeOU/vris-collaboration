@@ -1,5 +1,6 @@
 {
   "viewAll" : "view all",
+  "learnMore" : "learn more",
   "page": {
     "top": "TOP"
   },
@@ -9,6 +10,7 @@
     "participationGuide" : "Participation Guide",
     "tickets" : "Tickets",
     "news" : "News",
+    "collaborativeEvent" : "Collaborative Event",
     "contents" : "Programs & Contents",
     "exhibitorCircles" : "Exhibiting Circles",
     "schedule" : "Event Schedule",
@@ -38,10 +40,20 @@
       }
     }
   },
+  "collaborativeEvent": {
+    "nomaps": {
+      "text1": "NoMaps: from Sapporo, Hokkaido — a festival that makes the world way more awesome through tech, entertainment, and creativity.",
+      "text2": "VketReal in Sapporo 2026 Autumn is held in collaboration with NoMaps 2026.{br}NoMaps events are also taking place in Sapporo on the same day, so be sure to check them out too!"
+    }
+  },
   "contents": {
     "1": {
       "title": "ParaRealCreator in SAPPORO",
       "text": "Goods Exhibition & Sale by VR Creators"
+    },
+    "2": {
+      "title": "VketReal in Sapporo 2026 Autumn",
+      "text": "An XR experience event fusing digital and real worlds"
     }
   },
   "news": {
