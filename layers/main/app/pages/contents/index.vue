@@ -33,11 +33,6 @@ const items = computed(() => [
           :key="item.id"
           :item="item"
         />
-        <SwiperSlide
-          key="comming-soon"
-        >
-          <HaCommingSoonCard />
-        </SwiperSlide>
       </div>
     </div>
   </div>
