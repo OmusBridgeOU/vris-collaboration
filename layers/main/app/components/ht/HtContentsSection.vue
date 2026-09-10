@@ -7,15 +7,60 @@ import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
 const { t: tGlobal } = useI18n()
 
-// Official programs (公式企画). Placeholder: VketReal light logo until per-program art is ready.
-const items = computed(() =>
-  [1, 2, 3, 4, 5, 6, 7].map(id => ({
-    id,
-    title: tGlobal(`contents.${id}.title`),
-    imgSrc: '/vketreal_in_sapporo_logo_light.png',
-    text: tGlobal(`contents.${id}.text`),
-  })),
-)
+const NOTE_HREF = 'https://note.com/vris/n/n017807ce1d33'
+
+// Official programs — images from note.com/vris/n/n880e9b3364f9 (goods image from n017807ce1d33)
+const items = computed(() => [
+  {
+    id: 1,
+    title: tGlobal('contents.1.title'),
+    href: NOTE_HREF,
+    imgSrc: '/images/2026Autumn/contents/contents-1-parareal.png',
+    text: tGlobal('contents.1.text'),
+  },
+  {
+    id: 2,
+    title: tGlobal('contents.2.title'),
+    href: NOTE_HREF,
+    imgSrc: '/images/2026Autumn/contents/contents-2-matching.png',
+    text: tGlobal('contents.2.text'),
+  },
+  {
+    id: 3,
+    title: tGlobal('contents.3.title'),
+    href: NOTE_HREF,
+    imgSrc: '/images/2026Autumn/contents/contents-3-message.png',
+    text: tGlobal('contents.3.text'),
+  },
+  {
+    id: 4,
+    title: tGlobal('contents.4.title'),
+    href: NOTE_HREF,
+    imgSrc: '/images/2026Autumn/contents/contents-4-showcase.png',
+    text: tGlobal('contents.4.text'),
+  },
+  {
+    id: 5,
+    title: tGlobal('contents.5.title'),
+    href: NOTE_HREF,
+    imgSrc: '/images/2026Autumn/contents/contents-5-avatar.png',
+    text: tGlobal('contents.5.text'),
+  },
+  {
+    id: 6,
+    title: tGlobal('contents.6.title'),
+    href: NOTE_HREF,
+    imgSrc: '/images/2026Autumn/contents/contents-6-goods.png',
+    text: tGlobal('contents.6.text'),
+  },
+  {
+    id: 7,
+    title: tGlobal('contents.7.title'),
+    href: NOTE_HREF,
+    imgSrc: '',
+    text: tGlobal('contents.7.text'),
+  },
+])
 
 const sectionRef = ref<HTMLElement | null>(null)
 const { fadeInUp } = useGsapFadeIn()
@@ -32,24 +77,27 @@ onMounted(() => {
   >
     <template #controls>
       <NuxtLink
-        class="glassy-button contents__button"
+        class="glassy-button"
         to="/contents"
       >
         <span class="contents__button-text">
           {{ tGlobal("viewAll") }}
         </span>
-        <HaArrowRightIcon class="contents__button-icon" />
+        <HaArrowRightIcon class="glassy-button contents__button-icon" />
       </NuxtLink>
     </template>
   </HaSectionTitle>
-  <div ref="sectionRef">
+  <div
+    ref="sectionRef"
+    class="contents__swiper-wrap"
+  >
     <HmContentsSwiper
       class="contents__swiper"
       :items="items"
       :_slides-per-view="1"
       :_breakpoints="{
-        1024: { slidesPerView: 3 }, // PC: app/assets/styles/_variables.scss v.$pc-content-min-width
-        768: { slidesPerView: 2 }, // タブレット: app/assets/styles/_variables.scss v.$media-query-width
+        1024: { slidesPerView: 3 },
+        768: { slidesPerView: 2 },
       }"
     />
   </div>
@@ -60,99 +108,16 @@ onMounted(() => {
 @use '@/assets/styles/mixins' as m;
 
 .contents {
+  // Match NEWS: keep slides inside the content column
+  &__swiper-wrap {
+    overflow: hidden;
+  }
+
   &__swiper {
     margin-bottom: 36px;
 
     @include m.tb {
       margin-bottom: 24px;
-    }
-  }
-
-  &__button {
-    position: relative;
-
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    justify-content: center;
-
-    width: 140px;
-    height: 48px;
-    margin: 0 auto;
-    border-radius: 1000px;
-
-    background-color: #e5b5ff3b;
-    backdrop-filter: blur(4px);
-    box-shadow: inset rgb(black, 0.2) 0 0 16px 4px;
-
-    transition: 0.15s transform ease;
-
-    &::before {
-      pointer-events: none;
-      content: '';
-
-      position: absolute;
-      z-index: 0;
-      top: 0;
-      left: 0;
-
-      width: inherit;
-      height: inherit;
-      border: 1px solid transparent;
-      border-radius: inherit;
-
-      background-image: linear-gradient(
-          45deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-        ),
-        linear-gradient(
-          225deg,
-          rgb(v.$base-background-color, 0.8) 10px,
-          rgb(v.$base-background-color, 0) 20px
-        ),
-        linear-gradient(
-          135deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px
-        ),
-        linear-gradient(
-          315deg,
-          rgb(255 255 255 / 75%) 10px,
-          rgb(255 255 255 / 30%) 20px
-        );
-      background-clip: border-box, border-box, border-box, border-box;
-      background-origin: border-box, border-box, border-box, border-box;
-
-      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
-
-    &:hover {
-      transform: scale(1.02);
-    }
-
-     @include m.tb {
-      width: 120px;
-      height: 36px;
-      font-size: 14px;
-    }
-
-    @include m.sp {
-      margin-top: 10px;
-      border-radius: 0;
-
-      background-color: transparent;
-      backdrop-filter: none;
-      box-shadow: none;
-
-      &::before{
-        display: none;
-      }
     }
   }
 

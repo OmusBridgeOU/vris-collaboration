@@ -103,6 +103,10 @@ const onSlideChange = (swiper: SwiperType) => {
 
 <style lang="scss" scoped>
 :deep(.swiper) {
-  overflow: visible;
+  overflow: hidden;
+}
+:deep(.swiper-slide) {
+  min-width: 0;
+  height: auto;
 }
 </style>

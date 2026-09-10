@@ -20,14 +20,19 @@
     >
       <HaNoImage />
     </div>
-    <p class="content-card__title">{{ item.title }}</p>
-    <div class="content-card__text-flex">
-      <p class="content-card__text">{{ item.text }}</p>
+    <div class="content-card__title-flex">
+      <p class="content-card__title">{{ item.title }}</p>
       <HaJumpToListIcon
         v-if="isLink"
         class="content-card__icon"
       />
     </div>
+    <p
+      v-if="item.text"
+      class="content-card__text"
+    >
+      {{ item.text }}
+    </p>
   </component>
 </template>
 
@@ -50,9 +55,9 @@ const isLink = computed(() => Boolean(props.item.href))
   cursor: pointer;
 
   display: block;
-
   box-sizing: border-box;
   width: 100%;
+  min-width: 0;
   height: 100%;
   padding-top: 16px;
   border-top: 1px solid white;
@@ -85,7 +90,6 @@ const isLink = computed(() => Boolean(props.item.href))
 
   &__image, &__empty-image {
     position: relative;
-
     overflow: hidden;
     display: block;
 
@@ -93,18 +97,12 @@ const isLink = computed(() => Boolean(props.item.href))
     width: 100%;
     margin-bottom: 14px;
     border-radius: 10px;
-
     object-fit: cover;
+    background-color: #d2d2d2;
 
-    // aspect-ratio非対応ブラウザ向けフォールバック
     @supports not (aspect-ratio: 16 / 9) {
       height: 0;
       padding-top: 56.25%;
-    }
-
-    &::before {
-      position: absolute;
-      inset: 0;
     }
 
     @include m.sp {
@@ -112,32 +110,42 @@ const isLink = computed(() => Boolean(props.item.href))
     }
   }
 
-  &__text-flex {
+  &__title-flex {
     display: flex;
     justify-content: space-between;
+    gap: 8px;
+    min-width: 0;
   }
 
   &__title {
-    margin-right: 1em;
-    margin-bottom: 24px;
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 8px;
 
     font-size: 20px;
     line-height: 1.2em;
     color: white;
+    overflow-wrap: anywhere;
 
     @include m.sp {
-      margin-bottom: 12px;
       font-size: 16px;
     }
   }
 
   &__text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+
     margin-bottom: 6px;
     font-size: 14px;
+    line-height: 1.4;
     color: #a0a0a0;
   }
 
   &__icon {
+    flex-shrink: 0;
     width: 20px;
     fill: v.$vket-cyan;
 
