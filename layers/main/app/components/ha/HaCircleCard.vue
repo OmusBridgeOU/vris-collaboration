@@ -5,7 +5,7 @@ const props = defineProps<{
   imgSrc?: string | null
 }>()
 
-const FALLBACK_IMG = '/vketreal_in_sapporo_logo_light.png'
+const FALLBACK_IMG = '/images/2026Autumn/vketreal_vris_x_icon.jpg'
 const displayImgSrc = computed(() => props.imgSrc || FALLBACK_IMG)
 
 const tag = computed(() => (props.href ? 'a' : 'div'))
