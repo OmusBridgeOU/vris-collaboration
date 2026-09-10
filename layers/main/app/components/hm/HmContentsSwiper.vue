@@ -11,7 +11,7 @@ import HaChevronRightIcon from '../ha/icons/HaChevronRightIcon.vue'
 type SlideItem = {
   id: number
   title: string
-  href: string
+  href?: string
   imgSrc: string
   text: string
 }
@@ -103,6 +103,11 @@ const onSlideChange = (swiper: SwiperType) => {
 
 <style lang="scss" scoped>
 :deep(.swiper) {
-  overflow: visible;
+  overflow: hidden;
+}
+
+:deep(.swiper-slide) {
+  min-width: 0;
+  height: auto;
 }
 </style>

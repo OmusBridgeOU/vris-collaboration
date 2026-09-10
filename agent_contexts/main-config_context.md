@@ -568,6 +568,54 @@ export default {
 }
 ````
 
+## File: layers/main/package.json
+````json
+{
+  "name": "vris-collaboration",
+  "private": true,
+  "type": "module",
+  "version": "1.0.1",
+  "packageManager": "bun@1.4.0",
+  "scripts": {
+    "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
+    "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
+    "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
+    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
+    "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
+    "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
+    "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",
+    "generate:local": "cross-env VITE_OUTPUT_ENV=local nuxt generate",
+    "preview": "nuxt preview",
+    "typecheck": "cross-env VITE_OUTPUT_ENV=local nuxt typecheck",
+    "analyze": "cross-env VITE_OUTPUT_ENV=local nuxt analyze",
+    "lint": "bun lint:eslint && bun lint:stylelint",
+    "lint:eslint": "eslint --cache --cache-strategy content './app'",
+    "lint:stylelint": "stylelint --cache --cache-strategy content './app/**/*.{css,scss,sass,vue}'",
+    "fix": "bun fix:eslint && bun fix:stylelint",
+    "fix:eslint": "eslint --cache --cache-strategy content --fix './app'",
+    "fix:stylelint": "stylelint --cache-strategy content --fix './app/**/*.{css,scss,sass,vue}'",
+    "fix-openapi-models": "baseDir='./app/models/openapi' ext='\\.ts' cmd='eslint --cache --cache-strategy content --fix ./app/models/openapi' bun exec-if-file-exists",
+    "test:ut": "cmd='vitest run --dir ./app/test' bun exec-test",
+    "test:watch": "cmd='vitest --dir ./app/test' bun exec-test",
+    "test:ui": "cmd='vitest --ui --dir ./app/test' bun exec-test",
+    "test:coverage": "cmd='vitest run --dir ./app/test --coverage' bun exec-test",
+    "test:visual": "PLAYWRIGHT=true playwright test app/test/e2e/visual/nuxtContent.spec.ts",
+    "test:visual:update": "PLAYWRIGHT=true playwright test app/test/e2e/visual/nuxtContent.spec.ts --update-snapshots",
+    "exec-test": "baseDir='./app/test' ext='\\.spec\\.ts' bun exec-if-file-exists",
+    "exec-if-file-exists": "if [ \"$(find $baseDir | grep \"${ext}$\" | wc -l)\" -gt 0 ]; then $cmd; else true; fi",
+    "package-update": "bunx npm-check-updates -i",
+    "clean-install": "bun run ../../scripts/clean_install.js",
+    "allclean-install": "bun run ../../scripts/clean_install.js all"
+  },
+  "dependencies": {
+    "@nuxt/content": "^3.15.2",
+    "gsap": "^3.15.0",
+    "vket-boilerplate-nuxt-base": "workspace:*",
+    "zod": "^4.4.3"
+  }
+}
+````
+
 ## File: layers/main/nuxt.config.ts
 ````typescript
 import { defineNuxtConfig } from 'nuxt/config'
@@ -726,7 +774,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
 
   nitro: {
-    preset: 'vercel',
+    preset: 'cloudflare_pages',
   },
 
   typescript: {
@@ -744,147 +792,13 @@ export default defineNuxtConfig({
   },
 
   i18n: nuxtI18nOptions,
-
-  vite: {
-    server: {
-      watch: {
-        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
-        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
-      },
-    },
-  },
 })
-````
-
-## File: layers/main/package.json
-````json
-{
-  "name": "vris-collaboration",
-  "private": true,
-  "type": "module",
-  "version": "1.0.1",
-  "packageManager": "bun@1.4.0",
-  "scripts": {
-    "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
-    "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
-    "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
-    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
-    "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
-    "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
-    "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",
-    "generate:local": "cross-env VITE_OUTPUT_ENV=local nuxt generate",
-    "preview": "nuxt preview",
-    "typecheck": "cross-env VITE_OUTPUT_ENV=local nuxt typecheck",
-    "analyze": "cross-env VITE_OUTPUT_ENV=local nuxt analyze",
-    "lint": "bun lint:eslint && bun lint:stylelint",
-    "lint:eslint": "eslint --cache --cache-strategy content './app'",
-    "lint:stylelint": "stylelint --cache --cache-strategy content './app/**/*.{css,scss,sass,vue}'",
-    "fix": "bun fix:eslint && bun fix:stylelint",
-    "fix:eslint": "eslint --cache --cache-strategy content --fix './app'",
-    "fix:stylelint": "stylelint --cache-strategy content --fix './app/**/*.{css,scss,sass,vue}'",
-    "fix-openapi-models": "baseDir='./app/models/openapi' ext='\\.ts' cmd='eslint --cache --cache-strategy content --fix ./app/models/openapi' bun exec-if-file-exists",
-    "test:ut": "cmd='vitest run --dir ./app/test' bun exec-test",
-    "test:watch": "cmd='vitest --dir ./app/test' bun exec-test",
-    "test:ui": "cmd='vitest --ui --dir ./app/test' bun exec-test",
-    "test:coverage": "cmd='vitest run --dir ./app/test --coverage' bun exec-test",
-    "test:visual": "PLAYWRIGHT=true playwright test app/test/e2e/visual/nuxtContent.spec.ts",
-    "test:visual:update": "PLAYWRIGHT=true playwright test app/test/e2e/visual/nuxtContent.spec.ts --update-snapshots",
-    "exec-test": "baseDir='./app/test' ext='\\.spec\\.ts' bun exec-if-file-exists",
-    "exec-if-file-exists": "if [ \"$(find $baseDir | grep \"${ext}$\" | wc -l)\" -gt 0 ]; then $cmd; else true; fi",
-    "package-update": "bunx npm-check-updates -i",
-    "clean-install": "bun run ../../scripts/clean_install.js",
-    "allclean-install": "bun run ../../scripts/clean_install.js all"
-  },
-  "dependencies": {
-    "@nuxt/content": "^3.15.2",
-    "gsap": "^3.15.0",
-    "vket-boilerplate-nuxt-base": "workspace:*",
-    "zod": "^4.4.3"
-  }
-}
-````
-
-## File: layers/main/i18n/locales/ja.json
-````json
-{
-  "viewAll" : "すべて見る",
-  "learnMore" : "詳しくはこちらから",
-  "page": {
-    "top": "TOPページ"
-  },
-  "sectionTitle": {
-    "about": "VketReal in 札幌とは",
-    "exhibitorInfo": "出展者案内",
-    "participationGuide" : "参加案内",
-    "tickets" : "チケット",
-    "news" : "お知らせ",
-    "contents" : "企画・コンテンツ",
-    "exhibitorCircles" : "出展サークル一覧",
-    "schedule" : "開催スケジュール",
-    "locationInfo" : "会場情報",
-    "collaborativeEvent" : "連携イベント",
-    "sponsorsAndPartners" : "ご協力",
-    "members" : "有志メンバー",
-    "qa" : "よくある質問",
-    "qa--min" : "Q&A",
-    "contact" : "お問い合わせ"
-  },
-  "infoCard": {
-    "venue": {
-      "title": "会場概要",
-      "items": {
-        "venueName": {
-          "label": "会場名",
-          "text": "アスティ45 4F アスティホール"
-        },
-        "address": {
-          "label": "住所",
-          "text": "〒060-0004 {br}北海道札幌市中央区北4条西5丁目1"
-        },
-        "access": {
-          "label": "アクセス",
-          "text": "地下鉄さっぽろ駅より地下鉄直結・徒歩3分{br}JR札幌駅南口より徒歩5分"
-        }
-      }
-    }
-  },
-  "collaborativeEvent": {
-    "nomaps": {
-      "text1": "札幌·北海道から テック・エンタメ・クリエイティブで世界をめっちゃおもろくするフェスNoMaps（ノーマップス）",
-      "text2": "VketReal in 札幌 2026 Autumn は、NoMaps 2026と連携しております。{br}同日、札幌ではNoMapsのイベントも開催されているので、NoMapsにも遊びに行こう！"
-    }
-  },
-  "contents": {
-    "1": {
-      "title": "パラリアルクリエイター in SAPPORO",
-      "text": "VRクリエイターによるグッズ展示・即売コーナー"
-    },
-    "2": {
-      "title": "VketReal in 札幌 2026 Autumn",
-      "text": "バーチャルとリアルを融合させたXR体験型イベント"
-    }
-  },
-  "news": {
-    "4": {
-      "title": "「VketReal in 札幌 2026 Autumn」出展協賛企業・公式グッズ紹介・整理券などについて発表！"
-    },
-    "3": {
-      "title": "「VketReal in 札幌 2026 Autumn」来場チケット販売開始＆公式企画発表！"
-    },
-    "1": {
-      "title": "新ロゴマークを公開しました！"
-    },
-    "2": {
-      "title": "キービジュアルを公開しました！"
-    }
-  }
-}
 ````
 
 ## File: layers/main/i18n/locales/en.json
 ````json
 {
-  "viewAll" : "view all",
+  "viewAll": "view all",
   "learnMore" : "learn more",
   "page": {
     "top": "TOP"
@@ -933,12 +847,32 @@ export default defineNuxtConfig({
   },
   "contents": {
     "1": {
-      "title": "ParaRealCreator in SAPPORO",
-      "text": "Goods Exhibition & Sale by VR Creators"
+      "title": "ParaReal Stage",
+      "text": "Screening of “Shika The VR MUSICAL,” a real talk show, and a live crossover of real and virtual. Held after closing at Deep Tech CORE SAPPORO (free)."
     },
     "2": {
-      "title": "VketReal in Sapporo 2026 Autumn",
-      "text": "An XR experience event fusing digital and real worlds"
+      "title": "Matching Card Game",
+      "text": "Write your interests on a card and introduce yourselves. Keep mingling and you may get a shot at a limited-goods lottery."
+    },
+    "3": {
+      "title": "Message Cards",
+      "text": "Write a message on a small card and pin it to the board."
+    },
+    "4": {
+      "title": "Creator Showcase",
+      "text": "A promo space where you can leave flyers, business cards, and postcards to share your activities."
+    },
+    "5": {
+      "title": "Avatar Group Photo (Advance Program)",
+      "text": "Group photos taken in VRChat and displayed at the real venue."
+    },
+    "6": {
+      "title": "Official Goods",
+      "text": "Official merchandise for sale, including venue exclusives."
+    },
+    "7": {
+      "title": "Visitor Giveaway",
+      "text": "A raffle giveaway held during the ParaReal Creator closing ceremony."
     }
   },
   "news": {
@@ -953,6 +887,103 @@ export default defineNuxtConfig({
     },
     "2": {
       "title": "We have published our key visual!"
+    }
+  }
+}
+````
+
+## File: layers/main/i18n/locales/ja.json
+````json
+{
+  "viewAll": "すべて見る",
+  "learnMore" : "詳しくはこちらから",
+  "page": {
+    "top": "TOPページ"
+  },
+  "sectionTitle": {
+    "about": "VketReal in 札幌とは",
+    "exhibitorInfo": "出展者案内",
+    "participationGuide": "参加案内",
+    "tickets": "チケット",
+    "news": "お知らせ",
+    "contents": "企画・コンテンツ",
+    "exhibitorCircles": "出展サークル一覧",
+    "schedule": "開催スケジュール",
+    "locationInfo": "会場情報",
+    "collaborativeEvent": "連携イベント",
+    "sponsorsAndPartners": "ご協力",
+    "members": "有志メンバー",
+    "qa": "よくある質問",
+    "qa--min": "Q&A",
+    "contact": "お問い合わせ"
+  },
+  "infoCard": {
+    "venue": {
+      "title": "会場概要",
+      "items": {
+        "venueName": {
+          "label": "会場名",
+          "text": "アスティ45 4F アスティホール"
+        },
+        "address": {
+          "label": "住所",
+          "text": "〒060-0004 {br}北海道札幌市中央区北4条西5丁目1"
+        },
+        "access": {
+          "label": "アクセス",
+          "text": "地下鉄さっぽろ駅より地下鉄直結・徒歩3分{br}JR札幌駅南口より徒歩5分"
+        }
+      }
+    }
+  },
+  "collaborativeEvent": {
+    "nomaps": {
+      "text1": "札幌·北海道から テック・エンタメ・クリエイティブで世界をめっちゃおもろくするフェスNoMaps（ノーマップス）",
+      "text2": "VketReal in 札幌 2026 Autumn は、NoMaps 2026と連携しております。{br}同日、札幌ではNoMapsのイベントも開催されているので、NoMapsにも遊びに行こう！"
+    }
+  },
+  "contents": {
+    "1": {
+      "title": "パラリアルステージ",
+      "text": "『鹿 The VR MUSICAL』上映、リアルトークショー、リアル×バーチャルの生ライブ。閉会後に Deep Tech CORE SAPPORO で開催（無料）。"
+    },
+    "2": {
+      "title": "マッチングカードゲーム",
+      "text": "カードに興味を書いて自己紹介し合う交流企画。交流を進めると限定グッズくじに挑戦できるかも。"
+    },
+    "3": {
+      "title": "メッセージカード",
+      "text": "小さなカードにメッセージを書いてボードに貼る参加型企画。"
+    },
+    "4": {
+      "title": "クリエイター・ショーケース",
+      "text": "チラシ・名刺・ポストカードなどを置いて活動をアピールできる宣伝スペース。"
+    },
+    "5": {
+      "title": "アバター集合写真（事前企画）",
+      "text": "VRChat内で集合撮影し、リアル会場に掲示する企画。"
+    },
+    "6": {
+      "title": "公式グッズ",
+      "text": "会場限定を含む公式グッズを販売。"
+    },
+    "7": {
+      "title": "来場者プレゼント企画",
+      "text": "パラリアルクリエイター閉会式時の抽選プレゼント企画。"
+    }
+  },
+  "news": {
+    "4": {
+      "title": "「VketReal in 札幌 2026 Autumn」出展協賛企業・公式グッズ紹介・整理券などについて発表！"
+    },
+    "3": {
+      "title": "「VketReal in 札幌 2026 Autumn」来場チケット販売開始＆公式企画発表！"
+    },
+    "1": {
+      "title": "新ロゴマークを公開しました！"
+    },
+    "2": {
+      "title": "キービジュアルを公開しました！"
     }
   }
 }
