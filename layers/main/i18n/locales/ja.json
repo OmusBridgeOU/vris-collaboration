@@ -1,23 +1,23 @@
 {
-  "viewAll" : "すべて見る",
+  "viewAll": "すべて見る",
   "page": {
     "top": "TOPページ"
   },
   "sectionTitle": {
     "about": "VketReal in 札幌とは",
     "exhibitorInfo": "出展者案内",
-    "participationGuide" : "参加案内",
-    "tickets" : "チケット",
-    "news" : "お知らせ",
-    "contents" : "企画・コンテンツ",
-    "exhibitorCircles" : "出展サークル一覧",
-    "schedule" : "開催スケジュール",
-    "locationInfo" : "会場情報",
-    "sponsorsAndPartners" : "ご協力",
-    "members" : "有志メンバー",
-    "qa" : "よくある質問",
-    "qa--min" : "Q&A",
-    "contact" : "お問い合わせ"
+    "participationGuide": "参加案内",
+    "tickets": "チケット",
+    "news": "お知らせ",
+    "contents": "企画・コンテンツ",
+    "exhibitorCircles": "出展サークル一覧",
+    "schedule": "開催スケジュール",
+    "locationInfo": "会場情報",
+    "sponsorsAndPartners": "ご協力",
+    "members": "有志メンバー",
+    "qa": "よくある質問",
+    "qa--min": "Q&A",
+    "contact": "お問い合わせ"
   },
   "infoCard": {
     "venue": {
@@ -45,11 +45,11 @@
     },
     "2": {
       "title": "マッチングカードゲーム",
-      "text": "カードに興味を書いて自己紹介し合う交流企画。交流を進めると限定グッズくじに挑戦できるかも。参加は自由。"
+      "text": "カードに興味を書いて自己紹介し合う交流企画。交流を進めると限定グッズくじに挑戦できるかも。"
     },
     "3": {
       "title": "メッセージカード",
-      "text": "小さなカードにメッセージを書いてボードに貼る参加型企画。撮影してハッシュタグ付きでシェアも歓迎。"
+      "text": "小さなカードにメッセージを書いてボードに貼る参加型企画。"
     },
     "4": {
       "title": "クリエイター・ショーケース",
@@ -61,7 +61,7 @@
     },
     "6": {
       "title": "公式グッズ",
-      "text": "会場限定を含む公式グッズを販売。ラインナップは公式noteで紹介中。"
+      "text": "会場限定を含む公式グッズを販売。"
     },
     "7": {
       "title": "来場者プレゼント企画",

@@ -58,7 +58,7 @@ const items = computed(() => [
     id: 7,
     title: tGlobal('contents.7.title'),
     href: NOTE_PROGRAMS,
-    imgSrc: '',
+    imgSrc: '/images/contents/vris-noimage.png',
     text: tGlobal('contents.7.text'),
   },
 ])

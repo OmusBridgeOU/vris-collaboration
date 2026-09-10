@@ -17,7 +17,7 @@ const items = computed(() => [
   { id: 4, title: tGlobal('contents.4.title'), href: NOTE_PROGRAMS, imgSrc: '/images/2026Autumn/contents/contents-4-showcase.png', text: tGlobal('contents.4.text') },
   { id: 5, title: tGlobal('contents.5.title'), href: NOTE_PROGRAMS, imgSrc: '/images/2026Autumn/contents/contents-5-avatar.png', text: tGlobal('contents.5.text') },
   { id: 6, title: tGlobal('contents.6.title'), href: NOTE_GOODS, imgSrc: '/images/2026Autumn/contents/contents-6-goods.png', text: tGlobal('contents.6.text') },
-  { id: 7, title: tGlobal('contents.7.title'), href: NOTE_PROGRAMS, imgSrc: '', text: tGlobal('contents.7.text') },
+  { id: 7, title: tGlobal('contents.7.title'), href: NOTE_PROGRAMS, imgSrc: '/images/contents/vris-noimage.png', text: tGlobal('contents.7.text') },
 ])
 </script>
 

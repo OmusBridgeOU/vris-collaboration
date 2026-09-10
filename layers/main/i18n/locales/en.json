@@ -1,23 +1,23 @@
 {
-  "viewAll" : "view all",
+  "viewAll": "view all",
   "page": {
     "top": "TOP"
   },
   "sectionTitle": {
     "about": "What is VketReal in Sapporo?",
     "exhibitorInfo": "Exhibitor Information",
-    "participationGuide" : "Participation Guide",
-    "tickets" : "Tickets",
-    "news" : "News",
-    "contents" : "Programs & Contents",
-    "exhibitorCircles" : "Exhibiting Circles",
-    "schedule" : "Event Schedule",
-    "locationInfo" : "Venue Information",
-    "sponsorsAndPartners" : "Sponsors & Partners",
-    "members" : "members",
-    "qa" : "FAQ",
-    "qa--min" : "FAQ",
-    "contact" : "Contact Us"
+    "participationGuide": "Participation Guide",
+    "tickets": "Tickets",
+    "news": "News",
+    "contents": "Programs & Contents",
+    "exhibitorCircles": "Exhibiting Circles",
+    "schedule": "Event Schedule",
+    "locationInfo": "Venue Information",
+    "sponsorsAndPartners": "Sponsors & Partners",
+    "members": "members",
+    "qa": "FAQ",
+    "qa--min": "FAQ",
+    "contact": "Contact Us"
   },
   "infoCard": {
     "venue": {
@@ -45,11 +45,11 @@
     },
     "2": {
       "title": "Matching Card Game",
-      "text": "Write your interests on a card and introduce yourselves. Keep mingling and you may get a shot at a limited-goods lottery. Participation is optional."
+      "text": "Write your interests on a card and introduce yourselves. Keep mingling and you may get a shot at a limited-goods lottery."
     },
     "3": {
       "title": "Message Cards",
-      "text": "Write a message on a small card and pin it to the board. Photos with the event hashtag are welcome."
+      "text": "Write a message on a small card and pin it to the board."
     },
     "4": {
       "title": "Creator Showcase",
@@ -61,7 +61,7 @@
     },
     "6": {
       "title": "Official Goods",
-      "text": "Official merchandise for sale, including venue exclusives. See the official note for the lineup."
+      "text": "Official merchandise for sale, including venue exclusives."
     },
     "7": {
       "title": "Visitor Giveaway",
