@@ -27,7 +27,7 @@ en:
     line1: General admission tickets go on sale Wednesday, August 26, 2026.
     line2: Please purchase tickets through LivePocket.
   numberedTicketNotice:
-    line1: An online numbered admission ticket is required in addition to a event admission ticket.
+    line1: An online numbered admission ticket is required in addition to an event admission ticket.
     line2: Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.
     line3: LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.
   cards:

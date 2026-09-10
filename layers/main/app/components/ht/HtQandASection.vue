@@ -33,7 +33,7 @@ en:
     item3:
       title: 'Do I need a numbered admission ticket to enter?'
       contents:
-        - 'An online numbered admission ticket is required in addition to a event admission ticket.'
+        - 'An online numbered admission ticket is required in addition to an event admission ticket.'
         - 'Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.'
         - 'LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.'
     item4:
