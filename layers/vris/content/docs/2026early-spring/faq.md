@@ -112,7 +112,7 @@
 ## ■ 禁止事項・行動規範について
 
 ### Q20. イベントで禁止されている行為はありますか？
-**A.** [行動規範](https://vris.jp/docs/code-of-conduct)に詳細が記載されていますが、主な禁止事項は以下の通りです：
+**A.** [行動規範](https://skmt3p.notion.site/Code-of-Conduct-3d628ff7298b803e88c1f389c16ceb14)に詳細が記載されていますが、主な禁止事項は以下の通りです：
 - 差別的・攻撃的発言
 - 性的ハラスメント
 - 脅迫・つきまとい行為
@@ -140,7 +140,7 @@
 ## ■ プライバシー・個人情報について
 
 ### Q24. 個人情報はどのように扱われますか？
-**A.** [プライバシーポリシー](https://vris.jp/docs/privacy-policy)に基づき、VketReal in 札幌実行委員会にて厳正に管理いたします。収集する個人情報は以下の目的で使用されます：
+**A.** [プライバシーポリシー](https://skmt3p.notion.site/3d628ff7298b801d9ebad027206f50b4)に基づき、VketReal in 札幌実行委員会にて厳正に管理いたします。収集する個人情報は以下の目的で使用されます：
 - イベントの運営・管理
 - 参加者への連絡や案内
 - 安全管理および緊急時の対応
@@ -192,8 +192,8 @@
 - [出展ガイドライン](https://vris.jp/docs/2026early-spring/exhibition-guideline)
 - [出展規約](https://vris.jp/docs/2026early-spring/exhibition-terms)
 - [LT登壇ガイドライン](https://vris.jp/docs/2026early-spring/lt-guideline)
-- [行動規範](https://vris.jp/docs/code-of-conduct)
-- [プライバシーポリシー](https://vris.jp/docs/privacy-policy)
+- [行動規範](https://skmt3p.notion.site/Code-of-Conduct-3d628ff7298b803e88c1f389c16ceb14)
+- [プライバシーポリシー](https://skmt3p.notion.site/3d628ff7298b801d9ebad027206f50b4)
 - [公式X](https://x.com/vketreal_vris)
 - [お問い合わせフォーム](https://forms.gle/hnsfBRRnQZq4hLQP7)
 
