@@ -1,39 +1,15 @@
 <script setup lang="ts">
 import HaNoteIcon from '../ha/icons/HaNoteIcon.vue'
 import HaXIcon from '../ha/icons/HaXIcon.vue'
-import { DOCUMENT_LINKS } from '~/constants/documentLinks'
 
 const { t } = useI18n()
-
-const documentLinks = [
-  { key: 'participationGuide', href: DOCUMENT_LINKS.participationGuide },
-  { key: 'privacyPolicy', href: DOCUMENT_LINKS.privacyPolicy },
-  { key: 'codeOfConduct', href: DOCUMENT_LINKS.codeOfConduct },
-  { key: 'exhibitionGuideline', href: DOCUMENT_LINKS.exhibitionGuideline },
-  { key: 'exhibitionTerms', href: DOCUMENT_LINKS.exhibitionTerms },
-  { key: 'numberedTicket', href: DOCUMENT_LINKS.numberedTicket },
-] as const
 </script>
 
 <i18n lang="yaml">
 ja:
   mainlogo: VketReal in 札幌 2026 Autumn
-  documents:
-    participationGuide: 一般参加ガイド
-    privacyPolicy: プライバシーポリシー
-    codeOfConduct: 行動規範
-    exhibitionGuideline: 出展ガイドライン
-    exhibitionTerms: 出展規約
-    numberedTicket: 整理券番号のお知らせ
 en:
   mainlogo: VketReal in Sapporo 2026 Autumn
-  documents:
-    participationGuide: Participation Guide
-    privacyPolicy: Privacy Policy
-    codeOfConduct: Code of Conduct
-    exhibitionGuideline: Exhibitor Guidelines
-    exhibitionTerms: Exhibitor Terms
-    numberedTicket: Admission Number Updates
 </i18n>
 
 <template>
@@ -50,16 +26,6 @@ en:
             :alt="t('mainlogo')"
           >
         </a>
-        <nav class="footer__nav">
-          <a
-            v-for="link in documentLinks"
-            :key="link.key"
-            class="footer__link"
-            :href="link.href"
-            target="_blank"
-            rel="noopener noreferrer"
-          >{{ t(`documents.${link.key}`) }}</a>
-        </nav>
       </div>
       <div class="footer__right">
         <a
@@ -133,33 +99,6 @@ en:
 
   &__logo {
     height: 100%;
-  }
-
-  &__nav {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, max-content));
-    gap: 18px 32px;
-    padding-bottom: 40px;
-
-    @include m.sp {
-      grid-template-columns: 1fr;
-      gap: 22px;
-      padding-bottom: 48px;
-    }
-  }
-
-  &__link {
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-
-    @include m.tb {
-      font-size: 12px;
-      text-decoration: none;
-    }
   }
 
   &__divider {

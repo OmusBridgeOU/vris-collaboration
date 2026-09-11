@@ -134,6 +134,7 @@ layers/
           HtContactSection.vue
           HtContentsSection.vue
           HtCrowdLevelsSection.vue
+          HtDocumentsSection.vue
           HtExhibitionSection.vue
           HtExhibitorCirclesSection.vue
           HtExhibitorInfoSection.vue
@@ -1885,6 +1886,22 @@ layers/
 </template>
 ```
 
+## File: layers/main/app/components/ha/icons/HaInstagramIcon.vue
+```vue
+<template>
+  <svg
+    viewBox="0 0 14 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M4.06 0H9.94C12.18 0 14 1.82 14 4.06V9.94C14 11.0168 13.5723 12.0495 12.8109 12.8109C12.0495 13.5723 11.0168 14 9.94 14H4.06C1.82 14 0 12.18 0 9.94V4.06C0 2.98322 0.427749 1.95054 1.18915 1.18915C1.95054 0.427749 2.98322 0 4.06 0ZM3.92 1.4C3.25165 1.4 2.61068 1.6655 2.13809 2.13809C1.6655 2.61068 1.4 3.25165 1.4 3.92V10.08C1.4 11.473 2.527 12.6 3.92 12.6H10.08C10.7483 12.6 11.3893 12.3345 11.8619 11.8619C12.3345 11.3893 12.6 10.7483 12.6 10.08V3.92C12.6 2.527 11.473 1.4 10.08 1.4H3.92ZM10.675 2.45C10.9071 2.45 11.1296 2.54219 11.2937 2.70628C11.4578 2.87038 11.55 3.09294 11.55 3.325C11.55 3.55706 11.4578 3.77962 11.2937 3.94372C11.1296 4.10781 10.9071 4.2 10.675 4.2C10.4429 4.2 10.2204 4.10781 10.0563 3.94372C9.89219 3.77962 9.8 3.55706 9.8 3.325C9.8 3.09294 9.89219 2.87038 10.0563 2.70628C10.2204 2.54219 10.4429 2.45 10.675 2.45ZM7 3.5C7.92826 3.5 8.8185 3.86875 9.47487 4.52513C10.1313 5.1815 10.5 6.07174 10.5 7C10.5 7.92826 10.1313 8.8185 9.47487 9.47487C8.8185 10.1313 7.92826 10.5 7 10.5C6.07174 10.5 5.1815 10.1313 4.52513 9.47487C3.86875 8.8185 3.5 7.92826 3.5 7C3.5 6.07174 3.86875 5.1815 4.52513 4.52513C5.1815 3.86875 6.07174 3.5 7 3.5ZM7 4.9C6.44305 4.9 5.9089 5.12125 5.51508 5.51508C5.12125 5.9089 4.9 6.44305 4.9 7C4.9 7.55695 5.12125 8.0911 5.51508 8.48492C5.9089 8.87875 6.44305 9.1 7 9.1C7.55695 9.1 8.0911 8.87875 8.48492 8.48492C8.87875 8.0911 9.1 7.55695 9.1 7C9.1 6.44305 8.87875 5.9089 8.48492 5.51508C8.0911 5.12125 7.55695 4.9 7 4.9Z"
+      fill="white"
+    />
+  </svg>
+</template>
+```
+
 ## File: layers/main/app/components/ha/icons/HaJumpToPageIcon.vue
 ```vue
 <template>
@@ -3444,6 +3461,158 @@ onUnmounted(() => {
 </template>
 ```
 
+## File: layers/main/app/components/ht/HtDocumentsSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  title: ドキュメント
+  description: ご来場・出展に関するガイドラインや規約をご確認いただけます。
+  participationGuide: 一般参加ガイド
+  numberedTicket: 整理券番号のお知らせ
+  privacyPolicy: プライバシーポリシー
+  codeOfConduct: 行動規範
+  exhibitionGuideline: 出展ガイドライン
+  exhibitionTerms: 出展規約
+  corporateExhibitorGuide: 企業出展社向けご案内
+en:
+  title: Documents
+  description: View guidelines and policies for visitors and exhibitors.
+  participationGuide: Participation Guide
+  numberedTicket: Admission Number Updates
+  privacyPolicy: Privacy Policy
+  codeOfConduct: Code of Conduct
+  exhibitionGuideline: Exhibitor Guidelines
+  exhibitionTerms: Exhibitor Terms
+  corporateExhibitorGuide: Corporate Exhibitor Guide
+</i18n>
+
+<script setup lang="ts">
+import { DOCUMENT_LINKS } from '~/constants/documentLinks'
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n({ useScope: 'local' })
+
+const documents = [
+  { key: 'participationGuide', href: DOCUMENT_LINKS.participationGuide },
+  { key: 'numberedTicket', href: DOCUMENT_LINKS.numberedTicket },
+  { key: 'privacyPolicy', href: DOCUMENT_LINKS.privacyPolicy },
+  { key: 'codeOfConduct', href: DOCUMENT_LINKS.codeOfConduct },
+  { key: 'exhibitionGuideline', href: DOCUMENT_LINKS.exhibitionGuideline },
+  { key: 'exhibitionTerms', href: DOCUMENT_LINKS.exhibitionTerms },
+  { key: 'corporateExhibitorGuide', href: DOCUMENT_LINKS.corporateExhibitorGuide },
+] as const
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.documents-grid__link')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="t('title')"
+      label="DOCUMENTS"
+    />
+    <p class="documents-description">
+      {{ t('description') }}
+    </p>
+    <nav
+      ref="listRef"
+      class="documents-grid"
+      :aria-label="t('title')"
+    >
+      <a
+        v-for="document in documents"
+        :key="document.key"
+        class="documents-grid__link glassy-box-3"
+        :href="document.href"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span>{{ t(document.key) }}</span>
+        <span
+          class="documents-grid__arrow"
+          aria-hidden="true"
+        >↗</span>
+      </a>
+    </nav>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.documents-description {
+  margin-bottom: 28px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: white;
+
+  @include m.sp {
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+}
+
+.documents-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+
+  @include m.tb {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  &__link {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 88px;
+    padding: 20px 24px;
+
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+
+    @include m.hover {
+      border-color: v.$vket-cyan;
+      background-color: rgb(0 224 255 / 16%);
+    }
+
+    @include m.sp {
+      min-height: 68px;
+      padding: 16px 20px;
+      font-size: 14px;
+    }
+  }
+
+  &__arrow {
+    flex-shrink: 0;
+    font-size: 20px;
+    color: v.$vket-cyan;
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtQuickAccessSection.vue
 ```vue
 <i18n lang="yaml">
@@ -3923,22 +4092,6 @@ const { t: tGlobal } = useI18n()
     <path
       d="M20.2344 12.8676H4.28924C4.06173 12.8676 3.84353 12.958 3.68265 13.1189C3.52178 13.2798 3.4314 13.498 3.4314 13.7255C3.4314 13.953 3.52178 14.1712 3.68265 14.3321C3.84353 14.4929 4.06173 14.5833 4.28924 14.5833H20.2344L13.9748 20.8375C13.8134 20.9989 13.7228 21.2178 13.7228 21.4461C13.7228 21.6743 13.8134 21.8932 13.9748 22.0546C14.1362 22.216 14.3551 22.3067 14.5834 22.3067C14.8116 22.3067 15.0305 22.216 15.1919 22.0546L22.9125 14.334C22.9927 14.2543 23.0564 14.1595 23.0999 14.055C23.1433 13.9506 23.1657 13.8386 23.1657 13.7255C23.1657 13.6124 23.1433 13.5004 23.0999 13.3959C23.0564 13.2915 22.9927 13.1967 22.9125 13.1169L15.1919 5.39635C15.112 5.31644 15.0171 5.25304 14.9127 5.2098C14.8083 5.16655 14.6964 5.14429 14.5834 5.14429C14.4703 5.14429 14.3584 5.16655 14.254 5.2098C14.1496 5.25304 14.0547 5.31644 13.9748 5.39635C13.8949 5.47626 13.8315 5.57113 13.7883 5.67555C13.745 5.77996 13.7228 5.89187 13.7228 6.00488C13.7228 6.1179 13.745 6.22981 13.7883 6.33422C13.8315 6.43863 13.8949 6.5335 13.9748 6.61341L20.2344 12.8676Z"
       fill="#ffffff"
-    />
-  </svg>
-</template>
-```
-
-## File: layers/main/app/components/ha/icons/HaInstagramIcon.vue
-```vue
-<template>
-  <svg
-    viewBox="0 0 14 14"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M4.06 0H9.94C12.18 0 14 1.82 14 4.06V9.94C14 11.0168 13.5723 12.0495 12.8109 12.8109C12.0495 13.5723 11.0168 14 9.94 14H4.06C1.82 14 0 12.18 0 9.94V4.06C0 2.98322 0.427749 1.95054 1.18915 1.18915C1.95054 0.427749 2.98322 0 4.06 0ZM3.92 1.4C3.25165 1.4 2.61068 1.6655 2.13809 2.13809C1.6655 2.61068 1.4 3.25165 1.4 3.92V10.08C1.4 11.473 2.527 12.6 3.92 12.6H10.08C10.7483 12.6 11.3893 12.3345 11.8619 11.8619C12.3345 11.3893 12.6 10.7483 12.6 10.08V3.92C12.6 2.527 11.473 1.4 10.08 1.4H3.92ZM10.675 2.45C10.9071 2.45 11.1296 2.54219 11.2937 2.70628C11.4578 2.87038 11.55 3.09294 11.55 3.325C11.55 3.55706 11.4578 3.77962 11.2937 3.94372C11.1296 4.10781 10.9071 4.2 10.675 4.2C10.4429 4.2 10.2204 4.10781 10.0563 3.94372C9.89219 3.77962 9.8 3.55706 9.8 3.325C9.8 3.09294 9.89219 2.87038 10.0563 2.70628C10.2204 2.54219 10.4429 2.45 10.675 2.45ZM7 3.5C7.92826 3.5 8.8185 3.86875 9.47487 4.52513C10.1313 5.1815 10.5 6.07174 10.5 7C10.5 7.92826 10.1313 8.8185 9.47487 9.47487C8.8185 10.1313 7.92826 10.5 7 10.5C6.07174 10.5 5.1815 10.1313 4.52513 9.47487C3.86875 8.8185 3.5 7.92826 3.5 7C3.5 6.07174 3.86875 5.1815 4.52513 4.52513C5.1815 3.86875 6.07174 3.5 7 3.5ZM7 4.9C6.44305 4.9 5.9089 5.12125 5.51508 5.51508C5.12125 5.9089 4.9 6.44305 4.9 7C4.9 7.55695 5.12125 8.0911 5.51508 8.48492C5.9089 8.87875 6.44305 9.1 7 9.1C7.55695 9.1 8.0911 8.87875 8.48492 8.48492C8.87875 8.0911 9.1 7.55695 9.1 7C9.1 6.44305 8.87875 5.9089 8.48492 5.51508C8.0911 5.12125 7.55695 4.9 7 4.9Z"
-      fill="white"
     />
   </svg>
 </template>
@@ -5694,6 +5847,160 @@ const isUnits = computed(() => Array.isArray(props.content))
 </template>
 ```
 
+## File: layers/main/app/components/ha/HaMemberCard.vue
+```vue
+<script lang="ts" setup>
+import HaInstagramIcon from './icons/HaInstagramIcon.vue'
+import HaXIcon from './icons/HaXIcon.vue'
+
+const props = defineProps<{
+  id: number
+  name: string
+  iconUrl: string
+  role: string
+  xLink: string | null
+  instagramLink: string | null
+}>()
+</script>
+
+<template>
+  <component
+    :is="xLink ? 'a' : 'div'"
+    class="glassy-box-4 glassy-box-4--radius-min member-card"
+    :href="xLink ? xLink : undefined"
+    :target="xLink ? '_blank' : undefined"
+    :rel="xLink ? 'noopener noreferrer' : undefined"
+  >
+    <div class="member-card__icon-wrapper">
+      <img
+        v-if="props.iconUrl"
+        :src="props.iconUrl"
+        :alt="props.iconUrl"
+        class="member-card__icon"
+      >
+      <div
+        v-else
+        class="member-card__icon member-card__icon--default"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+          fill="#ceeaff"
+        >
+          <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Z" />
+        </svg>
+      </div>
+    </div>
+    <div class="member-card__right">
+      <p class="member-card__name">
+        {{ props.name }}
+      </p>
+      <p class="member-card__role">
+        {{ props.role }}
+      </p>
+      <div class="member-card__logo-link-flex">
+        <!-- インスタリンクも公開される方がいるのであれば、各SNSアイコンのみにボタン判定がある仕様に戻す -->
+        <a
+          v-if="props.xLink"
+          class="member-card__logo-link"
+          :href="props.xLink"
+          target="blank"
+          rel="noopener noreferrer"
+        >
+          <HaXIcon />
+        </a>
+        <a
+          v-if="props.instagramLink"
+          class="member-card__logo-link"
+          :href="props.instagramLink"
+          target="blank"
+          rel="noopener noreferrer"
+        >
+          <HaInstagramIcon />
+        </a>
+      </div>
+    </div>
+  </component>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.member-card{
+  display: flex;
+  gap: 14px;
+  align-items: center;
+
+  height: 100%;
+  padding: 20px;
+
+  &__icon-wrapper {
+    overflow: hidden;
+    flex-shrink: 0;
+
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+  }
+
+  &__icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    &--default {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: hsl(206deg 30% 50%);
+
+      svg {
+        width: 80%;
+      }
+    }
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: space-between;
+
+    min-height: 80px;
+
+    svg {
+        display: block;
+    }
+  }
+
+  &__name {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1em;
+    color: white;
+  }
+
+  &__role {
+    font-size: 14px;
+    line-height: 1em;
+    color: v.$vket-amber;
+  }
+
+  &__logo-link-flex {
+    display: flex;
+    gap: 12px;
+    height: 14px;
+  }
+
+  &__logo-link {
+    width: 14px;
+    height: 14px;
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ha/HaNewsCard.vue
 ```vue
 <template>
@@ -6568,379 +6875,6 @@ onBeforeUnmount(() => {
 </style>
 ```
 
-## File: layers/main/app/components/ha/HaMemberCard.vue
-```vue
-<script lang="ts" setup>
-import HaInstagramIcon from './icons/HaInstagramIcon.vue'
-import HaXIcon from './icons/HaXIcon.vue'
-
-const props = defineProps<{
-  id: number
-  name: string
-  iconUrl: string
-  role: string
-  xLink: string | null
-  instagramLink: string | null
-}>()
-</script>
-
-<template>
-  <component
-    :is="xLink ? 'a' : 'div'"
-    class="glassy-box-4 glassy-box-4--radius-min member-card"
-    :href="xLink ? xLink : undefined"
-    :target="xLink ? '_blank' : undefined"
-    :rel="xLink ? 'noopener noreferrer' : undefined"
-  >
-    <div class="member-card__icon-wrapper">
-      <img
-        v-if="props.iconUrl"
-        :src="props.iconUrl"
-        :alt="props.iconUrl"
-        class="member-card__icon"
-      >
-      <div
-        v-else
-        class="member-card__icon member-card__icon--default"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 -960 960 960"
-          fill="#ceeaff"
-        >
-          <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Z" />
-        </svg>
-      </div>
-    </div>
-    <div class="member-card__right">
-      <p class="member-card__name">
-        {{ props.name }}
-      </p>
-      <p class="member-card__role">
-        {{ props.role }}
-      </p>
-      <div class="member-card__logo-link-flex">
-        <!-- インスタリンクも公開される方がいるのであれば、各SNSアイコンのみにボタン判定がある仕様に戻す -->
-        <a
-          v-if="props.xLink"
-          class="member-card__logo-link"
-          :href="props.xLink"
-          target="blank"
-          rel="noopener noreferrer"
-        >
-          <HaXIcon />
-        </a>
-        <a
-          v-if="props.instagramLink"
-          class="member-card__logo-link"
-          :href="props.instagramLink"
-          target="blank"
-          rel="noopener noreferrer"
-        >
-          <HaInstagramIcon />
-        </a>
-      </div>
-    </div>
-  </component>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.member-card{
-  display: flex;
-  gap: 14px;
-  align-items: center;
-
-  height: 100%;
-  padding: 20px;
-
-  &__icon-wrapper {
-    overflow: hidden;
-    flex-shrink: 0;
-
-    width: 80px;
-    height: 80px;
-    border-radius: 100%;
-  }
-
-  &__icon {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-
-    &--default {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: hsl(206deg 30% 50%);
-
-      svg {
-        width: 80%;
-      }
-    }
-  }
-
-  &__right {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    justify-content: space-between;
-
-    min-height: 80px;
-
-    svg {
-        display: block;
-    }
-  }
-
-  &__name {
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 1em;
-    color: white;
-  }
-
-  &__role {
-    font-size: 14px;
-    line-height: 1em;
-    color: v.$vket-amber;
-  }
-
-  &__logo-link-flex {
-    display: flex;
-    gap: 12px;
-    height: 14px;
-  }
-
-  &__logo-link {
-    width: 14px;
-    height: 14px;
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ho/HoTheFooter.vue
-```vue
-<script setup lang="ts">
-import HaNoteIcon from '../ha/icons/HaNoteIcon.vue'
-import HaXIcon from '../ha/icons/HaXIcon.vue'
-import { DOCUMENT_LINKS } from '~/constants/documentLinks'
-
-const { t } = useI18n()
-
-const documentLinks = [
-  { key: 'participationGuide', href: DOCUMENT_LINKS.participationGuide },
-  { key: 'privacyPolicy', href: DOCUMENT_LINKS.privacyPolicy },
-  { key: 'codeOfConduct', href: DOCUMENT_LINKS.codeOfConduct },
-  { key: 'exhibitionGuideline', href: DOCUMENT_LINKS.exhibitionGuideline },
-  { key: 'exhibitionTerms', href: DOCUMENT_LINKS.exhibitionTerms },
-  { key: 'numberedTicket', href: DOCUMENT_LINKS.numberedTicket },
-] as const
-</script>
-
-<i18n lang="yaml">
-ja:
-  mainlogo: VketReal in 札幌 2026 Autumn
-  documents:
-    participationGuide: 一般参加ガイド
-    privacyPolicy: プライバシーポリシー
-    codeOfConduct: 行動規範
-    exhibitionGuideline: 出展ガイドライン
-    exhibitionTerms: 出展規約
-    numberedTicket: 整理券番号のお知らせ
-en:
-  mainlogo: VketReal in Sapporo 2026 Autumn
-  documents:
-    participationGuide: Participation Guide
-    privacyPolicy: Privacy Policy
-    codeOfConduct: Code of Conduct
-    exhibitionGuideline: Exhibitor Guidelines
-    exhibitionTerms: Exhibitor Terms
-    numberedTicket: Admission Number Updates
-</i18n>
-
-<template>
-  <footer class="footer">
-    <div class="footer__upper">
-      <div class="footer__left">
-        <a
-          href="/"
-          class="footer__logo-link"
-        >
-          <img
-            class="footer__logo"
-            src="/vketreal_in_sapporo_logo_light.png"
-            :alt="t('mainlogo')"
-          >
-        </a>
-        <nav class="footer__nav">
-          <a
-            v-for="link in documentLinks"
-            :key="link.key"
-            class="footer__link"
-            :href="link.href"
-            target="_blank"
-            rel="noopener noreferrer"
-          >{{ t(`documents.${link.key}`) }}</a>
-        </nav>
-      </div>
-      <div class="footer__right">
-        <a
-          href="https://x.com/vketreal_vris"
-          target="blank"
-          rel="noopener noreferrer"
-          class="footer__sns-logo"
-        >
-          <HaXIcon />
-        </a>
-        <div class="footer__logo-divider" />
-        <a
-          href="https://note.com/vris"
-          target="blank"
-          rel="noopener noreferrer"
-          class="footer__sns-logo"
-        >
-          <HaNoteIcon class="footer__scaled-logo" />
-        </a>
-      </div>
-    </div>
-    <div class="footer__divider" />
-    <p class="footer__copy">
-      &copy; 2026 VketReal in 札幌 実行委員会. All rights reserved.
-    </p>
-  </footer>
-</template>
-
-<style scoped lang="scss">
-@use '@/assets/styles/mixins' as m;
-
-.footer {
-  position: relative;
-  z-index: 1;
-
-  padding: 88px 105px 0;
-  border-radius: 40px 40px 0 0;
-
-  background-color: rgb(25 25 25 / 100%);
-
-  @include m.sp {
-    padding: 52px 32px 0;
-  }
-
-  &__upper {
-    display: flex;
-    gap: 32px;
-    justify-content: space-between;
-
-    @include m.sp {
-      flex-direction: column;
-      gap: 8px;
-    }
-  }
-
-  &__logo-link {
-    display: block;
-    height: 92px;
-    margin-bottom: 64px;
-
-    @include m.tb {
-      height: 72px;
-      margin-bottom: 40px;
-    }
-
-    @include m.sp {
-      height: 46px;
-      margin-bottom: 32px;
-    }
-  }
-
-  &__logo {
-    height: 100%;
-  }
-
-  &__nav {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, max-content));
-    gap: 18px 32px;
-    padding-bottom: 40px;
-
-    @include m.sp {
-      grid-template-columns: 1fr;
-      gap: 22px;
-      padding-bottom: 48px;
-    }
-  }
-
-  &__link {
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-
-    @include m.tb {
-      font-size: 12px;
-      text-decoration: none;
-    }
-  }
-
-  &__divider {
-    width: 100%;
-    height: 1px;
-    background-color: #8f8f8f;
-  }
-
-  &__right {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-    height: 32px;
-
-    @include m.sp {
-      gap: 16px;
-      height: 24px;
-    }
-  }
-
-  &__logo-divider {
-    width: 1px;
-    height: 100%;
-    background-color: white;
-  }
-
-  &__sns-logo {
-    height: 100%;
-
-    svg {
-      height: 100%;
-    }
-  }
-
-  &__scaled-logo {
-    pointer-events: none;
-    transform:scale(1.8);
-  }
-
-  &__copy {
-    padding: 32px 0;
-
-    font-family: Inter, sans-serif;
-    font-size: 12px;
-    color: white;
-    text-align: center;
-
-    @include m.sp {
-      font-size: 8px;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtExhibitorCirclesSection.vue
 ```vue
 <script setup lang="ts">
@@ -7699,6 +7633,164 @@ const onSlideChange = (swiper: SwiperType) => {
 </style>
 ```
 
+## File: layers/main/app/components/ho/HoTheFooter.vue
+```vue
+<script setup lang="ts">
+import HaNoteIcon from '../ha/icons/HaNoteIcon.vue'
+import HaXIcon from '../ha/icons/HaXIcon.vue'
+
+const { t } = useI18n()
+</script>
+
+<i18n lang="yaml">
+ja:
+  mainlogo: VketReal in 札幌 2026 Autumn
+en:
+  mainlogo: VketReal in Sapporo 2026 Autumn
+</i18n>
+
+<template>
+  <footer class="footer">
+    <div class="footer__upper">
+      <div class="footer__left">
+        <a
+          href="/"
+          class="footer__logo-link"
+        >
+          <img
+            class="footer__logo"
+            src="/vketreal_in_sapporo_logo_light.png"
+            :alt="t('mainlogo')"
+          >
+        </a>
+      </div>
+      <div class="footer__right">
+        <a
+          href="https://x.com/vketreal_vris"
+          target="blank"
+          rel="noopener noreferrer"
+          class="footer__sns-logo"
+        >
+          <HaXIcon />
+        </a>
+        <div class="footer__logo-divider" />
+        <a
+          href="https://note.com/vris"
+          target="blank"
+          rel="noopener noreferrer"
+          class="footer__sns-logo"
+        >
+          <HaNoteIcon class="footer__scaled-logo" />
+        </a>
+      </div>
+    </div>
+    <div class="footer__divider" />
+    <p class="footer__copy">
+      &copy; 2026 VketReal in 札幌 実行委員会. All rights reserved.
+    </p>
+  </footer>
+</template>
+
+<style scoped lang="scss">
+@use '@/assets/styles/mixins' as m;
+
+.footer {
+  position: relative;
+  z-index: 1;
+
+  padding: 88px 105px 0;
+  border-radius: 40px 40px 0 0;
+
+  background-color: rgb(25 25 25 / 100%);
+
+  @include m.sp {
+    padding: 52px 32px 0;
+  }
+
+  &__upper {
+    display: flex;
+    gap: 32px;
+    justify-content: space-between;
+
+    @include m.sp {
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+
+  &__logo-link {
+    display: block;
+    height: 92px;
+    margin-bottom: 64px;
+
+    @include m.tb {
+      height: 72px;
+      margin-bottom: 40px;
+    }
+
+    @include m.sp {
+      height: 46px;
+      margin-bottom: 32px;
+    }
+  }
+
+  &__logo {
+    height: 100%;
+  }
+
+  &__divider {
+    width: 100%;
+    height: 1px;
+    background-color: #8f8f8f;
+  }
+
+  &__right {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    height: 32px;
+
+    @include m.sp {
+      gap: 16px;
+      height: 24px;
+    }
+  }
+
+  &__logo-divider {
+    width: 1px;
+    height: 100%;
+    background-color: white;
+  }
+
+  &__sns-logo {
+    height: 100%;
+
+    svg {
+      height: 100%;
+    }
+  }
+
+  &__scaled-logo {
+    pointer-events: none;
+    transform:scale(1.8);
+  }
+
+  &__copy {
+    padding: 32px 0;
+
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    color: white;
+    text-align: center;
+
+    @include m.sp {
+      font-size: 8px;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtHeroSection.vue
 ```vue
 <template>
@@ -7916,6 +8008,227 @@ en:
 
   100% {
     top: 100%;
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtMemberSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  roles:
+    executiveChair: '実行委員長'
+    projectManager: 'PM'
+    generalSupport: '裏方雑務'
+    snsManagement: 'SNS運用'
+    publicRelations: '広報'
+    prAndStageEvent: '広報・ステージイベント企画'
+    planningAndEngineering: '企画・エンジニアリング'
+    merchandisePlanning: 'グッズ企画・運用'
+    webAppDevelopment: 'webアプリ開発'
+    dayOfOperations: '当日運営'
+    artDirector: 'アートディレクター'
+    keyVisualIllustration: 'KV・イラスト制作'
+    webDevelopment: 'Web開発'
+en:
+  roles:
+    executiveChair: 'Executive Chair'
+    projectManager: 'Project Manager'
+    generalSupport: 'General Support'
+    snsManagement: 'Social Media Management'
+    publicRelations: 'Public Relations'
+    prAndStageEvent: 'PR & Stage Event Planning'
+    planningAndEngineering: 'Planning & Engineering'
+    merchandisePlanning: 'Merchandise Planning & Operations'
+    webAppDevelopment: 'Web App Development'
+    dayOfOperations: 'Day-of Operations'
+    artDirector: 'Art Director'
+    keyVisualIllustration: 'Key Visual & Illustration'
+    webDevelopment: 'Web Development'
+</i18n>
+
+<script setup lang="ts">
+import HaMemberCard from '@/components/ha/HaMemberCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.member-section__grid-item')
+  fadeInUpStagger(Array.from(items))
+})
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    name: 'A-kun',
+    iconUrl: '/member-icons/a-kun.webp',
+    role: t('roles.executiveChair'),
+    xLink: 'https://x.com/A919515',
+    instagramLink: '',
+  },
+  {
+    id: 2,
+    name: 'R.D.Sakamoto',
+    iconUrl: '/member-icons/skmt3p.webp',
+    role: t('roles.projectManager'),
+    xLink: 'https://x.com/skmt3p',
+    instagramLink: '',
+  },
+  {
+    id: 3,
+    name: 'ハチヤ',
+    iconUrl: '/member-icons/hatiya.webp',
+    role: t('roles.generalSupport'),
+    xLink: 'https://x.com/h4tiyA',
+    instagramLink: '',
+  },
+  {
+    id: 4,
+    name: 'ふららん',
+    iconUrl: '/member-icons/furarann.webp',
+    role: t('roles.snsManagement'),
+    xLink: 'https://x.com/furarann_VR37',
+    instagramLink: '',
+  },
+  {
+    id: 5,
+    name: '七草睦月',
+    iconUrl: '/member-icons/nanakusa-mutsuki.webp',
+    role: t('roles.publicRelations'),
+    xLink: 'https://x.com/nanakusamutsuki',
+    instagramLink: '',
+  },
+  {
+    id: 6,
+    name: 'Milia',
+    iconUrl: '/member-icons/milia.webp',
+    role: t('roles.prAndStageEvent'),
+    xLink: 'https://x.com/xmiliax',
+    instagramLink: '',
+  },
+
+  {
+    id: 7,
+    name: 'luft',
+    iconUrl: '/member-icons/luft.webp',
+    role: t('roles.planningAndEngineering'),
+    xLink: 'https://x.com/luft256',
+    instagramLink: '',
+  },
+  {
+    id: 8,
+    name: 'youyou',
+    iconUrl: '/member-icons/youyou.webp',
+    role: t('roles.merchandisePlanning'),
+    xLink: 'https://x.com/youyou0147',
+    instagramLink: '',
+  },
+  {
+    id: 10,
+    name: 'samy',
+    iconUrl: '/member-icons/samy.webp',
+    role: t('roles.webAppDevelopment'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 9,
+    name: 'Tsubaki',
+    iconUrl: '/member-icons/tsubaki.jpeg',
+    role: t('roles.dayOfOperations'),
+    xLink: 'https://x.com/Tsubaki_HIUVR',
+    instagramLink: '',
+  },
+  {
+    id: 11,
+    name: 'おのでらりな',
+    iconUrl: '/member-icons/rina-onodera.webp',
+    role: t('roles.artDirector'),
+    xLink: 'https://x.com/studiococoon_',
+    instagramLink: '',
+  },
+  {
+    id: 12,
+    name: 'なだ',
+    iconUrl: '/member-icons/otyano.webp',
+    role: t('roles.keyVisualIllustration'),
+    xLink: 'https://x.com/otyano8',
+    instagramLink: '',
+  },
+  {
+    id: 13,
+    name: 'aj8d',
+    iconUrl: '/member-icons/aj8d.webp',
+    role: t('roles.webDevelopment'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 14,
+    name: 'L.ami',
+    iconUrl: '/member-icons/lami.webp',
+    role: t('roles.webDevelopment'),
+    xLink: '',
+    instagramLink: '',
+  },
+])
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.members')"
+      label="MEMBERS"
+    />
+    <div
+      ref="listRef"
+      class="member-section__grid"
+    >
+      <div
+        v-for="item in items"
+        :key="item.id"
+        class="member-section__grid-item"
+      >
+        <HaMemberCard
+          v-bind="item"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.member-section{
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px 30px;
+    margin: 0 auto;
+
+    @include m.tb {
+      grid-template-columns: 1fr 1fr;
+      max-width: 720px;
+    }
+
+    @include m.sp {
+      grid-template-columns: 1fr;
+      max-width: 360px;
+    }
   }
 }
 </style>
@@ -9440,227 +9753,6 @@ $three-items-flex--template-column-gap: 32px;
 </style>
 ```
 
-## File: layers/main/app/components/ht/HtMemberSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  roles:
-    executiveChair: '実行委員長'
-    projectManager: 'PM'
-    generalSupport: '裏方雑務'
-    snsManagement: 'SNS運用'
-    publicRelations: '広報'
-    prAndStageEvent: '広報・ステージイベント企画'
-    planningAndEngineering: '企画・エンジニアリング'
-    merchandisePlanning: 'グッズ企画・運用'
-    webAppDevelopment: 'webアプリ開発'
-    dayOfOperations: '当日運営'
-    artDirector: 'アートディレクター'
-    keyVisualIllustration: 'KV・イラスト制作'
-    webDevelopment: 'Web開発'
-en:
-  roles:
-    executiveChair: 'Executive Chair'
-    projectManager: 'Project Manager'
-    generalSupport: 'General Support'
-    snsManagement: 'Social Media Management'
-    publicRelations: 'Public Relations'
-    prAndStageEvent: 'PR & Stage Event Planning'
-    planningAndEngineering: 'Planning & Engineering'
-    merchandisePlanning: 'Merchandise Planning & Operations'
-    webAppDevelopment: 'Web App Development'
-    dayOfOperations: 'Day-of Operations'
-    artDirector: 'Art Director'
-    keyVisualIllustration: 'Key Visual & Illustration'
-    webDevelopment: 'Web Development'
-</i18n>
-
-<script setup lang="ts">
-import HaMemberCard from '@/components/ha/HaMemberCard.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.member-section__grid-item')
-  fadeInUpStagger(Array.from(items))
-})
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    name: 'A-kun',
-    iconUrl: '/member-icons/a-kun.webp',
-    role: t('roles.executiveChair'),
-    xLink: 'https://x.com/A919515',
-    instagramLink: '',
-  },
-  {
-    id: 2,
-    name: 'R.D.Sakamoto',
-    iconUrl: '/member-icons/skmt3p.webp',
-    role: t('roles.projectManager'),
-    xLink: 'https://x.com/skmt3p',
-    instagramLink: '',
-  },
-  {
-    id: 3,
-    name: 'ハチヤ',
-    iconUrl: '/member-icons/hatiya.webp',
-    role: t('roles.generalSupport'),
-    xLink: 'https://x.com/h4tiyA',
-    instagramLink: '',
-  },
-  {
-    id: 4,
-    name: 'ふららん',
-    iconUrl: '/member-icons/furarann.webp',
-    role: t('roles.snsManagement'),
-    xLink: 'https://x.com/furarann_VR37',
-    instagramLink: '',
-  },
-  {
-    id: 5,
-    name: '七草睦月',
-    iconUrl: '/member-icons/nanakusa-mutsuki.webp',
-    role: t('roles.publicRelations'),
-    xLink: 'https://x.com/nanakusamutsuki',
-    instagramLink: '',
-  },
-  {
-    id: 6,
-    name: 'Milia',
-    iconUrl: '/member-icons/milia.webp',
-    role: t('roles.prAndStageEvent'),
-    xLink: 'https://x.com/xmiliax',
-    instagramLink: '',
-  },
-
-  {
-    id: 7,
-    name: 'luft',
-    iconUrl: '/member-icons/luft.webp',
-    role: t('roles.planningAndEngineering'),
-    xLink: 'https://x.com/luft256',
-    instagramLink: '',
-  },
-  {
-    id: 8,
-    name: 'youyou',
-    iconUrl: '/member-icons/youyou.webp',
-    role: t('roles.merchandisePlanning'),
-    xLink: 'https://x.com/youyou0147',
-    instagramLink: '',
-  },
-  {
-    id: 10,
-    name: 'samy',
-    iconUrl: '/member-icons/samy.webp',
-    role: t('roles.webAppDevelopment'),
-    xLink: '',
-    instagramLink: '',
-  },
-  {
-    id: 9,
-    name: 'Tsubaki',
-    iconUrl: '/member-icons/tsubaki.jpeg',
-    role: t('roles.dayOfOperations'),
-    xLink: 'https://x.com/Tsubaki_HIUVR',
-    instagramLink: '',
-  },
-  {
-    id: 11,
-    name: 'おのでらりな',
-    iconUrl: '/member-icons/rina-onodera.webp',
-    role: t('roles.artDirector'),
-    xLink: 'https://x.com/studiococoon_',
-    instagramLink: '',
-  },
-  {
-    id: 12,
-    name: 'なだ',
-    iconUrl: '/member-icons/otyano.webp',
-    role: t('roles.keyVisualIllustration'),
-    xLink: 'https://x.com/otyano8',
-    instagramLink: '',
-  },
-  {
-    id: 13,
-    name: 'aj8d',
-    iconUrl: '/member-icons/aj8d.webp',
-    role: t('roles.webDevelopment'),
-    xLink: '',
-    instagramLink: '',
-  },
-  {
-    id: 14,
-    name: 'L.ami',
-    iconUrl: '/member-icons/lami.webp',
-    role: t('roles.webDevelopment'),
-    xLink: '',
-    instagramLink: '',
-  },
-])
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.members')"
-      label="MEMBERS"
-    />
-    <div
-      ref="listRef"
-      class="member-section__grid"
-    >
-      <div
-        v-for="item in items"
-        :key="item.id"
-        class="member-section__grid-item"
-      >
-        <HaMemberCard
-          v-bind="item"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.member-section{
-  &__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px 30px;
-    margin: 0 auto;
-
-    @include m.tb {
-      grid-template-columns: 1fr 1fr;
-      max-width: 720px;
-    }
-
-    @include m.sp {
-      grid-template-columns: 1fr;
-      max-width: 360px;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtExhibitorInfoSection.vue
 ```vue
 <i18n lang="yaml">
@@ -10657,6 +10749,189 @@ onMounted(() => {
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtTop.vue
+```vue
+<i18n lang="yaml">
+ja:
+  hoge: ほげ
+en:
+  hoge: hoge
+</i18n>
+
+<template>
+  <main class="ht-top content-wrapper">
+    <div class="content-wrapper__sticky">
+      <HtHeroSection />
+    </div>
+
+    <div class="content-wrapper__bg content-wrapper__scroll">
+      <div class="canvas-wrapper">
+        <HaConfetti />
+        <HaFireworks />
+      </div>
+
+      <div class="content-wrapper__main">
+        <section id="about">
+          <HtAboutSection />
+        </section>
+
+        <section id="participation-guide">
+          <HtParticipationGuide />
+        </section>
+
+        <section id="tickets">
+          <HtTicketSection />
+        </section>
+
+        <section id="news">
+          <HtNewsSection />
+        </section>
+
+        <section id="contents">
+          <HtContentsSection />
+        </section>
+
+        <section id="exhibitor-circles">
+          <HtExhibitorCirclesSection />
+        </section>
+
+        <section id="collaborative-events">
+          <HtCollaborativeEvent />
+        </section>
+
+        <section id="sponsors-and-partners">
+          <HtSponsorsAndPartnersSection />
+        </section>
+
+        <section id="schedule">
+          <HtScheduleSection />
+        </section>
+
+        <section id="location-info">
+          <HtAccessSection />
+        </section>
+
+        <section id="exhibitor-info">
+          <HtExhibitorInfoSection />
+        </section>
+
+        <section id="members">
+          <HtMemberSection />
+        </section>
+
+        <section id="qa">
+          <HtQandASection />
+        </section>
+
+        <section id="contact">
+          <HtContactSection />
+        </section>
+
+        <section id="documents">
+          <HtDocumentsSection />
+        </section>
+      </div>
+    </div>
+  </main>
+</template>
+
+<script setup lang="ts">
+// import HtQuickAccessSection from './HtQuickAccessSection.vue'
+// import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
+// import HtExhibitionSection from './HtExhibitionSection.vue'
+// import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
+// import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
+import HtAboutSection from './HtAboutSection.vue'
+import HtAccessSection from './HtAccessSection.vue'
+import HtContactSection from './HtContactSection.vue'
+import HtContentsSection from './HtContentsSection.vue'
+import HtDocumentsSection from './HtDocumentsSection.vue'
+import HtExhibitorCirclesSection from './HtExhibitorCirclesSection.vue'
+import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
+import HtHeroSection from './HtHeroSection.vue'
+import HtNewsSection from './HtNewsSection.vue'
+import HtQandASection from './HtQandASection.vue'
+import HtScheduleSection from './HtScheduleSection.vue'
+import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
+import HtTicketSection from './HtTicketSection.vue'
+
+import HaConfetti from '../ha/HaConfetti.vue'
+import HaFireworks from '../ha/HaFireworks.vue'
+import HtMemberSection from './HtMemberSection.vue'
+import HtParticipationGuide from './HtParticipationGuide.vue'
+import HtCollaborativeEvent from './HtCollaborativeEvent.vue'
+</script>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ht-top {
+  position: relative;
+  z-index: 0;
+
+  width: 100%;
+  height: 100%;
+  margin-bottom: -40px;
+}
+
+.content-wrapper {
+  position: relative;
+
+  &__sticky {
+    position: sticky;
+    z-index: -1;
+    top: 0;
+  }
+
+  &__bg {
+    padding: 108px 0 48px;
+    border-radius: 36px 36px 0 0;
+    background-color: v.$base-background-color;
+
+    @include m.tb {
+      padding: 168px 0 64px;
+    }
+  }
+
+  &__main {
+    position: relative;
+    z-index: 2;
+    max-width: v.$pc-content-body-width;
+    margin: 0 auto;
+  }
+}
+
+.canvas-wrapper {
+  pointer-events: none;
+
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100svh;
+  margin-bottom: -100svh;
+}
+
+section {
+  margin-bottom: 80px;
+  padding: 0 v.$pc-content-body-padding;
+
+  @include m.tb {
+    margin-bottom: 52px;
+    padding: 0 24px;
+  }
+
+  @include m.sp {
+    margin-bottom: 32px;
+    padding: 0 16px;
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtNewsSection.vue
 ```vue
 <script setup lang="ts">
@@ -10769,184 +11044,6 @@ onMounted(() => {
     @include m.sp {
       display: block;
     }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtTop.vue
-```vue
-<i18n lang="yaml">
-ja:
-  hoge: ほげ
-en:
-  hoge: hoge
-</i18n>
-
-<template>
-  <main class="ht-top content-wrapper">
-    <div class="content-wrapper__sticky">
-      <HtHeroSection />
-    </div>
-
-    <div class="content-wrapper__bg content-wrapper__scroll">
-      <div class="canvas-wrapper">
-        <HaConfetti />
-        <HaFireworks />
-      </div>
-
-      <div class="content-wrapper__main">
-        <section id="about">
-          <HtAboutSection />
-        </section>
-
-        <section id="participation-guide">
-          <HtParticipationGuide />
-        </section>
-
-        <section id="tickets">
-          <HtTicketSection />
-        </section>
-
-        <section id="news">
-          <HtNewsSection />
-        </section>
-
-        <section id="contents">
-          <HtContentsSection />
-        </section>
-
-        <section id="exhibitor-circles">
-          <HtExhibitorCirclesSection />
-        </section>
-
-        <section id="collaborative-events">
-          <HtCollaborativeEvent />
-        </section>
-
-        <section id="sponsors-and-partners">
-          <HtSponsorsAndPartnersSection />
-        </section>
-
-        <section id="schedule">
-          <HtScheduleSection />
-        </section>
-
-        <section id="location-info">
-          <HtAccessSection />
-        </section>
-
-        <section id="exhibitor-info">
-          <HtExhibitorInfoSection />
-        </section>
-
-        <section id="members">
-          <HtMemberSection />
-        </section>
-
-        <section id="qa">
-          <HtQandASection />
-        </section>
-
-        <section id="contact">
-          <HtContactSection />
-        </section>
-      </div>
-    </div>
-  </main>
-</template>
-
-<script setup lang="ts">
-// import HtQuickAccessSection from './HtQuickAccessSection.vue'
-// import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
-// import HtExhibitionSection from './HtExhibitionSection.vue'
-// import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
-// import HtRelatedEventsSection from './HtRelatedEventsSection.vue'
-import HtAboutSection from './HtAboutSection.vue'
-import HtAccessSection from './HtAccessSection.vue'
-import HtContactSection from './HtContactSection.vue'
-import HtContentsSection from './HtContentsSection.vue'
-import HtExhibitorCirclesSection from './HtExhibitorCirclesSection.vue'
-import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
-import HtHeroSection from './HtHeroSection.vue'
-import HtNewsSection from './HtNewsSection.vue'
-import HtQandASection from './HtQandASection.vue'
-import HtScheduleSection from './HtScheduleSection.vue'
-import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
-import HtTicketSection from './HtTicketSection.vue'
-
-import HaConfetti from '../ha/HaConfetti.vue'
-import HaFireworks from '../ha/HaFireworks.vue'
-import HtMemberSection from './HtMemberSection.vue'
-import HtParticipationGuide from './HtParticipationGuide.vue'
-import HtCollaborativeEvent from './HtCollaborativeEvent.vue'
-</script>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.ht-top {
-  position: relative;
-  z-index: 0;
-
-  width: 100%;
-  height: 100%;
-  margin-bottom: -40px;
-}
-
-.content-wrapper {
-  position: relative;
-
-  &__sticky {
-    position: sticky;
-    z-index: -1;
-    top: 0;
-  }
-
-  &__bg {
-    padding: 108px 0 48px;
-    border-radius: 36px 36px 0 0;
-    background-color: v.$base-background-color;
-
-    @include m.tb {
-      padding: 168px 0 64px;
-    }
-  }
-
-  &__main {
-    position: relative;
-    z-index: 2;
-    max-width: v.$pc-content-body-width;
-    margin: 0 auto;
-  }
-}
-
-.canvas-wrapper {
-  pointer-events: none;
-
-  position: sticky;
-  z-index: 1;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100svh;
-  margin-bottom: -100svh;
-}
-
-section {
-  margin-bottom: 80px;
-  padding: 0 v.$pc-content-body-padding;
-
-  @include m.tb {
-    margin-bottom: 52px;
-    padding: 0 24px;
-  }
-
-  @include m.sp {
-    margin-bottom: 32px;
-    padding: 0 16px;
   }
 }
 </style>

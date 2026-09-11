@@ -73,6 +73,10 @@ en:
         <section id="contact">
           <HtContactSection />
         </section>
+
+        <section id="documents">
+          <HtDocumentsSection />
+        </section>
       </div>
     </div>
   </main>
@@ -88,6 +92,7 @@ import HtAboutSection from './HtAboutSection.vue'
 import HtAccessSection from './HtAccessSection.vue'
 import HtContactSection from './HtContactSection.vue'
 import HtContentsSection from './HtContentsSection.vue'
+import HtDocumentsSection from './HtDocumentsSection.vue'
 import HtExhibitorCirclesSection from './HtExhibitorCirclesSection.vue'
 import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
 import HtHeroSection from './HtHeroSection.vue'
