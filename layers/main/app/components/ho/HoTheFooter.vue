@@ -26,28 +26,6 @@ en:
             :alt="t('mainlogo')"
           >
         </a>
-        <!-- <nav class="footer__nav">
-          <NuxtLink
-            class="footer__link"
-            to="/documents/terms"
-          >利用規約</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/privacy-policy"
-          >プライバシー</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/code-of-conduct"
-          >行動規範</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/exhibition-guidline"
-          >出展ガイドライン</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/exhibition-terms"
-          >出展規約</NuxtLink>
-        </nav> -->
       </div>
       <div class="footer__right">
         <a
@@ -94,7 +72,13 @@ en:
 
   &__upper {
     display: flex;
+    gap: 32px;
     justify-content: space-between;
+
+    @include m.sp {
+      flex-direction: column;
+      gap: 8px;
+    }
   }
 
   &__logo-link {
@@ -109,31 +93,12 @@ en:
 
     @include m.sp {
       height: 46px;
+      margin-bottom: 32px;
     }
   }
 
   &__logo {
     height: 100%;
-  }
-
-  &__nav {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    padding-bottom: 48px;
-  }
-
-  &__link {
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-    text-decoration: underline;
-
-    @include m.tb {
-      font-size: 12px;
-      text-decoration: none;
-    }
   }
 
   &__divider {

@@ -19,6 +19,10 @@ ja:
   secondaryRow1Value: '7月13日(月) ～ 7月30日(木)'
   secondaryRow2Label: '当選発表'
   secondaryRow2Value: '8月7日(金)'
+  resourcesTitle: '出展者向け資料'
+  guidelineLink: '出展ガイドライン'
+  termsLink: '出展規約'
+  corporateLink: '企業出展社向けご案内'
 en:
   subtitle1: 'Exhibition Overview'
   subtitle2: 'Application Schedule'
@@ -39,10 +43,15 @@ en:
   secondaryRow1Value: 'Mon, July 13 - Thu, July 30'
   secondaryRow2Label: 'Results Announcement'
   secondaryRow2Value: 'Fri, August 7'
+  resourcesTitle: 'Exhibitor Resources'
+  guidelineLink: 'Exhibitor Guidelines'
+  termsLink: 'Exhibitor Terms'
+  corporateLink: 'Corporate Exhibitor Guide'
 </i18n>
 
 <script setup lang="ts">
 import HaSectionTitle from '../ha/HaSectionTitle.vue'
+import { DOCUMENT_LINKS } from '~/constants/documentLinks'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
@@ -158,6 +167,29 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
+    <div class="exhibitor-info__resources">
+      <p class="subtitle subtitle--cyan">
+        {{ t('resourcesTitle') }}
+      </p>
+      <div class="exhibitor-info__resource-links">
+        <a
+          :href="DOCUMENT_LINKS.exhibitionGuideline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{{ t('guidelineLink') }}</a>
+        <a
+          :href="DOCUMENT_LINKS.exhibitionTerms"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{{ t('termsLink') }}</a>
+        <a
+          :href="DOCUMENT_LINKS.corporateExhibitorGuide"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{{ t('corporateLink') }}</a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -182,6 +214,26 @@ onMounted(() => {
 }
 
 .exhibitor-info {
+  &__resources {
+    margin-top: 48px;
+  }
+
+  &__resource-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+
+    a {
+      color: v.$vket-cyan;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
   &__table {
     padding: 0 40px;
 

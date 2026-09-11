@@ -4,6 +4,7 @@ import HaCamera from '../ha/icons/HaCameraIcon.vue'
 import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
 import HaHeartIcon from '../ha/icons/HaHeartIcon.vue'
 import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
+import { DOCUMENT_LINKS } from '~/constants/documentLinks'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
@@ -91,9 +92,14 @@ onMounted(() => {
         </HaConductCard>
       </div>
     </div>
-    <button class="glassy-button conduct__button">
+    <a
+      class="glassy-button conduct__button"
+      :href="DOCUMENT_LINKS.codeOfConduct"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       詳細を確認
-    </button>
+    </a>
   </div>
 </template>
 
@@ -146,6 +152,7 @@ onMounted(() => {
     font-size: 14px;
     font-weight: 400;
     color: white;
+    text-decoration: none;
 
     background-color: #e5b5ff3b;
 

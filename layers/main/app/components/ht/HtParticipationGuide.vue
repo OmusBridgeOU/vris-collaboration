@@ -9,6 +9,7 @@ ja:
   ticketLabel: 来場チケット
   ticketNotice: 来場チケットはLivePocketにて販売中です。入場には整理券が必要です。
   ticketLink: チケット販売ページはこちら
+  guideLink: 一般参加ガイドを確認する
 en:
   nameLabel: Event Name
   name: VketReal in Sapporo 2026 Autumn
@@ -19,10 +20,12 @@ en:
   ticketLabel: Visitor Tickets
   ticketNotice: Visitor tickets are now available on LivePocket. A numbered admission ticket is required for entry.
   ticketLink: View the ticket sales page
+  guideLink: View the Participation Guide
 </i18n>
 
 <script setup lang="ts">
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+import { DOCUMENT_LINKS } from '~/constants/documentLinks'
 
 const { t } = useI18n({ useScope: 'local' })
 const { t: tGlobal } = useI18n({ useScope: 'global' })
@@ -84,6 +87,14 @@ onMounted(() => {
             rel="noopener noreferrer"
           >
             {{ t('ticketLink') }}
+          </a>
+          <a
+            class="participation-guide__ticket-link"
+            :href="DOCUMENT_LINKS.participationGuide"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ t('guideLink') }}
           </a>
         </dd>
       </div>
@@ -214,6 +225,7 @@ onMounted(() => {
     display: inline-block;
 
     margin-top: 8px;
+    margin-right: 20px;
 
     color: v.$vket-cyan;
     text-decoration: underline;

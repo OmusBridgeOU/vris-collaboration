@@ -45,14 +45,10 @@ layers/
         composables/
           useApi.spec.ts
           useCrowdData.spec.ts
-        e2e/
-          snapshots/
-            visual/
-              nuxtContent.spec.ts-snapshots/
-                policy-linux.png
-                terms-linux.png
-          visual/
-            nuxtContent.spec.ts
+        constants/
+          documentLinks.spec.ts
+        data/
+          exhibitorCircles.spec.ts
         models/
           crowdData.spec.ts
         utils/
@@ -99,30 +95,6 @@ test('fetcher', () => {
   // useFetchが発火することを確認。戻り値はmockの戻り値とする
   expect(fetcher(path, options)).toStrictEqual({ path, options })
 })
-```
-
-## File: layers/main/app/test/e2e/visual/nuxtContent.spec.ts
-```typescript
-// app/test/e2e/visual/pages.spec.ts
-import { test, expect } from '@playwright/test'
-
-// テスト対象となるページ: nuxtContentを使用しているページ
-const PAGES = [
-  { name: 'terms', path: '/documents/terms' },
-  { name: 'policy', path: '/documents/policy' },
-]
-
-for (const { name, path } of PAGES) {
-  test(`${name}: ページの表示がベース画像と一致する`, async ({ page }) => {
-    await page.goto(path)
-    await page.waitForLoadState('networkidle')
-
-    await expect(page).toHaveScreenshot(`${name}.png`, {
-      maxDiffPixelRatio: 0.02,
-      fullPage: true,
-    })
-  })
-}
 ```
 
 ## File: layers/main/app/test/utils/@types/auto-imports.d.ts
@@ -647,6 +619,56 @@ describe('HaContentCard', () => {
     expect(wrapper.find('a').exists()).toBe(false)
     expect(wrapper.find('[data-testid="fallback"]').exists()).toBe(true)
     expect(wrapper.findComponent({ name: 'HaJumpToListIcon' }).exists()).toBe(false)
+  })
+})
+```
+
+## File: layers/main/app/test/constants/documentLinks.spec.ts
+```typescript
+import { describe, expect, it } from 'vitest'
+import { DOCUMENT_LINKS } from '~/constants/documentLinks'
+
+describe('DOCUMENT_LINKS', () => {
+  it('uses unique public Notion URLs for every published document', () => {
+    const urls = Object.values(DOCUMENT_LINKS)
+
+    expect(new Set(urls).size).toBe(urls.length)
+    expect(urls.every(url => url.startsWith('https://skmt3p.notion.site/'))).toBe(true)
+  })
+
+  it('contains every document linked from the site', () => {
+    expect(Object.keys(DOCUMENT_LINKS)).toEqual([
+      'participationGuide',
+      'privacyPolicy',
+      'codeOfConduct',
+      'exhibitionGuideline',
+      'exhibitionTerms',
+      'corporateExhibitorGuide',
+      'numberedTicket',
+    ])
+  })
+})
+```
+
+## File: layers/main/app/test/data/exhibitorCircles.spec.ts
+```typescript
+import { existsSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { describe, expect, test } from 'vitest'
+import { exhibitorCircles } from '../../data/exhibitorCircles'
+
+describe('exhibitorCircles', () => {
+  const imagePaths = exhibitorCircles.flatMap(circle => circle.imgSrc ? [circle.imgSrc] : [])
+
+  test('uses deployment-safe ASCII image paths', () => {
+    expect(imagePaths).not.toHaveLength(0)
+    expect(imagePaths.every(path => /^[\x20-\x7E]+$/.test(path))).toBe(true)
+  })
+
+  test('references image files that exist in public', () => {
+    const missingPaths = imagePaths.filter(path => !existsSync(resolve(import.meta.dirname, '../../../public', path.slice(1))))
+
+    expect(missingPaths).toEqual([])
   })
 })
 ```
