@@ -10,6 +10,7 @@ ja:
     line1: ※入場にはイベント入場券とは別に、オンライン入場整理券が必要です。
     line2: 入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。
     line3: 整理券番号はLivePocketからメールで届きます。事前にLivePocketからのメールを受信できるよう、受信設定をご確認ください。
+    link: 整理券番号のお知らせを確認する
   cards:
     general:
       title: イベント入場券
@@ -30,6 +31,7 @@ en:
     line1: An online numbered admission ticket is required in addition to an event admission ticket.
     line2: Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.
     line3: LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.
+    link: View Admission Number Updates
   cards:
     general:
       title: Event Admission Ticket
@@ -43,6 +45,7 @@ en:
 
 <script setup lang="ts">
 import HaTicketCard from '../ha/HaTicketCard.vue'
+import { DOCUMENT_LINKS } from '~/constants/documentLinks'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
@@ -75,6 +78,12 @@ onMounted(() => {
       <p>{{ t('numberedTicketNotice.line1') }}</p>
       <p>{{ t('numberedTicketNotice.line2') }}</p>
       <p>{{ t('numberedTicketNotice.line3') }}</p>
+      <a
+        class="numbered-ticket-notice__link"
+        :href="DOCUMENT_LINKS.numberedTicket"
+        target="_blank"
+        rel="noopener noreferrer"
+      >{{ t('numberedTicketNotice.link') }}</a>
     </div>
     <div
       ref="listRef"
@@ -132,6 +141,17 @@ onMounted(() => {
   line-height: 1.7;
 
   background: rgb(49 35 96 / 40%);
+
+  &__link {
+    width: fit-content;
+    color: v.$vket-cyan;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
 
   @include m.sp {
     margin-bottom: 16px;

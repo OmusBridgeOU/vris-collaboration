@@ -7,6 +7,7 @@ import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue'
 import HaCircledQuestionIcon from '../ha/icons/HaCircledQuestionIcon.vue'
 import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
 import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
+import { DOCUMENT_LINKS } from '~/constants/documentLinks'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
@@ -99,7 +100,7 @@ onMounted(() => {
         color="green"
         text="出展に必要なルール・準備事項をまとめた公式ガイド"
         class="link-list__child"
-        href="/documents/exhibition-guidline"
+        :href="DOCUMENT_LINKS.exhibitionGuideline"
       >
         <template #icon>
           <HaOpenBookIcon />
@@ -111,19 +112,19 @@ onMounted(() => {
         color="cyan"
         text="出展者が遵守すべき規約・利用条件"
         class="link-list__child"
-        href="/documents/exhibition-terms"
+        :href="DOCUMENT_LINKS.exhibitionTerms"
       >
         <template #icon>
           <HaBalanceIcon />
         </template>
       </HaDocumentLink>
       <HaDocumentLink
-        title="出展ガイドライン"
+        title="企業出展社向けご案内"
         label="Q&A"
         color="magenta"
-        text="出展に必要なルール・準備事項をまとめた公式ガイド"
+        text="企業・法人向けの出展概要と当日のご案内"
         class="link-list__child"
-        href="/documents/exhibition-guidline"
+        :href="DOCUMENT_LINKS.corporateExhibitorGuide"
       >
         <template #icon>
           <HaCircledQuestionIcon />

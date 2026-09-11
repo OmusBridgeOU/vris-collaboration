@@ -1,15 +1,39 @@
 <script setup lang="ts">
 import HaNoteIcon from '../ha/icons/HaNoteIcon.vue'
 import HaXIcon from '../ha/icons/HaXIcon.vue'
+import { DOCUMENT_LINKS } from '~/constants/documentLinks'
 
 const { t } = useI18n()
+
+const documentLinks = [
+  { key: 'participationGuide', href: DOCUMENT_LINKS.participationGuide },
+  { key: 'privacyPolicy', href: DOCUMENT_LINKS.privacyPolicy },
+  { key: 'codeOfConduct', href: DOCUMENT_LINKS.codeOfConduct },
+  { key: 'exhibitionGuideline', href: DOCUMENT_LINKS.exhibitionGuideline },
+  { key: 'exhibitionTerms', href: DOCUMENT_LINKS.exhibitionTerms },
+  { key: 'numberedTicket', href: DOCUMENT_LINKS.numberedTicket },
+] as const
 </script>
 
 <i18n lang="yaml">
 ja:
   mainlogo: VketReal in 札幌 2026 Autumn
+  documents:
+    participationGuide: 一般参加ガイド
+    privacyPolicy: プライバシーポリシー
+    codeOfConduct: 行動規範
+    exhibitionGuideline: 出展ガイドライン
+    exhibitionTerms: 出展規約
+    numberedTicket: 整理券番号のお知らせ
 en:
   mainlogo: VketReal in Sapporo 2026 Autumn
+  documents:
+    participationGuide: Participation Guide
+    privacyPolicy: Privacy Policy
+    codeOfConduct: Code of Conduct
+    exhibitionGuideline: Exhibitor Guidelines
+    exhibitionTerms: Exhibitor Terms
+    numberedTicket: Admission Number Updates
 </i18n>
 
 <template>
@@ -26,28 +50,16 @@ en:
             :alt="t('mainlogo')"
           >
         </a>
-        <!-- <nav class="footer__nav">
-          <NuxtLink
+        <nav class="footer__nav">
+          <a
+            v-for="link in documentLinks"
+            :key="link.key"
             class="footer__link"
-            to="/documents/terms"
-          >利用規約</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/privacy-policy"
-          >プライバシー</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/code-of-conduct"
-          >行動規範</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/exhibition-guidline"
-          >出展ガイドライン</NuxtLink>
-          <NuxtLink
-            class="footer__link"
-            to="/documents/exhibition-terms"
-          >出展規約</NuxtLink>
-        </nav> -->
+            :href="link.href"
+            target="_blank"
+            rel="noopener noreferrer"
+          >{{ t(`documents.${link.key}`) }}</a>
+        </nav>
       </div>
       <div class="footer__right">
         <a
@@ -94,7 +106,13 @@ en:
 
   &__upper {
     display: flex;
+    gap: 32px;
     justify-content: space-between;
+
+    @include m.sp {
+      flex-direction: column;
+      gap: 8px;
+    }
   }
 
   &__logo-link {
@@ -109,6 +127,7 @@ en:
 
     @include m.sp {
       height: 46px;
+      margin-bottom: 32px;
     }
   }
 
@@ -129,6 +148,7 @@ en:
     font-weight: 400;
     color: white;
     text-decoration: underline;
+    text-underline-offset: 3px;
 
     @include m.tb {
       font-size: 12px;

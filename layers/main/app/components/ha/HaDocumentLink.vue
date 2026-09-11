@@ -53,6 +53,8 @@ defineProps<{
       <NuxtLink
         class="document-link__link"
         :to="href"
+        target="_blank"
+        rel="noopener noreferrer"
       >全文をチェック→</NuxtLink>
     </div>
   </div>
