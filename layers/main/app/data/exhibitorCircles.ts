@@ -9,7 +9,7 @@ export const exhibitorCircles: ExhibitorCircle[] = [
   { name: 'Aquange - 羽澄愛', href: 'https://x.com/hazumi_ai', imgSrc: '/images/2026Autumn/circles/aquange-hazumi-ai.jpg' },
   { name: 'PoteSuto', href: 'https://x.com/PoteSuto29', imgSrc: '/images/2026Autumn/circles/PoteSuto.png' },
   { name: '赤糸の裁縫箱', href: 'https://x.com/akaito3418', imgSrc: '/images/2026Autumn/circles/akaito-sewing-box.png' },
-  { name: 'ゆるくる公房', href: 'https://x.com/kurumi_vr?s=11', imgSrc: '/images/2026Autumn/circles/yurukuru-koubou.png' },
+  { name: 'ゆるくる工房', href: 'https://x.com/kurumi_vr?s=11', imgSrc: '/images/2026Autumn/circles/yurukuru-koubou.png' },
   { name: '貧弱な描きおき部屋', href: 'https://lit.link/hinjyakumatsuge', imgSrc: '/images/2026Autumn/circles/hinjaku-okioki-room.png' },
   { name: 'しろの里' },
   { name: 'Interlunium（インテルニウム）', href: 'https://interlunium-vrc.sakura.ne.jp/index.html', imgSrc: '/images/2026Autumn/circles/interlunium.png' },
