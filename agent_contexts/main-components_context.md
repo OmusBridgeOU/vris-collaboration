@@ -1937,6 +1937,23 @@ layers/
 </template>
 ```
 
+## File: layers/main/app/components/ha/icons/HaNoteIcon.vue
+```vue
+<template>
+  <svg
+    id="_レイヤー_1"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 493 493"
+  >
+    <path
+      fill="#ffffff"
+      class="cls-1"
+      d="m139.57,142.06c41.19,0,97.6-2.09,138.1-1.04,54.34,1.39,74.76,25.06,75.45,83.53.69,33.06,0,127.73,0,127.73h-58.79c0-82.83.35-96.5,0-122.6-.69-22.97-7.25-33.92-24.9-36.01-18.69-2.09-71.07-.35-71.07-.35v158.96h-58.79v-210.22Z"
+    />
+  </svg>
+</template>
+```
+
 ## File: layers/main/app/components/ha/icons/HaOpenBookIcon.vue
 ```vue
 <template>
@@ -2720,240 +2737,6 @@ onUnmounted(() => {
 </template>
 ```
 
-## File: layers/main/app/components/ha/HaDocumentLink.vue
-```vue
-<script setup lang="ts">
-defineProps<{
-  color: 'green' | 'cyan' | 'magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
-  title: string
-  label: 'important' | 'required' | 'Q&A'
-  text: string
-  href: string
-}>()
-</script>
-
-<template>
-  <div class="document-link">
-    <div :class="['document-link__left', `document-link__left--${color}`]">
-      <div class="document-link__icon">
-        <slot name="icon" />
-      </div>
-    </div>
-    <div class="document-link__right">
-      <div class="document-link__row">
-        <p class="document-link__title">
-          {{ title }}
-        </p>
-        <div
-          :class="[
-            'document-link__label',
-            `document-link__label--${
-              label == 'important'
-                ? 'amber'
-                : label == 'required'
-                  ? 'vermilion'
-                  : label == 'Q&A'
-                    ? 'magenta'
-                    : ''
-            }`,
-          ]"
-        >
-          <p class="document-link__label-text">
-            {{
-              label == 'important'
-                ? '重要'
-                : label == 'required'
-                  ? '必読'
-                  : label == 'Q&A'
-                    ? 'Q&A'
-                    : ''
-            }}
-          </p>
-        </div>
-      </div>
-      <p class="document-link__text">
-        {{ text }}
-      </p>
-      <NuxtLink
-        class="document-link__link"
-        :to="href"
-        target="_blank"
-        rel="noopener noreferrer"
-      >全文をチェック→</NuxtLink>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.document-link {
-  overflow: hidden;
-  display: flex;
-
-  min-height: 150px;
-  border-radius: 20px;
-
-  background: rgb(217 217 217 / 20%);
-
-  @include m.tb {
-    min-height: 105px;
-  }
-
-  &__left {
-    position: relative;
-
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-
-    width: 286px;
-    height: inherit;
-    border-radius: 20px 0 0 20px;
-
-    @include m.tb {
-      width: 124px;
-    }
-
-    &::before {
-      content: '';
-
-      position: absolute;
-      inset: 0;
-
-      border: 1.5px solid transparent;
-      border-radius: 20px 0 0 20px;
-
-      background-image: linear-gradient(
-          135deg,
-          rgb(255 255 255 / 30%) 20px,
-          rgb(255 255 255 / 0%) 150px
-        ),
-        linear-gradient(to left, rgb(255 255 255 / 10%), rgb(255 255 255 / 10%));
-      background-clip: border-box, border-box;
-      background-origin: border-box, border-box;
-
-      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      mask: linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0) border-box;
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-    }
-
-    &--green {
-      background-color: rgba(#43ffbd, 0.4);
-    }
-
-    &--cyan {
-      background-color: rgba(v.$vket-cyan, 0.4);
-    }
-
-    &--magenta {
-      background-color: rgba(v.$vket-magenta, 0.4);
-    }
-  }
-
-  &__icon {
-    width: 40px;
-    height: 40px;
-
-    @include m.sp {
-      width: 24px;
-      height: 24px;
-    }
-
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  &__right {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    gap: 8px;
-    justify-content: center;
-
-    width: 100px;
-    height: inherit;
-    padding: 18px 22px;
-  }
-
-  &__row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__title {
-    font-size: 20px;
-    font-weight: 700;
-    color: white;
-
-    @include m.sp {
-      font-size: 14px;
-    }
-  }
-
-  &__text {
-    font-size: 14px;
-    color: white;
-
-    @include m.sp {
-      font-size: 10px;
-    }
-  }
-
-  &__link {
-    font-size: 12px;
-    color: #43ffbd;
-    text-decoration: underline;
-
-    @include m.sp {
-      font-size: 10px;
-    }
-  }
-
-  &__label {
-    width: fit-content;
-    padding: 3px 5px;
-    border-radius: 6px;
-
-    @include m.sp {
-      border-radius: 4px;
-    }
-
-    &--amber {
-      background-color: rgba(v.$vket-amber, 0.6);
-    }
-
-    &--vermilion {
-      background-color: rgba(v.$vket-vermilion, 0.6);
-    }
-
-    &--magenta {
-      background-color: rgba(v.$vket-magenta, 0.6);
-    }
-  }
-
-  &__label-text {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1em;
-    color: white;
-
-    @include m.sp {
-      font-size: 10px;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ha/HaFireworks.vue
 ```vue
 <script setup lang="ts">
@@ -3661,375 +3444,6 @@ onUnmounted(() => {
 </template>
 ```
 
-## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
-```vue
-<script setup lang="ts">
-import HaConductCard from '../ha/HaConductCard.vue'
-import HaCamera from '../ha/icons/HaCameraIcon.vue'
-import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
-import HaHeartIcon from '../ha/icons/HaHeartIcon.vue'
-import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
-import { DOCUMENT_LINKS } from '~/constants/documentLinks'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.conduct-grid__child')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="行動規範"
-      label="CODE OF CONDUCT"
-    />
-    <p class="description description--left">
-      すべての参加者が安全で楽しい時間を過ごせるよう、<br>
-      以下の行動規範を守ってください。
-    </p>
-    <div
-      ref="listRef"
-      class="conduct-grid mb-15"
-    >
-      <div class="conduct-grid__child">
-        <HaConductCard
-          title="互いを尊重しましょう"
-          color="magenta"
-        >
-          <template #icon>
-            <HaHeartIcon />
-          </template>
-          <template #text>
-            すべての参加者の多様性を尊重し、<br>ハラスメントや差別的な行為は禁止です。
-          </template>
-        </HaConductCard>
-      </div>
-      <div class="conduct-grid__child">
-        <HaConductCard
-          title="撮影マナーを守りましょう"
-          text="descriptiondescriptiondescription"
-          color="cyan"
-        >
-          <template #icon>
-            <HaCamera />
-          </template>
-          <template #text>
-            他の参加者を撮影する際は必ず許可を取り、<br>撮影禁止エリアでは撮影をお控えください。
-          </template>
-        </HaConductCard>
-      </div>
-      <div class="conduct-grid__child">
-        <HaConductCard
-          title="安全に配慮しましょう"
-          text="descriptiondescriptiondescription"
-          color="amber"
-        >
-          <template #icon>
-            <HaDangerIcon />
-          </template>
-          <template #text>
-            会場内では走らない、通路をふさがないなど、<br>安全な行動を心掛けてください。
-          </template>
-        </HaConductCard>
-      </div>
-      <div class="conduct-grid__child">
-        <HaConductCard
-          title="スタッフの指示に従いましょう"
-          text="descriptiondescriptiondescription"
-          color="vermilion"
-        >
-          <template #icon>
-            <HaShieldIcon />
-          </template>
-          <template #text>
-            スタッフの指示に従い、<br>問題があれば速やかにスタッフにお知らせください。
-          </template>
-        </HaConductCard>
-      </div>
-    </div>
-    <a
-      class="glassy-button conduct__button"
-      :href="DOCUMENT_LINKS.codeOfConduct"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      詳細を確認
-    </a>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-}
-
-.mb-15 {
-  margin-bottom: 60px;
-
-  @include m.sp {
-    margin-bottom: 48px;
-  }
-}
-
-.conduct-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-
-  @include m.tb {
-    grid-template-columns: 1fr;
-    width: 60%;
-  }
-
-  @include m.sp {
-    width: 100%;
-  }
-}
-
-.conduct {
-  &__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 185px;
-    height: 57px;
-    margin: 0 auto;
-
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: white;
-    text-decoration: none;
-
-    background-color: #e5b5ff3b;
-
-    @include m.tb {
-      width: 130px;
-      height: 40px;
-    }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtExhibitionSection.vue
-```vue
-<script setup lang="ts">
-import HaAboutCard from '../ha/HaAboutCard.vue'
-import HaDocumentLink from '../ha/HaDocumentLink.vue'
-import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
-import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
-import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue'
-import HaCircledQuestionIcon from '../ha/icons/HaCircledQuestionIcon.vue'
-import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
-import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
-import { DOCUMENT_LINKS } from '~/constants/documentLinks'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const list2Ref = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value || !list2Ref.value) return
-  const items = listRef.value.querySelectorAll('.card-flex__child')
-  const items2 = list2Ref.value.querySelectorAll('.link-list__child')
-  fadeInUpStagger(Array.from(items))
-  fadeInUpStagger(Array.from(items2))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      title="出展情報"
-      label="exhibition"
-    />
-    <p class="subtitle">
-      出展カテゴリ
-    </p>
-    <div
-      ref="listRef"
-      class="card-flex mb-24"
-    >
-      <div class="card-flex__child">
-        <HaAboutCard color="amber">
-          <template #icon>
-            <HaStarShineIcon />
-          </template>
-          <template #title>
-            サークル出展
-          </template>
-          <template #body>
-            VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
-          </template>
-        </HaAboutCard>
-      </div>
-      <div class="card-flex__child">
-        <HaAboutCard
-          icon-url="/icons/tabler_world.svg"
-          color="light-cyan"
-        >
-          <template #icon>
-            <HaWorldIcon />
-          </template>
-          <template #title>
-            一般展示
-          </template>
-          <template #body>
-            XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
-          </template>
-        </HaAboutCard>
-      </div>
-      <div class="card-flex__child">
-        <HaAboutCard
-          icon-url="/icons/boxicons_community.svg"
-          color="light-magenta"
-        >
-          <template #icon>
-            <HaCommunityIcon />
-          </template>
-          <template #title>
-            企業出展
-          </template>
-          <template #body>
-            企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
-          </template>
-        </HaAboutCard>
-      </div>
-    </div>
-    <p class="subtitle">
-      出展者向けリソース
-    </p>
-    <div
-      ref="list2Ref"
-      class="link-list"
-    >
-      <HaDocumentLink
-        title="出展ガイドライン"
-        label="important"
-        color="green"
-        text="出展に必要なルール・準備事項をまとめた公式ガイド"
-        class="link-list__child"
-        :href="DOCUMENT_LINKS.exhibitionGuideline"
-      >
-        <template #icon>
-          <HaOpenBookIcon />
-        </template>
-      </HaDocumentLink>
-      <HaDocumentLink
-        title="出展規約"
-        label="required"
-        color="cyan"
-        text="出展者が遵守すべき規約・利用条件"
-        class="link-list__child"
-        :href="DOCUMENT_LINKS.exhibitionTerms"
-      >
-        <template #icon>
-          <HaBalanceIcon />
-        </template>
-      </HaDocumentLink>
-      <HaDocumentLink
-        title="企業出展社向けご案内"
-        label="Q&A"
-        color="magenta"
-        text="企業・法人向けの出展概要と当日のご案内"
-        class="link-list__child"
-        :href="DOCUMENT_LINKS.corporateExhibitorGuide"
-      >
-        <template #icon>
-          <HaCircledQuestionIcon />
-        </template>
-      </HaDocumentLink>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.mb-24 {
-  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
-
-  @include m.sp {
-    margin-bottom: 48px;
-  }
-}
-
-.card-flex {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 330px));
-  gap: 32px;
-  justify-content: center;
-
-  max-width: 1080px;
-  margin-right: auto;
-  margin-left: auto;
-
-  @include m.tb {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  &__child {
-    @include m.tb {
-      width: 60%;
-      margin-right: auto;
-      margin-left: auto;
-    }
-
-    @include m.sp {
-      width: 100%;
-    }
-  }
-}
-
-.link-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  @include m.tb {
-    align-items: center;
-  }
-
-  &__child {
-    @include m.tb {
-      width: 60%;
-    }
-
-    @include m.sp {
-      width: 100%;
-    }
-  }
-}
-</style>
-```
-
 ## File: layers/main/app/components/ht/HtQuickAccessSection.vue
 ```vue
 <i18n lang="yaml">
@@ -4543,23 +3957,6 @@ const { t: tGlobal } = useI18n()
 </template>
 ```
 
-## File: layers/main/app/components/ha/icons/HaNoteIcon.vue
-```vue
-<template>
-  <svg
-    id="_レイヤー_1"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 493 493"
-  >
-    <path
-      fill="#ffffff"
-      class="cls-1"
-      d="m139.57,142.06c41.19,0,97.6-2.09,138.1-1.04,54.34,1.39,74.76,25.06,75.45,83.53.69,33.06,0,127.73,0,127.73h-58.79c0-82.83.35-96.5,0-122.6-.69-22.97-7.25-33.92-24.9-36.01-18.69-2.09-71.07-.35-71.07-.35v158.96h-58.79v-210.22Z"
-    />
-  </svg>
-</template>
-```
-
 ## File: layers/main/app/components/ha/icons/HaPullDown.vue
 ```vue
 <template>
@@ -4638,6 +4035,240 @@ defineProps<{
 
     @include m.sp {
       line-height: 1.8em;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ha/HaDocumentLink.vue
+```vue
+<script setup lang="ts">
+defineProps<{
+  color: 'green' | 'cyan' | 'magenta' // @/assets/styles/_variables.scssの`card color`と命名を合わせている
+  title: string
+  label: 'important' | 'required' | 'Q&A'
+  text: string
+  href: string
+}>()
+</script>
+
+<template>
+  <div class="document-link">
+    <div :class="['document-link__left', `document-link__left--${color}`]">
+      <div class="document-link__icon">
+        <slot name="icon" />
+      </div>
+    </div>
+    <div class="document-link__right">
+      <div class="document-link__row">
+        <p class="document-link__title">
+          {{ title }}
+        </p>
+        <div
+          :class="[
+            'document-link__label',
+            `document-link__label--${
+              label == 'important'
+                ? 'amber'
+                : label == 'required'
+                  ? 'vermilion'
+                  : label == 'Q&A'
+                    ? 'magenta'
+                    : ''
+            }`,
+          ]"
+        >
+          <p class="document-link__label-text">
+            {{
+              label == 'important'
+                ? '重要'
+                : label == 'required'
+                  ? '必読'
+                  : label == 'Q&A'
+                    ? 'Q&A'
+                    : ''
+            }}
+          </p>
+        </div>
+      </div>
+      <p class="document-link__text">
+        {{ text }}
+      </p>
+      <NuxtLink
+        class="document-link__link"
+        :to="href"
+        target="_blank"
+        rel="noopener noreferrer"
+      >全文をチェック→</NuxtLink>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.document-link {
+  overflow: hidden;
+  display: flex;
+
+  min-height: 150px;
+  border-radius: 20px;
+
+  background: rgb(217 217 217 / 20%);
+
+  @include m.tb {
+    min-height: 105px;
+  }
+
+  &__left {
+    position: relative;
+
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+
+    width: 286px;
+    height: inherit;
+    border-radius: 20px 0 0 20px;
+
+    @include m.tb {
+      width: 124px;
+    }
+
+    &::before {
+      content: '';
+
+      position: absolute;
+      inset: 0;
+
+      border: 1.5px solid transparent;
+      border-radius: 20px 0 0 20px;
+
+      background-image: linear-gradient(
+          135deg,
+          rgb(255 255 255 / 30%) 20px,
+          rgb(255 255 255 / 0%) 150px
+        ),
+        linear-gradient(to left, rgb(255 255 255 / 10%), rgb(255 255 255 / 10%));
+      background-clip: border-box, border-box;
+      background-origin: border-box, border-box;
+
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      mask: linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0) border-box;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+
+    &--green {
+      background-color: rgba(#43ffbd, 0.4);
+    }
+
+    &--cyan {
+      background-color: rgba(v.$vket-cyan, 0.4);
+    }
+
+    &--magenta {
+      background-color: rgba(v.$vket-magenta, 0.4);
+    }
+  }
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+
+    @include m.sp {
+      width: 24px;
+      height: 24px;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 8px;
+    justify-content: center;
+
+    width: 100px;
+    height: inherit;
+    padding: 18px 22px;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+
+    @include m.sp {
+      font-size: 14px;
+    }
+  }
+
+  &__text {
+    font-size: 14px;
+    color: white;
+
+    @include m.sp {
+      font-size: 10px;
+    }
+  }
+
+  &__link {
+    font-size: 12px;
+    color: #43ffbd;
+    text-decoration: underline;
+
+    @include m.sp {
+      font-size: 10px;
+    }
+  }
+
+  &__label {
+    width: fit-content;
+    padding: 3px 5px;
+    border-radius: 6px;
+
+    @include m.sp {
+      border-radius: 4px;
+    }
+
+    &--amber {
+      background-color: rgba(v.$vket-amber, 0.6);
+    }
+
+    &--vermilion {
+      background-color: rgba(v.$vket-vermilion, 0.6);
+    }
+
+    &--magenta {
+      background-color: rgba(v.$vket-magenta, 0.6);
+    }
+  }
+
+  &__label-text {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1em;
+    color: white;
+
+    @include m.sp {
+      font-size: 10px;
     }
   }
 }
@@ -5173,6 +4804,175 @@ onMounted(() => {
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtCodeOfConductSection.vue
+```vue
+<script setup lang="ts">
+import HaConductCard from '../ha/HaConductCard.vue'
+import HaCamera from '../ha/icons/HaCameraIcon.vue'
+import HaDangerIcon from '../ha/icons/HaDangerIcon.vue'
+import HaHeartIcon from '../ha/icons/HaHeartIcon.vue'
+import HaShieldIcon from '../ha/icons/HaShieldIcon.vue'
+import { DOCUMENT_LINKS } from '~/constants/documentLinks'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.conduct-grid__child')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="行動規範"
+      label="CODE OF CONDUCT"
+    />
+    <p class="description description--left">
+      すべての参加者が安全で楽しい時間を過ごせるよう、<br>
+      以下の行動規範を守ってください。
+    </p>
+    <div
+      ref="listRef"
+      class="conduct-grid mb-15"
+    >
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="互いを尊重しましょう"
+          color="magenta"
+        >
+          <template #icon>
+            <HaHeartIcon />
+          </template>
+          <template #text>
+            すべての参加者の多様性を尊重し、<br>ハラスメントや差別的な行為は禁止です。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="撮影マナーを守りましょう"
+          text="descriptiondescriptiondescription"
+          color="cyan"
+        >
+          <template #icon>
+            <HaCamera />
+          </template>
+          <template #text>
+            他の参加者を撮影する際は必ず許可を取り、<br>撮影禁止エリアでは撮影をお控えください。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="安全に配慮しましょう"
+          text="descriptiondescriptiondescription"
+          color="amber"
+        >
+          <template #icon>
+            <HaDangerIcon />
+          </template>
+          <template #text>
+            会場内では走らない、通路をふさがないなど、<br>安全な行動を心掛けてください。
+          </template>
+        </HaConductCard>
+      </div>
+      <div class="conduct-grid__child">
+        <HaConductCard
+          title="スタッフの指示に従いましょう"
+          text="descriptiondescriptiondescription"
+          color="vermilion"
+        >
+          <template #icon>
+            <HaShieldIcon />
+          </template>
+          <template #text>
+            スタッフの指示に従い、<br>問題があれば速やかにスタッフにお知らせください。
+          </template>
+        </HaConductCard>
+      </div>
+    </div>
+    <a
+      class="glassy-button conduct__button"
+      :href="DOCUMENT_LINKS.codeOfConduct"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      詳細を確認
+    </a>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+}
+
+.mb-15 {
+  margin-bottom: 60px;
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
+}
+
+.conduct-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  @include m.tb {
+    grid-template-columns: 1fr;
+    width: 60%;
+  }
+
+  @include m.sp {
+    width: 100%;
+  }
+}
+
+.conduct {
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 185px;
+    height: 57px;
+    margin: 0 auto;
+
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    text-decoration: none;
+
+    background-color: #e5b5ff3b;
+
+    @include m.tb {
+      width: 130px;
+      height: 40px;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtCollaborativeEvent.vue
 ```vue
 <script setup lang="ts">
@@ -5435,6 +5235,206 @@ onMounted(() => {
   &__child {
     &--full-width {
       grid-column: 1 / -1;
+    }
+  }
+}
+</style>
+```
+
+## File: layers/main/app/components/ht/HtExhibitionSection.vue
+```vue
+<script setup lang="ts">
+import HaAboutCard from '../ha/HaAboutCard.vue'
+import HaDocumentLink from '../ha/HaDocumentLink.vue'
+import HaBalanceIcon from '../ha/icons/HaBalanceIcon.vue'
+import HaCommunityIcon from '../ha/icons/HaCommunityIcon.vue'
+import HaOpenBookIcon from '../ha/icons/HaOpenBookIcon.vue'
+import HaCircledQuestionIcon from '../ha/icons/HaCircledQuestionIcon.vue'
+import HaStarShineIcon from '../ha/icons/HaStarShineIcon.vue'
+import HaWorldIcon from '../ha/icons/HaWorldIcon.vue'
+import { DOCUMENT_LINKS } from '~/constants/documentLinks'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const list2Ref = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value || !list2Ref.value) return
+  const items = listRef.value.querySelectorAll('.card-flex__child')
+  const items2 = list2Ref.value.querySelectorAll('.link-list__child')
+  fadeInUpStagger(Array.from(items))
+  fadeInUpStagger(Array.from(items2))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      title="出展情報"
+      label="exhibition"
+    />
+    <p class="subtitle">
+      出展カテゴリ
+    </p>
+    <div
+      ref="listRef"
+      class="card-flex mb-24"
+    >
+      <div class="card-flex__child">
+        <HaAboutCard color="amber">
+          <template #icon>
+            <HaStarShineIcon />
+          </template>
+          <template #title>
+            サークル出展
+          </template>
+          <template #body>
+            VRクリエイターによるアイテムやグッズの展示・販売ブースです。3Dプリント作品、イラスト、同人誌など幅広いジャンルで出店できます。
+          </template>
+        </HaAboutCard>
+      </div>
+      <div class="card-flex__child">
+        <HaAboutCard
+          icon-url="/icons/tabler_world.svg"
+          color="light-cyan"
+        >
+          <template #icon>
+            <HaWorldIcon />
+          </template>
+          <template #title>
+            一般展示
+          </template>
+          <template #body>
+            XR技術やクリエイティブ作品の展示を行うブースです。デモ体験やワークショップなど、来場者が参加できる企画も歓迎します。
+          </template>
+        </HaAboutCard>
+      </div>
+      <div class="card-flex__child">
+        <HaAboutCard
+          icon-url="/icons/boxicons_community.svg"
+          color="light-magenta"
+        >
+          <template #icon>
+            <HaCommunityIcon />
+          </template>
+          <template #title>
+            企業出展
+          </template>
+          <template #body>
+            企業・法人向けの出展ブースです。最新XRコンテンツの体験提供や、製品・サービスのプロモーションにご活用いただけます。
+          </template>
+        </HaAboutCard>
+      </div>
+    </div>
+    <p class="subtitle">
+      出展者向けリソース
+    </p>
+    <div
+      ref="list2Ref"
+      class="link-list"
+    >
+      <HaDocumentLink
+        title="出展ガイドライン"
+        label="important"
+        color="green"
+        text="出展に必要なルール・準備事項をまとめた公式ガイド"
+        class="link-list__child"
+        :href="DOCUMENT_LINKS.exhibitionGuideline"
+      >
+        <template #icon>
+          <HaOpenBookIcon />
+        </template>
+      </HaDocumentLink>
+      <HaDocumentLink
+        title="出展規約"
+        label="required"
+        color="cyan"
+        text="出展者が遵守すべき規約・利用条件"
+        class="link-list__child"
+        :href="DOCUMENT_LINKS.exhibitionTerms"
+      >
+        <template #icon>
+          <HaBalanceIcon />
+        </template>
+      </HaDocumentLink>
+      <HaDocumentLink
+        title="企業出展社向けご案内"
+        label="Q&A"
+        color="magenta"
+        text="企業・法人向けの出展概要と当日のご案内"
+        class="link-list__child"
+        :href="DOCUMENT_LINKS.corporateExhibitorGuide"
+      >
+        <template #icon>
+          <HaCircledQuestionIcon />
+        </template>
+      </HaDocumentLink>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.mb-24 {
+  margin-bottom: 96px; // TODO: utilities.scssを作り、移植すべき。24...24rem（1rem=4pxの場合）
+
+  @include m.sp {
+    margin-bottom: 48px;
+  }
+}
+
+.card-flex {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 330px));
+  gap: 32px;
+  justify-content: center;
+
+  max-width: 1080px;
+  margin-right: auto;
+  margin-left: auto;
+
+  @include m.tb {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  &__child {
+    @include m.tb {
+      width: 60%;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    @include m.sp {
+      width: 100%;
+    }
+  }
+}
+
+.link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @include m.tb {
+    align-items: center;
+  }
+
+  &__child {
+    @include m.tb {
+      width: 60%;
+    }
+
+    @include m.sp {
+      width: 100%;
     }
   }
 }
@@ -6862,10 +6862,16 @@ en:
   }
 
   &__nav {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    padding-bottom: 48px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    gap: 18px 32px;
+    padding-bottom: 40px;
+
+    @include m.sp {
+      grid-template-columns: 1fr;
+      gap: 22px;
+      padding-bottom: 48px;
+    }
   }
 
   &__link {
@@ -7004,415 +7010,6 @@ const { t: tGlobal } = useI18n()
       grid-template-columns: 1fr;
       max-width: 360px;
     }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtParticipationGuide.vue
-```vue
-<i18n lang="yaml">
-ja:
-  nameLabel: イベント名
-  name: VketReal in 札幌 2026 Autumn
-  dateLabel: 開催日
-  date: 2026年9月26日(土)
-  venueLabel: 会場
-  venue: アスティ45 4F アスティホール
-  ticketLabel: 来場チケット
-  ticketNotice: 来場チケットはLivePocketにて販売中です。入場には整理券が必要です。
-  ticketLink: チケット販売ページはこちら
-  guideLink: 一般参加ガイドを確認する
-en:
-  nameLabel: Event Name
-  name: VketReal in Sapporo 2026 Autumn
-  dateLabel: Date
-  date: September 26, 2026 (Sat)
-  venueLabel: Venue
-  venue: Asty45 4F Asty Hall
-  ticketLabel: Visitor Tickets
-  ticketNotice: Visitor tickets are now available on LivePocket. A numbered admission ticket is required for entry.
-  ticketLink: View the ticket sales page
-  guideLink: View the Participation Guide
-</i18n>
-
-<script setup lang="ts">
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-import { DOCUMENT_LINKS } from '~/constants/documentLinks'
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n({ useScope: 'global' })
-
-const sectionRef = ref<HTMLElement | null>(null)
-const { fadeInUp } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      label="PARTICIPATION GUIDE"
-      :title="tGlobal('sectionTitle.participationGuide')"
-    />
-
-    <dl class="participation-guide glassy-box-4 glassy-box-4--blue">
-      <div class="participation-guide__name">
-        <dt class="participation-guide__label">
-          {{ t('nameLabel') }}
-        </dt>
-        <dd class="participation-guide__name-text">
-          {{ t('name') }}
-        </dd>
-      </div>
-
-      <div class="participation-guide__details">
-        <div class="participation-guide__detail">
-          <dt class="participation-guide__label">
-            {{ t('dateLabel') }}
-          </dt>
-          <dd class="participation-guide__text">
-            {{ t('date') }}
-          </dd>
-        </div>
-        <div class="participation-guide__detail">
-          <dt class="participation-guide__label">
-            {{ t('venueLabel') }}
-          </dt>
-          <dd class="participation-guide__text">
-            {{ t('venue') }}
-          </dd>
-        </div>
-      </div>
-
-      <div class="participation-guide__ticket">
-        <dt class="participation-guide__ticket-label">
-          {{ t('ticketLabel') }}
-        </dt>
-        <dd class="participation-guide__ticket-text">
-          <p>{{ t('ticketNotice') }}</p>
-          <a
-            class="participation-guide__ticket-link"
-            href="https://livepocket.jp/e/alkjd"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {{ t('ticketLink') }}
-          </a>
-          <a
-            class="participation-guide__ticket-link"
-            :href="DOCUMENT_LINKS.participationGuide"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {{ t('guideLink') }}
-          </a>
-        </dd>
-      </div>
-    </dl>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.participation-guide {
-  padding: 40px;
-
-  @include m.tb {
-    padding: 32px;
-  }
-
-  @include m.sp {
-    padding: 24px;
-  }
-
-  &__name {
-    padding-bottom: 28px;
-    border-bottom: 1px solid rgb(255 255 255 / 60%);
-
-    @include m.sp {
-      padding-bottom: 20px;
-    }
-  }
-
-  &__details {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 40px;
-    padding-top: 28px;
-
-    @include m.sp {
-      grid-template-columns: 1fr;
-      gap: 20px;
-      padding-top: 20px;
-    }
-  }
-
-  &__detail + &__detail {
-    @include m.sp {
-      padding-top: 20px;
-      border-top: 1px solid rgb(255 255 255 / 30%);
-    }
-  }
-
-  &__label {
-    margin-bottom: 8px;
-
-    font-size: 14px;
-    font-weight: 700;
-    color: v.$vket-cyan;
-    letter-spacing: 0.04em;
-
-    @include m.sp {
-      margin-bottom: 6px;
-      font-size: 12px;
-    }
-  }
-
-  &__name-text {
-    font-size: 32px;
-    font-weight: 700;
-    line-height: 1.35;
-    color: white;
-
-    @include m.tb {
-      font-size: 26px;
-    }
-
-    @include m.sp {
-      font-size: 20px;
-    }
-  }
-
-  &__text {
-    font-size: 20px;
-    line-height: 1.5;
-    color: white;
-
-    @include m.sp {
-      font-size: 16px;
-    }
-  }
-
-  &__ticket {
-    margin-top: 28px;
-    padding-top: 28px;
-    border-top: 1px solid rgb(255 255 255 / 30%);
-
-    @include m.sp {
-      margin-top: 20px;
-      padding-top: 20px;
-    }
-  }
-
-  &__ticket-label {
-    margin-bottom: 8px;
-
-    font-size: 14px;
-    font-weight: 700;
-    color: v.$vket-amber;
-    letter-spacing: 0.04em;
-
-    @include m.sp {
-      margin-bottom: 6px;
-      font-size: 12px;
-    }
-  }
-
-  &__ticket-text {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.5;
-    color: white;
-
-    @include m.sp {
-      font-size: 16px;
-    }
-  }
-
-  &__ticket-link {
-    display: inline-block;
-
-    margin-top: 8px;
-    margin-right: 20px;
-
-    color: v.$vket-cyan;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtTicketSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  section:
-    title: チケット
-    label: tickets
-  description:
-    line1: イベント入場券は2026年8月26日(水)より販売開始です。
-    line2: LivePocketの販売ページからお申し込みください。
-  numberedTicketNotice:
-    line1: ※入場にはイベント入場券とは別に、オンライン入場整理券が必要です。
-    line2: 入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。
-    line3: 整理券番号はLivePocketからメールで届きます。事前にLivePocketからのメールを受信できるよう、受信設定をご確認ください。
-    link: 整理券番号のお知らせを確認する
-  cards:
-    general:
-      title: イベント入場券
-      desc: VketReal in 札幌 2026 Autumnの来場チケットです。
-      cta: チケットを購入する
-    updates:
-      title: 最新情報
-      desc: 公式Xで販売開始や追加情報をお知らせします。
-      cta: 公式Xを見る
-en:
-  section:
-    title: Tickets
-    label: tickets
-  description:
-    line1: Event admission tickets go on sale Wednesday, August 26, 2026.
-    line2: Please purchase tickets through LivePocket.
-  numberedTicketNotice:
-    line1: An online numbered admission ticket is required in addition to an event admission ticket.
-    line2: Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.
-    line3: LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.
-    link: View Admission Number Updates
-  cards:
-    general:
-      title: Event Admission Ticket
-      desc: Admission ticket for VketReal in Sapporo 2026 Autumn.
-      cta: Buy Tickets
-    updates:
-      title: Latest Updates
-      desc: Sales launches and additional information will be announced on official X.
-      cta: Official X
-</i18n>
-
-<script setup lang="ts">
-import HaTicketCard from '../ha/HaTicketCard.vue'
-import { DOCUMENT_LINKS } from '~/constants/documentLinks'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const { t } = useI18n()
-const sectionRef = ref<Element | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.ticket-grid__item')
-  fadeInUpStagger(Array.from(items))
-})
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="t('section.title')"
-      :label="t('section.label')"
-    />
-    <p class="description description--left">
-      {{ t('description.line1') }}<br>
-      {{ t('description.line2') }}
-    </p>
-    <div class="numbered-ticket-notice glassy-box-3">
-      <p>{{ t('numberedTicketNotice.line1') }}</p>
-      <p>{{ t('numberedTicketNotice.line2') }}</p>
-      <p>{{ t('numberedTicketNotice.line3') }}</p>
-      <a
-        class="numbered-ticket-notice__link"
-        :href="DOCUMENT_LINKS.numberedTicket"
-        target="_blank"
-        rel="noopener noreferrer"
-      >{{ t('numberedTicketNotice.link') }}</a>
-    </div>
-    <div
-      ref="listRef"
-      class="ticket-grid"
-    >
-      <div class="ticket-grid__item">
-        <HaTicketCard
-          :title="t('cards.general.title')"
-          :desc="t('cards.general.desc')"
-          href="https://livepocket.jp/e/alkjd"
-          :cta-label="t('cards.general.cta')"
-        />
-      </div>
-      <div class="ticket-grid__item">
-        <HaTicketCard
-          :title="t('cards.updates.title')"
-          :desc="t('cards.updates.desc')"
-          href="https://x.com/vketreal_vris"
-          :cta-label="t('cards.updates.cta')"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.ticket-grid {
-  display: grid;
-  grid-auto-rows: 275px;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 24px;
-
-  @include m.tb {
-    grid-auto-rows: 166px;
-    gap: 12px 16px;
-  }
-
-  @include m.sp {
-    grid-template-columns: 1fr;
-  }
-
-}
-
-.numbered-ticket-notice {
-  display: grid;
-  gap: 8px;
-
-  margin-bottom: 24px;
-  padding: 16px 20px;
-
-  font-size: 14px;
-  line-height: 1.7;
-
-  background: rgb(49 35 96 / 40%);
-
-  &__link {
-    width: fit-content;
-    color: v.$vket-cyan;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
-  @include m.sp {
-    margin-bottom: 16px;
-    padding: 14px 16px;
-    font-size: 13px;
   }
 }
 </style>
@@ -8324,6 +7921,249 @@ en:
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtParticipationGuide.vue
+```vue
+<i18n lang="yaml">
+ja:
+  nameLabel: イベント名
+  name: VketReal in 札幌 2026 Autumn
+  dateLabel: 開催日
+  date: 2026年9月26日(土)
+  venueLabel: 会場
+  venue: アスティ45 4F アスティホール
+  ticketLabel: 来場チケット
+  ticketNotice: 来場チケットはLivePocketにて販売中です。入場には整理券が必要です。
+  ticketLink: チケット販売ページはこちら
+  guideLink: 一般参加ガイドを確認する
+en:
+  nameLabel: Event Name
+  name: VketReal in Sapporo 2026 Autumn
+  dateLabel: Date
+  date: September 26, 2026 (Sat)
+  venueLabel: Venue
+  venue: Asty45 4F Asty Hall
+  ticketLabel: Visitor Tickets
+  ticketNotice: Visitor tickets are now available on LivePocket. A numbered admission ticket is required for entry.
+  ticketLink: View the ticket sales page
+  guideLink: View the Participation Guide
+</i18n>
+
+<script setup lang="ts">
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+import { DOCUMENT_LINKS } from '~/constants/documentLinks'
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n({ useScope: 'global' })
+
+const sectionRef = ref<HTMLElement | null>(null)
+const { fadeInUp } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      label="PARTICIPATION GUIDE"
+      :title="tGlobal('sectionTitle.participationGuide')"
+    />
+
+    <dl class="participation-guide glassy-box-4 glassy-box-4--blue">
+      <div class="participation-guide__name">
+        <dt class="participation-guide__label">
+          {{ t('nameLabel') }}
+        </dt>
+        <dd class="participation-guide__name-text">
+          {{ t('name') }}
+        </dd>
+      </div>
+
+      <div class="participation-guide__details">
+        <div class="participation-guide__detail">
+          <dt class="participation-guide__label">
+            {{ t('dateLabel') }}
+          </dt>
+          <dd class="participation-guide__text">
+            {{ t('date') }}
+          </dd>
+        </div>
+        <div class="participation-guide__detail">
+          <dt class="participation-guide__label">
+            {{ t('venueLabel') }}
+          </dt>
+          <dd class="participation-guide__text">
+            {{ t('venue') }}
+          </dd>
+        </div>
+      </div>
+
+      <div class="participation-guide__ticket">
+        <dt class="participation-guide__ticket-label">
+          {{ t('ticketLabel') }}
+        </dt>
+        <dd class="participation-guide__ticket-text">
+          <p>{{ t('ticketNotice') }}</p>
+          <a
+            class="participation-guide__ticket-link"
+            href="https://livepocket.jp/e/alkjd"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ t('ticketLink') }}
+          </a>
+          <a
+            class="participation-guide__ticket-link"
+            :href="DOCUMENT_LINKS.participationGuide"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ t('guideLink') }}
+          </a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.participation-guide {
+  padding: 40px;
+
+  @include m.tb {
+    padding: 32px;
+  }
+
+  @include m.sp {
+    padding: 24px;
+  }
+
+  &__name {
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgb(255 255 255 / 60%);
+
+    @include m.sp {
+      padding-bottom: 20px;
+    }
+  }
+
+  &__details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px;
+    padding-top: 28px;
+
+    @include m.sp {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding-top: 20px;
+    }
+  }
+
+  &__detail + &__detail {
+    @include m.sp {
+      padding-top: 20px;
+      border-top: 1px solid rgb(255 255 255 / 30%);
+    }
+  }
+
+  &__label {
+    margin-bottom: 8px;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: v.$vket-cyan;
+    letter-spacing: 0.04em;
+
+    @include m.sp {
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+  }
+
+  &__name-text {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: white;
+
+    @include m.tb {
+      font-size: 26px;
+    }
+
+    @include m.sp {
+      font-size: 20px;
+    }
+  }
+
+  &__text {
+    font-size: 20px;
+    line-height: 1.5;
+    color: white;
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__ticket {
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 1px solid rgb(255 255 255 / 30%);
+
+    @include m.sp {
+      margin-top: 20px;
+      padding-top: 20px;
+    }
+  }
+
+  &__ticket-label {
+    margin-bottom: 8px;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: v.$vket-amber;
+    letter-spacing: 0.04em;
+
+    @include m.sp {
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+  }
+
+  &__ticket-text {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: white;
+
+    @include m.sp {
+      font-size: 16px;
+    }
+  }
+
+  &__ticket-link {
+    display: inline-block;
+
+    margin-top: 8px;
+    margin-right: 20px;
+
+    color: v.$vket-cyan;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtQandASection.vue
 ```vue
 <i18n lang="yaml">
@@ -8429,6 +8269,172 @@ onMounted(() => {
     </HaAccordionItem>
   </div>
 </template>
+```
+
+## File: layers/main/app/components/ht/HtTicketSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  section:
+    title: チケット
+    label: tickets
+  description:
+    line1: イベント入場券は2026年8月26日(水)より販売開始です。
+    line2: LivePocketの販売ページからお申し込みください。
+  numberedTicketNotice:
+    line1: ※入場にはイベント入場券とは別に、オンライン入場整理券が必要です。
+    line2: 入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。
+    line3: 整理券番号はLivePocketからメールで届きます。事前にLivePocketからのメールを受信できるよう、受信設定をご確認ください。
+    link: 整理券番号のお知らせを確認する
+  cards:
+    general:
+      title: イベント入場券
+      desc: VketReal in 札幌 2026 Autumnの来場チケットです。
+      cta: チケットを購入する
+    updates:
+      title: 最新情報
+      desc: 公式Xで販売開始や追加情報をお知らせします。
+      cta: 公式Xを見る
+en:
+  section:
+    title: Tickets
+    label: tickets
+  description:
+    line1: Event admission tickets go on sale Wednesday, August 26, 2026.
+    line2: Please purchase tickets through LivePocket.
+  numberedTicketNotice:
+    line1: An online numbered admission ticket is required in addition to an event admission ticket.
+    line2: Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.
+    line3: LivePocket will email your admission number. Please check your email settings in advance to ensure you can receive messages from LivePocket.
+    link: View Admission Number Updates
+  cards:
+    general:
+      title: Event Admission Ticket
+      desc: Admission ticket for VketReal in Sapporo 2026 Autumn.
+      cta: Buy Tickets
+    updates:
+      title: Latest Updates
+      desc: Sales launches and additional information will be announced on official X.
+      cta: Official X
+</i18n>
+
+<script setup lang="ts">
+import HaTicketCard from '../ha/HaTicketCard.vue'
+import { DOCUMENT_LINKS } from '~/constants/documentLinks'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const { t } = useI18n()
+const sectionRef = ref<Element | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.ticket-grid__item')
+  fadeInUpStagger(Array.from(items))
+})
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="t('section.title')"
+      :label="t('section.label')"
+    />
+    <p class="description description--left">
+      {{ t('description.line1') }}<br>
+      {{ t('description.line2') }}
+    </p>
+    <div class="numbered-ticket-notice glassy-box-3">
+      <p>{{ t('numberedTicketNotice.line1') }}</p>
+      <p>{{ t('numberedTicketNotice.line2') }}</p>
+      <p>{{ t('numberedTicketNotice.line3') }}</p>
+      <a
+        class="numbered-ticket-notice__link"
+        :href="DOCUMENT_LINKS.numberedTicket"
+        target="_blank"
+        rel="noopener noreferrer"
+      >{{ t('numberedTicketNotice.link') }}</a>
+    </div>
+    <div
+      ref="listRef"
+      class="ticket-grid"
+    >
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          :title="t('cards.general.title')"
+          :desc="t('cards.general.desc')"
+          href="https://livepocket.jp/e/alkjd"
+          :cta-label="t('cards.general.cta')"
+        />
+      </div>
+      <div class="ticket-grid__item">
+        <HaTicketCard
+          :title="t('cards.updates.title')"
+          :desc="t('cards.updates.desc')"
+          href="https://x.com/vketreal_vris"
+          :cta-label="t('cards.updates.cta')"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.ticket-grid {
+  display: grid;
+  grid-auto-rows: 275px;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+
+  @include m.tb {
+    grid-auto-rows: 166px;
+    gap: 12px 16px;
+  }
+
+  @include m.sp {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+.numbered-ticket-notice {
+  display: grid;
+  gap: 8px;
+
+  margin-bottom: 24px;
+  padding: 16px 20px;
+
+  font-size: 14px;
+  line-height: 1.7;
+
+  background: rgb(49 35 96 / 40%);
+
+  &__link {
+    width: fit-content;
+    color: v.$vket-cyan;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  @include m.sp {
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+}
+</style>
 ```
 
 ## File: layers/main/app/components/ha/HaContentCard.vue
@@ -9434,6 +9440,227 @@ $three-items-flex--template-column-gap: 32px;
 </style>
 ```
 
+## File: layers/main/app/components/ht/HtMemberSection.vue
+```vue
+<i18n lang="yaml">
+ja:
+  roles:
+    executiveChair: '実行委員長'
+    projectManager: 'PM'
+    generalSupport: '裏方雑務'
+    snsManagement: 'SNS運用'
+    publicRelations: '広報'
+    prAndStageEvent: '広報・ステージイベント企画'
+    planningAndEngineering: '企画・エンジニアリング'
+    merchandisePlanning: 'グッズ企画・運用'
+    webAppDevelopment: 'webアプリ開発'
+    dayOfOperations: '当日運営'
+    artDirector: 'アートディレクター'
+    keyVisualIllustration: 'KV・イラスト制作'
+    webDevelopment: 'Web開発'
+en:
+  roles:
+    executiveChair: 'Executive Chair'
+    projectManager: 'Project Manager'
+    generalSupport: 'General Support'
+    snsManagement: 'Social Media Management'
+    publicRelations: 'Public Relations'
+    prAndStageEvent: 'PR & Stage Event Planning'
+    planningAndEngineering: 'Planning & Engineering'
+    merchandisePlanning: 'Merchandise Planning & Operations'
+    webAppDevelopment: 'Web App Development'
+    dayOfOperations: 'Day-of Operations'
+    artDirector: 'Art Director'
+    keyVisualIllustration: 'Key Visual & Illustration'
+    webDevelopment: 'Web Development'
+</i18n>
+
+<script setup lang="ts">
+import HaMemberCard from '@/components/ha/HaMemberCard.vue'
+
+// GSAP
+import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
+
+const sectionRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLElement | null>(null)
+const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
+
+onMounted(() => {
+  fadeInUp(sectionRef)
+
+  if (!listRef.value) return
+  const items = listRef.value.querySelectorAll('.member-section__grid-item')
+  fadeInUpStagger(Array.from(items))
+})
+
+const { t } = useI18n({ useScope: 'local' })
+const { t: tGlobal } = useI18n()
+
+const items = computed(() => [
+  {
+    id: 1,
+    name: 'A-kun',
+    iconUrl: '/member-icons/a-kun.webp',
+    role: t('roles.executiveChair'),
+    xLink: 'https://x.com/A919515',
+    instagramLink: '',
+  },
+  {
+    id: 2,
+    name: 'R.D.Sakamoto',
+    iconUrl: '/member-icons/skmt3p.webp',
+    role: t('roles.projectManager'),
+    xLink: 'https://x.com/skmt3p',
+    instagramLink: '',
+  },
+  {
+    id: 3,
+    name: 'ハチヤ',
+    iconUrl: '/member-icons/hatiya.webp',
+    role: t('roles.generalSupport'),
+    xLink: 'https://x.com/h4tiyA',
+    instagramLink: '',
+  },
+  {
+    id: 4,
+    name: 'ふららん',
+    iconUrl: '/member-icons/furarann.webp',
+    role: t('roles.snsManagement'),
+    xLink: 'https://x.com/furarann_VR37',
+    instagramLink: '',
+  },
+  {
+    id: 5,
+    name: '七草睦月',
+    iconUrl: '/member-icons/nanakusa-mutsuki.webp',
+    role: t('roles.publicRelations'),
+    xLink: 'https://x.com/nanakusamutsuki',
+    instagramLink: '',
+  },
+  {
+    id: 6,
+    name: 'Milia',
+    iconUrl: '/member-icons/milia.webp',
+    role: t('roles.prAndStageEvent'),
+    xLink: 'https://x.com/xmiliax',
+    instagramLink: '',
+  },
+
+  {
+    id: 7,
+    name: 'luft',
+    iconUrl: '/member-icons/luft.webp',
+    role: t('roles.planningAndEngineering'),
+    xLink: 'https://x.com/luft256',
+    instagramLink: '',
+  },
+  {
+    id: 8,
+    name: 'youyou',
+    iconUrl: '/member-icons/youyou.webp',
+    role: t('roles.merchandisePlanning'),
+    xLink: 'https://x.com/youyou0147',
+    instagramLink: '',
+  },
+  {
+    id: 10,
+    name: 'samy',
+    iconUrl: '/member-icons/samy.webp',
+    role: t('roles.webAppDevelopment'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 9,
+    name: 'Tsubaki',
+    iconUrl: '/member-icons/tsubaki.jpeg',
+    role: t('roles.dayOfOperations'),
+    xLink: 'https://x.com/Tsubaki_HIUVR',
+    instagramLink: '',
+  },
+  {
+    id: 11,
+    name: 'おのでらりな',
+    iconUrl: '/member-icons/rina-onodera.webp',
+    role: t('roles.artDirector'),
+    xLink: 'https://x.com/studiococoon_',
+    instagramLink: '',
+  },
+  {
+    id: 12,
+    name: 'なだ',
+    iconUrl: '/member-icons/otyano.webp',
+    role: t('roles.keyVisualIllustration'),
+    xLink: 'https://x.com/otyano8',
+    instagramLink: '',
+  },
+  {
+    id: 13,
+    name: 'aj8d',
+    iconUrl: '/member-icons/aj8d.webp',
+    role: t('roles.webDevelopment'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 14,
+    name: 'L.ami',
+    iconUrl: '/member-icons/lami.webp',
+    role: t('roles.webDevelopment'),
+    xLink: '',
+    instagramLink: '',
+  },
+])
+</script>
+
+<template>
+  <div ref="sectionRef">
+    <HaSectionTitle
+      :title="tGlobal('sectionTitle.members')"
+      label="MEMBERS"
+    />
+    <div
+      ref="listRef"
+      class="member-section__grid"
+    >
+      <div
+        v-for="item in items"
+        :key="item.id"
+        class="member-section__grid-item"
+      >
+        <HaMemberCard
+          v-bind="item"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
+.member-section{
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px 30px;
+    margin: 0 auto;
+
+    @include m.tb {
+      grid-template-columns: 1fr 1fr;
+      max-width: 720px;
+    }
+
+    @include m.sp {
+      grid-template-columns: 1fr;
+      max-width: 360px;
+    }
+  }
+}
+</style>
+```
+
 ## File: layers/main/app/components/ht/HtExhibitorInfoSection.vue
 ```vue
 <i18n lang="yaml">
@@ -9856,227 +10083,6 @@ onMounted(() => {
 
     @include m.sp {
       font-size: 14px;
-    }
-  }
-}
-</style>
-```
-
-## File: layers/main/app/components/ht/HtMemberSection.vue
-```vue
-<i18n lang="yaml">
-ja:
-  roles:
-    executiveChair: '実行委員長'
-    projectManager: 'PM'
-    generalSupport: '裏方雑務'
-    snsManagement: 'SNS運用'
-    publicRelations: '広報'
-    prAndStageEvent: '広報・ステージイベント企画'
-    planningAndEngineering: '企画・エンジニアリング'
-    merchandisePlanning: 'グッズ企画・運用'
-    webAppDevelopment: 'webアプリ開発'
-    dayOfOperations: '当日運営'
-    artDirector: 'アートディレクター'
-    keyVisualIllustration: 'KV・イラスト制作'
-    webDevelopment: 'Web開発'
-en:
-  roles:
-    executiveChair: 'Executive Chair'
-    projectManager: 'Project Manager'
-    generalSupport: 'General Support'
-    snsManagement: 'Social Media Management'
-    publicRelations: 'Public Relations'
-    prAndStageEvent: 'PR & Stage Event Planning'
-    planningAndEngineering: 'Planning & Engineering'
-    merchandisePlanning: 'Merchandise Planning & Operations'
-    webAppDevelopment: 'Web App Development'
-    dayOfOperations: 'Day-of Operations'
-    artDirector: 'Art Director'
-    keyVisualIllustration: 'Key Visual & Illustration'
-    webDevelopment: 'Web Development'
-</i18n>
-
-<script setup lang="ts">
-import HaMemberCard from '@/components/ha/HaMemberCard.vue'
-
-// GSAP
-import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
-
-const sectionRef = ref<HTMLElement | null>(null)
-const listRef = ref<HTMLElement | null>(null)
-const { fadeInUp, fadeInUpStagger } = useGsapFadeIn()
-
-onMounted(() => {
-  fadeInUp(sectionRef)
-
-  if (!listRef.value) return
-  const items = listRef.value.querySelectorAll('.member-section__grid-item')
-  fadeInUpStagger(Array.from(items))
-})
-
-const { t } = useI18n({ useScope: 'local' })
-const { t: tGlobal } = useI18n()
-
-const items = computed(() => [
-  {
-    id: 1,
-    name: 'A-kun',
-    iconUrl: '/member-icons/a-kun.webp',
-    role: t('roles.executiveChair'),
-    xLink: 'https://x.com/A919515',
-    instagramLink: '',
-  },
-  {
-    id: 2,
-    name: 'R.D.Sakamoto',
-    iconUrl: '/member-icons/skmt3p.webp',
-    role: t('roles.projectManager'),
-    xLink: 'https://x.com/skmt3p',
-    instagramLink: '',
-  },
-  {
-    id: 3,
-    name: 'ハチヤ',
-    iconUrl: '/member-icons/hatiya.webp',
-    role: t('roles.generalSupport'),
-    xLink: 'https://x.com/h4tiyA',
-    instagramLink: '',
-  },
-  {
-    id: 4,
-    name: 'ふららん',
-    iconUrl: '/member-icons/furarann.webp',
-    role: t('roles.snsManagement'),
-    xLink: 'https://x.com/furarann_VR37',
-    instagramLink: '',
-  },
-  {
-    id: 5,
-    name: '七草睦月',
-    iconUrl: '/member-icons/nanakusa-mutsuki.webp',
-    role: t('roles.publicRelations'),
-    xLink: 'https://x.com/nanakusamutsuki',
-    instagramLink: '',
-  },
-  {
-    id: 6,
-    name: 'Milia',
-    iconUrl: '/member-icons/milia.webp',
-    role: t('roles.prAndStageEvent'),
-    xLink: 'https://x.com/xmiliax',
-    instagramLink: '',
-  },
-
-  {
-    id: 7,
-    name: 'luft',
-    iconUrl: '/member-icons/luft.webp',
-    role: t('roles.planningAndEngineering'),
-    xLink: 'https://x.com/luft256',
-    instagramLink: '',
-  },
-  {
-    id: 8,
-    name: 'youyou',
-    iconUrl: '/member-icons/youyou.webp',
-    role: t('roles.merchandisePlanning'),
-    xLink: 'https://x.com/youyou0147',
-    instagramLink: '',
-  },
-  {
-    id: 10,
-    name: 'samy',
-    iconUrl: '/member-icons/samy.webp',
-    role: t('roles.webAppDevelopment'),
-    xLink: '',
-    instagramLink: '',
-  },
-  {
-    id: 9,
-    name: 'Tsubaki',
-    iconUrl: '/member-icons/tsubaki.jpeg',
-    role: t('roles.dayOfOperations'),
-    xLink: 'https://x.com/Tsubaki_HIUVR',
-    instagramLink: '',
-  },
-  {
-    id: 11,
-    name: 'おのでらりな',
-    iconUrl: '/member-icons/rina-onodera.webp',
-    role: t('roles.artDirector'),
-    xLink: 'https://x.com/studiococoon_',
-    instagramLink: '',
-  },
-  {
-    id: 12,
-    name: 'なだ',
-    iconUrl: '/member-icons/otyano.webp',
-    role: t('roles.keyVisualIllustration'),
-    xLink: 'https://x.com/otyano8',
-    instagramLink: '',
-  },
-  {
-    id: 13,
-    name: 'aj8d',
-    iconUrl: '/member-icons/aj8d.webp',
-    role: t('roles.webDevelopment'),
-    xLink: '',
-    instagramLink: '',
-  },
-  {
-    id: 14,
-    name: 'L.ami',
-    iconUrl: '/member-icons/lami.webp',
-    role: t('roles.webDevelopment'),
-    xLink: '',
-    instagramLink: '',
-  },
-])
-</script>
-
-<template>
-  <div ref="sectionRef">
-    <HaSectionTitle
-      :title="tGlobal('sectionTitle.members')"
-      label="MEMBERS"
-    />
-    <div
-      ref="listRef"
-      class="member-section__grid"
-    >
-      <div
-        v-for="item in items"
-        :key="item.id"
-        class="member-section__grid-item"
-      >
-        <HaMemberCard
-          v-bind="item"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-@use '@/assets/styles/variables' as v;
-@use '@/assets/styles/mixins' as m;
-
-.member-section{
-  &__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px 30px;
-    margin: 0 auto;
-
-    @include m.tb {
-      grid-template-columns: 1fr 1fr;
-      max-width: 720px;
-    }
-
-    @include m.sp {
-      grid-template-columns: 1fr;
-      max-width: 360px;
     }
   }
 }

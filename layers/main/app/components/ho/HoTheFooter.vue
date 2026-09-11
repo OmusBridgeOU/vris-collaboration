@@ -136,10 +136,16 @@ en:
   }
 
   &__nav {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    padding-bottom: 48px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    gap: 18px 32px;
+    padding-bottom: 40px;
+
+    @include m.sp {
+      grid-template-columns: 1fr;
+      gap: 22px;
+      padding-bottom: 48px;
+    }
   }
 
   &__link {
