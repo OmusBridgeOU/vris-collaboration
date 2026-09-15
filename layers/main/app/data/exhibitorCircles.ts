@@ -30,7 +30,7 @@ export const exhibitorCircles: ExhibitorCircle[] = [
   { name: 'わくわく犬プール', href: 'https://x.com/1nupool', imgSrc: '/images/2026Autumn/circles/wakuwaku-dog-pool.png' },
   { name: 'VRホビーロボット集会', href: 'https://x.com/nisoconVR', imgSrc: '/images/2026Autumn/circles/vr-hobby-robot-meetup.png' },
   { name: 'v-entry.app', href: 'https://v-entry.app/', imgSrc: '/images/2026Autumn/circles/v-entry_app.jpeg' },
-  { name: 'Insta360&ひかるのノースランドCHANNEL', href: 'https://x.com/hikaru_nrdf', imgSrc: '/images/2026Autumn/circles/hikaru-northland-channel.png' },
+  { name: 'ひかるのノースランドCHANNEL', href: 'https://x.com/hikaru_nrdf', imgSrc: '/images/2026Autumn/circles/hikaru-northland-channel.png' },
   { name: 'きっポジの遊び場' },
   { name: 'まいけるさんすたじお', href: 'https://x.com/MasoronaT', imgSrc: '/images/2026Autumn/circles/michael-san-studio.png' },
   { name: '#リアルサイズアバター写真展' },
