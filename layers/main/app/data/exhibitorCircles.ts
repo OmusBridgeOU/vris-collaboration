@@ -11,7 +11,7 @@ export const exhibitorCircles: ExhibitorCircle[] = [
   { name: '赤糸の裁縫箱', href: 'https://x.com/akaito3418', imgSrc: '/images/2026Autumn/circles/akaito-sewing-box.png' },
   { name: 'ゆるくる工房', href: 'https://x.com/kurumi_vr?s=11', imgSrc: '/images/2026Autumn/circles/yurukuru-koubou.png' },
   { name: '貧弱な描きおき部屋', href: 'https://lit.link/hinjyakumatsuge', imgSrc: '/images/2026Autumn/circles/hinjaku-okioki-room.png' },
-  { name: 'しろの里' },
+  { name: 'しろの里', href: 'https://x.com/s_sirosame35', imgSrc: '/images/2026Autumn/circles/shiro-no-sato.png' },
   { name: 'Interlunium（インテルニウム）', href: 'https://interlunium-vrc.sakura.ne.jp/index.html', imgSrc: '/images/2026Autumn/circles/interlunium.png' },
   { name: 'ようよう制作', href: 'https://youyou2002.booth.pm/', imgSrc: '/images/2026Autumn/circles/youyou-seisaku.png' },
   { name: 'わにちゃのおみせ', href: 'https://victoryshop.booth.pm/', imgSrc: '/images/2026Autumn/circles/wanicha-shop.png' },
