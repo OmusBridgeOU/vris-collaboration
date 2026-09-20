@@ -6,6 +6,8 @@ ja:
   date: 2026年9月26日(土)
   venueLabel: 会場
   venue: アスティ45 4F アスティホール
+  hoursLabel: 開場時間
+  hours: 11:00〜17:00
   ticketLabel: 来場チケット
   ticketNotice: 来場チケットはLivePocketにて販売中です。入場には整理券が必要です。
   ticketLink: チケット販売ページはこちら
@@ -17,6 +19,8 @@ en:
   date: September 26, 2026 (Sat)
   venueLabel: Venue
   venue: Asty45 4F Asty Hall
+  hoursLabel: Hours
+  hours: 11:00 – 17:00
   ticketLabel: Visitor Tickets
   ticketNotice: Visitor tickets are now available on LivePocket. A numbered admission ticket is required for entry.
   ticketLink: View the ticket sales page
@@ -62,6 +66,14 @@ onMounted(() => {
           </dt>
           <dd class="participation-guide__text">
             {{ t('date') }}
+          </dd>
+        </div>
+        <div class="participation-guide__detail">
+          <dt class="participation-guide__label">
+            {{ t('hoursLabel') }}
+          </dt>
+          <dd class="participation-guide__text">
+            {{ t('hours') }}
           </dd>
         </div>
         <div class="participation-guide__detail">
