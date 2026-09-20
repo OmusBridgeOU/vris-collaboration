@@ -95,12 +95,6 @@ const built_in_stamp_catalog: StampCatalogItem[] = [
     color: "#f59e0b",
   },
   {
-    id: "vris_ribbon",
-    label: "リボン",
-    category: "basic",
-    color: "#ef4444",
-  },
-  {
     id: "vris_spark",
     label: "きらめき",
     category: "basic",
@@ -118,30 +112,6 @@ const built_in_stamp_catalog: StampCatalogItem[] = [
     category: "basic",
     color: "#22c55e",
   },
-  {
-    id: "vris_flower",
-    label: "花",
-    category: "basic",
-    color: "#a855f7",
-  },
-  {
-    id: "vris_check",
-    label: "チェック",
-    category: "basic",
-    color: "#2563eb",
-  },
-  {
-    id: "vris_moon",
-    label: "月",
-    category: "basic",
-    color: "#facc15",
-  },
-  {
-    id: "vris_crown",
-    label: "王冠",
-    category: "basic",
-    color: "#f97316",
-  },
 ];
 
 export const stamp_catalog: StampCatalogItem[] = [
@@ -154,16 +124,6 @@ export const frame_catalog: FrameCatalogItem[] = [
     id: "none",
     label: "枠なし",
     color: "transparent",
-  },
-  {
-    id: "vris_white",
-    label: "白ロゴ風",
-    color: "#ffffff",
-  },
-  {
-    id: "vris_blue",
-    label: "ブルー",
-    color: "#2563eb",
   },
   ...provider_frame_catalog,
 ];

@@ -1,12 +1,15 @@
 import type { Env } from "./cloudflare_types";
+import { order_pricing } from "./services/order_pricing";
 
 export type AppConfig = {
   app_base_url: string;
+  app_timezone: string;
   terms_version: string;
   max_upload_bytes_per_item: number;
   max_batch_upload_bytes: number;
   max_items_per_batch: number;
   max_quantity_per_item: number;
+  unit_price_yen: number | null;
   canvas_size_px: number;
   finish_diameter_ratio: number;
   safe_area_ratio: number;
@@ -17,6 +20,7 @@ export type AppConfig = {
 export function get_config(env: Env): AppConfig {
   return {
     app_base_url: env.APP_BASE_URL ?? "https://vris-badge.example.com",
+    app_timezone: env.APP_TIMEZONE ?? "Asia/Tokyo",
     terms_version: env.TERMS_VERSION ?? "1.1",
     max_upload_bytes_per_item: number_setting(
       env.MAX_UPLOAD_BYTES_PER_ITEM,
@@ -28,6 +32,7 @@ export function get_config(env: Env): AppConfig {
     ),
     max_items_per_batch: number_setting(env.MAX_ITEMS_PER_BATCH, 20),
     max_quantity_per_item: number_setting(env.MAX_QUANTITY_PER_ITEM, 10),
+    unit_price_yen: order_pricing(1, env.BADGE_UNIT_PRICE_YEN).unitPriceYen,
     canvas_size_px: number_setting(env.CANVAS_SIZE_PX, 1200),
     finish_diameter_ratio: float_setting(env.FINISH_DIAMETER_RATIO, 58 / 70),
     safe_area_ratio: float_setting(env.SAFE_AREA_RATIO, 0.7),
@@ -42,6 +47,7 @@ export function public_config_response(config: AppConfig) {
     maxUploadBytesPerItem: config.max_upload_bytes_per_item,
     maxItemsPerBatch: config.max_items_per_batch,
     maxQuantityPerItem: config.max_quantity_per_item,
+    unitPriceYen: config.unit_price_yen,
     canvasSizePx: config.canvas_size_px,
     finishDiameterRatio: config.finish_diameter_ratio,
     safeAreaRatio: config.safe_area_ratio,

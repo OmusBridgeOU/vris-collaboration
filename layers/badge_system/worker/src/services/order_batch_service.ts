@@ -19,6 +19,7 @@ export class OrderNotFoundError extends OrderBatchError {}
 export class ReceptionNumberUnavailableError extends OrderBatchError {}
 
 export const reception_number_attempt_limit = 10;
+const no_expiration_storage_timestamp = "9999-12-31T23:59:59.999Z";
 
 type OrderBatchItemInput = {
   clientKey: string;
@@ -64,13 +65,9 @@ export class OrderBatchService {
       : null;
     if (
       client_request_id_hash &&
-      (await this.repository.exists_client_request_id_hash(
-        client_request_id_hash,
-      ))
+      (await this.repository.exists_client_request_id_hash(client_request_id_hash))
     ) {
-      throw new DuplicateClientRequestError(
-        "A batch with this client request ID already exists",
-      );
+      throw new DuplicateClientRequestError("A batch with this client request ID already exists");
     }
 
     const batch_id = crypto.randomUUID();
@@ -86,22 +83,15 @@ export class OrderBatchService {
         const item_id = crypto.randomUUID();
         const upload = uploads.get(item.clientKey);
         if (!upload) {
-          throw new OrderBatchError(
-            `Missing image files for ${item.clientKey}`,
-          );
+          throw new OrderBatchError(`Missing image files for ${item.clientKey}`);
         }
         const print_key = order_object_key(batch_id, item_id, "print.png");
-        const thumbnail_key = order_object_key(
-          batch_id,
-          item_id,
-          "thumbnail.jpg",
+        const thumbnail_key = order_object_key(batch_id, item_id, "thumbnail.jpg");
+        const print_image = await this.image_storage.validate_and_store_print_image(
+          upload.print_image,
+          print_key,
+          this.print_limits(),
         );
-        const print_image =
-          await this.image_storage.validate_and_store_print_image(
-            upload.print_image,
-            print_key,
-            this.print_limits(),
-          );
         stored_object_keys.push(print_key);
         const thumbnail = await this.image_storage.validate_and_store_thumbnail(
           upload.thumbnail,
@@ -122,6 +112,12 @@ export class OrderBatchService {
           height_px: print_image.height_px,
           file_size_bytes: print_image.file_size_bytes,
           created_at,
+          production_started_at: null,
+          ready_at: null,
+          delivered_at: null,
+          rejected_at: null,
+          rejection_reason: null,
+          reprint_count: 0,
           deleted_at: null,
         });
       }
@@ -151,7 +147,20 @@ export class OrderBatchService {
           ownership_confirmed: metadata.ownershipConfirmed ? 1 : 0,
           portrait_confirmed: metadata.portraitConfirmed ? 1 : 0,
           copyright_confirmed: metadata.copyrightConfirmed ? 1 : 0,
+          buyer_confirmed_at: null,
           created_at,
+          // Keep the legacy NOT NULL column rollback-safe without assigning an expiry.
+          expires_at: no_expiration_storage_timestamp,
+          accepted_at: null,
+          production_started_at: null,
+          ready_at: null,
+          delivered_at: null,
+          rejected_at: null,
+          cancelled_at: null,
+          accepted_by: null,
+          production_by: null,
+          delivered_by: null,
+          rejection_reason: null,
           deleted_at: null,
         };
 
@@ -179,27 +188,18 @@ export class OrderBatchService {
     }
   }
 
-  async get_public_status(
-    token: string,
-  ): Promise<ReturnType<typeof public_status_response>> {
+  async get_public_status(token: string): Promise<ReturnType<typeof public_status_response>> {
     const batch = await this.get_public_batch(token);
     return public_status_response(batch, token);
   }
 
-  async get_public_image(
-    token: string,
-    item_code: string,
-    image_kind: "print" | "thumbnail",
-  ) {
+  async get_public_image(token: string, item_code: string, image_kind: "print" | "thumbnail") {
     const batch = await this.get_public_batch(token);
     const item = batch.items.find((entry) => entry.item_code === item_code);
     if (!item || item.deleted_at) {
       throw new OrderNotFoundError("Order image was not found");
     }
-    const object_key =
-      image_kind === "print"
-        ? item.print_object_key
-        : item.thumbnail_object_key;
+    const object_key = image_kind === "print" ? item.print_object_key : item.thumbnail_object_key;
     const image = await this.image_storage.get_image(object_key);
     if (!image || !image.body) {
       throw new OrderNotFoundError("Order image was not found");
@@ -256,17 +256,13 @@ export class OrderBatchService {
     }
   }
 
-  private async validate_batch_upload_size(
-    uploads: Map<string, OrderImageUploads>,
-  ): Promise<void> {
+  private async validate_batch_upload_size(uploads: Map<string, OrderImageUploads>): Promise<void> {
     let total_size = 0;
     for (const upload of uploads.values()) {
       total_size += upload.print_image.size + upload.thumbnail.size;
     }
     if (total_size > this.config.max_batch_upload_bytes) {
-      throw new OrderBatchError(
-        "Order batch upload exceeds the configured size limit",
-      );
+      throw new OrderBatchError("Order batch upload exceeds the configured size limit");
     }
   }
 
@@ -289,17 +285,9 @@ export class OrderBatchService {
   }
 }
 
-export function map_order_error(error: unknown): {
-  status: number;
-  code: string;
-  message: string;
-} {
+export function map_order_error(error: unknown): { status: number; code: string; message: string } {
   if (error instanceof DuplicateClientRequestError) {
-    return {
-      status: 409,
-      code: "duplicate_client_request",
-      message: error.message,
-    };
+    return { status: 409, code: "duplicate_client_request", message: error.message };
   }
   if (error instanceof OrderNotFoundError) {
     return { status: 404, code: "order_not_found", message: error.message };
@@ -312,18 +300,10 @@ export function map_order_error(error: unknown): {
     };
   }
   if (error instanceof ImageValidationError) {
-    return {
-      status: 422,
-      code: "image_validation_error",
-      message: error.message,
-    };
+    return { status: 422, code: "image_validation_error", message: error.message };
   }
   if (error instanceof OrderBatchError) {
-    return {
-      status: 422,
-      code: "order_validation_error",
-      message: error.message,
-    };
+    return { status: 422, code: "order_validation_error", message: error.message };
   }
   return { status: 500, code: "order_error", message: "Order request failed" };
 }
@@ -343,9 +323,7 @@ function is_reception_number_conflict(error: unknown): boolean {
   return false;
 }
 
-function parse_metadata(
-  value: FormDataEntryValue | null,
-): OrderBatchMetadataInput {
+function parse_metadata(value: FormDataEntryValue | null): OrderBatchMetadataInput {
   if (typeof value !== "string") {
     throw new OrderBatchError("Multipart metadata field is required");
   }
@@ -379,19 +357,11 @@ function parse_uploads(
   return uploads;
 }
 
-function order_object_key(
-  batch_id: string,
-  item_id: string,
-  filename: string,
-): string {
+function order_object_key(batch_id: string, item_id: string, filename: string): string {
   return `orders/${batch_id}/${item_id}/${filename}`;
 }
 
-function created_response(
-  batch: OrderBatchRow,
-  items: OrderItemRow[],
-  token: string,
-) {
+function created_response(batch: OrderBatchRow, items: OrderItemRow[], token: string) {
   return {
     receptionNumber: batch.reception_number,
     publicToken: token,

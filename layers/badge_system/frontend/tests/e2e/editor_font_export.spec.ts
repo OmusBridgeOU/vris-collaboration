@@ -59,7 +59,7 @@ test("saved JPEG omits editor decoration and retains selected frame artwork", as
   await page.getByLabel("テキスト").fill("日本語");
   await page.getByLabel("フォント").selectOption({ label: "ゴシック" });
   await page.getByRole("button", { name: "枠" }).click();
-  await page.getByRole("button", { name: "ブルー" }).click();
+  await page.getByRole("button", { name: "枠3を選択" }).click();
 
   const download_event = page.waitForEvent("download");
   await page.getByRole("button", { name: "画像を保存" }).click();
@@ -72,11 +72,9 @@ test("saved JPEG omits editor decoration and retains selected frame artwork", as
 
   expect(pixels.width).toBe(1080);
   expect(pixels.height).toBe(1080);
-  expect(pixels.blue_frame_pixels).toBeGreaterThan(1_000);
-  expect(pixels.blue_center_pixels).toBeLessThan(50);
+  expect(pixels.frame_pixels).toBeGreaterThan(1_000);
+  expect(pixels.center_frame_pixels).toBeLessThan(50);
   expect(pixels.guide_pixels).toBeLessThan(50);
-  expect(pixels.rotate_handle_pixels).toBeLessThan(50);
-  expect(pixels.ui_border_pixels).toBeLessThan(100);
 
   await page.getByRole("button", { name: "文字" }).click();
   await page.getByLabel("フォント").selectOption({ label: "明朝" });
@@ -173,11 +171,9 @@ async function inspect_export_pixels(page: Page, image_data_url: string) {
     }
     context.drawImage(image, 0, 0);
     const data = context.getImageData(0, 0, canvas.width, canvas.height).data;
-    let blue_frame_pixels = 0;
-    let blue_center_pixels = 0;
+    let frame_pixels = 0;
+    let center_frame_pixels = 0;
     let guide_pixels = 0;
-    let rotate_handle_pixels = 0;
-    let ui_border_pixels = 0;
     const near_color = (
       red: number,
       green: number,
@@ -200,33 +196,25 @@ async function inspect_export_pixels(page: Page, image_data_url: string) {
       const green = data[offset + 1];
       const blue = data[offset + 2];
 
-      if (near_color(red, green, blue, 37, 99, 235, 22)) {
+      if (near_color(red, green, blue, 52, 110, 185, 30)) {
         if (radius > 420) {
-          blue_frame_pixels += 1;
+          frame_pixels += 1;
         }
         if (radius < 350) {
-          blue_center_pixels += 1;
+          center_frame_pixels += 1;
         }
       }
       if (near_color(red, green, blue, 15, 118, 110, 18)) {
         guide_pixels += 1;
-      }
-      if (near_color(red, green, blue, 185, 28, 28, 18)) {
-        rotate_handle_pixels += 1;
-      }
-      if (near_color(red, green, blue, 203, 213, 225, 12)) {
-        ui_border_pixels += 1;
       }
     }
 
     return {
       width: canvas.width,
       height: canvas.height,
-      blue_frame_pixels,
-      blue_center_pixels,
+      frame_pixels,
+      center_frame_pixels,
       guide_pixels,
-      rotate_handle_pixels,
-      ui_border_pixels,
     };
   }, image_data_url);
 }

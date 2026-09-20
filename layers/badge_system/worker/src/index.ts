@@ -11,20 +11,30 @@ import {
   map_order_error,
   OrderBatchService,
 } from "./services/order_batch_service";
+import { test_access_response } from "./test_access";
 import { route_auth_request } from "./routes/auth_routes";
 import { route_staff_request } from "./routes/staff_routes";
 import {
   is_staff_path,
   shared_staff_access_response,
+  shared_staff_enabled,
 } from "./security/shared_staff_access";
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     try {
-      const shared_staff_route = is_staff_path(new URL(request.url).pathname);
-      const access_response = shared_staff_route
+      const shared_staff_route =
+        shared_staff_enabled(env) &&
+        is_staff_path(new URL(request.url).pathname);
+      let access_response = shared_staff_route
         ? await shared_staff_access_response(request, env)
-        : null;
+        : await test_access_response(request, env);
+      // Staff credentials must also load the shared frontend assets without a visitor prompt.
+      if (access_response && !shared_staff_route && shared_staff_enabled(env)) {
+        if ((await shared_staff_access_response(request, env)) === null) {
+          access_response = null;
+        }
+      }
       if (access_response) {
         return access_response;
       }

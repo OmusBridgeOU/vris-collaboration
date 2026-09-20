@@ -14,6 +14,7 @@ not_found_handling = "single-page-application"
 
 [vars]
 APP_BASE_URL = "http://localhost:5173"
+STAFF_AUTH_MODE = "shared_basic"
 STAFF_ACCESS_USERNAME = "staff"
 
 # Put local-only PUBLIC_TOKEN_SECRET and STAFF_ACCESS_PASSWORD in .dev.vars.

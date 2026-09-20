@@ -6,7 +6,7 @@ import { ProjectList } from "./project_list";
 describe("ProjectList", () => {
   it("shows only the numeric identifier without rename controls", async () => {
     const storage = create_memory_project_storage();
-    const project = await storage.create_project();
+    const project = await storage.create_project({ design_name: "夏祭り" });
 
     render(
       <ProjectList

@@ -24,20 +24,19 @@ export function CreditsView({ on_back }: { on_back: () => void }) {
           </p>
         ) : (
           <ul className="grid gap-3">
-            {provider_stamp_credits.map((credit) => (
+            {provider_stamp_credits.map((credit, index) => (
               <li
                 className="grid grid-cols-2 gap-3 rounded-md border border-slate-200 bg-white p-3 text-sm leading-6"
                 key={credit.file_name}
               >
                 <div className="grid min-h-28 place-items-center rounded-md bg-slate-50 p-2">
                   <img
-                    alt={`${credit.label}のスタンプ`}
+                    alt={`提供スタンプ${index + 1}`}
                     className="max-h-28 w-full object-contain"
                     src={credit.image_url}
                   />
                 </div>
                 <div className="min-w-0 self-center">
-                  <p className="font-bold">{credit.label}</p>
                   <dl className="mt-2 grid gap-2 text-slate-700">
                     <div>
                       <dt className="font-semibold">制作者</dt>

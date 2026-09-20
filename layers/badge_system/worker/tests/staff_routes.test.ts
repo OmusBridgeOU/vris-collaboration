@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import type { Env } from "../src/cloudflare_types";
 import type { OrderItemRow } from "../src/repositories/order_repository";
 import { StaffOrderRepository } from "../src/repositories/staff_order_repository";
-import worker from "../src/index";
+import { route_staff_request } from "../src/routes/staff_routes";
 
 describe("worker staff routes", () => {
   it.each(["print-image", "thumbnail"])(
@@ -44,11 +44,16 @@ describe("worker staff routes", () => {
             },
           },
         );
-        const response = await worker.fetch(request, {
-          STAFF_ACCESS_USERNAME: "staff",
-          STAFF_ACCESS_PASSWORD: "test-only-password",
-          ORDER_IMAGES: { get },
-        } as unknown as Env);
+        const response = await route_staff_request(
+          request,
+          new URL(request.url),
+          {
+            STAFF_AUTH_MODE: "shared_basic",
+            STAFF_ACCESS_USERNAME: "staff",
+            STAFF_ACCESS_PASSWORD: "test-only-password",
+            ORDER_IMAGES: { get },
+          } as unknown as Env,
+        );
         expect(response?.status).toBe(200);
         expect(response?.headers.get("content-type")).toBe("image/png");
         expect(response?.headers.get("cache-control")).toBe(
@@ -67,9 +72,8 @@ describe("worker staff routes", () => {
 
   it("rejects unauthenticated staff API calls before accessing D1", async () => {
     const request = new Request("https://example.com/api/staff/order-batches");
-    const response = await worker.fetch(request, {
-      STAFF_ACCESS_USERNAME: "staff",
-      STAFF_ACCESS_PASSWORD: "test-only-password",
+    const response = await route_staff_request(request, new URL(request.url), {
+      SESSION_SECRET: "test-session-secret",
       DB: new Proxy(
         {},
         {
@@ -83,7 +87,7 @@ describe("worker staff routes", () => {
     expect(response?.status).toBe(401);
     expect(response?.headers.get("cache-control")).toBe("no-store, private");
     await expect(response?.json()).resolves.toMatchObject({
-      error: { code: "staff_authentication_required" },
+      error: { code: "authentication_required" },
     });
   });
 });

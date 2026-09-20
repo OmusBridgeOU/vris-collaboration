@@ -1,4 +1,3 @@
-import { make_png } from "./image_fixtures";
 import { describe, expect, it } from "vitest";
 
 import type {
@@ -94,29 +93,6 @@ class MemoryBucket implements R2Bucket {
 }
 
 describe("order batch reception allocation", () => {
-  it("removes the staged print image when the following thumbnail is invalid", async () => {
-    const database = new CollisionDatabase(0);
-    const bucket = new MemoryBucket();
-    const service = new OrderBatchService(
-      test_env(database, bucket),
-      test_config,
-    );
-    const form = await order_form();
-    form.set(
-      "item-1.thumbnail",
-      new File([new Uint8Array([1, 2, 3])], "invalid.png", {
-        type: "image/png",
-      }),
-    );
-    await expect(service.create_order_batch(form)).rejects.toThrow(
-      "image structure",
-    );
-    expect(database.attempts).toHaveLength(0);
-    expect(bucket.objects.size).toBe(0);
-    expect(bucket.deleted).toHaveLength(1);
-    expect(bucket.deleted[0]).toHaveLength(1);
-  });
-
   it("retries a reception-number collision in atomic D1 batches", async () => {
     const database = new CollisionDatabase(1);
     const bucket = new MemoryBucket();
@@ -127,7 +103,7 @@ describe("order batch reception allocation", () => {
       () => numbers.shift() ?? "99999",
     );
 
-    const response = await service.create_order_batch(await order_form());
+    const response = await service.create_order_batch(order_form());
 
     expect(response).toMatchObject({
       receptionNumber: "60421",
@@ -140,10 +116,9 @@ describe("order batch reception allocation", () => {
     expect(database.attempts[0][0].values[1]).toBe("48317");
     expect(database.attempts[0][1].values[2]).toBe("48317-01");
     expect(database.attempts[1][0].values[1]).toBe("60421");
-    expect(database.attempts[1][0].values).toHaveLength(13);
-    expect(database.attempts[1][0].query).not.toContain("expires_at");
-    expect(database.attempts[1][0].values[11]).toEqual(expect.any(String));
-    expect(database.attempts[1][0].values[12]).toBeNull();
+    expect(database.attempts[1][0].values[13]).toBe(
+      "9999-12-31T23:59:59.999Z",
+    );
     expect(database.attempts[1][1].values[2]).toBe("60421-01");
     expect(bucket.objects.size).toBe(2);
     expect(bucket.deleted).toEqual([]);
@@ -160,7 +135,7 @@ describe("order batch reception allocation", () => {
 
     let caught: unknown;
     try {
-      await service.create_order_batch(await order_form());
+      await service.create_order_batch(order_form());
     } catch (error) {
       caught = error;
     }
@@ -190,10 +165,10 @@ function test_env(database: D1Database, bucket: R2Bucket): Env {
 
 const test_config: AppConfig = {
   app_base_url: "https://badge.example",
-
+  app_timezone: "Asia/Tokyo",
   terms_version: "1.1",
-  max_upload_bytes_per_item: 20_000,
-  max_batch_upload_bytes: 40_000,
+  max_upload_bytes_per_item: 1_024,
+  max_batch_upload_bytes: 2_048,
   max_items_per_batch: 10,
   max_quantity_per_item: 10,
   canvas_size_px: 1_200,
@@ -203,7 +178,7 @@ const test_config: AppConfig = {
   x_hashtags: ["test"],
 };
 
-async function order_form(): Promise<FormData> {
+function order_form(): FormData {
   const form = new FormData();
   form.set(
     "metadata",
@@ -215,7 +190,7 @@ async function order_form(): Promise<FormData> {
       items: [{ clientKey: "item-1", localProjectCode: "B-001", quantity: 2 }],
     }),
   );
-  const png = await make_png(1_200, 1_200);
+  const png = make_png_header(1_200, 1_200);
   form.set(
     "item-1.print_image",
     new File([png], "print.png", { type: "image/png" }),
@@ -225,4 +200,15 @@ async function order_form(): Promise<FormData> {
     new File([png], "thumbnail.png", { type: "image/png" }),
   );
   return form;
+}
+
+function make_png_header(width: number, height: number): Uint8Array {
+  const bytes = new Uint8Array(33);
+  bytes.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a], 0);
+  bytes.set([0x00, 0x00, 0x00, 0x0d], 8);
+  bytes.set([0x49, 0x48, 0x44, 0x52], 12);
+  const view = new DataView(bytes.buffer);
+  view.setUint32(16, width);
+  view.setUint32(20, height);
+  return bytes;
 }

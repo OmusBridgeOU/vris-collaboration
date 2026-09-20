@@ -5,6 +5,8 @@ import worker from "../src/index";
 
 function public_env(overrides: Partial<Env> = {}): Env {
   return {
+    TEST_ACCESS_REQUIRED: "false",
+    STAFF_AUTH_MODE: "shared_basic",
     STAFF_ACCESS_USERNAME: "staff",
     STAFF_ACCESS_PASSWORD: "staff-test-password",
     PUBLIC_TOKEN_SECRET: "public-token-test-secret",
@@ -72,8 +74,8 @@ describe("public Worker with protected staff access", () => {
     );
     expect(response.status).toBe(200);
     expect(await response.json()).toMatchObject({
-      username: "staff",
-      displayName: "共有スタッフ",
+      authMode: "shared_basic",
+      roles: ["delivery", "production", "reception"],
     });
   });
 

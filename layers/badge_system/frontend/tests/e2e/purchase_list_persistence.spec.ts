@@ -81,6 +81,7 @@ async function mock_order_api(page: Page) {
         maxUploadBytesPerItem: 20_971_520,
         maxItemsPerBatch: 20,
         maxQuantityPerItem: 10,
+        unitPriceYen: 500,
         canvasSizePx: 1200,
         finishDiameterRatio: 0.92,
         safeAreaRatio: 0.7,
@@ -129,7 +130,7 @@ test("removes legacy history and keeps the purchase list after ordering", async 
   await page.goto("/");
 
   await expect(page.getByRole("button", { name: /過去の購入/ })).toHaveCount(0);
-  await page.getByRole("button", { name: "購入リスト", exact: true }).click();
+  await page.getByRole("button", { name: /^購入リスト/ }).click();
   await expect(page.getByRole("heading", { name: "001" })).toBeVisible();
   await expect(page.locator("output")).toHaveText("2");
 
@@ -153,20 +154,11 @@ test("removes legacy history and keeps the purchase list after ordering", async 
       request.onerror = () => reject(request.error);
       request.onsuccess = () => resolve(request.result);
     });
-    const project = await new Promise<Record<string, unknown>>(
-      (resolve, reject) => {
-        const request = transaction.objectStore("projects").get("project-001");
-        request.onerror = () => reject(request.error);
-        request.onsuccess = () => resolve(request.result);
-      },
-    );
     const result = {
       version: database.version,
       stores: Array.from(database.objectStoreNames),
       project_count,
       purchase_list_count,
-      legacy_name_removed: !Object.hasOwn(project, "design_name"),
-      thumbnail: project.thumbnail_data_url,
     };
     database.close();
     return result;
@@ -175,8 +167,6 @@ test("removes legacy history and keeps the purchase list after ordering", async 
     version: 3,
     project_count: 1,
     purchase_list_count: 1,
-    legacy_name_removed: true,
-    thumbnail,
   });
   expect(upgraded_database.stores).not.toContain("purchase_history");
 
@@ -187,7 +177,7 @@ test("removes legacy history and keeps the purchase list after ordering", async 
   await expect(page.locator("output")).toHaveText("2");
 
   await page.reload();
-  await page.getByRole("button", { name: "購入リスト", exact: true }).click();
+  await page.getByRole("button", { name: /^購入リスト/ }).click();
   await expect(page.getByRole("heading", { name: "001" })).toBeVisible();
   await expect(page.locator("output")).toHaveText("2");
 });

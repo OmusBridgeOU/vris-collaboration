@@ -12,7 +12,19 @@ export type OrderBatchRow = {
   ownership_confirmed: number;
   portrait_confirmed: number;
   copyright_confirmed: number;
+  buyer_confirmed_at: string | null;
   created_at: string;
+  expires_at: string;
+  accepted_at: string | null;
+  production_started_at: string | null;
+  ready_at: string | null;
+  delivered_at: string | null;
+  rejected_at: string | null;
+  cancelled_at: string | null;
+  accepted_by: string | null;
+  production_by: string | null;
+  delivered_by: string | null;
+  rejection_reason: string | null;
   deleted_at: string | null;
 };
 
@@ -29,6 +41,12 @@ export type OrderItemRow = {
   height_px: number;
   file_size_bytes: number;
   created_at: string;
+  production_started_at: string | null;
+  ready_at: string | null;
+  delivered_at: string | null;
+  rejected_at: string | null;
+  rejection_reason: string | null;
+  reprint_count: number;
   deleted_at: string | null;
 };
 
@@ -63,9 +81,13 @@ export class OrderRepository {
             id, reception_number, public_token_hash, client_request_id_hash,
             status, total_item_types, total_quantity, terms_version,
             ownership_confirmed, portrait_confirmed, copyright_confirmed,
-            created_at, deleted_at
+            buyer_confirmed_at, created_at, expires_at, accepted_at,
+            production_started_at, ready_at, delivered_at, rejected_at,
+            cancelled_at, accepted_by, production_by, delivered_by,
+            rejection_reason, deleted_at
           ) VALUES (
-            ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13
+            ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13,
+            ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25
           )`,
         )
         .bind(
@@ -80,7 +102,19 @@ export class OrderRepository {
           record.batch.ownership_confirmed,
           record.batch.portrait_confirmed,
           record.batch.copyright_confirmed,
+          record.batch.buyer_confirmed_at,
           record.batch.created_at,
+          record.batch.expires_at,
+          record.batch.accepted_at,
+          record.batch.production_started_at,
+          record.batch.ready_at,
+          record.batch.delivered_at,
+          record.batch.rejected_at,
+          record.batch.cancelled_at,
+          record.batch.accepted_by,
+          record.batch.production_by,
+          record.batch.delivered_by,
+          record.batch.rejection_reason,
           record.batch.deleted_at,
         ),
       ...record.items.map((item) =>

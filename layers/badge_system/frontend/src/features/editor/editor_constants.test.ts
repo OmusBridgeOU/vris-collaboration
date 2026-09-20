@@ -3,9 +3,11 @@ import {
   default_finish_diameter_ratio,
   default_font_family,
   font_catalog,
-  print_bleed_diameter_mm,
+  frame_catalog,
   normalize_font_family,
+  print_bleed_diameter_mm,
   resolve_font_family,
+  stamp_catalog,
 } from "./editor_constants";
 
 describe("editor_constants", () => {
@@ -37,5 +39,31 @@ describe("editor_constants", () => {
     expect(resolve_font_family("unapproved-font")).toBe(
       "system-ui, sans-serif",
     );
+  });
+
+  it("omits retired built-in stamps", () => {
+    expect(stamp_catalog.map((stamp) => stamp.label)).not.toEqual(
+      expect.arrayContaining(["リボン", "花", "月", "チェック", "王冠"]),
+    );
+  });
+
+  it("offers provider frames without retired built-in frame styles", () => {
+    expect(frame_catalog[0]).toEqual({
+      id: "none",
+      label: "枠なし",
+      color: "transparent",
+    });
+    expect(frame_catalog.map((frame) => frame.label)).not.toEqual(
+      expect.arrayContaining(["白ロゴ風", "ブルー"]),
+    );
+    expect(frame_catalog.slice(1).map((frame) => frame.label)).toEqual([
+      "frame01",
+      "frame02",
+      "frame03",
+      "frame04",
+      "frame05",
+      "frame06",
+      "frame07",
+    ]);
   });
 });

@@ -4,9 +4,14 @@ import {
   frame_catalog,
   stamp_catalog,
 } from "./editor_constants";
+import { prepare_frame_artwork } from "./frame_artwork";
 import { render_badge_design, render_share_image } from "./editor_renderer";
 import { create_empty_design } from "./editor_state";
 import type { BadgeDesign } from "./editor_types";
+
+vi.mock("./frame_artwork", () => ({
+  prepare_frame_artwork: vi.fn(() => document.createElement("canvas")),
+}));
 
 describe("editor_renderer", () => {
   const font_commands: string[] = [];
@@ -152,7 +157,7 @@ describe("editor_renderer", () => {
     }
   });
 
-  it("draws a provider PNG frame across the full canvas", async () => {
+  it("extends provider frame artwork only when explicitly requested", async () => {
     class LoadedImage {
       onload: (() => void) | null = null;
       onerror: (() => void) | null = null;
@@ -177,8 +182,18 @@ describe("editor_renderer", () => {
 
     try {
       await render_badge_design(design);
-      expect(context.drawImage).toHaveBeenCalledWith(
+      expect(prepare_frame_artwork).toHaveBeenLastCalledWith(
         expect.any(LoadedImage),
+        false,
+      );
+
+      await render_badge_design(design, { extend_frame_to_bleed: true });
+      expect(prepare_frame_artwork).toHaveBeenLastCalledWith(
+        expect.any(LoadedImage),
+        true,
+      );
+      expect(context.drawImage).toHaveBeenCalledWith(
+        expect.any(HTMLCanvasElement),
         0,
         0,
         1200,

@@ -27,6 +27,7 @@ test("production protects staff assets and requires separate secrets", () => {
     "STAFF_ACCESS_PASSWORD",
   ]);
   assert.equal(config.vars.STAFF_ACCESS_PASSWORD, undefined);
+  assert.equal(config.vars.STAFF_AUTH_MODE, "shared_basic");
   assert.equal(config.triggers, undefined);
   assert.equal(config.r2_buckets.length, 1);
   assert.equal(config.r2_buckets[0].binding, "ORDER_IMAGES");

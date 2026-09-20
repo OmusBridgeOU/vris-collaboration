@@ -5,18 +5,19 @@ import worker from "../src/index";
 
 function test_env(asset_fetch: ReturnType<typeof vi.fn>): Env {
   return {
-    STAFF_ACCESS_USERNAME: "vris",
-    STAFF_ACCESS_PASSWORD: "test-password",
+    TEST_ACCESS_REQUIRED: "true",
+    TEST_ACCESS_USERNAME: "vris",
+    TEST_ACCESS_PASSWORD: "test-password",
     ASSETS: { fetch: asset_fetch },
   } as unknown as Env;
 }
 
-describe("Worker staff asset authentication", () => {
+describe("Worker test access integration", () => {
   it("blocks static assets before they reach the asset binding", async () => {
     const asset_fetch = vi.fn(async () => new Response("private frontend"));
 
     const response = await worker.fetch(
-      new Request("https://example.com/staff"),
+      new Request("https://example.com/"),
       test_env(asset_fetch),
     );
 
@@ -26,7 +27,7 @@ describe("Worker staff asset authentication", () => {
 
   it("serves static assets after successful authentication", async () => {
     const asset_fetch = vi.fn(async () => new Response("private frontend"));
-    const request = new Request("https://example.com/staff", {
+    const request = new Request("https://example.com/", {
       headers: {
         authorization: `Basic ${btoa("vris:test-password")}`,
       },

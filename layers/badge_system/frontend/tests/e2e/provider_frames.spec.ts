@@ -6,10 +6,16 @@ test("provider PNG frame stays selected after saving and reloading", async ({
   await page.goto("/");
   await page.getByRole("button", { name: /新しいデザインを作る/ }).click();
   await page.getByRole("button", { name: "枠", exact: true }).click();
-  await expect(page.getByRole("button", { name: /frame0[1-7]/ })).toHaveCount(
-    7,
+  await expect(
+    page.getByRole("button", { name: /^枠[1-7]を選択$/ }),
+  ).toHaveCount(7);
+  await page.getByRole("button", { name: "枠1を選択" }).click();
+  await expect(page.getByRole("button", { name: "枠1を選択" })).toHaveText("");
+  await expect(page.getByRole("button", { name: "枠1を選択" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
   );
-  await page.getByRole("button", { name: /frame01/ }).click();
+  await expect(page.getByText(/^frame0[1-7]$/)).toHaveCount(0);
   const read_frame = () =>
     page.evaluate(
       async () =>
@@ -46,4 +52,18 @@ test("provider PNG frame stays selected after saving and reloading", async ({
   await page.screenshot({
     path: `../docs/screenshots/provider_frames_${test.info().project.name}.png`,
   });
+});
+
+test("stamp choices show images without material names", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: /新しいデザインを作る/ }).click();
+  await page.getByRole("button", { name: "スタンプ", exact: true }).click();
+  const choices = page.getByRole("button", { name: /^スタンプ\d+を追加$/ });
+  expect(await choices.count()).toBeGreaterThan(14);
+  for (const choice of await choices.all()) {
+    await expect(choice).toHaveText("");
+    await expect(choice.locator("img")).toHaveAttribute("alt", "");
+  }
+  await choices.first().click();
+  await expect(page.getByText(/^typo\d+$/)).toHaveCount(0);
 });

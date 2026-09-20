@@ -2,7 +2,11 @@ import {
   create_empty_editor_state,
   type ProjectStorage,
 } from "./project_database";
-import { strip_legacy_project_fields } from "../features/projects/project_types";
+import {
+  default_design_name,
+  project_with_design_name,
+  validate_design_name,
+} from "../features/projects/project_types";
 import type {
   LocalBadgeProject,
   ProjectDraftInput,
@@ -47,20 +51,20 @@ export const create_memory_project_storage = (): ProjectStorage => {
   };
 
   const purchase_entry = (item: PurchaseListItem): PurchaseListEntry => ({
-    project: strip_legacy_project_fields(get_project_or_throw(item.project_id)),
+    project: project_with_design_name(get_project_or_throw(item.project_id)),
     ...item,
   });
 
   return {
     async list_projects() {
       return Array.from(projects.values())
-        .map(strip_legacy_project_fields)
+        .map(project_with_design_name)
         .sort((left, right) => right.updated_at.localeCompare(left.updated_at));
     },
 
     async get_project(project_id) {
       const project = projects.get(project_id);
-      return project ? strip_legacy_project_fields(project) : undefined;
+      return project ? project_with_design_name(project) : undefined;
     },
 
     async create_project(input: ProjectDraftInput = {}) {
@@ -70,6 +74,10 @@ export const create_memory_project_storage = (): ProjectStorage => {
       const project: LocalBadgeProject = {
         project_id: `project-${local_project_code}`,
         local_project_code,
+        design_name:
+          input.design_name === undefined
+            ? default_design_name(local_project_code)
+            : validate_design_name(input.design_name),
         editor_state,
         editor_design: input.editor_design,
         thumbnail_data_url: editor_state.thumbnail_data_url,
@@ -86,8 +94,8 @@ export const create_memory_project_storage = (): ProjectStorage => {
 
     async save_project(project) {
       const updated_project = {
-        ...strip_legacy_project_fields(project),
-
+        ...project,
+        design_name: validate_design_name(project.design_name),
         thumbnail_data_url: project.editor_state.thumbnail_data_url,
         updated_at: now_iso(),
       };
@@ -115,9 +123,14 @@ export const create_memory_project_storage = (): ProjectStorage => {
         editor_design.ordered = false;
       }
       const duplicate: LocalBadgeProject = {
-        ...strip_legacy_project_fields(source_project),
+        ...source_project,
         project_id: `project-${local_project_code}`,
         local_project_code,
+        design_name:
+          project_with_design_name(source_project).design_name ===
+          default_design_name(source_project.local_project_code)
+            ? default_design_name(local_project_code)
+            : project_with_design_name(source_project).design_name,
         editor_state,
         editor_design,
         thumbnail_data_url: editor_state.thumbnail_data_url,

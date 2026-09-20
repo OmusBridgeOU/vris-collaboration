@@ -8,6 +8,7 @@ import {
   ShoppingCart,
   Trash2,
 } from "lucide-react";
+import { show_credits_button } from "../../config/feature_flags";
 import type { LocalBadgeProject } from "./project_types";
 
 type ProjectListProps = {
@@ -70,15 +71,19 @@ export function ProjectList({
           <p className="text-sm font-medium text-accent">端末内保存</p>
           <h2 className="text-xl font-bold">作成したデザイン</h2>
         </div>
-        <div className="grid grid-cols-[1fr_1fr_auto] gap-2">
-          <button
-            className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
-            onClick={on_open_credits}
-            type="button"
-          >
-            <BadgeInfo aria-hidden="true" size={18} />
-            クレジット
-          </button>
+        <div
+          className={`grid gap-2 ${show_credits_button ? "grid-cols-[1fr_1fr_auto]" : "grid-cols-[1fr_auto]"}`}
+        >
+          {show_credits_button ? (
+            <button
+              className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
+              onClick={on_open_credits}
+              type="button"
+            >
+              <BadgeInfo aria-hidden="true" size={18} />
+              クレジット
+            </button>
+          ) : null}
           <button
             className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
             onClick={on_open_purchase_list}

@@ -11,6 +11,7 @@ type OrderItemInput = {
 
 function order_env(): Env {
   return {
+    TEST_ACCESS_REQUIRED: "false",
     PUBLIC_TOKEN_SECRET: "public-token-test-secret",
     DB: new Proxy(
       {},

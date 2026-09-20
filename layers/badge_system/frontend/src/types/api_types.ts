@@ -3,6 +3,7 @@ export type PublicConfig = {
   maxUploadBytesPerItem: number;
   maxItemsPerBatch: number;
   maxQuantityPerItem: number;
+  unitPriceYen: number | null;
   canvasSizePx: number;
   finishDiameterRatio: number;
   safeAreaRatio: number;
@@ -36,7 +37,13 @@ export type OrderBatchCreatedResponse = {
   items: OrderBatchCreatedItem[];
 };
 
-export type SessionUser = { username: string; displayName: string };
+export type SessionUser = {
+  id: string;
+  username: string;
+  displayName: string;
+  roles: string[];
+  authMode?: "shared_basic" | "session";
+};
 
 export type StaffOrderItem = {
   id: string;
@@ -62,5 +69,16 @@ export type StaffOrderBatch = {
   portraitConfirmed: boolean;
   copyrightConfirmed: boolean;
   createdAt: string;
+  expiresAt: null;
+  acceptedAt: string | null;
+  productionStartedAt: string | null;
+  readyAt: string | null;
+  deliveredAt: string | null;
+  rejectedAt: string | null;
+  rejectionReason: string | null;
   items: StaffOrderItem[];
+};
+
+export type StaffOrderBatchList = {
+  orderBatches: StaffOrderBatch[];
 };

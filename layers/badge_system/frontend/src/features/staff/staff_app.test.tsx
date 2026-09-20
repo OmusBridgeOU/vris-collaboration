@@ -14,7 +14,8 @@ function staff_fetch(found_order = order) {
     if (String(url) === "/api/auth/me")
       return response({
         displayName: "共有スタッフ",
-        username: "staff",
+        roles: ["reception"],
+        authMode: "shared_basic",
       });
     if (String(url).endsWith("/48317")) return response(found_order);
     return response({ error: { message: "注文が見つかりません" } }, false);
@@ -23,17 +24,6 @@ function staff_fetch(found_order = order) {
   return mock;
 }
 describe("staff order lookup", () => {
-  it("does not fall back to individual login after authentication fails", async () => {
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(() => response({ error: { message: "Unauthorized" } }, false)),
-    );
-    render(<StaffApp />);
-    expect(await screen.findByRole("alert")).toBeVisible();
-    expect(screen.queryByLabelText("パスワード")).toBeNull();
-    expect(screen.queryByLabelText("受付番号（5桁）")).toBeNull();
-    expect(screen.queryByRole("button", { name: "ログイン" })).toBeNull();
-  });
   it("offers only lookup, camera and printing after shared authentication", async () => {
     staff_fetch();
     render(<StaffApp />);

@@ -11,6 +11,13 @@ export const staff_order_fixture: StaffOrderBatch = {
   portraitConfirmed: true,
   copyrightConfirmed: true,
   createdAt: "2026-06-22T10:00:00+09:00",
+  expiresAt: null,
+  acceptedAt: null,
+  productionStartedAt: null,
+  readyAt: null,
+  deliveredAt: null,
+  rejectedAt: null,
+  rejectionReason: null,
   items: [
     {
       id: "22222222-2222-2222-2222-222222222222",

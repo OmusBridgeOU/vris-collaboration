@@ -3,7 +3,11 @@ import {
   placeholder_badge_image,
   project_thumbnail,
 } from "../features/projects/project_assets";
-import { strip_legacy_project_fields } from "../features/projects/project_types";
+import {
+  default_design_name,
+  project_with_design_name,
+  validate_design_name,
+} from "../features/projects/project_types";
 import type {
   BadgeEditorState,
   LocalBadgeProject,
@@ -135,15 +139,15 @@ const clone_editor_design = (project: LocalBadgeProject) =>
     : undefined;
 
 const normalize_stored_project = (project: LocalBadgeProject) =>
-  strip_legacy_project_fields(project);
+  project_with_design_name(project);
 
 const persist_normalized_projects = async (
   database: IDBPDatabase<BadgeProjectDatabase>,
   projects: LocalBadgeProject[],
 ) => {
   const normalized_projects = projects.map(normalize_stored_project);
-  const changed_projects = normalized_projects.filter((_project, index) =>
-    Object.hasOwn(projects[index], "design_name"),
+  const changed_projects = normalized_projects.filter(
+    (project, index) => project.design_name !== projects[index].design_name,
   );
 
   if (changed_projects.length > 0) {
@@ -213,7 +217,7 @@ const mark_purchase_status = (
   project: LocalBadgeProject,
   purchase_item?: PurchaseListItem,
 ) => ({
-  ...strip_legacy_project_fields(project),
+  ...project,
   ordered: project.ordered,
   status: project.ordered
     ? "ordered"
@@ -261,6 +265,10 @@ export const create_indexed_db_project_storage = (): ProjectStorage => ({
     const project: LocalBadgeProject = {
       project_id: create_project_id(),
       local_project_code,
+      design_name:
+        input.design_name === undefined
+          ? default_design_name(local_project_code)
+          : validate_design_name(input.design_name),
       editor_state,
       editor_design: input.editor_design,
       thumbnail_data_url: editor_state.thumbnail_data_url,
@@ -278,8 +286,8 @@ export const create_indexed_db_project_storage = (): ProjectStorage => ({
   async save_project(project) {
     const database = await open_project_database();
     const updated_project = {
-      ...strip_legacy_project_fields(project),
-
+      ...project,
+      design_name: validate_design_name(project.design_name),
       thumbnail_data_url: project.editor_state.thumbnail_data_url,
       updated_at: now_iso(),
     };
@@ -313,9 +321,14 @@ export const create_indexed_db_project_storage = (): ProjectStorage => ({
       editor_design.ordered = false;
     }
     const duplicate: LocalBadgeProject = {
-      ...strip_legacy_project_fields(source_project),
+      ...source_project,
       project_id: duplicate_project_id,
       local_project_code,
+      design_name:
+        normalize_stored_project(source_project).design_name ===
+        default_design_name(source_project.local_project_code)
+          ? default_design_name(local_project_code)
+          : normalize_stored_project(source_project).design_name,
       editor_state,
       editor_design,
       thumbnail_data_url: editor_state.thumbnail_data_url,

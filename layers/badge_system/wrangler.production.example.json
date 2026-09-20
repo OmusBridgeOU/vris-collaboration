@@ -13,6 +13,7 @@
   },
   "vars": {
     "APP_BASE_URL": "https://vris-badge.example.com",
+    "STAFF_AUTH_MODE": "shared_basic",
     "STAFF_ACCESS_USERNAME": "replace-staff-username"
   },
   "secrets": {

@@ -39,7 +39,7 @@ const render_app = async (
 };
 
 describe("App", () => {
-  it("opens on the saved design list with credits beside the purchase list", async () => {
+  it("opens on the saved design list with credits temporarily hidden", async () => {
     await render_app();
 
     expect(
@@ -55,35 +55,15 @@ describe("App", () => {
       screen.queryByRole("button", { name: /過去の購入/ }),
     ).not.toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "クレジット" }),
-    ).toBeInTheDocument();
+      screen.queryByRole("button", { name: "クレジット" }),
+    ).not.toBeInTheDocument();
     const header_buttons = screen
       .getByRole("heading", { name: "作成したデザイン" })
       .parentElement?.nextElementSibling?.querySelectorAll("button");
     expect(
       Array.from(header_buttons ?? [], (button) => button.textContent),
-    ).toEqual(["クレジット", "購入リスト", "新規"]);
+    ).toEqual(["購入リスト", "新規"]);
     expect(screen.queryByText("現在の設定")).not.toBeInTheDocument();
-  });
-
-  it("shows only provider stamp creator and web credits", async () => {
-    await render_app();
-
-    fireEvent.click(screen.getByRole("button", { name: "クレジット" }));
-
-    expect(screen.getByRole("heading", { name: "クレジット" })).toBeVisible();
-    expect(
-      screen.getByRole("heading", { name: "提供PNGスタンプ" }),
-    ).toBeVisible();
-    expect(screen.getAllByRole("img", { name: /のスタンプ/ })).toHaveLength(14);
-    expect(screen.queryByText("内蔵スタンプ・フレーム")).toBeNull();
-    expect(screen.queryByText("UIアイコン")).toBeNull();
-    expect(screen.queryByText(/ライセンス/)).toBeNull();
-    expect(screen.getAllByText("SNS・Web")).toHaveLength(14);
-    fireEvent.click(screen.getByRole("button", { name: "戻る" }));
-    expect(
-      screen.getByRole("heading", { name: "作成したデザイン" }),
-    ).toBeVisible();
   });
 
   it("keeps the current purchase list after a successful order", async () => {
@@ -237,7 +217,7 @@ describe("App", () => {
 
   it("does not expose stored names, management labels, or rename controls", async () => {
     await render_app(async (prepared_storage) => {
-      await prepared_storage.create_project();
+      await prepared_storage.create_project({ design_name: "秋の記念" });
     });
 
     expect(await screen.findByRole("heading", { name: "001" })).toBeVisible();

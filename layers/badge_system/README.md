@@ -52,7 +52,7 @@ PUBLIC_TOKEN_SECRET=local-only-public-token-secret-change-me
 STAFF_ACCESS_PASSWORD=local-only-staff-password-change-me
 ```
 
-`STAFF_ACCESS_USERNAME=staff` と `APP_BASE_URL=http://localhost:5173` は `wrangler.example.toml` に設定されています。D1 / R2 の名前・IDはローカル開発用の仮設定です。
+`STAFF_AUTH_MODE=shared_basic`、`STAFF_ACCESS_USERNAME=staff`、`APP_BASE_URL=http://localhost:5173` は `wrangler.example.toml` に設定されています。D1 / R2 の名前・IDはローカル開発用の仮設定です。
 
 ローカルD1へマイグレーションを適用し、Worker を起動します。
 
@@ -122,7 +122,7 @@ npm run test:e2e
 
 来場者がアップロードした画像や、利用許諾のない素材は配置しないでください。
 
-スタッフ画面は共有 HTTP Basic 認証を使用します。注文は5桁の受付番号、または受付番号のみを含むQRコードから検索します。注文1個につき 100 × 148 mm のはがき1ページを生成し、同じ70 mm画像を2枚配置します。
+スタッフ画面は共有 HTTP Basic 認証を使用します。注文は5桁の受付番号、または受付番号のみを含むQRコードから検索します。注文1個につき 100 × 148 mm のはがき1ページを生成し、同じ70 mm画像を2枚配置します。標準単価は税込500円で、`worker/src/badge_pricing.json` に定義されています。
 
 ## CI・本番デプロイ
 

@@ -48,14 +48,25 @@ export type R2Bucket = {
 export type Env = {
   DB: D1Database;
   ORDER_IMAGES: R2Bucket;
+  PRIVATE_ASSETS?: R2Bucket;
   ASSETS?: {
     fetch(request: Request): Promise<Response>;
   };
   APP_BASE_URL?: string;
+  APP_ENV?: string;
   BADGE_UNIT_PRICE_YEN?: string;
+  APP_TIMEZONE?: string;
+  SESSION_SECRET?: string;
   PUBLIC_TOKEN_SECRET: string;
+  TEST_ACCESS_REQUIRED?: string;
+  TEST_ACCESS_USERNAME?: string;
+  TEST_ACCESS_PASSWORD?: string;
+  STAFF_AUTH_MODE?: string;
   STAFF_ACCESS_USERNAME?: string;
   STAFF_ACCESS_PASSWORD?: string;
+  INITIAL_ADMIN_USERNAME?: string;
+  INITIAL_ADMIN_PASSWORD?: string;
+  PASSWORD_PBKDF2_ITERATIONS?: string;
   TERMS_VERSION?: string;
   MAX_UPLOAD_BYTES_PER_ITEM?: string;
   MAX_BATCH_UPLOAD_BYTES?: string;

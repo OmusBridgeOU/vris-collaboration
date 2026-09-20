@@ -1,12 +1,73 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import {
   fetch_current_staff_user,
   find_staff_order,
+  login_staff,
+  logout_staff,
 } from "../../api/staff_client";
 import type { SessionUser, StaffOrderBatch } from "../../types/api_types";
 import { normalize_order_lookup } from "./order_lookup";
 import { QrScanner } from "./qr_scanner";
 import { PostcardPrint } from "./postcard_print";
+
+function StaffLogin({ on_login }: { on_login: (user: SessionUser) => void }) {
+  const [username, set_username] = useState("");
+  const [password, set_password] = useState("");
+  const [error, set_error] = useState("");
+
+  async function submit_login(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    set_error("");
+    try {
+      on_login(await login_staff(username, password));
+    } catch (caught) {
+      set_error(
+        caught instanceof Error ? caught.message : "ログインできません",
+      );
+    }
+  }
+
+  return (
+    <main className="min-h-dvh bg-slate-50 text-ink">
+      <section className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col justify-center px-4 py-[calc(env(safe-area-inset-top)+1rem)]">
+        <form
+          className="grid gap-4 rounded-md border border-slate-200 bg-white p-4 shadow-sm"
+          onSubmit={submit_login}
+        >
+          <div>
+            <p className="text-sm font-semibold text-accent">VRIS STAFF</p>
+            <h1 className="mt-1 text-xl font-bold">スタッフログイン</h1>
+          </div>
+          <label className="grid gap-1 text-sm font-medium">
+            ユーザー名
+            <input
+              className="min-h-12 rounded-md border border-slate-300 px-3 text-base"
+              autoComplete="username"
+              value={username}
+              onChange={(event) => set_username(event.target.value)}
+            />
+          </label>
+          <label className="grid gap-1 text-sm font-medium">
+            パスワード
+            <input
+              className="min-h-12 rounded-md border border-slate-300 px-3 text-base"
+              autoComplete="current-password"
+              type="password"
+              value={password}
+              onChange={(event) => set_password(event.target.value)}
+            />
+          </label>
+          {error ? (
+            <p className="text-sm font-medium text-red-700">{error}</p>
+          ) : null}
+          <button className="min-h-12 rounded-md bg-action px-4 font-semibold text-white">
+            ログイン
+          </button>
+        </form>
+      </section>
+    </main>
+  );
+}
 
 function StaffOrderLookup() {
   const [value, set_value] = useState("");
@@ -133,6 +194,7 @@ function StaffOrderLookup() {
 export function StaffApp() {
   const [user, set_user] = useState<SessionUser | null>(null);
   const [checking, set_checking] = useState(true);
+  const [error, set_error] = useState("");
   useEffect(() => {
     let active = true;
     void fetch_current_staff_user()
@@ -149,18 +211,27 @@ export function StaffApp() {
       active = false;
     };
   }, []);
+  async function logout() {
+    try {
+      await logout_staff();
+      set_user(null);
+    } catch {
+      set_error("ログアウトできません。もう一度お試しください。");
+    }
+  }
   if (checking)
     return (
       <main className="min-h-dvh p-4" role="status">
         認証を確認しています…
       </main>
     );
-  if (!user)
-    return (
-      <main className="p-4" role="alert">
-        スタッフ認証を確認できません。ブラウザで再読み込みしてください。
-      </main>
-    );
+  if (!user) return <StaffLogin on_login={set_user} />;
+  if (
+    !user.roles.some((role) =>
+      ["admin", "reception", "production", "delivery"].includes(role),
+    )
+  )
+    return <main className="p-4">スタッフ権限がありません。</main>;
   return (
     <main className="min-h-dvh bg-slate-50 text-ink">
       <div className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col gap-4 px-4 pt-[calc(env(safe-area-inset-top)+1rem)]">
@@ -169,7 +240,17 @@ export function StaffApp() {
             <p className="text-sm font-semibold text-accent">VRIS STAFF</p>
             <h1 className="text-xl font-bold">注文確認・印刷</h1>
           </div>
+          {user.authMode !== "shared_basic" ? (
+            <button
+              type="button"
+              onClick={() => void logout()}
+              className="min-h-11 rounded-md border border-slate-300 px-3"
+            >
+              ログアウト
+            </button>
+          ) : null}
         </header>
+        {error ? <p role="alert">{error}</p> : null}
         <StaffOrderLookup />
       </div>
     </main>

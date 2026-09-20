@@ -19,6 +19,7 @@ const entry: PurchaseListEntry = {
   project: {
     project_id: "project-1",
     local_project_code: "001",
+    design_name: "夏祭りの思い出",
     editor_state: {
       source_image_data_url: null,
       edited_image_data_url: "data:image/png;base64,preview",
@@ -66,6 +67,7 @@ describe("PurchaseListView", () => {
         entries={[entry]}
         max_items_per_batch={20}
         max_quantity_per_item={10}
+        unit_price_yen={500}
         on_back_to_projects={vi.fn()}
         on_create_order={on_create_order}
         on_edit_project={vi.fn()}
@@ -75,6 +77,8 @@ describe("PurchaseListView", () => {
       />,
     );
 
+    expect(screen.getByText("合計金額（税込）")).toBeVisible();
+    expect(screen.getByText("1,000円")).toBeVisible();
     fireEvent.click(screen.getByRole("button", { name: /QR/ }));
 
     expect(screen.getByRole("heading", { name: "001" })).toBeVisible();
@@ -127,6 +131,7 @@ describe("PurchaseListView", () => {
         entries={[entry]}
         max_items_per_batch={1}
         max_quantity_per_item={10}
+        unit_price_yen={500}
         on_back_to_projects={vi.fn()}
         on_create_order={vi.fn()}
         on_edit_project={vi.fn()}

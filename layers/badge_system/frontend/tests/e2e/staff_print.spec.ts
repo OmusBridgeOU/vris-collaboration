@@ -15,8 +15,10 @@ test("staff confirms an ID and prints isolated postcard pages on mobile", async 
   await page.route("**/api/auth/me", (route) =>
     route.fulfill({
       json: {
-        username: "staff",
+        id: "staff",
         displayName: "共有スタッフ",
+        roles: ["reception"],
+        authMode: "shared_basic",
       },
     }),
   );
@@ -26,7 +28,7 @@ test("staff confirms an ID and prints isolated postcard pages on mobile", async 
       lookup_requests += 1;
       if (route.request().url().endsWith("/48317"))
         return route.fulfill({
-          json: lookup_order,
+          json: { ...lookup_order, expiresAt: null },
         });
       return route.fulfill({
         status: 404,
@@ -176,8 +178,12 @@ test("staff confirms an ID and prints isolated postcard pages on mobile", async 
           height: badge_box.height,
           angle: mark.dataset.angleDegrees,
           mark_width: mark_box.width,
+          mark_height: mark_box.height,
           mark_background: getComputedStyle(mark).backgroundColor,
-          dot_width: parseFloat(getComputedStyle(mark, "::after").width),
+          dot_width: Number.parseFloat(getComputedStyle(mark, "::after").width),
+          dot_height: Number.parseFloat(
+            getComputedStyle(mark, "::after").height,
+          ),
           dot_background: getComputedStyle(mark, "::after").backgroundColor,
           mark_center_x: mark_box.left + mark_box.width / 2 - badge_box.left,
           mark_center_y: mark_box.top + mark_box.height / 2 - badge_box.top,
@@ -190,8 +196,10 @@ test("staff confirms an ID and prints isolated postcard pages on mobile", async 
     expect(badge.height).toBeCloseTo((70 * 96) / 25.4, 0);
     expect(badge.angle).toBe("-17");
     expect(badge.mark_width).toBeCloseTo((3 * 96) / 25.4, 1);
+    expect(badge.mark_height).toBeCloseTo((3 * 96) / 25.4, 1);
     expect(badge.mark_background).toBe("rgb(255, 255, 255)");
     expect(badge.dot_width).toBeCloseTo((1.2 * 96) / 25.4, 1);
+    expect(badge.dot_height).toBeCloseTo((1.2 * 96) / 25.4, 1);
     expect(badge.dot_background).toBe("rgb(0, 0, 0)");
     expect(badge.mark_center_x / badge.width).toBeCloseTo(
       0.5 + Math.sin((-17 * Math.PI) / 180) * 0.5,
@@ -308,7 +316,8 @@ test("camera denial retains manual order lookup", async ({ page }) => {
     route.fulfill({
       json: {
         displayName: "スタッフ",
-        username: "staff",
+        roles: ["reception"],
+        authMode: "shared_basic",
       },
     }),
   );

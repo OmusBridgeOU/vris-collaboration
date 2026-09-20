@@ -56,6 +56,8 @@ export async function process_image_file(
   canvas.width = output_width;
   canvas.height = output_height;
   const context = get_canvas_context(canvas);
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, output_width, output_height);
   context.drawImage(bitmap, 0, 0, output_width, output_height);
   bitmap.close?.();
 

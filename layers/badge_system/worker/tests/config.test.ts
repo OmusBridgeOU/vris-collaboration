@@ -13,6 +13,7 @@ describe("worker config", () => {
       maxUploadBytesPerItem: 20_971_520,
       maxItemsPerBatch: 20,
       maxQuantityPerItem: 10,
+      unitPriceYen: 500,
       canvasSizePx: 1200,
       finishDiameterRatio: 58 / 70,
     });
@@ -28,6 +29,14 @@ describe("worker config", () => {
     expect(public_config_response(config)).toMatchObject({
       maxItemsPerBatch: 12,
       maxQuantityPerItem: 7,
+    });
+  });
+
+  it("publishes the current tax-inclusive badge price", () => {
+    const config = get_config({ BADGE_UNIT_PRICE_YEN: "700" } as Env);
+
+    expect(public_config_response(config)).toMatchObject({
+      unitPriceYen: 700,
     });
   });
 

@@ -1,5 +1,8 @@
 import { create_memory_project_storage } from "./memory_project_storage";
-import { strip_legacy_project_fields } from "../features/projects/project_types";
+import {
+  project_with_design_name,
+  validate_design_name,
+} from "../features/projects/project_types";
 
 describe("project storage", () => {
   it("assigns unique numeric local project codes", async () => {
@@ -10,24 +13,35 @@ describe("project storage", () => {
 
     expect(first_project.local_project_code).toBe("001");
     expect(second_project.local_project_code).toBe("002");
+    expect(first_project.design_name).toBe("デザイン 001");
+    expect(second_project.design_name).toBe("デザイン 002");
   });
 
-  it("removes legacy names without losing artwork, identifiers or purchase quantities", async () => {
-    const storage = create_memory_project_storage();
-    const project = await storage.create_project();
-    await storage.add_to_purchase_list(project.project_id, 20, 10);
-    const legacy = { ...project, design_name: "legacy title" };
-    const cleaned = strip_legacy_project_fields(legacy);
-    expect(cleaned).not.toHaveProperty("design_name");
-    expect(cleaned).toEqual(project);
-    await storage.save_project(legacy);
-    expect(await storage.get_project(project.project_id)).not.toHaveProperty(
-      "design_name",
-    );
-    expect((await storage.list_purchase_entries())[0].quantity).toBe(1);
-    expect(
-      (await storage.duplicate_project(project.project_id)).editor_state,
-    ).toEqual(project.editor_state);
+  it("supplies the default name when a legacy record has no design name", () => {
+    const project = project_with_design_name({
+      project_id: "legacy-project",
+      local_project_code: "B-001",
+      editor_state: {
+        source_image_data_url: null,
+        edited_image_data_url: "data:image/png;base64,legacy",
+        thumbnail_data_url: "data:image/png;base64,legacy",
+        stamps: [],
+        drawing_paths: [],
+        texts: [],
+        frame_asset_id: null,
+        layer_order: [],
+        zoom: 1,
+        rotation: 0,
+      },
+      thumbnail_data_url: "data:image/png;base64,legacy",
+      share_image_data_url: null,
+      created_at: "2026-09-12T00:00:00.000Z",
+      updated_at: "2026-09-12T00:00:00.000Z",
+      ordered: false,
+    });
+
+    expect(project.design_name).toBe("デザイン B-001");
+    expect(validate_design_name("  デザイン B-001  ")).toBe("デザイン B-001");
   });
 
   it("duplicates a project with a new code and without purchase state", async () => {
@@ -58,6 +72,7 @@ describe("project storage", () => {
 
     expect(duplicate_project.project_id).not.toBe(source_project.project_id);
     expect(duplicate_project.local_project_code).toBe("002");
+    expect(duplicate_project.design_name).toBe("デザイン 002");
     expect(duplicate_project.editor_state.edited_image_data_url).toBe(
       source_project.editor_state.edited_image_data_url,
     );
@@ -73,6 +88,21 @@ describe("project storage", () => {
         (entry) => entry.project_id === duplicate_project.project_id,
       ),
     ).toBe(false);
+  });
+
+  it("copies a custom design name while assigning new immutable identifiers", async () => {
+    const storage = create_memory_project_storage();
+    const source_project = await storage.create_project({
+      design_name: "卒業記念",
+    });
+
+    const duplicate_project = await storage.duplicate_project(
+      source_project.project_id,
+    );
+
+    expect(duplicate_project.design_name).toBe("卒業記念");
+    expect(duplicate_project.project_id).not.toBe(source_project.project_id);
+    expect(duplicate_project.local_project_code).toBe("002");
   });
 
   it("keeps one purchase row per project and clamps quantity", async () => {

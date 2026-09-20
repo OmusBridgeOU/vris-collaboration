@@ -118,6 +118,11 @@ test("visitor can create and keep a local design on mobile", async ({
     page.getByRole("heading", { name: "購入予定の缶バッジ" }),
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "001" })).toBeVisible();
+  await expect(page.getByText("合計金額（税込）")).toBeVisible();
+  await expect(page.getByText("500円")).toBeVisible();
+  await page.screenshot({
+    path: `../docs/screenshots/purchase_list_price_${test.info().project.name}.png`,
+  });
 
   const horizontal_overflow = await page.evaluate(
     () => document.documentElement.scrollWidth > window.innerWidth,
@@ -238,7 +243,7 @@ test("visitor sees numeric identifiers without names or management labels", asyn
         get_request.onerror = () => reject(get_request.error);
         get_request.onsuccess = () => {
           const legacy_project = get_request.result;
-          legacy_project.design_name = "デザイン 001";
+          delete legacy_project.design_name;
           projects.put(legacy_project);
         };
         transaction.oncomplete = () => {

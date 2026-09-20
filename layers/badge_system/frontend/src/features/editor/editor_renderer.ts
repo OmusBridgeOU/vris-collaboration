@@ -13,12 +13,14 @@ import type {
   StampLayer,
   TextLayer,
 } from "./editor_types";
+import { prepare_frame_artwork } from "./frame_artwork";
 
 export type BadgeRenderOptions = {
   canvas_size_px?: number;
   finish_diameter_ratio?: number;
   safe_area_ratio?: number;
   include_guides?: boolean;
+  extend_frame_to_bleed?: boolean;
   output_type?: "image/png" | "image/jpeg";
   quality?: number;
 };
@@ -74,7 +76,12 @@ export async function render_badge_design(
   context.restore();
 
   if (design.frame) {
-    await draw_frame(context, design.frame, canvas_size);
+    await draw_frame(
+      context,
+      design.frame,
+      canvas_size,
+      options.extend_frame_to_bleed ?? false,
+    );
   }
 
   if (options.include_guides) {
@@ -351,20 +358,42 @@ async function draw_frame(
   context: CanvasRenderingContext2D,
   frame: FrameLayer,
   canvas_size: number,
+  extend_to_bleed: boolean,
 ) {
   const image_url = frame_catalog.find(
     (catalog_item) => catalog_item.id === frame.catalog_id,
   )?.image_url;
   if (image_url) {
     const image = await load_image(image_url);
-    context.drawImage(image, 0, 0, canvas_size, canvas_size);
+    context.drawImage(
+      prepare_frame_artwork(image, extend_to_bleed),
+      0,
+      0,
+      canvas_size,
+      canvas_size,
+    );
     return;
   }
 
-  const radius = (canvas_size * default_finish_diameter_ratio) / 2;
+  const finish_radius = (canvas_size * default_finish_diameter_ratio) / 2;
+  const frame_width = canvas_size * 0.075;
+  const radius = finish_radius - frame_width / 2;
   context.save();
+  if (extend_to_bleed) {
+    context.strokeStyle = frame.color;
+    context.lineWidth = canvas_size / 2 - finish_radius + frame_width;
+    context.beginPath();
+    context.arc(
+      canvas_size / 2,
+      canvas_size / 2,
+      (canvas_size / 2 + finish_radius - frame_width) / 2,
+      0,
+      Math.PI * 2,
+    );
+    context.stroke();
+  }
   context.strokeStyle = frame.color;
-  context.lineWidth = canvas_size * 0.075;
+  context.lineWidth = frame_width;
   context.beginPath();
   context.arc(canvas_size / 2, canvas_size / 2, radius, 0, Math.PI * 2);
   context.stroke();

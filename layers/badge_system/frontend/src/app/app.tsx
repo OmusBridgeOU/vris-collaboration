@@ -32,6 +32,7 @@ const fallback_config: PublicConfig = {
   maxUploadBytesPerItem: 20_971_520,
   maxItemsPerBatch: 20,
   maxQuantityPerItem: 10,
+  unitPriceYen: 500,
   canvasSizePx: 1200,
   finishDiameterRatio: 58 / 70,
   safeAreaRatio: 0.7,
@@ -291,6 +292,7 @@ export function App() {
           entries={purchase_entries}
           max_items_per_batch={config.maxItemsPerBatch}
           max_quantity_per_item={config.maxQuantityPerItem}
+          unit_price_yen={config.unitPriceYen}
           on_back_to_projects={() => navigate_to_view("projects")}
           on_create_order={create_purchase_order}
           on_edit_project={open_editor}

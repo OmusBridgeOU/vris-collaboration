@@ -96,6 +96,8 @@ STAFF_ACCESS_PASSWORD
 
 `PUBLIC_TOKEN_SECRET` と `STAFF_ACCESS_PASSWORD` は32文字以上の異なるランダム値を使用してください。
 
+スタッフ画面は本番設定で `STAFF_AUTH_MODE=shared_basic` を使用します。この値は生成用テンプレートに固定され、`STAFF_ACCESS_USERNAME` と `STAFF_ACCESS_PASSWORD` で認証します。
+
 `APP_BASE_URL` は実際の本番 HTTPS origin（パス・クエリーなし）に置き換えます。設定生成スクリプトは上記の `example.com` のままではエラーになります。独自ドメインでは `PRODUCTION_CUSTOM_DOMAIN=true` とし、Cloudflare で管理するドメインを指定してください。`false` または未設定の場合は、Worker名とアカウントのサブドメインに一致する `workers.dev` の origin が必要です。
 
 ## 3. Repository Variable
@@ -182,9 +184,7 @@ Migration 適用：
 pnpm --dir frontend exec wrangler d1 migrations apply DB --remote --config ../wrangler.production.json
 ```
 
-Migration は GitHub Actions の通常のデプロイでは自動実行しません。
-
-`0002_remove_unused_workflows.sql` は旧認証・監査などの未使用テーブルとカラムを削除します。既存の本番DBへ適用する場合は対象DBとバックアップを確認し、注文データを保持する移行として実施してください。ローカルDBの初期化には、`--remote` を使わず README の `npm run worker:migrate:local` を使用します。
+Migration は GitHub Actions の通常のデプロイでは自動実行しません。既存の本番DBへ適用する場合は対象DBとバックアップを確認してください。ローカルDBの初期化には、`--remote` を使わず README の `npm run worker:migrate:local` を使用します。
 
 ## 6. Deployment
 

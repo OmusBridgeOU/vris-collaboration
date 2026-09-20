@@ -868,19 +868,19 @@ function StampPanel({
         />
       </div>
       <div className="grid grid-cols-3 gap-1">
-        {stamp_catalog.map((stamp) => (
+        {stamp_catalog.map((stamp, index) => (
           <button
+            aria-label={`スタンプ${index + 1}を追加`}
             className="grid min-h-20 place-items-center gap-1 rounded-md border border-slate-300 bg-white px-1 py-2 text-xs font-semibold"
             key={stamp.id}
             onClick={() => on_add(stamp.id)}
             type="button"
           >
             <img
-              alt={stamp.label}
+              alt=""
               className="h-12 w-12 object-contain"
               src={stamp_preview_data_url(stamp)}
             />
-            <span className="w-full truncate">{stamp.label}</span>
           </button>
         ))}
       </div>
@@ -1134,8 +1134,10 @@ function FramePanel({
 }) {
   return (
     <div className="grid grid-cols-3 gap-1">
-      {frame_catalog.map((frame) => (
+      {frame_catalog.map((frame, index) => (
         <button
+          aria-label={frame.id === "none" ? "枠を外す" : `枠${index}を選択`}
+          aria-pressed={selected_id === frame.id}
           className={`grid min-h-20 place-items-center gap-1 rounded-md border px-1 py-2 text-xs font-semibold ${
             selected_id === frame.id
               ? "border-action bg-action text-white"
@@ -1146,11 +1148,10 @@ function FramePanel({
           type="button"
         >
           <img
-            alt={frame.label}
+            alt=""
             className="h-12 w-12"
             src={frame_preview_data_url(frame)}
           />
-          <span className="w-full truncate">{frame.label}</span>
         </button>
       ))}
     </div>

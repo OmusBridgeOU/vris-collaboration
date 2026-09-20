@@ -10,6 +10,7 @@ type PurchaseListViewProps = {
   entries: PurchaseListEntry[];
   max_items_per_batch: number;
   max_quantity_per_item: number;
+  unit_price_yen: number | null;
   on_create_order: (
     confirmations: OrderConfirmations,
   ) => Promise<OrderBatchCreatedResponse>;
@@ -27,6 +28,7 @@ export function PurchaseListView({
   entries,
   max_items_per_batch,
   max_quantity_per_item,
+  unit_price_yen,
   on_create_order,
   on_limit_error,
   on_update_quantity,
@@ -52,6 +54,7 @@ export function PurchaseListView({
     (total, entry) => total + entry.quantity,
     0,
   );
+  const total_price = calculate_total_price(unit_price_yen, total_quantity);
   const can_confirm =
     confirmations.ownership_confirmed &&
     confirmations.portrait_confirmed &&
@@ -308,6 +311,12 @@ export function PurchaseListView({
         <dd className="text-right font-bold">{entries.length}</dd>
         <dt className="text-slate-600">合計数量</dt>
         <dd className="text-right font-bold">{total_quantity}</dd>
+        <dt className="text-slate-600">合計金額（税込）</dt>
+        <dd className="text-right font-bold">
+          {total_price == null
+            ? "価格未設定"
+            : `${total_price.toLocaleString("ja-JP")}円`}
+        </dd>
       </dl>
 
       <div className="grid gap-2">
@@ -330,6 +339,22 @@ export function PurchaseListView({
       </div>
     </section>
   );
+}
+
+function calculate_total_price(
+  unit_price_yen: number | null,
+  quantity: number,
+) {
+  if (
+    unit_price_yen == null ||
+    !Number.isSafeInteger(unit_price_yen) ||
+    unit_price_yen < 0 ||
+    !Number.isSafeInteger(unit_price_yen * quantity)
+  ) {
+    return null;
+  }
+
+  return unit_price_yen * quantity;
 }
 
 function OrderDesignList({ entries }: { entries: PurchaseListEntry[] }) {
