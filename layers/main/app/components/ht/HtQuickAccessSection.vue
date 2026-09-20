@@ -21,7 +21,7 @@ ja:
     schedule:
       title: スケジュール
       label: SCHEDULE
-      body: 会場平常時間 11:00〜17:00（詳細タイムテーブルは順次公開予定）
+      body: 開催時間 11:00〜17:00（詳細タイムテーブルは順次公開予定）
 en:
   section:
     title: Key Information for Visitors
@@ -44,7 +44,7 @@ en:
     schedule:
       title: Schedule
       label: SCHEDULE
-      body: Venue hours 11:00 – 17:00 (detailed timetable TBA)
+      body: Hours 11:00 – 17:00 (detailed timetable TBA)
 </i18n>
 
 <script setup lang="ts">

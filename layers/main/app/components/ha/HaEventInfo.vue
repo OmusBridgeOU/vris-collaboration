@@ -6,7 +6,7 @@ ja:
     date: '2026年9月26日(土)'
     venueLabel: '会場'
     venue: 'アスティ45 4F アスティホール'
-    hoursLabel: '開場時間'
+    hoursLabel: '開催時間'
     hours: '11:00〜17:00'
 en:
     nameLabel: 'Event Name'
