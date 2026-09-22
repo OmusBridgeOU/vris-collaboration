@@ -130,7 +130,7 @@ test("removes legacy history and keeps the purchase list after ordering", async 
   await page.goto("/");
 
   await expect(page.getByRole("button", { name: /過去の購入/ })).toHaveCount(0);
-  await page.getByRole("button", { name: /^購入リスト/ }).click();
+  await page.getByRole("button", { name: "購入リスト", exact: true }).click();
   await expect(page.getByRole("heading", { name: "001" })).toBeVisible();
   await expect(page.locator("output")).toHaveText("2");
 
@@ -177,7 +177,7 @@ test("removes legacy history and keeps the purchase list after ordering", async 
   await expect(page.locator("output")).toHaveText("2");
 
   await page.reload();
-  await page.getByRole("button", { name: /^購入リスト/ }).click();
+  await page.getByRole("button", { name: "購入リスト", exact: true }).click();
   await expect(page.getByRole("heading", { name: "001" })).toBeVisible();
   await expect(page.locator("output")).toHaveText("2");
 });

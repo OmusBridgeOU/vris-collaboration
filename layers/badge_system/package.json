@@ -21,5 +21,6 @@
     "worker:migrate:local": "pnpm --dir frontend exec wrangler d1 migrations apply DB --local --config ../wrangler.example.toml",
     "worker:dry-run": "pnpm --dir frontend exec wrangler deploy --dry-run --config ../wrangler.example.toml",
     "test:e2e": "pnpm --dir frontend test:e2e"
-  }
+  },
+  "packageManager": "pnpm@11.7.0"
 }
