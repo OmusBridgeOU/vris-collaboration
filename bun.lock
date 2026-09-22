@@ -35,6 +35,10 @@
         "vite-plugin-eslint2": "^5.3.0",
       },
     },
+    "layers/badge_system": {
+      "name": "vris-original-badge-system",
+      "version": "0.1.0",
+    },
     "layers/base": {
       "name": "vket-boilerplate-nuxt-base",
       "version": "1.0.1",
@@ -2931,6 +2935,8 @@
     "vris-collaboration": ["vris-collaboration@workspace:layers/main"],
 
     "vris-monorepo": ["vris-monorepo@workspace:layers/vris"],
+
+    "vris-original-badge-system": ["vris-original-badge-system@workspace:layers/badge_system"],
 
     "vscode-uri": ["vscode-uri@3.1.0", "", {}, "sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ=="],
 

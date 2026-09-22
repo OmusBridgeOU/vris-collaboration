@@ -1,0 +1,165 @@
+name: Badge System CI
+
+on:
+  pull_request:
+    paths:
+      - "layers/badge_system/**"
+      - ".github/workflows/badge-system-ci.yml"
+
+  push:
+    branches:
+      - main
+    paths:
+      - "layers/badge_system/**"
+      - ".github/workflows/badge-system-ci.yml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: layers/badge_system
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.7.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+          cache-dependency-path: layers/badge_system/frontend/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm --dir frontend install --frozen-lockfile
+
+      - name: Audit distributable files
+        run: npm run share:audit
+
+      - name: Test deployment configuration
+        run: npm run deployment:test
+
+      - name: Check formatting
+        run: pnpm --dir frontend format:check
+
+      - name: Lint frontend
+        run: pnpm --dir frontend lint
+
+      - name: Typecheck frontend
+        run: pnpm --dir frontend typecheck
+
+      - name: Test frontend
+        run: pnpm --dir frontend test
+
+      - name: Install E2E browsers
+        run: pnpm --dir frontend exec playwright install --with-deps chromium webkit
+
+      - name: Test mobile browser flows
+        run: pnpm --dir frontend test:e2e
+
+      - name: Build frontend
+        run: pnpm --dir frontend build
+
+      - name: Typecheck Worker
+        run: npm run worker:typecheck
+
+      - name: Test Worker
+        run: npm run worker:test
+
+      - name: Worker dry run
+        run: npm run worker:dry-run
+
+      - name: Production configuration dry run
+        run: npm run production:dry-run
+
+      - name: Upload tested frontend
+        uses: actions/upload-artifact@v4
+        with:
+          name: badge_system_production_frontend
+          path: layers/badge_system/frontend/dist
+          retention-days: 1
+
+  deploy:
+    needs: frontend
+
+    if: >
+      github.ref == 'refs/heads/main' &&
+      github.event_name != 'pull_request' &&
+      vars.BADGE_SYSTEM_PRODUCTION_DEPLOY_ENABLED == 'true'
+
+    runs-on: ubuntu-latest
+
+    environment: badge-system
+
+    concurrency:
+      group: badge_system_production_deployment
+      cancel-in-progress: false
+
+    defaults:
+      run:
+        working-directory: layers/badge_system
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.7.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+          cache-dependency-path: layers/badge_system/frontend/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm --dir frontend install --frozen-lockfile
+
+      - name: Download tested frontend
+        uses: actions/download-artifact@v4
+        with:
+          name: badge_system_production_frontend
+          path: layers/badge_system/frontend/dist
+
+      - name: Prepare private deployment configuration
+        run: node scripts/production_config.mjs "$RUNNER_TEMP/deployment_secrets.json"
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WORKER_NAME: ${{ vars.WORKER_NAME }}
+          APP_BASE_URL: ${{ vars.APP_BASE_URL }}
+          PRODUCTION_CUSTOM_DOMAIN: ${{ vars.PRODUCTION_CUSTOM_DOMAIN }}
+          D1_DATABASE_NAME: ${{ vars.D1_DATABASE_NAME }}
+          D1_DATABASE_ID: ${{ secrets.D1_DATABASE_ID }}
+          ORDER_IMAGES_BUCKET: ${{ vars.ORDER_IMAGES_BUCKET }}
+          STAFF_ACCESS_USERNAME: ${{ vars.STAFF_ACCESS_USERNAME }}
+          PUBLIC_TOKEN_SECRET: ${{ secrets.PUBLIC_TOKEN_SECRET }}
+          STAFF_ACCESS_PASSWORD: ${{ secrets.STAFF_ACCESS_PASSWORD }}
+
+      - name: Deploy tested assets and Worker
+        run: >
+          pnpm --dir frontend exec wrangler deploy
+          --config ../wrangler.production.json
+          --secrets-file "$RUNNER_TEMP/deployment_secrets.json"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Remove generated deployment files
+        if: always()
+        run: >
+          rm -f --
+          wrangler.production.json
+          "$RUNNER_TEMP/deployment_secrets.json"

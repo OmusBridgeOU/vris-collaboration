@@ -1,0 +1,26 @@
+{
+  "name": "vris-original-badge-system",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "install:frontend": "pnpm --dir frontend install --frozen-lockfile",
+    "share:audit": "node scripts/share_audit.mjs",
+    "deployment:test": "node --test scripts/production_config.test.mjs scripts/share_audit.test.mjs",
+    "production:dry-run": "node scripts/production_dry_run.mjs",
+    "dev": "pnpm --dir frontend dev",
+    "build": "pnpm --dir frontend build",
+    "build:local": "npm run build",
+    "lint": "pnpm --dir frontend lint",
+    "format:check": "pnpm --dir frontend format:check",
+    "typecheck": "pnpm --dir frontend typecheck && npm run worker:typecheck",
+    "test": "pnpm --dir frontend test",
+    "test:ut": "npm run test && npm run worker:test && npm run deployment:test",
+    "worker:typecheck": "node frontend/node_modules/typescript/bin/tsc -p worker/tsconfig.json",
+    "worker:test": "node frontend/node_modules/vitest/vitest.mjs run --root worker tests",
+    "worker:dev": "pnpm --dir frontend exec wrangler dev --config ../wrangler.example.toml",
+    "worker:migrate:local": "pnpm --dir frontend exec wrangler d1 migrations apply DB --local --config ../wrangler.example.toml",
+    "worker:dry-run": "pnpm --dir frontend exec wrangler deploy --dry-run --config ../wrangler.example.toml",
+    "test:e2e": "pnpm --dir frontend test:e2e"
+  },
+  "packageManager": "pnpm@11.7.0"
+}
