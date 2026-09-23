@@ -92,9 +92,6 @@ export function PurchaseListView({
   if (phase === "complete" && created_order) {
     return (
       <section className="grid gap-4">
-        <div>
-          <h2 className="text-xl font-bold">{created_order.receptionNumber}</h2>
-        </div>
         <div className="grid justify-items-center gap-3 rounded-md border border-slate-200 bg-white p-4">
           {qr_data_url ? (
             <img
