@@ -28,7 +28,8 @@ type TransformHitOptions = {
 
 const stamp_box_size_px = 190;
 const minimum_text_box_width_px = 120;
-const handle_hit_radius_px = 90;
+const maximum_handle_hit_radius_px = 54;
+const minimum_handle_hit_radius_px = 8;
 const rotate_handle_offset_px = 92;
 
 export function get_transform_box(
@@ -106,15 +107,33 @@ export function hit_test_transform(
     : undefined;
   if (selected_box && current_selection) {
     const controls = get_transform_control_points(selected_box);
+    const move_target = {
+      ...selected_box,
+      width: selected_box.width * 0.6,
+      height: selected_box.height * 0.6,
+    };
+    if (point_in_rotated_box(point, move_target)) {
+      return { selection: current_selection, action: "move" };
+    }
+
+    const handle_hit_radius = Math.min(
+      maximum_handle_hit_radius_px,
+      Math.max(
+        minimum_handle_hit_radius_px,
+        Math.min(selected_box.width, selected_box.height) * 0.28,
+      ),
+    );
     if (
       controls.corners.some(
-        (corner) => distance(corner, point) <= handle_hit_radius_px,
+        (corner) => distance(corner, point) <= handle_hit_radius,
       )
     ) {
       return { selection: current_selection, action: "scale" };
     }
 
-    if (distance(controls.rotate_handle, point) <= handle_hit_radius_px) {
+    if (
+      distance(controls.rotate_handle, point) <= maximum_handle_hit_radius_px
+    ) {
       return { selection: current_selection, action: "rotate" };
     }
   }
