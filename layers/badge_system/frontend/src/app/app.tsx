@@ -5,9 +5,11 @@ import {
   type OrderConfirmations,
 } from "../api/order_client";
 import { BadgeEditor } from "../features/editor/badge_editor";
+import { OrderHistoryView } from "../features/order_history/order_history_view";
 import { ProjectList } from "../features/projects/project_list";
 import type {
   LocalBadgeProject,
+  OrderHistoryEntry,
   PurchaseListEntry,
 } from "../features/projects/project_types";
 import { useProjectStorage } from "../features/projects/use_project_storage";
@@ -40,7 +42,13 @@ const fallback_config: PublicConfig = {
   xHashtags: ["オリジナル缶バッジ"],
 };
 
-type AppView = "projects" | "editor" | "purchase_list" | "credits" | "x_share";
+type AppView =
+  | "projects"
+  | "editor"
+  | "purchase_list"
+  | "order_history"
+  | "credits"
+  | "x_share";
 
 export function App() {
   const storage = useProjectStorage();
@@ -51,6 +59,7 @@ export function App() {
   const [purchase_entries, set_purchase_entries] = useState<
     PurchaseListEntry[]
   >([]);
+  const [order_history, set_order_history] = useState<OrderHistoryEntry[]>([]);
   const [selected_project_id, set_selected_project_id] = useState<
     string | null
   >(null);
@@ -75,13 +84,16 @@ export function App() {
   }, [is_staff_path]);
 
   const refresh_local_state = useCallback(async () => {
-    const [stored_projects, stored_purchase_entries] = await Promise.all([
-      storage.list_projects(),
-      storage.list_purchase_entries(),
-    ]);
+    const [stored_projects, stored_purchase_entries, stored_order_history] =
+      await Promise.all([
+        storage.list_projects(),
+        storage.list_purchase_entries(),
+        storage.list_order_history(),
+      ]);
 
     set_projects(stored_projects);
     set_purchase_entries(stored_purchase_entries);
+    set_order_history(stored_order_history);
   }, [storage]);
 
   useEffect(() => {
@@ -206,6 +218,18 @@ export function App() {
     let local_update_failed = false;
 
     try {
+      await storage.save_order_history({
+        order_id: order.publicToken,
+        reception_number: order.receptionNumber,
+        ordered_at: order.createdAt,
+        total_quantity: order.totalQuantity,
+        items: current_entries.map((entry) => ({
+          local_project_code: entry.project.local_project_code,
+          thumbnail_data_url: entry.project.thumbnail_data_url,
+          quantity: entry.quantity,
+        })),
+      });
+
       for (const entry of current_entries) {
         await storage.save_project({
           ...entry.project,
@@ -278,6 +302,7 @@ export function App() {
           on_edit_project={open_editor}
           on_open_x_share={open_x_share}
           on_open_purchase_list={() => navigate_to_view("purchase_list")}
+          on_open_order_history={() => navigate_to_view("order_history")}
           on_open_credits={() => navigate_to_view("credits")}
           on_save_image={save_share_image}
           projects={projects}
@@ -299,6 +324,15 @@ export function App() {
           on_limit_error={set_notice}
           on_remove={remove_from_purchase_list}
           on_update_quantity={update_purchase_quantity}
+        />
+      );
+    }
+
+    if (view === "order_history") {
+      return (
+        <OrderHistoryView
+          on_back={() => navigate_to_view("projects")}
+          orders={order_history}
         />
       );
     }

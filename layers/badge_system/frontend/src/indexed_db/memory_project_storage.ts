@@ -9,6 +9,7 @@ import {
 } from "../features/projects/project_types";
 import type {
   LocalBadgeProject,
+  OrderHistoryEntry,
   ProjectDraftInput,
   PurchaseListEntry,
   PurchaseListItem,
@@ -21,6 +22,7 @@ const code_for = (value: number) => value.toString().padStart(3, "0");
 export const create_memory_project_storage = (): ProjectStorage => {
   const projects = new Map<string, LocalBadgeProject>();
   const purchase_list = new Map<string, PurchaseListItem>();
+  const order_history = new Map<string, OrderHistoryEntry>();
   let next_project_number = 1;
 
   const create_code = () => {
@@ -197,6 +199,16 @@ export const create_memory_project_storage = (): ProjectStorage => {
 
     async remove_from_purchase_list(project_id) {
       purchase_list.delete(project_id);
+    },
+
+    async list_order_history() {
+      return Array.from(order_history.values()).sort((left, right) =>
+        right.ordered_at.localeCompare(left.ordered_at),
+      );
+    },
+
+    async save_order_history(order) {
+      order_history.set(order.order_id, order);
     },
   };
 };

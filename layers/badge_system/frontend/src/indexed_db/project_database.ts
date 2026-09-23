@@ -11,13 +11,14 @@ import {
 import type {
   BadgeEditorState,
   LocalBadgeProject,
+  OrderHistoryEntry,
   ProjectDraftInput,
   PurchaseListEntry,
   PurchaseListItem,
 } from "../features/projects/project_types";
 
 const database_name = "vris_badge_project_storage";
-const database_version = 3;
+const database_version = 4;
 const project_store = "projects";
 const purchase_list_store = "purchase_list";
 const purchase_history_store = "purchase_history";
@@ -47,7 +48,7 @@ interface BadgeProjectDatabase extends DBSchema {
   };
   purchase_history: {
     key: string;
-    value: unknown;
+    value: OrderHistoryEntry;
     indexes: {
       "by-ordered-at": string;
     };
@@ -77,6 +78,8 @@ export type ProjectStorage = {
     max_quantity: number,
   ) => Promise<PurchaseListEntry>;
   remove_from_purchase_list: (project_id: string) => Promise<void>;
+  list_order_history: () => Promise<OrderHistoryEntry[]>;
+  save_order_history: (order: OrderHistoryEntry) => Promise<void>;
 };
 
 let database_promise: Promise<IDBPDatabase<BadgeProjectDatabase>> | null = null;
@@ -112,6 +115,17 @@ const open_project_database = () => {
           database.objectStoreNames.contains(purchase_history_store)
         ) {
           database.deleteObjectStore(purchase_history_store);
+        }
+
+        if (
+          old_version < 4 &&
+          !database.objectStoreNames.contains(purchase_history_store)
+        ) {
+          const purchase_history = database.createObjectStore(
+            purchase_history_store,
+            { keyPath: "order_id" },
+          );
+          purchase_history.createIndex("by-ordered-at", "ordered_at");
         }
       },
     },
@@ -445,6 +459,22 @@ export const create_indexed_db_project_storage = (): ProjectStorage => ({
   async remove_from_purchase_list(project_id) {
     const database = await open_project_database();
     await database.delete(purchase_list_store, project_id);
+  },
+
+  async list_order_history() {
+    const database = await open_project_database();
+    const orders = await database.getAllFromIndex(
+      purchase_history_store,
+      "by-ordered-at",
+    );
+    return orders.sort((left, right) =>
+      right.ordered_at.localeCompare(left.ordered_at),
+    );
+  },
+
+  async save_order_history(order) {
+    const database = await open_project_database();
+    await database.put(purchase_history_store, order);
   },
 });
 
