@@ -239,28 +239,75 @@ function draw_copyright(
 ) {
   const scale = canvas_size / default_canvas_size_px;
   const finish_radius = (canvas_size * default_finish_diameter_ratio) / 2;
-  const x = canvas_size / 2 + finish_radius * 0.68;
-  const bottom_y = canvas_size / 2 + finish_radius * 0.68;
-  const font_size = 22 * scale;
-  const line_height = 28 * scale;
-  const lines = ["©HIKKY", "©Vket Real in Sapporo"];
+  const center = canvas_size / 2;
+  const font_size = 18 * scale;
+  const center_angle = Math.PI * 0.4;
 
   context.save();
   create_finish_clip(context, canvas_size, default_finish_diameter_ratio);
   context.font = `600 ${font_size}px system-ui, sans-serif`;
-  context.textAlign = "right";
-  context.textBaseline = "alphabetic";
+  context.textAlign = "center";
+  context.textBaseline = "middle";
   context.lineJoin = "round";
   context.strokeStyle = "rgba(255, 255, 255, 0.95)";
-  context.lineWidth = 5 * scale;
+  context.lineWidth = 3 * scale;
   context.fillStyle = "#111827";
 
-  lines.forEach((line, index) => {
-    const y = bottom_y - (lines.length - 1 - index) * line_height;
-    context.strokeText(line, x, y);
-    context.fillText(line, x, y);
-  });
+  draw_text_along_arc(
+    context,
+    "©Vket Real in Sapporo",
+    center,
+    center,
+    finish_radius - 15 * scale,
+    center_angle,
+    1.2 * scale,
+  );
+  draw_text_along_arc(
+    context,
+    "©HIKKY",
+    center,
+    center,
+    finish_radius - 39 * scale,
+    center_angle,
+    1.2 * scale,
+  );
   context.restore();
+}
+
+function draw_text_along_arc(
+  context: CanvasRenderingContext2D,
+  text: string,
+  center_x: number,
+  center_y: number,
+  radius: number,
+  center_angle: number,
+  letter_spacing: number,
+) {
+  const characters = Array.from(text);
+  const widths = characters.map(
+    (character) => context.measureText(character).width,
+  );
+  const text_width =
+    widths.reduce((total, width) => total + width, 0) +
+    Math.max(0, characters.length - 1) * letter_spacing;
+  let angle = center_angle + text_width / radius / 2;
+
+  characters.forEach((character, index) => {
+    const character_width = widths[index];
+    angle -= character_width / radius / 2;
+
+    context.save();
+    context.translate(
+      center_x + Math.cos(angle) * radius,
+      center_y + Math.sin(angle) * radius,
+    );
+    context.rotate(angle - Math.PI / 2);
+    context.strokeText(character, 0, 0);
+    context.fillText(character, 0, 0);
+    context.restore();
+
+    angle -= character_width / radius / 2 + letter_spacing / radius;
+  });
 }
 
 async function draw_frame(
