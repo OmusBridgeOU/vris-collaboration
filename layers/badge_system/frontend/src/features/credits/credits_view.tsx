@@ -1,5 +1,11 @@
 import { ArrowLeft } from "lucide-react";
+import { provider_frame_credits } from "../editor/provider_frame_catalog";
 import { provider_stamp_credits } from "../editor/provider_stamp_catalog";
+
+const provider_credits = [
+  ...provider_frame_credits,
+  ...provider_stamp_credits,
+];
 
 export function CreditsView({ on_back }: { on_back: () => void }) {
   return (
@@ -18,20 +24,20 @@ export function CreditsView({ on_back }: { on_back: () => void }) {
 
       <section className="grid gap-2">
         <h2 className="text-lg font-bold">提供PNGスタンプ</h2>
-        {provider_stamp_credits.length === 0 ? (
+        {provider_credits.length === 0 ? (
           <p className="text-sm leading-6 text-slate-700">
-            現在、追加のPNGスタンプはありません。
+            現在、追加の提供素材はありません。
           </p>
         ) : (
           <ul className="grid gap-3">
-            {provider_stamp_credits.map((credit, index) => (
+            {provider_credits.map((credit, index) => (
               <li
                 className="grid grid-cols-2 gap-3 rounded-md border border-slate-200 bg-white p-3 text-sm leading-6"
-                key={credit.file_name}
+                key={credit.image_url}
               >
                 <div className="grid min-h-28 place-items-center rounded-md bg-slate-50 p-2">
                   <img
-                    alt={`提供スタンプ${index + 1}`}
+                    alt={`提供素材${index + 1}`}
                     className="max-h-28 w-full object-contain"
                     src={credit.image_url}
                   />
