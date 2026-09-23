@@ -92,7 +92,7 @@ export function ProjectList({
             onClick={on_open_purchase_list}
             type="button"
           >
-            カート
+            注文カート
           </button>
           <button
             className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
