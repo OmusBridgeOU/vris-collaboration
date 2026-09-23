@@ -234,6 +234,11 @@ export function App() {
         reception_number: order.receptionNumber,
         ordered_at: order.createdAt,
         total_quantity: order.totalQuantity,
+        unit_price_yen: config.unitPriceYen,
+        total_price_yen:
+          config.unitPriceYen == null
+            ? null
+            : config.unitPriceYen * order.totalQuantity,
         items: current_entries.map((entry) => ({
           local_project_code: entry.project.local_project_code,
           thumbnail_data_url: entry.project.thumbnail_data_url,

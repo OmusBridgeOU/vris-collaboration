@@ -77,6 +77,8 @@ export type OrderHistoryEntry = {
   reception_number: string;
   ordered_at: string;
   total_quantity: number;
+  unit_price_yen?: number | null;
+  total_price_yen?: number | null;
   items: OrderHistoryItem[];
 };
 
