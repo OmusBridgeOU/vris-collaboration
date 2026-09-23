@@ -122,15 +122,14 @@ async function submit_order(page: Page) {
   await expect(page.getByText("48317", { exact: true }).first()).toBeVisible();
 }
 
-test("removes legacy history and keeps the purchase list after ordering", async ({
+test("upgrades legacy storage and keeps the cart after ordering", async ({
   page,
 }) => {
   await seed_version_2_database(page);
   await mock_order_api(page);
   await page.goto("/");
 
-  await expect(page.getByRole("button", { name: /過去の購入/ })).toHaveCount(0);
-  await page.getByRole("button", { name: "購入リスト", exact: true }).click();
+  await page.getByRole("button", { name: "注文カート", exact: true }).click();
   await expect(page.getByRole("heading", { name: "001" })).toBeVisible();
   await expect(page.locator("output")).toHaveText("2");
 
@@ -156,7 +155,6 @@ test("removes legacy history and keeps the purchase list after ordering", async 
     });
     const result = {
       version: database.version,
-      stores: Array.from(database.objectStoreNames),
       project_count,
       purchase_list_count,
     };
@@ -164,20 +162,18 @@ test("removes legacy history and keeps the purchase list after ordering", async 
     return result;
   }, database_name);
   expect(upgraded_database).toMatchObject({
-    version: 3,
+    version: 4,
     project_count: 1,
     purchase_list_count: 1,
   });
-  expect(upgraded_database.stores).not.toContain("purchase_history");
-
   await submit_order(page);
   await page.getByRole("button", { name: "デザイン一覧へ戻る" }).click();
-  await page.getByRole("button", { name: "購入リスト", exact: true }).click();
+  await page.getByRole("button", { name: "注文カート", exact: true }).click();
   await expect(page.getByRole("heading", { name: "001" })).toBeVisible();
   await expect(page.locator("output")).toHaveText("2");
 
   await page.reload();
-  await page.getByRole("button", { name: "購入リスト", exact: true }).click();
+  await page.getByRole("button", { name: "注文カート", exact: true }).click();
   await expect(page.getByRole("heading", { name: "001" })).toBeVisible();
   await expect(page.locator("output")).toHaveText("2");
 });

@@ -120,10 +120,6 @@ test("staff confirms an ID and prints isolated postcard pages on mobile", async 
         }),
       );
     expect(targets.every(Boolean)).toBe(true);
-    await page.screenshot({
-      path: `../docs/screenshots/staff_design_grid_${browserName}_${width}.png`,
-      fullPage: true,
-    });
   }
   await expect(page.getByRole("combobox")).toHaveCount(0);
   await page.getByRole("button", { name: "印刷", exact: true }).click();
@@ -233,10 +229,6 @@ test("staff confirms an ID and prints isolated postcard pages on mobile", async 
   await expect(page.getByText("1,000円", { exact: true })).toBeVisible();
   await expect(page.locator(".postcard_page")).toHaveCount(2);
   await expect(page.locator(".postcard_page img")).toHaveCount(4);
-  await page.screenshot({
-    path: `../docs/screenshots/staff_design_removed_${browserName}.png`,
-    fullPage: true,
-  });
   await page.getByRole("button", { name: /48317-01 の注文を取りやめ/ }).click();
   await expect(page.getByText("1個", { exact: true })).toBeVisible();
   await expect(page.getByText("500円", { exact: true })).toBeVisible();
