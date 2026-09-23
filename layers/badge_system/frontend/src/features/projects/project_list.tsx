@@ -125,8 +125,7 @@ export function ProjectList({
 
       {projects.length === 0 ? (
         <p className="rounded-md border border-dashed border-slate-300 bg-white p-4 text-sm leading-6 text-slate-700">
-          まだ端末内に保存されたデザインがありません。新しいデザインを作ると 001
-          のような番号で保存されます。
+          端末内に保存されたデザインがありません。
         </p>
       ) : (
         <div className="grid gap-3">

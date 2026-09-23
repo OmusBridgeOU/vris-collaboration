@@ -344,10 +344,8 @@ export function BadgeEditor({
       set_selection(undefined);
       set_active_tool("photo");
       set_error_message("");
-    } catch (error) {
-      set_error_message(
-        error instanceof Error ? error.message : "画像処理に失敗しました。",
-      );
+    } catch {
+      set_error_message("画像処理に失敗しました。");
     } finally {
       set_is_processing(false);
     }

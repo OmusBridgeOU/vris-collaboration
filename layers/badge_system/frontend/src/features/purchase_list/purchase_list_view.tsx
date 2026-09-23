@@ -80,10 +80,8 @@ export function PurchaseListView({
         set_qr_data_url(null);
       }
       set_phase("complete");
-    } catch (error) {
-      set_error_message(
-        error instanceof Error ? error.message : "注文を作成できませんでした",
-      );
+    } catch {
+      set_error_message("注文を作成できませんでした");
     } finally {
       set_is_submitting(false);
     }
@@ -223,7 +221,7 @@ export function PurchaseListView({
   return (
     <section className="grid gap-4">
       <div>
-        <h2 className="text-xl font-bold">購入予定の缶バッジ</h2>
+        <h2 className="text-xl font-bold">注文カート</h2>
       </div>
 
       {entries.length >= max_items_per_batch ? (
@@ -234,8 +232,7 @@ export function PurchaseListView({
 
       {entries.length === 0 ? (
         <p className="rounded-md border border-dashed border-slate-300 bg-white p-4 text-sm leading-6 text-slate-700">
-          カートは空です。デザイン一覧から 001
-          などのデザインを追加してください。
+          注文カートは空です。
         </p>
       ) : (
         <div className="grid gap-3">
