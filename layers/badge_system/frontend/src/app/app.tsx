@@ -29,6 +29,7 @@ import {
   save_image_to_device,
 } from "../features/x_share/x_share_service";
 import type { PublicConfig } from "../types/api_types";
+import { CopyrightNotice } from "./copyright_notice";
 
 const fallback_config: PublicConfig = {
   termsVersion: "1.1",
@@ -414,7 +415,12 @@ export function App() {
     <main className="min-h-dvh bg-paper text-ink">
       <section className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-[calc(env(safe-area-inset-top)+1rem)]">
         {render_content()}
+
+        <footer className="mt-auto pt-6">
+          <CopyrightNotice />
+        </footer>
       </section>
+
       <NoticePopup message={notice} />
     </main>
   );
