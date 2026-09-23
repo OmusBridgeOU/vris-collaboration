@@ -98,12 +98,10 @@ async function render_order_images(
         include_guides: false,
         extend_frame_to_bleed: true,
       }),
-      thumbnail_canvas: await render_badge_design(design, {
-        canvas_size_px: 360,
-        finish_diameter_ratio: full_bleed_diameter_ratio,
-        safe_area_ratio: config.safeAreaRatio,
-        include_guides: false,
-      }),
+      thumbnail_canvas: await render_data_url_to_canvas(
+        entry.project.thumbnail_data_url,
+        360,
+      ),
     };
   }
 
