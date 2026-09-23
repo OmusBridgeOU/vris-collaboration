@@ -11,6 +11,8 @@ import {
   Trash2,
   Type,
   Undo2,
+  ZoomIn,
+  ZoomOut,
 } from "lucide-react";
 import {
   PointerEvent as ReactPointerEvent,
@@ -155,6 +157,7 @@ export function BadgeEditor({
   const [thumbnail_data_url, set_thumbnail_data_url] = useState<string>();
   const [rendered_design_updated_at, set_rendered_design_updated_at] =
     useState<string>();
+  const [canvas_zoom, set_canvas_zoom] = useState(1);
   const canvas_ref = useRef<HTMLCanvasElement | null>(null);
   const pointer_records = useRef<Map<number, PointerRecord>>(new Map());
   const manipulation = useRef<DirectManipulation>();
@@ -580,7 +583,7 @@ export function BadgeEditor({
             className="row-start-1 mx-auto aspect-square min-h-0 shrink-0"
             style={{ width: editor_canvas_css_size }}
           >
-            <div className="relative aspect-square w-full rounded-md border border-slate-300 bg-white p-1 shadow-sm">
+            <div className="relative aspect-square w-full overflow-hidden rounded-md border border-slate-300 bg-white p-1 shadow-sm">
               <canvas
                 ref={canvas_ref}
                 aria-describedby="badge-finish-guide-description"
@@ -591,9 +594,37 @@ export function BadgeEditor({
                 onPointerDown={handle_pointer_down}
                 onPointerMove={handle_pointer_move}
                 onPointerUp={handle_pointer_up}
-                style={{ touchAction: "none" }}
+                style={{
+                  touchAction: "none",
+                  transform: `scale(${canvas_zoom})`,
+                  transformOrigin: "center",
+                }}
                 width={default_canvas_size_px}
               />
+              <div className="absolute left-2 top-2 z-10 flex gap-1">
+                <IconButton
+                  disabled={canvas_zoom <= 0.75}
+                  label="キャンバスを縮小"
+                  on_click={() =>
+                    set_canvas_zoom((current) =>
+                      Math.max(0.75, Number((current - 0.25).toFixed(2))),
+                    )
+                  }
+                >
+                  <ZoomOut aria-hidden="true" size={18} />
+                </IconButton>
+                <IconButton
+                  disabled={canvas_zoom >= 2}
+                  label="キャンバスを拡大"
+                  on_click={() =>
+                    set_canvas_zoom((current) =>
+                      Math.min(2, Number((current + 0.25).toFixed(2))),
+                    )
+                  }
+                >
+                  <ZoomIn aria-hidden="true" size={18} />
+                </IconButton>
+              </div>
               <div className="absolute right-2 top-2 z-10 flex gap-1">
                 <IconButton
                   disabled={!can_undo}
