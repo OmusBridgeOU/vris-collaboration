@@ -871,14 +871,14 @@ function StampPanel({
         {stamp_catalog.map((stamp, index) => (
           <button
             aria-label={`スタンプ${index + 1}を追加`}
-            className="grid min-h-20 place-items-center gap-1 rounded-md border border-slate-300 bg-white px-1 py-2 text-xs font-semibold"
+            className="grid min-h-24 place-items-center rounded-md border border-slate-300 bg-white p-1"
             key={stamp.id}
             onClick={() => on_add(stamp.id)}
             type="button"
           >
             <img
               alt=""
-              className="h-12 w-12 object-contain"
+              className="h-20 w-full object-contain"
               src={stamp_preview_data_url(stamp)}
             />
           </button>
