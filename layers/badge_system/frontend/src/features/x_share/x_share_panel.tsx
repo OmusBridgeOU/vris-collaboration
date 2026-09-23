@@ -53,11 +53,11 @@ export function XSharePanel({
 
       {!image_saved ? (
         <p className="rounded-md bg-amber-50 p-3 text-sm leading-6 text-amber-900">
-          Xの投稿画面を開く前に画像を保存してください。保存した画像は投稿画面で手動添付します。
+          Xの投稿画面を開く前に画像を保存してください。保存した画像は投稿画面で手動添付してください。
         </p>
       ) : (
         <p className="rounded-md bg-teal-50 p-3 text-sm leading-6 text-teal-900">
-          画像を保存しました。Xへ投稿する際は、保存した画像を投稿画面で添付してください。
+          Xへ投稿する際は、保存した画像を投稿画面で添付してください。
         </p>
       )}
 

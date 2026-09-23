@@ -107,7 +107,9 @@ async function convert_heic_if_needed(file: File) {
   const converter = heic2any.default;
 
   if (!converter) {
-    throw new Error("HEIC/HEIF変換ライブラリを読み込めませんでした。");
+    throw new Error(
+      "HEIC/HEIF変換ライブラリを読み込めませんでした。JPEG、PNG形式に変換してから再度お試しください。",
+    );
   }
 
   const converted = await converter({
@@ -170,7 +172,7 @@ function get_canvas_context(canvas: HTMLCanvasElement) {
   const context = canvas.getContext("2d", { alpha: false });
 
   if (!context) {
-    throw new Error("このブラウザでは画像編集Canvasを利用できません。");
+    throw new Error("このブラウザでは本アプリを利用できません。");
   }
 
   return context;
