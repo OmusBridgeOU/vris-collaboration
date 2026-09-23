@@ -40,10 +40,7 @@ export function prepare_frame_artwork(
   let outer_radius = 0;
   for (let y = 0; y < source.height; y++) {
     for (let x = 0; x < source.width; x++) {
-      if (
-        pixels.data[(y * source.width + x) * 4 + 3] <
-        artwork_alpha_threshold
-      )
+      if (pixels.data[(y * source.width + x) * 4 + 3] < artwork_alpha_threshold)
         continue;
       outer_radius = Math.max(
         outer_radius,
@@ -82,11 +79,7 @@ export function prepare_frame_artwork(
   return canvas;
 }
 
-function find_artwork_bounds(
-  pixels: ImageData,
-  width: number,
-  height: number,
-) {
+function find_artwork_bounds(pixels: ImageData, width: number, height: number) {
   let left = width;
   let right = -1;
   let top = height;

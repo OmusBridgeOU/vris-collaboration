@@ -2,10 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import { provider_frame_credits } from "../editor/provider_frame_catalog";
 import { provider_stamp_credits } from "../editor/provider_stamp_catalog";
 
-const provider_credits = [
-  ...provider_frame_credits,
-  ...provider_stamp_credits,
-];
+const provider_credits = [...provider_frame_credits, ...provider_stamp_credits];
 
 export function CreditsView({ on_back }: { on_back: () => void }) {
   return (
