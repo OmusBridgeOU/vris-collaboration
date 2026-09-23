@@ -62,6 +62,8 @@ const disabled_provider_stamp_file_names = new Set([
   "typo05.png",
   "typo06.png",
   "typo07.png",
+  "vketreal_in_sapporo_logo_black.png",
+  "vketreal_in_sapporo_logo_light.png",
 ]);
 
 const enabled_stamp_files = Object.fromEntries(
