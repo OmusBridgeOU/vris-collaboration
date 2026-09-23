@@ -92,10 +92,6 @@ export function PurchaseListView({
   if (phase === "complete" && created_order) {
     return (
       <section className="grid gap-4">
-        <div>
-          <p className="text-sm font-medium text-accent">注文QR</p>
-          <h2 className="text-xl font-bold">{created_order.receptionNumber}</h2>
-        </div>
         <div className="grid justify-items-center gap-3 rounded-md border border-slate-200 bg-white p-4">
           {qr_data_url ? (
             <img
@@ -125,6 +121,15 @@ export function PurchaseListView({
           <dd className="text-right font-bold">
             {created_order.totalQuantity}
           </dd>
+          <dt className="text-slate-600">合計金額（税込）</dt>
+          <dd className="text-right font-bold">
+            {format_total_price(
+              calculate_total_price(
+                unit_price_yen,
+                created_order.totalQuantity,
+              ),
+            )}
+          </dd>
         </dl>
         <OrderDesignList entries={created_order_entries} />
         <button
@@ -142,7 +147,6 @@ export function PurchaseListView({
     return (
       <section className="grid gap-4">
         <div>
-          <p className="text-sm font-medium text-accent">注文確認</p>
           <h2 className="text-xl font-bold">購入用QRを作成</h2>
         </div>
         <dl className="grid grid-cols-2 gap-2 rounded-md border border-slate-200 bg-white p-4 text-sm">
@@ -150,6 +154,10 @@ export function PurchaseListView({
           <dd className="text-right font-bold">{entries.length}</dd>
           <dt className="text-slate-600">合計数量</dt>
           <dd className="text-right font-bold">{total_quantity}</dd>
+          <dt className="text-slate-600">合計金額（税込）</dt>
+          <dd className="text-right font-bold">
+            {format_total_price(total_price)}
+          </dd>
         </dl>
         <OrderDesignList entries={entries} />
         <div className="grid gap-2 rounded-md border border-slate-200 bg-white p-4">
@@ -196,7 +204,7 @@ export function PurchaseListView({
             onClick={() => set_phase("list")}
             type="button"
           >
-            購入リストへ戻る
+            カートへ戻る
           </button>
           <button
             className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-action px-3 font-semibold text-white disabled:bg-slate-400"
@@ -215,7 +223,6 @@ export function PurchaseListView({
   return (
     <section className="grid gap-4">
       <div>
-        <p className="text-sm font-medium text-accent">購入リスト</p>
         <h2 className="text-xl font-bold">購入予定の缶バッジ</h2>
       </div>
 
@@ -227,7 +234,7 @@ export function PurchaseListView({
 
       {entries.length === 0 ? (
         <p className="rounded-md border border-dashed border-slate-300 bg-white p-4 text-sm leading-6 text-slate-700">
-          購入リストは空です。デザイン一覧から 001
+          カートは空です。デザイン一覧から 001
           などのデザインを追加してください。
         </p>
       ) : (
@@ -355,6 +362,12 @@ function calculate_total_price(
   }
 
   return unit_price_yen * quantity;
+}
+
+function format_total_price(total_price: number | null) {
+  return total_price == null
+    ? "価格未設定"
+    : `${total_price.toLocaleString("ja-JP")}円`;
 }
 
 function OrderDesignList({ entries }: { entries: PurchaseListEntry[] }) {

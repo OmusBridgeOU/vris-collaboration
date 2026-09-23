@@ -66,6 +66,22 @@ export type PurchaseListEntry = PurchaseListItem & {
   project: LocalBadgeProject;
 };
 
+export type OrderHistoryItem = {
+  local_project_code: string;
+  thumbnail_data_url: string;
+  quantity: number;
+};
+
+export type OrderHistoryEntry = {
+  order_id: string;
+  reception_number: string;
+  ordered_at: string;
+  total_quantity: number;
+  unit_price_yen?: number | null;
+  total_price_yen?: number | null;
+  items: OrderHistoryItem[];
+};
+
 export type ProjectDraftInput = {
   design_name?: string;
   editor_state?: Partial<BadgeEditorState>;

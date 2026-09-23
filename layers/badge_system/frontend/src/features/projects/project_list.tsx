@@ -1,7 +1,9 @@
 import {
   BadgeInfo,
+  CircleHelp,
   Copy,
   Download,
+  History,
   PenLine,
   Plus,
   Share2,
@@ -23,6 +25,8 @@ type ProjectListProps = {
   on_open_x_share: (project_id: string) => void;
   on_open_purchase_list: () => void;
   on_open_credits: () => void;
+  on_open_order_history: () => void;
+  on_open_help: () => void;
 };
 
 const format_datetime = (value: string) =>
@@ -45,7 +49,7 @@ const project_status = (
   }
 
   if (purchase_project_ids.has(project.project_id)) {
-    return "購入リスト追加済み";
+    return "カート追加済み";
   }
 
   return "未注文";
@@ -63,17 +67,32 @@ export function ProjectList({
   on_open_x_share,
   on_open_purchase_list,
   on_open_credits,
+  on_open_order_history,
+  on_open_help,
 }: ProjectListProps) {
   return (
     <section className="grid gap-4">
       <div className="grid gap-3">
         <div>
-          <p className="text-sm font-medium text-accent">端末内保存</p>
           <h2 className="text-xl font-bold">作成したデザイン</h2>
         </div>
-        <div
-          className={`grid gap-2 ${show_credits_button ? "grid-cols-[1fr_1fr_auto]" : "grid-cols-[1fr_auto]"}`}
-        >
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
+            onClick={on_open_order_history}
+            type="button"
+          >
+            <History aria-hidden="true" size={18} />
+            注文履歴
+          </button>
+          <button
+            className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
+            onClick={on_open_purchase_list}
+            type="button"
+          >
+            <ShoppingCart aria-hidden="true" size={18} />
+            注文カート
+          </button>
           {show_credits_button ? (
             <button
               className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
@@ -86,14 +105,15 @@ export function ProjectList({
           ) : null}
           <button
             className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
-            onClick={on_open_purchase_list}
+            onClick={on_open_help}
             type="button"
           >
-            購入リスト
+            <CircleHelp aria-hidden="true" size={18} />
+            使い方
           </button>
           <button
             aria-label="新しいデザインを作る"
-            className="flex min-h-11 items-center gap-2 rounded-md bg-action px-3 py-2 text-sm font-semibold text-white"
+            className="col-span-2 flex min-h-14 items-center justify-center gap-2 rounded-md bg-action px-4 py-3 text-base font-semibold text-white"
             onClick={on_create_project}
             type="button"
           >
@@ -180,7 +200,7 @@ export function ProjectList({
                   type="button"
                 >
                   <ShoppingCart aria-hidden="true" size={18} />
-                  購入リストに追加
+                  カートに追加
                 </button>
                 <button
                   className="col-span-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-red-200 px-3 text-sm font-semibold text-red-700"

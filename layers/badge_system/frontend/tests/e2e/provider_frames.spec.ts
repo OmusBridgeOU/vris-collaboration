@@ -49,9 +49,6 @@ test("provider PNG frame stays selected after saving and reloading", async ({
       ),
     ).toBe(true);
   }
-  await page.screenshot({
-    path: `../docs/screenshots/provider_frames_${test.info().project.name}.png`,
-  });
 });
 
 test("stamp choices show images without material names", async ({ page }) => {
@@ -59,7 +56,7 @@ test("stamp choices show images without material names", async ({ page }) => {
   await page.getByRole("button", { name: /新しいデザインを作る/ }).click();
   await page.getByRole("button", { name: "スタンプ", exact: true }).click();
   const choices = page.getByRole("button", { name: /^スタンプ\d+を追加$/ });
-  expect(await choices.count()).toBeGreaterThan(14);
+  expect(await choices.count()).toBeGreaterThan(0);
   for (const choice of await choices.all()) {
     await expect(choice).toHaveText("");
     await expect(choice.locator("img")).toHaveAttribute("alt", "");

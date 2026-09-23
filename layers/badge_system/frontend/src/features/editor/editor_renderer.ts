@@ -60,8 +60,6 @@ export async function render_badge_design(
       if (image_url) {
         const image = await load_image(image_url);
         draw_custom_stamp(context, image, stamp, canvas_size);
-      } else {
-        draw_stamp(context, stamp, canvas_size);
       }
       continue;
     }
@@ -76,13 +74,18 @@ export async function render_badge_design(
   context.restore();
 
   if (design.frame) {
+    context.save();
+    create_finish_clip(context, canvas_size, options.finish_diameter_ratio);
     await draw_frame(
       context,
       design.frame,
       canvas_size,
       options.extend_frame_to_bleed ?? false,
     );
+    context.restore();
   }
+
+  draw_copyright(context, canvas_size);
 
   if (options.include_guides) {
     draw_guides(
@@ -202,130 +205,6 @@ function draw_photo(
   context.restore();
 }
 
-function draw_stamp(
-  context: CanvasRenderingContext2D,
-  stamp: StampLayer,
-  canvas_size: number,
-) {
-  const scale = canvas_size / default_canvas_size_px;
-  const size = 160 * scale;
-
-  context.save();
-  context.translate(stamp.x * scale, stamp.y * scale);
-  context.rotate((stamp.rotation * Math.PI) / 180);
-  context.scale(stamp.flipped ? -stamp.scale : stamp.scale, stamp.scale);
-  context.fillStyle = stamp.color;
-  context.strokeStyle = "#ffffff";
-  context.lineWidth = 10 * scale;
-
-  if (stamp.catalog_id === "vris_ribbon") {
-    context.beginPath();
-    context.moveTo(-size * 0.55, -size * 0.3);
-    context.lineTo(size * 0.55, -size * 0.3);
-    context.lineTo(size * 0.35, size * 0.45);
-    context.lineTo(0, size * 0.2);
-    context.lineTo(-size * 0.35, size * 0.45);
-    context.closePath();
-  } else if (stamp.catalog_id === "vris_spark") {
-    context.beginPath();
-    context.moveTo(0, -size * 0.6);
-    context.lineTo(size * 0.18, -size * 0.15);
-    context.lineTo(size * 0.6, 0);
-    context.lineTo(size * 0.18, size * 0.15);
-    context.lineTo(0, size * 0.6);
-    context.lineTo(-size * 0.18, size * 0.15);
-    context.lineTo(-size * 0.6, 0);
-    context.lineTo(-size * 0.18, -size * 0.15);
-    context.closePath();
-  } else if (stamp.catalog_id === "vris_heart") {
-    context.beginPath();
-    context.moveTo(0, size * 0.48);
-    context.bezierCurveTo(
-      -size * 0.58,
-      size * 0.05,
-      -size * 0.45,
-      -size * 0.48,
-      0,
-      -size * 0.18,
-    );
-    context.bezierCurveTo(
-      size * 0.45,
-      -size * 0.48,
-      size * 0.58,
-      size * 0.05,
-      0,
-      size * 0.48,
-    );
-    context.closePath();
-  } else if (stamp.catalog_id === "vris_circle") {
-    context.beginPath();
-    context.arc(0, 0, size * 0.42, 0, Math.PI * 2);
-  } else if (stamp.catalog_id === "vris_flower") {
-    context.beginPath();
-    for (let index = 0; index < 12; index += 1) {
-      const radius = index % 2 === 0 ? size * 0.52 : size * 0.26;
-      const angle = -Math.PI / 2 + (index * Math.PI) / 6;
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
-      if (index === 0) {
-        context.moveTo(x, y);
-      } else {
-        context.lineTo(x, y);
-      }
-    }
-    context.closePath();
-  } else if (stamp.catalog_id === "vris_check") {
-    context.beginPath();
-    context.moveTo(-size * 0.5, size * 0.05);
-    context.lineTo(-size * 0.18, size * 0.38);
-    context.lineTo(size * 0.55, -size * 0.36);
-    context.lineTo(size * 0.68, -size * 0.22);
-    context.lineTo(-size * 0.18, size * 0.65);
-    context.lineTo(-size * 0.65, size * 0.18);
-    context.closePath();
-  } else if (stamp.catalog_id === "vris_moon") {
-    context.beginPath();
-    context.arc(size * 0.12, 0, size * 0.48, -Math.PI * 0.62, Math.PI * 0.72);
-    context.arc(
-      size * 0.28,
-      0,
-      size * 0.42,
-      Math.PI * 0.72,
-      -Math.PI * 0.62,
-      true,
-    );
-    context.closePath();
-  } else if (stamp.catalog_id === "vris_crown") {
-    context.beginPath();
-    context.moveTo(-size * 0.55, size * 0.42);
-    context.lineTo(-size * 0.46, -size * 0.42);
-    context.lineTo(-size * 0.12, 0);
-    context.lineTo(0, -size * 0.56);
-    context.lineTo(size * 0.12, 0);
-    context.lineTo(size * 0.46, -size * 0.42);
-    context.lineTo(size * 0.55, size * 0.42);
-    context.closePath();
-  } else {
-    context.beginPath();
-    for (let index = 0; index < 10; index += 1) {
-      const radius = index % 2 === 0 ? size * 0.56 : size * 0.24;
-      const angle = -Math.PI / 2 + (index * Math.PI) / 5;
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
-      if (index === 0) {
-        context.moveTo(x, y);
-      } else {
-        context.lineTo(x, y);
-      }
-    }
-    context.closePath();
-  }
-
-  context.stroke();
-  context.fill();
-  context.restore();
-}
-
 function draw_text_layer(
   context: CanvasRenderingContext2D,
   text_layer: TextLayer,
@@ -352,6 +231,83 @@ function draw_text_layer(
   context.fillStyle = text_layer.color;
   context.fillText(text_layer.text, 0, 0);
   context.restore();
+}
+
+function draw_copyright(
+  context: CanvasRenderingContext2D,
+  canvas_size: number,
+) {
+  const scale = canvas_size / default_canvas_size_px;
+  const finish_radius = (canvas_size * default_finish_diameter_ratio) / 2;
+  const center = canvas_size / 2;
+  const font_size = 18 * scale;
+  const center_angle = Math.PI * 0.4;
+
+  context.save();
+  create_finish_clip(context, canvas_size, default_finish_diameter_ratio);
+  context.font = `600 ${font_size}px system-ui, sans-serif`;
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.lineJoin = "round";
+  context.strokeStyle = "rgba(255, 255, 255, 0.95)";
+  context.lineWidth = 3 * scale;
+  context.fillStyle = "#111827";
+
+  draw_text_along_arc(
+    context,
+    "©Vket Real in Sapporo",
+    center,
+    center,
+    finish_radius - 15 * scale,
+    center_angle,
+    1.2 * scale,
+  );
+  draw_text_along_arc(
+    context,
+    "©HIKKY",
+    center,
+    center,
+    finish_radius - 39 * scale,
+    center_angle,
+    1.2 * scale,
+  );
+  context.restore();
+}
+
+function draw_text_along_arc(
+  context: CanvasRenderingContext2D,
+  text: string,
+  center_x: number,
+  center_y: number,
+  radius: number,
+  center_angle: number,
+  letter_spacing: number,
+) {
+  const characters = Array.from(text);
+  const widths = characters.map(
+    (character) => context.measureText(character).width,
+  );
+  const text_width =
+    widths.reduce((total, width) => total + width, 0) +
+    Math.max(0, characters.length - 1) * letter_spacing;
+  let angle = center_angle + text_width / radius / 2;
+
+  characters.forEach((character, index) => {
+    const character_width = widths[index];
+    angle -= character_width / radius / 2;
+
+    context.save();
+    context.translate(
+      center_x + Math.cos(angle) * radius,
+      center_y + Math.sin(angle) * radius,
+    );
+    context.rotate(angle - Math.PI / 2);
+    context.strokeText(character, 0, 0);
+    context.fillText(character, 0, 0);
+    context.restore();
+
+    angle -= character_width / radius / 2 + letter_spacing / radius;
+  });
 }
 
 async function draw_frame(

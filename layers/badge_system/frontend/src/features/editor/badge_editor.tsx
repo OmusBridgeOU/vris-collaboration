@@ -1,18 +1,19 @@
 import {
-  ArrowLeft,
   ArrowDownToLine,
   ArrowUpToLine,
   BadgePlus,
   Bold,
-  Download,
   Eraser,
   FlipHorizontal2,
+  Hand,
   ImagePlus,
   RotateCw,
-  Sparkles,
+  Save,
   Trash2,
   Type,
   Undo2,
+  ZoomIn,
+  ZoomOut,
 } from "lucide-react";
 import {
   PointerEvent as ReactPointerEvent,
@@ -35,7 +36,6 @@ import {
   default_finish_diameter_ratio,
   font_catalog,
   frame_catalog,
-  full_bleed_diameter_ratio,
   normalize_font_family,
   resolve_font_family,
   stamp_catalog,
@@ -68,7 +68,7 @@ import {
   type TransformBox,
   type TransformHandleAction,
 } from "./editor_transform_handles";
-import { render_badge_design, render_share_image } from "./editor_renderer";
+import { render_badge_design } from "./editor_renderer";
 import type {
   BadgeDesign,
   DrawingStroke,
@@ -82,12 +82,10 @@ import type {
 
 type BadgeEditorProps = {
   config: PublicConfig;
-  notice: string | null;
   project: LocalBadgeProject;
   storage: ProjectStorage;
   on_back: () => void;
   on_add_to_purchase_list: (project_id: string) => void | Promise<void>;
-  on_open_x_share: (project_id: string) => void;
 };
 
 type PointerRecord = {
@@ -118,6 +116,14 @@ type DirectManipulation = {
   cycle_overlapping_on_tap?: boolean;
 };
 
+type CanvasPanInteraction = {
+  pointer_id: number;
+  start_client_x: number;
+  start_client_y: number;
+  start_offset_x: number;
+  start_offset_y: number;
+};
+
 const photo_transform_selection: EditorSelection = { kind: "photo" };
 
 const tools: Array<{ id: EditorTool; label: string }> = [
@@ -136,11 +142,9 @@ const tap_move_tolerance_px = 32;
 
 export function BadgeEditor({
   project,
-  notice,
   storage,
   on_back,
   on_add_to_purchase_list,
-  on_open_x_share,
 }: BadgeEditorProps) {
   const [history, set_history] = useState<EditorHistory>(() =>
     create_history(design_from_project(project)),
@@ -159,7 +163,11 @@ export function BadgeEditor({
   const [thumbnail_data_url, set_thumbnail_data_url] = useState<string>();
   const [rendered_design_updated_at, set_rendered_design_updated_at] =
     useState<string>();
+  const [canvas_zoom, set_canvas_zoom] = useState(1);
+  const [canvas_offset, set_canvas_offset] = useState({ x: 0, y: 0 });
+  const [is_canvas_pan_mode, set_is_canvas_pan_mode] = useState(false);
   const canvas_ref = useRef<HTMLCanvasElement | null>(null);
+  const canvas_pan_interaction = useRef<CanvasPanInteraction>();
   const pointer_records = useRef<Map<number, PointerRecord>>(new Map());
   const manipulation = useRef<DirectManipulation>();
 
@@ -345,34 +353,13 @@ export function BadgeEditor({
     }
   }
 
-  async function handle_download_share_image() {
-    set_error_message("");
-    if (!design.photo) {
-      set_error_message("先に写真を選択してください。");
-      return;
-    }
-
-    try {
-      const data_url = await render_share_image(design);
-      const link = document.createElement("a");
-      link.href = data_url;
-      link.download = `vris-badge-${design.local_project_code}-${Date.now()}.jpg`;
-      link.click();
-      await persist_design(design, { share_image_data_url: data_url });
-    } catch (error) {
-      set_error_message(
-        error instanceof Error ? error.message : "画像の保存に失敗しました。",
-      );
-    }
-  }
-
-  async function handle_x_share() {
+  async function handle_save_and_back() {
     set_error_message("");
     try {
       await persist_design();
-      on_open_x_share(project.project_id);
+      on_back();
     } catch {
-      set_error_message("X投稿画面を開けませんでした。");
+      set_error_message("デザインを保存できませんでした。");
     }
   }
 
@@ -382,11 +369,35 @@ export function BadgeEditor({
       await persist_design();
       await on_add_to_purchase_list(project.project_id);
     } catch {
-      set_error_message("購入リストに追加できませんでした。");
+      set_error_message("カートに追加できませんでした。");
+    }
+  }
+
+  function change_canvas_zoom(delta: number) {
+    const next_zoom = Math.min(
+      2,
+      Math.max(0.75, Number((canvas_zoom + delta).toFixed(2))),
+    );
+    set_canvas_zoom(next_zoom);
+    if (next_zoom <= 1) {
+      set_canvas_offset({ x: 0, y: 0 });
+      set_is_canvas_pan_mode(false);
     }
   }
 
   function handle_pointer_down(event: ReactPointerEvent<HTMLCanvasElement>) {
+    if (is_canvas_pan_mode) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+      canvas_pan_interaction.current = {
+        pointer_id: event.pointerId,
+        start_client_x: event.clientX,
+        start_client_y: event.clientY,
+        start_offset_x: canvas_offset.x,
+        start_offset_y: canvas_offset.y,
+      };
+      return;
+    }
+
     const point = event_point(event);
     event.currentTarget.setPointerCapture(event.pointerId);
     pointer_records.current.set(event.pointerId, {
@@ -456,6 +467,38 @@ export function BadgeEditor({
   }
 
   function handle_pointer_move(event: ReactPointerEvent<HTMLCanvasElement>) {
+    const pan_interaction = canvas_pan_interaction.current;
+    if (pan_interaction?.pointer_id === event.pointerId) {
+      const canvas = canvas_ref.current;
+      if (!canvas) {
+        return;
+      }
+      const transformed_width = canvas.getBoundingClientRect().width;
+      const base_width = transformed_width / canvas_zoom;
+      const maximum_offset = (base_width * (canvas_zoom - 1)) / 2;
+      set_canvas_offset({
+        x: Math.min(
+          maximum_offset,
+          Math.max(
+            -maximum_offset,
+            pan_interaction.start_offset_x +
+              event.clientX -
+              pan_interaction.start_client_x,
+          ),
+        ),
+        y: Math.min(
+          maximum_offset,
+          Math.max(
+            -maximum_offset,
+            pan_interaction.start_offset_y +
+              event.clientY -
+              pan_interaction.start_client_y,
+          ),
+        ),
+      });
+      return;
+    }
+
     const point = event_point(event);
     const existing = pointer_records.current.get(event.pointerId);
     if (existing) {
@@ -484,6 +527,11 @@ export function BadgeEditor({
   }
 
   function handle_pointer_up(event: ReactPointerEvent<HTMLCanvasElement>) {
+    if (canvas_pan_interaction.current?.pointer_id === event.pointerId) {
+      canvas_pan_interaction.current = undefined;
+      return;
+    }
+
     const point = event_point(event);
     pointer_records.current.delete(event.pointerId);
 
@@ -551,6 +599,11 @@ export function BadgeEditor({
   }
 
   function handle_pointer_cancel(event: ReactPointerEvent<HTMLCanvasElement>) {
+    if (canvas_pan_interaction.current?.pointer_id === event.pointerId) {
+      canvas_pan_interaction.current = undefined;
+      return;
+    }
+
     pointer_records.current.delete(event.pointerId);
     manipulation.current = undefined;
     set_current_stroke(undefined);
@@ -595,40 +648,6 @@ export function BadgeEditor({
         className="mx-auto flex h-dvh max-w-full flex-col overflow-hidden px-1 pb-[env(safe-area-inset-bottom)] pt-[calc(env(safe-area-inset-top)+0.125rem)]"
         style={{ width: editor_surface_css_width }}
       >
-        <header className="grid min-h-0 shrink-0 grid-cols-[40px_1fr_78px] items-center gap-0.5 border-b border-slate-200 pb-0.5">
-          <button
-            aria-label="戻る"
-            className="grid min-h-9 min-w-9 place-items-center rounded-md border border-slate-300 bg-white text-[0px]"
-            onClick={on_back}
-            title="戻る"
-            type="button"
-          >
-            <ArrowLeft aria-hidden="true" size={18} />
-            戻る
-          </button>
-          <div className="min-w-0 text-center">
-            <h1 className="truncate text-sm font-bold leading-tight">
-              {numeric_design_title(design.local_project_code)}
-            </h1>
-          </div>
-          <div className="flex justify-end gap-1">
-            <IconButton
-              disabled={!can_undo}
-              label="戻す"
-              on_click={() => set_history((current) => undo_design(current))}
-            >
-              <Undo2 aria-hidden="true" size={18} />
-            </IconButton>
-            <IconButton
-              disabled={!can_redo}
-              label="進む"
-              on_click={() => set_history((current) => redo_design(current))}
-            >
-              <RotateCw aria-hidden="true" size={18} />
-            </IconButton>
-          </div>
-        </header>
-
         <div
           className="grid min-h-0 flex-1 content-start gap-1 py-1"
           style={{
@@ -639,7 +658,7 @@ export function BadgeEditor({
             className="row-start-1 mx-auto aspect-square min-h-0 shrink-0"
             style={{ width: editor_canvas_css_size }}
           >
-            <div className="relative aspect-square w-full rounded-md border border-slate-300 bg-white p-1 shadow-sm">
+            <div className="relative aspect-square w-full overflow-hidden rounded-md border border-slate-300 bg-white p-1 shadow-sm">
               <canvas
                 ref={canvas_ref}
                 aria-describedby="badge-finish-guide-description"
@@ -650,9 +669,58 @@ export function BadgeEditor({
                 onPointerDown={handle_pointer_down}
                 onPointerMove={handle_pointer_move}
                 onPointerUp={handle_pointer_up}
-                style={{ touchAction: "none" }}
+                style={{
+                  cursor: is_canvas_pan_mode ? "grab" : undefined,
+                  touchAction: "none",
+                  transform: `translate(${canvas_offset.x}px, ${canvas_offset.y}px) scale(${canvas_zoom})`,
+                  transformOrigin: "center",
+                }}
                 width={default_canvas_size_px}
               />
+              <div className="absolute left-2 top-2 z-10 flex gap-1">
+                <IconButton
+                  disabled={canvas_zoom <= 0.75}
+                  label="キャンバスを縮小"
+                  on_click={() => change_canvas_zoom(-0.25)}
+                >
+                  <ZoomOut aria-hidden="true" size={18} />
+                </IconButton>
+                <IconButton
+                  disabled={canvas_zoom >= 2}
+                  label="キャンバスを拡大"
+                  on_click={() => change_canvas_zoom(0.25)}
+                >
+                  <ZoomIn aria-hidden="true" size={18} />
+                </IconButton>
+                <IconButton
+                  active={is_canvas_pan_mode}
+                  disabled={canvas_zoom <= 1}
+                  label="キャンバス全体を移動"
+                  on_click={() => set_is_canvas_pan_mode((current) => !current)}
+                >
+                  <Hand aria-hidden="true" size={18} />
+                </IconButton>
+              </div>
+              <div className="absolute right-2 top-2 z-10 flex gap-1">
+                <IconButton
+                  disabled={!can_undo}
+                  label="戻す"
+                  on_click={() =>
+                    set_history((current) => undo_design(current))
+                  }
+                >
+                  <Undo2 aria-hidden="true" size={18} />
+                </IconButton>
+                <IconButton
+                  disabled={!can_redo}
+                  label="進む"
+                  on_click={() =>
+                    set_history((current) => redo_design(current))
+                  }
+                >
+                  <RotateCw aria-hidden="true" size={18} />
+                </IconButton>
+              </div>
               <p
                 className="pointer-events-none absolute bottom-2 left-2 rounded bg-white/90 px-2 py-1 text-[11px] font-bold text-slate-800 shadow-sm"
                 id="badge-finish-guide-description"
@@ -668,14 +736,6 @@ export function BadgeEditor({
             ) : null}
           </div>
 
-          {notice && !error_message ? (
-            <p
-              role="status"
-              className="row-start-2 rounded-md bg-teal-50 px-2 py-1 text-sm text-teal-900"
-            >
-              {notice}
-            </p>
-          ) : null}
           {error_message ? (
             <div className="row-start-2 rounded-md border border-red-200 bg-red-50 px-2 py-1 text-sm font-semibold text-red-700">
               {error_message}
@@ -788,23 +848,17 @@ export function BadgeEditor({
           className="grid min-h-0 shrink-0 gap-0.5 bg-paper pb-1 pt-1"
           style={{ height: editor_footer_css_height }}
         >
-          <div className="grid grid-cols-2 gap-1">
-            <ActionButton on_click={handle_download_share_image}>
-              <Download aria-hidden="true" size={18} />
-              画像を保存
-            </ActionButton>
-            <ActionButton on_click={handle_x_share}>
-              <Sparkles aria-hidden="true" size={18} />
-              X投稿
-            </ActionButton>
-          </div>
+          <ActionButton on_click={handle_save_and_back}>
+            <Save aria-hidden="true" size={18} />
+            保存して戻る
+          </ActionButton>
           <button
             className="flex min-h-10 items-center justify-center gap-2 rounded-md bg-action px-2 py-1 text-sm font-bold text-white shadow-sm"
             onClick={handle_add_to_purchase_list}
             type="button"
           >
             <BadgePlus aria-hidden="true" />
-            購入リストに追加
+            カートに追加
           </button>
         </footer>
       </section>
@@ -871,14 +925,14 @@ function StampPanel({
         {stamp_catalog.map((stamp, index) => (
           <button
             aria-label={`スタンプ${index + 1}を追加`}
-            className="grid min-h-20 place-items-center gap-1 rounded-md border border-slate-300 bg-white px-1 py-2 text-xs font-semibold"
+            className="grid min-h-24 place-items-center rounded-md border border-slate-300 bg-white p-1"
             key={stamp.id}
             onClick={() => on_add(stamp.id)}
             type="button"
           >
             <img
               alt=""
-              className="h-12 w-12 object-contain"
+              className="h-20 w-full object-contain"
               src={stamp_preview_data_url(stamp)}
             />
           </button>
@@ -1159,52 +1213,7 @@ function FramePanel({
 }
 
 function stamp_preview_data_url(stamp: StampCatalogItem) {
-  if (stamp.image_url) {
-    return stamp.image_url;
-  }
-
-  const common = `fill="${stamp.color}" stroke="#ffffff" stroke-width="10" stroke-linejoin="round"`;
-  const shape = stamp_preview_shape(stamp.id, common);
-
-  return svg_data_url(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">${shape}</svg>`,
-  );
-}
-
-function stamp_preview_shape(stamp_id: string, common: string) {
-  if (stamp_id === "vris_ribbon") {
-    return `<path ${common} d="M18 30H82L70 74L50 60L30 74Z" />`;
-  }
-
-  if (stamp_id === "vris_spark") {
-    return `<path ${common} d="M50 10L60 38L90 50L60 62L50 90L40 62L10 50L40 38Z" />`;
-  }
-
-  if (stamp_id === "vris_heart") {
-    return `<path ${common} d="M50 84C22 62 12 45 18 30C24 15 42 18 50 32C58 18 76 15 82 30C88 45 78 62 50 84Z" />`;
-  }
-
-  if (stamp_id === "vris_circle") {
-    return `<circle ${common} cx="50" cy="50" r="36" />`;
-  }
-
-  if (stamp_id === "vris_flower") {
-    return `<path ${common} d="M50 16L61 35L84 28L72 50L84 72L61 65L50 84L39 65L16 72L28 50L16 28L39 35Z" />`;
-  }
-
-  if (stamp_id === "vris_check") {
-    return `<path ${common} d="M22 52L39 69L80 28L90 39L39 90L12 63Z" />`;
-  }
-
-  if (stamp_id === "vris_moon") {
-    return `<path ${common} d="M64 10C43 18 31 37 35 58C39 78 56 90 78 87C68 95 54 97 40 91C18 82 7 57 16 35C25 14 47 4 64 10Z" />`;
-  }
-
-  if (stamp_id === "vris_crown") {
-    return `<path ${common} d="M16 76L23 30L41 52L50 20L59 52L77 30L84 76Z" />`;
-  }
-
-  return `<path ${common} d="M50 10L61 36L89 38L68 56L75 84L50 69L25 84L32 56L11 38L39 36Z" />`;
+  return stamp.image_url ?? "";
 }
 
 function frame_preview_data_url(frame: FrameCatalogItem) {
@@ -1224,10 +1233,6 @@ function frame_preview_data_url(frame: FrameCatalogItem) {
 
 function svg_data_url(svg: string) {
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
-}
-
-function numeric_design_title(local_project_code: string) {
-  return local_project_code.replace(/\D/g, "") || local_project_code;
 }
 
 function LayerButtons({
@@ -1306,11 +1311,13 @@ function IconTextButton({
 }
 
 function IconButton({
+  active,
   children,
   disabled,
   label,
   on_click,
 }: {
+  active?: boolean;
   children: React.ReactNode;
   disabled?: boolean;
   label: string;
@@ -1319,7 +1326,10 @@ function IconButton({
   return (
     <button
       aria-label={label}
-      className="grid min-h-9 min-w-9 place-items-center rounded-md border border-slate-300 bg-white disabled:opacity-40"
+      aria-pressed={active}
+      className={`grid min-h-9 min-w-9 place-items-center rounded-md border border-slate-300 disabled:opacity-40 ${
+        active ? "bg-slate-800 text-white" : "bg-white"
+      }`}
       disabled={disabled}
       onClick={on_click}
       title={label}
@@ -1402,7 +1412,7 @@ function create_thumbnail_data_url(source: HTMLCanvasElement) {
 function render_clean_design(design: BadgeDesign) {
   return render_badge_design(design, {
     canvas_size_px: default_canvas_size_px,
-    finish_diameter_ratio: full_bleed_diameter_ratio,
+    finish_diameter_ratio: default_finish_diameter_ratio,
     include_guides: false,
   });
 }

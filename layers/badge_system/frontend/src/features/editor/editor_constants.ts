@@ -87,37 +87,7 @@ export function resolve_font_family(font_family: unknown) {
   );
 }
 
-const built_in_stamp_catalog: StampCatalogItem[] = [
-  {
-    id: "vris_star",
-    label: "星",
-    category: "basic",
-    color: "#f59e0b",
-  },
-  {
-    id: "vris_spark",
-    label: "きらめき",
-    category: "basic",
-    color: "#14b8a6",
-  },
-  {
-    id: "vris_heart",
-    label: "ハート",
-    category: "basic",
-    color: "#ec4899",
-  },
-  {
-    id: "vris_circle",
-    label: "丸",
-    category: "basic",
-    color: "#22c55e",
-  },
-];
-
-export const stamp_catalog: StampCatalogItem[] = [
-  ...built_in_stamp_catalog,
-  ...provider_stamp_catalog,
-];
+export const stamp_catalog: StampCatalogItem[] = provider_stamp_catalog;
 
 export const frame_catalog: FrameCatalogItem[] = [
   {

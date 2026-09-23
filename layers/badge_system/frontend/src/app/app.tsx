@@ -5,9 +5,12 @@ import {
   type OrderConfirmations,
 } from "../api/order_client";
 import { BadgeEditor } from "../features/editor/badge_editor";
+import { HelpView } from "../features/help/help_view";
+import { OrderHistoryView } from "../features/order_history/order_history_view";
 import { ProjectList } from "../features/projects/project_list";
 import type {
   LocalBadgeProject,
+  OrderHistoryEntry,
   PurchaseListEntry,
 } from "../features/projects/project_types";
 import { useProjectStorage } from "../features/projects/use_project_storage";
@@ -23,7 +26,7 @@ import { XSharePanel } from "../features/x_share/x_share_panel";
 import {
   create_project_share_image,
   create_share_file_name,
-  download_data_url,
+  save_image_to_device,
 } from "../features/x_share/x_share_service";
 import type { PublicConfig } from "../types/api_types";
 
@@ -40,7 +43,14 @@ const fallback_config: PublicConfig = {
   xHashtags: ["オリジナル缶バッジ"],
 };
 
-type AppView = "projects" | "editor" | "purchase_list" | "credits" | "x_share";
+type AppView =
+  | "projects"
+  | "editor"
+  | "purchase_list"
+  | "order_history"
+  | "help"
+  | "credits"
+  | "x_share";
 
 export function App() {
   const storage = useProjectStorage();
@@ -51,6 +61,7 @@ export function App() {
   const [purchase_entries, set_purchase_entries] = useState<
     PurchaseListEntry[]
   >([]);
+  const [order_history, set_order_history] = useState<OrderHistoryEntry[]>([]);
   const [selected_project_id, set_selected_project_id] = useState<
     string | null
   >(null);
@@ -75,13 +86,16 @@ export function App() {
   }, [is_staff_path]);
 
   const refresh_local_state = useCallback(async () => {
-    const [stored_projects, stored_purchase_entries] = await Promise.all([
-      storage.list_projects(),
-      storage.list_purchase_entries(),
-    ]);
+    const [stored_projects, stored_purchase_entries, stored_order_history] =
+      await Promise.all([
+        storage.list_projects(),
+        storage.list_purchase_entries(),
+        storage.list_order_history(),
+      ]);
 
     set_projects(stored_projects);
     set_purchase_entries(stored_purchase_entries);
+    set_order_history(stored_order_history);
   }, [storage]);
 
   useEffect(() => {
@@ -90,6 +104,15 @@ export function App() {
     }
     void refresh_local_state();
   }, [is_staff_path, refresh_local_state]);
+
+  useEffect(() => {
+    if (!notice) {
+      return;
+    }
+
+    const timeout_id = window.setTimeout(() => set_notice(null), 4_000);
+    return () => window.clearTimeout(timeout_id);
+  }, [notice]);
 
   if (is_staff_path) {
     return <StaffApp />;
@@ -160,7 +183,7 @@ export function App() {
 
     await refresh_local_state();
     set_notice(
-      `${entry.project.local_project_code}を購入リストに1個追加しました。`,
+      `${entry.project.local_project_code}をカートに1個追加しました。`,
     );
   };
 
@@ -206,6 +229,23 @@ export function App() {
     let local_update_failed = false;
 
     try {
+      await storage.save_order_history({
+        order_id: order.publicToken,
+        reception_number: order.receptionNumber,
+        ordered_at: order.createdAt,
+        total_quantity: order.totalQuantity,
+        unit_price_yen: config.unitPriceYen,
+        total_price_yen:
+          config.unitPriceYen == null
+            ? null
+            : config.unitPriceYen * order.totalQuantity,
+        items: current_entries.map((entry) => ({
+          local_project_code: entry.project.local_project_code,
+          thumbnail_data_url: entry.project.thumbnail_data_url,
+          quantity: entry.quantity,
+        })),
+      });
+
       for (const entry of current_entries) {
         await storage.save_project({
           ...entry.project,
@@ -223,7 +263,7 @@ export function App() {
 
     if (local_update_failed) {
       set_notice(
-        `注文は作成されました。受付番号 ${order.receptionNumber} を控えてください。この端末のデザイン状態の更新に失敗しました。購入リストは保持されています。`,
+        `注文は作成されました。受付番号 ${order.receptionNumber} を控えてください。この端末のデザイン状態の更新に失敗しました。カートは保持されています。`,
       );
     }
 
@@ -241,7 +281,10 @@ export function App() {
 
     try {
       const share_image = await create_project_share_image(project);
-      download_data_url(share_image, create_share_file_name(project));
+      const save_method = await save_image_to_device(
+        share_image,
+        create_share_file_name(project),
+      );
       const saved_project = await storage.save_project({
         ...project,
         share_image_data_url: share_image,
@@ -250,7 +293,9 @@ export function App() {
       set_share_image_saved_project_id(saved_project.project_id);
       set_share_error(null);
       set_notice(
-        "画像を保存しました。Xへ投稿する際は、保存した画像を投稿画面で添付してください。",
+        save_method === "shared"
+          ? "端末の共有メニューを開きました。画像の保存先に写真アプリを選択してください。"
+          : "画像を保存しました。Xへ投稿する際は、保存した画像を投稿画面で添付してください。",
       );
     } catch {
       set_share_error("画像の保存に失敗しました。もう一度お試しください。");
@@ -278,6 +323,8 @@ export function App() {
           on_edit_project={open_editor}
           on_open_x_share={open_x_share}
           on_open_purchase_list={() => navigate_to_view("purchase_list")}
+          on_open_order_history={() => navigate_to_view("order_history")}
+          on_open_help={() => navigate_to_view("help")}
           on_open_credits={() => navigate_to_view("credits")}
           on_save_image={save_share_image}
           projects={projects}
@@ -303,6 +350,19 @@ export function App() {
       );
     }
 
+    if (view === "order_history") {
+      return (
+        <OrderHistoryView
+          on_back={() => navigate_to_view("projects")}
+          orders={order_history}
+        />
+      );
+    }
+
+    if (view === "help") {
+      return <HelpView on_back={() => navigate_to_view("projects")} />;
+    }
+
     if (view === "credits") {
       return <CreditsView on_back={() => navigate_to_view("projects")} />;
     }
@@ -311,13 +371,11 @@ export function App() {
       return (
         <BadgeEditor
           config={config}
-          notice={notice}
           on_add_to_purchase_list={add_to_purchase_list}
           on_back={() => {
             void refresh_local_state();
             navigate_to_view("projects");
           }}
-          on_open_x_share={open_x_share}
           project={selected_project}
           storage={storage}
         />
@@ -344,22 +402,35 @@ export function App() {
   };
 
   if (view === "editor" && selected_project) {
-    return render_content();
+    return (
+      <>
+        {render_content()}
+        <NoticePopup message={notice} />
+      </>
+    );
   }
 
   return (
     <main className="min-h-dvh bg-paper text-ink">
       <section className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-[calc(env(safe-area-inset-top)+1rem)]">
-        {notice ? (
-          <p
-            className="mb-3 rounded-md bg-teal-50 p-3 text-sm leading-6 text-teal-900"
-            role="status"
-          >
-            {notice}
-          </p>
-        ) : null}
         {render_content()}
       </section>
+      <NoticePopup message={notice} />
     </main>
+  );
+}
+
+function NoticePopup({ message }: { message: string | null }) {
+  if (!message) {
+    return null;
+  }
+
+  return (
+    <div
+      className="fixed left-4 right-4 top-[calc(env(safe-area-inset-top)+1rem)] z-50 mx-auto max-w-[398px] rounded-md border border-teal-200 bg-white px-4 py-3 text-sm font-semibold leading-6 text-teal-900 shadow-lg"
+      role="status"
+    >
+      {message}
+    </div>
   );
 }

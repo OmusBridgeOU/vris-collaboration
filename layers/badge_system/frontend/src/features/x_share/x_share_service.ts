@@ -46,6 +46,31 @@ export const download_data_url = (
   anchor.remove();
 };
 
+export const save_image_to_device = async (
+  data_url: string,
+  file_name: string,
+) => {
+  if (
+    typeof navigator !== "undefined" &&
+    typeof navigator.share === "function"
+  ) {
+    const response = await fetch(data_url);
+    const blob = await response.blob();
+    const file = new File([blob], file_name, {
+      type: blob.type || "image/jpeg",
+    });
+    const share_data = { files: [file], title: "缶バッジ画像" };
+
+    if (navigator.canShare?.(share_data)) {
+      await navigator.share(share_data);
+      return "shared" as const;
+    }
+  }
+
+  download_data_url(data_url, file_name);
+  return "downloaded" as const;
+};
+
 export const create_project_share_image = async (
   project: LocalBadgeProject,
 ): Promise<string> => {
