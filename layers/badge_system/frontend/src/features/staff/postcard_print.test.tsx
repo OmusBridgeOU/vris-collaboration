@@ -89,10 +89,10 @@ describe("postcard printing", () => {
     ).toBe(true);
     act(() => window.dispatchEvent(new Event("afterprint")));
     expect(screen.getByRole("button", { name: "印刷" })).toBeEnabled();
-    expect(fetch_mock).toHaveBeenCalledTimes(2);
+    expect(fetch_mock).toHaveBeenCalledTimes(4);
     expect(order.items.map((item) => item.quantity)).toEqual([1, 2]);
     view.unmount();
-    expect(revoke).toHaveBeenCalledTimes(2);
+    expect(revoke).toHaveBeenCalledTimes(4);
     expect(document.querySelector(".postcard_pages")).toBeNull();
     print.mockRestore();
   });
@@ -119,7 +119,7 @@ describe("postcard printing", () => {
     );
     expect(document.querySelector(".postcard_page img")).toHaveAttribute(
       "src",
-      "blob:image-2",
+      "blob:image-4",
     );
     fireEvent.click(
       screen.getAllByRole("button", { name: /48317-02 の注文を取りやめ/ })[0],
@@ -129,7 +129,7 @@ describe("postcard printing", () => {
     expect(document.querySelectorAll(".postcard_page")).toHaveLength(1);
     expect(document.querySelector(".postcard_page img")).toHaveAttribute(
       "src",
-      "blob:image-2",
+      "blob:image-4",
     );
     fireEvent.click(
       screen.getByRole("button", { name: /48317-02 の注文を取りやめ/ }),
@@ -145,7 +145,7 @@ describe("postcard printing", () => {
     expect(screen.getByText("1個")).toBeVisible();
     expect(screen.getByText("500円")).toBeVisible();
     expect(screen.getByRole("button", { name: "印刷" })).toBeEnabled();
-    expect(fetch_mock).toHaveBeenCalledTimes(2);
+    expect(fetch_mock).toHaveBeenCalledTimes(4);
     expect(order.items.map((item) => item.quantity)).toEqual([1, 2]);
     view.unmount();
     render(<PostcardPrint order={order} />);

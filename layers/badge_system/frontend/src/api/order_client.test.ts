@@ -18,7 +18,7 @@ describe("create_order_batch", () => {
     vi.unstubAllGlobals();
   });
 
-  it("extends frame artwork for the print image but not the thumbnail", async () => {
+  it("extends frame artwork only for the print image and uses the project thumbnail", async () => {
     vi.stubGlobal(
       "fetch",
       vi.fn(
@@ -35,11 +35,60 @@ describe("create_order_batch", () => {
               publicUrl: "/orders/token",
               items: [],
             }),
-            { status: 201, headers: { "Content-Type": "application/json" } },
+            {
+              status: 201,
+              headers: {
+                "Content-Type": "application/json",
+              },
+            },
           ),
       ),
     );
+
+    class MockImage {
+      onload: (() => void) | null = null;
+      onerror: (() => void) | null = null;
+
+      width = 360;
+      height = 360;
+      naturalWidth = 360;
+      naturalHeight = 360;
+
+      private source = "";
+
+      get src() {
+        return this.source;
+      }
+
+      set src(value: string) {
+        this.source = value;
+
+        queueMicrotask(() => {
+          this.onload?.();
+        });
+      }
+
+      async decode() {
+        return undefined;
+      }
+    }
+
+    vi.stubGlobal("Image", MockImage);
+
+    const fill_rect = vi.fn();
+    const draw_image = vi.fn();
+
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(
+      () =>
+        ({
+          fillStyle: "",
+          fillRect: fill_rect,
+          drawImage: draw_image,
+        }) as unknown as CanvasRenderingContext2D,
+    );
+
     const design = create_empty_design();
+
     const entry = {
       project_id: design.project_id,
       quantity: 1,
@@ -47,8 +96,11 @@ describe("create_order_batch", () => {
         project_id: design.project_id,
         local_project_code: design.local_project_code,
         editor_design: design,
+        thumbnail_data_url:
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAB",
       },
     } as PurchaseListEntry;
+
     const config: PublicConfig = {
       termsVersion: "1.1",
       maxUploadBytesPerItem: 20_000_000,
@@ -72,15 +124,23 @@ describe("create_order_batch", () => {
       },
     });
 
-    expect(renderer_mocks.render_badge_design).toHaveBeenNthCalledWith(
-      1,
+    expect(renderer_mocks.render_badge_design).toHaveBeenCalledTimes(1);
+
+    expect(renderer_mocks.render_badge_design).toHaveBeenCalledWith(
       expect.anything(),
-      expect.objectContaining({ extend_frame_to_bleed: true }),
+      expect.objectContaining({
+        canvas_size_px: config.canvasSizePx,
+        finish_diameter_ratio: 1,
+        safe_area_ratio: config.safeAreaRatio,
+        include_guides: false,
+        extend_frame_to_bleed: true,
+      }),
     );
-    expect(renderer_mocks.render_badge_design).toHaveBeenNthCalledWith(
-      2,
-      expect.anything(),
-      expect.not.objectContaining({ extend_frame_to_bleed: true }),
-    );
+
+    expect(fill_rect).toHaveBeenCalledWith(0, 0, 360, 360);
+
+    expect(draw_image).toHaveBeenCalledWith(expect.anything(), 0, 0, 360, 360);
+
+    expect(renderer_mocks.canvas_to_blob).toHaveBeenCalledTimes(2);
   });
 });
