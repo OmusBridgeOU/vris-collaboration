@@ -5,6 +5,7 @@ import {
   type OrderConfirmations,
 } from "../api/order_client";
 import { BadgeEditor } from "../features/editor/badge_editor";
+import { HelpView } from "../features/help/help_view";
 import { OrderHistoryView } from "../features/order_history/order_history_view";
 import { ProjectList } from "../features/projects/project_list";
 import type {
@@ -47,6 +48,7 @@ type AppView =
   | "editor"
   | "purchase_list"
   | "order_history"
+  | "help"
   | "credits"
   | "x_share";
 
@@ -303,6 +305,7 @@ export function App() {
           on_open_x_share={open_x_share}
           on_open_purchase_list={() => navigate_to_view("purchase_list")}
           on_open_order_history={() => navigate_to_view("order_history")}
+          on_open_help={() => navigate_to_view("help")}
           on_open_credits={() => navigate_to_view("credits")}
           on_save_image={save_share_image}
           projects={projects}
@@ -335,6 +338,10 @@ export function App() {
           orders={order_history}
         />
       );
+    }
+
+    if (view === "help") {
+      return <HelpView on_back={() => navigate_to_view("projects")} />;
     }
 
     if (view === "credits") {

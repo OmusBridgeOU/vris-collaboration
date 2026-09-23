@@ -1,5 +1,6 @@
 import {
   BadgeInfo,
+  CircleHelp,
   Copy,
   Download,
   History,
@@ -25,6 +26,7 @@ type ProjectListProps = {
   on_open_purchase_list: () => void;
   on_open_credits: () => void;
   on_open_order_history: () => void;
+  on_open_help: () => void;
 };
 
 const format_datetime = (value: string) =>
@@ -66,6 +68,7 @@ export function ProjectList({
   on_open_purchase_list,
   on_open_credits,
   on_open_order_history,
+  on_open_help,
 }: ProjectListProps) {
   return (
     <section className="grid gap-4">
@@ -101,8 +104,16 @@ export function ProjectList({
             注文履歴
           </button>
           <button
+            className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
+            onClick={on_open_help}
+            type="button"
+          >
+            <CircleHelp aria-hidden="true" size={18} />
+            使い方
+          </button>
+          <button
             aria-label="新しいデザインを作る"
-            className="flex min-h-11 items-center gap-2 rounded-md bg-action px-3 py-2 text-sm font-semibold text-white"
+            className="flex min-h-11 items-center justify-center gap-2 rounded-md bg-action px-3 py-2 text-sm font-semibold text-white"
             onClick={on_create_project}
             type="button"
           >
