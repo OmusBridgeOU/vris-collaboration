@@ -90,6 +90,7 @@ export function ProjectList({
             onClick={on_open_purchase_list}
             type="button"
           >
+            <ShoppingCart aria-hidden="true" size={18} />
             注文カート
           </button>
           {show_credits_button ? (
