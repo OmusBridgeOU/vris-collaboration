@@ -85,6 +85,8 @@ export async function render_badge_design(
     context.restore();
   }
 
+  draw_copyright(context, canvas_size);
+
   if (options.include_guides) {
     draw_guides(
       context,
@@ -228,6 +230,36 @@ function draw_text_layer(
 
   context.fillStyle = text_layer.color;
   context.fillText(text_layer.text, 0, 0);
+  context.restore();
+}
+
+function draw_copyright(
+  context: CanvasRenderingContext2D,
+  canvas_size: number,
+) {
+  const scale = canvas_size / default_canvas_size_px;
+  const finish_radius = (canvas_size * default_finish_diameter_ratio) / 2;
+  const x = canvas_size / 2 + finish_radius * 0.68;
+  const bottom_y = canvas_size / 2 + finish_radius * 0.68;
+  const font_size = 22 * scale;
+  const line_height = 28 * scale;
+  const lines = ["©HIKKY", "©Vket Real in Sapporo"];
+
+  context.save();
+  create_finish_clip(context, canvas_size, default_finish_diameter_ratio);
+  context.font = `600 ${font_size}px system-ui, sans-serif`;
+  context.textAlign = "right";
+  context.textBaseline = "alphabetic";
+  context.lineJoin = "round";
+  context.strokeStyle = "rgba(255, 255, 255, 0.95)";
+  context.lineWidth = 5 * scale;
+  context.fillStyle = "#111827";
+
+  lines.forEach((line, index) => {
+    const y = bottom_y - (lines.length - 1 - index) * line_height;
+    context.strokeText(line, x, y);
+    context.fillText(line, x, y);
+  });
   context.restore();
 }
 
