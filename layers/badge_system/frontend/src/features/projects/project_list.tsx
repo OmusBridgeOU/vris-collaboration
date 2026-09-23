@@ -112,7 +112,7 @@ export function ProjectList({
           </button>
           <button
             aria-label="新しいデザインを作る"
-            className="flex min-h-11 items-center justify-center gap-2 rounded-md bg-action px-3 py-2 text-sm font-semibold text-white"
+            className="col-span-2 flex min-h-14 items-center justify-center gap-2 rounded-md bg-action px-4 py-3 text-base font-semibold text-white"
             onClick={on_create_project}
             type="button"
           >
