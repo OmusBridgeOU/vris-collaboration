@@ -4,12 +4,11 @@ import {
   ArrowUpToLine,
   BadgePlus,
   Bold,
-  Download,
   Eraser,
   FlipHorizontal2,
   ImagePlus,
   RotateCw,
-  Sparkles,
+  Save,
   Trash2,
   Type,
   Undo2,
@@ -68,7 +67,7 @@ import {
   type TransformBox,
   type TransformHandleAction,
 } from "./editor_transform_handles";
-import { render_badge_design, render_share_image } from "./editor_renderer";
+import { render_badge_design } from "./editor_renderer";
 import type {
   BadgeDesign,
   DrawingStroke,
@@ -87,7 +86,6 @@ type BadgeEditorProps = {
   storage: ProjectStorage;
   on_back: () => void;
   on_add_to_purchase_list: (project_id: string) => void | Promise<void>;
-  on_open_x_share: (project_id: string) => void;
 };
 
 type PointerRecord = {
@@ -140,7 +138,6 @@ export function BadgeEditor({
   storage,
   on_back,
   on_add_to_purchase_list,
-  on_open_x_share,
 }: BadgeEditorProps) {
   const [history, set_history] = useState<EditorHistory>(() =>
     create_history(design_from_project(project)),
@@ -345,34 +342,13 @@ export function BadgeEditor({
     }
   }
 
-  async function handle_download_share_image() {
-    set_error_message("");
-    if (!design.photo) {
-      set_error_message("先に写真を選択してください。");
-      return;
-    }
-
-    try {
-      const data_url = await render_share_image(design);
-      const link = document.createElement("a");
-      link.href = data_url;
-      link.download = `vris-badge-${design.local_project_code}-${Date.now()}.jpg`;
-      link.click();
-      await persist_design(design, { share_image_data_url: data_url });
-    } catch (error) {
-      set_error_message(
-        error instanceof Error ? error.message : "画像の保存に失敗しました。",
-      );
-    }
-  }
-
-  async function handle_x_share() {
+  async function handle_save_and_back() {
     set_error_message("");
     try {
       await persist_design();
-      on_open_x_share(project.project_id);
+      on_back();
     } catch {
-      set_error_message("X投稿画面を開けませんでした。");
+      set_error_message("デザインを保存できませんでした。");
     }
   }
 
@@ -788,16 +764,10 @@ export function BadgeEditor({
           className="grid min-h-0 shrink-0 gap-0.5 bg-paper pb-1 pt-1"
           style={{ height: editor_footer_css_height }}
         >
-          <div className="grid grid-cols-2 gap-1">
-            <ActionButton on_click={handle_download_share_image}>
-              <Download aria-hidden="true" size={18} />
-              画像を保存
-            </ActionButton>
-            <ActionButton on_click={handle_x_share}>
-              <Sparkles aria-hidden="true" size={18} />
-              X投稿
-            </ActionButton>
-          </div>
+          <ActionButton on_click={handle_save_and_back}>
+            <Save aria-hidden="true" size={18} />
+            保存して戻る
+          </ActionButton>
           <button
             className="flex min-h-10 items-center justify-center gap-2 rounded-md bg-action px-2 py-1 text-sm font-bold text-white shadow-sm"
             onClick={handle_add_to_purchase_list}

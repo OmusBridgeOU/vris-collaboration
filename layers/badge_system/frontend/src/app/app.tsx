@@ -358,7 +358,6 @@ export function App() {
             void refresh_local_state();
             navigate_to_view("projects");
           }}
-          on_open_x_share={open_x_share}
           project={selected_project}
           storage={storage}
         />
