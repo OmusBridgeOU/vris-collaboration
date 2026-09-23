@@ -1,12 +1,23 @@
+import badgeEditorGuideImage from "../../assets/help/badge_editor_guide.png";
+
 type HelpViewProps = {
   on_back: () => void;
 };
 
-const steps = [
+type HelpStep = {
+  title: string;
+  description: string;
+  image_src?: string;
+  image_alt?: string;
+};
+
+const steps: HelpStep[] = [
   {
     title: "デザインを作る",
     description:
       "「新規」を押し、画像・スタンプ・文字・手描き・フレームを使って缶バッジを編集します。",
+    image_src: badgeEditorGuideImage,
+    image_alt: "缶バッジ編集画面の使い方",
   },
   {
     title: "保存する",
@@ -21,7 +32,7 @@ const steps = [
   {
     title: "注文用QRを作る",
     description:
-      "カートで内容と注意事項を確認し、注文を確定します。表示されたQRまたは受付番号をスタッフへ提示してください。",
+      "カートで内容と注意事項を確認し、注文を確定します。表示されたQRまたは受付番号をスタッフへ提示して購入ください。注文時点では購入は確定しません。",
   },
 ];
 
@@ -39,11 +50,21 @@ export function HelpView({ on_back }: HelpViewProps) {
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-action font-bold text-white">
               {index + 1}
             </span>
-            <div>
+
+            <div className="min-w-0 flex-1">
               <h3 className="font-bold">{step.title}</h3>
+
               <p className="mt-1 text-sm leading-6 text-slate-700">
                 {step.description}
               </p>
+
+              {step.image_src && (
+                <img
+                  alt={step.image_alt ?? step.title}
+                  className="mt-3 w-full rounded-md border border-slate-200"
+                  src={step.image_src}
+                />
+              )}
             </div>
           </li>
         ))}
