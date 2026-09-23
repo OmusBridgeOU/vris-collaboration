@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import type { StaffOrderBatch } from "../../types/api_types";
 import "./postcard_print.css";
 
@@ -26,7 +26,9 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
   const [print_images, set_print_images] = useState<string[]>([]);
   const [error, set_error] = useState("");
   const [printing, set_printing] = useState(false);
+
   const [removed_item_ids, set_removed_item_ids] = useState<string[]>([]);
+  const [added_item_ids, set_added_item_ids] = useState<string[]>([]);
 
   const printing_ref = useRef(false);
 
@@ -39,6 +41,7 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
     set_print_images([]);
     set_error("");
     set_removed_item_ids([]);
+    set_added_item_ids([]);
 
     async function load_image(
       source: string,
@@ -117,6 +120,7 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
           set_preview_images(
             ready_images.map((entry) => entry.preview_image),
           );
+
           set_print_images(
             ready_images.map((entry) => entry.print_image),
           );
@@ -168,6 +172,11 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
     return counts;
   }, new Map<string, number>());
 
+  const added_counts = added_item_ids.reduce((counts, item_id) => {
+    counts.set(item_id, (counts.get(item_id) ?? 0) + 1);
+    return counts;
+  }, new Map<string, number>());
+
   const selected_items = order.items
     .map((item, index) => ({
       item,
@@ -175,7 +184,9 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
       print_image: print_images[index],
       remaining_quantity: Math.max(
         0,
-        item.quantity - (removed_counts.get(item.id) ?? 0),
+        item.quantity +
+          (added_counts.get(item.id) ?? 0) -
+          (removed_counts.get(item.id) ?? 0),
       ),
     }))
     .filter(({ remaining_quantity }) => remaining_quantity > 0);
@@ -208,6 +219,7 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
     } catch {
       printing_ref.current = false;
       set_printing(false);
+
       set_error(
         "印刷画面を開けません。ブラウザの印刷設定を確認してください。",
       );
@@ -245,6 +257,25 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
                       src={preview_image}
                       className="aspect-square w-full rounded-md bg-white object-contain"
                     />
+
+                    <button
+                      type="button"
+                      aria-label={`${item.itemCode} の注文を1個追加`}
+                      disabled={printing}
+                      onClick={() => {
+                        if (printing_ref.current) {
+                          return;
+                        }
+
+                        set_added_item_ids((current) => [
+                          ...current,
+                          item.id,
+                        ]);
+                      }}
+                      className="absolute left-0 top-0 flex min-h-11 min-w-11 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 disabled:opacity-50"
+                    >
+                      <Plus size={20} aria-hidden="true" />
+                    </button>
 
                     <button
                       type="button"
