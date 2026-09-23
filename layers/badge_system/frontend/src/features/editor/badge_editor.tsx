@@ -570,25 +570,6 @@ export function BadgeEditor({
         className="mx-auto flex h-dvh max-w-full flex-col overflow-hidden px-1 pb-[env(safe-area-inset-bottom)] pt-[calc(env(safe-area-inset-top)+0.125rem)]"
         style={{ width: editor_surface_css_width }}
       >
-        <header className="flex min-h-0 shrink-0 justify-end border-b border-slate-200 pb-0.5">
-          <div className="flex justify-end gap-1">
-            <IconButton
-              disabled={!can_undo}
-              label="戻す"
-              on_click={() => set_history((current) => undo_design(current))}
-            >
-              <Undo2 aria-hidden="true" size={18} />
-            </IconButton>
-            <IconButton
-              disabled={!can_redo}
-              label="進む"
-              on_click={() => set_history((current) => redo_design(current))}
-            >
-              <RotateCw aria-hidden="true" size={18} />
-            </IconButton>
-          </div>
-        </header>
-
         <div
           className="grid min-h-0 flex-1 content-start gap-1 py-1"
           style={{
@@ -613,6 +594,26 @@ export function BadgeEditor({
                 style={{ touchAction: "none" }}
                 width={default_canvas_size_px}
               />
+              <div className="absolute right-2 top-2 z-10 flex gap-1">
+                <IconButton
+                  disabled={!can_undo}
+                  label="戻す"
+                  on_click={() =>
+                    set_history((current) => undo_design(current))
+                  }
+                >
+                  <Undo2 aria-hidden="true" size={18} />
+                </IconButton>
+                <IconButton
+                  disabled={!can_redo}
+                  label="進む"
+                  on_click={() =>
+                    set_history((current) => redo_design(current))
+                  }
+                >
+                  <RotateCw aria-hidden="true" size={18} />
+                </IconButton>
+              </div>
               <p
                 className="pointer-events-none absolute bottom-2 left-2 rounded bg-white/90 px-2 py-1 text-[11px] font-bold text-slate-800 shadow-sm"
                 id="badge-finish-guide-description"
