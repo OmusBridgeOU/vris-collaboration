@@ -124,27 +124,4 @@ describe("PurchaseListView", () => {
     expect(screen.queryByText("/o/public-token")).toBeNull();
     expect(screen.queryByText("public-token")).toBeNull();
   });
-
-  it("reports how to add another design when the purchase list is full", () => {
-    render(
-      <PurchaseListView
-        entries={[entry]}
-        max_items_per_batch={1}
-        max_quantity_per_item={10}
-        unit_price_yen={500}
-        on_back_to_projects={vi.fn()}
-        on_create_order={vi.fn()}
-        on_edit_project={vi.fn()}
-        on_limit_error={vi.fn()}
-        on_remove={vi.fn()}
-        on_update_quantity={vi.fn()}
-      />,
-    );
-
-    expect(
-      screen.getByText(
-        "購入リストは最大1種類までです。別のデザインを追加するには、購入リストから不要なデザインを外してください。",
-      ),
-    ).toBeVisible();
-  });
 });

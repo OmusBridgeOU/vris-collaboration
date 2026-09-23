@@ -112,7 +112,10 @@ export function hit_test_transform(
       width: selected_box.width * 0.6,
       height: selected_box.height * 0.6,
     };
-    if (point_in_rotated_box(point, move_target)) {
+    if (
+      !options.cycle_overlapping_selection &&
+      point_in_rotated_box(point, move_target)
+    ) {
       return { selection: current_selection, action: "move" };
     }
 
