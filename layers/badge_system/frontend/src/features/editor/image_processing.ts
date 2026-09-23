@@ -107,7 +107,9 @@ async function convert_heic_if_needed(file: File) {
   const converter = heic2any.default;
 
   if (!converter) {
-    throw new Error("HEIC/HEIF変換ライブラリを読み込めませんでした。JPEG、PNG形式に変換してから再度お試しください。");
+    throw new Error(
+      "HEIC/HEIF変換ライブラリを読み込めませんでした。JPEG、PNG形式に変換してから再度お試しください。",
+    );
   }
 
   const converted = await converter({
