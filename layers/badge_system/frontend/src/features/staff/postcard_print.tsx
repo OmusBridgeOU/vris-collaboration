@@ -63,9 +63,7 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
       });
 
       if (!response.ok) {
-        throw new Error(
-          "画像を取得できません。注文を再検索してください。",
-        );
+        throw new Error("画像を取得できません。注文を再検索してください。");
       }
 
       const blob = await response.blob();
@@ -75,9 +73,7 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
       }
 
       if (!blob.type.startsWith("image/")) {
-        throw new Error(
-          "画像を読み込めません。注文を再検索してください。",
-        );
+        throw new Error("画像を読み込めません。注文を再検索してください。");
       }
 
       const object_url = URL.createObjectURL(blob);
@@ -117,13 +113,9 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
         );
 
         if (active) {
-          set_preview_images(
-            ready_images.map((entry) => entry.preview_image),
-          );
+          set_preview_images(ready_images.map((entry) => entry.preview_image));
 
-          set_print_images(
-            ready_images.map((entry) => entry.print_image),
-          );
+          set_print_images(ready_images.map((entry) => entry.print_image));
         }
       } catch (caught) {
         if (active) {
@@ -220,17 +212,12 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
       printing_ref.current = false;
       set_printing(false);
 
-      set_error(
-        "印刷画面を開けません。ブラウザの印刷設定を確認してください。",
-      );
+      set_error("印刷画面を開けません。ブラウザの印刷設定を確認してください。");
     }
   }
 
   return (
-    <section
-      className="flex flex-1 flex-col gap-4"
-      aria-label="注文デザイン"
-    >
+    <section className="flex flex-1 flex-col gap-4" aria-label="注文デザイン">
       {error ? (
         <p role="alert" className="text-sm text-red-700">
           {error}
@@ -248,10 +235,7 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
             {selected_items.flatMap(
               ({ item, preview_image, remaining_quantity }) =>
                 Array.from({ length: remaining_quantity }, (_, copy) => (
-                  <li
-                    key={`${item.id}-${copy}`}
-                    className="relative min-w-0"
-                  >
+                  <li key={`${item.id}-${copy}`} className="relative min-w-0">
                     <img
                       alt={`${item.itemCode} ${copy + 1}枚目`}
                       src={preview_image}
@@ -267,10 +251,7 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
                           return;
                         }
 
-                        set_added_item_ids((current) => [
-                          ...current,
-                          item.id,
-                        ]);
+                        set_added_item_ids((current) => [...current, item.id]);
                       }}
                       className="absolute left-0 top-0 flex min-h-11 min-w-11 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 disabled:opacity-50"
                     >
