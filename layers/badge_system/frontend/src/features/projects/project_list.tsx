@@ -45,7 +45,7 @@ const project_status = (
   }
 
   if (purchase_project_ids.has(project.project_id)) {
-    return "購入リスト追加済み";
+    return "カート追加済み";
   }
 
   return "未注文";
@@ -89,7 +89,7 @@ export function ProjectList({
             onClick={on_open_purchase_list}
             type="button"
           >
-            購入リスト
+            カート
           </button>
           <button
             aria-label="新しいデザインを作る"
@@ -180,7 +180,7 @@ export function ProjectList({
                   type="button"
                 >
                   <ShoppingCart aria-hidden="true" size={18} />
-                  購入リストに追加
+                  カートに追加
                 </button>
                 <button
                   className="col-span-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-red-200 px-3 text-sm font-semibold text-red-700"

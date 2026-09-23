@@ -382,7 +382,7 @@ export function BadgeEditor({
       await persist_design();
       await on_add_to_purchase_list(project.project_id);
     } catch {
-      set_error_message("購入リストに追加できませんでした。");
+      set_error_message("カートに追加できませんでした。");
     }
   }
 
@@ -804,7 +804,7 @@ export function BadgeEditor({
             type="button"
           >
             <BadgePlus aria-hidden="true" />
-            購入リストに追加
+            カートに追加
           </button>
         </footer>
       </section>

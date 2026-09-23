@@ -160,7 +160,7 @@ export function App() {
 
     await refresh_local_state();
     set_notice(
-      `${entry.project.local_project_code}を購入リストに1個追加しました。`,
+      `${entry.project.local_project_code}をカートに1個追加しました。`,
     );
   };
 
@@ -223,7 +223,7 @@ export function App() {
 
     if (local_update_failed) {
       set_notice(
-        `注文は作成されました。受付番号 ${order.receptionNumber} を控えてください。この端末のデザイン状態の更新に失敗しました。購入リストは保持されています。`,
+        `注文は作成されました。受付番号 ${order.receptionNumber} を控えてください。この端末のデザイン状態の更新に失敗しました。カートは保持されています。`,
       );
     }
 

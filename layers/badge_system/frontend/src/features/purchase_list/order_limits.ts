@@ -1,5 +1,5 @@
 export const design_limit_message = (max_items_per_batch: number) =>
-  `購入リストは最大${max_items_per_batch}種類までです。別のデザインを追加するには、購入リストから不要なデザインを外してください。`;
+  `カートは最大${max_items_per_batch}種類までです。別のデザインを追加するには、カートから不要なデザインを外してください。`;
 
 export const quantity_limit_message = (max_quantity_per_item: number) =>
   `1デザインの数量は最大${max_quantity_per_item}個です。${max_quantity_per_item}個以下にして注文してください。`;

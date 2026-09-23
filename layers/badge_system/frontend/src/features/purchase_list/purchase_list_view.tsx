@@ -196,7 +196,7 @@ export function PurchaseListView({
             onClick={() => set_phase("list")}
             type="button"
           >
-            購入リストへ戻る
+            カートへ戻る
           </button>
           <button
             className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-action px-3 font-semibold text-white disabled:bg-slate-400"
@@ -215,7 +215,7 @@ export function PurchaseListView({
   return (
     <section className="grid gap-4">
       <div>
-        <p className="text-sm font-medium text-accent">購入リスト</p>
+        <p className="text-sm font-medium text-accent">カート</p>
         <h2 className="text-xl font-bold">購入予定の缶バッジ</h2>
       </div>
 
@@ -227,7 +227,7 @@ export function PurchaseListView({
 
       {entries.length === 0 ? (
         <p className="rounded-md border border-dashed border-slate-300 bg-white p-4 text-sm leading-6 text-slate-700">
-          購入リストは空です。デザイン一覧から 001
+          カートは空です。デザイン一覧から 001
           などのデザインを追加してください。
         </p>
       ) : (
