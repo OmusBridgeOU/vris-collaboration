@@ -42,10 +42,10 @@ export function CreditsView({ on_back }: { on_back: () => void }) {
                       <dt className="font-semibold">制作者</dt>
                       <dd>{credit.creator}</dd>
                     </div>
-                    <div>
-                      <dt className="font-semibold">SNS・Web</dt>
-                      <dd>
-                        {credit.source_url ? (
+                    {credit.source_url ? (
+                      <div>
+                        <dt className="font-semibold">SNS・Web</dt>
+                        <dd>
                           <a
                             className="break-all text-accent underline"
                             href={credit.source_url}
@@ -54,11 +54,9 @@ export function CreditsView({ on_back }: { on_back: () => void }) {
                           >
                             リンクを開く
                           </a>
-                        ) : (
-                          "未登録"
-                        )}
-                      </dd>
-                    </div>
+                        </dd>
+                      </div>
+                    ) : null}
                   </dl>
                 </div>
               </li>
