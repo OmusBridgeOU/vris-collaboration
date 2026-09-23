@@ -77,6 +77,21 @@ export function ProjectList({
           <h2 className="text-xl font-bold">作成したデザイン</h2>
         </div>
         <div className="grid grid-cols-2 gap-2">
+          <button
+            className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
+            onClick={on_open_order_history}
+            type="button"
+          >
+            <History aria-hidden="true" size={18} />
+            注文履歴
+          </button>
+          <button
+            className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
+            onClick={on_open_purchase_list}
+            type="button"
+          >
+            注文カート
+          </button>
           {show_credits_button ? (
             <button
               className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
@@ -87,21 +102,6 @@ export function ProjectList({
               クレジット
             </button>
           ) : null}
-          <button
-            className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
-            onClick={on_open_purchase_list}
-            type="button"
-          >
-            注文カート
-          </button>
-          <button
-            className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
-            onClick={on_open_order_history}
-            type="button"
-          >
-            <History aria-hidden="true" size={18} />
-            注文履歴
-          </button>
           <button
             className="flex min-h-11 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-2 py-2 text-sm font-semibold"
             onClick={on_open_help}
