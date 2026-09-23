@@ -1,5 +1,4 @@
 import {
-  ArrowLeft,
   ArrowDownToLine,
   ArrowUpToLine,
   BadgePlus,
@@ -571,17 +570,7 @@ export function BadgeEditor({
         className="mx-auto flex h-dvh max-w-full flex-col overflow-hidden px-1 pb-[env(safe-area-inset-bottom)] pt-[calc(env(safe-area-inset-top)+0.125rem)]"
         style={{ width: editor_surface_css_width }}
       >
-        <header className="grid min-h-0 shrink-0 grid-cols-[40px_1fr_78px] items-center gap-0.5 border-b border-slate-200 pb-0.5">
-          <button
-            aria-label="戻る"
-            className="grid min-h-9 min-w-9 place-items-center rounded-md border border-slate-300 bg-white text-[0px]"
-            onClick={on_back}
-            title="戻る"
-            type="button"
-          >
-            <ArrowLeft aria-hidden="true" size={18} />
-            戻る
-          </button>
+        <header className="grid min-h-0 shrink-0 grid-cols-[1fr_78px] items-center gap-0.5 border-b border-slate-200 pb-0.5">
           <div className="min-w-0 text-center">
             <h1 className="truncate text-sm font-bold leading-tight">
               {numeric_design_title(design.local_project_code)}
