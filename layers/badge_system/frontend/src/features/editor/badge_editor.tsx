@@ -1086,7 +1086,7 @@ function TextPanel({
           <label className="grid gap-1 text-sm font-medium">
             フォント
             <select
-              className="min-h-11 w-full rounded-md border border-slate-300 bg-white px-2"
+              className="h-11 min-h-11 w-full rounded-md border border-slate-300 bg-white px-2"
               onChange={(event) =>
                 on_update(selected_text.id, {
                   font_family: event.target.value,

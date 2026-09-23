@@ -94,13 +94,23 @@ test("frame edge colors continue through 70mm only for print output", async ({
       expect(output.max_red_radius).toBeLessThan(
         (measurement.size * 58) / 70 / 2,
       );
-      expect(output.inner).toEqual([0, 102, 204, 255]);
+      expect_border_color(output.inner);
       expect(output.center).toEqual([255, 255, 255, 255]);
       expect(output.corner).toEqual([255, 255, 255, 255]);
     }
     expect(measurement.preview.outer).toEqual([255, 255, 255, 255]);
     expect(measurement.preview.outer_right).toEqual([255, 255, 255, 255]);
-    expect(measurement.print.outer).toEqual(measurement.print.inner);
-    expect(measurement.print.outer_right).toEqual(measurement.print.inner);
+    expect_border_color(measurement.print.outer);
+    expect_border_color(measurement.print.outer_right);
   }
 });
+
+function expect_border_color(pixel: number[]) {
+  // Canvas scaling and alpha compositing can round RGB by one level across browsers.
+  // Keep alpha exact and retain all radius/decoration/white-background checks.
+  expect(pixel).toHaveLength(4);
+  for (const [channel, expected] of [0, 102, 204].entries()) {
+    expect(Math.abs(pixel[channel] - expected)).toBeLessThanOrEqual(1);
+  }
+  expect(pixel[3]).toBe(255);
+}
