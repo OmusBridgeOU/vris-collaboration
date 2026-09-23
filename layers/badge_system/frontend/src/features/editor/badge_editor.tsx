@@ -82,7 +82,6 @@ import type {
 
 type BadgeEditorProps = {
   config: PublicConfig;
-  notice: string | null;
   project: LocalBadgeProject;
   storage: ProjectStorage;
   on_back: () => void;
@@ -135,7 +134,6 @@ const tap_move_tolerance_px = 32;
 
 export function BadgeEditor({
   project,
-  notice,
   storage,
   on_back,
   on_add_to_purchase_list,
@@ -660,14 +658,6 @@ export function BadgeEditor({
             ) : null}
           </div>
 
-          {notice && !error_message ? (
-            <p
-              role="status"
-              className="row-start-2 rounded-md bg-teal-50 px-2 py-1 text-sm text-teal-900"
-            >
-              {notice}
-            </p>
-          ) : null}
           {error_message ? (
             <div className="row-start-2 rounded-md border border-red-200 bg-red-50 px-2 py-1 text-sm font-semibold text-red-700">
               {error_message}

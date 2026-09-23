@@ -105,6 +105,15 @@ export function App() {
     void refresh_local_state();
   }, [is_staff_path, refresh_local_state]);
 
+  useEffect(() => {
+    if (!notice) {
+      return;
+    }
+
+    const timeout_id = window.setTimeout(() => set_notice(null), 4_000);
+    return () => window.clearTimeout(timeout_id);
+  }, [notice]);
+
   if (is_staff_path) {
     return <StaffApp />;
   }
@@ -352,7 +361,6 @@ export function App() {
       return (
         <BadgeEditor
           config={config}
-          notice={notice}
           on_add_to_purchase_list={add_to_purchase_list}
           on_back={() => {
             void refresh_local_state();
@@ -384,22 +392,35 @@ export function App() {
   };
 
   if (view === "editor" && selected_project) {
-    return render_content();
+    return (
+      <>
+        {render_content()}
+        <NoticePopup message={notice} />
+      </>
+    );
   }
 
   return (
     <main className="min-h-dvh bg-paper text-ink">
       <section className="mx-auto flex min-h-dvh w-full max-w-[430px] flex-col px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-[calc(env(safe-area-inset-top)+1rem)]">
-        {notice ? (
-          <p
-            className="mb-3 rounded-md bg-teal-50 p-3 text-sm leading-6 text-teal-900"
-            role="status"
-          >
-            {notice}
-          </p>
-        ) : null}
         {render_content()}
       </section>
+      <NoticePopup message={notice} />
     </main>
+  );
+}
+
+function NoticePopup({ message }: { message: string | null }) {
+  if (!message) {
+    return null;
+  }
+
+  return (
+    <div
+      className="fixed left-4 right-4 top-[calc(env(safe-area-inset-top)+1rem)] z-50 mx-auto max-w-[398px] rounded-md border border-teal-200 bg-white px-4 py-3 text-sm font-semibold leading-6 text-teal-900 shadow-lg"
+      role="status"
+    >
+      {message}
+    </div>
   );
 }
