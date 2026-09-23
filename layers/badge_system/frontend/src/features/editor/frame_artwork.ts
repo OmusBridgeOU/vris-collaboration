@@ -8,6 +8,8 @@ let cached_frame:
   | { url: string; extend_to_bleed: boolean; canvas: HTMLCanvasElement }
   | undefined;
 
+const artwork_alpha_threshold = 128;
+
 export function prepare_frame_artwork(
   image: HTMLImageElement,
   extend_to_bleed = false,
@@ -24,12 +26,25 @@ export function prepare_frame_artwork(
   if (!source_context) throw new Error("フレームを読み込めませんでした。");
   source_context.drawImage(image, 0, 0);
   const pixels = source_context.getImageData(0, 0, source.width, source.height);
-  const center_x = source.width / 2;
-  const center_y = source.height / 2;
+  const artwork_bounds = find_artwork_bounds(
+    pixels,
+    source.width,
+    source.height,
+  );
+  const center_x = artwork_bounds
+    ? (artwork_bounds.left + artwork_bounds.right + 1) / 2
+    : source.width / 2;
+  const center_y = artwork_bounds
+    ? (artwork_bounds.top + artwork_bounds.bottom + 1) / 2
+    : source.height / 2;
   let outer_radius = 0;
   for (let y = 0; y < source.height; y++) {
     for (let x = 0; x < source.width; x++) {
-      if (pixels.data[(y * source.width + x) * 4 + 3] === 0) continue;
+      if (
+        pixels.data[(y * source.width + x) * 4 + 3] <
+        artwork_alpha_threshold
+      )
+        continue;
       outer_radius = Math.max(
         outer_radius,
         Math.hypot(x + 0.5 - center_x, y + 0.5 - center_y),
@@ -42,10 +57,7 @@ export function prepare_frame_artwork(
   const context = canvas.getContext("2d");
   if (!context) throw new Error("フレームを描画できませんでした。");
   if (outer_radius > 0) {
-    // Include pixel corners and leave one output pixel inside the finish line.
-    const scale =
-      ((size * default_finish_diameter_ratio) / 2 - 1) /
-      (outer_radius + Math.SQRT1_2);
+    const scale = (size * default_finish_diameter_ratio) / 2 / outer_radius;
     if (extend_to_bleed) {
       draw_bleed(
         context,
@@ -54,18 +66,45 @@ export function prepare_frame_artwork(
         source.height,
         scale,
         outer_radius,
+        center_x,
+        center_y,
       );
     }
     context.drawImage(
       image,
-      (size - source.width * scale) / 2,
-      (size - source.height * scale) / 2,
+      size / 2 - center_x * scale,
+      size / 2 - center_y * scale,
       source.width * scale,
       source.height * scale,
     );
   }
   cached_frame = { url: image.src, extend_to_bleed, canvas };
   return canvas;
+}
+
+function find_artwork_bounds(
+  pixels: ImageData,
+  width: number,
+  height: number,
+) {
+  let left = width;
+  let right = -1;
+  let top = height;
+  let bottom = -1;
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      if (pixels.data[(y * width + x) * 4 + 3] < artwork_alpha_threshold) {
+        continue;
+      }
+      left = Math.min(left, x);
+      right = Math.max(right, x);
+      top = Math.min(top, y);
+      bottom = Math.max(bottom, y);
+    }
+  }
+
+  return right >= left && bottom >= top ? { left, right, top, bottom } : null;
 }
 
 function draw_bleed(
@@ -75,10 +114,10 @@ function draw_bleed(
   source_height: number,
   scale: number,
   outer_radius: number,
+  center_x: number,
+  center_y: number,
 ) {
   const size = default_canvas_size_px;
-  const center_x = source_width / 2;
-  const center_y = source_height / 2;
   const directions = 2048;
   const edges = Array.from({ length: directions }, (_, index) => {
     const angle = (index * Math.PI * 2) / directions;
@@ -91,7 +130,8 @@ function draw_bleed(
       if (x < 0 || y < 0 || x >= source_width || y >= source_height) continue;
       const offset = (y * source_width + x) * 4;
       const alpha = pixels.data[offset + 3];
-      if (alpha > 0 && !edge) edge = { radius: radius * scale, offset };
+      if (alpha >= artwork_alpha_threshold && !edge)
+        edge = { radius: radius * scale, offset };
       // Avoid extending the transparent antialiased fringe across the bleed.
       if (alpha >= 250) return { radius: radius * scale, offset };
     }
