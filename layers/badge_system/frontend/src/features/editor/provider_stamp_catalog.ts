@@ -54,8 +54,25 @@ const stamp_files = import.meta.glob("../../assets/stamps/*.png", {
   query: "?url",
 }) as Record<string, string>;
 
+const disabled_provider_stamp_file_names = new Set([
+  "typo01.png",
+  "typo02.png",
+  "typo03.png",
+  "typo04.png",
+  "typo05.png",
+  "typo06.png",
+  "typo07.png",
+]);
+
+const enabled_stamp_files = Object.fromEntries(
+  Object.entries(stamp_files).filter(([path]) => {
+    const file_name = path.split("/").at(-1) ?? path;
+    return !disabled_provider_stamp_file_names.has(file_name);
+  }),
+);
+
 const provider_stamps = create_provider_stamp_catalog(
-  stamp_files,
+  enabled_stamp_files,
   stamp_credits,
 );
 
