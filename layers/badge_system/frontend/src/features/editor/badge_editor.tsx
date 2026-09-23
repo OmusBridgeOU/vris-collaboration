@@ -373,7 +373,7 @@ export function BadgeEditor({
 
   function change_canvas_zoom(delta: number) {
     const next_zoom = Math.min(
-      2,
+      4,
       Math.max(0.75, Number((canvas_zoom + delta).toFixed(2))),
     );
     set_canvas_zoom(next_zoom);
@@ -684,7 +684,7 @@ export function BadgeEditor({
                   <ZoomOut aria-hidden="true" size={18} />
                 </IconButton>
                 <IconButton
-                  disabled={canvas_zoom >= 2}
+                  disabled={canvas_zoom >= 4}
                   label="キャンバスを拡大"
                   on_click={() => change_canvas_zoom(0.25)}
                 >
