@@ -23,7 +23,6 @@ export function CreditsView({ on_back }: { on_back: () => void }) {
       </header>
 
       <section className="grid gap-2">
-        <h2 className="text-lg font-bold">提供PNGスタンプ</h2>
         {provider_credits.length === 0 ? (
           <p className="text-sm leading-6 text-slate-700">
             現在、追加の提供素材はありません。
