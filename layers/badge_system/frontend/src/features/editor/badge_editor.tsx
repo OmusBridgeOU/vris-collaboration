@@ -35,7 +35,6 @@ import {
   default_finish_diameter_ratio,
   font_catalog,
   frame_catalog,
-  full_bleed_diameter_ratio,
   normalize_font_family,
   resolve_font_family,
   stamp_catalog,
@@ -1329,7 +1328,7 @@ function create_thumbnail_data_url(source: HTMLCanvasElement) {
 function render_clean_design(design: BadgeDesign) {
   return render_badge_design(design, {
     canvas_size_px: default_canvas_size_px,
-    finish_diameter_ratio: full_bleed_diameter_ratio,
+    finish_diameter_ratio: default_finish_diameter_ratio,
     include_guides: false,
   });
 }
