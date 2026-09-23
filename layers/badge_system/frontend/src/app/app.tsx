@@ -26,7 +26,7 @@ import { XSharePanel } from "../features/x_share/x_share_panel";
 import {
   create_project_share_image,
   create_share_file_name,
-  download_data_url,
+  save_image_to_device,
 } from "../features/x_share/x_share_service";
 import type { PublicConfig } from "../types/api_types";
 
@@ -276,7 +276,10 @@ export function App() {
 
     try {
       const share_image = await create_project_share_image(project);
-      download_data_url(share_image, create_share_file_name(project));
+      const save_method = await save_image_to_device(
+        share_image,
+        create_share_file_name(project),
+      );
       const saved_project = await storage.save_project({
         ...project,
         share_image_data_url: share_image,
@@ -285,7 +288,9 @@ export function App() {
       set_share_image_saved_project_id(saved_project.project_id);
       set_share_error(null);
       set_notice(
-        "画像を保存しました。Xへ投稿する際は、保存した画像を投稿画面で添付してください。",
+        save_method === "shared"
+          ? "端末の共有メニューを開きました。画像の保存先に写真アプリを選択してください。"
+          : "画像を保存しました。Xへ投稿する際は、保存した画像を投稿画面で添付してください。",
       );
     } catch {
       set_share_error("画像の保存に失敗しました。もう一度お試しください。");
