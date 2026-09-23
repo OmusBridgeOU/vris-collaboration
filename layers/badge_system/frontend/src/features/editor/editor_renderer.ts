@@ -60,8 +60,6 @@ export async function render_badge_design(
       if (image_url) {
         const image = await load_image(image_url);
         draw_custom_stamp(context, image, stamp, canvas_size);
-      } else {
-        draw_stamp(context, stamp, canvas_size);
       }
       continue;
     }
@@ -199,130 +197,6 @@ function draw_photo(
   context.rotate((photo.rotation * Math.PI) / 180);
   context.scale(photo.scale * scale, photo.scale * scale);
   context.drawImage(image, -photo.width / 2, -photo.height / 2);
-  context.restore();
-}
-
-function draw_stamp(
-  context: CanvasRenderingContext2D,
-  stamp: StampLayer,
-  canvas_size: number,
-) {
-  const scale = canvas_size / default_canvas_size_px;
-  const size = 160 * scale;
-
-  context.save();
-  context.translate(stamp.x * scale, stamp.y * scale);
-  context.rotate((stamp.rotation * Math.PI) / 180);
-  context.scale(stamp.flipped ? -stamp.scale : stamp.scale, stamp.scale);
-  context.fillStyle = stamp.color;
-  context.strokeStyle = "#ffffff";
-  context.lineWidth = 10 * scale;
-
-  if (stamp.catalog_id === "vris_ribbon") {
-    context.beginPath();
-    context.moveTo(-size * 0.55, -size * 0.3);
-    context.lineTo(size * 0.55, -size * 0.3);
-    context.lineTo(size * 0.35, size * 0.45);
-    context.lineTo(0, size * 0.2);
-    context.lineTo(-size * 0.35, size * 0.45);
-    context.closePath();
-  } else if (stamp.catalog_id === "vris_spark") {
-    context.beginPath();
-    context.moveTo(0, -size * 0.6);
-    context.lineTo(size * 0.18, -size * 0.15);
-    context.lineTo(size * 0.6, 0);
-    context.lineTo(size * 0.18, size * 0.15);
-    context.lineTo(0, size * 0.6);
-    context.lineTo(-size * 0.18, size * 0.15);
-    context.lineTo(-size * 0.6, 0);
-    context.lineTo(-size * 0.18, -size * 0.15);
-    context.closePath();
-  } else if (stamp.catalog_id === "vris_heart") {
-    context.beginPath();
-    context.moveTo(0, size * 0.48);
-    context.bezierCurveTo(
-      -size * 0.58,
-      size * 0.05,
-      -size * 0.45,
-      -size * 0.48,
-      0,
-      -size * 0.18,
-    );
-    context.bezierCurveTo(
-      size * 0.45,
-      -size * 0.48,
-      size * 0.58,
-      size * 0.05,
-      0,
-      size * 0.48,
-    );
-    context.closePath();
-  } else if (stamp.catalog_id === "vris_circle") {
-    context.beginPath();
-    context.arc(0, 0, size * 0.42, 0, Math.PI * 2);
-  } else if (stamp.catalog_id === "vris_flower") {
-    context.beginPath();
-    for (let index = 0; index < 12; index += 1) {
-      const radius = index % 2 === 0 ? size * 0.52 : size * 0.26;
-      const angle = -Math.PI / 2 + (index * Math.PI) / 6;
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
-      if (index === 0) {
-        context.moveTo(x, y);
-      } else {
-        context.lineTo(x, y);
-      }
-    }
-    context.closePath();
-  } else if (stamp.catalog_id === "vris_check") {
-    context.beginPath();
-    context.moveTo(-size * 0.5, size * 0.05);
-    context.lineTo(-size * 0.18, size * 0.38);
-    context.lineTo(size * 0.55, -size * 0.36);
-    context.lineTo(size * 0.68, -size * 0.22);
-    context.lineTo(-size * 0.18, size * 0.65);
-    context.lineTo(-size * 0.65, size * 0.18);
-    context.closePath();
-  } else if (stamp.catalog_id === "vris_moon") {
-    context.beginPath();
-    context.arc(size * 0.12, 0, size * 0.48, -Math.PI * 0.62, Math.PI * 0.72);
-    context.arc(
-      size * 0.28,
-      0,
-      size * 0.42,
-      Math.PI * 0.72,
-      -Math.PI * 0.62,
-      true,
-    );
-    context.closePath();
-  } else if (stamp.catalog_id === "vris_crown") {
-    context.beginPath();
-    context.moveTo(-size * 0.55, size * 0.42);
-    context.lineTo(-size * 0.46, -size * 0.42);
-    context.lineTo(-size * 0.12, 0);
-    context.lineTo(0, -size * 0.56);
-    context.lineTo(size * 0.12, 0);
-    context.lineTo(size * 0.46, -size * 0.42);
-    context.lineTo(size * 0.55, size * 0.42);
-    context.closePath();
-  } else {
-    context.beginPath();
-    for (let index = 0; index < 10; index += 1) {
-      const radius = index % 2 === 0 ? size * 0.56 : size * 0.24;
-      const angle = -Math.PI / 2 + (index * Math.PI) / 5;
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
-      if (index === 0) {
-        context.moveTo(x, y);
-      } else {
-        context.lineTo(x, y);
-      }
-    }
-    context.closePath();
-  }
-
-  context.stroke();
-  context.fill();
   context.restore();
 }
 

@@ -1159,52 +1159,7 @@ function FramePanel({
 }
 
 function stamp_preview_data_url(stamp: StampCatalogItem) {
-  if (stamp.image_url) {
-    return stamp.image_url;
-  }
-
-  const common = `fill="${stamp.color}" stroke="#ffffff" stroke-width="10" stroke-linejoin="round"`;
-  const shape = stamp_preview_shape(stamp.id, common);
-
-  return svg_data_url(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">${shape}</svg>`,
-  );
-}
-
-function stamp_preview_shape(stamp_id: string, common: string) {
-  if (stamp_id === "vris_ribbon") {
-    return `<path ${common} d="M18 30H82L70 74L50 60L30 74Z" />`;
-  }
-
-  if (stamp_id === "vris_spark") {
-    return `<path ${common} d="M50 10L60 38L90 50L60 62L50 90L40 62L10 50L40 38Z" />`;
-  }
-
-  if (stamp_id === "vris_heart") {
-    return `<path ${common} d="M50 84C22 62 12 45 18 30C24 15 42 18 50 32C58 18 76 15 82 30C88 45 78 62 50 84Z" />`;
-  }
-
-  if (stamp_id === "vris_circle") {
-    return `<circle ${common} cx="50" cy="50" r="36" />`;
-  }
-
-  if (stamp_id === "vris_flower") {
-    return `<path ${common} d="M50 16L61 35L84 28L72 50L84 72L61 65L50 84L39 65L16 72L28 50L16 28L39 35Z" />`;
-  }
-
-  if (stamp_id === "vris_check") {
-    return `<path ${common} d="M22 52L39 69L80 28L90 39L39 90L12 63Z" />`;
-  }
-
-  if (stamp_id === "vris_moon") {
-    return `<path ${common} d="M64 10C43 18 31 37 35 58C39 78 56 90 78 87C68 95 54 97 40 91C18 82 7 57 16 35C25 14 47 4 64 10Z" />`;
-  }
-
-  if (stamp_id === "vris_crown") {
-    return `<path ${common} d="M16 76L23 30L41 52L50 20L59 52L77 30L84 76Z" />`;
-  }
-
-  return `<path ${common} d="M50 10L61 36L89 38L68 56L75 84L50 69L25 84L32 56L11 38L39 36Z" />`;
+  return stamp.image_url ?? "";
 }
 
 function frame_preview_data_url(frame: FrameCatalogItem) {
