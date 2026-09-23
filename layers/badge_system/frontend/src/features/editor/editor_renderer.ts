@@ -35,11 +35,10 @@ export async function render_badge_design(
   canvas.height = canvas_size;
   const context = get_context(canvas);
 
-  context.fillStyle = "#ffffff";
-  context.fillRect(0, 0, canvas_size, canvas_size);
-
   context.save();
   create_finish_clip(context, canvas_size, options.finish_diameter_ratio);
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, canvas_size, canvas_size);
 
   if (design.photo) {
     const image = await load_image(design.photo.data_url);
@@ -74,12 +73,15 @@ export async function render_badge_design(
   context.restore();
 
   if (design.frame) {
+    context.save();
+    create_finish_clip(context, canvas_size, options.finish_diameter_ratio);
     await draw_frame(
       context,
       design.frame,
       canvas_size,
       options.extend_frame_to_bleed ?? false,
     );
+    context.restore();
   }
 
   if (options.include_guides) {
