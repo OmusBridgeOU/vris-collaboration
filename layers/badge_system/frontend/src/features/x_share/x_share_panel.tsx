@@ -33,7 +33,6 @@ export function XSharePanel({
   return (
     <section className="grid gap-4">
       <div>
-        <p className="text-sm font-medium text-accent">X投稿用画像</p>
         <h2 className="text-xl font-bold">{project_code}</h2>
       </div>
 

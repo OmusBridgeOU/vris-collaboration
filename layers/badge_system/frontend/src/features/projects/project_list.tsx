@@ -74,7 +74,6 @@ export function ProjectList({
     <section className="grid gap-4">
       <div className="grid gap-3">
         <div>
-          <p className="text-sm font-medium text-accent">端末内保存</p>
           <h2 className="text-xl font-bold">作成したデザイン</h2>
         </div>
         <div className="grid grid-cols-2 gap-2">

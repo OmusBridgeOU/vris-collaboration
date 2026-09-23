@@ -93,7 +93,6 @@ export function PurchaseListView({
     return (
       <section className="grid gap-4">
         <div>
-          <p className="text-sm font-medium text-accent">注文QR</p>
           <h2 className="text-xl font-bold">{created_order.receptionNumber}</h2>
         </div>
         <div className="grid justify-items-center gap-3 rounded-md border border-slate-200 bg-white p-4">
@@ -142,7 +141,6 @@ export function PurchaseListView({
     return (
       <section className="grid gap-4">
         <div>
-          <p className="text-sm font-medium text-accent">注文確認</p>
           <h2 className="text-xl font-bold">購入用QRを作成</h2>
         </div>
         <dl className="grid grid-cols-2 gap-2 rounded-md border border-slate-200 bg-white p-4 text-sm">
@@ -215,7 +213,6 @@ export function PurchaseListView({
   return (
     <section className="grid gap-4">
       <div>
-        <p className="text-sm font-medium text-accent">カート</p>
         <h2 className="text-xl font-bold">購入予定の缶バッジ</h2>
       </div>
 
