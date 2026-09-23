@@ -6,6 +6,8 @@ ja:
     date: '2026年9月26日(土)'
     venueLabel: '会場'
     venue: 'アスティ45 4F アスティホール'
+    hoursLabel: '開催時間'
+    hours: '11:00〜17:00'
 en:
     nameLabel: 'Event Name'
     name: 'VketReal in Sapporo 2026 Autumn'
@@ -13,6 +15,8 @@ en:
     date: 'September 26, 2026 (Sat)'
     venueLabel: 'Venue'
     venue: 'Asty45 4F Asty Hall'
+    hoursLabel: 'Hours'
+    hours: '11:00 – 17:00'
 </i18n>
 
 <script setup lang="ts">
@@ -41,6 +45,14 @@ const { t } = useI18n()
           </p>
           <p class="event-info-table__text">
             {{ t('date') }}
+          </p>
+        </div>
+        <div class="event-info-table">
+          <p class="event-info-table__label">
+            {{ t('hoursLabel') }}
+          </p>
+          <p class="event-info-table__text">
+            {{ t('hours') }}
           </p>
         </div>
         <div class="event-info-table">
