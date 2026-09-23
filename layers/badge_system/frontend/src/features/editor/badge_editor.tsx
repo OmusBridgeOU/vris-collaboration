@@ -5,6 +5,7 @@ import {
   Bold,
   Eraser,
   FlipHorizontal2,
+  Hand,
   ImagePlus,
   RotateCw,
   Save,
@@ -115,6 +116,14 @@ type DirectManipulation = {
   cycle_overlapping_on_tap?: boolean;
 };
 
+type CanvasPanInteraction = {
+  pointer_id: number;
+  start_client_x: number;
+  start_client_y: number;
+  start_offset_x: number;
+  start_offset_y: number;
+};
+
 const photo_transform_selection: EditorSelection = { kind: "photo" };
 
 const tools: Array<{ id: EditorTool; label: string }> = [
@@ -155,7 +164,10 @@ export function BadgeEditor({
   const [rendered_design_updated_at, set_rendered_design_updated_at] =
     useState<string>();
   const [canvas_zoom, set_canvas_zoom] = useState(1);
+  const [canvas_offset, set_canvas_offset] = useState({ x: 0, y: 0 });
+  const [is_canvas_pan_mode, set_is_canvas_pan_mode] = useState(false);
   const canvas_ref = useRef<HTMLCanvasElement | null>(null);
+  const canvas_pan_interaction = useRef<CanvasPanInteraction>();
   const pointer_records = useRef<Map<number, PointerRecord>>(new Map());
   const manipulation = useRef<DirectManipulation>();
 
@@ -361,7 +373,31 @@ export function BadgeEditor({
     }
   }
 
+  function change_canvas_zoom(delta: number) {
+    const next_zoom = Math.min(
+      2,
+      Math.max(0.75, Number((canvas_zoom + delta).toFixed(2))),
+    );
+    set_canvas_zoom(next_zoom);
+    if (next_zoom <= 1) {
+      set_canvas_offset({ x: 0, y: 0 });
+      set_is_canvas_pan_mode(false);
+    }
+  }
+
   function handle_pointer_down(event: ReactPointerEvent<HTMLCanvasElement>) {
+    if (is_canvas_pan_mode) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+      canvas_pan_interaction.current = {
+        pointer_id: event.pointerId,
+        start_client_x: event.clientX,
+        start_client_y: event.clientY,
+        start_offset_x: canvas_offset.x,
+        start_offset_y: canvas_offset.y,
+      };
+      return;
+    }
+
     const point = event_point(event);
     event.currentTarget.setPointerCapture(event.pointerId);
     pointer_records.current.set(event.pointerId, {
@@ -431,6 +467,38 @@ export function BadgeEditor({
   }
 
   function handle_pointer_move(event: ReactPointerEvent<HTMLCanvasElement>) {
+    const pan_interaction = canvas_pan_interaction.current;
+    if (pan_interaction?.pointer_id === event.pointerId) {
+      const canvas = canvas_ref.current;
+      if (!canvas) {
+        return;
+      }
+      const transformed_width = canvas.getBoundingClientRect().width;
+      const base_width = transformed_width / canvas_zoom;
+      const maximum_offset = (base_width * (canvas_zoom - 1)) / 2;
+      set_canvas_offset({
+        x: Math.min(
+          maximum_offset,
+          Math.max(
+            -maximum_offset,
+            pan_interaction.start_offset_x +
+              event.clientX -
+              pan_interaction.start_client_x,
+          ),
+        ),
+        y: Math.min(
+          maximum_offset,
+          Math.max(
+            -maximum_offset,
+            pan_interaction.start_offset_y +
+              event.clientY -
+              pan_interaction.start_client_y,
+          ),
+        ),
+      });
+      return;
+    }
+
     const point = event_point(event);
     const existing = pointer_records.current.get(event.pointerId);
     if (existing) {
@@ -459,6 +527,11 @@ export function BadgeEditor({
   }
 
   function handle_pointer_up(event: ReactPointerEvent<HTMLCanvasElement>) {
+    if (canvas_pan_interaction.current?.pointer_id === event.pointerId) {
+      canvas_pan_interaction.current = undefined;
+      return;
+    }
+
     const point = event_point(event);
     pointer_records.current.delete(event.pointerId);
 
@@ -526,6 +599,11 @@ export function BadgeEditor({
   }
 
   function handle_pointer_cancel(event: ReactPointerEvent<HTMLCanvasElement>) {
+    if (canvas_pan_interaction.current?.pointer_id === event.pointerId) {
+      canvas_pan_interaction.current = undefined;
+      return;
+    }
+
     pointer_records.current.delete(event.pointerId);
     manipulation.current = undefined;
     set_current_stroke(undefined);
@@ -592,8 +670,9 @@ export function BadgeEditor({
                 onPointerMove={handle_pointer_move}
                 onPointerUp={handle_pointer_up}
                 style={{
+                  cursor: is_canvas_pan_mode ? "grab" : undefined,
                   touchAction: "none",
-                  transform: `scale(${canvas_zoom})`,
+                  transform: `translate(${canvas_offset.x}px, ${canvas_offset.y}px) scale(${canvas_zoom})`,
                   transformOrigin: "center",
                 }}
                 width={default_canvas_size_px}
@@ -602,24 +681,24 @@ export function BadgeEditor({
                 <IconButton
                   disabled={canvas_zoom <= 0.75}
                   label="キャンバスを縮小"
-                  on_click={() =>
-                    set_canvas_zoom((current) =>
-                      Math.max(0.75, Number((current - 0.25).toFixed(2))),
-                    )
-                  }
+                  on_click={() => change_canvas_zoom(-0.25)}
                 >
                   <ZoomOut aria-hidden="true" size={18} />
                 </IconButton>
                 <IconButton
                   disabled={canvas_zoom >= 2}
                   label="キャンバスを拡大"
-                  on_click={() =>
-                    set_canvas_zoom((current) =>
-                      Math.min(2, Number((current + 0.25).toFixed(2))),
-                    )
-                  }
+                  on_click={() => change_canvas_zoom(0.25)}
                 >
                   <ZoomIn aria-hidden="true" size={18} />
+                </IconButton>
+                <IconButton
+                  active={is_canvas_pan_mode}
+                  disabled={canvas_zoom <= 1}
+                  label="キャンバス全体を移動"
+                  on_click={() => set_is_canvas_pan_mode((current) => !current)}
+                >
+                  <Hand aria-hidden="true" size={18} />
                 </IconButton>
               </div>
               <div className="absolute right-2 top-2 z-10 flex gap-1">
@@ -1232,11 +1311,13 @@ function IconTextButton({
 }
 
 function IconButton({
+  active,
   children,
   disabled,
   label,
   on_click,
 }: {
+  active?: boolean;
   children: React.ReactNode;
   disabled?: boolean;
   label: string;
@@ -1245,7 +1326,10 @@ function IconButton({
   return (
     <button
       aria-label={label}
-      className="grid min-h-9 min-w-9 place-items-center rounded-md border border-slate-300 bg-white disabled:opacity-40"
+      aria-pressed={active}
+      className={`grid min-h-9 min-w-9 place-items-center rounded-md border border-slate-300 disabled:opacity-40 ${
+        active ? "bg-slate-800 text-white" : "bg-white"
+      }`}
       disabled={disabled}
       onClick={on_click}
       title={label}
