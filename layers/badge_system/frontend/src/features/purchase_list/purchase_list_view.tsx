@@ -121,6 +121,15 @@ export function PurchaseListView({
           <dd className="text-right font-bold">
             {created_order.totalQuantity}
           </dd>
+          <dt className="text-slate-600">合計金額（税込）</dt>
+          <dd className="text-right font-bold">
+            {format_total_price(
+              calculate_total_price(
+                unit_price_yen,
+                created_order.totalQuantity,
+              ),
+            )}
+          </dd>
         </dl>
         <OrderDesignList entries={created_order_entries} />
         <button
@@ -145,6 +154,10 @@ export function PurchaseListView({
           <dd className="text-right font-bold">{entries.length}</dd>
           <dt className="text-slate-600">合計数量</dt>
           <dd className="text-right font-bold">{total_quantity}</dd>
+          <dt className="text-slate-600">合計金額（税込）</dt>
+          <dd className="text-right font-bold">
+            {format_total_price(total_price)}
+          </dd>
         </dl>
         <OrderDesignList entries={entries} />
         <div className="grid gap-2 rounded-md border border-slate-200 bg-white p-4">
@@ -349,6 +362,12 @@ function calculate_total_price(
   }
 
   return unit_price_yen * quantity;
+}
+
+function format_total_price(total_price: number | null) {
+  return total_price == null
+    ? "価格未設定"
+    : `${total_price.toLocaleString("ja-JP")}円`;
 }
 
 function OrderDesignList({ entries }: { entries: PurchaseListEntry[] }) {
