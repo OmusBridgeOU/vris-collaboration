@@ -7,7 +7,7 @@ import {
   FlipHorizontal2,
   Hand,
   ImagePlus,
-  RotateCw,
+  Redo2,
   Save,
   Trash2,
   Type,
@@ -716,7 +716,7 @@ export function BadgeEditor({
                     set_history((current) => redo_design(current))
                   }
                 >
-                  <RotateCw aria-hidden="true" size={18} />
+                  <Redo2 aria-hidden="true" size={18} />
                 </IconButton>
               </div>
               <p
