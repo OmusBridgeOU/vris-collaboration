@@ -36,8 +36,8 @@ export function get_config(env: Env): AppConfig {
     canvas_size_px: number_setting(env.CANVAS_SIZE_PX, 1200),
     finish_diameter_ratio: float_setting(env.FINISH_DIAMETER_RATIO, 58 / 70),
     safe_area_ratio: float_setting(env.SAFE_AREA_RATIO, 0.7),
-    x_share_text: env.X_SHARE_TEXT ?? "VRISでオリジナル缶バッジを作りました！",
-    x_hashtags: split_list(env.X_HASHTAGS, ["VRIS", "VRISオリジナル缶バッジ"]),
+    x_share_text: env.X_SHARE_TEXT ?? "VketReal in 札幌 2026 Auturmでオリジナル缶バッジを作りました！",
+    x_hashtags: split_list(env.X_HASHTAGS, ["VketRealSapporo","VketReal", "VRISオリジナル缶バッジ"]),
   };
 }
 
