@@ -710,19 +710,6 @@ export default defineNuxtConfig({
 })
 ````
 
-## File: layers/showcases/tsconfig.json
-````json
-{
-  // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": [
-    "./.nuxt/tsconfig.server.json",
-    "./.nuxt/tsconfig.json",
-    "../base/tsconfig.shared.json"
-  ],
-  "exclude": ["../base/**/*", "../main/**/*"]
-}
-````
-
 ## File: layers/showcases/package.json
 ````json
 {
@@ -761,5 +748,18 @@ export default defineNuxtConfig({
   "dependencies": {
     "vket-boilerplate-nuxt-base": "workspace:*"
   }
+}
+````
+
+## File: layers/showcases/tsconfig.json
+````json
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": [
+    "./.nuxt/tsconfig.server.json",
+    "./.nuxt/tsconfig.json",
+    "../base/tsconfig.shared.json"
+  ],
+  "exclude": ["../base/**/*", "../main/**/*"]
 }
 ````

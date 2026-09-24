@@ -91,129 +91,6 @@ export default function useApi<K extends RepositoryKey>(endpoint: K) {
 }
 ````
 
-## File: layers/main/app/models/json.ts
-````typescript
-/**
- * @group For Developers
- * @category Type Definitions
- * @module Json
- * @reference https://zod.dev/?id=json-type
- */
-
-import { z } from 'zod/v3'
-
-const literalSchema = z.union([z.string(), z.number(), z.boolean(), z.null()])
-type Literal = z.infer<typeof literalSchema>
-type JsonType = Literal | { [key: string]: JsonType } | JsonType[]
-export const jsonSchema: z.ZodType<JsonType> = z.lazy(() =>
-  z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)]),
-)
-export type Json = z.infer<typeof jsonSchema>
-````
-
-## File: layers/main/app/models/todo.ts
-````typescript
-import { z } from 'zod/v3'
-import { integral } from '#base/app/utils/zod'
-
-export const todoSchema = z.object({
-  userId: integral, // NOTE: バックエンドの仕様が不安定な場合は、integralで型を広く持っておこう
-  id: integral,
-  title: z.string(),
-  completed: z.boolean(),
-})
-
-export type Todo = z.infer<typeof todoSchema>
-````
-
-## File: layers/main/app/repositories/.gitkeep
-````
-
-````
-
-## File: layers/main/app/utils/api.ts
-````typescript
-import type { FetchOptions } from 'ofetch'
-import type { Method } from '#base/app/utils/default-api'
-import { defaultApi } from '#base/app/utils/default-api'
-
-export type { Method }
-
-export default (
-  method: Method,
-  path: string,
-  fetchOptions: FetchOptions = {},
-) => {
-  switch (method) {
-    case 'GET':
-    case 'get':
-      return defaultApi.get(path, fetchOptions)
-    case 'POST':
-    case 'post':
-      return defaultApi.post(path, fetchOptions)
-    case 'PUT':
-    case 'put':
-      return defaultApi.put(path, fetchOptions)
-    case 'PATCH':
-    case 'patch':
-      return defaultApi.patch(path, fetchOptions)
-    case 'DELETE':
-    case 'delete':
-      return defaultApi.delete(path, fetchOptions)
-    default:
-      return defaultApi.get(path, fetchOptions)
-  }
-}
-````
-
-## File: layers/main/app/utils/factory.ts
-````typescript
-import { type MakeRepository, defaultRepositories } from '#base/app/utils/default-factory'
-import type { Method } from '@/utils/api'
-
-export type Repository = MakeRepository<Method>
-export type Repositories = Record<string, Repository>
-
-export const repositories = {
-  ...defaultRepositories,
-  // Add non-default repositories here
-} as const satisfies Repositories
-
-export type RepositoryKey = keyof typeof repositories
-
-export const repositoryFactory = {
-  get: <K extends keyof typeof repositories>(name: K) => repositories[name],
-}
-````
-
-## File: layers/main/app/utils/i18n.ts
-````typescript
-import type { VueMessageType, Composer, UseI18nOptions } from 'vue-i18n'
-
-/**
- * 引数未指定にすると、普通に`const i18n = useI18n()`とすると入ってくる型になる。
- * 型引数の使い方については、そのままuseI18nの型引数の指定方法を参照のこと。
- */
-export type UseI18nReturnType<Options extends UseI18nOptions = UseI18nOptions>
-  = Composer<
-    NonNullable<Options['messages']>,
-    NonNullable<Options['datetimeFormats']>,
-    NonNullable<Options['numberFormats']>,
-    Options['locale'] extends unknown ? string : Options['locale']
-  >
-
-/**
- * @example
- * ```ts
- * import { useI18n } from 'vue-i18n'
- * const i18n = useI18n() // messagesは `{ [locale]: { list: ['a', 'b', 'c'] } }` とする
- * const list = getI18nArray(i18n, 'list') // ['a', 'b', 'c']
- * ```
- */
-export const getI18nArray = (i18n: UseI18nReturnType, key: string): string[] =>
-  Object.entries<VueMessageType>(i18n.tm(key)).map(([, term]) => i18n.rt(term))
-````
-
 ## File: layers/main/app/composables/useGsapFadeIn.ts
 ````typescript
 import { gsap } from 'gsap'
@@ -368,78 +245,127 @@ export const useGsapFadeIn = () => {
 }
 ````
 
-## File: layers/main/app/models/crowdData.ts
+## File: layers/main/app/models/json.ts
 ````typescript
-import { z } from 'zod'
+/**
+ * @group For Developers
+ * @category Type Definitions
+ * @module Json
+ * @reference https://zod.dev/?id=json-type
+ */
 
-export const crowdLevelSchema = z.union([
-  z.literal(-1),
-  z.literal(1),
-  z.literal(2),
-  z.literal(3),
-])
+import { z } from 'zod/v3'
 
-export const crowdDataSchema = z.object({
-  value1: crowdLevelSchema,
-  value2: crowdLevelSchema,
-  updated_at: z.iso.datetime().nullable(),
-})
-
-export type CrowdLevel = z.infer<typeof crowdLevelSchema>
-export type CrowdData = z.infer<typeof crowdDataSchema>
+const literalSchema = z.union([z.string(), z.number(), z.boolean(), z.null()])
+type Literal = z.infer<typeof literalSchema>
+type JsonType = Literal | { [key: string]: JsonType } | JsonType[]
+export const jsonSchema: z.ZodType<JsonType> = z.lazy(() =>
+  z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)]),
+)
+export type Json = z.infer<typeof jsonSchema>
 ````
 
-## File: layers/main/app/composables/useMockCrowdData.ts
+## File: layers/main/app/models/todo.ts
 ````typescript
-// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
-import { ref, onMounted, onUnmounted } from 'vue'
-import type { CrowdData } from '~/composables/useCrowdData'
+import { z } from 'zod/v3'
+import { integral } from '#base/app/utils/zod'
 
-const MOCK_INTERVAL_MS = 3 * 1000 // 3秒おきに更新
-const MOCK_INITIAL_DELAY_MS = 10 * 1000 // 初回ローディング 10秒
+export const todoSchema = z.object({
+  userId: integral, // NOTE: バックエンドの仕様が不安定な場合は、integralで型を広く持っておこう
+  id: integral,
+  title: z.string(),
+  completed: z.boolean(),
+})
 
-export function useMockCrowdData() {
-  const crowdData = ref<CrowdData | null>(null)
-  const isLoading = ref(true)
-  const isError = ref(false)
-  const isBeforeEventStart = ref(false) // モックでは開催期間外の状態は扱わないため常にfalse
+export type Todo = z.infer<typeof todoSchema>
+````
 
-  let timerId: ReturnType<typeof setInterval> | null = null
-  let initialTimerId: ReturnType<typeof setTimeout> | null = null
+## File: layers/main/app/repositories/.gitkeep
+````
 
-  function generateMock() {
-    console.log('取得：ダミー')
-    const randomLevel = (Math.floor(Math.random() * 3) + 1) as 1 | 2 | 3
-    crowdData.value = {
-      value1: randomLevel,
-      value2: randomLevel,
-      updated_at: new Date().toISOString(),
-    }
-    isLoading.value = false
-    isError.value = false
+````
+
+## File: layers/main/app/utils/api.ts
+````typescript
+import type { FetchOptions } from 'ofetch'
+import type { Method } from '#base/app/utils/default-api'
+import { defaultApi } from '#base/app/utils/default-api'
+
+export type { Method }
+
+export default (
+  method: Method,
+  path: string,
+  fetchOptions: FetchOptions = {},
+) => {
+  switch (method) {
+    case 'GET':
+    case 'get':
+      return defaultApi.get(path, fetchOptions)
+    case 'POST':
+    case 'post':
+      return defaultApi.post(path, fetchOptions)
+    case 'PUT':
+    case 'put':
+      return defaultApi.put(path, fetchOptions)
+    case 'PATCH':
+    case 'patch':
+      return defaultApi.patch(path, fetchOptions)
+    case 'DELETE':
+    case 'delete':
+      return defaultApi.delete(path, fetchOptions)
+    default:
+      return defaultApi.get(path, fetchOptions)
   }
-
-  // 本物のcomposableと同じインターフェースを保つためのダミー実装。
-  // モックでは即座にgenerateMockを呼び直すことで、手動リフレッシュのような見た目にしている。
-  async function fetchCrowdData() {
-    generateMock()
-  }
-
-  onMounted(() => {
-    // 10秒後に初回データ取得 → その後3秒おきに更新
-    initialTimerId = setTimeout(() => {
-      generateMock()
-      timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
-    }, MOCK_INITIAL_DELAY_MS)
-  })
-
-  onUnmounted(() => {
-    if (initialTimerId !== null) clearTimeout(initialTimerId)
-    if (timerId !== null) clearInterval(timerId)
-  })
-
-  return { isLoading, isError, crowdData, isBeforeEventStart, fetchCrowdData }
 }
+````
+
+## File: layers/main/app/utils/factory.ts
+````typescript
+import { type MakeRepository, defaultRepositories } from '#base/app/utils/default-factory'
+import type { Method } from '@/utils/api'
+
+export type Repository = MakeRepository<Method>
+export type Repositories = Record<string, Repository>
+
+export const repositories = {
+  ...defaultRepositories,
+  // Add non-default repositories here
+} as const satisfies Repositories
+
+export type RepositoryKey = keyof typeof repositories
+
+export const repositoryFactory = {
+  get: <K extends keyof typeof repositories>(name: K) => repositories[name],
+}
+````
+
+## File: layers/main/app/utils/i18n.ts
+````typescript
+import type { VueMessageType, Composer, UseI18nOptions } from 'vue-i18n'
+
+/**
+ * 引数未指定にすると、普通に`const i18n = useI18n()`とすると入ってくる型になる。
+ * 型引数の使い方については、そのままuseI18nの型引数の指定方法を参照のこと。
+ */
+export type UseI18nReturnType<Options extends UseI18nOptions = UseI18nOptions>
+  = Composer<
+    NonNullable<Options['messages']>,
+    NonNullable<Options['datetimeFormats']>,
+    NonNullable<Options['numberFormats']>,
+    Options['locale'] extends unknown ? string : Options['locale']
+  >
+
+/**
+ * @example
+ * ```ts
+ * import { useI18n } from 'vue-i18n'
+ * const i18n = useI18n() // messagesは `{ [locale]: { list: ['a', 'b', 'c'] } }` とする
+ * const list = getI18nArray(i18n, 'list') // ['a', 'b', 'c']
+ * ```
+ */
+export const getI18nArray = (i18n: UseI18nReturnType, key: string): string[] =>
+  Object.entries<VueMessageType>(i18n.tm(key)).map(([, term]) => i18n.rt(term))
 ````
 
 ## File: layers/main/app/composables/useCrowdData.ts
@@ -571,4 +497,78 @@ export function useCrowdData() {
 
   return { isLoading, isError, crowdData, isBeforeEventStart, fetchCrowdData }
 }
+````
+
+## File: layers/main/app/composables/useMockCrowdData.ts
+````typescript
+// 10秒おきにランダムなステータスを表示する（表示更新テスト用）
+import { ref, onMounted, onUnmounted } from 'vue'
+import type { CrowdData } from '~/composables/useCrowdData'
+
+const MOCK_INTERVAL_MS = 3 * 1000 // 3秒おきに更新
+const MOCK_INITIAL_DELAY_MS = 10 * 1000 // 初回ローディング 10秒
+
+export function useCrowdData() {
+  const crowdData = ref<CrowdData | null>(null)
+  const isLoading = ref(true)
+  const isError = ref(false)
+  const isBeforeEventStart = ref(false) // モックでは開催期間外の状態は扱わないため常にfalse
+
+  let timerId: ReturnType<typeof setInterval> | null = null
+  let initialTimerId: ReturnType<typeof setTimeout> | null = null
+
+  function generateMock() {
+    console.log('取得：ダミー')
+    const randomLevel = (Math.floor(Math.random() * 3) + 1) as 1 | 2 | 3
+    crowdData.value = {
+      value1: randomLevel,
+      value2: randomLevel,
+      updated_at: new Date().toISOString(),
+    }
+    isLoading.value = false
+    isError.value = false
+  }
+
+  // 本物のcomposableと同じインターフェースを保つためのダミー実装。
+  // モックでは即座にgenerateMockを呼び直すことで、手動リフレッシュのような見た目にしている。
+  async function fetchCrowdData() {
+    generateMock()
+  }
+
+  onMounted(() => {
+    // 10秒後に初回データ取得 → その後3秒おきに更新
+    initialTimerId = setTimeout(() => {
+      generateMock()
+      timerId = setInterval(generateMock, MOCK_INTERVAL_MS)
+    }, MOCK_INITIAL_DELAY_MS)
+  })
+
+  onUnmounted(() => {
+    if (initialTimerId !== null) clearTimeout(initialTimerId)
+    if (timerId !== null) clearInterval(timerId)
+  })
+
+  return { isLoading, isError, crowdData, isBeforeEventStart, fetchCrowdData }
+}
+````
+
+## File: layers/main/app/models/crowdData.ts
+````typescript
+import { z } from 'zod'
+
+export const crowdLevelSchema = z.union([
+  z.literal(-1),
+  z.literal(1),
+  z.literal(2),
+  z.literal(3),
+])
+
+export const crowdDataSchema = z.object({
+  value1: crowdLevelSchema,
+  value2: crowdLevelSchema,
+  updated_at: z.iso.datetime().nullable(),
+})
+
+export type CrowdLevel = z.infer<typeof crowdLevelSchema>
+export type CrowdData = z.infer<typeof crowdDataSchema>
 ````

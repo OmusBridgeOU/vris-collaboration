@@ -580,6 +580,35 @@ export default tseslint.config(
 )
 ```
 
+## File: layers/open-api/package.json
+```json
+{
+  "name": "vket-boilerplate-nuxt-open-api",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "generate": "bun run scripts/make-zod.ts",
+    "lint": "eslint --cache --cache-strategy content --no-error-on-unmatched-pattern './scripts/**/*.ts' './app/**/*.ts'",
+    "fix": "eslint --cache --cache-strategy content --fix --no-error-on-unmatched-pattern './scripts/**/*.ts' './app/**/*.ts'",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "clean": "rm -rf app/models/openapi/*",
+    "package-update": "bunx npm-check-updates -i",
+    "clean-install": "bun run ../../scripts/clean_install.js",
+    "allclean-install": "bun run ../../scripts/clean_install.js all"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "openapi-zod-client": "^1.18.3",
+    "js-yaml": "^5.3.0",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^26.2.0"
+  }
+}
+```
+
 ## File: layers/open-api/tsconfig.json
 ```json
 {
@@ -614,35 +643,6 @@ export default tseslint.config(
   "exclude": [
     "node_modules"
   ]
-}
-```
-
-## File: layers/open-api/package.json
-```json
-{
-  "name": "vket-boilerplate-nuxt-open-api",
-  "private": true,
-  "type": "module",
-  "version": "0.1.0",
-  "scripts": {
-    "generate": "bun run scripts/make-zod.ts",
-    "lint": "eslint --cache --cache-strategy content --no-error-on-unmatched-pattern './scripts/**/*.ts' './app/**/*.ts'",
-    "fix": "eslint --cache --cache-strategy content --fix --no-error-on-unmatched-pattern './scripts/**/*.ts' './app/**/*.ts'",
-    "typecheck": "tsc --noEmit -p tsconfig.json",
-    "clean": "rm -rf app/models/openapi/*",
-    "package-update": "bunx npm-check-updates -i",
-    "clean-install": "bun run ../../scripts/clean_install.js",
-    "allclean-install": "bun run ../../scripts/clean_install.js all"
-  },
-  "dependencies": {
-    "zod": "^4.4.3"
-  },
-  "devDependencies": {
-    "openapi-zod-client": "^1.18.3",
-    "js-yaml": "^5.3.0",
-    "@types/js-yaml": "^4.0.9",
-    "@types/node": "^26.2.0"
-  }
 }
 ```
 

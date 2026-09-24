@@ -25,7 +25,11 @@
       id="lower-content"
       class="lower-content"
     >
-      <HaEventInfo />
+      <HaEventInfo class="event-info" />
+      <HmCrowdLevelCard
+        class="crowd-level-card"
+        name="アスティーホール"
+      />
       <div class="lower-content__line-outer">
         <div class="lower-content__line-inner" />
       </div>
@@ -36,6 +40,7 @@
 <script lang="ts" setup>
 import HaEventInfo from '../ha/HaEventInfo.vue'
 import HaTicketIcon from '../ha/icons/HaTicketIcon.vue'
+import HmCrowdLevelCard from '../hm/HmCrowdLevelCard.vue'
 
 const { t } = useI18n({ useScope: 'local' })
 
@@ -77,11 +82,13 @@ en:
 </i18n>
 
 <style lang="scss" scoped>
+@use '@/assets/styles/variables' as v;
+@use '@/assets/styles/mixins' as m;
+
 .hero {
   position: relative;
 
   display: flex;
-  align-items: center;
   justify-content: center;
 
   width: 100svw;
@@ -106,15 +113,10 @@ en:
   }
 
   &__kv {
-    position: relative;
+    position: absolute;
     z-index: 2;
-
-    overflow: hidden;
-
     width: 100%;
-    height: 100%;
-
-    object-fit: contain;
+    height: auto;
   }
 
   &__ticket-button {
@@ -144,7 +146,7 @@ en:
     }
 
     @media (width <= 767px) {
-      bottom: 216px;
+      bottom: 244px;
       min-height: 52px;
       font-size: 14px;
     }
@@ -203,6 +205,33 @@ en:
     background: #fff;
 
     animation: line-run 1.8s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+  }
+}
+
+.event-info {
+  margin-bottom: 24px;
+
+  @include m.sp {
+    width: calc(100svw - 20px * 2);
+    margin-bottom: 84px;
+  }
+}
+
+.crowd-level-card {
+  align-self: flex-start;
+  width: 560px;
+  margin-bottom: 12px;
+  margin-left: 32px;
+
+  @include m.tb {
+    width: 320px;
+    max-width: 30vw;
+  }
+
+  @include m.sp {
+    width: calc(100svw - 20px * 2);
+    max-width: initial;
+    margin: 0 auto 12px;
   }
 }
 
