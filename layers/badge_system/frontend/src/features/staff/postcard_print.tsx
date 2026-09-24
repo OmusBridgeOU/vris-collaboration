@@ -239,7 +239,10 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
                     <img
                       alt={`${item.itemCode} ${copy + 1}枚目`}
                       src={preview_image}
-                      className="aspect-square w-full rounded-md bg-white object-contain"
+                      className="absolute inset-0 h-full w-full object-contain"
+                      style={{
+                        clipPath: "circle(41.428571% at 50% 50%)",
+                      }}
                     />
 
                     <button
