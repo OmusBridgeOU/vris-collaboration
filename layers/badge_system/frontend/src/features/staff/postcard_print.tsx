@@ -235,7 +235,10 @@ export function PostcardPrint({ order }: { order: StaffOrderBatch }) {
             {selected_items.flatMap(
               ({ item, preview_image, remaining_quantity }) =>
                 Array.from({ length: remaining_quantity }, (_, copy) => (
-                  <li key={`${item.id}-${copy}`} className="relative aspect-square min-w-0 bg-white">
+                  <li
+                    key={`${item.id}-${copy}`}
+                    className="relative aspect-square min-w-0 bg-white"
+                  >
                     <img
                       alt={`${item.itemCode} ${copy + 1}枚目`}
                       src={preview_image}
