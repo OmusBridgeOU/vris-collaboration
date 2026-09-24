@@ -38,6 +38,10 @@ en:
           <HtContentsSection />
         </section>
 
+        <section id="venue-map">
+          <HtVenueMapSection />
+        </section>
+
         <section id="exhibitor-circles">
           <HtExhibitorCirclesSection />
         </section>
@@ -101,6 +105,7 @@ import HtQandASection from './HtQandASection.vue'
 import HtScheduleSection from './HtScheduleSection.vue'
 import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
 import HtTicketSection from './HtTicketSection.vue'
+import HtVenueMapSection from './HtVenueMapSection.vue'
 
 import HaConfetti from '../ha/HaConfetti.vue'
 import HaFireworks from '../ha/HaFireworks.vue'
