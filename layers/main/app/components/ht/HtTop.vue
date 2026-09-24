@@ -84,7 +84,7 @@ en:
 
 <script setup lang="ts">
 // import HtQuickAccessSection from './HtQuickAccessSection.vue'
-// import HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
+// HtCrowdLevelsSection from './HtCrowdLevelsSection.vue'
 // import HtExhibitionSection from './HtExhibitionSection.vue'
 // import HtCodeOfConductSection from './HtCodeOfConductSection.vue'
 // import HtRelatedEventsSection from './HtRelatedEventsSection.vue'

@@ -1,97 +1,81 @@
+<i18n lang="yaml">
+ja:
+  venue: 会場内：
+  closed: 開催期間外
+  noInfo: 情報無し
+  available: 余裕あり
+  moderate: やや混雑
+  busy: 混雑
+  loading: 混雑状況取得中…
+  error: 混雑状況を取得できません
+en:
+  venue: 'Venue: '
+  closed: Outside event hours
+  noInfo: No Information
+  available: Available
+  moderate: Moderately crowded
+  busy: Crowded
+  loading: Loading crowd status…
+  error: Crowd status unavailable
+</i18n>
+
 <script lang="ts" setup>
+import { computed } from 'vue'
 import HaAstyError from '../ha/buildings/HaAstyError.vue'
 import HaAstyLevel1 from '../ha/buildings/HaAstyLevel1.vue'
 import HaAstyLevel2 from '../ha/buildings/HaAstyLevel2.vue'
 import HaAstyLevel3 from '../ha/buildings/HaAstyLevel3.vue'
 import HaAstyLoading from '../ha/buildings/HaAstyLoading.vue'
 import HaAstyUnable from '../ha/buildings/HaAstyUnable.vue'
-import HaDTCError from '../ha/buildings/HaDTCError.vue'
-import HaDTCLevel1 from '../ha/buildings/HaDTCLevel1.vue'
-import HaDTCLevel2 from '../ha/buildings/HaDTCLevel2.vue'
-import HaDTCLevel3 from '../ha/buildings/HaDTCLevel3.vue'
-import HaDTCLoading from '../ha/buildings/HaDTCLoading.vue'
-import HaDTCUnable from '../ha/buildings/HaDTCUnable.vue'
 import HaShimmer from '../ha/HaShimmer.vue'
-import HaPeopleFillIcon from '../ha/icons/HaPeopleFillIcon.vue'
-import HaPeopleIcon from '../ha/icons/HaPeopleIcon.vue'
-import HaPeopleUnableIcon from '../ha/icons/HaPeopleUnableIcon.vue'
-import HaQuestionIcon from '../ha/icons/HaQuestionIcon.vue'
+import { useCrowdData } from '~/composables/useCrowdData'
 
-import type { CrowdLevel } from '~/models/crowdData'
+const { t } = useI18n()
 
-const props = defineProps<{
-  label: string
+defineProps<{
   name: string
-  isLoading: boolean
-  isError: boolean
-  building: 1 | 2
-  crowdLevel: CrowdLevel | null | undefined
 }>()
 
-const CROWD_LEVEL_TEXT: Record<CrowdLevel, string> = {
-  [-1]: '未登録',
-  1: '余裕あり',
-  2: 'やや混雑',
-  3: '混雑',
-}
-
-const CROWD_LEVEL_COLOR: Record<CrowdLevel, string> = {
-  [-1]: 'gray',
-  1: 'emgreen',
-  2: 'amber',
-  3: 'vermilion',
-}
-
-const statusText = computed(() =>
-  props.isLoading || props.isError
-    ? '取得中'
-    : props.crowdLevel !== null && props.crowdLevel !== undefined
-      ? CROWD_LEVEL_TEXT[props.crowdLevel]
-      : '取得中',
-)
-
-const statusColor = computed(() =>
-  props.isLoading || props.isError
-    ? 'gray'
-    : props.crowdLevel !== null && props.crowdLevel !== undefined
-      ? CROWD_LEVEL_COLOR[props.crowdLevel]
-      : 'gray',
-)
-
-const fillCount = computed(() => {
-  const level = props.crowdLevel
-  return level && level > 0 ? level : 0
+// NOTE: 状態判定ロジックはHaCrowdInfo.vueと完全に同一のものを使用している。
+const { isLoading, isError, crowdData, isBeforeEventStart } = useCrowdData()
+const crowdStatus = computed(() => {
+  if (isError.value) return 'error'
+  if (isBeforeEventStart.value) return 'closed'
+  if (crowdData.value?.value1 === -1) return 'noInfo' // API未登録
+  if (isLoading.value || !crowdData.value) return 'loading'
+  return ({ 1: 'available', 2: 'moderate', 3: 'busy' } as const)[crowdData.value.value1] ?? 'error'
 })
+
+const STATUS_COLOR: Record<ReturnType<typeof crowdStatus.value extends never ? never : () => string>, string> = {
+  error: 'gray',
+  closed: 'gray',
+  noInfo: 'gray',
+  loading: 'gray',
+  available: 'emgreen',
+  moderate: 'amber',
+  busy: 'vermilion',
+}
+const statusColor = computed(() => STATUS_COLOR[crowdStatus.value])
 </script>
 
 <template>
   <div
-    class="glassy-box-4 crowd-level-card"
-    :class="`crowd-level-card--${statusColor}`"
+    class="glassy-box-4 glassy-box-4--blue crowd-level-card"
   >
     <div class="crowd-level-card__head">
       <div class="crowd-level-card__text-box">
-        <HaShimmer
-          :loading="isLoading"
-          as="p"
-          class="crowd-level-card__label"
-        >
-          {{ label }}
-        </HaShimmer>
-        <HaShimmer
-          :loading="isLoading"
-          as="p"
+        <p
           class="crowd-level-card__name"
         >
           {{ name }}
-        </HaShimmer>
+        </p>
       </div>
       <HaShimmer
         :loading="isLoading"
         as="div"
-        class="crowd-level-card__status-box"
+        :class="`crowd-level-card__status-box crowd-level-card__status-box--${statusColor}`"
       >
-        <div class="crowd-level-card__icon-box">
+        <!-- <div class="crowd-level-card__icon-box">
           <template v-if="isError">
             <HaPeopleFillIcon />
             <HaQuestionIcon />
@@ -109,84 +93,26 @@ const fillCount = computed(() => {
               :key="`empty-${i}`"
             />
           </template>
-        </div>
+        </div> -->
         <p
           class="crowd-level-card__status-text"
           data-testid="crowd-status-text"
         >
-          {{ statusText }}
+          {{ t(crowdStatus) }}
         </p>
       </HaShimmer>
     </div>
     <div class="crowd-level-card__body">
       <div class="crowd-level-card__image">
-        <template v-if="building == 1">
-          <HaAstyLoading v-if="isLoading" />
-          <HaAstyError v-else-if="isError" />
-          <template v-else>
-            <HaAstyUnable v-show="statusColor == 'gray'" />
-            <HaAstyLevel1 v-show="statusColor == 'emgreen'" />
-            <HaAstyLevel2 v-show="statusColor == 'amber'" />
-            <HaAstyLevel3 v-show="statusColor == 'vermilion'" />
-          </template>
-        </template>
-        <template v-else-if="building == 2">
-          <HaDTCLoading v-if="isLoading" />
-          <HaDTCError v-else-if="isError" />
-          <template v-else>
-            <HaDTCUnable v-show="statusColor == 'gray'" />
-            <HaDTCLevel1 v-show="statusColor == 'emgreen'" />
-            <HaDTCLevel2 v-show="statusColor == 'amber'" />
-            <HaDTCLevel3 v-show="statusColor == 'vermilion'" />
-          </template>
+        <HaAstyLoading v-if="isLoading" />
+        <HaAstyError v-else-if="isError" />
+        <template v-else>
+          <HaAstyUnable v-show="statusColor == 'gray'" />
+          <HaAstyLevel1 v-show="statusColor == 'emgreen'" />
+          <HaAstyLevel2 v-show="statusColor == 'amber'" />
+          <HaAstyLevel3 v-show="statusColor == 'vermilion'" />
         </template>
       </div>
-    </div>
-    <div class="crowd-level-card__footer">
-      <HaShimmer
-        :loading="isLoading"
-        as="p"
-        class="crowd-level-card__text"
-      >
-        混雑状況
-      </HaShimmer>
-      <HaShimmer
-        :loading="isLoading"
-        as="div"
-        class="crowd-level-card__carousel glassy-carousel"
-      >
-        <div
-          class="crowd-level-card__carousel-inner glassy-carousel"
-          :class="`glassy-carousel crowd-level-card__carousel-inner--${
-            isError || fillCount == 0 || fillCount == 3
-              ? '1-1'
-              : fillCount == 1
-                ? '1-4'
-                : fillCount == 2
-                  ? '1-2'
-                  : ''
-          }`"
-        />
-      </HaShimmer>
-      <HaShimmer
-        :loading="isLoading"
-        as="p"
-        class="crowd-level-card__text"
-      >
-        {{
-          isError
-            ? '取得中'
-            : fillCount == 0
-              ? '期間外'
-              : fillCount == 1
-                ? '低'
-                : fillCount == 2
-                  ? '中'
-                  : fillCount == 3
-                    ? '高'
-                    : ''
-        }}
-      </HaShimmer>
     </div>
   </div>
 </template>
@@ -200,78 +126,19 @@ const fillCount = computed(() => {
   flex-direction: column;
   padding: 24px 18px 24px 32px;
 
-  @include m.sp {
+  @include m.tb {
     padding: 16px;
-  }
-
-  &--emgreen {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-emgreen;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-emgreen, 0.75);
-    }
-  }
-
-  &--amber {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-amber;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-amber, 0.75);
-    }
-  }
-
-  &--gray {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-gray;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-gray, 0.75);
-    }
-  }
-
-  &--purple {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-purple;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-purple, 0.75);
-    }
-  }
-
-  &--vermilion {
-    .crowd-level-card__status-box {
-      background-color: v.$vket-vermilion;
-    }
-
-    .crowd-level-card__carousel-inner {
-      background-color: rgba(v.$vket-vermilion, 0.75);
-    }
   }
 
   &__head {
     display: flex;
     gap: 8px;
     justify-content: space-between;
+    width: 100%;
   }
 
   &__text-box {
     width: fit-content;
-  }
-
-  &__label {
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 700;
-
-    @include m.sp {
-      font-size: 10px;
-    }
   }
 
   &__name {
@@ -279,7 +146,7 @@ const fillCount = computed(() => {
     font-weight: 900;
     line-height: 1em;
 
-    @include m.sp {
+    @include m.tb {
       font-size: 18px;
     }
   }
@@ -287,10 +154,8 @@ const fillCount = computed(() => {
   &__icon-box {
     display: flex;
     flex-shrink: 0;
-    width: 24px;
-    height: 24px;
 
-    @include m.sp {
+    svg {
       width: 16px;
       height: 16px;
     }
@@ -298,15 +163,15 @@ const fillCount = computed(() => {
 
   &__status-box {
     display: flex;
+    flex-wrap: nowrap;
     gap: 12px;
     align-items: center;
 
-    width: fit-content;
     height: fit-content;
     padding: 10px 18px;
     border-radius: 20px;
 
-    @include m.sp {
+    @include m.tb {
       padding: 6px 12px;
     }
   }
@@ -317,7 +182,7 @@ const fillCount = computed(() => {
     line-height: 100%;
     text-wrap: nowrap;
 
-    @include m.sp {
+    @include m.tb {
       font-size: 14px;
     }
   }
@@ -329,13 +194,23 @@ const fillCount = computed(() => {
     flex-shrink: 1;
     align-items: center;
     justify-content: flex-end;
+
+    height: 160px;
+
+    @include m.tb {
+      height: 100px;
+    }
   }
 
   &__image {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    width: 50%;
+    width: 200px;
+
+    @include m.tb {
+      width: 140px;
+    }
 
     svg {
       width: 100%;
@@ -379,9 +254,27 @@ const fillCount = computed(() => {
     font-size: 16px;
     line-height: 1em;
 
-    @include m.sp {
+    @include m.tb {
       font-size: 14px;
     }
+  }
+}
+
+.crowd-level-card__status-box {
+  &--emgreen {
+    background-color: v.$vket-emgreen;
+  }
+
+  &--amber {
+    background-color: v.$vket-amber;
+  }
+
+  &--gray {
+    background-color: v.$vket-gray;
+  }
+
+  &--vermilion {
+    background-color: v.$vket-vermilion;
   }
 }
 </style>

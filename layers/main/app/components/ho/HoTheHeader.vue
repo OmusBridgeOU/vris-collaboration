@@ -97,7 +97,6 @@ en:
       </div>
     </div>
   </header>
-  <HaCrowdInfo />
 </template>
 
 <script setup lang="ts">
@@ -106,7 +105,6 @@ import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
 import HaAnchorLink from '../ha/HaAnchorLink.vue'
 import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
 import HaLanguageSwitcher from '../ha/HaLanguageSwitcher.vue'
-import HaCrowdInfo from '../ha/HaCrowdInfo.vue'
 
 const { t } = useI18n()
 

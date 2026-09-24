@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import HaSectionTitle from '../ha/HaSectionTitle.vue'
-import { useCrowdData } from '~/composables/useCrowdData'
 import HmCrowdLevelCard from '../hm/HmCrowdLevelCard.vue'
 
 // GSAP
 import { useGsapFadeIn } from '~/composables/useGsapFadeIn'
 
-const { isLoading, isError, crowdData } = useCrowdData()
 const sectionRef = ref<HTMLElement | null>(null)
 const { fadeInUp } = useGsapFadeIn()
 onMounted(() => {
@@ -22,21 +20,8 @@ onMounted(() => {
     />
     <div class="crowd-levels__grid">
       <HmCrowdLevelCard
-        label="メイン会場"
         name="アスティーホール"
-        :building="1"
-        :is-error="isError"
-        :is-loading="isLoading"
-        :crowd-level="crowdData?.value1"
       />
-      <!-- <HmCrowdLevelCard
-        label="サブ会場"
-        name="Deep-tech CORE SAPPORO"
-        :building="2"
-        :is-error="isError"
-        :is-loading="isLoading"
-        :crowd-level="crowdData?.value2"
-      /> -->
     </div>
   </div>
 </template>
