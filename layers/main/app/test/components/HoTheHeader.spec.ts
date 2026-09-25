@@ -116,3 +116,19 @@ describe('header navigation', () => {
     expect(button.attributes('aria-expanded')).toBe('false')
   })
 })
+
+describe('attendee guide navigation', () => {
+  test('appends the external guide and closes the menu after selection', async () => {
+    const wrapper = mountHeader()
+    const button = wrapper.get('.ho-the-header__hamburger')
+    await button.trigger('click')
+    const links = wrapper.findAll('.ho-the-header__accordion-link')
+    const guide = links[links.length - 1]!
+    expect(guide.text()).toBe('attendeeGuide')
+    expect(guide.attributes('href')).toBe('https://skmt3p.notion.site/VketReal-in-2026-Autumn-3d828ff7298b8187990ee8dd7876964b')
+    expect(guide.attributes('target')).toBe('_blank')
+    expect(guide.attributes('rel')).toBe('noopener noreferrer')
+    await guide.trigger('click')
+    expect(button.attributes('aria-expanded')).toBe('false')
+  })
+})

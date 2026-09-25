@@ -3,9 +3,6 @@ ja:
   section:
     title: チケット
     label: tickets
-  description:
-    line1: イベント入場券は2026年8月26日(水)より販売開始です。
-    line2: LivePocketの販売ページからお申し込みください。
   numberedTicketNotice:
     line1: ※入場にはイベント入場券とは別に、オンライン入場整理券が必要です。
     line2: 入場整理券は2026年9月24日(木)19:00よりLivePocketで配布します。
@@ -24,9 +21,6 @@ en:
   section:
     title: Tickets
     label: tickets
-  description:
-    line1: Event admission tickets go on sale Wednesday, August 26, 2026.
-    line2: Please purchase tickets through LivePocket.
   numberedTicketNotice:
     line1: An online numbered admission ticket is required in addition to an event admission ticket.
     line2: Numbered admission tickets will be available through LivePocket from 7:00 PM on Thursday, September 24, 2026.
@@ -70,10 +64,6 @@ onMounted(() => {
       :title="t('section.title')"
       :label="t('section.label')"
     />
-    <p class="description description--left">
-      {{ t('description.line1') }}<br>
-      {{ t('description.line2') }}
-    </p>
     <div class="numbered-ticket-notice glassy-box-3">
       <p>{{ t('numberedTicketNotice.line1') }}</p>
       <p>{{ t('numberedTicketNotice.line2') }}</p>

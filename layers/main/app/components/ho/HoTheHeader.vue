@@ -3,9 +3,11 @@ ja:
   mainlogo: VketReal in 札幌 2026 Autumn
   openMenu: メニューを開く
   closeMenu: メニューを閉じる
+  attendeeGuide: 参加ガイド
 en:
   openMenu: Open menu
   closeMenu: Close menu
+  attendeeGuide: Attendee Guide
   mainlogo: VketReal in Sapporo 2026 Autumn
 </i18n>
 
@@ -89,6 +91,15 @@ en:
                       @clicked="closeMenu()"
                     />
                   </li>
+                  <li class="ho-the-header__accordion-li">
+                    <a
+                      :href="DOCUMENT_LINKS.participationGuide"
+                      class="ho-the-header__accordion-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      @click="closeMenu()"
+                    >{{ t('attendeeGuide') }}</a>
+                  </li>
                 </ul>
               </nav>
             </div>
@@ -100,7 +111,9 @@ en:
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
+import { useI18n } from '#imports'
+import { DOCUMENT_LINKS } from '~/constants/documentLinks'
 import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
 import HaAnchorLink from '../ha/HaAnchorLink.vue'
 import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'

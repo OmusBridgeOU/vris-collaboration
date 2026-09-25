@@ -54,10 +54,6 @@ en:
           <HtSponsorsAndPartnersSection />
         </section>
 
-        <section id="schedule">
-          <HtScheduleSection />
-        </section>
-
         <section id="location-info">
           <HtAccessSection />
         </section>
@@ -102,7 +98,6 @@ import HtExhibitorInfoSection from './HtExhibitorInfoSection.vue'
 import HtHeroSection from './HtHeroSection.vue'
 import HtNewsSection from './HtNewsSection.vue'
 import HtQandASection from './HtQandASection.vue'
-import HtScheduleSection from './HtScheduleSection.vue'
 import HtSponsorsAndPartnersSection from './HtSponsorsAndPartnersSection.vue'
 import HtTicketSection from './HtTicketSection.vue'
 import HtVenueMapSection from './HtVenueMapSection.vue'
