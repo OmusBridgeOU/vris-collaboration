@@ -541,33 +541,6 @@ export default defineAppConfig(
 )
 ````
 
-## File: layers/main/playwright.config.ts
-````typescript
-// playwright.config.ts（nuxt.config.ts と同じ階層に置く）
-import { defineConfig } from '@playwright/test'
-
-export default defineConfig({
-  testDir: './app/test/e2e',
-  snapshotDir: './app/test/e2e/snapshots',
-  use: {
-    baseURL: 'http://localhost:3000',
-  },
-})
-````
-
-## File: layers/main/tsconfig.json
-````json
-{
-  // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": [
-    "./.nuxt/tsconfig.server.json",
-    "./.nuxt/tsconfig.json",
-    "../base/tsconfig.shared.json"
-  ],
-  "exclude": ["../base/**/*"]
-}
-````
-
 ## File: layers/main/nuxt.config.ts
 ````typescript
 import { defineNuxtConfig } from 'nuxt/config'
@@ -726,7 +699,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
 
   nitro: {
-    preset: 'vercel',
+    preset: 'cloudflare_pages',
   },
 
   typescript: {
@@ -744,15 +717,6 @@ export default defineNuxtConfig({
   },
 
   i18n: nuxtI18nOptions,
-
-  vite: {
-    server: {
-      watch: {
-        usePolling: true,   // WSL2ではファイルシステムイベントが伝わらないためポーリングに切り替え
-        interval: 5000,      // ポーリング間隔（ms）、重ければ増やす
-      },
-    },
-  },
 })
 ````
 
@@ -768,7 +732,7 @@ export default defineNuxtConfig({
     "postinstall": "if [ -x ../base/node_modules/.bin/nuxt ]; then ../base/node_modules/.bin/nuxt prepare; elif command -v nuxt >/dev/null 2>&1; then nuxt prepare; else echo 'skip nuxt prepare: nuxt not installed'; fi",
     "dev": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt dev",
     "dev:local": "cross-env VITE_OUTPUT_ENV=local nuxt dev",
-    "build": "VITE_OUTPUT_ENV=production nuxt build",
+    "build": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt build",
     "build:local": "cross-env VITE_OUTPUT_ENV=local nuxt build",
     "build:staging": "cross-env VITE_OUTPUT_ENV=staging nuxt build",
     "generate": "cross-env VITE_OUTPUT_ENV=\"$target\" nuxt generate",
@@ -801,6 +765,33 @@ export default defineNuxtConfig({
     "vket-boilerplate-nuxt-base": "workspace:*",
     "zod": "^4.4.3"
   }
+}
+````
+
+## File: layers/main/playwright.config.ts
+````typescript
+// playwright.config.ts（nuxt.config.ts と同じ階層に置く）
+import { defineConfig } from '@playwright/test'
+
+export default defineConfig({
+  testDir: './app/test/e2e',
+  snapshotDir: './app/test/e2e/snapshots',
+  use: {
+    baseURL: 'http://localhost:3000',
+  },
+})
+````
+
+## File: layers/main/tsconfig.json
+````json
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": [
+    "./.nuxt/tsconfig.server.json",
+    "./.nuxt/tsconfig.json",
+    "../base/tsconfig.shared.json"
+  ],
+  "exclude": ["../base/**/*"]
 }
 ````
 
