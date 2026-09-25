@@ -12,6 +12,17 @@
   width: 70mm;
   height: 70mm;
 }
+@media print {
+  .postcard_badge::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 0.4mm dashed #000;
+    border-radius: 50%;
+    box-sizing: border-box;
+    pointer-events: none;
+  }
+}
 .postcard_alignment_mark {
   position: absolute;
 
