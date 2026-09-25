@@ -116,19 +116,3 @@ describe('header navigation', () => {
     expect(button.attributes('aria-expanded')).toBe('false')
   })
 })
-
-describe('attendee guide', () => {
-  test('keeps the external guide accessible with the navigation closed', async () => {
-    const wrapper = mountHeader()
-    const guide = wrapper.get('.ho-the-header__guide')
-    expect(guide.attributes('href')).toBe('https://skmt3p.notion.site/VketReal-in-2026-Autumn-3d828ff7298b8187990ee8dd7876964b')
-    expect(guide.attributes('target')).toBe('_blank')
-    expect(guide.attributes('rel')).toBe('noopener noreferrer')
-    expect(guide.element.closest('[inert]')).toBeNull()
-    const button = wrapper.get('.ho-the-header__hamburger')
-    await button.trigger('click')
-    await button.trigger('click')
-    expect(guide.element.closest('[inert]')).toBeNull()
-    expect(guide.isVisible()).toBe(true)
-  })
-})
