@@ -1,12 +1,16 @@
 <i18n lang="yaml">
 ja:
   mainlogo: VketReal in 札幌 2026 Autumn
+  participationGuide: ご来場の前に、一般参加ガイドをチェック！
+  opensNewTab: （別タブで開きます）
   openMenu: メニューを開く
   closeMenu: メニューを閉じる
 en:
   openMenu: Open menu
   closeMenu: Close menu
   mainlogo: VketReal in Sapporo 2026 Autumn
+  participationGuide: Check the attendee guide before your visit!
+  opensNewTab: (opens in a new tab)
 </i18n>
 
 <template>
@@ -96,11 +100,22 @@ en:
         </div>
       </div>
     </div>
+    <a
+      class="ho-the-header__guide"
+      href="https://skmt3p.notion.site/VketReal-in-2026-Autumn-3d828ff7298b8187990ee8dd7876964b"
+      target="_blank"
+      rel="noopener noreferrer"
+      :aria-label="`${t('participationGuide')} ${t('opensNewTab')}`"
+    >
+      <span>{{ t('participationGuide') }}</span>
+      <span aria-hidden="true">↗</span>
+    </a>
   </header>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
+import { useI18n } from '#imports'
 import HaHamburgerIcon from '../ha/icons/HaHamburgerIcon.vue'
 import HaAnchorLink from '../ha/HaAnchorLink.vue'
 import HaCloseIcon from '../ha/icons/HaCloseIcon.vue'
@@ -165,7 +180,8 @@ $vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical
   left: 0;
 
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 
   box-sizing: border-box;
@@ -181,6 +197,47 @@ $vket-header-height-tb--real: v.$vket-header-height-tb - v.$vket-header-vertical
 
   @include m.sp {
     padding: 0 16px;
+  }
+
+  &__guide {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    width: 100%;
+    max-width: v.$pc-content-body-width - v.$pc-content-body-padding * 2;
+    min-height: 44px;
+    margin-top: 12px;
+    padding: 10px 16px;
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+
+    background: #452080;
+    box-shadow: 0 2px 12px rgb(0 0 0 / 15%);
+
+    &:hover {
+      background: #613399;
+    }
+
+    &:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 3px;
+    }
+
+    @include m.sp {
+      gap: 8px;
+      margin-top: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+    }
   }
 
   &__inner {
