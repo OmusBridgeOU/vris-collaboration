@@ -14,6 +14,10 @@ ja:
     artDirector: 'アートディレクター'
     keyVisualIllustration: 'KV・イラスト制作'
     webDevelopment: 'Web開発'
+    illustrationAndDayOfStaff: 'イラスト制作・当日スタッフ'
+    merchandiseAndDayOfStaff: 'グッズ制作・当日スタッフ'
+    merchandiseProduction: 'グッズ制作'
+    creatorSupport: 'クリエイターサポート'
 en:
   roles:
     executiveChair: 'Executive Chair'
@@ -29,6 +33,10 @@ en:
     artDirector: 'Art Director'
     keyVisualIllustration: 'Key Visual & Illustration'
     webDevelopment: 'Web Development'
+    illustrationAndDayOfStaff: 'Illustration & Event Staff'
+    merchandiseAndDayOfStaff: 'Merchandise Production & Event Staff'
+    merchandiseProduction: 'Merchandise Production'
+    creatorSupport: 'Creator Support'
 </i18n>
 
 <script setup lang="ts">
@@ -163,6 +171,54 @@ const items = computed(() => [
     name: 'L.ami',
     iconUrl: '/member-icons/lami.webp',
     role: t('roles.webDevelopment'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 15,
+    name: 'ゆー',
+    iconUrl: '',
+    role: t('roles.illustrationAndDayOfStaff'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 16,
+    name: 'メロン',
+    iconUrl: '',
+    role: t('roles.merchandiseAndDayOfStaff'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 17,
+    name: '懲戒ロリ',
+    iconUrl: '',
+    role: t('roles.merchandiseProduction'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 18,
+    name: 'ロボロボちゃん',
+    iconUrl: '',
+    role: t('roles.merchandiseAndDayOfStaff'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 19,
+    name: '流星灯',
+    iconUrl: '',
+    role: t('roles.creatorSupport'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 20,
+    name: 'FoxABC',
+    iconUrl: '',
+    role: t('roles.creatorSupport'),
     xLink: '',
     instagramLink: '',
   },
