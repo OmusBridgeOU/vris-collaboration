@@ -242,6 +242,30 @@ const items = computed(() => [
     xLink: '',
     instagramLink: '',
   },
+  {
+    id: 23,
+    name: 'みかん氏',
+    iconUrl: '/member-icons/mikan.png',
+    role: t('roles.dayOfStaff'),
+    xLink: 'https://x.com/Mikan_sub5212',
+    instagramLink: '',
+  },
+  {
+    id: 24,
+    name: 'ASU',
+    iconUrl: '/member-icons/asu.jpg',
+    role: t('roles.dayOfStaff'),
+    xLink: 'https://x.com/ASU_1115_VRC',
+    instagramLink: '',
+  },
+  {
+    id: 25,
+    name: 'RB-C',
+    iconUrl: '/member-icons/rb-c.png',
+    role: t('roles.dayOfStaff'),
+    xLink: '',
+    instagramLink: '',
+  },
 ])
 </script>
 
