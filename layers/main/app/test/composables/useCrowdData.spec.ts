@@ -70,21 +70,23 @@ describe('crowdData / isBeforeEventStart', () => {
     expect(isLoading.value).toBe(true)
   })
 
-  test('APIが{value1:1, value2:2}を返したときcrowdDataに反映される', async () => {
+  test('本番APIのD1日時を含むレスポンスが取得エラーにならず反映される', async () => {
     vi.setSystemTime(AFTER_EVENT)
     vi.stubGlobal('fetch', vi.fn(() =>
       Promise.resolve({
         ok: true,
-        json: () => Promise.resolve({ value1: 1, value2: 2, updated_at: AFTER_EVENT.toISOString() }),
+        json: () => Promise.resolve({ value1: 1, value2: 2, updated_at: '2026-09-26 01:00:01' }),
       }),
     ))
     const { useCrowdData } = await importFresh()
-    const { crowdData, fetchCrowdData } = useCrowdData()
+    const { crowdData, isError, isLoading, fetchCrowdData } = useCrowdData()
     await fetchCrowdData()
 
     expect(crowdData.value?.value1).toBe(1)
     expect(crowdData.value?.value2).toBe(2)
-    expect(crowdData.value?.updated_at).toBe(AFTER_EVENT.toISOString())
+    expect(crowdData.value?.updated_at).toBe('2026-09-26T01:00:01Z')
+    expect(isError.value).toBe(false)
+    expect(isLoading.value).toBe(false)
   })
 
   test('APIが{value1:2, value2:3}を返したときcrowdDataに反映される', async () => {
