@@ -18,6 +18,8 @@ ja:
     merchandiseAndDayOfStaff: 'グッズ制作・当日スタッフ'
     merchandiseProduction: 'グッズ制作'
     creatorSupport: 'クリエイターサポート'
+    photographyStaff: '撮影スタッフ'
+    dayOfStaff: '当日スタッフ'
 en:
   roles:
     executiveChair: 'Executive Chair'
@@ -37,6 +39,8 @@ en:
     merchandiseAndDayOfStaff: 'Merchandise Production & Event Staff'
     merchandiseProduction: 'Merchandise Production'
     creatorSupport: 'Creator Support'
+    photographyStaff: 'Photography Staff'
+    dayOfStaff: 'Event Staff'
 </i18n>
 
 <script setup lang="ts">
@@ -209,7 +213,7 @@ const items = computed(() => [
   {
     id: 19,
     name: '流星灯',
-    iconUrl: '',
+    iconUrl: '/member-icons/ryuseito.webp',
     role: t('roles.creatorSupport'),
     xLink: '',
     instagramLink: '',
@@ -217,8 +221,24 @@ const items = computed(() => [
   {
     id: 20,
     name: 'FoxABC',
-    iconUrl: '',
+    iconUrl: '/member-icons/foxabc.webp',
     role: t('roles.creatorSupport'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 21,
+    name: '白石葵',
+    iconUrl: '',
+    role: t('roles.photographyStaff'),
+    xLink: '',
+    instagramLink: '',
+  },
+  {
+    id: 22,
+    name: '腹そう',
+    iconUrl: '/member-icons/harasou.webp',
+    role: t('roles.dayOfStaff'),
     xLink: '',
     instagramLink: '',
   },

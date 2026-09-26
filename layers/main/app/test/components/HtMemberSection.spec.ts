@@ -9,13 +9,13 @@ vi.mock('~/composables/useGsapFadeIn', () => ({
 }))
 
 describe('staff credits', () => {
-  it('appends the six requested credits with roles and default icons', () => {
+  it('renders the added staff credits with their roles and assigned icons', () => {
     const wrapper = mount(HtMemberSection, {
       global: { stubs: { HaSectionTitle: true } },
     })
     const cards = wrapper.findAll('.member-card')
-    expect(cards).toHaveLength(20)
-    expect(cards.slice(-6).map(card => [
+    expect(cards).toHaveLength(22)
+    expect(cards.slice(14).map(card => [
       card.get('.member-card__name').text(),
       card.get('.member-card__role').text(),
     ])).toEqual([
@@ -25,9 +25,22 @@ describe('staff credits', () => {
       ['ロボロボちゃん', 'roles.merchandiseAndDayOfStaff'],
       ['流星灯', 'roles.creatorSupport'],
       ['FoxABC', 'roles.creatorSupport'],
+      ['白石葵', 'roles.photographyStaff'],
+      ['腹そう', 'roles.dayOfStaff'],
     ])
-    for (const card of cards.slice(-6)) {
-      expect(card.find('.member-card__icon--default').exists()).toBe(true)
+    const assignedIcons: Record<string, string> = {
+      FoxABC: '/member-icons/foxabc.webp',
+      流星灯: '/member-icons/ryuseito.webp',
+      腹そう: '/member-icons/harasou.webp',
+    }
+    for (const card of cards.slice(14)) {
+      const icon = assignedIcons[card.get('.member-card__name').text()]
+      if (icon) {
+        expect(card.get('img').attributes('src')).toBe(icon)
+        expect(card.find('.member-card__icon--default').exists()).toBe(false)
+      } else {
+        expect(card.find('.member-card__icon--default').exists()).toBe(true)
+      }
       expect(card.find('a').exists()).toBe(false)
     }
     wrapper.unmount()
