@@ -266,6 +266,14 @@ const items = computed(() => [
     xLink: '',
     instagramLink: '',
   },
+  {
+    id: 26,
+    name: 't-Andou',
+    iconUrl: '',
+    role: t('roles.dayOfStaff'),
+    xLink: '',
+    instagramLink: '',
+  },
 ])
 </script>
 
