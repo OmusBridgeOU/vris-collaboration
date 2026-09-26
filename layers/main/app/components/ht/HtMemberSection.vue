@@ -181,7 +181,7 @@ const items = computed(() => [
   {
     id: 15,
     name: 'ゆー',
-    iconUrl: '',
+    iconUrl: '/member-icons/yu.png',
     role: t('roles.illustrationAndDayOfStaff'),
     xLink: '',
     instagramLink: '',
@@ -189,7 +189,7 @@ const items = computed(() => [
   {
     id: 16,
     name: 'メロン',
-    iconUrl: '',
+    iconUrl: '/member-icons/melon.png',
     role: t('roles.merchandiseAndDayOfStaff'),
     xLink: '',
     instagramLink: '',
