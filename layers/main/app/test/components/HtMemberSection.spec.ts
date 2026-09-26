@@ -14,7 +14,7 @@ describe('staff credits', () => {
       global: { stubs: { HaSectionTitle: true } },
     })
     const cards = wrapper.findAll('.member-card')
-    expect(cards).toHaveLength(22)
+    expect(cards).toHaveLength(25)
     expect(cards.slice(14).map(card => [
       card.get('.member-card__name').text(),
       card.get('.member-card__role').text(),
@@ -27,13 +27,23 @@ describe('staff credits', () => {
       ['FoxABC', 'roles.creatorSupport'],
       ['白石葵', 'roles.photographyStaff'],
       ['腹そう', 'roles.dayOfStaff'],
+      ['みかん氏', 'roles.dayOfStaff'],
+      ['ASU', 'roles.dayOfStaff'],
+      ['RB-C', 'roles.dayOfStaff'],
     ])
     const assignedIcons: Record<string, string> = {
-      ゆー: '/member-icons/yu.png',
-      メロン: '/member-icons/melon.png',
-      FoxABC: '/member-icons/foxabc.webp',
-      流星灯: '/member-icons/ryuseito.webp',
-      腹そう: '/member-icons/harasou.webp',
+      'ゆー': '/member-icons/yu.png',
+      'メロン': '/member-icons/melon.png',
+      'FoxABC': '/member-icons/foxabc.webp',
+      '流星灯': '/member-icons/ryuseito.webp',
+      '腹そう': '/member-icons/harasou.webp',
+      'みかん氏': '/member-icons/mikan.png',
+      'ASU': '/member-icons/asu.jpg',
+      'RB-C': '/member-icons/rb-c.png',
+    }
+    const socialLinks: Record<string, string> = {
+      みかん氏: 'https://x.com/Mikan_sub5212',
+      ASU: 'https://x.com/ASU_1115_VRC',
     }
     for (const card of cards.slice(14)) {
       const icon = assignedIcons[card.get('.member-card__name').text()]
@@ -43,7 +53,16 @@ describe('staff credits', () => {
       } else {
         expect(card.find('.member-card__icon--default').exists()).toBe(true)
       }
-      expect(card.find('a').exists()).toBe(false)
+      const socialLink = socialLinks[card.get('.member-card__name').text()]
+      if (socialLink) {
+        expect(card.element.tagName).toBe('A')
+        expect(card.attributes('href')).toBe(socialLink)
+        expect(card.attributes('target')).toBe('_blank')
+        expect(card.attributes('rel')).toBe('noopener noreferrer')
+      } else {
+        expect(card.element.tagName).toBe('DIV')
+        expect(card.find('a').exists()).toBe(false)
+      }
     }
     wrapper.unmount()
   })
