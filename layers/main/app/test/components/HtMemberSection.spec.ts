@@ -14,7 +14,7 @@ describe('staff credits', () => {
       global: { stubs: { HaSectionTitle: true } },
     })
     const cards = wrapper.findAll('.member-card')
-    expect(cards).toHaveLength(25)
+    expect(cards).toHaveLength(26)
     expect(cards.slice(14).map(card => [
       card.get('.member-card__name').text(),
       card.get('.member-card__role').text(),
@@ -30,6 +30,7 @@ describe('staff credits', () => {
       ['みかん氏', 'roles.dayOfStaff'],
       ['ASU', 'roles.dayOfStaff'],
       ['RB-C', 'roles.dayOfStaff'],
+      ['t-Andou', 'roles.dayOfStaff'],
     ])
     const assignedIcons: Record<string, string> = {
       'ゆー': '/member-icons/yu.png',
