@@ -29,6 +29,8 @@ describe('staff credits', () => {
       ['腹そう', 'roles.dayOfStaff'],
     ])
     const assignedIcons: Record<string, string> = {
+      ゆー: '/member-icons/yu.png',
+      メロン: '/member-icons/melon.png',
       FoxABC: '/member-icons/foxabc.webp',
       流星灯: '/member-icons/ryuseito.webp',
       腹そう: '/member-icons/harasou.webp',
