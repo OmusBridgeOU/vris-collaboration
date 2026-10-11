@@ -1,6 +1,7 @@
 import { describe, expect, test, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import HoTheHeader from '../../components/ho/HoTheHeader.vue'
+
 const wrappers: ReturnType<typeof mount>[] = []
 
 function mountHeader() {
