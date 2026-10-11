@@ -2,6 +2,7 @@
 """Run the former CI quality checks locally and bind evidence to a commit."""
 import hashlib
 import json
+import shutil
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -76,8 +77,10 @@ def run():
         record['checks'].append({'cwd': cwd, 'name': name, 'command': command,
                                  'exit_code': result.returncode, 'log': str(log), 'log_sha256': digest(log)})
         if name.endswith('test:coverage') and result.returncode == 0:
-            artifact = ROOT / cwd / 'coverage/coverage-final.json'
-            if artifact.is_file():
+            source = ROOT / 'layers/coverage/coverage-final.json'
+            artifact = out / f"{record['identity']['commit']}-{index}-coverage-final.json"
+            if source.is_file():
+                shutil.copyfile(source, artifact)
                 record['checks'][-1]['artifact'] = {'path': str(artifact), 'sha256': digest(artifact)}
             else:
                 record['checks'][-1]['exit_code'] = result.returncode = 1
