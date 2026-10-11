@@ -2,9 +2,10 @@
 """Run the former CI quality checks locally and bind evidence to a commit."""
 import hashlib
 import json
-import shutil
+import re
 import subprocess
 import sys
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -48,12 +49,19 @@ def verify(path):
     record = json.loads(path.read_text())
     if record['identity'] != identity() or git('status', '--porcelain'):
         raise ValueError('Evidence is stale or checkout is dirty')
-    if [(c['cwd'], c['name'], c['command']) for c in record['checks']] != CHECKS:
+    if [(c['cwd'], c['name']) for c in record['checks']] != [(cwd, name) for cwd, name, _ in CHECKS]:
         raise ValueError('Required checks are missing')
-    for check in record['checks']:
+    for check, (_, _, expected_command) in zip(record['checks'], CHECKS):
+        if check['name'].endswith('test:coverage'):
+            if check['command'][:6] != ['bunx', 'vitest', 'run', '--dir', './app/test', '--coverage'] or not check.get('test_count', 0):
+                raise ValueError(f"No fresh tests ran: {check['name']}")
+        elif check['command'] != expected_command:
+            raise ValueError(f"Unexpected command: {check['name']}")
         if check['exit_code'] != 0 or digest(Path(check['log'])) != check['log_sha256']:
             raise ValueError(f"Failed or changed check: {check['name']}")
         artifact = check.get('artifact')
+        if check['name'].endswith('test:coverage') and not artifact:
+            raise ValueError(f"Missing coverage artifact: {check['name']}")
         if artifact and digest(Path(artifact['path'])) != artifact['sha256']:
             raise ValueError(f"Changed coverage artifact: {check['name']}")
     print(f"Valid local evidence for {record['identity']['commit']}")
@@ -70,6 +78,10 @@ def run():
               'checks': []}
     evidence = out / f"{record['identity']['commit']}.json"
     for index, (cwd, name, command) in enumerate(CHECKS):
+        coverage_dir = None
+        if name.endswith('test:coverage'):
+            coverage_dir = Path(tempfile.mkdtemp(prefix=f'{name.replace(":", "-")}-', dir=out))
+            command = ['bunx', 'vitest', 'run', '--dir', './app/test', '--coverage', '--coverage.reportsDirectory', str(coverage_dir)]
         log = out / f"{record['identity']['commit']}-{index}.log"
         print(f"{name}: {' '.join(command)}", flush=True)
         with log.open('wb') as stream:
@@ -77,10 +89,10 @@ def run():
         record['checks'].append({'cwd': cwd, 'name': name, 'command': command,
                                  'exit_code': result.returncode, 'log': str(log), 'log_sha256': digest(log)})
         if name.endswith('test:coverage') and result.returncode == 0:
-            source = ROOT / 'layers/coverage/coverage-final.json'
-            artifact = out / f"{record['identity']['commit']}-{index}-coverage-final.json"
-            if source.is_file():
-                shutil.copyfile(source, artifact)
+            artifact = coverage_dir / 'coverage-final.json'
+            counts = re.search(r'Tests\s+(\d+)\s+passed', log.read_text(errors='replace'))
+            if artifact.is_file() and counts and int(counts.group(1)) > 0:
+                record['checks'][-1]['test_count'] = int(counts.group(1))
                 record['checks'][-1]['artifact'] = {'path': str(artifact), 'sha256': digest(artifact)}
             else:
                 record['checks'][-1]['exit_code'] = result.returncode = 1
