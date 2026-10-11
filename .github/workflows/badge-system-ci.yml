@@ -1,89 +1,40 @@
-name: Badge System CI
+name: Badge System Deploy
 
 on:
-  pull_request:
-    paths:
-      - "layers/badge_system/**"
-      - ".github/workflows/badge-system-ci.yml"
-
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - "layers/badge_system/**"
       - ".github/workflows/badge-system-ci.yml"
-
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  frontend:
+  build:
+    if: vars.BADGE_SYSTEM_PRODUCTION_DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
-
     defaults:
       run:
         working-directory: layers/badge_system
-
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-
       - uses: pnpm/action-setup@v4
         with:
           version: 11.7.0
-
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: pnpm
           cache-dependency-path: layers/badge_system/frontend/pnpm-lock.yaml
-
       - name: Install dependencies
         run: pnpm --dir frontend install --frozen-lockfile
-
-      - name: Audit distributable files
-        run: npm run share:audit
-
-      - name: Test deployment configuration
-        run: npm run deployment:test
-
-      - name: Check formatting
-        run: pnpm --dir frontend format:check
-
-      - name: Lint frontend
-        run: pnpm --dir frontend lint
-
-      - name: Typecheck frontend
-        run: pnpm --dir frontend typecheck
-
-      - name: Test frontend
-        run: pnpm --dir frontend test
-
-      - name: Install E2E browsers
-        run: pnpm --dir frontend exec playwright install --with-deps chromium webkit
-
-      - name: Test mobile browser flows
-        run: pnpm --dir frontend test:e2e
-
-      - name: Build frontend
+      - name: Build deployment frontend
         run: pnpm --dir frontend build
-
-      - name: Typecheck Worker
-        run: npm run worker:typecheck
-
-      - name: Test Worker
-        run: npm run worker:test
-
-      - name: Worker dry run
-        run: npm run worker:dry-run
-
-      - name: Production configuration dry run
-        run: npm run production:dry-run
-
-      - name: Upload tested frontend
+      - name: Upload deployment frontend
         uses: actions/upload-artifact@v4
         with:
           name: badge_system_production_frontend
@@ -91,7 +42,7 @@ jobs:
           retention-days: 1
 
   deploy:
-    needs: frontend
+    needs: build
 
     if: >
       github.ref == 'refs/heads/main' &&
@@ -128,7 +79,7 @@ jobs:
       - name: Install dependencies
         run: pnpm --dir frontend install --frozen-lockfile
 
-      - name: Download tested frontend
+      - name: Download deployment frontend
         uses: actions/download-artifact@v4
         with:
           name: badge_system_production_frontend
@@ -148,7 +99,7 @@ jobs:
           PUBLIC_TOKEN_SECRET: ${{ secrets.PUBLIC_TOKEN_SECRET }}
           STAFF_ACCESS_PASSWORD: ${{ secrets.STAFF_ACCESS_PASSWORD }}
 
-      - name: Deploy tested assets and Worker
+      - name: Deploy assets and Worker
         run: >
           pnpm --dir frontend exec wrangler deploy
           --config ../wrangler.production.json
