@@ -1,16 +1,14 @@
 name: <Main> Deploy to Cloudflare Pages
 
 on:
-  push:
-    branches: ['main']
-    paths:
-      - 'layers/main/**'
-      - 'layers/base/**'
-      - 'package.json'
-      - 'bun.lock'
-      - 'wrangler.jsonc'
-      - '.github/workflows/main-pages-deploy.yml'
   workflow_dispatch:
+    inputs:
+      source_commit:
+        description: Exact locally verified main commit
+        required: true
+      evidence_sha256:
+        description: SHA-256 of local-quality-evidence.json on draft quality-<commit> release
+        required: true
 
 concurrency:
   group: main-pages-deploy
@@ -22,9 +20,24 @@ jobs:
     permissions:
       contents: read
       deployments: write
-    # Keep this workflow in the repo so main pushes use the reviewed Pages output.
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_commit }}
+          fetch-depth: 0
+
+      - name: Verify source and local quality evidence
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_COMMIT: ${{ inputs.source_commit }}
+          EVIDENCE_SHA256: ${{ inputs.evidence_sha256 }}
+        run: |
+          [[ "$SOURCE_COMMIT" =~ ^[a-f0-9]{40}$ ]]
+          [[ "$EVIDENCE_SHA256" =~ ^[a-f0-9]{64}$ ]]
+          test "$(git rev-parse origin/main)" = "$SOURCE_COMMIT"
+          mkdir -p evidence
+          gh release download "quality-$SOURCE_COMMIT" --pattern local-quality-evidence.json --dir evidence
+          python3 scripts/verify-deploy-evidence.py evidence/local-quality-evidence.json "$EVIDENCE_SHA256" "$SOURCE_COMMIT"
 
       - uses: oven-sh/setup-bun@v2
         with:
@@ -40,5 +53,5 @@ jobs:
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          COMMIT_MESSAGE: ${{ github.event.head_commit.message || github.sha }}
-        run: npx wrangler pages deploy layers/main/dist --project-name=vris-collaboration --branch=main --commit-hash=${{ github.sha }} --commit-message="$COMMIT_MESSAGE"
+          SOURCE_COMMIT: ${{ inputs.source_commit }}
+        run: npx wrangler pages deploy layers/main/dist --project-name=vris-collaboration --branch=main --commit-hash="$SOURCE_COMMIT"

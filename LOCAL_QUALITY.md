@@ -12,6 +12,10 @@ Badge frontend/Worker and D1 local checks. Evidence under
 lockfiles, tool versions, commands, exit codes, and log hashes. Use `--verify
 PATH_TO_JSON` before relying on it. A source or lockfile change needs a new run.
 
-GitHub Actions still builds and deploys production artifacts on the configured
-main-branch/dispatch paths. D1 remote migration and Worker deployment remain
-explicit `workflow_dispatch` operations requiring `deploy_remote`.
+To deploy Pages or Badge, upload the reviewed receipt as
+`local-quality-evidence.json` to a draft release named `quality-<commit>`.
+Dispatch the deployment with the exact main commit and the receipt SHA-256.
+The deployment checks the receipt, then builds from that commit. A merge needs
+new local evidence on the merged commit. D1 remote migration and Worker
+deployment remain explicit `workflow_dispatch` operations requiring
+`deploy_remote`.
