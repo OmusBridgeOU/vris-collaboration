@@ -1,14 +1,17 @@
 import { describe, expect, test, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { createI18n } from 'vue-i18n'
 import HoTheHeader from '../../components/ho/HoTheHeader.vue'
 
 const wrappers: ReturnType<typeof mount>[] = []
+const i18n = createI18n({ legacy: false, locale: 'en', messages: { en: {} }, missing: (_locale, key) => key })
 
 function mountHeader() {
   const wrapper = mount(HoTheHeader, {
     attachTo: document.body,
     props: { navLinks: [{ type: 'link', href: '/news', text: 'News' }] },
     global: {
+      plugins: [i18n],
       stubs: {
         HaLanguageSwitcher: true,
         HaHamburgerIcon: true,
@@ -58,7 +61,7 @@ describe('attendee guide navigation', () => {
     await button.trigger('click')
     const links = wrapper.findAll('.ho-the-header__accordion-link')
     const guide = links[links.length - 1]!
-    expect(guide.text()).toBe('attendeeGuide')
+    expect(guide.text()).toBe('Attendee Guide')
     expect(guide.attributes('href')).toBe('https://skmt3p.notion.site/VketReal-in-2026-Autumn-3d828ff7298b8187990ee8dd7876964b')
     expect(guide.attributes('target')).toBe('_blank')
     expect(guide.attributes('rel')).toBe('noopener noreferrer')
