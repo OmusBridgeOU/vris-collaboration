@@ -81,7 +81,7 @@ def run():
         coverage_dir = None
         if name.endswith('test:coverage'):
             coverage_dir = Path(tempfile.mkdtemp(prefix=f'{name.replace(":", "-")}-', dir=out))
-            command = ['bunx', 'vitest', 'run', '--dir', './app/test', '--coverage', '--coverage.reportsDirectory', str(coverage_dir)]
+            command = ['bunx', 'vitest', 'run', '--dir', './app/test', '--coverage', '--maxWorkers=2', '--hookTimeout=60000', '--coverage.reportsDirectory', str(coverage_dir)]
         log = out / f"{record['identity']['commit']}-{index}.log"
         print(f"{name}: {' '.join(command)}", flush=True)
         with log.open('wb') as stream:
