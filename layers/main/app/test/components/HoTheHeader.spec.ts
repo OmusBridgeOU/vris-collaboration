@@ -4,7 +4,7 @@ import { createI18n } from 'vue-i18n'
 import HoTheHeader from '../../components/ho/HoTheHeader.vue'
 
 const wrappers: ReturnType<typeof mount>[] = []
-const i18n = createI18n({ legacy: false, locale: 'en', messages: { en: {} }, missing: (_locale, key) => key })
+const i18n = createI18n({ legacy: false, locale: 'en', messages: { en: {}, ja: {} }, missing: (_locale, key) => key })
 
 function mountHeader() {
   const wrapper = mount(HoTheHeader, {
