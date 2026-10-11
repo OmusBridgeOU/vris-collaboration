@@ -17,5 +17,7 @@ To deploy Pages or Badge, upload the reviewed receipt as
 Dispatch the deployment with the exact main commit and the receipt SHA-256.
 The deployment checks the receipt, then builds from that commit. A merge needs
 new local evidence on the merged commit. D1 remote migration and Worker
-deployment remain explicit `workflow_dispatch` operations requiring
-`deploy_remote`.
+deployment also require explicit `workflow_dispatch`, `deploy_remote`, and
+the same exact-commit receipt inputs. Badge Playwright always starts a fresh
+Vite server; an occupied port fails rather than reusing another worktree's
+server.

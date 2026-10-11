@@ -8,13 +8,43 @@ on:
         required: true
         type: boolean
         default: false
+      source_commit:
+        description: Exact locally verified main commit
+        required: true
+      evidence_sha256:
+        description: SHA-256 of local-quality-evidence.json on draft quality-<commit> release
+        required: true
 
 concurrency:
   group: visitor-counter-d1-deploy
   cancel-in-progress: false
 
 jobs:
+  verify-local-proof:
+    if: inputs.deploy_remote
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_commit }}
+          fetch-depth: 0
+      - name: Verify source and local quality evidence
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_COMMIT: ${{ inputs.source_commit }}
+          EVIDENCE_SHA256: ${{ inputs.evidence_sha256 }}
+        run: |
+          [[ "$SOURCE_COMMIT" =~ ^[a-f0-9]{40}$ ]]
+          [[ "$EVIDENCE_SHA256" =~ ^[a-f0-9]{64}$ ]]
+          test "$(git rev-parse origin/main)" = "$SOURCE_COMMIT"
+          mkdir -p evidence
+          gh release download "quality-$SOURCE_COMMIT" --pattern local-quality-evidence.json --dir evidence
+          python3 scripts/verify-deploy-evidence.py evidence/local-quality-evidence.json "$EVIDENCE_SHA256" "$SOURCE_COMMIT"
+
   d1-migrate:
+    needs: verify-local-proof
     if: github.event_name == 'workflow_dispatch' && inputs.deploy_remote
     runs-on: ubuntu-latest
     name: Apply remote D1 migrations
@@ -22,6 +52,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_commit }}
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.3.14
@@ -43,6 +75,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_commit }}
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.3.14
